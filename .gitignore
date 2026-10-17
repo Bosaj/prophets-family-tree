@@ -27,3 +27,5 @@ captures/
 # OS
 .DS_Store
 Thumbs.db
+*.tsbuildinfo
+dev-dist/
