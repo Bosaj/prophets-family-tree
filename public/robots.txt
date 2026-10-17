@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shajara-prophets.vercel.app/sitemap.xml
