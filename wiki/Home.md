@@ -1,9 +1,11 @@
 # Shajara · شجرة الأنبياء — Wiki
 
-> An interactive, source-cited family tree and timeline of the Prophets mentioned in the Qur'an: lineage, peoples, miracles and stories.
+> An interactive, source-cited family tree and timeline of the 25 Prophets named in the Qur'an.
+
+**Live:** https://shajara-prophets.vercel.app
 
 ## Pages
-- [[1-Architecture]] — how the system is meant to fit together
-- [[2-Roadmap]] — milestones and status
+- [[1-Architecture]] — data, verification, tree layout, verses
+- [[2-Roadmap]] — milestones and what comes next
 
-See the repository [README](../README.md) for the full context, prior art, and the LLM-handoff notes.
+See the repository README for the method and the LLM-handoff notes.
