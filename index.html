@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>شجرة الأنبياء · Shajara — The Tree of the Prophets</title>
+    <meta name="description" content="An interactive, source-cited family tree and timeline of the 25 Prophets named in the Qur'an — lineage, peoples, signs, families and stories, in Arabic, French and English." />
+    <meta name="theme-color" content="#04050d" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:title" content="شجرة الأنبياء · Shajara — The Tree of the Prophets" />
+    <meta property="og:description" content="The family tree and timeline of the Prophets named in the Qur'an. Every fact tagged with its source: Qur'an, hadith, tradition or disputed." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://api.alquran.cloud" crossorigin />
+    <link rel="preload" as="image" type="image/avif" href="/img/hero-960.avif" imagesrcset="/img/hero-960.avif 960w, /img/hero-2048.avif 2048w" imagesizes="100vw" fetchpriority="high" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      try {
+        // same rule as initialLang() in src/i18n, applied before the first paint so the page never flips direction
+        var l = JSON.parse(localStorage.getItem('shajara:lang') || 'null')
+        if (l !== 'ar' && l !== 'fr' && l !== 'en') { var n = (navigator.language || '').toLowerCase(); l = n.indexOf('fr') === 0 ? 'fr' : n.indexOf('en') === 0 ? 'en' : 'ar' }
+        document.documentElement.lang = l
+        document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'
+      } catch (e) {}
+    </script>
+    <style>
+      html, body { background: #04050d; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
