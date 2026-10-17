@@ -1,19 +1,16 @@
 # 1. Architecture
 
-1. Data: one JSON file of people and relationships; each fact carries a source level and reference.
-2. Tree: constellation-style lineage view with dashed edges where generations are unknown.
-3. Timeline: sequence order anchored on Qur'anic statements; dates shown only where established.
-4. Story pages: people sent to, miracles, family, lifespan — each with verse popovers fetched from the Qur'an API.
+- **Data** — `src/data/people.ts` (people, every fact with a level and refs), `src/data/links.ts` (relationships), `src/data/sources.ts` (ref parsing, labels, quran.com / sunnah.com links).
+- **Verification** — `scripts/verify-sources.mjs` loads the Saheeh International translation and the hadith texts (fawazahmed0/hadith-api) and checks every reference. CI job `sources`.
+- **Tree** — `src/lib/layout.ts` builds a d3-hierarchy layout from the first parent link of each person; arcs draw sibling, cousin and guardian links. `src/components/Tree.tsx` renders SVG with pointer pan, wheel and pinch zoom.
+- **Verses** — `src/lib/quran.ts` fetches `api.alquran.cloud/v1/surah/{s}/editions/quran-uthmani,{translation}?offset&limit`; recitation from `cdn.islamic.network` (ar.alafasy).
+- **UI** — React 19, Tailwind 4, own router (`src/lib/router.ts`), i18n ar/fr/en with RTL (`src/i18n`).
+- **Scenes** — generated landscapes (Higgsfield z_image), encoded by `scripts/images.mjs`; never a depiction of a prophet.
 
-## Proposed stack
-- React + TypeScript + Vite
-- Tailwind CSS 4
-- three.js / custom SVG layout
-- Al Quran Cloud API
-- Vercel
-
-## Open bases to fork
-- [Al Quran Cloud API](https://alquran.cloud/api) — Uthmani text and translations fetched live, so verse text is never typed by hand.
-- [sunnah.com](https://sunnah.com) — Hadith references with collection and number.
-- [d3/d3](https://github.com/d3/d3) — Tree layout.
-- [mrdoob/three.js](https://github.com/mrdoob/three.js) — WebGL scene for the star-field tree.
+## Source levels
+| Level | Meaning |
+|---|---|
+| quran | Stated in the Qur'an |
+| hadith | Authentic hadith or established sira |
+| tradition | Scholars, historians, Biblical account |
+| disputed | Scholars disagree / uncertain |

@@ -1,0 +1,52 @@
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { I18nProvider } from './i18n'
+import App from './App'
+import { navigate } from './lib/router'
+
+const renderAt = (path: string, lang: 'en' | 'fr' | 'ar' = 'en') => {
+  navigate(path, { replace: true })
+  return render(
+    <I18nProvider lang={lang}>
+      <App />
+    </I18nProvider>,
+  )
+}
+
+describe('App', () => {
+  it('renders the home page with every chapter', () => {
+    renderAt('/')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('شجرة الأنبياء')
+    expect(screen.getAllByText('Muhammad ﷺ').length).toBeGreaterThan(0)
+    expect(screen.getByText('From Adam to Muhammad ﷺ')).toBeInTheDocument()
+  })
+
+  it('renders a profile with sourced facts and the family', () => {
+    renderAt('/p/musa')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('موسى')
+    expect(screen.getByText('Signs and miracles')).toBeInTheDocument()
+    expect(screen.getAllByText('Harun').length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('button', { name: /Qur’an\s*⁦20:17–21⁩/ }).length).toBeGreaterThan(0)
+  })
+
+  it('switches the document to right-to-left in Arabic', () => {
+    renderAt('/timeline', 'ar')
+    expect(document.documentElement.dir).toBe('rtl')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('ترتيب الأنبياء')
+  })
+
+  it('keeps the verse sheet open after a reference is clicked', async () => {
+    renderAt('/p/salih')
+    const [chip] = screen.getAllByRole('button', { name: /Qur’an\s*⁦7:73/ })
+    await userEvent.click(chip!)
+    const sheet = document.querySelector('dialog[aria-labelledby="verse-title"]') as HTMLDialogElement
+    expect(sheet.open).toBe(true)
+    // the network is disabled in tests, so the sheet shows its error state instead of hanging
+    expect(await screen.findByText('The verses could not be loaded. Check your connection.')).toBeInTheDocument()
+  })
+
+  it('shows a not-found page for unknown people', () => {
+    renderAt('/p/unknown')
+    expect(screen.getByText('This page does not exist.')).toBeInTheDocument()
+  })
+})
