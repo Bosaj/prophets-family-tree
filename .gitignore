@@ -1,0 +1,29 @@
+# Node
+node_modules/
+dist/
+build/
+.vite/
+coverage/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Android / Gradle
+.gradle/
+local.properties
+*.apk
+*.aab
+.idea/
+captures/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
