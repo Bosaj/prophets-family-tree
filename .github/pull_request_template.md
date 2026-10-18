@@ -1,11 +1,10 @@
-## What
-<!-- what this PR does -->
+## Description
+Briefly describe the purpose of this pull request and the problems it solves.
 
-## Why
-<!-- link the issue / roadmap item -->
+## Changes Made
+- Summary of changes
 
 ## Checklist
-- [ ] Conventional Commit title
-- [ ] README updated if architecture/roadmap changed
-- [ ] Tests for correctness-critical code
-- [ ] No secrets committed
+- [x] Conforms to Conventional Commits standard
+- [x] Added/updated unit tests where applicable
+- [x] Verified documentation and changelog updates
