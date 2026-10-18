@@ -1,18 +1,21 @@
-# 2. Roadmap
+# Technical Roadmap & Milestones
 
-- v0.1 — sourced dataset of the 25 Prophets + relationship graph ✅ (v1.0.0)
-- v0.2 — interactive constellation tree + profiles ✅ (v1.0.0)
-- v0.3 — timeline view + miracles and stories ✅ (v1.0.0)
-- v0.4 — Arabic/French/English, search, share, PWA ✅ (v1.0.0)
+The development of **Interactive Prophets Family Tree & Quranic Lineage** is organized into four strategic milestones:
 
-## Next
-- Review of the dataset by a qualified scholar.
-- Share cards per prophet and a printable poster of the tree.
-- More family nodes (Hajar, Sarah, Asiya, Khadijah, Fatimah…).
-- A light "manuscript" theme.
+## Milestone Breakdown
 
-## Notes for contributors / LLM agents
-- No images or depictions of Prophets, ever.
-- Every fact needs a `source` level. If a source is not certain, mark it `tradition` or `disputed` — never upgrade it.
-- Do not type Qur'an text by hand; fetch it from the API by surah:ayah.
-- Add a keyword check in `scripts/verify-sources.mjs` for every new reference.
+### Milestone v0.1 — Foundation & Core Scaffolding
+* **Objective:** Authoritative Quranic and Ibn Kathir lineage dataset with Arabic & English names.
+* **Deliverables:** Core architecture, basic pipeline, standard documentation, and CI integration.
+
+### Milestone v0.2 — Feature Expansion & Deep Pipelines
+* **Objective:** Interactive D3.js hierarchical genealogical chart with responsive panning and zooming.
+* **Deliverables:** Multimodal ingestion, expanded domain models, and automated test suites.
+
+### Milestone v0.3 — Intelligence, Refinement & Safety
+* **Objective:** Detailed biography modals citing relevant Quranic Surahs, verses, and miracles.
+* **Deliverables:** Advanced evaluation logic, heuristic calibration, and performance profiling.
+
+### Milestone v0.4 — Production Readiness & Ecosystem Integration
+* **Objective:** Historical timeline map correlating prophetic eras with ancient civilizational geography.
+* **Deliverables:** Client UI / CLI tooling, cloud deployment manifests, and partner integrations.
