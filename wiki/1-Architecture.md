@@ -1,16 +1,25 @@
-# 1. Architecture
+# Architecture & System Design
 
-- **Data** — `src/data/people.ts` (people, every fact with a level and refs), `src/data/links.ts` (relationships), `src/data/sources.ts` (ref parsing, labels, quran.com / sunnah.com links).
-- **Verification** — `scripts/verify-sources.mjs` loads the Saheeh International translation and the hadith texts (fawazahmed0/hadith-api) and checks every reference. CI job `sources`.
-- **Tree** — `src/lib/layout.ts` builds a d3-hierarchy layout from the first parent link of each person; arcs draw sibling, cousin and guardian links. `src/components/Tree.tsx` renders SVG with pointer pan, wheel and pinch zoom.
-- **Verses** — `src/lib/quran.ts` fetches `api.alquran.cloud/v1/surah/{s}/editions/quran-uthmani,{translation}?offset&limit`; recitation from `cdn.islamic.network` (ar.alafasy).
-- **UI** — React 19, Tailwind 4, own router (`src/lib/router.ts`), i18n ar/fr/en with RTL (`src/i18n`).
-- **Scenes** — generated landscapes (Higgsfield z_image), encoded by `scripts/images.mjs`; never a depiction of a prophet.
+This document details the system design, components, and communication topology of **Interactive Prophets Family Tree & Quranic Lineage**.
 
-## Source levels
-| Level | Meaning |
-|---|---|
-| quran | Stated in the Qur'an |
-| hadith | Authentic hadith or established sira |
-| tradition | Scholars, historians, Biblical account |
-| disputed | Scholars disagree / uncertain |
+```mermaid
+flowchart TD
+    Client["Client / User Interface"] --> Core["Core Processing Engine"]
+    Core --> Ingestion["Data Ingestion & Adapters"]
+    Core --> Persistence["Storage / Cache Layer"]
+    Core --> Verification["Validation & Safety Layer"]
+```
+
+## Core Subsystems
+
+### 1. Ingestion & Preprocessing
+Handles raw input data, validates schema compliance, normalizes inputs, and eliminates malformed requests.
+
+### 2. Processing & Business Logic
+Executes the primary business logic and domain processing pipelines efficiently and deterministically.
+
+### 3. Verification & Safety Guards
+Enforces safety rules, sanitizes data structures, and validates output integrity before presentation.
+
+### 4. Storage & State Management
+Maintains persistent state, caches hot queries, and guarantees data durability.
