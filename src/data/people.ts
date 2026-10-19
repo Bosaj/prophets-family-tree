@@ -38,6 +38,47 @@ export const people: Person[] = [
       'خلق الله آدم من طين ونفخ فيه من روحه، وعلّمه الأسماء كلها، وسجدت له الملائكة إلا إبليس. سكن آدم وزوجه الجنة حتى وسوس لهما الشيطان فأكلا من الشجرة، فتابا فتاب الله عليهما، وأُهبطا إلى الأرض.',
     ),
     verses: ['2:30-37', '7:11-25', '15:26-29', '20:115-123'],
+    topography: {
+      region: t("Al-Hind (Sarandib) & Al-Hijaz (Makkah Al-Mukarramah)", "Al-Hind (Sarandib) et Al-Hijaz (La Mecque)", "أرض الهند (سرنديب) والحجاز (مكة المكرمة)"),
+      modernCountries: t("Saudi Arabia, Sri Lanka", "Arabie Saoudite, Sri Lanka", "المملكة العربية السعودية، سريلانكا"),
+      mapCoordinates: { lat: 21.3549, lng: 39.9841 },
+      missionRoute: t("Descent from the Garden to the Earth, journey to Arafat and Makkah to establish the first House of Worship for mankind.", "Descente du Jardin vers la Terre, voyage vers Arafat et La Mecque pour fonder la première Maison d’adoration de l’humanité.", "الهبوط من الجنة إلى الأرض، ثم السير إلى عرفات ومكة لبناء أول بيت وُضع للناس."),
+      burialSite: f('tradition', t("Traditions report his burial either at Mount Abu Qubays in Makkah or at Bayt al-Maqdis.", "Les traditions rapportent son inhumation au mont Abou Qoubeys à La Mecque ou à Bayt al-Maqdis.", "تذكر الروايات دفنه في جبل أبي قبيس بمكة أو في بيت المقدس."), 'book:tabari'),
+      sacredSites: [
+        {
+          name: t("Jabal ar-Rahmah (Mount of Mercy)", "Jabal ar-Rahmah (Mont de la Miséricorde)", "جبل الرحمة (عرفات)"),
+          type: 'mountain',
+          desc: t("The plain where Adam and Hawwa were reunited upon earth according to classical exegetes.", "La plaine où Adam et Hawwa se retrouvèrent sur terre selon les commentateurs classiques.", "صعيد عرفات حيث التقى آدم بحواء بعد الهبوط إلى الأرض وفق المفسرين."),
+        },
+        {
+          name: t("The Site of the Ancient Sanctuary (Ka‘bah)", "Le site du Sanctuaire Antique (Ka‘bah)", "موضع البيت العتيق (الكعبة)"),
+          type: 'sanctuary',
+          desc: t("First sanctuary established for humankind to worship the One True God.", "Premier sanctuaire établi pour l’humanité pour adorer le Dieu Unique.", "أول بيت وُضع للناس لعبادة الله الواحد الأحد."),
+        },
+        {
+          name: t("Mount Abu Qubays", "Mont Abou Qoubeys", "جبل أبي قبيس"),
+          type: 'mountain',
+          desc: t("Ancient mountain overlooking Makkah, associated with early primordial human events.", "Montagne surplombant La Mecque, liée aux premiers événements de l’humanité.", "الجبل المكي العريق المطل على الكعبة المرتبط ببدء البشرية."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Adam was fashionably sculpted from earth and clay by the Divine Will, and infused with the Spirit. When Allah presented him before the celestial assemblies and demonstrated the vast names taught directly to him, the angels knelt in profound prostration, while Iblis turned away in arrogant defiance, establishing the primordial struggle between guidance and temptation.",
+        "Adam fut façonné d’argile et de terre par la Volonté divine, puis vivifié par le Souffle. Lorsque Allah le présenta devant les assemblées célestes en dévoilant les noms qu’Il lui avait directement enseignés, les anges se prosternèrent, tandis qu’Iblis refusa par orgueil, scellant le combat entre la guidance et la rébellion.",
+        "خلق الله تعالى آدم بيديه من طين الأرض ونفخ فيه من روحه، وعلّمه الأسماء كلها وعرضه على الملائكة، فأمرهم بالسجود له سجود تكريم وإعظام، فسجدوا أجمعون إلا إبليس استكبر وعصى فكان من الكافرين.",
+      ),
+      t(
+        "Dwelling in the heavenly Garden with his companion Hawwa, Adam was permitted all bounty save a single forbidden tree. Whispered by the deceitful adversary, they tasted thereof, only to be overtaken by repentance and divine grace. Allah taught them words of sincere repentance, accepting their return and commissioning them to steward the earth as His vicegerents.",
+        "Demeurant dans le Jardin avec son épouse Hawwa, Adam bénéficiait de tous les bienfaits sauf d’un arbre interdit. Trompés par l’ennemi perfide, ils y goûtèrent avant d’être submergés de repentir. Allah leur enseigna des paroles de contrition, accueillit leur repentir et les envoya sur terre comme Ses lieutenants.",
+        "أسكنه الله وزوجه حواء الجنة ورغدها، ونهاهما عن الاقتراب من شجرة واحدة، فوسوس لهما الشيطان ودلاهما بغرور، فلما ذاقا الشجرة أدركهما الندم، فتلقى آدم من ربه كلمات فتاب عليه وأهبطهما إلى الأرض لعمرانها واستخلافها.",
+      ),
+      t(
+        "On earth, Adam cultivated the soil, laid the foundational boundaries of the Sanctuary in Bakkah, and instructed his progeny in pure Tawhid and moral law. He endured the tragic grief of Abel’s murder by Cain and passed the prophetic mantle of spiritual leadership to his righteous son Shith, leaving a lasting legacy as the honored Father of Mankind.",
+        "Sur terre, Adam cultiva le sol, traça les fondations du Sanctuaire de Bakkah et transmit à sa descendance le culte du Dieu Unique. Éprouvé par le meurtre d’Abel par Caïn, il confia le flambeau prophétique à son fils Shith, laissant une empreinte éternelle comme le Père honoré de l’humanité.",
+        "عاش آدم على الأرض يعمرها ويدعو ولده إلى توحيد الله وشرائعه، وحزن لمقتل هابيل على يد قابيل، وعهد بالوصية والهدى إلى ولده البار شيث، فكان أول رسول ونبي ومعلم لأبنائه.",
+      ),
+    ],
     image: 'adam',
     heaven: 1,
   },
@@ -79,6 +120,43 @@ export const people: Person[] = [
       'أثنى القرآن على إدريس بالصدق والصبر والرفعة دون تفصيل لدعوته، ويجعله المؤرخون من أجداد نوح.',
     ),
     verses: ['19:56-57', '21:85-86'],
+    topography: {
+      region: t("Southern Mesopotamia (Babylon) & Ancient Egypt (Memphis)", "Basse-Mésopotamie (Babylone) et Égypte Antique (Memphis)", "بلاد الرافدين (بابل) ومصر القديمة (منف)"),
+      modernCountries: t("Iraq, Egypt", "Irak, Égypte", "العراق، مصر"),
+      mapCoordinates: { lat: 32.5363, lng: 44.4209 },
+      missionRoute: t("Began his mission in the fertile plains of Babylon, migrating westward towards the Nile valley in Egypt.", "Débuta sa mission dans les plaines fertiles de Babylone avant d’émigrer vers la vallée du Nil en Égypte.", "انطلق في دعوته من سهول بابل الخصيبة ثم ارتحل نحو وادي النيل بمصر."),
+      burialSite: f('quran', t("Raised to a high celestial station (Fourth Heaven) as explicitly attested in the Qur’an.", "Élevé à un haut rang céleste (Quatrième ciel) comme l’atteste explicitement le Coran.", "رفعه الله مكاناً علياً في السماء الرابعة كما نصّ القرآن الكريم."), '19:56-57', 'bukhari:3207'),
+      sacredSites: [
+        {
+          name: t("Ancient Babylon (Babil)", "Babylone Antique", "أرض بابل القديمة"),
+          type: 'city',
+          desc: t("The fertile cradle of early post-Adam human civilization and astronomical scholarship.", "Berceau antique des premières civilisations et des savoirs astronomiques.", "مهد الحضارة الأول وموطن العلوم وعلم الفلك بعد آدم."),
+        },
+        {
+          name: t("Nile Valley (Memphis Region)", "Vallée du Nil (Région de Memphis)", "وادي النيل (منف)"),
+          type: 'river',
+          desc: t("The western river sanctuary where historical traditions place his wisdom teachings.", "Région fluviale où les traditions situent ses enseignements de sagesse.", "الوادي المبارك الذي تروي الآثار انتقاله إليه ونشره الحكمة فيه."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Idris (identified by historians with Enoch) arose among the early generations after Adam. Renowned for profound devotion and piercing intellect, he was the first mortal to inscribe scriptures with the reed pen, inaugurating written transmission of divine knowledge, arithmetic, and celestial sciences.",
+        "Idris (identifié à Énoch par les historiens) apparut parmi les premières générations succédant à Adam. Réputé pour sa piété et sa sagesse, il fut le premier homme à écrire au calame, inaugurant la transmission écrite des sciences sacrées et de l’observation des astres.",
+        "إدريس عليه السلام من أجداد نوح، وهو أول من خطّ بالقلم ودرس حركة الأفلاك والنجوم، وجُمعت له الحكمة والصدق والنبوة، وجاء ذكره في القرآن واصفاً إياه بالصديق النبي.",
+      ),
+      t(
+        "Observing the steady creep of corruption among the descendants of Cain, Idris stood uncompromisingly for moral rectitude and monotheistic purity. He challenged idolizers with cogent proofs derived from the harmony of the cosmic spheres and the majesty of creation, urging communities toward justice.",
+        "Face à la dépravation grandissante des descendants de Caïn, Idris prêcha avec fermeté la pureté du culte et la rectitude morale, démontrant la puissance divine à travers l’ordre parfait du cosmos.",
+        "قام في قومه ناصحاً ومحذراً من الانحراف واتباع أهواء المفسدين، وذكّرهم بميثاق الله وبديع صنعه في السماوات والأرض، ودعاهم إلى إقامة العدل والبر والصلاة.",
+      ),
+      t(
+        "Due to his unwavering sincerity, Allah bestowed upon him an exceptional honor: \"And We raised him to a high station.\" Classical hadith of the Mi‘raj confirms the Prophet Muhammad ﷺ meeting him stationed in glory in the fourth heaven.",
+        "En récompense de sa sincérité inébranlable, Allah lui accorda un honneur insigne : « Et Nous l’élevâmes à un haut rang ». Lors du Mi‘raj, le Prophète ﷺ le rencontra dans la splendeur du quatrième ciel.",
+        "أثنى الله عليه ثناءً عظيماً فقال: ﴿وَرَفَعْنَاهُ مَكَانًا عَلِيًّا﴾، ولقيه النبي محمد ﷺ ليلة الإسراء والمعراج في السماء الرابعة مرحباً به داعياً له بالخير.",
+      ),
+    ],
+    image: 'idris',
     heaven: 4,
   },
   {
@@ -105,6 +183,42 @@ export const people: Person[] = [
       'دعا نوح قومه إلى عبادة الله وحده ليلًا ونهارًا ألف سنة إلا خمسين عامًا فما آمن معه إلا قليل، فأمره الله بصنع السفينة، فلما جاء الطوفان نجا المؤمنون ومن كلٍّ زوجين، واستوت السفينة على الجودي.',
     ),
     verses: ['11:25-49', '71:1-28', '29:14-15', '54:9-15'],
+    topography: {
+      region: t("Southern Mesopotamia (Sumer / Kufa) to Mount Judi", "Basse-Mésopotamie (Sumer / Koufa) au Mont Djoudi", "بلاد الرافدين السفلى (سومر / الكوفة) إلى جبل الجودي"),
+      modernCountries: t("Iraq, Turkey", "Irak, Turquie", "العراق، تركيا"),
+      mapCoordinates: { lat: 37.3775, lng: 42.4939 },
+      missionRoute: t("Preached across the ancient plains of Mesopotamia, then navigated the Ark over the Great Deluge until it rested on Mount Judi.", "Prêcha dans les plaines mésopotamiennes, puis navigua sur l’Arche à travers le Déluge jusqu’au mont Djoudi.", "دعا في سهول العراق تسعمائة وخمسين عاماً، ثم جرت به السفينة في موج كالجبال حتى استوت على الجودي."),
+      burialSite: f('tradition', t("Traditions place his tomb near Mount Judi (Cizre) or in the Sacred Sanctuary in Makkah.", "Les traditions situent son tombeau près du mont Djoudi (Cizre) ou dans le Sanctuaire de La Mecque.", "تذكر الروايات ضريحه قرب جبل الجودي (جزيرة ابن عمر) أو بجوار الكعبة المشرفة."), 'book:qisas'),
+      sacredSites: [
+        {
+          name: t("Mount Judi (Jabal al-Judi)", "Mont Djoudi", "جبل الجودي"),
+          type: 'mountain',
+          desc: t("The definitive mountain ridge where the Ark safely rested after the Deluge receded.", "La montagne sanctuaire où l’Arche s’est immobilisée après la décrue des eaux.", "الجبل الشامخ الذي استقرت عليه سفينة نوح بعد أن غيض الماء وقضي الأمر."),
+        },
+        {
+          name: t("The Great Oven of Kufa (At-Tannur)", "Le Four de Koufa (At-Tannur)", "موضع تنور الكوفة"),
+          type: 'valley',
+          desc: t("The historical spring source from which the catastrophic subterranean waters first surged.", "Le foyer terrestre d’où jaillirent initialement les eaux du déluge selon la tradition.", "الموضع الذي فار منه التنور بأمر الله إيذاناً ببدء الطوفان العظيم."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Nuh was appointed to call humankind back to God after the first widespread emergence of idolatry, where deceased pious men (Wadd, Suwa‘, Yaghuth, Ya‘uq, and Nasr) had been transformed into worshipped stone icons. Armed with limitless patience, he proclaimed the oneness of Allah night and day, in public assembly and in private counsel.",
+        "Nuh fut envoyé pour ramener l’humanité vers Dieu après l’apparition du premier culte d’idoles représentant d’anciens dévots déifiés. Animé d’une patience proverbiale, il appela son peuple nuit et jour, en public comme en secret.",
+        "بُعث نوح عليه السلام حين عبد الناس الأصنام وضلت البشرية، فقام فيهم يدعو إلى توحيد الله وترك الشركاء تسعمائة وخمسين سنة، ليلاً ونهاراً، سراً وجهاراً، لا يمله تكذيب ولا يصده استهزاء.",
+      ),
+      t(
+        "For nine centuries and a half, his people answered his heartfelt appeals with mockery, plugging their ears and cloaking themselves in arrogance. Commanded by Divine Revelation to construct a massive timber vessel far inland, he endured ceaseless ridicule from passing chieftains, quietly constructing the salvation of believers and pairs of all living creatures.",
+        "Pendant neuf cent cinquante années, les notables répondirent à ses appels par l’arrogance et les railleries. Sur ordre divin, il bâtit une immense arche en bois loin de toute mer, affrontant les moqueries continuelles pour préparer le salut des croyants et des espèces.",
+        "قابل قومه دعوته بالعناد والاستكبار ﴿وَجَعَلُوا أَصَابِعَهُمْ فِي آذَانِهِمْ وَاسْتَغْشَوْا ثِيَابَهُمْ﴾، فأمره الله بصنع الفلك بأعين الله ووحيه، فكان كلما مر عليه ملأ من قومه سخروا منه، وهو صابر محتسب.",
+      ),
+      t(
+        "When the terrestrial fountains erupted and torrential celestial rain poured, the Deluge consumed all disbelievers, including his rebellious son Yam who sought refuge upon a mountain. The Ark safely voyaged through mountainous waves until resting on Mount Judi, inaugurating a purified rebirth for human civilization.",
+        "Lorsque les sources jaillirent de terre et que les cataractes du ciel s’ouvrirent, le Déluge engloutit les négateurs, y compris son fils rebelle. L’Arche vogua parmi les vagues vertigineuses avant d’aborder en paix sur le mont Djoudi, ouvrant une ère nouvelle.",
+        "فار التنور وانهمرت السماء بماء منهمر وتفجرت الأرض عيوناً، وغرق المكذبون حتى نادى نوح ابنه فأبى وغرقه الموج، وحملت السفينة المؤمنين حتى استوت على الجودي، فكان نوح أبا البشرية الثاني.",
+      ),
+    ],
     image: 'nuh',
     ululAzm: true,
   },
@@ -126,6 +240,42 @@ export const people: Person[] = [
       'كانت عاد قومًا أشدّاء يبنون بكل ريع آية، فدعاهم هود إلى عبادة الله والاستغفار، فسخروا منه، فجاءتهم ريح ظنوها عارضًا ممطرًا فأهلكتهم.',
     ),
     verses: ['11:50-60', '26:123-140', '46:21-26'],
+    topography: {
+      region: t("Al-Ahqaf (The Great Winding Sand Dunes) in Hadramawt", "Al-Ahqaf (Les Dunes de Sable) dans le Hadramaout", "الأحقاف (كثبان الرمال الممتدة) في حضرموت"),
+      modernCountries: t("Yemen, Oman", "Yémen, Oman", "اليمن، عُمان"),
+      mapCoordinates: { lat: 16.0333, lng: 49.5333 },
+      missionRoute: t("Preached in the fortress plains of ‘Ad between Oman and Yemen, surviving with believers toward Hadramawt.", "Prêcha dans les plaines fortifiées de ‘Ad entre Oman et le Yémen, trouvant refuge dans le Hadramaout avec les croyants.", "بُعث في ربوع الأحقاف بين عمان واليمن، ونجا مع المؤمنين إلى وادي حضرموت."),
+      burialSite: f('tradition', t("His tomb is traditionally venerated in Wadi Barhut / Hadramawt in eastern Yemen.", "Son tombeau est traditionnellement vénéré dans le Wadi Barhut / Hadramaout à l’est du Yémen.", "يقع ضريحه ومزاره المشهور في شعب هود بوادي حضرموت في شرق اليمن."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("The Dunes of Al-Ahqaf", "Les Dunes d’Al-Ahqaf", "رمال الأحقاف"),
+          type: 'valley',
+          desc: t("The sprawling, windy desert territory where the ancient empire of ‘Ad constructed towering palaces.", "Les vastes étendues désertiques où le puissant peuple de ‘Ad érigea ses cités colossales.", "الصحراء الممتدة ذات الكثبان الرملية العظيمة حيث بنى قوم عاد صروحهم العاتية."),
+        },
+        {
+          name: t("Iram of the Pillars (Iram Dhat al-‘Imad)", "Iram aux colonnes grandioses", "إرم ذات العماد"),
+          type: 'city',
+          desc: t("The fabled city of unmatched architectural grandeur erected by ‘Ad, lost under sands.", "La légendaire cité aux colonnes monumentales, sans égale sur terre, engloutie sous les sables.", "المدينة الأسطورية الشاهقة التي لم يُخلق مثلها في البلاد وأهلك الله أصحابها."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Hud was sent to the mighty civilization of ‘Ad, renowned across antiquity for their imposing physical stature, luxurious hillside fortresses, and unmatched military dominion. They boasted of their invincibility, defiantly declaring: \"Who is greater than us in strength?\"",
+        "Hud fut dépêché vers le peuple de ‘Ad, réputé pour sa stature colossale, ses palais suspendus et sa suprématie militaire, qui osait défier l’univers en clamant : « Qui est plus fort que nous ? »",
+        "أُرسل هود عليه السلام إلى قوم عاد، وكانوا أصحاب قوة وبسطة في الأجسام وعمارة للأرض وبناء للصروح الشاهقة، فغرّتهم قوتهم وقالوا من أشد منا قوة.",
+      ),
+      t(
+        "With dignified conviction, Hud reminded them that all blessings of health, security, and wealth flowed solely from Allah. He warned them against tyrannical aggression and hollow pride, pleading with them to seek forgiveness so that heavenly rainfall might replenish their lands.",
+        "Avec une éloquence pure, Hud leur rappela que toute prospérité venait d’Allah seul. Il les exhorta à abandonner l’injustice et l’idolâtrie et à implorer le pardon divin pour recevoir des pluies bienfaisantes.",
+        "وعظهم هود بلين وحكمة ودعاهم إلى توحيد الله وترك ظلم الضعفاء، وبيّن لهم أن شكر النعم يكون بالإيمان والاستغفار لتنزل عليهم السماء مدراراً.",
+      ),
+      t(
+        "Persisting in insolence, the people mistook an advancing black storm cloud for life-giving rain. It unleashed a ferocious, freezing gale that raged for eight days and seven nights, tossing the haughty giants like uprooted hollow date palms, while Hud and the believers were saved through divine mercy.",
+        "Persistant dans leur orgueil, ils prirent un lourd nuage noir pour un présage d’abondance. C’était un vent hurlant et glacial qui souffla sept nuits et huit jours, déracinant les colosses comme des troncs de palmiers évidés.",
+        "فلما رأوه عارضاً مستقبل أوديتهم ظنوه سحاب غيث، فإذا هو ريح صرصر عاتية استمرت سبع ليال وثمانية أيام حسوماً، تركتهم كأنهم أعجاز نخل خاوية، ونجّى الله هوداً والذين آمنوا معه.",
+      ),
+    ],
     image: 'hud',
   },
   {
@@ -146,6 +296,42 @@ export const people: Person[] = [
       'طلبت ثمود آية فأرسل الله الناقة لها شِرب معلوم، وحذّرهم صالح من مسّها بسوء، فعقروها وتحدّوه، فأخذتهم الصيحة بعد ثلاثة أيام.',
     ),
     verses: ['7:73-79', '11:61-68', '26:141-159', '91:11-15'],
+    topography: {
+      region: t("Al-Hijr (Mada’in Salih / Hegra) in Northwestern Arabia", "Al-Hijr (Mada’in Salih / Hégra) au nord-ouest de l’Arabie", "الحجر (مدائن صالح / الحِجر) في شمال غرب الجزيرة العربية"),
+      modernCountries: t("Saudi Arabia", "Arabie Saoudite", "المملكة العربية السعودية"),
+      mapCoordinates: { lat: 26.8044, lng: 37.9547 },
+      missionRoute: t("Centered within the carved sandstone canyons of Al-Hijr along the historic caravan route between the Levant and Hijaz.", "Établi au cœur des falaises de grès sculptées d’Al-Hijr sur la route caravanière entre le Levant et le Hedjaz.", "قامت دعوته بين صخور الحِجر المنحوتة في وادي القرى على طريق القوافل بين الشام والحجاز."),
+      burialSite: f('tradition', t("Traditions locate his tomb in Palestine (Ramla), Makkah, or Shabwa in Yemen.", "Les traditions situent son tombeau en Palestine (Ramla), à La Mecque ou au Yémen.", "تذكر الروايات قبره بالرملة في فلسطين، أو بمكة المكرمة، أو في حضرموت."), 'book:qisas'),
+      sacredSites: [
+        {
+          name: t("Mada’in Salih (The Rock-Hewn Dwellings)", "Mada’in Salih (Demeures sculptées dans la roche)", "مدائن صالح (ديار ثمود)"),
+          type: 'city',
+          desc: t("Majestic monolithic façades and grand residential tombs carved directly into towering sandstone cliffs.", "Somptueuses façades et sépultures monumentales taillées à même les falaises de grès.", "الجبال والصخور الشاهقة التي نحت فيها ثمود بيوتاً فارهين تشهد على عظمتهم ومصيرهم."),
+        },
+        {
+          name: t("The Miraculous She-Camel’s Spring", "La source de la Chamelle miraculeuse", "بئر ناقة صالح"),
+          type: 'well',
+          desc: t("The designated watering spring apportioned by divine decree between the tribe and the miraculous She-Camel.", "Le point d’eau sacré partagé tour à tour entre le peuple et la Chamelle divine.", "عين الماء التي كانت لها شرب وللقوم شرب يوم معلوم بأمر الله."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Salih was raised among Thamud, who succeeded ‘Ad and inherited mastery over the fertile valleys and stony peaks of Al-Hijr. Masters of architectural stone masonry, they carved palatial dwellings directly into mountain rockfaces, living in luxury while lapsing into polytheism.",
+        "Salih grandit au sein de Thamud, héritiers de la puissance de ‘Ad, maîtres des vallées et des roches d’Al-Hijr. Sculpteurs hors pair, ils taillaient de superbes demeures dans la pierre des montagnes tout en sombrant dans l’idolâtrie.",
+        "نشأ صالح عليه السلام في قوم ثمود الذين استخلفهم الله بعد عاد وبوأهم في الأرض ينحتون من الجبال بيوتاً فارهين في سهول الحِجر ووديانه، وكان محبوباً فيهم ذا رأي وسداد.",
+      ),
+      t(
+        "When Salih called them to abandon idols, the tribal elite demanded an undeniable, supernatural proof: that a massive, pregnant She-Camel emerge alive from solid rock. Allah answered the test, commanding that the She-Camel be left unharmed to drink from their spring on alternating days and provide abundant milk.",
+        "Quand Salih les appela à délaisser les idoles, l’élite exigea un miracle saisissant : faire jaillir d’un rocher une chamelle vivante et pleine. Allah exauça ce signe avec l’ordre strict de ne point lui nuire et de partager équitablement l’eau de la source.",
+        "طلب قومه آية تعجيزية بأن يُخرج لهم من الصخرة الصماء ناقة عشراء، فاستجاب الله وأخرج لهم الناقة آية مبصرة، وجعل لها شرب يوم ولهم شرب يوم معلوم، تسقيهم من لبنها وتعيش بينهم.",
+      ),
+      t(
+        "Blind with malice, nine conspirators hamstrung and slaughtered the miraculous camel in defiance of Salih’s warnings. Granted three final days of respite, the insolent populace awoke on the fourth day to a catastrophic blast (*as-sayhah*) that shattered their hearts and left them motionless in their stone mansions.",
+        "Rongés par la haine, neuf conspirateurs égorgèrent la chamelle sacrée. Après un sursis de trois jours prophétisé par Salih, un cataclysme foudroyant (*as-sayhah*) déchira le ciel, anéantissant la cité dans ses somptueux palais.",
+        "عقر المفسدون الناقة وعتوا عن أمر ربهم، فأنذرهم صالح بثلاثة أيام، ثم أخذتهم الرجفة والصيحة القاصمة فأصبحوا في ديارهم جاثمين كأن لم يغنوا فيها، ونجى الله نبيه صالحاً.",
+      ),
+    ],
     image: 'salih',
   },
   {
@@ -189,6 +375,47 @@ export const people: Person[] = [
       'حاجّ إبراهيم قومه في الكوكب والقمر والشمس ثم كسر أصنامهم، فألقوه في النار فجعلها الله بردًا وسلامًا، ثم هاجر، وابتُلي بذبح ابنه، ورفع مع إسماعيل القواعد من البيت وأذّن في الناس بالحج.',
     ),
     verses: ['6:74-83', '21:51-73', '14:35-41', '37:83-113', '2:124-131'],
+    topography: {
+      region: t("Mesopotamia (Ur) to Harran, Canaan (Hebron), Egypt, and Al-Hijaz (Makkah)", "Mésopotamie (Ur), Harran, Canaan (Hébron), Égypte et Hedjaz (La Mecque)", "بلاد الرافدين (أور)، حران، كنعان (الخليل)، مصر، والحجاز (مكة المكرمة)"),
+      modernCountries: t("Iraq, Turkey, Syria, Palestine, Egypt, Saudi Arabia", "Irak, Turquie, Syrie, Palestine, Égypte, Arabie Saoudite", "العراق، تركيا، سوريا، فلسطين، مصر، المملكة العربية السعودية"),
+      mapCoordinates: { lat: 31.5247, lng: 35.1107 },
+      missionRoute: t("The epic patriarchal journey from Babylon and Harran across the Levant to Egypt, establishing the Ka‘bah sanctuary in Makkah and resting in Hebron.", "Le voyage patriarcal depuis Babylone et Harran à travers le Levant jusqu’en Égypte, fondant le sanctuaire de la Ka‘bah à La Mecque et reposant à Hébron.", "رحلة خليل الرحمن الممتدة من بابل وحران إلى الشام ومصر، وبناء الكعبة في مكة والاستقرار في الخليل."),
+      burialSite: f('tradition', t("Interred inside the Cave of Machpelah within the Sanctuary of Abraham (Al-Haram Al-Ibrahimi) in Hebron (Al-Khalil).", "Inhumé dans la grotte de Macpéla au sein du Sanctuaire d’Abraham (Al-Haram Al-Ibrahimi) à Hébron (Al-Khalil).", "مدفون في مغارة المكفيلة بالحرم الإبراهيمي الشريف بمدينة الخليل في فلسطين."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("The Holy Ka‘bah (Bakkah)", "La Sainte Ka‘bah (Bakkah)", "الكعبة المشرفة (بكة)"),
+          type: 'sanctuary',
+          desc: t("The primordial House of Monotheism raised with his son Ismail upon ancient foundations.", "La Maison originelle du Monothéisme réédifiée avec son fils Ismaïl.", "البيت العتيق الذي رفع قواعده مع ابنه إسماعيل ليكون مثابة للناس وأمناً."),
+        },
+        {
+          name: t("Maqam Ibrahim (Station of Abraham)", "Maqam Ibrahim (Station d’Abraham)", "مقام إبراهيم"),
+          type: 'sanctuary',
+          desc: t("The sacred miraculous stone upon which Ibrahim stood while erecting the higher courses of the Ka‘bah.", "La pierre miraculeuse sur laquelle se tenait Abraham pour élever les murs de la Ka‘bah.", "الحجر الأثري الذي وقف عليه خليل الرحمن وهو يبني الكعبة وفيه أثر قدميه المباركتين."),
+        },
+        {
+          name: t("Al-Haram Al-Ibrahimi (Sanctuary of Hebron)", "Sanctuaire d’Abraham à Hébron", "الحرم الإبراهيمي الشريف"),
+          type: 'sanctuary',
+          desc: t("The historic patriarchal sanctuary in Hebron housing the tombs of Ibrahim, Sarah, Ishaq, and Yaqub.", "Le sanctuaire séculaire d’Hébron abritant les tombeaux d’Abraham, Sara, Isaac et Jacob.", "المسجد والحرم التاريخي العظيم في الخليل الحاوي لمقامات الخليل وأهله الكرام."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Ibrahim (Khalilullah, the Intimate Friend of God) was born in ancient Mesopotamia amid widespread star worship and stone idolatry. Guided by innate spiritual insight (*fitrah*), he contemplated the celestial bodies—sun, moon, and stars—concluding with majestic certainty that he could not worship passing creations, turning his whole being exclusively to the Maker of the Heavens and the Earth.",
+        "Ibrahim (Khalilullah, l’Ami intime de Dieu) naquit en Mésopotamie dans une société vouée au culte des astres et des idoles. Éclairé par la fitrah, il contempla le soleil, la lune et les étoiles pour conclure avec éclat qu’aucun astre éphémère ne méritait l’adoration, vouant son être au Créateur des cieux et de la terre.",
+        "وُلد خليل الرحمن إبراهيم في بابل حيث شاع الشرك وعبادة الكواكب، فبحث عن الحق بفطرته السليمة وتأمل في ملكوت السماوات والأرض ﴿فَلَمَّا جَنَّ عَلَيْهِ اللَّيْلُ رَأَى كَوْكَبًا﴾ حتى أعلن براءته من كل معبود سوى الله رب العالمين.",
+      ),
+      t(
+        "With daring courage, he shattered the temple idols with his own hands, confronting the tyrant Nimrod in public debate over who controls life and resurrection. Cast into a monumental blazing furnace, Allah rendered the roaring inferno \"cool and peaceful\" for Ibrahim, preserving His friend unharmed to embark upon sacred migrations across the Fertile Crescent.",
+        "Avec une audace héroïque, il brisa les idoles du temple et défia publiquement le tyran Nemrod. Précipité dans un bûcher colossal, il fut protégé par l’ordre divin intimant au feu d’être « fraîcheur et paix pour Ibrahim », inaugurant ses grandes migrations à travers le Croissant fertile.",
+        "حطّم أصنام قومه بيده وناظر النمرود في ربه، فألقوه في نار عظيمة فقال حسبي الله ونعم الوكيل، فقال الله: ﴿يَا نَارُ كُونِي بَرْدًا وَسَلَامًا عَلَى إِبْرَاهِيمَ﴾، وخرج سالماً وهاجر في سبيل دينه.",
+      ),
+      t(
+        "Enduring supreme trials—from leaving infant Ismail and Hajar in the barren desert of Bakkah to submitting to the sacrifice of his beloved son—he earned the title of Imam of Humankind. Together with Ismail, he raised the pillars of the Holy Ka‘bah, proclaiming the eternal call to Hajj that draws millions of pilgrims through every age.",
+        "Triomphant des épreuves les plus sublimes — de l’abandon d’Ismaïl et Hajar dans la vallée déserte de Bakkah jusqu’à la soumission au sacrifice de son fils unique — il devint le guide des nations. Avec Ismaïl, il bâtit la Ka‘bah et proclama l’appel au Pèlerinage qui résonne à travers les siècles.",
+        "ابتُلي بالهجرة وترك هاجر وإسماعيل بواد غير ذي زرع، وأُمِر بذبح ولده فاستسلما لأمر الله ففداه بذبح عظيم، ثم بنى مع إسماعيل الكعبة المشرفة وأذّن في الناس بالحج، وجعله الله إماماً للناس.",
+      ),
+    ],
     image: 'ibrahim',
     heaven: 7,
     ululAzm: true,
@@ -218,6 +445,42 @@ export const people: Person[] = [
       'آمن لوط بإبراهيم وهاجر معه، وأُرسل إلى قوم يأتون الفاحشة جهرًا ويقطعون السبيل فهددوه بالإخراج، فجاءته الملائكة ضيوفًا، وخرج بأهله ليلًا إلا امرأته، وقُلبت القرى.',
     ),
     verses: ['11:77-83', '15:57-77', '26:160-175', '29:26-35'],
+    topography: {
+      region: t("The Jordan Rift Valley & The Dead Sea Basin (Sodom & Gomorrah)", "La vallée du rift jordanien et le bassin de la mer Morte (Sodome et Gomorrhe)", "غور الأردن وحوض البحر الميت (سدوم وعمورة / المؤتفكة)"),
+      modernCountries: t("Jordan, Palestine", "Jordanie, Palestine", "الأردن، فلسطين"),
+      mapCoordinates: { lat: 31.3322, lng: 35.5019 },
+      missionRoute: t("Emigrated with his uncle Ibrahim from Mesopotamia to the Levant, establishing his mission in the prosperous cities of the Jordan plain.", "Émigra avec son oncle Abraham depuis la Mésopotamie vers le Levant, s’établissant dans les cités de la plaine jordanienne.", "هاجر مع عمه إبراهيم من العراق إلى بلاد الشام واستقر في مدائن سدوم بغور الأردن."),
+      burialSite: f('tradition', t("Tradition places his tomb in the village of Bani Na‘im near Hebron in the Judean hills.", "La tradition situe son tombeau dans le village de Bani Na‘im près d’Hébron.", "يقع مقامه التاريخي المشهور في بلدة بني نعيم شرق الخليل بالضفة الغربية."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("The Dead Sea Basin (Bahr Lut)", "Le bassin de la Mer Morte (Bahr Lout)", "حوض البحر الميت (بحر لوط)"),
+          type: 'sea',
+          desc: t("The deep depression where the overthrown cities of Sodom were turned upside down under rain of brimstone.", "La dépression marine où les cités perverses furent englouties et renversées.", "المنخفض الأعمق على سطح الأرض حيث انقلبت مدائن المؤتفكة بحجارة من سجيل."),
+        },
+        {
+          name: t("Sanctuary of Bani Na‘im", "Sanctuaire de Bani Na‘im", "مقام النبي لوط (بني نعيم)"),
+          type: 'tomb',
+          desc: t("Ancient stone hilltop sanctuary overlooking the Dead Sea basin from the heights of Hebron.", "Sanctuaire perché sur les hauteurs d’Hébron dominant la mer Morte.", "المعلم الديني الأثري المطل على البحر الميت من مرتفعات الخليل الشرقية."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Lut was the nephew of Ibrahim, accompanying him on his momentous migration from Ur to the Levant. He was commissioned as a prophet to the thriving cities of the Jordan Plain (the Pentapolis, centered on Sodom), whose inhabitants had pioneered unnatural obscenities, highway robbery, and public corruption unknown to prior generations.",
+        "Lut, neveu d’Abraham, l’accompagna dans sa migration depuis Ur vers le Levant. Il fut envoyé comme prophète aux cités opulentes de la plaine du Jourdain (centrées sur Sodome), dont les habitants avaient inventé des turpitudes inouïes, coupant les routes et commettant l’infamie en public.",
+        "لوط عليه السلام ابن أخي إبراهيم الخليل، آمن معه وهاجر برفقته إلى الشام، ثم بعثه الله نبياً إلى أهل سدوم في غور الأردن، وكانوا يقطعون السبيل ويأتون في ناديهم المنكر ويأتون الفاحشة ما سبقهم بها من أحد من العالمين.",
+      ),
+      t(
+        "For years, Lut stood alone in their assemblies, counseling them with profound dignity to fear Allah and honor lawful marital relations. Instead of repenting, the townspeople threatened him with expulsion, claiming disdainfully: \"Drive them from your city; indeed, they are people who keep themselves pure.\"",
+        "Des années durant, Lut les conjura d’abandonner leurs turpitudes et de respecter les lois divines du mariage. Les citadins insolents le menacèrent d’exil, raillant sa pureté et son refus de leurs vices.",
+        "قام فيهم ناصحاً ومعلماً وذكّرهم بحرمات الله وفطرته النقية، فما كان جواب قومه إلا أن قالوا ﴿أَخْرِجُوهُم مِّن قَرْيَتِكُمْ إِنَّهُمْ أُنَاسٌ يَتَطَهَّرُونَ﴾ وتوعدوه بالبطش والطرد.",
+      ),
+      t(
+        "Divine retribution arrived in the form of honored angelic messengers. When the degenerate crowd besieged Lut’s residence demanding the guests, the angels blinded the aggressors, directing Lut to depart into the night with his righteous daughters. At daybreak, a devastating inverted tremor and shower of baked stones (*sijjil*) obliterated the transgressors, leaving a permanent sign for humanity.",
+        "Le châtiment s’abattit par l’entremise d’anges envoyés sous forme d’hôtes splendides. Lorsque la foule voulut s’en prendre à eux, les anges les aveuglèrent et ordonnèrent à Lut de fuir de nuit. À l’aube, la cité fut renversée sous une pluie de pierres d’argile cuite.",
+        "جاءت الملائكة في صورة ضيوف كرام، فلما تجمهر القوم طامسين أعينهم أخبروه أنهم رسل ربه، وأمروه أن يسري بأهله بقطع من الليل ولا يلتفت منهم أحد، فلما أشرقت الشمس جعل الله عاليها سافلها وأمطر عليها حجارة من سجيل منضود.",
+      ),
+    ],
     image: 'lut',
   },
   {
@@ -244,6 +507,47 @@ export const people: Person[] = [
       'ترك إبراهيم ابنه الرضيع إسماعيل وأمه هاجر بوادي مكة، فسعت هاجر بين الصفا والمروة تطلب الماء حتى نبع زمزم، ثم استسلم إسماعيل لأمر الذبح ففُدي، وبنى البيت مع أبيه.',
     ),
     verses: ['2:125-129', '14:37', '19:54-55', '37:100-107'],
+    topography: {
+      region: t("Al-Hijaz (Makkah Al-Mukarramah / The Valley of Paran)", "Le Hedjaz (La Mecque / La Vallée de Paran)", "الحجاز (مكة المكرمة / وادي بكة)"),
+      modernCountries: t("Saudi Arabia", "Arabie Saoudite", "المملكة العربية السعودية"),
+      mapCoordinates: { lat: 21.4225, lng: 39.8262 },
+      missionRoute: t("Brought as an infant to the barren valley of Makkah; grew up among the Arab tribe of Jurhum, becoming the patriarch of the Adnanite Arabs.", "Conduit nourrisson dans la vallée aride de La Mecque ; grandit parmi la tribu arabe de Jurhum et devint l’ancêtre des Arabes adnanites.", "استقر رضيعاً في واد غير ذي زرع بمكة، ونشأ بين قبيلة جُرهُم العربية وتزوج منهم فكان أصل العرب المستعربة."),
+      burialSite: f('tradition', t("Tradition places his tomb inside the semi-circular stone enclosure (Al-Hijr / Hateem) adjacent to the Ka‘bah in Makkah.", "La tradition situe son tombeau dans l’enceinte semi-circulaire (Al-Hijr / Hateem) adjacente à la Ka‘bah à La Mecque.", "تذكر المصادر التاريخية دفنه في حِجر إسماعيل (الحطيم) بجوار الكعبة المشرفة بالمسجد الحرام."), 'book:qisas'),
+      sacredSites: [
+        {
+          name: t("The Well of Zamzam", "Le Puits de Zamzam", "بئر زمزم المباركة"),
+          type: 'well',
+          desc: t("The miraculous freshwater spring that burst beneath baby Ismail’s heels through angel Jibril.", "La source miraculeuse qui jaillit sous les talons d’Ismaïl nourrisson par l’aile de l’ange Jibril.", "العين العذبة المباركة التي تفجرت تحت قدمي إسماعيل بسعي أمه هاجر بين الصفا والمروة."),
+        },
+        {
+          name: t("The Hills of As-Safa and Al-Marwah", "Les collines de Safa et Marwah", "الصفا والمروة"),
+          type: 'sanctuary',
+          desc: t("The two rocky eminences between which Hajar ran seven times seeking water for her thirsty son.", "Les deux collines sacrées parcourues sept fois par Hajar en quête d’eau pour son enfant.", "المشاعر المقدسة التي سعت بينهما هاجر سبع مرات فأضحت شعيرة من شعائر الحج والعمرة."),
+        },
+        {
+          name: t("Hijr Ismail (Al-Hateem)", "Hijr Ismaïl (Al-Hatim)", "حِجر إسماعيل (الحطيم)"),
+          type: 'sanctuary',
+          desc: t("The sacred curved wall encompassing the original area of the Ka‘bah constructed by Ibrahim and Ismail.", "L’enclos semi-circulaire marquant les fondations originelles de la Ka‘bah.", "الحائط المقوس المبارك المحاذي للكعبة المشرفة ويعد جزءاً أصيلاً منها."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Ismail, the eldest son of Ibrahim born to Hajar in his father’s twilight years, was chosen for a monumental destiny. While still nursing, he was taken to an uncultivated desert canyon in Makkah. When water vanished and Hajar ran between Safa and Marwah, the angel Jibril struck the earth, causing the miraculous spring of Zamzam to gush forth.",
+        "Ismaïl, fils aîné d’Abraham enfanté par Hajar dans la vieillesse de son père, était voué à un destin grandiose. Déposé encore nourrisson dans la gorge aride de La Mecque, la source de Zamzam jaillit miraculeusement sous ses pieds alors que sa mère cherchait du secours entre Safa et Marwah.",
+        "إسماعيل هو بكر خليل الرحمن من زوجته هاجر وُلد له على كبر، حُمل رضيعاً إلى بطحاء مكة المقفرة فاستجاب الله دعاء إبراهيم وفجّر لهما ماء زمزم العذب، وأقبلت قبائل جرهم فاستأذنت للسكن حول الماء فأنست بهم مكة.",
+      ),
+      t(
+        "Reaching youthful maturity, he demonstrated the pinnacle of filial obedience and religious devotion. When Ibrahim beheld a divine vision commanding the sacrifice of his beloved son, Ismail responded with serene surrender: \"O my father, do as you are commanded; you will find me, if Allah wills, of the steadfast.\" At the moment of submission, Allah ransomed him with a noble sacrifice.",
+        "Devenu jeune homme, il fit preuve d’une soumission sublime. Lorsqu’Abraham reçut en songe l’ordre divin de l’immoler, Ismaïl répondit avec une foi sereine : « Ô mon père, fais ce qui t’est ordonné ; tu me trouveras, si Dieu veut, parmi les endurants ». Allah le racheta alors par un sacrifice généreux.",
+        "بلغ مع أبيه السعي فرأى إبراهيم في المنام أنه يذبحه، فقال برضا وتسليم تام: ﴿يَا أَبَتِ افْعَلْ مَا تُؤْمَرُ سَتَجِدُنِي إِن شَاءَ اللَّهُ مِنَ الصَّابِرِينَ﴾، فلما أسلما وتله للجبين فداه الله بذبح عظيم خلد ذكره في عيد الأضحى.",
+      ),
+      t(
+        "Later, father and son worked side-by-side to raise the foundation stones of the Ancient House (the Ka‘bah), praying that their progeny remain a Muslim nation. Ismail preached Tawhid across Arabia, mastered the Arabic tongue, and became the revered ancestor through whom the lineage of Prophet Muhammad ﷺ descends.",
+        "Plus tard, le père et le fils élevèrent ensemble les assises de la Ka‘bah en priant pour que leur descendance demeure soumise à Dieu. Ismaïl enseigna le Monothéisme aux tribus arabes et devint l’ancêtre béni d’où naquit le Prophète Muhammad ﷺ.",
+        "شارك أباه في بناء الكعبة المشرفة ورفع قواعدها وهما يدعوان ﴿رَبَّنَا تَقَبَّلْ مِنَّا﴾، وكان صادق الوعد يأمر أهله بالصلاة والزكاة، وعاش يدعو قبائل العرب إلى التوحيد، وهو جد العرب المستعربة وأشرف أجداد النبي المصطفى ﷺ.",
+      ),
+    ],
     image: 'ismail',
   },
   {
@@ -265,6 +569,43 @@ export const people: Person[] = [
       'بشّرت الملائكة سارة بإسحاق فضحكت متعجبة لكبرها، فكان نبيًّا وأبًا ليعقوب الذي جاء منه بنو إسرائيل.',
     ),
     verses: ['11:69-73', '37:112-113', '51:24-30'],
+    topography: {
+      region: t("The Highlands of Canaan (Hebron / Beersheba / Southern Levant)", "Les hauteurs de Canaan (Hébron / Beer-Sheva / Levant méridional)", "مرتفعات كنعان (الخليل / بئر السبع / جنوب بلاد الشام)"),
+      modernCountries: t("Palestine, Jordan", "Palestine, Jordanie", "فلسطين، الأردن"),
+      mapCoordinates: { lat: 31.525, lng: 35.111 },
+      missionRoute: t("Centered across the pastoral plains of Canaan between Hebron and Beersheba, stewarding the Abrahamic message throughout the Levant.", "Établi dans les plaines pastorales de Canaan entre Hébron et Beer-Sheva, perpétuant le message abrahamique au Levant.", "قامت دعوته في ربوع أرض كنعان بين الخليل وبئر السبع والقدس متمماً لرسالة والده إبراهيم."),
+      burialSite: f('tradition', t("Interred within the Cave of Machpelah at the Ibrahimi Sanctuary in Hebron beside his father Ibrahim and wife Rifqah.", "Inhumé dans la grotte de Macpéla au Sanctuaire d’Hébron auprès de son père Abraham et de son épouse Rébecca.", "مدفون داخل مغارة المكفيلة بالحرم الإبراهيمي في الخليل بجوار أبيه إبراهيم وزوجته رفقة."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("Cave of the Patriarchs (Al-Haram Al-Ibrahimi)", "Grotte des Patriarches", "مغارة الأنبياء بالخليل"),
+          type: 'tomb',
+          desc: t("The sacred subterranean burial vaults of the Abrahamic prophetic dynasty in Hebron.", "Les cryptes sacrées abritant les sépultures des prophètes abrahamiques à Hébron.", "المغارة الشريفة التي ضمت قبور خليل الرحمن وإسحاق ويعقوب وأزواجهم."),
+        },
+        {
+          name: t("Pastoral Wells of Beersheba (Bi’r as-Saba‘)", "Puits de Beer-Sheva", "آبار بئر السبع"),
+          type: 'well',
+          desc: t("Historic water wells excavated in the southern Negev where Ishaq pastured flocks and prayed.", "Puits antiques du Néguev où Isaac faisait paître ses troupeaux et priait.", "الآبار القديمة المباركة التي حفرها إسحاق ورعى حولها ماشيته متعبداً لله."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Ishaq was heralded to Ibrahim and Sarah by visiting angels on their way to Sodom. Sarah, advanced in extreme old age and barren her whole life, laughed in astonishment at the divine tidings. The angels comforted her: \"Do you wonder at the decree of Allah? The mercy of Allah and His blessings be upon you, people of the house.\"",
+        "Ishaq fut annoncé à Abraham et Sara par les anges cheminant vers Sodome. Sara, très âgée et stérile, rit d’étonnement devant la nouvelle. Les anges la rassurèrent : « T’étonnes-tu de l’ordre d’Allah ? Que la miséricorde et les bénédictions d’Allah soient sur vous, gens de cette demeure ! »",
+        "بشّرت الملائكة إبراهيم وزوجته سارة بإسحاق بعد أن بلغا من الكبر عتياً وكانت سارة عاقراً، فضحكت وتعجبت ﴿قَالَتْ يَا وَيْلَتَىٰ أَأَلِدُ وَأَنَا عَجُوزٌ وَهَٰذَا بَعْلِي شَيْخًا﴾ فأجابت الملائكة بأن أمر الله لا يعجزه شيء.",
+      ),
+      t(
+        "Growing up under the spiritual guidance of Ibrahim, Ishaq was endowed with profound righteousness, wisdom, and steadfast devotion. He was appointed a prophet over the peoples of Canaan, upholding the monotheistic covenants and leading his community with gentleness and judicial justice.",
+        "Élevé sous la conduite spirituelle d’Abraham, Isaac fut doté d’une piété et d’une sagesse remarquables. Établi prophète parmi les peuples de Canaan, il maintint les pactes monothéistes et guida sa communauté avec équité et bienveillance.",
+        "نشأ إسحاق في كنف النبوة والتوحيد الخالص، وآتاه الله العلم والحكمة وجعله نبياً صالحاً ومباركاً على قومه في بلاد الشام وفلسطين، يدعو إلى عبادة الله الواحد ويقضي بالعدل.",
+      ),
+      t(
+        "The Qur’an repeatedly honors Ishaq as a paragon of worship: \"And We remembered Our servants, Abraham, Isaac, and Jacob, men of strength and religious insight.\" Through his son Yaqub, he became the direct ancestor of the vast prophetic lineage of the Children of Israel.",
+        "Le Coran l’honore comme un modèle d’adoration : « Et rappelle-toi Nos serviteurs Abraham, Isaac et Jacob, pleins de force et de clairvoyance ». Par son fils Jacob, il devint l’ancêtre de la chaîne des prophètes d’Israël.",
+        "أثنى الله عليه في القرآن الكريم فقال: ﴿وَاذْكُرْ عِبَادَنَا إِبْرَاهِيمَ وَإِسْحَاقَ وَيَعْقُوبَ أُولِي الْأَيْدِي وَالْأَبْصَارِ﴾، وجعل في ذريته النبوة والكتاب فكان ابنه يعقوب أبا الأسباط وأنبيائهم.",
+      ),
+    ],
+    image: 'ishaq',
   },
   {
     id: 'yaqub',
@@ -288,6 +629,43 @@ export const people: Person[] = [
       'أحب يعقوب ابنه يوسف حبًا شديدًا، فلما زعم بنوه أن الذئب أكله قال: فصبر جميل، وابيضّت عيناه من الحزن ولم ييأس من روح الله، حتى جمعه الله بيوسف في مصر.',
     ),
     verses: ['2:132-133', '12:4-18', '12:83-100'],
+    topography: {
+      region: t("Canaan (Hebron, Bethel, Shechem) to Ancient Egypt (The Land of Goshen)", "Canaan (Hébron, Béthel, Sichem) vers l’Égypte Antique (Pays de Gosen)", "أرض كنعان (الخليل، بيت إيل، نابلس) إلى مصر (أرض جاسان)"),
+      modernCountries: t("Palestine, Egypt", "Palestine, Égypte", "فلسطين، مصر"),
+      mapCoordinates: { lat: 31.5255, lng: 35.1115 },
+      missionRoute: t("Shepherded his household throughout Canaan before traveling to Egypt in old age upon being reunited with Yusuf.", "Guida sa famille à travers Canaan avant de voyager vers l’Égypte au soir de sa vie lors de ses retrouvailles avec Joseph.", "عاش يرعى أسرته الكريمة في كنعان، ثم ارتحل بأهله أجمعين إلى مصر بعد لقائه بيوسف."),
+      burialSite: f('tradition', t("Brought from Egypt by his son Yusuf and buried in the Cave of Machpelah in Hebron beside his father Ishaq.", "Ramené d’Égypte par son fils Joseph pour reposer dans la grotte de Macpéla à Hébron auprès de son père Isaac.", "حمله ابنه يوسف بعد وفاته في مصر ودُفن بوصيته في مغارة المكفيلة بالخليل بجوار إسحاق."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("Bethel (Bayt El / House of God)", "Béthel (Bayt El)", "بيت إيل (موضع صلاة يعقوب)"),
+          type: 'sanctuary',
+          desc: t("The sacred hill of stones north of Jerusalem where Yaqub received celestial visions and erected an altar.", "La colline sacrée au nord de Jérusalem où Jacob reçut des visions célestes et consacra un autel.", "الموضع المبارك شمال القدس الذي تروي الآثار صلاته فيه وتضرعه لربه."),
+        },
+        {
+          name: t("The Land of Goshen (Wadi Tumilat)", "Pays de Gosen (Wadi Toumilat)", "أرض جاسان (شرق دلتا مصر)"),
+          type: 'valley',
+          desc: t("The fertile eastern Nile Delta region where Yaqub and his sons were settled with honor under Yusuf’s governance.", "La région fertile du delta oriental du Nil où Jacob et ses fils s’établirent sous la protection de Joseph.", "الأرض الخصبة بدلتا النيل التي استقر فيها يعقوب وبنوه الأسباط مكرمين في عهد يوسف."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Yaqub (also named Isra’il) was the son of Ishaq and grandson of Ibrahim. Chosen by divine grace for the mantle of prophecy, he fathered twelve sons who became the patriarchal progenitors of the Twelve Tribes of Israel. Known for deep spiritual forbearance, his home was a bastion of monotheistic discipline.",
+        "Yaqub (également nommé Israël), fils d’Isaac et petit-fils d’Abraham, fut choisi par la grâce divine pour la prophétie. Père de douze fils, ancêtres des douze tribus d’Israël, il incarna la foi ardente et la persévérance spirituelle.",
+        "يعقوب عليه السلام هو إسرائيل، ابن إسحاق بن إبراهيم، خصه الله بالنبوة والحكمة ورزقه اثني عشر ولداً صاروا أجداد أسباط بني إسرائيل، وعُرف بشدة التوكل وصبره العظيم على البلاء.",
+      ),
+      t(
+        "Enduring decades of profound grief when his jealous elder sons cast young Yusuf into a hidden well and presented his blood-stained shirt, Yaqub exhibited supreme exemplary patience (*Sabrun Jamil*). Weeping until his eyesight dimmed with cataract, he maintained utter confidence in divine restoration, declaring: \"I only complain of my suffering and my grief to Allah.\"",
+        "Frappé par la douleur indicible quand ses fils aînés jetèrent le jeune Joseph dans un puits et lui rapportèrent sa tunique tachée de sang, Jacob manifesta une patience sublime (*Sabroun Jamil*). Pleurant jusqu’à perdre la vue, il ne cessa d’espérer : « Je ne me plains de mon déchirement et de ma peine qu’à Allah ».",
+        "ابتُلي بفقد ابنه الحبيب يوسف بعد كيد إخوته وإلقائه في الجب، فحزن حزناً شديداً وابيضت عيناه من البكاء فهو كظيم، ولم ييأس من روح الله قط بل قال: ﴿فَصَبْرٌ جَمِيلٌ وَاللَّهُ الْمُسْتَعَانُ عَلَىٰ مَا تَصِفُونَ﴾ و﴿إِنَّمَا أَشْكُو بَثِّي وَحُزْنِي إِلَى اللَّهِ﴾.",
+      ),
+      t(
+        "His magnificent reliance was rewarded when Yusuf’s shirt was cast across his face, restoring his sight instantly. Traveling to Egypt at Yusuf’s invitation, he was reunited with tears of joy, witnessing his son’s royal honor. On his deathbed, he gathered his sons to extract their eternal commitment: \"We shall worship your God and the God of your fathers, Ibrahim, Ismail, and Ishaq, the One God.\"",
+        "Sa foi absolue fut couronnée lorsque la tunique de Joseph, appliquée sur ses yeux, lui rendit la vue. Invité en Égypte, il embrassa son fils avec larmes et glorifia Dieu. Sur son lit de mort, il recueillit le serment de ses enfants d’adorer le Dieu Unique.",
+        "كافأه الله بعودة بصره حين أُلقي قميص يوسف على وجهه فارتد بصيراً، ودخل مصر معززاً مكرماً وخرّ له بنوه سجداً تعظيماً، وحين حضره الموت جمع بنيه وسألهم: ﴿مَا تَعْبُدُونَ مِن بَعْدِي قَالُوا نَعْبُدُ إِلَٰهَكَ وَإِلَٰهَ آبَائِكَ إِبْرَاهِيمَ وَإِسْمَاعِيلَ وَإِسْحَاقَ إِلَٰهًا وَاحِدًا﴾.",
+      ),
+    ],
+    image: 'yaqub',
   },
   {
     id: 'yusuf',
@@ -314,6 +692,42 @@ export const people: Person[] = [
       'رأى يوسف أحد عشر كوكبًا والشمس والقمر له ساجدين، فألقاه إخوته حسدًا في الجبّ، وبيع في مصر، واستعصم من الفتنة وسُجن ظلمًا، ثم أوّل رؤيا الملك في السبع البقرات، فأنقذ مصر من المجاعة وعفا عن إخوته. وسمّاها القرآن أحسن القصص.',
     ),
     verses: ['12:3-6', '12:23-34', '12:43-57', '12:99-101'],
+    topography: {
+      region: t("Canaan (Jubb Yusuf / Dothan) to Ancient Egypt (Memphis / Nile Valley)", "Canaan (Jubb Youssef / Dothan) vers l’Égypte Antique (Memphis / Vallée du Nil)", "أرض كنعان (جب يوسف / دوثان) إلى مصر القديمة (منف / وادي النيل)"),
+      modernCountries: t("Palestine, Egypt", "Palestine, Égypte", "فلسطين، مصر"),
+      mapCoordinates: { lat: 29.8499, lng: 31.2544 },
+      missionRoute: t("Carried as a youth from the well of Canaan by a merchant caravan into the royal courts and prisons of Egypt, rising to govern the national treasury.", "Vendu adolescent depuis le puits de Canaan par une caravane vers les palais et prisons d’Égypte, accédant à la direction du Trésor.", "حُمل أسيراً من بئر كنعان مع قافلة تجارية إلى بلاط مصر وسجونها، حتى مكّن الله له وزيراً على خزائن الأرض."),
+      burialSite: f('tradition', t("Initially interred along the Nile in Egypt, his sarcophagus was later carried by Musa to Canaan (Shechem / Nablus or Hebron).", "Inhumé initialement au bord du Nil en Égypte, son cercueil fut ensuite transporté par Moïse vers Canaan (Sichem ou Hébron).", "وُضع جثمانه أولاً في مصر في تابوت، ثم حمله موسى عليه السلام عند الخروج ليدفنه في أرض الشام (نابلس أو الخليل)."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("Jubb Yusuf (The Well of Joseph)", "Le Puits de Joseph (Jubb Youssef)", "جُبّ يوسف"),
+          type: 'well',
+          desc: t("The deep cistern in northern Palestine where Yusuf’s jealous brothers cast him before caravan merchants retrieved him.", "La citerne de Canaan où ses frères jaloux l’abandonnèrent avant qu’une caravane ne le recueille.", "البئر العميقة التي ألقاه فيها إخوته حسداً من عند أنفسهم فالتقطه بعض السيارة."),
+        },
+        {
+          name: t("The Royal Granaries of Memphis", "Les greniers royaux de Memphis", "خزائن مصر وصوامع الغلال"),
+          type: 'city',
+          desc: t("The grand grain repositories engineered by Yusuf to preserve the civilization of Egypt and the Levant across seven drought years.", "Les immenses réserves de céréales conçues par Joseph pour sauver l’Égypte et le Levant de sept ans de famine.", "صوامع الغلال التاريخية التي أقامها يوسف بحكمته لإنقاذ مصر والشرق الأدنى من القحط والجفاف."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Yusuf, endowed with breathtaking physical and spiritual beauty (*shatr al-husn*), was granted prophetic dreams in early childhood, seeing eleven stars, the sun, and the moon prostrating to him. Envied by his older brothers, he was cast into the dark depths of a deserted well and sold in Egypt as a household slave to the chief minister (*Al-Aziz*).",
+        "Doté d’une beauté sublime et de la moitié de la grâce humaine, Joseph eut dès l’enfance la vision prophétique de onze étoiles, du soleil et de la lune prosternés devant lui. Jalousé par ses frères, il fut jeté dans un puits puis vendu en Égypte comme serviteur chez le grand intendant (*Al-Aziz*).",
+        "يوسف الصديق أوتي شطر الحسن، رأى في صغره أحد عشر كوكباً والشمس والقمر له ساجدين، فكاده إخوته وألقوه في غيابت الجب، فاشترته قافلة وباعوه في مصر بثمن بخس إلى عزيز مصر ليكرم مثواه.",
+      ),
+      t(
+        "Tested by the illicit advances of his master’s wife, Yusuf chose years of unjust dungeon imprisonment rather than compromise his chastity and fear of Allah. In prison, he faithfully interpreted dreams and proclaimed divine monotheism, eventually interpreting Pharaoh’s confounding vision of seven fat cows devoured by seven lean cows as a coming seven-year agricultural famine.",
+        "Éprouvé par les avances passionnées de la femme de son maître, il préféra la prison plutôt que de faillir à sa foi. En captivité, il interpréta les songes et proclama le Dieu Unique, déchiffrant plus tard le songe du souverain annonçant sept années d’abondance suivies de sept années de terrible sécheresse.",
+        "راودته امرأة العزيز فاستعصم وقال معاذ الله، وفضّل السجن ظلماً على معصية ربه، فلبث في السجن بضع سنين يدعو رفقاءه إلى التوحيد، حتى فسّر للملك رؤيا البقرات العجاف والسمان بنجاة مصر بحكمة وادخار سبع سنين.",
+      ),
+      t(
+        "Vindicated of all false accusation, Yusuf was elevated as supreme Treasurer (*Hafizun ‘Alim*) of Egypt. When his brothers arrived from Canaan desperate for grain, he treated them with magnanimity, reconciled his family, and fulfilled his childhood dream as his parents and brothers bowed before him in gratitude to Allah.",
+        "Innocenté avec éclat, il fut nommé gouverneur du Trésor d’Égypte. Lorsque ses frères vinrent chercher des vivres, il leur pardonna avec grandeur, réunit sa famille et vit son rêve d’enfance s’accomplir lorsque tous se prosternèrent devant lui en louange à Dieu.",
+        "برأه الله ومكنه الملك في الأرض وجعله على خزائنها، فلما جاءه إخوته ممتارين عرفهم وهم له منكرون، فعفا عنهم وقال ﴿لَا تَثْرِيبَ عَلَيْكُمُ الْيَوْمَ يَغْفِرُ اللَّهُ لَكُمْ﴾، وجمع شمله بأبويه وإخوته وخروا له سجداً شكراً لله.",
+      ),
+    ],
     image: 'yusuf',
     heaven: 3,
   },
@@ -339,6 +753,42 @@ export const people: Person[] = [
       'ابتُلي أيوب في بدنه وماله وأهله فصبر ونادى ربه: أني مسّني الضر وأنت أرحم الراحمين، فشفاه الله بعين ماء وردّ عليه أهله ومثلهم معهم.',
     ),
     verses: ['21:83-84', '38:41-44'],
+    topography: {
+      region: t("The Plain of Bathaniyya / Hauran (Southern Syria) & Edom", "La plaine de Bathaniyya / Hauran (Sud de la Syrie) et Édom", "سهل البثنية / حوران (جنوب الشام) وأرض إدوم"),
+      modernCountries: t("Syria, Jordan, Oman", "Syrie, Jordanie, Oman", "سوريا، الأردن، عُمان"),
+      mapCoordinates: { lat: 32.8333, lng: 36.0333 },
+      missionRoute: t("Lived and farmed in the fertile volcanic plains of Hauran in southern Syria, undergoing his legendary trial and miraculous restoration.", "Vécut et cultiva dans les plaines fertiles de Hauran au sud de la Syrie, subissant sa légendaire épreuve avant sa guérison.", "عاش في سهول حوران البركانية الخصيبة بجنوب بلاد الشام حيث ابتُلي بالمرض وصبر حتى جاءه الفرج والشفاء."),
+      burialSite: f('tradition', t("Traditions locate his tomb in Sheikh Saad (Hauran, Syria) or near Salalah (Dhofar, Oman).", "Les traditions situent son tombeau à Sheikh Saad (Hauran, Syrie) ou près de Salalah (Dhofar, Oman).", "تذكر الروايات ضريحه في قرية الشيخ سعد بحوران في سوريا، وثمة مقام شهير في جبل إتين بصلالة في عُمان."), 'book:qisas'),
+      sacredSites: [
+        {
+          name: t("The Spring of Divine Healing (Ayn Ayyub)", "La source de guérison (Ayn Ayyoub)", "عين ماء أيوب المباركة"),
+          type: 'well',
+          desc: t("The cool subterranean spring commanded by Allah: \"Strike the ground with your foot: here is a cool bath and a drink.\"", "La source miraculeuse jaillie sous le pied d’Ayyub sur ordre divin pour purifier et guérir.", "النبع البارد العذب الذي انفجر بأمر الله حين ركض أيوب برجله فاغتسل منه وشرب فبرأ بإذن الله."),
+        },
+        {
+          name: t("Sheikh Saad Sanctuary (Hauran)", "Sanctuaire de Sheikh Saad (Hauran)", "مقام الشيخ سعد (حوران)"),
+          type: 'tomb',
+          desc: t("Historic basalt stone sanctuary and ancient monastery site associated with Job’s patient retreat.", "Sanctuaire de basalte historique commémorant l’endurance héroïque de Job.", "المعلم الأثري البازلتي العريق في حوران المرتبط بمقام أيوب وصبره."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Ayyub was a prosperous and noble descendant of Ibrahim living in the fertile lands of Hauran. Blessed with abundant wealth, vast livestock, fertile estates, numerous sons and daughters, and widespread community reverence, he remained exceptionally grateful, generously feeding orphans, widows, and strangers.",
+        "Ayyub, noble descendant d’Abraham, prospérait dans les terres fertiles de Hauran. Comblé de richesses, de troupeaux immenses, d’enfants aimants et du respect de tous, il consacrait sa vie à nourrir les orphelins, vêtir les indigents et louer Dieu sans cesse.",
+        "كان أيوب عليه السلام من سلالة إبراهيم الخليل، غنياً شاكراً، آتاه الله المال الوافر والأنعام والأراضي في حوران، ورزقه بنين وبنات، وكان براً تقياً يطعم المسكين ويكفل اليتيم ويثني على الله آناء الليل وأطراف النهار.",
+      ),
+      t(
+        "He was subjected to a legendary trial that became an eternal benchmark for human patience (*Sabr*). In succession, his herds perished, his farmsteads collapsed, his children died under a collapsing roof, and a severe affliction struck his physical body, leaving only his heart and tongue intact to praise his Creator. Deserted by acquaintances, his faithful wife Rahmah stood steadfastly at his side.",
+        "Il fut frappé d’une épreuve héroïque devenue le symbole éternel de la patience (*Sabr*). Ses troupeaux périrent, ses demeures s’effondrèrent sur ses enfants, et une maladie éprouvante frappa sa chair, ne laissant que son cœur et sa langue pour invoquer son Seigneur, soutenu fidèlement par son épouse Rahma.",
+        "ابتلاه الله بذهاب ماله وهلاك أنعامه وموت أولاده جميعاً، ثم ابتُلي في جسده بالمرض الشديد حتى انقطع عنه الناس إلا زوجته الوفية التي قامت على خدمته، فما ازداد إلا شكراً وذكراً وصبراً لا يتزعزع.",
+      ),
+      t(
+        "After years of unwavering composure without a single complaint, he made a gentle plea: \"Adversity has touched me, and You are the Most Merciful of the merciful.\" Commanded to strike the earth with his heel, a cool spring burst forth, completely curing his internal and external ailments. Allah restored double his family and wealth, praising him: \"Truly We found him patient—an excellent servant! Indeed, he was constantly turning to Us.\"",
+        "Après des années d’épreuve sans jamais faillir, il formula une humble prière : « Le malheur m’a touché, et Tu es le plus Miséricordieux des miséricordieux ». Dieu lui ordonna de frapper le sol du pied : une source fraîche jaillit, le guérissant instantanément et lui rendant ses biens et sa famille au centuple.",
+        "نادى ربه بأدب نبوي رفيع: ﴿أَنِّي مَسَّنِيَ الضُّرُّ وَأَنتَ أَرْحَمُ الرَّاحِمِينَ﴾، فأمره الله أن يركض برجله، فانفجرت عين ماء بارد اغتسل منها وشرب، فذهب عنه كل داء، وأخلف الله عليه أهله وماله مثلهم معهم، ﴿إِنَّا وَجَدْنَاهُ صَابِرًا نِّعْمَ الْعَبْدُ إِنَّهُ أَوَّابٌ﴾.",
+      ),
+    ],
     image: 'ayyub',
   },
   {
@@ -360,6 +810,42 @@ export const people: Person[] = [
       'دعا شعيب أهل مدين إلى عبادة الله وإيفاء الكيل والميزان، إذ كانوا يبخسون الناس ويقطعون الطريق، فهدده الملأ بالإخراج إن لم يعد في ملتهم، فنجّاه الله والمؤمنين، وأخذت الرجفة الباقين.',
     ),
     verses: ['7:85-93', '11:84-95', '26:176-191'],
+    topography: {
+      region: t("Madyan (Midian / Northwestern Hijaz) & Ashab al-Aykah (Dwellers of the Wood)", "Madyan (Madian / Nord-ouest du Hedjaz) et Ashab al-Aykah", "مدين (شمال غرب الحجاز) وأصحاب الأيكة"),
+      modernCountries: t("Saudi Arabia, Jordan", "Arabie Saoudite, Jordanie", "المملكة العربية السعودية، الأردن"),
+      mapCoordinates: { lat: 28.4897, lng: 35.0118 },
+      missionRoute: t("Centered around the desert oasis of Al-Bad‘ in northwestern Saudi Arabia and extending along caravan crossroads towards the Gulf of Aqaba and Jordan.", "Établi dans l’oasis d’Al-Bad‘ au nord-ouest de l’Arabie, s’étendant sur les routes caravanières vers le golfe d’Aqaba et la Jordanie.", "قامت دعوته في واحة البدع ومدين قرب خليج العقبة في شمال غرب الجزيرة العربية وامتدت إلى مشارف الأردن."),
+      burialSite: f('tradition', t("Traditions place his tomb in Wadi Shu‘ayb near As-Salt in Jordan or near the Sacred Sanctuary in Makkah.", "Les traditions situent son tombeau dans le Wadi Shu‘ayb près d’As-Salt en Jordanie ou près de La Mecque.", "يقع مقامه المشهور في وادي شعيب قرب مدينة السلط بالأردن، وقيل بمكة حذاء الكعبة."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("Magha’ir Shu‘ayb (Caves of Midian)", "Magha’ir Shu‘ayb (Grottes de Madian)", "مغاير شعيب (مدين)"),
+          type: 'city',
+          desc: t("Ancient monumental rock-cut façade tombs in the Tabuk province of Saudi Arabia where Jethro’s community dwelt.", "Tombeaux et habitations rupestres monumentales taillés dans les grès de la province de Tabuk.", "المعالم الأثرية الصخرية المنحوتة في واحة البدع بمنطقة تبوك حيث عاش أهل مدين."),
+        },
+        {
+          name: t("The Watering Well of Midian (Bi’r Madyan)", "Le Puits de Madian (Bi’r Madyan)", "بئر ماء مدين"),
+          type: 'well',
+          desc: t("The historic pastoral well where Musa watered the flocks for Shu‘ayb’s two daughters upon fleeing Egypt.", "Le puits où Moïse abreuva les bêtes des deux filles de Shu‘ayb lors de sa fuite d’Égypte.", "البئر العذبة التي سقى عندها موسى عليه السلام للفتاتين ابنتي شعيب حين ورد ماء مدين."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Shu‘ayb, celebrated in Islamic tradition as *Khatib al-Anbiya* (The Orator of the Prophets) for his peerless eloquence and cogent logical reasoning, was sent to the people of Midian and the forest grove of Al-Aykah. Situated at the junction of major Levantine-Arabian trade caravans, his people had accrued immense wealth through systemic fraud and armed banditry.",
+        "Shu‘ayb, surnommé *Khatib al-Anbiya* (L’Orateur des Prophètes) pour son éloquence éclatante et sa clarté d’argumentation, fut envoyé au peuple de Madian et aux gens d’Al-Aykah. Idéalement placés sur les routes caravanières, ils s’enrichissaient par la fraude commerciale et le brigandage.",
+        "شعيب عليه السلام لُقّب بخطيب الأنبياء لفصاحته وحسن مراجعته وبلاغة حجته، بُعث إلى قومه مدين وأصحاب الأيكة، وكانوا أهل تجارة على مفترق طرق القوافل، فجمعوا بين الشرك بالله وبخس المكاييل والموازين وقطع الطريق.",
+      ),
+      t(
+        "Shu‘ayb stood fearlessly before their marketplaces, pleading for fair trade and honest scales: \"Give full measure and weight with justice, and do not deprive people of their due.\" Instead of heeding his moral warnings, the arrogant magnates threatened to stone him, sneering: \"Does your prayer command you that we should leave what our fathers worshiped?\"",
+        "Shu‘ayb les conjura de réformer leur commerce : « Donnez la pleine mesure et le juste poids, et ne lésez pas les gens dans leurs biens ». Les notables hautains répondirent par la menace de lapidation, raillant sa dévotion : « Est-ce que tes prières t’ordonnent que nous délaissions ce qu’adoraient nos pères ? »",
+        "نصحهم شعيب بحكمة وعاطفة: ﴿أَوْفُوا الْكَيْلَ وَالْمِيزَانَ بِالْقِسْطِ وَلَا تَبْخَسُوا النَّاسَ أَشْيَاءَهُمْ﴾، فاستكبر طغاتهم وهددوه بالرجم والإخراج من قريتهم واستهزؤوا به: ﴿أَصَلَاتُكَ تَأْمُرُكَ أَن نَّتْرُكَ مَا يَعْبُدُ آبَاؤُنَا﴾.",
+      ),
+      t(
+        "When Musa fled Egypt, he sought sanctuary in Midian, marrying Shu‘ayb’s pious daughter and tending his flocks for a decade. Meanwhile, the unrepentant people of Midian were struck down by an unbearable fiery cloud (*Yawm az-Zullah*), followed by a deafening seismic blast (*ar-rajfah*) that left them dead in their homes, while Shu‘ayb and the faithful were preserved.",
+        "Moïse, fuyant l’Égypte, trouva refuge chez lui, épousant sa fille vertueuse et gardant ses troupeaux durant dix ans. Pendant ce temps, le peuple impénitent fut anéanti par l’ombre d’un nuage de feu (*Yawm az-Zoullah*) suivi d’un séisme foudroyant, laissant Shu‘ayb et les croyants victorieux.",
+        "آوى إليه موسى حين فرّ من مصر وصاهره على إحدى ابنتيه ورعى له الغنم عشر سنين، فلما استمر قوم مدين في غيهم أخذهم عذاب يوم الظلة إنه كان عذاب يوم عظيم، ثم رجفت بهم الأرض فأصبحوا في دارهم جاثمين.",
+      ),
+    ],
     image: 'shuayb',
   },
   {
@@ -396,6 +882,47 @@ export const people: Person[] = [
       'كان فرعون يذبح أبناء بني إسرائيل، فألقت أم موسى ابنها في اليمّ، فنشأ في قصر فرعون نفسه. ثم كلّمه الله عند النار بطوى وأرسله مع هارون إلى فرعون، وبعد الآيات فلق الله البحر للمؤمنين وأغرق فرعون، وأُوتي موسى التوراة وقاد قومه في التيه.',
     ),
     verses: ['20:9-98', '28:3-46', '26:10-68', '7:103-162'],
+    topography: {
+      region: t("Ancient Egypt (Nile Delta) to Mount Sinai (Tur Sina), Midian, and The Wilderness (At-Teeh)", "Égypte Antique (Delta du Nil), Mont Sinaï (Tur Sina), Madian et le Désert d’At-Teeh", "مصر القديمة (دلتا النيل)، طور سيناء، مدين، وصحراء التيه"),
+      modernCountries: t("Egypt, Saudi Arabia, Jordan, Palestine", "Égypte, Arabie Saoudite, Jordanie, Palestine", "مصر، المملكة العربية السعودية، الأردن، فلسطين"),
+      mapCoordinates: { lat: 28.5392, lng: 33.975 },
+      missionRoute: t("From the royal palace of Pharaoh along the Nile, fleeing to Midian, receiving divine speech at Mount Sinai, parting the sea to liberate the Children of Israel, and wandering the Sinai wilderness to Mount Nebo.", "Du palais de Pharaon sur le Nil, fuite à Madian, révélation divine au mont Sinaï, ouverture de la mer pour libérer les Enfants d’Israël, et errance au Sinaï vers le mont Nébo.", "من قصر فرعون بمصر والفرار إلى مدين، ثم سماع كلام الله بطور سيناء، وفلق البحر ونجاة بني إسرائيل، والتيه في سيناء إلى مشارف الأرض المقدسة."),
+      burialSite: f('hadith', t("Buried beside the red sand dunes (Al-Kathib al-Ahmar) a stone’s throw from the Holy Land, as confirmed in Sahih al-Bukhari.", "Inhumé près de la dune de sable rouge (Al-Kathib al-Ahmar) à portée de jet de pierre de la Terre Sainte, confirmé dans Sahih al-Bukhari.", "دُفن عند الكثيب الأحمر على رمية حجر من الأرض المقدسة كما ثبت في حديث صحيح البخاري."), 'bukhari:3407'),
+      sacredSites: [
+        {
+          name: t("Mount Sinai (Jabal Musa / Tur Sina)", "Mont Sinaï (Jabal Moussa / Tour Sina)", "جبل موسى (طور سيناء)"),
+          type: 'mountain',
+          desc: t("The sacred mountain peak where Allah spoke directly to Musa (Kalimullah) and bestowed the Tablets of the Torah.", "La montagne sacrée où Allah s’adressa directement à Moïse (Kalimullah) et lui remit les Tables de la Loi.", "الجبل المقدس الشامخ في سيناء الذي كلّم الله عليه نبيه موسى تكليماً وأنزل عليه ألواح التوراة."),
+        },
+        {
+          name: t("The Sacred Valley of Tuwa", "La Vallée sacrée de Touwa", "الوادي المقدس طوى"),
+          type: 'valley',
+          desc: t("The blessed valley at the foot of Mount Sinai where Musa beheld the burning bush and was commanded to remove his sandals.", "La vallée bénie au pied du Sinaï où Moïse aperçut le Buisson ardent et ôta ses sandales.", "الوادي المبارك أسفل جبل الطور حيث آنس موسى ناراً ونودي: ﴿إِنِّي أَنَا رَبُّكَ فَاخْلَعْ نَعْلَيْكَ﴾."),
+        },
+        {
+          name: t("The Red Sea Crossing Point (Gulf of Suez)", "Lieu de passage de la Mer Rouge", "موضع فلق البحر الأحمر"),
+          type: 'sea',
+          desc: t("The coastal waters that split into towering walls of water like massive mountains upon the strike of Musa’s staff.", "Les eaux marines qui s’écartèrent en murailles géantes sous le coup du bâton de Moïse.", "موضع المعجزة العظمى حيث ضرب موسى البحر بعصاه فانفلق فكان كل فِرْق كالطود العظيم."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Musa (Kalimullah, the one with whom God spoke directly) was born during Pharaoh’s brutal decree commanding the slaughter of all newborn Hebrew males. Inspired by divine guidance, his mother placed infant Musa in an ark on the Nile, where Pharaoh’s own queen, Asiya, adopted him with loving affection, raising him within the royal palaces of Egypt.",
+        "Moïse (Kalimullah, l’interlocuteur de Dieu) naquit sous le décret impitoyable de Pharaon ordonnant l’égorgement des nouveau-nés hébreux. Inspirée par Dieu, sa mère le déposa dans un coffre sur le Nil : Asiya, l’épouse pieuse de Pharaon, le recueillit avec amour et l’éleva au sein du palais royal.",
+        "وُلد كليم الله موسى في عام ذبح البنين بمصر، فألقته أمه في اليم بأمر الله فألقاه النهر إلى ساحل قصر فرعون، والتقطته زوجة فرعون آسية وأحبته وقالت قرة عين لي ولك، فتربى في بيت الملك مكرماً.",
+      ),
+      t(
+        "After defending an oppressed Israelite and unintentionally killing an Egyptian, he fled across the Sinai wilderness to Midian, dwelling for ten years in the service of Prophet Shu‘ayb. Journeying back with his family, he beheld divine luminescence upon Mount Sinai and was addressed directly by Allah: \"Indeed, I am Allah. There is no deity except Me, so worship Me.\"",
+        "Après avoir secouru un Hébreu opprimé et causé involontairement la mort d’un Égyptien, il s’enfuit à Madian, servant le prophète Shu‘ayb durant dix ans. De retour avec sa famille, il vit une flamme sacrée sur le mont Sinaï où Allah lui parla directement.",
+        "خرج خائفاً يترقب إلى مدين فتزوج ومكث عشر سنين، ولما سار بأهله آنس من جانب الطور ناراً، فكلّمه الله تكليماً في الوادي المقدس طوى، وأيده بمعجزتي العصا التي تنقلب حية واليد البيضاء كالنور.",
+      ),
+      t(
+        "Armed with miracles—the staff that became a serpent and his hand radiating radiant white light—he confronted Pharaoh alongside his brother Harun. When Pharaoh pursued them to the sea, Musa struck the water, parting the sea into twelve paths of safety, drowning Pharaoh and his legions. Musa guided the Israelites through decades in the wilderness, receiving the Torah as guidance and light.",
+        "Armé de prodiges éblouissants, il défia la tyrannie de Pharaon aux côtés de son frère Aaron. Poursuivi jusqu’au rivage, il frappa les flots qui s’ouvrirent pour sauver les croyants et engloutir les oppresseurs. Il guida ensuite son peuple au désert et reçut la sainte Torah.",
+        "وقف بصلابة في وجه طغيان فرعون وملئه ودعاهم إلى الله، فلما تلاقى الجد بالبحر ضربه بعصاه فانفلق ونجى بنو إسرائيل وغرق فرعون وجنوده، وقاد أمته في سيناء وأُنزلت عليه التوراة فيها هدى ونور.",
+      ),
+    ],
     image: 'musa',
     heaven: 6,
     ululAzm: true,
@@ -420,6 +947,43 @@ export const people: Person[] = [
       'سأل موسى ربه أن يجعل أخاه هارون وزيرًا، فجعله الله نبيًّا، وذهبا معًا إلى فرعون. ولما فتن السامريّ القوم بالعجل في غياب موسى نهاهم هارون وخشي أن يفرّق بينهم.',
     ),
     verses: ['19:53', '20:29-36', '20:90-94', '28:34-35'],
+    topography: {
+      region: t("Ancient Egypt (Nile Valley) & The Sinai Wilderness to Mount Hor (Jabal Harun)", "Égypte Antique (Vallée du Nil), Désert du Sinaï et Mont Hor (Jabal Haroun)", "مصر القديمة (وادي النيل)، صحراء سيناء، وجبل هور (جبل هارون)"),
+      modernCountries: t("Egypt, Jordan", "Égypte, Jordanie", "مصر، الأردن"),
+      mapCoordinates: { lat: 30.3167, lng: 35.4056 },
+      missionRoute: t("Partnered with Musa in Egypt confronting Pharaoh, assisted in the Exodus across the Red Sea, and traveled to the mountains of Petra in Jordan.", "Aux côtés de Moïse en Égypte face à Pharaon, participant à l’Exode à travers la mer Rouge, terminant son parcours près de Pétra.", "رافق موسى في مصر لمناظرة فرعون وشهدا فلق البحر معاً، وسار في قيادة بني إسرائيل حتى توفاه الله بجبل هارون قرب البتراء."),
+      burialSite: f('tradition', t("Interred within the white-domed shrine atop Jabal Harun (Mount Hor) in Petra, Jordan.", "Inhumé dans le sanctuaire à dôme blanc au sommet de Jabal Haroun (Mont Hor) à Pétra en Jordanie.", "يقع ضريحه التاريخي ومقامه ذو القبة البيضاء في قمة جبل هارون المطل على مدينة البتراء في الأردن."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("Mount Hor (Jabal Harun)", "Mont Hor (Jabal Haroun)", "جبل هارون (قمة البتراء)"),
+          type: 'mountain',
+          desc: t("The highest peak in the Petra region of Jordan, honored for millennia as Aaron’s resting place.", "Le plus haut sommet de la région de Pétra en Jordanie, vénéré comme le tombeau d’Aaron.", "أعلى قمة جبلية في منطقة البتراء جنوب الأردن يعلوها مقام نبي الله هارون."),
+        },
+        {
+          name: t("The Royal Court of Pharaoh (Pi-Ramesses / Memphis)", "La cour royale de Pharaon", "بلاط قصر فرعون بمصر"),
+          type: 'city',
+          desc: t("The seat of ancient imperial power where Harun articulated divine demands alongside Musa.", "Le siège impérial où Aaron fit entendre avec force la parole divine aux côtés de Moïse.", "قصر الملك العظيم في مصر حيث جاهر هارون وموسى بالحق في وجه فرعون وملئه."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Harun was the elder brother of Musa, renowned for his gentle disposition, dignified presence, and exceptionally persuasive eloquence. When Musa was appointed prophet at Mount Sinai, he beseeched Allah to appoint Harun as his co-prophet and vizier: \"And appoint for me a minister from my family—Harun, my brother. Increase through him my strength and let him share my task.\"",
+        "Aaron, frère aîné de Moïse, était réputé pour sa douceur d’âme, sa dignité et son éloquence captivante. Quand Moïse reçut la prophétie au Sinaï, il implora Allah de lui adjoindre Aaron comme ministre : « Et assigne-moi un assistant de ma famille, Aaron mon frère, accrois par lui ma force et associe-le à ma mission ».",
+        "هارون عليه السلام هو الأخ الأكبر لموسى، كان فصيح اللسان، نقي السريرة، محبباً في قومه، سأل موسى ربه حين كلّمه أن يجعله وزيراً ونبياً معه: ﴿وَأَخِي هَارُونُ هُوَ أَفْصَحُ مِنِّي لِسَانًا فَأَرْسِلْهُ مَعِيَ رِدْءًا يُصَدِّقُنِي﴾ فأجاب الله سؤله.",
+      ),
+      t(
+        "Together, the brothers stood before Pharaoh’s imposing throne, presenting divine warnings with unfaltering courage. During the Exodus, Harun stood by Musa through every trial. When Musa ascended Mount Sinai for forty nights to receive the Torah, he entrusted Harun with safeguarding the spiritual fidelity of the Children of Israel.",
+        "Ensemble, les deux frères se dressèrent devant le trône de Pharaon pour délivrer le message divin. Lors de l’Exode, Aaron soutint fidèlement Moïse. Lorsque ce dernier monta sur le Sinaï quarante nuits durant, Aaron veilla sur la foi du peuple d’Israël.",
+        "شاركه الدعوة ومخاطبة فرعون والسحرة ومؤازرة المؤمنين في مصر حتى الخروج العظيم، واستخلفه موسى على بني إسرائيل حين ذهب لميقات ربه أربعين ليلة فقال: ﴿اخْلُفْنِي فِي قَوْمِي وَأَصْلِحْ وَلَا تَتَّبِعْ سَبِيلَ الْمُفْسِدِينَ﴾.",
+      ),
+      t(
+        "Faced with the deceit of As-Samiri, who fashioned a golden calf while Musa was away, Harun strenuously warned them against apostasy: \"O my people, you are only being tested by it, and indeed, your Lord is the Most Merciful, so follow me and obey my command.\" Beloved by his community, his soul was peacefully taken atop Mount Hor before the entrance into the Holy Land.",
+        "Confronté au piège du Samiri qui fabriqua un veau d’or en l’absence de Moïse, Aaron les mit en garde avec ferveur contre l’idolâtrie. Vénéré pour sa clémence et sa justice, son âme s’éteignit dans la paix sur le mont Hor avant l’entrée en Terre sainte.",
+        "حارب فتنة السامري والعجل وناصح قومه: ﴿يَا قَوْمِ إِنَّمَا فُتِنتُم بِهِ وَإِنَّ رَبَّكُمُ الرَّحْمَٰنُ فَاتَّبِعُونِي وَأَطِيعُوا أَمْرِي﴾، وتوفاه الله بسلام في التيه على قمة جبل هور وكان محبباً رحيماً ببني إسرائيل.",
+      ),
+    ],
+    image: 'harun',
     heaven: 5,
   },
   {
@@ -438,6 +1002,43 @@ export const people: Person[] = [
       'ذكر القرآن ذا الكفل مرتين: مع إسماعيل وإدريس في الصابرين، ومع اليسع في الأخيار، ولم يفصّل دعوته، واختُلف في هويته.',
     ),
     verses: ['21:85-86', '38:48'],
+    topography: {
+      region: t("Mesopotamia (Al-Kifl / Euphrates River Valley) & The Southern Levant", "Mésopotamie (Al-Kifl / Vallée de l’Euphrate) et le Levant méridional", "بلاد الرافدين (الكفل / وادي الفرات) وجنوب الشام"),
+      modernCountries: t("Iraq, Syria, Palestine", "Irak, Syrie, Palestine", "العراق، سوريا، فلسطين"),
+      mapCoordinates: { lat: 32.2244, lng: 44.3775 },
+      missionRoute: t("Centered along the Euphrates River basin between Babylon and Kufa, ministering justice, nighttime devotions, and covenants of spiritual leadership.", "Établi le long du bassin de l’Euphrate entre Babylone et Koufa, administrant la justice et les veilles de prière.", "قامت دعوته ورسالته على ضفاف نهر الفرات بين بابل والكوفة وفي ربوع الشام مقيماً للعدل والصيام."),
+      burialSite: f('tradition', t("Traditionally entombed in the historic town of Al-Kifl in the Babil Governorate of Iraq, or in Kifl Hares in Palestine.", "Traditionnellement inhumé dans la ville historique d’Al-Kifl dans la province de Babylone en Irak, ou à Kifl Hares en Palestine.", "يقع مقامه ومزاره التاريخي في بلدة الكفل بمحافظة بابل بالعراق على ضفاف الفرات، وقيل بكفل حارس في فلسطين."), 'book:qisas'),
+      sacredSites: [
+        {
+          name: t("The Shrine of Al-Kifl (Euphrates Valley)", "Le Sanctuaire d’Al-Kifl (Vallée de l’Euphrate)", "مقام ذي الكفل التاريخي (بابل)"),
+          type: 'tomb',
+          desc: t("Historic sanctuary in Iraq venerated across centuries, crowned by ancient Mesopotamian conical brickwork.", "Sanctuaire mésopotamien antique réputé pour sa coupole conique en briques.", "المعلم الأثري العريق ببلدة الكفل في العراق الذي تعلوه قبة مخروطية مسننة فريدة."),
+        },
+        {
+          name: t("The Banks of the Euphrates (Nahr al-Furat)", "Les rives de l’Euphrate", "ضفاف نهر الفرات"),
+          type: 'river',
+          desc: t("The fertile riverbanks where Dhul-Kifl judged cases with absolute impartiality throughout the heat of the day.", "Les berges fertiles où Dhoul-Kifl rendait la justice sans faillir sous les chaleurs du jour.", "الموضع النهري الخصيب الذي كان يقضي فيه بين الناس بالعدل ويفي فيه بكل عهد وميثاق."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Dhul-Kifl (often associated by classical commentators with Ezekiel or a righteous successor of Al-Yasa‘) earned his honorific title (\"He of the Covenant\") by taking upon himself solemn pledges of continuous daytime fasting, whole-night vigil prayers, and judging dispute cases with immaculate fairness without ever yielding to anger.",
+        "Dhoul-Kifl (souvent associé par les exégètes à Ézéchiel ou à un successeur vertueux d’Élisée) reçut son titre (« L’homme au garant ») pour avoir pris sur lui de jeûner tous les jours, prier toutes les nuits et rendre la justice sans jamais céder à la colère.",
+        "ذو الكفل عليه السلام عده المفسرون نبياً أو صديقاً باراً خلف اليسع، ولُقّب بذي الكفل لأنه تكفل لقومه بالصيام نهاراً والقيام ليلاً وأن يقضي بين الناس بالعدل ولا يغضب، فوفى بما تكفل به كله.",
+      ),
+      t(
+        "Satan attempted relentlessly to disrupt his devotion and provoke him to wrath, appearing repeatedly in disguise during his brief hours of midday rest with fabricated disputes. With boundless forbearance, Dhul-Kifl listened patiently, investigated every grievance, and upheld divine equity without losing his composure.",
+        "Satan tenta en vain de troubler ses prières et d’attiser sa colère, se présentant sous de faux traits durant ses rares instants de repos diurne pour lui soumettre des litiges imaginaires. Avec une patience infinie, Dhoul-Kifl rendit toujours la justice avec sérénité.",
+        "حاول إبليس بشتى الحيل أن يستفزه ويغضبه فكان يأتيه في وقت قيلولته وهو شيخ كبير يشكو خصومات باطلة، فكان يقابله بالصبر والرفق والعدل، حتى اعترف إبليس بعجزه عن إيقاعه في الغضب أو الإخلال بعهده.",
+      ),
+      t(
+        "The Qur’an immortalizes him among the foremost ranks of the faithful: \"And remember Ismail, Idris, and Dhul-Kifl; all were of the patient. And We admitted them into Our mercy. Indeed, they were of the righteous.\" He stands as a towering inspiration of disciplined duty and moral reliability.",
+        "Le Coran l’immortalise parmi les plus vertueux : « Et rappelle-toi Ismaïl, Idris et Dhoul-Kifl, tous étaient parmi les endurants. Nous les fîmes entrer en Notre miséricorde, car ils étaient parmi les justes ».",
+        "خلّد القرآن ذكره في عداد الصابرين الأخيار فقال: ﴿وَإِسْمَاعِيلَ وَإِدْرِيسَ وَذَا الْكِفْلِ كُلٌّ مِّنَ الصَّابِرِينَ * وَأَدْخَلْنَاهُمْ فِي رَحْمَتِنَا إِنَّهُم مِّنَ الصَّالِحِينَ﴾.",
+      ),
+    ],
+    image: 'dhulkifl',
   },
   {
     id: 'dawud',
@@ -467,6 +1068,42 @@ export const people: Person[] = [
       'قتل داود جالوت وهو جندي في جيش طالوت، فآتاه الله الملك والحكمة والزبور، وكانت الجبال والطير تؤوّب معه، وأُلين له الحديد، وحكم بين الناس بالعدل.',
     ),
     verses: ['2:249-251', '21:78-80', '34:10-11', '38:17-26'],
+    topography: {
+      region: t("The Holy Land (Al-Quds / Jerusalem, Bethlehem, Valley of Elah)", "La Terre Sainte (Al-Quds / Jérusalem, Bethléem, Vallée d’Elah)", "الأرض المقدسة (بيت المقدس / القدس، بيت لحم، وادي السنط)"),
+      modernCountries: t("Palestine", "Palestine", "فلسطين"),
+      mapCoordinates: { lat: 31.7719, lng: 35.2285 },
+      missionRoute: t("From the pastoral meadows of Bethlehem to the battlefield of the Valley of Elah, establishing his royal capital and prayer sanctuary in Jerusalem.", "Des pâturages de Bethléem au champ de bataille de la vallée d’Elah, fondant sa capitale et son sanctuaire de prière à Jérusalem.", "من مراعي بيت لحم وبطولات وادي السنط إلى تأسيس عاصمة مملكته ومحرابه المبارك ببيت المقدس."),
+      burialSite: f('tradition', t("Interred on Mount Zion in Jerusalem at the historic sanctuary of Nabi Dawud.", "Inhumé sur le mont Sion à Jérusalem au sanctuaire historique de Nabi Dawoud.", "يقع مقامه وضريحه التاريخي المعروف في جبل صهيون ببيت المقدس."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("The Mihrab of David (Al-Quds)", "Le Mihrab de David (Al-Quds)", "محراب داود في القدس"),
+          type: 'sanctuary',
+          desc: t("The secluded prayer citadel in Jerusalem where Dawud secluded himself in fasting, repentance, and recitation of the Psalms.", "La citadelle de prière à Jérusalem où David se retirait pour psalmodier les Psaumes et jeûner.", "المحراب الشريف في قلعة بيت المقدس الذي كان يتعبد فيه ويخر راكعاً ومسبحاً لربه."),
+        },
+        {
+          name: t("Valley of Elah (Wadi as-Sant)", "Vallée d’Elah (Wadi as-Sant)", "وادي السنط (ميدان جالوت)"),
+          type: 'valley',
+          desc: t("The battleground where young Dawud slung stones to fell the mighty armored giant Jalut (Goliath).", "Le champ de bataille où le jeune David terrassa le géant Jalout (Goliath) à l’aide de sa fronde.", "الوادي التاريخي الشهير الذي بارز فيه الفتى داود الطاغية جالوت فقتله بمقلاعه بإذن الله."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Dawud arose from the tribe of Judah as a young, courageous shepherd endowed with pure devotion. When King Talut (Saul) mobilized his army against the fearsome Philistine champion Jalut (Goliath), young Dawud stepped forward armed only with faith, a shepherd’s staff, and a sling, striking the tyrannical giant between the eyes and liberating his people.",
+        "David s’illustra dans sa jeunesse comme un berger intrépide de la tribu de Juda. Lorsque l’armée de Talout affronta le géant redoutable Jalout (Goliath), le jeune David s’avança armé de sa seule foi et d’une fronde, terrassant le tyran pour libérer son peuple.",
+        "برز داود عليه السلام في شبابه حين خرج مع جيش طالوت للقاء جالوت وجنوده، فبارز الشاب داود الطاغية الجبار جالوت فقتله بإذن الله، فآتاه الله الملك والحكمة وعلّمه مما يشاء.",
+      ),
+      t(
+        "Allah crowned him with kingship and prophetic revelation, bestowing upon him the Psalms (*Zabur*). Dawud was gifted a mesmerizing, celestial voice: when he chanted the praises of the Almighty, the wild mountains echoed back his hymns and flocks of migratory birds halted in mid-air to join his chorus. Iron was miraculously softened in his hands, allowing him to weave protective chainmail shirts.",
+        "Allah lui accorda la royauté et la prophétie en lui révélant les Psaumes (*Zabour*). Doté d’une voix céleste sublime, les montagnes faisaient écho à ses louanges et les oiseaux suspendaient leur vol pour glorifier Dieu avec lui. Le fer se ramollissait sous ses doigts pour façonner des cottes de mailles.",
+        "أُنزل عليه الزبور، وأوتي صوتاً لم يُؤت أحد مثله، فكان إذا سبّح وتغنى بآيات ربه سبّحت معه الجبال الرواسي وتجمعت الطير صافات تؤوب معه، وألان الله له الحديد فكان يصنع الدروع السابغات بيده دون نار.",
+      ),
+      t(
+        "A paragon of judicial justice and personal piety, he established the ideal model of worship: the Prophet Muhammad ﷺ praised the fast of Dawud (fasting alternate days) and his prayer (sleeping half the night, praying a third, and sleeping a sixth) as the most beloved to Allah, ruling an empire with humble submission to truth.",
+        "Souverain équitable et dévot exemplaire, il instaura le culte le plus aimé d’Allah : le jeûne d’un jour sur deux et la veille d’un tiers de la nuit, consacrant sa puissance à la justice sans jamais s’enorgueillir.",
+        "كان ملكاً عادلاً يقضي بالحق ويأكل من عمل يده، وأثنى النبي ﷺ على عبادته فكان أحب الصيام إلى الله صيام داود كان يصوم يوماً ويفطر يوماً، وأحب الصلاة صلاة داود ينام نصف الليل ويقوم ثلثه وينام سدسه.",
+      ),
+    ],
     image: 'dawud',
   },
   {
@@ -493,6 +1130,42 @@ export const people: Person[] = [
       'ورث سليمان داود في النبوة والملك، وحُشر له جنوده من الجن والإنس والطير، وأخبره الهدهد بملكة سبأ التي تسجد للشمس، فأُتي بعرشها، ولما دخلت الصرح الممرّد من قوارير أسلمت مع سليمان لله. ومات متكئًا على منسأته فما دلّ الجن على موته إلا دابة الأرض.',
     ),
     verses: ['27:15-44', '34:12-14', '38:30-40'],
+    topography: {
+      region: t("The Kingdom of Israel & Judah (Al-Quds / Jerusalem) extending to Sheba (Yemen)", "Le Royaume d’Israël et Juda (Al-Quds / Jérusalem) s’étendant jusqu’à Saba (Yémen)", "مملكة بيت المقدس وبلاد الشام وامتدادها إلى سبأ (اليمن)"),
+      modernCountries: t("Palestine, Jordan, Yemen", "Palestine, Jordanie, Yémen", "فلسطين، الأردن، اليمن"),
+      mapCoordinates: { lat: 31.778, lng: 35.2354 },
+      missionRoute: t("Governed his majestic global empire from the sanctuary of Bayt al-Maqdis in Jerusalem, sending expeditions southward to the Kingdom of Sheba.", "Dirigea son empire sans pareil depuis le sanctuaire de Bayt al-Maqdis à Jérusalem, envoyant ses messagers vers le royaume de Saba.", "أدار مملكته العظمى من صرح بيت المقدس وسخّر الريح والجن لتشييد المعالم، وتواصل مع ملكة سبأ باليمن."),
+      burialSite: f('tradition', t("Died leaning upon his staff within the sanctuary citadel of Bayt al-Maqdis in Jerusalem.", "S’éteignit appuyé sur son bâton dans l’enceinte sacrée de Bayt al-Maqdis à Jérusalem.", "توفي وهو متكئ على عصاه في محرابه بالمسجد الأقصى في بيت المقدس."), 'book:qisas'),
+      sacredSites: [
+        {
+          name: t("The Temple Sanctuary (Bayt al-Maqdis / Al-Aqsa)", "Le Sanctuaire de Bayt al-Maqdis", "المسجد الأقصى / بيت المقدس"),
+          type: 'sanctuary',
+          desc: t("The magnificent monumental sanctuary reconstructed by Sulayman through commanded human craftsmen and jinn artisans.", "L’édifice monumental somptueusement rénové par Salomon grâce aux artisans hommes et djinns.", "المسجد العظيم الذي جدّد بناءه سليمان مع الجن والإنس ودعا الله لمن صلّى فيه أن يغفر له ذنبه."),
+        },
+        {
+          name: t("The Valley of the Ants (Wadi an-Naml)", "La Vallée des Fourmis (Wadi an-Naml)", "وادي النمل"),
+          type: 'valley',
+          desc: t("The valley where Sulayman halted his grand multi-species army upon overhearing a small ant cautioning her colony.", "La vallée où Salomon arrêta sa formidable armée en entendant une fourmi avertir ses congénères.", "الوادي المبارك الذي سمع فيه سليمان نملة تحذر قومها فتبسم ضاحكاً من قولها وشكر نعمة ربه."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Sulayman inherited prophecy, judicial discernment, and royal dominion from his father Dawud. He petitioned Allah for a kingdom that none after him could rival, and his prayer was answered in unprecedented grandeur: the swift winds were subjugated to his travel commands, molten brass flowed like spring water, and legions of jinn, men, and birds marched under his standard.",
+        "Salomon hérita de la sagesse et de la royauté de son père David. Il implora Allah de lui octroyer un royaume sans égal : les vents lui furent assujettis pour le transporter en un éclair, le cuivre coula comme une source vive, et des légions de djinns, d’hommes et d’oiseaux obéirent à ses ordres.",
+        "ورث سليمان أباه داود في العلم والنبوة والملك، ودعا ربه: ﴿رَبِّ اغْفِرْ لِي وَهَبْ لِي مُلْكًا لَّا يَنبَغِي لِأَحَدٍ مِّن بَعْدِي﴾، فسخر الله له الريح تجري بأمره رخاءً حيث أصاب، وأسال له عين القطر، وسخر له الشياطين والجن كل بنّاء وغواص.",
+      ),
+      t(
+        "Endowed with the understanding of animal speech (*mantiq at-tayr*), he smiled in gratitude when overhearing a tiny ant alerting her colony to avoid the marching cavalry. When his scouting hoopoe reported that the wealthy Kingdom of Sheba worshiped the sun, Sulayman dispatched a letter beginning with the Basmalah, calling Queen Bilqis and her nobles to monotheism.",
+        "Comprenant le langage des oiseaux et des animaux, il sourit de gratitude en entendant une petite fourmi alerter sa colonie de l’arrivée de son armée. Informé par la huppe que la reine de Saba et son peuple adoraient le soleil, il lui envoya un message l’invitant à la soumission au Dieu Unique.",
+        "عُلّم منطق الطير والبهائم، فتبسم ضاحكاً من قول نملة: ﴿ادْخُلُوا مَسَاكِنَكُمْ لَا يَحْطِمَنَّكُمْ سُلَيْمَانُ وَجُنُودُهُ﴾، وحين أتاه الهدهد بنبأ مملكة سبأ وعبادتهم للشمس كتب لملكتهم بلقيس كتاباً كريماً يدعوهم فيه للإسلام.",
+      ),
+      t(
+        "Astounded by Sulayman’s majestic crystal palace and the miraculous transportation of her throne in the blink of an eye, Queen Bilqis surrendered her heart to Allah. Sulayman met his death while standing upright in prayer leaning on his wooden staff; the jinn labored on in dread, unaware of his passing until a tiny woodworm gnawed through his staff, demonstrating that unseen realms belong to Allah alone.",
+        "Éblouie par la magnificence de son palais de cristal et le transport instantané de son trône, la reine de Saba embrassa l’Islam. Salomon s’éteignit en prière, appuyé sur son sceptre : les djinns continuèrent leurs durs labeurs sans savoir qu’il était mort, jusqu’à ce qu’un ver ronge son bâton.",
+        "أسلمت معه ملكة سبأ حين رأت الصرح الممرّد من قوارير وإحضار عرشها بطرفة عين. وقبض الله روحه وهو قائم يصلي متكئاً على منسأته (عصاه)، فظلت الجن تعمل في العذاب المهين ظناً أنه حي، حتى أكلت دابة الأرض عصاه فخرّ، فتبينت الجن أنهم لو كانوا يعلمون الغيب ما لبثوا في العذاب المهين.",
+      ),
+    ],
     image: 'sulayman',
   },
   {
@@ -513,6 +1186,43 @@ export const people: Person[] = [
       'قال إلياس لقومه: أتدعون بعلًا وتذرون أحسن الخالقين؟ فكذبوه إلا عباد الله المخلصين، وسلّم الله عليه في القرآن.',
     ),
     verses: ['6:85', '37:123-132'],
+    topography: {
+      region: t("Baalbek (The Beqaa Valley, Lebanon) & Mount Carmel (Levant)", "Baalbek (Vallée de la Bekaa, Liban) et Mont Carmel (Levant)", "بعلبك (سهل البقاع، لبنان) وجبل الكرمل (بلاد الشام)"),
+      modernCountries: t("Lebanon, Syria, Palestine", "Liban, Syrie, Palestine", "لبنان، سوريا، فلسطين"),
+      mapCoordinates: { lat: 34.0058, lng: 36.2081 },
+      missionRoute: t("Preached in the Phoenician city of Baalbek against the worship of the idol Ba‘l, taking refuge among the caves of Mount Carmel.", "Prêcha dans la cité de Baalbek contre le culte de l’idole Ba‘l, trouvant refuge dans les grottes du mont Carmel.", "انطلق في دعوته بمدينة بعلبك اللبنانية محارباً عبادة صنم بَعْل، وتوارى في كهوف جبل الكرمل متعبداً."),
+      burialSite: f('tradition', t("Traditions vary: some place his tomb in Baalbek, while others record he was raised alive or taken into the heavens.", "Les traditions varient : certaines situent son tombeau à Baalbek, d’autres rapportent son élévation au ciel.", "تذكر الروايات مقامه ببعلبك، وذهب بعض المفسرين إلى أنه رُفع حياً كعيسى بن مريم."), 'book:qisas'),
+      sacredSites: [
+        {
+          name: t("Baalbek Citadel", "Citadelle de Baalbek", "أرض بعلبك القديمة"),
+          type: 'city',
+          desc: t("The ancient Phoenician-Roman city named for the golden idol Ba‘l that Ilyas campaigned against.", "La prestigieuse cité antique baptisée en l’honneur de l’idole Ba‘l que combattit Élie.", "المدينة التاريخية العريقة في البقاع التي كانت مرتعاً لعبادة الصنم بعل الذي أنكره إلياس."),
+        },
+        {
+          name: t("The Ridge of Mount Carmel (Jabal Mar Ilyas)", "La crête du Mont Carmel", "جبل الكرمل (جبل مار إلياس)"),
+          type: 'mountain',
+          desc: t("The green coastal promontory overlooking the Mediterranean where Ilyas secluded himself in prayer.", "Le promontoire côtier surplombant la Méditerranée où Élie se retirait pour invoquer Dieu.", "الجبل الساحلي الشامخ المطل على البحر المتوسط الذي أوى إليه إلياس متضرعاً لربه."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Ilyas (Elijah) was dispatched to the northern kingdom of Israel and the sun-drenched valley of Baalbek during a dark era when rulers and citizens abandoned the God of Abraham to worship the golden Phoenician fertility idol Ba‘l. Known for fiery zeal and austere devotion, he confronted royalty without hesitation.",
+        "Élie (Ilyas) fut envoyé au royaume d’Israël et dans la vallée de Baalbek à une époque sombre où le peuple délaissa le Dieu d’Abraham pour adorer l’idole phénicienne Ba‘l. Ardent défenseur du monothéisme, il défia les monarques idolâtres avec un courage indomptable.",
+        "بُعث إلياس عليه السلام إلى بني إسرائيل في بعلبك بغرب دمشق ولبنان حين فتنهم ملوكهم بعبادة صنم يُقال له بَعْل، فقام فيهم ناصحاً يصدع بالحق: ﴿أَتَدْعُونَ بَعْلًا وَتَذَرُونَ أَحْسَنَ الْخَالِقِينَ * اللَّهَ رَبَّكُمْ وَرَبَّ آبَائِكُمُ الْأَوَّلِينَ﴾.",
+      ),
+      t(
+        "He demanded that they reconsider: \"Do you call upon Ba‘l and leave the best of creators—Allah, your Lord and the Lord of your forefathers?\" In retribution for their violent rejection, drought struck the region for three consecutive years until rain was restored solely through Ilyas’s fervent intercession on Mount Carmel.",
+        "Il les somma de réfléchir : « Invoquez-vous Ba‘l et délaissez-vous le Meilleur des créateurs, Allah, votre Seigneur et le Seigneur de vos premiers ancêtres ? » Devant leur refus, une sécheresse de trois ans tarit les fleuves jusqu’à ce qu’Élie intercède pour la pluie.",
+        "كذبوه وتوعدوه بالقتل فهرب إلى كهوف الجبال، وحبس الله عنهم المطر ثلاث سنين حتى هلكت المواشي واشتد الجهد، ثم سأل الله لهم الغيث فأنزل عليهم المطر والرحمة بعد أن تابوا، لكنهم عادوا إلى ضلالهم.",
+      ),
+      t(
+        "Honored in the Qur’an with the divine salutation: \"Peace be upon Ilyasin! Indeed, thus do We reward the doers of good,\" he passed on his sacred prophetic mission to his faithful disciple Al-Yasa‘ before departing the earthly realm in spiritual glory.",
+        "Honoré dans le Coran par la bénédiction divine : « Paix sur Ilyasin ! C’est ainsi que Nous récompensons les bienfaisants », il transmit sa mission spirituelle à son disciple Élisée avant d’être élevé.",
+        "أثنى الله عليه في كتابه العزيز فقال: ﴿سَلَامٌ عَلَىٰ إِلْ يَاسِينَ * إِنَّا كَذَٰلِكَ نَجْزِي الْمُحْسِنِينَ * إِنَّهُ مِنْ عِبَادِنَا الْمُؤْمِنِينَ﴾، واستخلف على بني إسرائيل تلميذه الصالح اليسع عليه السلام.",
+      ),
+    ],
+    image: 'ilyas',
   },
   {
     id: 'alyasa',
@@ -531,6 +1241,43 @@ export const people: Person[] = [
       'ذكر القرآن اليسع في الأنبياء المهديين المفضّلين على العالمين، ومن الأخيار، وتذكر الرواية أنه خلف إلياس في بني إسرائيل.',
     ),
     verses: ['6:86-90', '38:48'],
+    topography: {
+      region: t("The Jordan River Valley & Northern Levant (Pella / Damascus)", "La vallée du Jourdain et le Levant septentrional (Pella / Damas)", "غور نهر الأردن وشمال الشام (بيسان / دمشق)"),
+      modernCountries: t("Jordan, Palestine, Syria", "Jordanie, Palestine, Syrie", "الأردن، فلسطين، سوريا"),
+      mapCoordinates: { lat: 32.4489, lng: 35.6144 },
+      missionRoute: t("Traveled through the verdant Jordan River springs and northern plains, maintaining the Torah covenants across Israeli communities.", "Parcourut les sources du Jourdain et les plaines du nord pour préserver l’alliance de la Torah parmi les Enfants d’Israël.", "طاف في سهول الأردن ووديانها والقدس معلماً لبني إسرائيل وداعياً للتمسك بشريعة التوراة."),
+      burialSite: f('tradition', t("Tradition mentions his tomb in Al-Awjam (Eastern Saudi Arabia) or in the village of Jasir near Damascus.", "La tradition mentionne son tombeau à Al-Awjam (Arabie orientale) ou dans le village de Jasir près de Damas.", "تذكر بعض الروايات مقامه في الأوجام بالمنطقة الشرقية، وقيل في ريف دمشق أو بنابلس."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("The Springs of the Jordan River Valley", "Les sources du Jourdain", "ينابيع غور الأردن"),
+          type: 'river',
+          desc: t("The lush waterways where Al-Yasa‘ traveled performing miraculous healings and guiding seekers.", "Les berges verdoyantes où Élisée accomplit des guérisons miraculeuses et guidait les fidèles.", "المجاري المائية المباركة التي كان يفيض فيها اليسع بالدعوة وتطهير المياه بإذن الله."),
+        },
+        {
+          name: t("Pella (Fahl / Jordan Valley)", "Pella (Fahl)", "طبقة فحل (الأردن)"),
+          type: 'city',
+          desc: t("Ancient Decapolis settlement in Jordan where early Israelite communities maintained prophetic traditions.", "Cité antique où les communautés bibliques perpétuaient les enseignements prophétiques.", "البلدة الأثرية القديمة في الأردن التي شهدت حلقات الهدى والدعوة الربانية."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Al-Yasa‘ (Elisha), son of Akhtub, was adopted as a spiritual disciple by Prophet Ilyas during his flights through the mountains. When Al-Yasa‘ fell severely ill in youth, Ilyas prayed over him until he was fully cured, mentoring him in divine knowledge and preparing him to carry the mantle of revelation.",
+        "Élisée (Al-Yasa‘), fils d’Akhtoub, devint le disciple spirituel d’Élie lors de ses pérégrinations. Tombé gravement malade dans sa jeunesse, Élie pria pour sa guérison complète et l’initia aux secrets de la Révélation divine pour lui succéder.",
+        "اليسع بن أخطوب صحب النبي إلياس في دعوته وتتلمذ على يديه بعد أن شفي من مرض عضال ببركة دعائه، فلازمه في حله وترحاله حتى أورثه الله النبوة بعد رفع إلياس.",
+      ),
+      t(
+        "Following Ilyas’s ascension, Al-Yasa‘ was commissioned to the Children of Israel. He confirmed the Mosaic Torah, resolved contentious civil disputes, and worked miraculous signs—restoring clean drinking water to barren cities, healing the sick, and increasing small vessels of oil by Allah’s leave.",
+        "Après le départ d’Élie, Élisée fut mandaté auprès des Enfants d’Israël. Il confirma la Torah, trancha les litiges, et accomplit des miracles : assainissant les eaux salées, guérissant les infirmes et multipliant l’huile des veuves par la grâce d’Allah.",
+        "قام في بني إسرائيل يجدد فيهم تعاليم التوراة ويصلح شأنهم، وأجرى الله على يديه كرامات ومعجزات في شفاء المرضى وبركة الطعام والماء، وقاد أمته بالحكمة والورع.",
+      ),
+      t(
+        "The Qur’an celebrates his rank among the chosen elite of all creation: \"And remember Ismail, Al-Yasa‘, and Dhul-Kifl; all were among the outstanding.\" His life embodied steadfast loyalty and luminous continuity of prophetic guidance.",
+        "Le Coran loue son rang parmi l’élite spirituelle de l’humanité : « Et rappelle-toi Ismaïl, Élisée et Dhoul-Kifl, tous étaient parmi les meilleurs ». Sa vie fut un modèle de loyauté et de dévotion inaltérable.",
+        "ذكره الله في القرآن بالثناء الجميل فقال: ﴿وَإِسْمَاعِيلَ وَالْيَسَعَ وَيُونُسَ وَلُوطًا وَكُلًّا فَضَّلْنَا عَلَى الْعَالَمِينَ﴾، وقال في سورة ص: ﴿وَاذْكُرْ إِسْمَاعِيلَ وَالْيَسَعَ وَذَا الْكِفْلِ وَكُلٌّ مِّنَ الْأَخْيَارِ﴾.",
+      ),
+    ],
+    image: 'alyasa',
   },
   {
     id: 'yunus',
@@ -555,6 +1302,42 @@ export const people: Person[] = [
       'خرج يونس من قومه مغاضبًا قبل أن يؤذن له، فركب الفلك المشحون، فساهم فكان من المُدحضين، فالتقمه الحوت، فنادى في الظلمات: لا إله إلا أنت سبحانك إني كنت من الظالمين، فنجّاه الله وأنبت عليه شجرة من يقطين، وآمن قومه.',
     ),
     verses: ['10:98', '21:87-88', '37:139-148', '68:48-50'],
+    topography: {
+      region: t("Nineveh (Mosul, Northern Mesopotamia) to the Mediterranean Sea and back", "Ninive (Mossoul, Haute-Mésopotamie) vers la Mer Méditerranée et retour", "نينوى (الموصل، شمال بلاد الرافدين) إلى البحر المتوسط والعودة"),
+      modernCountries: t("Iraq", "Irak", "العراق"),
+      mapCoordinates: { lat: 36.3587, lng: 43.1528 },
+      missionRoute: t("From the ancient Assyrian metropolis of Nineveh to the Mediterranean port of Jaffa, boarding a fateful ship, swallowed by the Great Fish, cast ashore, and returning to Nineveh.", "De la métropole assyrienne de Ninive au port méditerranéen de Jaffa, embarquant sur un navire, avalé par le Grand Poisson, rejeté sur le rivage puis retournant à Ninive.", "من عاصمة الآشوريين بنينوى إلى موانئ البحر، فركب السفينة فابتلعه الحوت ثم نبذ بالعراء، وعاد إلى نينوى مؤمناً."),
+      burialSite: f('tradition', t("Tradition marks his tomb atop the ancient mound of Tell Nabi Yunus within Mosul, Iraq.", "La tradition situe son tombeau sur la colline antique de Tell Nabi Younous à Mossoul en Irak.", "يقع مقامه التاريخي الشهير على تل التوبة (تل النبي يونس) في مدينة الموصل شمال العراق."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("Tell Nabi Yunus (Ancient Nineveh)", "Tell Nabi Younous (Ninive antique)", "تل النبي يونس (أطلال نينوى)"),
+          type: 'city',
+          desc: t("The sprawling Mesopotamian city of over one hundred thousand souls where Yunus’s community repented en masse.", "L’immense cité assyrienne de plus de cent mille habitants qui se repentit en bloc à son retour.", "المدينة العظيمة التي زاد أهلها على مائة ألف فآمنوا أجمعين بعد أن عاينوا بوادر العذاب."),
+        },
+        {
+          name: t("The Shore of the Gourd Tree (Ash-Shati’)", "Le Rivage de la Plante de Courge", "شاطئ شجرة اليقطين"),
+          type: 'sanctuary',
+          desc: t("The tranquil desolate shoreline where the Great Fish cast exhausted Yunus ashore and a shade-giving gourd plant sprouted over him.", "La berge déserte où le poisson recracha Jonas épuisé, ombragé par une courge providentielle.", "العراء المقفر الذي نبذه فيه الحوت وهو سقيم، فأنبت الله عليه شجرة من يقطين تظله وتشفيه."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Yunus (Jonah / Dhun-Nun) was appointed prophet to the populous Assyrian capital of Nineveh. For years, he urged its hundred thousand citizens to renounce idol worship and corruption. Meeting persistent rejection, he grew impatient and departed the city in anger, prematurely assuming his prophetic duty concluded without awaiting explicit divine command.",
+        "Jonas (Younous / Dhoun-Noun) fut envoyé à la turbulente métropole de Ninive. Durant des années, il conjura ses cent mille âmes d’abandonner les idoles. Devant leur entêtement, il quitta la cité avec colère, présumant hâtivement que sa mission était achevée sans attendre l’ordre divin.",
+        "بُعث يونس بن متى إلى أهل نينوى بالعراق وكانوا يزيدون على مائة ألف، فدعاهم إلى توحيد الله فكذبوه، فضاق ذرعاً بهم وخرج من بين أظهرهم غاضباً قبل أن يأذن الله له بالخروج، ظاناً أن الله لن يضيق عليه.",
+      ),
+      t(
+        "Boarding a crowded merchant ship, a sudden violent tempest threatened to sink the vessel. Lots were cast to determine who should be cast overboard, and each time the lot fell squarely on Yunus. Plunging into the dark sea, a massive whale swallowed him whole by divine decree, preserving him uninjured within three layers of suffocating darkness: the belly of the fish, the depths of the ocean, and the blackness of the night.",
+        "Embarquant sur un navire marchand pris dans une tempête furieuse, le sort désigna à trois reprises Jonas pour être jeté à la mer afin d’alléger le bâtiment. Englouti par un grand cétacé sur ordre divin, il demeura indemne dans les ténèbres triples : le ventre du poisson, les abysses marins et la nuit.",
+        "ركب الفلك المشحون فلجت بهم الأمواج فاقترعوا ليلقوا رجلاً يخفف الحمولة، فخرج سهمه ثلاث مرات، فألقى نفسه في البحر فالتقمه الحوت وهو مليم، فحُبس في ظلمات ثلاث: ظلمة بطن الحوت، وظلمة البحر، وظلمة الليل.",
+      ),
+      t(
+        "In the belly of the leviathan, Yunus uttered the immortal prayer of pure repentance: \"There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.\" Allah answered his plea, commanding the fish to cast him safely upon a barren shore. A gourd tree shaded him until his strength returned, after which he returned to Nineveh to find its entire population repented and living in faith.",
+        "Au fond des ténèbres, il formula l’invocation immortelle du repentir : « Pas de divinité à part Toi ! Pureté à Toi ! J’ai été parmi les injustes ! ». Allah l’exauça, ordonnant au poisson de le déposer sur le rivage. Une plante de courge lui donna ombre et guérison, puis il regagna Ninive dont tous les habitants s’étaient convertis.",
+        "سبّح في الظلمات ونادى: ﴿لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ﴾، فاستجاب الله له ونجاه من الغم، وأمر الحوت فنبذه بالعراء وهو سقيم، فأنبت عليه شجرة من يقطين، ثم عاد إلى قومه فوجدهم قد تابوا فآمنوا فمتعهم إلى حين.",
+      ),
+    ],
     image: 'yunus',
   },
   {
@@ -580,6 +1363,42 @@ export const people: Person[] = [
       'كلما دخل زكريا على مريم المحراب وجد عندها رزقًا، فقالت: هو من عند الله، فدعا ربه نداءً خفيًّا أن يهبه وليًّا مع كبره وعقر امرأته، فبشرته الملائكة بيحيى.',
     ),
     verses: ['3:37-41', '19:2-11', '21:89-90'],
+    topography: {
+      region: t("The Judean Hills & The Sanctuary of Jerusalem (Bayt al-Maqdis)", "Les collines de Judée et le Sanctuaire de Jérusalem (Bayt al-Maqdis)", "مرتفعات يهودا وحرم بيت المقدس (أرض فلسطين)"),
+      modernCountries: t("Palestine", "Palestine", "فلسطين"),
+      mapCoordinates: { lat: 31.7767, lng: 35.2345 },
+      missionRoute: t("Served as high priest and spiritual guardian within the holy courts and mihrab of the Al-Aqsa sanctuary in Jerusalem.", "Officiait comme grand prêtre et tuteur spirituel dans le sanctuaire sacré d’Al-Aqsa à Jérusalem.", "تولى الكهانة ورعاية المحراب الشريف وكفالة مريم العذراء في المسجد الأقصى ببيت المقدس."),
+      burialSite: f('tradition', t("Traditions venerate his resting place inside the Great Umayyad Mosque of Aleppo in Syria, or in the Kidron Valley of Jerusalem.", "Les traditions vénèrent sa sépulture dans la Grande Mosquée des Omeyyades d’Alep en Syrie, ou dans la vallée du Cédron à Jérusalem.", "تذكر الروايات ضريحه في الجامع الأموي الكبير بحلب في سوريا، وثمة مزار له في وادي قدرون بالقدس."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("The Sanctuary Mihrab of Al-Aqsa", "Le Mihrab d’Al-Aqsa", "محراب المسجد الأقصى"),
+          type: 'sanctuary',
+          desc: t("The secluded chamber where Zakariya guarded Maryam and where his quiet prayer for an heir was answered by angels.", "La chambre sainte où Zacharie veillait sur Marie et où les anges lui annoncèrent la naissance de Yahya.", "المقصورة الشريفة التي كان يتعبد فيها ويكفل مريم والتي نادته فيها الملائكة ببشارة يحيى وهو قائم يصلي."),
+        },
+        {
+          name: t("The Great Mosque of Aleppo", "Grande Mosquée d’Alep", "جامع زكريا بحلب"),
+          type: 'tomb',
+          desc: t("Historic Umayyad congregational mosque housing the revered shrine of Prophet Zakariya.", "Mosquée historique abritant le sanctuaire renommé du prophète Zacharie.", "المسجد الأموي التاريخي بحلب الذي يضم مقامه وضريحه الشهير."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Zakariya was a saintly priest and descendant of Dawud and Harun, dedicated to lifelong worship within the courts of Bayt al-Maqdis. When Maryam, daughter of Imran, was dedicated by her mother to divine service, lots were cast among the priests and Zakariya was chosen by divine decree to be her loving guardian and spiritual mentor.",
+        "Zacharie, vénérable prêtre descendant de David et Aaron, consacra sa vie au culte au sein de Bayt al-Maqdis. Lorsque Marie, fille d’Imran, fut vouée au service de Dieu par sa mère, le sort désigna Zacharie pour devenir son tuteur spirituel dévoué.",
+        "زكريا عليه السلام من ذرية داود وهارون، كان حبراً زاهداً وشيخاً صالحاً في محراب بيت المقدس، فلما نذرت امرأة عمران ما في بطنها محرراً كفل زكريا مريم ورباها على الطهر والعبادة بأمر الله.",
+      ),
+      t(
+        "Every time Zakariya entered Maryam’s sanctuary chamber, he discovered unseasonal winter fruits in summer and summer fruits in winter. Inquiring of their origin, Maryam answered: \"It is from Allah; indeed, Allah provides for whom He wills without measure.\" Inspired by this manifestation of absolute divine capability, the elderly, childless prophet whispered his own heartfelt prayer.",
+        "Chaque fois qu’il pénétrait dans la chambre de Marie, il y trouvait des fruits hors saison. À sa question, Marie répondait : « Cela vient d’Allah ; Allah comble qui Il veut sans compter ». Inspiré par ce miracle, le vieux prophète sans enfant formula alors sa propre prière silencieuse.",
+        "كلما دخل عليها المحراب وجد عندها رزقاً في غير أوانه، فقال يا مريم أنى لك هذا قالت هو من عند الله، فهنالك دعا زكريا ربه سراً ﴿رَبِّ إِنِّي وَهَنَ الْعَظْمُ مِنِّي وَاشْتَعَلَ الرَّأْسُ شَيْبًا﴾ وسأله ولياً يرث النبوة والهدى.",
+      ),
+      t(
+        "While standing in prayer in the mihrab, angels called to him with astonishing glad tidings: Allah granted him a son named Yahya—a name never previously bestowed upon any human. Zakariya asked for a sign, and his tongue was miraculously held from speaking to people for three days except through gestures, his heart overflowing in joyous glorification.",
+        "Tandis qu’il priait dans le sanctuaire, les anges lui apportèrent la nouvelle éclatante : Allah lui accordait un fils nommé Yahya, nom inédit dans l’histoire humaine. En guise de signe divin, sa langue fut retenue trois jours durant sauf pour glorifier Dieu.",
+        "فنادته الملائكة وهو قائم يصلي في المحراب أن الله يبشرك بيحيى مصدقاً بكلمة من الله وسيداً وحصوراً ونبياً من الصالحين، وجعل آيته ألا يكلم الناس ثلاثة أيام إلا رمزاً مع كثرة الذكر والتسبيح بالعشي والإبكار.",
+      ),
+    ],
     image: 'zakariya',
   },
   {
@@ -605,6 +1424,43 @@ export const people: Person[] = [
       'وُلد يحيى لزكريا على الكِبَر، وآتاه الله الحكم صبيًّا وحنانًا وزكاة، وكان برًّا بوالديه ولم يكن جبارًا عصيًّا، وصدّق بعيسى.',
     ),
     verses: ['3:38-39', '19:7-15'],
+    topography: {
+      region: t("The Judean Wilderness, The Jordan River Springs, and Damascus", "Le désert de Judée, les sources du Jourdain et Damas", "برية يهودا، ينابيع نهر الأردن، ودمشق"),
+      modernCountries: t("Palestine, Jordan, Syria", "Palestine, Jordanie, Syrie", "فلسطين، الأردن، سوريا"),
+      mapCoordinates: { lat: 33.5119, lng: 36.3067 },
+      missionRoute: t("Preached in the wilderness of the Jordan Valley, baptizing seekers in the river springs, and confronting royal decadence in Sebastia and Damascus.", "Prêcha dans le désert de la vallée du Jourdain, purifiant les fidèles dans les sources et dénonçant la corruption royale à Sébaste et Damas.", "دعا في برية الأردن وينابيعها معمداً للتائبين ومصدقاً بعيسى، وصدع بالحق أمام ملوك الرومان حتى استشهد."),
+      burialSite: f('tradition', t("His head is enshrined within the magnificent domed chapel inside the Great Umayyad Mosque in Damascus, Syria.", "Sa tête repose dans la chapelle sous coupole au cœur de la Grande Mosquée des Omeyyades à Damas.", "يقع مقامه وضريحه الشهير الحاوي لرأسه الشريف داخل الجامع الأموي الكبير في دمشق."), 'book:historians'),
+      sacredSites: [
+        {
+          name: t("The Umayyad Shrine of Yahya (Damascus)", "Sanctuaire de Yahya à la Mosquée des Omeyyades", "مقام النبي يحيى بالجامع الأموي"),
+          type: 'sanctuary',
+          desc: t("The revered green marble sanctuary chamber erected within the grand prayer hall of the Umayyad Mosque in Damascus.", "La somptueuse chapelle de marbre vert au centre de la salle de prière de la mosquée omeyyade.", "المقصورة الخضراء الرخامية العظيمة في قلب الجامع الأموي بدمشق المعظمة عبر العصور."),
+        },
+        {
+          name: t("The Jordan River Baptism Site (Al-Maghtas)", "Site du Baptême sur le Jourdain (Al-Maghtas)", "المغطس على نهر الأردن"),
+          type: 'river',
+          desc: t("The serene freshwater reeds along the Jordan River where Yahya immersed penitents and confirmed the messianic arrival of Isa.", "Les roseaux paisibles du Jourdain où Jean baptisait les repentants et confirma la mission de Jésus.", "ضفاف نهر الأردن التاريخية حيث كان يحيى يعظ الناس ويغسلهم بالتوبة ويبشر بكلمة الله عيسى."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Yahya (John the Baptist), granted to Zakariya in his father’s extreme old age, was endowed by Allah with unmatched purity and spiritual brilliance from infancy: \"And We gave him wisdom while yet a child.\" Chaste, ascetic, and deeply compassionate, he inhabited the wilderness, subsisting on wild herbs and weeping out of awe for the Divine.",
+        "Jean (Yahya), accordé à Zacharie dans son grand âge, reçut d’Allah une pureté et une sagesse prodigieuses dès l’enfance : « Et Nous lui donnâmes la sagesse dès l’enfance ». Ascète, chaste et profondément compatissant, il vivait dans la solitude du désert.",
+        "وُلد يحيى بكرامة إلهية خاصة، وآتاه الله الحكم صبياً، وحناناً من لدنه وزكاة وكان تقياً، وبراً بوالديه ولم يكن جباراً عصياً، عاش زاهداً في ملاذ الدنيا، يلبس الصوف ويأكل ورق الشجر خوفاً من الله وشوقاً إليه.",
+      ),
+      t(
+        "He was sent to confirm the revelation given to Musa and announce the impending arrival of the Messiah, Isa son of Maryam. Preaching along the Jordan River, he urged moral purification, drawing thousands to wash away their sins and prepare their souls for the Word of God.",
+        "Il avait pour mission de confirmer la Torah et de proclamer l’avènement imminent du Messie, Jésus fils de Marie. Prêchant sur les rives du Jourdain, il appelait à la purification morale et préparait les cœurs à recevoir la Parole divine.",
+        "بُعث مصدقاً بكلمة من الله (عيسى بن مريم)، فدعا بني إسرائيل إلى التوبة الصادقة والإنابة، وكان أول من آمن بعيسى وشدّ أزره ودعا الناس إلى اتباعه.",
+      ),
+      t(
+        "A fearless martyr for truth, Yahya openly denounced the tyrannical monarch Herod for his illicit incestuous marriage. Imprisoned and condemned at the instigation of an insolent court, his noble head was severed, earning the highest prophetic honor: \"And peace be upon him the day he was born, the day he dies, and the day he is raised alive.\"",
+        "Martyr intrépide de la vérité, il dénonça publiquement le mariage incestueux du monarque tyrannique Hérode. Emprisonné puis décapité pour avoir refusé de fléchir devant l’injustice, il fut couronné de paix par le Créateur le jour de sa naissance, de sa mort et de sa résurrection.",
+        "صدع بالحق ونهى ملك زمانه الظالم عن الزواج المحرم، فغضب الملك وأمر بسجنه ثم قتله ظلماً وقدم رأسه على طبق، ففاز بالشهادة العظمى ﴿وَسَلَامٌ عَلَيْهِ يَوْمَ وُلِدَ وَيَوْمَ يَمُوتُ وَيَوْمَ يُبْعَثُ حَيًّا﴾.",
+      ),
+    ],
+    image: 'yahya',
     heaven: 2,
   },
   {
@@ -669,6 +1525,47 @@ export const people: Person[] = [
       'وُلد عيسى من مريم بكلمة الله، وتكلم في المهد، ودعا بني إسرائيل إلى عبادة الله وحده، وأتى بالآيات بإذن الله، ولما مكروا لقتله رفعه الله إليه وما قتلوه، وسينزل قبل قيام الساعة.',
     ),
     verses: ['3:45-55', '5:110-118', '19:16-36', '4:157-159', '61:6'],
+    topography: {
+      region: t("The Hills of Galilee, Nazareth, Bethlehem (Bayt Lahm), and Jerusalem (Al-Quds)", "Les collines de Galilée, Nazareth, Bethléem (Bayt Lahm) et Jérusalem (Al-Quds)", "جبال الجليل، الناصرة، بيت لحم، والقدس الشريف"),
+      modernCountries: t("Palestine, Jordan, Syria", "Palestine, Jordanie, Syrie", "فلسطين، الأردن، سوريا"),
+      mapCoordinates: { lat: 31.7049, lng: 35.2078 },
+      missionRoute: t("From the birthplace in Bethlehem to the hills of Nazareth and Galilee, ministering to the multitudes in Jerusalem, and ascending to heaven from the Mount of Olives.", "Du lieu de naissance à Bethléem aux collines de Nazareth et de Galilée, enseignant les foules à Jérusalem, et s’élevant au ciel depuis le mont des Oliviers.", "من مهد ولادته ببيت لحم إلى الناصرة وجبال الجليل، ثم بيت المقدس، حتى رفعه الله إليه من جبل الزيتون."),
+      burialSite: f('quran', t("Raised alive into the celestial realm as attested in the Qur’an; hadith traditions state he will descend in Damascus at the End of Days and be buried in Madinah beside Muhammad ﷺ.", "Élevé vivant au ciel comme l’atteste le Coran ; les hadiths précisent qu’il descendra à Damas à la Fin des Temps et reposera à Médine auprès de Muhammad ﷺ.", "رفعه الله حياً إلى السماء بنص القرآن، وفي الحديث أنه ينزل آخر الزمان عند المنارة البيضاء بدمشق فيحكم بالعدل ويُدفن بالمدينة النبوية."), '4:157-158', 'muslim:2937'),
+      sacredSites: [
+        {
+          name: t("The Place of Nativity (Bayt Lahm / Bethlehem)", "Lieu de la Nativité (Bethléem)", "موضع الميلاد المبارك (بيت لحم)"),
+          type: 'city',
+          desc: t("The solitary palm trunk where the virgin Maryam gave birth to Isa under angelic comfort.", "Le palmier béni où Marie enfanta Jésus sous le réconfort angélique.", "الموضع المبارك عند جذع النخلة حيث ولدت مريم البتول عيسى عليه السلام."),
+        },
+        {
+          name: t("Mount of Olives (Jabal az-Zaytun)", "Mont des Oliviers (Jabal az-Zaytoun)", "جبل الزيتون (الطور بالقدس)"),
+          type: 'mountain',
+          desc: t("The olive-crested ridge overlooking Al-Aqsa from which Isa was elevated alive to the heavens.", "La colline plantée d’oliviers surplombant Al-Aqsa d’où Jésus fut élevé au ciel.", "الجبل المطل على المسجد الأقصى والقدس الذي رُفع منه المسيح عيسى إلى السماء."),
+        },
+        {
+          name: t("Sea of Galilee (Lake Tiberias)", "Mer de Galilée (Lac de Tibériade)", "بحيرة طبريا"),
+          type: 'sea',
+          desc: t("The tranquil freshwater lake where Isa gathered his faithful disciples (*Al-Hawariyyun*).", "Le lac où Jésus réunit ses apôtres dévoués (*Al-Hawariyyoun*).", "البحيرة العذبة في شمال فلسطين التي شهدت اجتماع الحواريين حول المسيح."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Isa (Jesus, the Messiah), Word of Allah and Spirit from Him, was conceived without a human father through the angelic breathing of Jibril into the chaste, secluded Maryam. Born beneath a fruiting palm tree in Bethlehem, he astounded the elders by speaking with miraculous eloquence while still in his mother’s cradle, proclaiming: \"Indeed, I am the servant of Allah. He has given me the Scripture and made me a prophet.\"",
+        "Jésus (Al-Masih), Parole d’Allah et Esprit émanant de Lui, fut conçu sans père humain par le Souffle transmis par Jibril à la sainte et virginale Marie. Né sous un palmier à Bethléem, il stupéfia les notables en parlant dès le berceau : « Je suis en vérité le serviteur d’Allah. Il m’a donné le Livre et m’a désigné prophète ».",
+        "عيسى المسيح كلمة الله ألقاها إلى مريم وروح منه، وُلد بمعجزة باهرة من غير أب، فنطق في المهد صبياً يبرئ أمه ويعلن عبوديته ورسالته: ﴿إِنِّي عَبْدُ اللَّهِ آتَانِيَ الْكِتَابَ وَجَعَلَنِي نَبِيًّا * وَجَعَلَنِي مُبَارَكًا أَيْنَ مَا كُنتُ﴾.",
+      ),
+      t(
+        "Endowed with the Gospel (*Injil*), Isa revitalized the spirit of Mosaic law, emphasizing inner purity, mercy, and detachment from worldly greed. Allah granted him stunning miracles: fashioning living birds from clay, healing the congenital blind and the leper, and raising the dead from their tombs by Allah’s leave. He announced the future coming of the final Messenger: \"A messenger to come after me, whose name is Ahmad.\"",
+        "Porteur de l’Évangile (*Injil*), Jésus raviva l’esprit de la Loi, prêchant la miséricorde et le détachement des vanités éphémères. Allah le soutint par des miracles inouïs : formant des oiseaux d’argile qui prenaient vie, guérissant l’aveugle-né et le lépreux, ressuscitant les morts par la permission divine, et annonçant la venue du sceau des prophètes, Ahmad.",
+        "أُنزل عليه الإنجيل هدى ونوراً، وأيّده الله بروح القدس فكان يخلق من الطين كهيئة الطير فينفخ فيه فيكون طيراً بإذن الله، ويبرئ الأكمه والأبرص ويحيي الموتى بإذن الله، وبشّر بالنبي الخاتم: ﴿وَمُبَشِّرًا بِرَسُولٍ يَأْتِي مِن بَعْدِي اسْمُهُ أَحْمَدُ﴾.",
+      ),
+      t(
+        "When conspirators plotted to crucify him, Allah foiled their design: \"They did not kill him, nor did they crucify him, but another was made to resemble him.\" Allah elevated Isa alive to the celestial spheres, where he resides until his prophesied return at the End of Days to defeat the Deceiver, restore universal justice, and rule by the Qur’an.",
+        "Quand les conspirateurs voulurent le crucifier, Allah déjoua leur complot : « Ils ne l’ont ni tué ni crucifié, mais ce ne fut qu’un faux semblant ». Allah l’éleva vivant auprès de Lui jusqu’à son retour prophétisé à la Fin des Temps pour faire triompher la justice et la foi pure.",
+        "مكر به أعداؤه ليقتلوه ويصلبوه، فأنجاه الله وشبّه لهم غيره ﴿وَمَا قَتَلُوهُ وَمَا صَلَبُوهُ وَلَٰكِن شُبِّهَ لَهُمْ ... بَل رَّفَعَهُ اللَّهُ إِلَيْهِ وَكَانَ اللَّهُ عَزِيزًا حَكِيمًا﴾، وينزل في آخر الزمان حكماً مقسطاً وإماماً عدلاً.",
+      ),
+    ],
     image: 'isa',
     heaven: 2,
     ululAzm: true,
@@ -704,6 +1601,52 @@ export const people: Person[] = [
       'وُلد محمد بن عبد الله بمكة يتيمًا وعُرف بالأمين، ونزل عليه الوحي أول مرة في غار حراء نحو الأربعين: اقرأ. دعا إلى الله ثلاث عشرة سنة بمكة، ثم هاجر إلى المدينة، وفُتحت مكة في نحو عشر سنين، وتوفي بالمدينة ابن ثلاث وستين، خاتمًا للنبيين.',
     ),
     verses: ['96:1-5', '17:1', '33:40', '21:107', '34:28', '48:29'],
+    topography: {
+      region: t("Al-Hijaz (Makkah Al-Mukarramah & Al-Madinah Al-Munawwarah)", "Le Hedjaz (La Mecque et Médine la Lumineuse)", "الحجاز (مكة المكرمة والمدينة المنورة)"),
+      modernCountries: t("Saudi Arabia", "Arabie Saoudite", "المملكة العربية السعودية"),
+      mapCoordinates: { lat: 24.4686, lng: 39.6108 },
+      missionRoute: t("Born in Makkah, receiving the first revelation in the Cave of Hira, migrating (Hijrah) across the desert to Madinah, the Night Journey (Isra & Mi‘raj) to Jerusalem and the Seven Heavens, and triumphant return to cleanse the Ka‘bah.", "Né à La Mecque, recevant la révélation dans la grotte de Hira, émigrant (Hégire) vers Médine, voyageant la nuit (Isra et Mi‘raj) vers Jérusalem et les Sept Cieux, et libérant la Ka‘bah de ses idoles.", "وُلد بمكة، وتلقى الوحي بغار حراء، وأُسري به إلى المسجد الأقصى وعُرج به إلى السماوات العلى، وهاجر إلى طيبة الطيبة، وفتح مكة مطهراً البيت الحرام."),
+      burialSite: f('hadith', t("Enshrined in the Sacred Chamber (Al-Hujrah ash-Sharifah) inside the Prophet’s Mosque (Al-Masjid an-Nabawi) in Madinah.", "Reposant dans la Noble Chambre (Al-Hujrah ash-Sharifah) au sein de la Mosquée du Prophète (Al-Masjid an-Nabawi) à Médine.", "مدفون في الحجرة النبوية الشريفة في الروضة المباركة بالمسجد النبوي الشريف في المدينة المنورة."), 'bukhari:1390'),
+      sacredSites: [
+        {
+          name: t("The Sacred Mosque & Ka‘bah (Al-Masjid al-Haram)", "La Sainte Mosquée et la Ka‘bah", "المسجد الحرام والكعبة المشرفة"),
+          type: 'sanctuary',
+          desc: t("The universal Qiblah of the Muslim Ummah, cleansed forever of idols upon the conquest of Makkah.", "La Qiblah universelle de l’Islam, purifiée pour toujours lors de la libération de La Mecque.", "قبلة المسلمين وأعظم بقعة على وجه الأرض، طهرها النبي ﷺ من الأصنام وأعادها لتوحيد إبراهيم."),
+        },
+        {
+          name: t("The Cave of Hira (Jabal an-Nour)", "La Grotte de Hira (Mont de la Lumière)", "غار حراء (جبل النور)"),
+          type: 'mountain',
+          desc: t("The secluded mountain cave overlooking Makkah where the Archangel Jibril descended with the first revelation: \"Iqra!\" (Read!).", "La grotte escarpée où descendit l’ange Jibril avec les premiers versets : « Lis ! ».", "الغار المبارك في أعلى جبل النور بمكة حيث هبط الوحي لأول مرة بالأمر الإلهي: ﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾."),
+        },
+        {
+          name: t("The Prophet’s Mosque & Rawdah (Al-Madinah)", "La Mosquée du Prophète et la Rawdah", "المسجد النبوي الشريف والروضة"),
+          type: 'sanctuary',
+          desc: t("The luminous mosque of the Prophet ﷺ in Madinah, containing the Rawdah described as a garden from the gardens of Paradise.", "La mosquée lumineuse de Médine abritant la Noble Rawdah, jardin du Paradis sur terre.", "مسجد رسول الله ﷺ بالمدينة وروضته الشريفة التي قال عنها: «ما بين بيتي ومنبري روضة من رياض الجنة»."),
+        },
+        {
+          name: t("The Cave of Thawr (Jabal Thawr)", "La Grotte de Thawr", "غار ثور"),
+          type: 'mountain',
+          desc: t("The mountain cave south of Makkah where the Prophet ﷺ and Abu Bakr took shelter during the historic Hijrah.", "La caverne où le Prophète ﷺ et Abou Bakr trouvèrent refuge durant la sainte Hégire.", "الغار الجبلي الذي مكث فيه النبي ﷺ وصاحبه أبو بكر الصديق ثلاث ليال في طريق الهجرة إلى المدينة."),
+        },
+      ],
+    },
+    biography: [
+      t(
+        "Muhammad ﷺ was born in Makkah in the Year of the Elephant into the noble clan of Banu Hashim. Reared as an orphan—his father Abdullah having died before his birth and his mother Aminah when he was six—he grew into manhood celebrated across the peninsula as *Al-Sadiq Al-Amin* (The Truthful and Trustworthy). At age forty, while engaged in spiritual contemplation in the Cave of Hira, the Archangel Jibril embraced him with the divine command: \"Read in the name of your Lord who created.\"",
+        "Muhammad ﷺ naquit à La Mecque en l’Année de l’Éléphant au sein du noble clan des Banou Hachim. Orphelin de père avant sa naissance et de mère à six ans, il grandit reconnu par tous comme *Al-Sadiq Al-Amin* (Le Véridique et Digne de confiance). À quarante ans, méditant dans la grotte de Hira, l’ange Jibril l’étreignit pour lui transmettre les premiers mots de la Révélation : « Lis au nom de ton Seigneur qui a créé ».",
+        "وُلد سيد الأولين والآخرين محمد ﷺ بمكة عام الفيل يتيماً، فكفله جده عبد المطلب ثم عمه أبو طالب، ونشأ معروفاً بالصادق الأمين، ولما بلغ الأربعين حُبب إليه الخلاء فكان يتعبد في غار حراء، حتى فجأه الحق ونزل عليه جبريل بآيات سورة العلق.",
+      ),
+      t(
+        "For thirteen arduous years in Makkah, he endured persecution, boycott, and ridicule, standing as a beacon of patience and summoning humanity to universal brotherhood and pure Tawhid. In the Year of Sorrow, Allah honored him with the Miraculous Night Journey (*Al-Isra*) to Al-Aqsa Mosque in Jerusalem, followed by his bodily ascension (*Al-Mi‘raj*) beyond the Lote Tree of the Utmost Boundary into the Divine Presence, where the five daily prayers were ordained.",
+        "Durant treize années d’épreuves à La Mecque, il endura persécutions et boycotte avec une patience sublime. Après l’Année de la Tristesse, Allah l’honora du Voyage Nocturne (*Al-Isra*) vers Jérusalem puis de l’Ascension (*Al-Mi‘raj*) à travers les sept cieux au-delà du Lotus de la Limite, où furent instituées les cinq prières quotidiennes.",
+        "قام يدعو إلى الله صابراً على أذى قريش وحصارهم ثلاث عشرة سنة، وأكرمه ربه برحلة الإسراء من المسجد الحرام إلى المسجد الأقصى، والمعراج إلى سدرة المنتهى والسماوات السبع حيث فُرضت الصلوات الخمس.",
+      ),
+      t(
+        "Undertaking the historic migration (*Hijrah*) to Madinah, he established the first commonwealth founded upon mutual brotherhood, justice, religious freedom, and human dignity. Entering Makkah in triumphant humility in the eighth year of the Hijrah, he smashed all 360 idols surrounding the Ka‘bah, forgiving his former persecutors. He departed this world having fulfilled the trust, leaving behind the timeless miracle of the Holy Qur’an and his Sunnah as an unquenchable light for all humankind.",
+        "Réalisant l’Hégire vers Médine, il fonda la première cité de fraternité, de liberté et de justice. Revenant pacifique et victorieux à La Mecque, il purifia la Ka‘bah de toutes ses idoles et proclama le pardon général. Il s’éteignit après avoir accompli sa sainte mission, léguant au monde le Coran et sa Sunnah comme guide éternel.",
+        "هاجر إلى المدينة المنورة فأسس دولة العدل والإخاء وميثاق الصحيفة، ثم فتح مكة فاتحاً متواضعاً فكسر الأصنام وعفا عن قريش قائلاً: «اذهبوا فأنتم الطلقاء»، وتوفاه الله بعد أن بلّغ الرسالة وأدّى الأمانة ونصح الأمة وتركها على المحجة البيضاء ليلها كنهارها لا يزيغ عنها إلا هالك.",
+      ),
+    ],
     image: 'muhammad',
     ululAzm: true,
   },

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Baby, Calendar, Heart, Maximize2, Minus, Plus, Sparkles, Users, X } from 'lucide-react'
+import { ArrowRight, Baby, Calendar, Compass, Heart, Maximize2, Minus, Plus, RotateCcw, Sparkles, Users, X } from 'lucide-react'
 import { useI18n } from '../i18n'
 import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions } from '../lib/layout'
 import { treeParent } from '../data/links'
@@ -221,41 +221,45 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
       >
         <svg width="100%" height="100%" role="group" aria-label={t('navTree')}>
           <defs>
-            <radialGradient id="orb-gold" cx="50%" cy="40%" r="60%">
-              <stop offset="0" stopColor="#fff8e3" />
-              <stop offset="0.45" stopColor="#f0cf86" />
+            <radialGradient id="orb-gold" cx="45%" cy="35%" r="65%">
+              <stop offset="0" stopColor="#ffffff" />
+              <stop offset="0.35" stopColor="#ffe699" />
+              <stop offset="0.75" stopColor="#d4a342" />
               <stop offset="1" stopColor="#8a6327" />
             </radialGradient>
-            <radialGradient id="orb-spouse" cx="50%" cy="40%" r="60%">
-              <stop offset="0" stopColor="#fff0f5" />
-              <stop offset="0.5" stopColor="#f4a7bb" />
-              <stop offset="1" stopColor="#7a2948" />
+            <radialGradient id="orb-spouse" cx="45%" cy="35%" r="65%">
+              <stop offset="0" stopColor="#ffffff" />
+              <stop offset="0.35" stopColor="#fbcfe8" />
+              <stop offset="0.75" stopColor="#f472b6" />
+              <stop offset="1" stopColor="#9d174d" />
             </radialGradient>
-            <radialGradient id="orb-child" cx="50%" cy="40%" r="60%">
-              <stop offset="0" stopColor="#e8f4fd" />
-              <stop offset="0.5" stopColor="#7ec8e3" />
-              <stop offset="1" stopColor="#1d5b79" />
+            <radialGradient id="orb-child" cx="45%" cy="35%" r="65%">
+              <stop offset="0" stopColor="#ffffff" />
+              <stop offset="0.35" stopColor="#bae6fd" />
+              <stop offset="0.75" stopColor="#38bdf8" />
+              <stop offset="1" stopColor="#0369a1" />
             </radialGradient>
-            <radialGradient id="orb-family" cx="50%" cy="40%" r="60%">
-              <stop offset="0" stopColor="#eef1ff" />
-              <stop offset="0.5" stopColor="#a9b5ec" />
-              <stop offset="1" stopColor="#3b4377" />
+            <radialGradient id="orb-family" cx="45%" cy="35%" r="65%">
+              <stop offset="0" stopColor="#ffffff" />
+              <stop offset="0.35" stopColor="#e0e7ff" />
+              <stop offset="0.75" stopColor="#818cf8" />
+              <stop offset="1" stopColor="#4338ca" />
             </radialGradient>
             <radialGradient id="halo-gold" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stopColor="rgb(233 198 123 / 0.55)" />
+              <stop offset="0" stopColor="rgb(233 198 123 / 0.65)" />
               <stop offset="1" stopColor="rgb(233 198 123 / 0)" />
             </radialGradient>
             <radialGradient id="halo-spouse" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stopColor="rgb(244 167 187 / 0.5)" />
-              <stop offset="1" stopColor="rgb(244 167 187 / 0)" />
+              <stop offset="0" stopColor="rgb(244 114 182 / 0.6)" />
+              <stop offset="1" stopColor="rgb(244 114 182 / 0)" />
             </radialGradient>
             <radialGradient id="halo-child" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stopColor="rgb(126 200 227 / 0.5)" />
-              <stop offset="1" stopColor="rgb(126 200 227 / 0)" />
+              <stop offset="0" stopColor="rgb(56 189 248 / 0.6)" />
+              <stop offset="1" stopColor="rgb(56 189 248 / 0)" />
             </radialGradient>
             <radialGradient id="halo-family" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stopColor="rgb(169 181 236 / 0.45)" />
-              <stop offset="1" stopColor="rgb(169 181 236 / 0)" />
+              <stop offset="0" stopColor="rgb(129 140 248 / 0.55)" />
+              <stop offset="1" stopColor="rgb(129 140 248 / 0)" />
             </radialGradient>
           </defs>
           <g
@@ -301,6 +305,16 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               const onPath = path.has(n.id)
               const dim = selected && !onPath
               const r = prophet ? (n.person.ululAzm ? 17 : 13) : spouse ? 11 : child ? 10 : 9
+              const dateLabel = (() => {
+                if (n.person.era) return pick(n.person.era.t)
+                if (n.person.dates) {
+                  const d = n.person.dates
+                  if (d.hijriBorn && d.hijriDied) return `${d.hijriBorn} – ${d.hijriDied}`
+                  if (d.gregorianBorn && d.gregorianDied) return `${d.gregorianBorn} – ${d.gregorianDied}`
+                  if (d.born?.t) return pick(d.born.t)
+                }
+                return null
+              })()
               return (
                 <g
                   key={n.id}
@@ -334,7 +348,13 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       className="orbit"
                     />
                   )}
-                  <circle r={r} fill={orbForKind(n.person.kind)} />
+                  <circle
+                    r={r}
+                    fill={orbForKind(n.person.kind)}
+                    stroke="#ffffff"
+                    strokeWidth={1.2}
+                    strokeOpacity={0.75}
+                  />
                   {n.person.ululAzm && (
                     <circle
                       r={r + 4}
@@ -369,6 +389,31 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     >
                       {pick(n.person.name)}
                     </text>
+                  )}
+                  {dateLabel && (
+                    <g transform={`translate(0, ${r + (lang !== 'ar' ? 62 : 46)})`}>
+                      <rect
+                        x="-62"
+                        y="-9"
+                        width="124"
+                        height="18"
+                        rx="9"
+                        fill="rgba(16, 12, 30, 0.85)"
+                        stroke={prophet ? 'rgba(233, 198, 123, 0.45)' : 'rgba(255, 255, 255, 0.2)'}
+                        strokeWidth="0.8"
+                      />
+                      <text
+                        y="3.5"
+                        textAnchor="middle"
+                        fontSize="9.5"
+                        fill={prophet ? '#f6e3b4' : '#cbd5e1'}
+                        fontFamily="Sora Variable, sans-serif"
+                        fontWeight={500}
+                        letterSpacing="0.2"
+                      >
+                        {dateLabel}
+                      </text>
+                    </g>
                   )}
                 </g>
               )
@@ -435,8 +480,17 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               )}
             </div>
 
-            {/* Zoom / Fit Controls */}
+            {/* Zoom / Fit Controls & Map View Toggle */}
             <div className="flex items-center gap-2">
+              <A
+                href="/map"
+                className="glass flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium text-gold hover:border-gold/50 hover:bg-gold/15 shadow-md transition-colors"
+                title={t('mapView')}
+              >
+                <Compass className="size-3.5" aria-hidden="true" />
+                <span className="hidden sm:inline">{t('mapView')}</span>
+              </A>
+
               {[
                 { f: 1.25, icon: Plus, label: t('zoomIn') },
                 { f: 0.8, icon: Minus, label: t('zoomOut') },
@@ -463,6 +517,19 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 title={t('fit')}
               >
                 <Maximize2 className="size-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setGlide(true)
+                  fit()
+                  setSelected(null)
+                }}
+                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                aria-label={t('resetView')}
+                title={t('resetView')}
+              >
+                <RotateCcw className="size-4" aria-hidden="true" />
               </button>
             </div>
           </div>

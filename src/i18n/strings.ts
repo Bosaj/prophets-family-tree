@@ -151,6 +151,20 @@ const en = {
   relDaughter: 'Daughter',
   viewKinship: 'Family kinship view',
   eventsCount: '{n} events',
+  topographyTitle: 'Sacred Topography & Geography',
+  region: 'Historical Region',
+  modernCountries: 'Modern Countries',
+  sacredSites: 'Sacred Sites & Terrain',
+  missionRoute: 'Mission & Migration Route',
+  burialSite: 'Burial Place / Tomb',
+  fullBiography: 'Detailed Scholarly Biography',
+  viewMap: 'Sacred Map',
+  mapKicker: 'Ancient Lands & Terrains',
+  mapTitle: 'Topography of the Prophets',
+  mapLead: 'Explore the historical lands, sacred mountains, and migration routes from Mesopotamia and the Nile to the Levant and Arabia.',
+  resetView: 'Reset view',
+  treeView: 'Family Tree',
+  mapView: 'Topography Map',
 }
 
 
@@ -301,6 +315,20 @@ const fr: Record<Key, string> = {
   relDaughter: 'Fille',
   viewKinship: 'Vue de parenté',
   eventsCount: '{n} événements',
+  topographyTitle: 'Topographie et géographie sacrées',
+  region: 'Région historique',
+  modernCountries: 'Pays actuels',
+  sacredSites: 'Sites sacrés et reliefs',
+  missionRoute: 'Itinéraire de mission et d’exil',
+  burialSite: 'Lieu d’inhumation / Tombeau',
+  fullBiography: 'Biographie savante détaillée',
+  viewMap: 'Carte sacrée',
+  mapKicker: 'Terres antiques et reliefs',
+  mapTitle: 'Topographie des Prophètes',
+  mapLead: 'Explorez les terres historiques, montagnes sacrées et routes d’émigration de la Mésopotamie et du Nil jusqu’au Levant et à l’Arabie.',
+  resetView: 'Réinitialiser la vue',
+  treeView: 'Arbre généalogique',
+  mapView: 'Carte topographique',
 }
 
 
@@ -449,6 +477,20 @@ const ar: Record<Key, string> = {
   relDaughter: 'ابنته',
   viewKinship: 'عرض القرابة والأسرة',
   eventsCount: '{n} محطات',
+  topographyTitle: 'الجغرافيا والتضاريس المقدسة',
+  region: 'المنطقة التاريخية',
+  modernCountries: 'البلدان المعاصرة',
+  sacredSites: 'المعالم والجبال والوديان',
+  missionRoute: 'مسار الدعوة والهجرة',
+  burialSite: 'المرقد أو مكان الدفن',
+  fullBiography: 'السيرة التفصيلية المستفيضة',
+  viewMap: 'الخريطة الجغرافية',
+  mapKicker: 'الأراضي التاريخية ومواطن الرسالات',
+  mapTitle: 'أطلس مسالك الأنبياء وتضاريسهم',
+  mapLead: 'استكشف مواطن الأنبياء ومسالكهم من بلاد الرافدين ووادي النيل إلى بلاد الشام وطور سيناء وجزيرة العرب.',
+  resetView: 'إعادة ضبط العرض',
+  treeView: 'شجرة الأنساب',
+  mapView: 'خريطة التضاريس',
 }
 
 

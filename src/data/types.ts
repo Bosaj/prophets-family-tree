@@ -53,6 +53,21 @@ export interface ParentInfo {
   fosterMother?: Fact
 }
 
+export interface SacredSite {
+  name: L3
+  type: 'mountain' | 'valley' | 'river' | 'city' | 'well' | 'sanctuary' | 'sea' | 'tomb'
+  desc?: L3
+}
+
+export interface Topography {
+  region: L3
+  modernCountries: L3
+  sacredSites?: SacredSite[]
+  missionRoute?: L3
+  burialSite?: Fact
+  mapCoordinates?: { lat: number; lng: number }
+}
+
 export interface Person {
   id: string
   kind: Kind
@@ -83,6 +98,8 @@ export interface Person {
   signs?: Fact[]
   notes?: Fact[]
   story: L3
+  biography?: L3[]
+  topography?: Topography
   /** Main Qur'an passages to read. */
   verses: Ref[]
   /** Scene image in /public/img (landscapes only — never a depiction of a person). */

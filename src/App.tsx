@@ -6,6 +6,7 @@ import { Starfield } from './components/Starfield'
 import { Header } from './components/Header'
 import { Home } from './components/Home'
 import { Tree } from './components/Tree'
+import { TopographyMap } from './components/TopographyMap'
 import { Timeline } from './components/Timeline'
 import { Person } from './components/Person'
 import { REPO, Sources } from './components/Sources'
@@ -53,6 +54,12 @@ export default function App() {
             <Tree key={route.focus ?? 'all'} focus={route.focus} />
           </div>
         )
+      case 'map':
+        return (
+          <div className="fixed inset-x-0 top-[6.5rem] bottom-0 sm:top-16">
+            <TopographyMap key={route.focus ?? 'all'} focus={route.focus} />
+          </div>
+        )
       case 'timeline':
         return <Timeline />
       case 'sources':
@@ -69,10 +76,10 @@ export default function App() {
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-gold focus:px-4 focus:py-2 focus:text-night">
         {t('skip')}
       </a>
-      <Starfield density={route.name === 'tree' ? 0.7 : 1} />
+      <Starfield density={route.name === 'tree' || route.name === 'map' ? 0.7 : 1} />
       <Header route={route} onSearch={() => setSearching(true)} />
       <main id="main">{page}</main>
-      {route.name !== 'tree' && (
+      {route.name !== 'tree' && route.name !== 'map' && (
         <footer className="border-t border-white/5">
           <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-10 text-center text-sm text-ink-3 sm:flex-row sm:justify-between sm:text-start">
             <div className="flex items-center gap-3">
