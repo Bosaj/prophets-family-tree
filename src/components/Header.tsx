@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Languages, Search } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Check, ChevronDown, Languages, Search } from 'lucide-react'
 import { useI18n } from '../i18n'
 import { LANG_NAMES } from '../i18n/strings'
 import type { Route } from '../lib/router'
@@ -9,12 +9,13 @@ import { Logo } from './Logo'
 
 const NAV = [
   { key: 'navTree', href: '/tree', route: 'tree' },
+  { key: 'mapView', href: '/map', route: 'map' },
   { key: 'navTimeline', href: '/timeline', route: 'timeline' },
   { key: 'navSources', href: '/sources', route: 'sources' },
 ] as const
 
 export function Header({ route, onSearch }: { route: Route; onSearch: () => void }) {
-  const { t, lang, setLang } = useI18n()
+  const { t, lang } = useI18n()
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 24)
@@ -54,21 +55,7 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
             <span className="sr-only md:not-sr-only">{t('search')}</span>
             <kbd aria-hidden="true" className="hidden rounded border border-white/15 px-1.5 text-[0.65rem] text-ink-3 md:inline">Ctrl K</kbd>
           </button>
-          <label className="relative flex h-10 items-center rounded-full border border-white/10 bg-white/5 ps-3 text-sm text-ink-2 hover:border-gold/40">
-            <Languages className="size-4" aria-hidden="true" />
-            <span className="sr-only">{t('language')}</span>
-            <select
-              value={lang}
-              onChange={(e) => setLang(e.target.value as Lang)}
-              className="h-full cursor-pointer appearance-none bg-transparent ps-2 pe-3 text-ink outline-none"
-            >
-              {(['ar', 'fr', 'en'] as Lang[]).map((l) => (
-                <option key={l} value={l} className="bg-night-2">
-                  {LANG_NAMES[l]}
-                </option>
-              ))}
-            </select>
-          </label>
+          <LanguageMenu />
         </div>
       </div>
       <nav aria-label="Main mobile" className="flex justify-center gap-1 border-t border-white/5 px-4 pb-2 sm:hidden">
@@ -86,3 +73,83 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
     </header>
   )
 }
+
+function LanguageMenu() {
+  const { lang, setLang, t } = useI18n()
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    if (open) {
+      document.addEventListener('mousedown', onDocClick)
+      document.addEventListener('keydown', onKey)
+    }
+    return () => {
+      document.removeEventListener('mousedown', onDocClick)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        aria-label={t('language')}
+        className="flex h-10 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 text-sm text-ink-2 transition-all hover:border-gold/50 hover:bg-white/10 hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold/40"
+      >
+        <Languages className="size-4 text-gold" aria-hidden="true" />
+        <span className="font-medium text-ink">{LANG_NAMES[lang]}</span>
+        <ChevronDown
+          className={`size-3.5 text-ink-3 transition-transform duration-200 ${open ? 'rotate-180 text-gold' : ''}`}
+          aria-hidden="true"
+        />
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          aria-label={t('language')}
+          className="absolute end-0 top-full mt-2 w-44 overflow-hidden rounded-2xl border border-gold/30 bg-night-surface/95 p-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-2xl z-50 animate-in fade-in zoom-in-95 duration-150"
+        >
+          {(['ar', 'fr', 'en'] as Lang[]).map((l) => {
+            const isSelected = l === lang
+            return (
+              <button
+                key={l}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                onClick={() => {
+                  setLang(l)
+                  setOpen(false)
+                }}
+                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-start text-sm transition-colors ${
+                  isSelected
+                    ? 'bg-gold/15 text-gold font-semibold'
+                    : 'text-ink-2 hover:bg-white/10 hover:text-ink'
+                }`}
+              >
+                <span className={l === 'ar' ? 'font-bold font-["Reem_Kufi_Variable",_serif] text-base' : ''}>
+                  {LANG_NAMES[l]}
+                </span>
+                {isSelected && <Check className="size-4 text-gold" aria-hidden="true" />}
+              </button>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+

@@ -6,12 +6,21 @@ import {
   BookOpen,
   Calendar,
   Check,
+  Compass,
+  Droplets,
   GitBranch,
+  Globe,
   Heart,
+  Landmark,
+  Map,
+  MapPin,
   Milestone,
+  Mountain,
+  Navigation,
   Share2,
   Sparkles,
   Users,
+  Waves,
 } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { Key } from '../i18n/strings'
@@ -111,6 +120,11 @@ export function Person({ id }: { id: string }) {
               <A href={hrefOf({ name: 'tree', focus: p.id })} className="btn btn-ghost">
                 <GitBranch className="size-4" aria-hidden="true" /> {t('navTree')}
               </A>
+              {p.topography && (
+                <A href={`/map?focus=${p.id}`} className="btn btn-ghost">
+                  <Compass className="size-4 text-gold" aria-hidden="true" /> {t('mapView')}
+                </A>
+              )}
               <button type="button" onClick={share} className="btn btn-ghost">
                 {copied ? <Check className="size-4" aria-hidden="true" /> : <Share2 className="size-4" aria-hidden="true" />}
                 {copied ? t('copied') : t('share')}
@@ -132,6 +146,27 @@ export function Person({ id }: { id: string }) {
           )}
         </section>
 
+        {/* scholarly biography */}
+        {p.biography && p.biography.length > 0 && (
+          <section aria-labelledby="biography-heading" className="glass mt-8 rounded-3xl p-6 sm:p-10">
+            <div className="flex items-center gap-2">
+              <BookOpen className="size-5 text-gold" aria-hidden="true" />
+              <h2 id="biography-heading" className="text-2xl font-semibold text-ink">
+                {t('fullBiography')}
+              </h2>
+            </div>
+            <div className="mt-6 space-y-6">
+              {p.biography.map((para, bIdx) => (
+                <div key={bIdx} className="relative ps-4 border-s-2 border-gold/40">
+                  <p className={`text-pretty text-ink-2 ${lang === 'ar' ? 'naskh text-xl leading-[2.2]' : 'text-base leading-relaxed sm:text-lg text-ink/90'}`}>
+                    {pick(para)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* facts */}
         <section aria-label={pick(p.name)} className="mt-6 grid gap-4 sm:grid-cols-2">
           {FACTS.map(({ key, label }) => {
@@ -145,6 +180,96 @@ export function Person({ id }: { id: string }) {
             )
           })}
         </section>
+
+        {/* sacred topography & geography */}
+        {p.topography && (
+          <section aria-labelledby="topography-heading" className="glass mt-8 rounded-3xl p-6 sm:p-8">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <h2 id="topography-heading" className="flex items-center gap-2 text-2xl font-semibold">
+                <MapPin className="size-5 text-gold" aria-hidden="true" />
+                {t('topographyTitle')}
+              </h2>
+              {p.topography.mapCoordinates && (
+                <A
+                  href={`/map?focus=${p.id}`}
+                  className="btn btn-ghost text-xs border border-gold/30 hover:bg-gold/15"
+                >
+                  <Compass className="size-3.5 text-gold" />
+                  <span>{t('viewMap')}</span>
+                  <span className="font-mono text-gold-2">({p.topography.mapCoordinates.lat.toFixed(2)}°N, {p.topography.mapCoordinates.lng.toFixed(2)}°E)</span>
+                </A>
+              )}
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {/* Historical Region */}
+              <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-4">
+                <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-gold uppercase">
+                  <Globe className="size-3.5" />
+                  <span>{t('region')}</span>
+                </div>
+                <p className="mt-2 text-base font-medium text-ink">{pick(p.topography.region)}</p>
+              </div>
+
+              {/* Modern Countries */}
+              <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-4">
+                <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-gold uppercase">
+                  <Map className="size-3.5" />
+                  <span>{t('modernCountries')}</span>
+                </div>
+                <p className="mt-2 text-base font-medium text-ink">{pick(p.topography.modernCountries)}</p>
+              </div>
+            </div>
+
+            {/* Mission & Migration Route */}
+            {p.topography.missionRoute && (
+              <div className="mt-4 rounded-2xl border border-white/5 bg-night-surface/60 p-4">
+                <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-gold uppercase">
+                  <Navigation className="size-3.5" />
+                  <span>{t('missionRoute')}</span>
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-ink-2 sm:text-base">{pick(p.topography.missionRoute)}</p>
+              </div>
+            )}
+
+            {/* Burial Place / Tomb */}
+            {p.topography.burialSite && (
+              <div className="mt-4 rounded-2xl border border-white/5 bg-night-surface/60 p-4">
+                <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-gold uppercase">
+                  <Landmark className="size-3.5" />
+                  <span>{t('burialSite')}</span>
+                </div>
+                <div className="mt-2">
+                  <FactText fact={p.topography.burialSite} />
+                </div>
+              </div>
+            )}
+
+            {/* Sacred Sites */}
+            {p.topography.sacredSites && p.topography.sacredSites.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-sm font-semibold tracking-wider text-ink-3 uppercase">{t('sacredSites')}</h3>
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {p.topography.sacredSites.map((site, sIdx) => {
+                    const SiteIcon = site.type === 'mountain' ? Mountain : site.type === 'river' || site.type === 'sea' ? Waves : site.type === 'well' ? Droplets : site.type === 'city' ? Landmark : Compass
+                    return (
+                      <div key={sIdx} className="rounded-2xl border border-white/5 bg-night-surface/40 p-4 hover:border-gold/30 transition-colors">
+                        <div className="flex items-center gap-2 text-gold">
+                          <SiteIcon className="size-4 shrink-0" />
+                          <span className="ar-name font-bold text-lg text-gold-2">{site.name.ar}</span>
+                          {lang !== 'ar' && <span className="text-sm text-ink font-medium">· {pick(site.name)}</span>}
+                        </div>
+                        {site.desc && (
+                          <p className="mt-2 text-xs leading-relaxed text-ink-3 sm:text-sm">{pick(site.desc)}</p>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
 
         {/* chronology & dates */}
         {p.dates && (p.dates.born || p.dates.died || p.dates.hijriBorn || p.dates.hijriDied || p.dates.gregorianBorn || p.dates.gregorianDied) && (

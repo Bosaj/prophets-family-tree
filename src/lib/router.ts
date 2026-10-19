@@ -3,6 +3,7 @@ import { useSyncExternalStore } from 'react'
 export type Route =
   | { name: 'home' }
   | { name: 'tree'; focus?: string }
+  | { name: 'map'; focus?: string }
   | { name: 'timeline' }
   | { name: 'sources' }
   | { name: 'person'; id: string }
@@ -14,6 +15,10 @@ export function parsePath(path: string, search = ''): Route {
   if (p === '/tree') {
     const focus = new URLSearchParams(search).get('focus') ?? undefined
     return focus ? { name: 'tree', focus } : { name: 'tree' }
+  }
+  if (p === '/map') {
+    const focus = new URLSearchParams(search).get('focus') ?? undefined
+    return focus ? { name: 'map', focus } : { name: 'map' }
   }
   if (p === '/timeline') return { name: 'timeline' }
   if (p === '/sources') return { name: 'sources' }
@@ -28,6 +33,8 @@ export const hrefOf = (r: Route): string => {
       return '/'
     case 'tree':
       return r.focus ? `/tree?focus=${r.focus}` : '/tree'
+    case 'map':
+      return r.focus ? `/map?focus=${r.focus}` : '/map'
     case 'timeline':
       return '/timeline'
     case 'sources':
