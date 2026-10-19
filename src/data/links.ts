@@ -19,20 +19,34 @@ const ISRAEL = t(
 )
 
 /**
- * Relationships. The first incoming parent/descendant/nephew/maybe-parent link of each person
+ * Relationships. The first incoming parent/descendant/nephew/maybe-parent/spouse/child link of each person
  * is the one used to draw the tree; sibling, cousin and guardian links are drawn as arcs.
  */
 export const links: Link[] = [
+  // Adam's household
   { from: 'adam', to: 'shith', type: 'parent', l: 'tradition', r: ['book:qisas'] },
+  { from: 'adam', to: 'hawwa', type: 'spouse', l: 'hadith', r: ['bukhari:3330'] },
+  { from: 'adam', to: 'qabil', type: 'child', l: 'quran', r: ['5:27-31'] },
+  { from: 'adam', to: 'habil', type: 'child', l: 'quran', r: ['5:27-31'] },
   { from: 'shith', to: 'idris', type: 'descendant', l: 'tradition', r: ['book:qisas'], note: GENERATIONS },
   { from: 'idris', to: 'nuh', type: 'descendant', l: 'tradition', r: ['book:qisas', '19:58'], note: GENERATIONS },
+
+  // Nuh's lineage and sons
   { from: 'nuh', to: 'hud', type: 'descendant', l: 'tradition', r: ['37:77', '7:69'], note: AFTER_FLOOD },
   { from: 'nuh', to: 'salih', type: 'descendant', l: 'tradition', r: ['37:77'], note: AFTER_FLOOD },
+  { from: 'nuh', to: 'sam', type: 'child', l: 'tradition', r: ['book:qisas'] },
+  { from: 'nuh', to: 'ham', type: 'child', l: 'tradition', r: ['book:qisas'] },
+  { from: 'nuh', to: 'yafith', type: 'child', l: 'tradition', r: ['book:qisas'] },
+  { from: 'nuh', to: 'yam', type: 'child', l: 'quran', r: ['11:42-43'] },
   { from: 'nuh', to: 'azar', type: 'descendant', l: 'tradition', r: ['37:77', '19:58'], note: AFTER_FLOOD },
+
+  // Ibrahim's household & descendants
   {
     from: 'azar', to: 'ibrahim', type: 'parent', l: 'quran', r: ['6:74'],
     note: t('The Qur’an calls Azar his father; some scholars say Azar was his uncle.', 'Le Coran appelle Azar son père ; certains savants disent qu’Azar était son oncle.', 'سمّاه القرآن أباه، وقال بعض العلماء إنه عمّه.'),
   },
+  { from: 'ibrahim', to: 'sarah', type: 'spouse', l: 'hadith', r: ['bukhari:3358'] },
+  { from: 'ibrahim', to: 'hajar', type: 'spouse', l: 'hadith', r: ['bukhari:3364'] },
   { from: 'ibrahim', to: 'ismail', type: 'parent', l: 'quran', r: ['14:39'] },
   { from: 'ibrahim', to: 'ishaq', type: 'parent', l: 'quran', r: ['14:39', '11:71'] },
   {
@@ -47,6 +61,8 @@ export const links: Link[] = [
     from: 'ismail', to: 'muhammad', type: 'descendant', l: 'hadith', r: ['muslim:2276'],
     note: t('Through Kinanah, Quraysh and Banu Hashim.', 'Par Kinana, Quraysh et Banu Hachim.', 'من كنانة ثم قريش ثم بني هاشم.'),
   },
+
+  // Ishaq and Yaqub's family
   { from: 'ishaq', to: 'yaqub', type: 'parent', l: 'quran', r: ['11:71', '21:72'] },
   {
     from: 'ishaq', to: 'ayyub', type: 'descendant', l: 'tradition', r: ['6:84', 'book:qisas'],
@@ -57,7 +73,11 @@ export const links: Link[] = [
     note: t('Some say Dhul-Kifl was a son of Ayyub; his identity is debated.', 'Certains disent que Dhul-Kifl était un fils d’Ayyub ; son identité est débattue.', 'قيل إن ذا الكفل ابن أيوب، واختُلف في هويته.'),
   },
   { from: 'yaqub', to: 'yusuf', type: 'parent', l: 'quran', r: ['12:4', '12:38'] },
+  { from: 'yaqub', to: 'binyamin', type: 'child', l: 'quran', r: ['12:59'] },
+
+  // Bani Israel prophets
   { from: 'yaqub', to: 'musa', type: 'descendant', l: 'tradition', r: ['book:qisas'], note: ISRAEL },
+  { from: 'musa', to: 'safura', type: 'spouse', l: 'quran', r: ['28:27-28'] },
   { from: 'yaqub', to: 'harun', type: 'descendant', l: 'tradition', r: ['book:qisas'], note: ISRAEL },
   { from: 'yaqub', to: 'dawud', type: 'descendant', l: 'tradition', r: ['6:84', 'book:qisas'], note: ISRAEL },
   { from: 'dawud', to: 'sulayman', type: 'parent', l: 'quran', r: ['27:16', '38:30'] },
@@ -72,6 +92,13 @@ export const links: Link[] = [
     from: 'maryam', to: 'isa', type: 'parent', l: 'quran', r: ['19:22-34', '3:45'],
     note: t('Born to Maryam without a father (3:47).', 'Né de Maryam sans père (3:47).', 'وُلد من مريم بلا أب (3:47).'),
   },
+
+  // Muhammad ﷺ's household
+  { from: 'muhammad', to: 'khadijah', type: 'spouse', l: 'hadith', r: ['bukhari:3818'] },
+  { from: 'muhammad', to: 'aisha', type: 'spouse', l: 'hadith', r: ['bukhari:3818'] },
+  { from: 'muhammad', to: 'fatimah', type: 'child', l: 'hadith', r: ['bukhari:3714'] },
+
+  // Arcs & lateral relations
   { from: 'musa', to: 'harun', type: 'sibling', l: 'quran', r: ['20:29-30', '19:53'] },
   { from: 'yahya', to: 'isa', type: 'cousin', l: 'hadith', r: ['bukhari:3430'] },
   { from: 'zakariya', to: 'maryam', type: 'guardian', l: 'quran', r: ['3:37'] },

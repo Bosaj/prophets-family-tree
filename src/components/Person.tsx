@@ -1,5 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
-import { ArrowLeft, ArrowRight, BookOpen, Check, GitBranch, Share2, Sparkles } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowRight,
+  Baby,
+  BookOpen,
+  Calendar,
+  Check,
+  GitBranch,
+  Heart,
+  Milestone,
+  Share2,
+  Sparkles,
+  Users,
+} from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { Key } from '../i18n/strings'
 import { byId, people } from '../data/people'
@@ -132,6 +145,235 @@ export function Person({ id }: { id: string }) {
             )
           })}
         </section>
+
+        {/* chronology & dates */}
+        {p.dates && (p.dates.born || p.dates.died || p.dates.hijriBorn || p.dates.hijriDied || p.dates.gregorianBorn || p.dates.gregorianDied) && (
+          <section aria-labelledby="dates-heading" className="glass mt-8 rounded-3xl p-6 sm:p-8">
+            <h2 id="dates-heading" className="flex items-center gap-2 text-2xl font-semibold">
+              <Calendar className="size-5 text-gold" aria-hidden="true" />
+              {t('dates')}
+            </h2>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              {(p.dates.born || p.dates.hijriBorn || p.dates.gregorianBorn) && (
+                <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-4">
+                  <span className="text-xs font-semibold tracking-wider text-gold uppercase">
+                    {t('born')}
+                  </span>
+                  <div className="mt-2 space-y-1.5">
+                    {p.dates.hijriBorn && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-ink-3">{t('timelineHijri')}</span>
+                        <span className="font-mono font-medium text-ink">{p.dates.hijriBorn}</span>
+                      </div>
+                    )}
+                    {p.dates.gregorianBorn && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-ink-3">{t('timelineGregorian')}</span>
+                        <span className="font-mono font-medium text-ink">{p.dates.gregorianBorn}</span>
+                      </div>
+                    )}
+                    {p.dates.born && (
+                      <div className="mt-2">
+                        <FactText fact={p.dates.born} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              {(p.dates.died || p.dates.hijriDied || p.dates.gregorianDied) && (
+                <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-4">
+                  <span className="text-xs font-semibold tracking-wider text-gold uppercase">
+                    {t('died')}
+                  </span>
+                  <div className="mt-2 space-y-1.5">
+                    {p.dates.hijriDied && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-ink-3">{t('timelineHijri')}</span>
+                        <span className="font-mono font-medium text-ink">{p.dates.hijriDied}</span>
+                      </div>
+                    )}
+                    {p.dates.gregorianDied && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-ink-3">{t('timelineGregorian')}</span>
+                        <span className="font-mono font-medium text-ink">{p.dates.gregorianDied}</span>
+                      </div>
+                    )}
+                    {p.dates.died && (
+                      <div className="mt-2">
+                        <FactText fact={p.dates.died} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* major life events */}
+        {p.events && p.events.length > 0 && (
+          <section aria-labelledby="events-heading" className="mt-12">
+            <h2 id="events-heading" className="flex items-center gap-2 text-2xl font-semibold">
+              <Milestone className="size-5 text-gold" aria-hidden="true" />
+              {t('lifeEvents')}
+            </h2>
+            <div className="relative mt-8 space-y-8 border-s-2 border-gold/25 ps-6 ms-3">
+              {p.events.map((ev) => (
+                <div key={ev.id} className="group relative">
+                  <span className="absolute -start-[31px] top-1.5 size-3.5 rounded-full border-2 border-night bg-gold shadow-[0_0_12px_rgba(233,198,123,0.8)]" aria-hidden="true" />
+                  <div className="glass rounded-3xl p-6 transition-colors hover:border-gold/40">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {ev.yearHijri && (
+                        <span className="rounded-full bg-gold/15 px-2.5 py-0.5 font-mono text-xs font-semibold text-gold">
+                          {ev.yearHijri}
+                        </span>
+                      )}
+                      {ev.yearBceCe && (
+                        <span className="rounded-full bg-white/5 px-2.5 py-0.5 font-mono text-xs text-ink-3">
+                          {ev.yearBceCe}
+                        </span>
+                      )}
+                      {ev.era && (
+                        <span className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-ink-3">
+                          {pick(ev.era)}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="mt-3 text-lg font-semibold text-ink sm:text-xl">
+                      <span className="ar-name gold-text me-2">{ev.title.ar}</span>
+                      {lang !== 'ar' && <span>· {pick(ev.title)}</span>}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-2 sm:text-base">
+                      {pick(ev.desc)}
+                    </p>
+                    {ev.refs && (
+                      <div className="mt-3">
+                        <Refs refs={ev.refs} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* parents */}
+        {p.parents && (p.parents.father || p.parents.mother || p.parents.fosterMother) && (
+          <section aria-labelledby="parents-heading" className="mt-12">
+            <h2 id="parents-heading" className="flex items-center gap-2 text-2xl font-semibold">
+              <Users className="size-5 text-gold" aria-hidden="true" />
+              {t('father')} & {t('mother')}
+            </h2>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {p.parents.father && (
+                <div className="glass rounded-3xl p-5">
+                  <span className="text-xs font-semibold tracking-wider text-ink-3 uppercase">{t('father')}</span>
+                  <div className="mt-2">
+                    <p className="ar-name gold-text text-2xl font-bold">{p.parents.father.t.ar}</p>
+                    <p className="text-sm text-ink">{pick(p.parents.father.t)}</p>
+                  </div>
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <LevelChip level={p.parents.father.l} />
+                    {p.parents.father.r && <Refs refs={p.parents.father.r} />}
+                  </div>
+                </div>
+              )}
+              {p.parents.mother && (
+                <div className="glass rounded-3xl p-5">
+                  <span className="text-xs font-semibold tracking-wider text-ink-3 uppercase">{t('mother')}</span>
+                  <div className="mt-2">
+                    <p className="ar-name gold-text text-2xl font-bold">{p.parents.mother.t.ar}</p>
+                    <p className="text-sm text-ink">{pick(p.parents.mother.t)}</p>
+                  </div>
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <LevelChip level={p.parents.mother.l} />
+                    {p.parents.mother.r && <Refs refs={p.parents.mother.r} />}
+                  </div>
+                </div>
+              )}
+              {p.parents.fosterMother && (
+                <div className="glass rounded-3xl p-5">
+                  <span className="text-xs font-semibold tracking-wider text-ink-3 uppercase">{t('fosterMother')}</span>
+                  <div className="mt-2">
+                    <p className="ar-name gold-text text-2xl font-bold">{p.parents.fosterMother.t.ar}</p>
+                    <p className="text-sm text-ink">{pick(p.parents.fosterMother.t)}</p>
+                  </div>
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <LevelChip level={p.parents.fosterMother.l} />
+                    {p.parents.fosterMother.r && <Refs refs={p.parents.fosterMother.r} />}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* spouses */}
+        {p.spouses && p.spouses.length > 0 && (
+          <section aria-labelledby="spouses-heading" className="mt-12">
+            <h2 id="spouses-heading" className="flex items-center gap-2 text-2xl font-semibold">
+              <Heart className="size-5 text-rose-400" aria-hidden="true" />
+              {t('spouses')}
+            </h2>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {p.spouses.map((s, idx) => (
+                <div key={idx} className="glass rounded-3xl border-rose-500/20 p-5">
+                  <p className="ar-name text-2xl font-bold text-rose-200">{s.t.ar}</p>
+                  <p className="text-sm text-ink">{pick(s.t)}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <LevelChip level={s.l} />
+                    {s.r && <Refs refs={s.r} />}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* children */}
+        {p.allChildren && p.allChildren.length > 0 && (
+          <section aria-labelledby="children-heading" className="mt-12">
+            <h2 id="children-heading" className="flex items-center gap-2 text-2xl font-semibold">
+              <Baby className="size-5 text-emerald-400" aria-hidden="true" />
+              {t('allChildren')}
+            </h2>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {p.allChildren.map((c, idx) => (
+                <div key={idx} className="glass rounded-3xl border-emerald-500/20 p-5">
+                  <p className="ar-name text-2xl font-bold text-emerald-200">{c.t.ar}</p>
+                  <p className="text-sm text-ink">{pick(c.t)}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <LevelChip level={c.l} />
+                    {c.r && <Refs refs={c.r} />}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* siblings */}
+        {p.siblings && p.siblings.length > 0 && (
+          <section aria-labelledby="siblings-heading" className="mt-12">
+            <h2 id="siblings-heading" className="flex items-center gap-2 text-2xl font-semibold">
+              <Users className="size-5 text-amber-400" aria-hidden="true" />
+              {t('brothers')}
+            </h2>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {p.siblings.map((sib, idx) => (
+                <div key={idx} className="glass rounded-3xl border-amber-500/20 p-5">
+                  <p className="ar-name text-2xl font-bold text-amber-200">{sib.t.ar}</p>
+                  <p className="text-sm text-ink">{pick(sib.t)}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                    <LevelChip level={sib.l} />
+                    {sib.r && <Refs refs={sib.r} />}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* signs */}
         {p.signs && p.signs.length > 0 && (

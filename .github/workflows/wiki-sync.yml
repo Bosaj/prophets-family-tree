@@ -1,0 +1,43 @@
+name: Sync Documentation to Wiki
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/wiki/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repository
+        uses: actions/checkout@v4
+        with:
+          path: repo
+
+      - name: Checkout wiki repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: wiki
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy updated wiki documentation
+        run: |
+          if [ -d "repo/docs/wiki" ]; then
+            cp -r repo/docs/wiki/* wiki/
+            cd wiki
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            if git diff --staged --quiet; then
+              echo "No wiki changes to commit."
+            else
+              git commit -m "docs: automated sync from main docs/wiki"
+              git push origin master || git push origin main
+            fi
+          fi
