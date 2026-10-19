@@ -1,0 +1,6 @@
+# Global code owners
+* @Bosaj
+
+# Security, data authenticity and Islamic scholarship reviews
+/src/data/ @Bosaj
+/.github/ @Bosaj

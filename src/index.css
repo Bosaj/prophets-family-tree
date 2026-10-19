@@ -192,10 +192,26 @@ html[lang='ar'] body {
 @keyframes spin-slow {
   to { transform: rotate(360deg); }
 }
+@keyframes celestial-glow {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(233, 198, 123, 0.45)); }
+  50% { filter: drop-shadow(0 0 24px rgba(233, 198, 123, 0.85)); }
+}
+@keyframes spouse-pulse {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(244, 167, 187, 0.4)); }
+  50% { filter: drop-shadow(0 0 20px rgba(244, 167, 187, 0.75)); }
+}
+@keyframes child-pulse {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(126, 200, 227, 0.4)); }
+  50% { filter: drop-shadow(0 0 20px rgba(126, 200, 227, 0.75)); }
+}
 .animate-drift { animation: drift 28s ease-in-out infinite alternate; }
-.edge-flow { stroke-dasharray: 6 18; animation: flow 6s linear infinite; }
+.edge-flow { stroke-dasharray: 6 18; animation: flow 5s linear infinite; filter: drop-shadow(0 0 6px #fff6dc); }
 .reveal { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 .orbit { animation: spin-slow 120s linear infinite; transform-origin: center; }
+.celestial-node-glow { animation: celestial-glow 3.5s ease-in-out infinite; }
+.spouse-node-glow { animation: spouse-pulse 4s ease-in-out infinite; }
+.child-node-glow { animation: child-pulse 4s ease-in-out infinite; }
+
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

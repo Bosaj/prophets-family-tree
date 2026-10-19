@@ -26,7 +26,32 @@ export interface Fact {
   r?: Ref[]
 }
 
-export type Kind = 'prophet' | 'family'
+export type Kind = 'prophet' | 'family' | 'spouse' | 'child'
+
+export interface LifeEvent {
+  id: string
+  title: L3
+  era?: L3
+  yearHijri?: string
+  yearBceCe?: string
+  desc: L3
+  refs?: Ref[]
+}
+
+export interface DateInfo {
+  born?: Fact
+  died?: Fact
+  hijriBorn?: string
+  hijriDied?: string
+  gregorianBorn?: string
+  gregorianDied?: string
+}
+
+export interface ParentInfo {
+  father?: Fact
+  mother?: Fact
+  fosterMother?: Fact
+}
 
 export interface Person {
   id: string
@@ -49,6 +74,12 @@ export interface Person {
   lifespan?: Fact
   marriage?: Fact
   children?: Fact
+  parents?: ParentInfo
+  siblings?: Fact[]
+  spouses?: Fact[]
+  allChildren?: Fact[]
+  dates?: DateInfo
+  events?: LifeEvent[]
   signs?: Fact[]
   notes?: Fact[]
   story: L3
@@ -61,7 +92,7 @@ export interface Person {
   ululAzm?: boolean
 }
 
-export type LinkType = 'parent' | 'descendant' | 'sibling' | 'cousin' | 'guardian' | 'nephew' | 'maybe-parent'
+export type LinkType = 'parent' | 'descendant' | 'sibling' | 'cousin' | 'guardian' | 'nephew' | 'maybe-parent' | 'spouse' | 'child'
 
 export interface Link {
   from: string
@@ -71,3 +102,4 @@ export interface Link {
   r?: Ref[]
   note?: L3
 }
+
