@@ -32,8 +32,8 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
 
   return (
     <header className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${solid ? 'glass-strong border-x-0 border-t-0' : 'border-b border-transparent bg-transparent'}`}>
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:px-6">
-        <A href="/" className="flex items-center gap-2.5 rounded-full pe-2" aria-label={`${t('brand')} — ${t('navHome')}`}>
+      <div className="mx-auto flex h-16 w-full max-w-[1720px] items-center justify-between gap-2 px-4 sm:px-6 lg:px-8">
+        <A href="/" className="flex shrink-0 items-center gap-2.5 rounded-full pe-2" aria-label={`${t('brand')} — ${t('navHome')}`}>
           <Logo className="size-8" />
           <span className="flex flex-col leading-none">
             <span className="ar-name gold-text text-lg font-bold">شجرة</span>
@@ -41,35 +41,44 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
           </span>
         </A>
 
-        <nav aria-label="Main" className="ms-auto hidden items-center gap-1 sm:flex">
+        <nav aria-label="Main" className="hidden min-[1100px]:flex items-center justify-center gap-1 min-[1280px]:gap-1.5 min-[1480px]:gap-2">
           {NAV.map((n) => (
             <A
               key={n.href}
               href={n.href}
               aria-current={route.name === n.route ? 'page' : undefined}
-              className={`rounded-full px-3.5 py-2 text-sm transition-colors ${route.name === n.route ? 'bg-white/10 text-gold-2' : 'text-ink-2 hover:text-ink'}`}
+              className={`rounded-full whitespace-nowrap shrink-0 px-2.5 py-1.5 text-xs min-[1280px]:px-3 min-[1280px]:text-[0.82rem] min-[1480px]:px-3.5 min-[1480px]:text-sm transition-all duration-200 ${
+                route.name === n.route
+                  ? 'bg-white/10 text-gold-2 font-medium shadow-sm ring-1 ring-gold/25'
+                  : 'text-ink-2 hover:text-ink hover:bg-white/5'
+              }`}
             >
               {t(n.key)}
             </A>
           ))}
         </nav>
 
-        <div className="ms-auto flex items-center gap-1.5 sm:ms-2">
-          <button type="button" onClick={onSearch} className="flex h-10 min-w-10 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 text-sm text-ink-2 hover:border-gold/40 hover:text-ink">
-            <Search className="size-4" aria-hidden="true" />
-            <span className="sr-only md:not-sr-only">{t('search')}</span>
-            <kbd aria-hidden="true" className="hidden rounded border border-white/15 px-1.5 text-[0.65rem] text-ink-3 md:inline">Ctrl K</kbd>
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            onClick={onSearch}
+            className="flex h-9 min-w-9 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-2.5 min-[1280px]:px-3 text-xs min-[1280px]:text-sm text-ink-2 transition-colors hover:border-gold/40 hover:text-ink shrink-0"
+            aria-label={t('search')}
+          >
+            <Search className="size-3.5 min-[1280px]:size-4" aria-hidden="true" />
+            <span className="sr-only min-[1280px]:not-sr-only">{t('search')}</span>
+            <kbd aria-hidden="true" className="hidden rounded border border-white/15 px-1.5 text-[0.65rem] text-ink-3 min-[1400px]:inline">Ctrl K</kbd>
           </button>
           <LanguageMenu />
         </div>
       </div>
-      <nav aria-label="Main mobile" className="flex items-center gap-1 overflow-x-auto border-t border-white/5 px-3 py-1.5 whitespace-nowrap sm:hidden no-scrollbar">
+      <nav aria-label="Main mobile" className="flex items-center gap-1 overflow-x-auto border-t border-white/5 px-3 py-1.5 whitespace-nowrap min-[1100px]:hidden no-scrollbar">
         {NAV.map((n) => (
           <A
             key={n.href}
             href={n.href}
             aria-current={route.name === n.route ? 'page' : undefined}
-            className={`rounded-full px-3 py-1 text-[0.75rem] shrink-0 ${route.name === n.route ? 'bg-white/10 text-gold-2 font-medium' : 'text-ink-2'}`}
+            className={`rounded-full px-3 py-1 text-[0.75rem] shrink-0 whitespace-nowrap ${route.name === n.route ? 'bg-white/10 text-gold-2 font-medium ring-1 ring-gold/25' : 'text-ink-2'}`}
           >
             {t(n.key)}
           </A>
@@ -104,19 +113,19 @@ function LanguageMenu() {
   }, [open])
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative shrink-0">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-haspopup="listbox"
         aria-label={t('language')}
-        className="flex h-10 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 text-sm text-ink-2 transition-all hover:border-gold/50 hover:bg-white/10 hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold/40"
+        className="flex h-9 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 min-[1280px]:px-3 text-xs min-[1280px]:text-sm text-ink-2 transition-all hover:border-gold/50 hover:bg-white/10 hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold/40"
       >
-        <Languages className="size-4 text-gold" aria-hidden="true" />
+        <Languages className="size-3.5 min-[1280px]:size-4 text-gold" aria-hidden="true" />
         <span className="font-medium text-ink">{LANG_NAMES[lang]}</span>
         <ChevronDown
-          className={`size-3.5 text-ink-3 transition-transform duration-200 ${open ? 'rotate-180 text-gold' : ''}`}
+          className={`size-3 text-ink-3 transition-transform duration-200 ${open ? 'rotate-180 text-gold' : ''}`}
           aria-hidden="true"
         />
       </button>
