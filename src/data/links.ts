@@ -132,6 +132,7 @@ export const links: Link[] = [
 
   // Arcs & lateral relations
   { from: 'musa', to: 'harun', type: 'sibling', l: 'quran', r: ['20:29-30', '19:53'] },
+  { from: 'yusuf', to: 'binyamin', type: 'sibling', l: 'quran', r: ['12:69'] },
   { from: 'yahya', to: 'isa', type: 'cousin', l: 'hadith', r: ['bukhari:3430'] },
   { from: 'zakariya', to: 'maryam', type: 'guardian', l: 'quran', r: ['3:37'] },
 ]

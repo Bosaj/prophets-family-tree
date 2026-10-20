@@ -290,17 +290,56 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             {layout.edges.map((e, i) => {
               const onPath = path.has(e.link.from) && path.has(e.link.to) && !e.arc
               const dim = selected && !onPath
-              const dashed = e.link.type !== 'parent' || e.arc
               const isMarriage = e.isMarriage
+              const isSibling = e.link.type === 'sibling'
+              const isCousin = e.link.type === 'cousin'
+              const isGuardian = e.link.type === 'guardian'
+
+              const strokeColor = isMarriage
+                ? '#e63946'
+                : isSibling
+                  ? '#38bdf8'
+                  : isCousin
+                    ? '#c084fc'
+                    : isGuardian
+                      ? '#34d399'
+                      : LEVEL_STROKE[e.link.l]
+
+              const strokeDash = isMarriage
+                ? '3 3'
+                : isSibling
+                  ? '4 3'
+                  : isCousin
+                    ? '2 4'
+                    : isGuardian
+                      ? '7 3 2 3'
+                      : e.link.type === 'descendant'
+                        ? '6 7'
+                        : undefined
+
+              const strokeWidth = isMarriage
+                ? 2.2
+                : onPath
+                  ? 2.8
+                  : e.arc
+                    ? 1.8
+                    : 1.7
+
+              const strokeOpacity = isMarriage
+                ? 0.95
+                : e.arc
+                  ? 0.85
+                  : 0.75
+
               return (
                 <g key={i} opacity={dim ? 0.16 : 1} className="transition-opacity duration-500">
                   <path
                     d={e.d}
                     fill="none"
-                    stroke={isMarriage ? '#e63946' : LEVEL_STROKE[e.link.l]}
-                    strokeOpacity={isMarriage ? 0.95 : e.arc ? 0.55 : 0.75}
-                    strokeWidth={isMarriage ? 2.2 : onPath ? 2.8 : e.arc ? 1.2 : 1.7}
-                    strokeDasharray={isMarriage ? '3 3' : dashed ? (e.arc ? '2 6' : '6 7') : undefined}
+                    stroke={strokeColor}
+                    strokeOpacity={strokeOpacity}
+                    strokeWidth={strokeWidth}
+                    strokeDasharray={strokeDash}
                     strokeLinecap="round"
                   />
                   {isMarriage && e.union && (
@@ -565,30 +604,66 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             </div>
           </div>
 
-          {/* Legend */}
-          <div className="glass pointer-events-none absolute start-3 bottom-3 hidden max-w-xs rounded-2xl p-4 text-xs text-ink-2 sm:start-5 sm:bottom-5 md:block">
-            <p className="mb-2 font-semibold text-ink">{t('legend')}</p>
-            <ul className="space-y-1.5">
-              <li className="flex items-center gap-2">
-                <svg width="34" height="6" aria-hidden="true">
-                  <line x1="0" y1="3" x2="34" y2="3" stroke="var(--color-lvl-quran)" strokeWidth="2" />
+          {/* Specific Categorized Legend */}
+          <div className="glass pointer-events-none absolute start-3 bottom-3 hidden max-w-xs rounded-2xl p-3.5 text-xs text-ink-2 sm:start-5 sm:bottom-5 md:block shadow-2xl backdrop-blur-xl border border-white/10">
+            <p className="mb-2 font-bold text-ink text-[0.8rem] flex items-center justify-between">
+              <span>{t('legend')}</span>
+              <span className="text-[0.65rem] text-gold font-normal font-mono">Shajara</span>
+            </p>
+
+            {/* Lineage & Marriage */}
+            <div className="space-y-1.5 pb-2 border-b border-white/5">
+              <span className="text-[0.65rem] font-semibold text-gold tracking-wider uppercase block mb-1">
+                {t('legendLineage')}
+              </span>
+              <div className="flex items-center gap-2">
+                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
+                  <line x1="0" y1="3" x2="32" y2="3" stroke="var(--color-lvl-quran)" strokeWidth="2.5" />
                 </svg>
-                {t('linkParent')}
-              </li>
-              <li className="flex items-center gap-2">
-                <svg width="34" height="6" aria-hidden="true">
-                  <line x1="0" y1="3" x2="34" y2="3" stroke="var(--color-lvl-tradition)" strokeWidth="2" strokeDasharray="6 5" />
+                <span className="text-[0.7rem] text-ink">{t('linkParent')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
+                  <line x1="0" y1="3" x2="32" y2="3" stroke="var(--color-lvl-tradition)" strokeWidth="2" strokeDasharray="6 5" />
                 </svg>
-                {t('linkDescendant')}
-              </li>
-              <li className="flex items-center gap-2">
-                <svg width="34" height="6" aria-hidden="true">
-                  <line x1="0" y1="3" x2="34" y2="3" stroke="var(--color-lvl-hadith)" strokeWidth="1.6" strokeDasharray="2 5" />
+                <span className="text-[0.7rem] text-ink-2">{t('linkDescendant')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
+                  <line x1="0" y1="3" x2="32" y2="3" stroke="#e63946" strokeWidth="2" strokeDasharray="3 3" />
+                  <circle cx="16" cy="3" r="2.5" fill="#e63946" stroke="#ffffff" strokeWidth="0.8" />
                 </svg>
-                {t('linkArc')}
-              </li>
-            </ul>
-            <div className="mt-3 flex flex-wrap gap-1.5">
+                <span className="text-[0.7rem] text-rose-300 font-medium">{t('linkSpouse')}</span>
+              </div>
+            </div>
+
+            {/* Specific Lateral Arcs */}
+            <div className="space-y-1.5 pt-2 pb-2 border-b border-white/5">
+              <span className="text-[0.65rem] font-semibold text-sky-400 tracking-wider uppercase block mb-1">
+                {t('legendBonds')}
+              </span>
+              <div className="flex items-center gap-2">
+                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
+                  <line x1="0" y1="3" x2="32" y2="3" stroke="#38bdf8" strokeWidth="2" strokeDasharray="4 3" />
+                </svg>
+                <span className="text-[0.7rem] text-sky-300 font-medium">{t('linkSibling')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
+                  <line x1="0" y1="3" x2="32" y2="3" stroke="#c084fc" strokeWidth="2" strokeDasharray="2 4" />
+                </svg>
+                <span className="text-[0.7rem] text-purple-300 font-medium">{t('linkCousin')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
+                  <line x1="0" y1="3" x2="32" y2="3" stroke="#34d399" strokeWidth="2" strokeDasharray="7 3 2 3" />
+                </svg>
+                <span className="text-[0.7rem] text-emerald-300 font-medium">{t('linkGuardian')}</span>
+              </div>
+            </div>
+
+            {/* Level Chips */}
+            <div className="mt-2.5 flex flex-wrap gap-1">
               <LevelChip level="quran" />
               <LevelChip level="hadith" />
               <LevelChip level="tradition" />
