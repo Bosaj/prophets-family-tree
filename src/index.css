@@ -207,6 +207,12 @@ html[lang='ar'] body {
 }
 .animate-drift { animation: drift 28s ease-in-out infinite alternate; }
 .edge-flow { stroke-dasharray: 6 18; animation: flow 5s linear infinite; filter: drop-shadow(0 0 6px #fff6dc); }
+.edge-glow-marriage { filter: drop-shadow(0 0 6px #e63946) drop-shadow(0 0 12px rgba(230, 57, 70, 0.75)); }
+.edge-glow-sibling { filter: drop-shadow(0 0 6px #38bdf8) drop-shadow(0 0 12px rgba(56, 189, 248, 0.75)); }
+.edge-glow-cousin { filter: drop-shadow(0 0 6px #c084fc) drop-shadow(0 0 12px rgba(192, 132, 252, 0.75)); }
+.edge-glow-guardian { filter: drop-shadow(0 0 6px #34d399) drop-shadow(0 0 12px rgba(52, 211, 153, 0.75)); }
+.edge-glow-parent { filter: drop-shadow(0 0 6px #e9c67b) drop-shadow(0 0 12px rgba(233, 198, 123, 0.75)); }
+.edge-glow-descendant { filter: drop-shadow(0 0 6px #d4a342) drop-shadow(0 0 12px rgba(212, 163, 66, 0.75)); }
 .reveal { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 .orbit { animation: spin-slow 120s linear infinite; transform-origin: center; }
 .celestial-node-glow { animation: celestial-glow 3.5s ease-in-out infinite; }
