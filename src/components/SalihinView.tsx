@@ -195,18 +195,20 @@ export function SalihinView() {
                   isExpanded ? 'border-gold/60 shadow-[0_0_30px_rgba(233,198,123,0.15)]' : 'hover:border-gold/30'
                 }`}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <span className="chip text-gold text-xs">{pick(fig.keyVirtue)}</span>
-                    <h3 className="mt-3 text-2xl font-bold text-ink">
-                      <span className="ar-name gold-text me-2">{fig.name.ar}</span>
-                      {lang !== 'ar' && <span className="text-lg font-light text-ink-2">· {pick(fig.name)}</span>}
-                    </h3>
-                    <p className="mt-1 text-xs text-gold-2 font-medium">{pick(fig.title)}</p>
-                  </div>
-                  <div className="text-end">
-                    <span className="text-[0.7rem] text-ink-3 font-mono block">{pick(fig.era)}</span>
-                  </div>
+                {/* Header: Key Virtue chip & Era badge */}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="chip text-gold text-xs leading-normal">{pick(fig.keyVirtue)}</span>
+                  <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono shrink-0">
+                    {pick(fig.era)}
+                  </span>
+                </div>
+
+                <div className="mt-3.5">
+                  <h3 className="text-xl sm:text-2xl font-bold text-ink leading-tight flex flex-wrap items-baseline gap-2">
+                    <span className="ar-name gold-text text-2xl sm:text-3xl">{fig.name.ar}</span>
+                    {lang !== 'ar' && <span className="text-base sm:text-lg font-light text-ink-2">· {pick(fig.name)}</span>}
+                  </h3>
+                  <p className="mt-1 text-xs text-gold-2 font-medium">{pick(fig.title)}</p>
                 </div>
 
                 <p className="mt-4 text-sm text-ink-2 leading-relaxed">
@@ -284,17 +286,19 @@ export function SalihinView() {
                   isExpanded ? 'border-gold/60 shadow-[0_0_30px_rgba(233,198,123,0.15)]' : 'hover:border-gold/30'
                 }`}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <span className="chip text-gold text-xs">{pick(story.surahName)}</span>
-                    <h3 className="mt-3 text-2xl font-bold text-ink">
-                      <span className="ar-name gold-text me-2">{story.title.ar}</span>
-                      {lang !== 'ar' && <span className="text-lg font-light text-ink-2">· {pick(story.title)}</span>}
-                    </h3>
-                  </div>
-                  <div className="text-end">
-                    <span className="text-[0.7rem] text-ink-3 font-mono block">{pick(story.historicalSetting)}</span>
-                  </div>
+                {/* Header: Surah chip & Setting badge */}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="chip text-gold text-xs leading-normal">{pick(story.surahName)}</span>
+                  <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono shrink-0">
+                    {pick(story.historicalSetting)}
+                  </span>
+                </div>
+
+                <div className="mt-3.5">
+                  <h3 className="text-xl sm:text-2xl font-bold text-ink leading-tight flex flex-wrap items-baseline gap-2">
+                    <span className="ar-name gold-text text-2xl sm:text-3xl">{story.title.ar}</span>
+                    {lang !== 'ar' && <span className="text-base sm:text-lg font-light text-ink-2">· {pick(story.title)}</span>}
+                  </h3>
                 </div>
 
                 <p className="mt-4 text-sm text-ink-2 leading-relaxed">
