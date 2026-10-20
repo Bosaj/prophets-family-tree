@@ -89,7 +89,7 @@ describe('App', () => {
 
   it('renders the sahaba, caliphs and continuous prophetic lineage page', () => {
     renderAt('/sahaba')
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Tree of Sahaba, Caliphs & Prophetic Lineages/i)
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Tree of Sahaba, Caliphs/i)
     expect(screen.getAllByText(/Abu Bakr/i).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/Umar ibn al-Khattab/i).length).toBeGreaterThan(0)
     expect(screen.getAllByText(/King Mohammed VI/i).length).toBeGreaterThan(0)

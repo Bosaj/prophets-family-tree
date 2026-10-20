@@ -9,6 +9,7 @@ export type SahabaEra =
   | 'rashidun'
   | 'mubasharun'
   | 'sahaba_luminaries'
+  | 'hadith_scholars'
   | 'umayyad'
   | 'cordoba'
   | 'abbasid'
@@ -23,7 +24,15 @@ export interface SahabaFigure {
   title: L3
   honorific?: string
   era: SahabaEra
-  roleCategory: 'prophet' | 'rashidun_caliph' | 'mubashar' | 'caliph_dynasty' | 'ahlulbayt_imam' | 'sahabi_leader' | 'modern_monarch'
+  roleCategory:
+    | 'prophet'
+    | 'rashidun_caliph'
+    | 'mubashar'
+    | 'caliph_dynasty'
+    | 'ahlulbayt_imam'
+    | 'sahabi_leader'
+    | 'modern_monarch'
+    | 'hadith_master'
   reignDates?: {
     ah: string
     ce: string
@@ -35,6 +44,7 @@ export interface SahabaFigure {
   lineage: L3
   fatherId?: string
   mother?: L3
+  mentorId?: string
   burialPlace: L3
   biography: L3
   achievements: L3[]
@@ -46,6 +56,12 @@ export interface SahabaFigure {
   }
   symbolColor: string
   tags: string[]
+  hadithsNarrated?: number
+  works?: L3[]
+  teachers?: L3[]
+  students?: L3[]
+  famousQuotes?: { ar: string; en: string; fr: string }[]
+  milestones?: { yearAH: string; yearCE?: string; title: L3; desc: L3 }[]
 }
 
 function t(en: string, fr: string, ar: string): L3 {
@@ -107,6 +123,16 @@ export const SAHABA_ERAS: {
       'أبطال الإسلام وسادته: حمزة، بلال، سلمان الفارسي، خالد بن الوليد، وابن عباس.'
     ),
     badgeColor: '#a855f7',
+  },
+  {
+    id: 'hadith_scholars',
+    label: t('Hadith Masters & Preservers', 'Maîtres du Hadith & Transmetteurs', 'أئمة الحديث وحفظة السنة'),
+    description: t(
+      'The greatest narrators and Hadith compilers: Abu Hurairah, Imam al-Bukhari, and Imam Muslim.',
+      'Les plus illustres rapporteurs et compilateurs : Abou Hourayra, l’Imam al-Bukhari et l’Imam Muslim.',
+      'أعظم رواة ومدوني الحديث النبوي الشريف: راوية الإسلام أبو هريرة، وأمير المؤمنين في الحديث الإمام البخاري، والإمام الحجة مسلم بن الحجاج.'
+    ),
+    badgeColor: '#06b6d4',
   },
   {
     id: 'umayyad',
@@ -799,6 +825,226 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     },
     symbolColor: '#a855f7',
     tags: ['Ahl al-Bayt Honor', 'Trench Strategist', 'Seeker of Truth'],
+  },
+
+  // ==========================================
+  // HADITH MASTERS & SUNNAH PRESERVERS
+  // ==========================================
+  {
+    id: 'abu_hurairah',
+    name: t('Abu Hurairah ad-Dawsi', 'Abou Hourayra ad-Dawsi', 'أبو هريرة عبد الرحمن بن صخر الدوسي'),
+    title: t('The Foremost Preserver of Prophetic Sunnah & Narrator of Islam', 'Le Premier Mémorisateur de la Sunna & Rapporteur de l’Islam', 'راوية الإسلام الأول وحافظ الصحابة المكثر وصاحب رسول الله ﷺ'),
+    honorific: 'رضي الله عنه',
+    era: 'hadith_scholars',
+    roleCategory: 'hadith_master',
+    mentorId: 'prophet_muhammad',
+    lifeDates: {
+      birth: { ah: '21 BH', ce: '603 CE' },
+      death: { ah: '59 AH', ce: '679 CE' },
+    },
+    lineage: t(
+      'Abd al-Rahman ibn Sakhr from the Yamani Azd tribe of Daws. In Jahiliyyah his name was Abd ash-Shams; the Prophet ﷺ named him Abd al-Rahman and nicknamed him Abu Hurairah ("Father of the Kitten") for his kindness to animals.',
+      'Abd ar-Rahman ibn Sakhr de la tribu yéménite de Daws. Surnommé Abou Hourayra (« Le père du chaton ») par le Prophète ﷺ en raison de sa bienveillance envers un petit chat.',
+      'عبد الرحمن بن صخر الدوسي، من قبيلة دَوْس اليمانية الأزدية العريقة. كان اسمه في الجاهلية عبد شمس فسمّاه رسول الله ﷺ عبد الرحمن، وكنّاه بـ "أبي هريرة" لهرّة صغيرة كان يحملها في كُمّه ويرعاها برحمة.'
+    ),
+    burialPlace: t('Jannat al-Baqi\', Madinah', 'Jannat al-Baqi, Médine', 'البقيع الطاهر بالمدينة المنورة'),
+    hadithsNarrated: 5374,
+    biography: t(
+      'The most prolific narrator and custodian of the Prophetic Sunnah. Embraced Islam at the hands of At-Tufayl ibn Amr ad-Dawsi and arrived in Madinah in 7 AH during the Battle of Khaybar. For four consecutive years, he never separated from Prophet Muhammad ﷺ, living among Ahl as-Suffah in poverty, choosing hunger and devotion over trade and wealth solely to witness, memorize, and transmit the Prophet’s actions, legal verdicts, and spiritual teachings. When he complained of forgetting, the Prophet ﷺ performed the miraculous "Spreading of the Cloak" (Bast ar-Rida\'), after which he never forgot a single word. He divided every single night into three parts with his family to ensure continuous non-stop worship in his home.',
+      'Le plus grand transmetteur et mémorisateur de la Sunna prophétique. Venu du Yémen en l’an 7 de l’Hégire (Khaybar), il vécut sur le banc de la mosquée (Ahl as-Souffa) dans un dénuement complet pour ne jamais quitter le Prophète ﷺ. Il reçut la bénédiction prophétique miraculeuse du manteau étendu lui conférant une mémoire infaillible. Il partageait la nuit en trois veilles avec sa maisonnée pour ne jamais interrompre la prière nocturne.',
+      'سيد الحُفّاظ وراوية الإسلام الذي حفظ للأمة معالم دينها وسنة نبيها ﷺ. أسلم عام خيبر (7 هـ) ولزم رسول الله ﷺ لزوم الظل، فكان من أهل الصُّفّة الزاهدين يؤثر الجوع والعلم على متاع الدنيا وتجارة الأسواق. خصه النبي ﷺ بكرامة وبركة إبساط الرداء فلم ينسَ حديثاً سمعه قط، وكان يجزئ الليل ثلاثة أجزاء بينه وبين زوجه وخادمه فلا تنقطع الصلاة والذكر من بيته لحظة واحدة، روى عنه أكثر من 800 من الصحابة والتابعين.'
+    ),
+    achievements: [
+      t('Narrated 5,374 authentic Hadiths, constituting the foundational backbone of Islamic jurisprudence and ethical rulings', 'Transmission de 5 374 Hadiths constituant l’épine dorsale de la Sunna', 'رواية 5374 حديثاً شريفاً عن رسول الله ﷺ حفظت تفاصيل الشريعة والعبادات والأخلاق والمعاملات'),
+      t('Trained and transmitted Hadith to over 800 Sahaba and senior Tabi\'in scholars', 'Formation de plus de 800 disciples parmi les compagnons et successeurs', 'تتلمذ على يديه أكثر من ثمانمائة من أعلام الصحابة وكبار التابعين (منهم ابن عباس وابن عمر وسعيد بن المسيب)'),
+      t('Served as governor of Bahrain under Umar ibn al-Khattab and governor of Madinah under Muawiyah', 'Gouverneur de Bahreïn sous Omar puis de Médine sous Mouawiya', 'تولي ولاية البحرين في عهد الفاروق عمر وولاية المدينة المنورة في عهد معاوية بنزاهة وعدل'),
+    ],
+    propheticPraise: {
+      ar: '«قُلْتُ: يَا رَسُولَ اللَّهِ، إِنِّي أَسْمَعُ مِنْكَ حَدِيثًا كَثِيرًا أَنْسَاهُ؟ قَالَ: "ابْسُطْ رِدَاءَكَ"، فَبَسَطْتُ رِدَائِي، فَغَرَفَ بِيَدَيْهِ فِيهِ ثُمَّ قَالَ: "اضْمُمْهُ"، فَضَمَمْتُهُ فَمَا نَسِيتُ شَيْئًا بَعْدَهُ!» وقال: «لَقَدْ ظَنَنْتُ يَا أَبَا هُرَيْرَةَ أَنْ لَا يَسْأَلَنِي عَنْ هَذَا الْحَدِيثِ أَحَدٌ أَوَّلُ مِنْكَ لِمَا رَأَيْتُ مِنْ حِرْصِكَ عَلَى الْحَدِيثِ»',
+      en: '"I said: O Messenger of Allah, I hear many Hadiths from you but I forget them? He said: "Spread out your cloak." I spread it out, and he scooped into it with both hands, then said: "Fold it to your chest." I folded it, and by Allah, I never forgot anything after that!" And the Prophet ﷺ said: "I knew, O Abu Hurairah, that no one would ask me about this Hadith before you, because of the eagerness for knowledge I have observed in you."',
+      fr: '« J’ai dit : Ô Messager d’Allah, j’entends de toi de nombreux récits et je les oublie ? Il dit : "Étends ton manteau." Je l’étendis, il y versa de ses mains invisibles puis dit : "Serre-le contre toi." Je le fis, et par Allah, je n’ai plus jamais rien oublié ! »',
+      hadithSource: 'Sahih al-Bukhari (119, 99, 2047, 3648), Sahih Muslim (2492)',
+    },
+    works: [
+      t('The Primary Transmission of the Prophetic Hadith Corpus (5,374 Hadiths)', 'Corpus des 5 374 traditions prophétiques', 'المتون النبوية والأحاديث الصحيحة المسندة (5374 حديثاً)'),
+    ],
+    teachers: [
+      t('Prophet Muhammad ﷺ', 'Le Prophète Mouhammad ﷺ', 'رسول الله محمد ﷺ'),
+      t('Abu Bakr as-Siddiq', 'Abou Bakr as-Siddiq', 'أبو بكر الصديق رضي الله عنه'),
+      t('Umar ibn al-Khattab', 'Omar ibn al-Khattab', 'عمر بن الخطاب رضي الله عنه'),
+      t('Ubayy ibn Ka\'b', 'Oubayy ibn Ka’b', 'أبي بن كعب رضي الله عنه'),
+    ],
+    students: [
+      t('Said ibn al-Musayyib (Master of the Tabi\'in)', 'Saïd ibn al-Mousayyib', 'سعيد بن المسيب سيد التابعين وزوج ابنته'),
+      t('Urwah ibn az-Zubayr', 'Ourwah ibn az-Zoubayr', 'عروة بن الزبير فقيه المدينة'),
+      t('Hammam ibn Munabbih (compiler of the oldest extant Hadith manuscript)', 'Hammam ibn Mounabbih', 'همام بن منبه صاحب الصحيفة الصحيحة الأقدم تاريخياً'),
+      t('Abdallah ibn Abbas and Abdallah ibn Umar', 'Ibn Abbas et Ibn Omar', 'عبد الله بن عباس وعبد الله بن عمر رضي الله عنهما'),
+    ],
+    famousQuotes: [
+      {
+        ar: 'إِنِّي لَأُجَزِّئُ اللَّيْلَ ثَلَاثَةَ أَجْزَاءٍ: ثُلُثًا أَنَامُ، وَثُلُثًا أَقُومُ، وَثُلُثًا أَتَذَكَّرُ حَدِيثَ رَسُولِ اللَّهِ ﷺ.',
+        en: 'I divide the night into three parts: one third I sleep, one third I stand in prayer, and one third I review the Hadith of the Messenger of Allah ﷺ.',
+        fr: 'Je divise la nuit en trois parts : un tiers pour dormir, un tiers pour prier, et un tiers pour réviser le Hadith du Messager d’Allah ﷺ.',
+      },
+    ],
+    milestones: [
+      { yearAH: '7 AH', yearCE: '628 CE', title: t('Islam & Migration', 'Conversion & Émigration', 'إسلامه وهجرته في عام خيبر'), desc: t('Embraced Islam and joined the Prophet ﷺ in Madinah during Khaybar.', 'Conversion et installation à Médine.', 'القدوم إلى المدينة المنورة وملازمة النبي ﷺ لزوماً تاماً.') },
+      { yearAH: '8 AH', yearCE: '629 CE', title: t('Miracle of the Cloak', 'Miracle du Manteau', 'معجزة إبساط الرداء'), desc: t('Prophet ﷺ blessed his memory so he never forgot a single narration.', 'Bénédiction de la mémoire infaillible.', 'بسط ردائه ببركة دعاء النبي ﷺ ليزول عنه النسيان للأبد.') },
+      { yearAH: '21 AH', yearCE: '642 CE', title: t('Governor of Bahrain', 'Gouverneur de Bahreïn', 'ولاية البحرين في عهد عمر'), desc: t('Appointed by Caliph Umar to govern Bahrain with meticulous audit.', 'Nommé gouverneur par le calife Omar.', 'تولي الإمارة والقضاء مع الحساب المالي الدقيق.') },
+      { yearAH: '59 AH', yearCE: '679 CE', title: t('Passing in Madinah', 'Décès à Médine', 'وفاته بالمدينة المنورة'), desc: t('Passed away at age 78 and interred in Jannat al-Baqi\'.', 'Inhumé à Jannat al-Baqi à 78 ans.', 'وفاته بالبقيع الطاهر بعد أن أدى أمانة تبليغ السنة كاملة.') },
+    ],
+    symbolColor: '#06b6d4',
+    tags: ['Ahl as-Suffah', 'Foremost Narrator', 'Baqi Burial', 'Hadith Preservation'],
+  },
+  {
+    id: 'imam_bukhari',
+    name: t('Imam Muhammad ibn Ismail al-Bukhari', 'L’Imam al-Boukhari', 'الإمام محمد بن إسماعيل البخاري'),
+    title: t('Commander of the Faithful in Hadith & Author of Sahih al-Bukhari', 'Commandeur des Croyants dans le Hadith & Auteur du Sahih', 'أمير المؤمنين في الحديث وإمام المحدثين وجامع أصح الكتب بعد كتاب الله'),
+    honorific: 'رحمه الله',
+    era: 'hadith_scholars',
+    roleCategory: 'hadith_master',
+    mentorId: 'abu_hurairah',
+    lifeDates: {
+      birth: { ah: '194 AH (13 Shawwal)', ce: '810 CE (19 July)' },
+      death: { ah: '256 AH (1 Shawwal)', ce: '870 CE (1 September)' },
+    },
+    lineage: t(
+      'Abu Abdillah Muhammad ibn Ismail ibn Ibrahim ibn al-Mughirah ibn Bardizbah al-Ju\'fi al-Bukhari. His great-grandfather Bardizbah was a Persian Zoroastrian in Bukhara whose son Al-Mughirah embraced Islam under governor Yaman al-Ju\'fi.',
+      'Mouhammad ibn Ismaïl ibn Ibrahim ibn al-Moughira al-Boukhari.',
+      'أبو عبد الله محمد بن إسماعيل بن إبراهيم بن المغيرة بن بَرْدِزْبَه الجعفي البخاري. وجده الأكبر بردزبه كان مجوسياً فارسياً في بخارى، وأسلم المغيرة على يد والي بخارى يمان الجعفي فانتسب إليهم بالولاء.'
+    ),
+    burialPlace: t('Khartank (near Samarkand), Uzbekistan', 'Khartank (près de Samarcande), Ouzbékistan', 'ضريح الإمام البخاري بقرية خَرْتَنْك (قرب سمرقند)، أوزبكستان'),
+    biography: t(
+      'The undisputed "Commander of the Faithful in Hadith" whose compilation, Sahih al-Bukhari, is recognized unanimously across the Muslim world as the most authentic book after the Holy Qur\'an. Orphaned young, he lost his eyesight in early childhood; his pious mother prayed with intense tears until she saw Prophet Ibrahim (as) in a dream telling her: "Allah has restored your son\'s sight because of your fervent prayers," and he awoke fully sighted. Endowed with a legendary photographic memory, he memorized 70,000 hadiths as a young boy and over 600,000 as an adult. He spent 16 years traveling thousands of miles across Khurasan, Iraq, Hijaz, Syria, and Egypt. Before inscribing any single hadith into his Sahih, he took a ritual bath (ghusl), prayed two rak\'ahs of Istikharah, and rigorously verified that every transmitter in the chain had a proven physical meeting (Thubut al-Liqa\') with their teacher. In Baghdad, ten scholars tested him by scrambling 100 hadith isnads; he recited every single false match from memory and restored the correct isnad and text for all 100 without hesitation.',
+      'Le maître incontesté du Hadith dont le Sahih est considéré unanimement comme le livre le plus authentique après le Coran. Devenu aveugle dans son enfance, sa vue lui fut miraculeusement rendue suite aux prières de sa mère. Doté d’une mémoire photographique prodigieuse, il mémorisa plus de 600 000 récits et voyagea 16 ans durant. Il ne transcrivit aucun Hadith sans avoir pris un bain rituel et accompli deux unités de prière d’Istikhara. À Bagdad, il déjoua l’examen public de 100 récits volontairement inversés en les restituant tous avec exactitude.',
+      'أمير المؤمنين في الحديث الذي أجمعت الأمة على تلقي كتابه "صحيح البخاري" بالقبول المطلق كأصح كتاب بعد كتاب الله تعالى. وُلد يتيماً في بخارى وكفّ بصره صغيراً، فبكت أمه ودعت الله بقلب محترق حتى رأت الخليل إبراهيم عليه السلام في المنام يبشرها بأن الله رد عليه بصره بكثرة بكائها، فأصبح مبصراً بإذن الله. تمتع بذاكرة فوتوغرافية خارقة، حفظ سبعين ألف حديث وهو صبي، وطاف بلاد الإسلام 16 عاماً مجاهداً صابراً. كان لا يكتب حديثاً في صحيحه حتى يغتسل ويصلي ركعتين استخارة، واشترط ثبوت اللقاء المباشر بين الرواة. اجتاز امتحان بغداد التاريخي حين قلب له عشرة من كبار العلماء مائة حديث إسناداً ومتناً، فردها جميعاً من حفظه وصححها دون تردد، مما أبهر علماء العراق وخراسان.'
+    ),
+    achievements: [
+      t('Authored Sahih al-Bukhari: 7,275 narrations screened rigorously from over 600,000 hadiths over 16 years', 'Composition du Sahih al-Boukhari (sélection rigoureuse de 7 275 récits parmi 600 000)', 'تصنيف الجامع الصحيح المسند (7275 حديثاً بالمكرر و2602 بدون تكرار) مستخلصاً من 600 ألف حديث في 16 عاماً'),
+      t('Founded the modern science of biographical narrator evaluation (Ilm al-Rijal) through At-Tarikh al-Kabir', 'Fondation de la critique biographique des transmetteurs (Ilm ar-Rijal)', 'تأسيس علم الجرح والتعديل وتاريخ الرجال في مصنفه العظيم "التاريخ الكبير" الذي استوعب آلاف التراجم'),
+      t('Passed the historic Baghdad Examination: Corrected 100 deliberately swapped hadiths flawlessly from memory', 'Succès magistral au test public de Bagdad (100 récits inversés)', 'اجتياز امتحان بغداد الشهير بتصحيح مائة حديث مقلوب الإسناد والمتن ارتجالاً أمام الملأ'),
+    ],
+    propheticPraise: {
+      ar: '«قَالَ أَحْمَدُ بْنُ حَنْبَلٍ: مَا خَرَجَ مِنْ خُرَاسَانَ مِثْلُ مُحَمَّدِ بْنِ إِسْمَاعِيلَ الْبُخَارِيِّ»، وقال مسلم بن الحجاج حين قبّل بين عينيه: «دَعْنِي أُقَبِّلْ رِجْلَيْكَ يَا أُسْتَاذَ الْأُسْتَاذِينَ، وَسَيِّدَ الْمُحَدِّثِينَ، وَطَبِيبَ الْحَدِيثِ فِي عِلَلِهِ!»',
+      en: 'Imam Ahmad ibn Hanbal said: "No one comparable to Muhammad ibn Ismail al-Bukhari has ever emerged from Khurasan." And Imam Muslim kissed him between his eyes saying: "Allow me to kiss your feet, O Teacher of Teachers, Master of Muhaddithin, and Physician of Hadith defects!"',
+      fr: 'L’Imam Ahmad ibn Hanbal déclara : « Il n’est jamais sorti du Khorassan d’homme semblable à Mouhammad ibn Ismaïl al-Boukhari. » Et l’Imam Muslim l’embrassa en disant : « Laisse-moi embrasser tes pieds, ô Maître des maîtres et Médecin des défauts du Hadith ! »',
+      hadithSource: 'Siyar A\'lam an-Nubala (12/436), Tarikh Baghdad (2/20)',
+    },
+    works: [
+      t('Al-Jami\' al-Musnad al-Sahih al-Mukhtasar (Sahih al-Bukhari)', 'Sahih al-Boukhari', 'الجامع المسند الصحيح المختصر من أمور رسول الله ﷺ وسننه وأيامه'),
+      t('Al-Adab al-Mufrad (Islamic Ethics & Conduct)', 'Al-Adab al-Moufrad', 'الأدب المفرد في الأخلاق والشمائل النبوية'),
+      t('At-Tarikh al-Kabir & At-Tarikh al-Awsat', 'At-Tarikh al-Kabir', 'التاريخ الكبير والتاريخ الأوسط في تراجم الرواة'),
+      t('Khalq Af\'al al-Ibad', 'Khalq Af’al al-Ibad', 'خلق أفعال العباد والرد على أهل البدع'),
+      t('Raf\' al-Yadayn fi as-Salah', 'Raf’ al-Yadayn', 'جزء رفع اليدين في الصلاة'),
+    ],
+    teachers: [
+      t('Imam Ahmad ibn Hanbal (Imam of Ahl as-Sunnah)', 'L’Imam Ahmad ibn Hanbal', 'الإمام أحمد بن حنبل إمام أهل السنة والجماعة'),
+      t('Ishaq ibn Rahwayh (Suggested compiling the Sahih)', 'Ishaq ibn Rahwayh', 'إسحاق بن راهويه الذي ألهم فكرة تدوين الصحيح المجرد'),
+      t('Ali ibn al-Madini (Foremost authority in Hadith defects)', 'Ali ibn al-Madini', 'علي بن المديني إمام علل الحديث الذي قال البخاري: ما استصغرت نفسي إلا بين يديه'),
+      t('Yahya ibn Ma\'in (Master of Narrator Verification)', 'Yahya ibn Ma’in', 'يحيى بن معين إمام الجرح والتعديل'),
+      t('Makki ibn Ibrahim al-Balkhi', 'Makki ibn Ibrahim', 'مكي بن إبراهيم البلخي شيخه في ثلاثيات البخاري العالية'),
+    ],
+    students: [
+      t('Imam Muslim ibn al-Hajjaj (Author of Sahih Muslim)', 'L’Imam Muslim', 'الإمام مسلم بن الحجاج صاحب الصحيح وتلميذه الوفي'),
+      t('Imam Abu Isa at-Tirmidhi (Author of the Jami\')', 'L’Imam at-Tirmidhi', 'الإمام أبو عيسى الترمذي صاحب الجامع والسنن والشمائل المحمدية'),
+      t('Imam Ahmad ibn Shu\'ayb an-Nasa\'i (Author of Sunan an-Nasa\'i)', 'L’Imam an-Nasa’i', 'الإمام أحمد بن شعيب النسائي صاحب السنن الكبرى والمجتبى'),
+      t('Muhammad ibn Yusuf al-Firabri (Transmitter of the primary text)', 'Al-Firabri', 'محمد بن يوسف الفربري الذي سمع الصحيح ورواه للأمة'),
+    ],
+    famousQuotes: [
+      {
+        ar: 'مَا وَضَعْتُ فِي كِتَابِ الصَّحِيحِ حَدِيثًا إِلَّا اغْتَسَلْتُ قَبْلَ ذَلِكَ وَصَلَّيْتُ رَكْعَتَيْنِ، وَصَنَّفْتُهُ فِي سِتَّ عَشْرَةَ سَنَةً، وَجَعَلْتُهُ حُجَّةً بَيْنِي وَبَيْنَ اللَّهِ تَعَالَى.',
+        en: 'I never placed a single Hadith in the Sahih without first performing a full ritual bath (Ghusl) and praying two Rak\'ahs. I compiled it over sixteen years and made it an argument between myself and Allah Almighty.',
+        fr: 'Je n’ai inscrit aucun Hadith dans le Sahih sans avoir préalablement accompli mes ablutions majeures et prié deux unités de prière. Je l’ai composé en seize années pour être mon argument devant Allah.',
+      },
+      {
+        ar: 'مَا اسْتَصْغَرْتُ نَفْسِي عِنْدَ أَحَدٍ إِلَّا عِنْدَ عَلِيِّ بْنِ الْمَدِينِيِّ.',
+        en: 'I never felt inferior or small in the presence of anyone, except in the presence of Ali ibn al-Madini.',
+        fr: 'Je ne me suis jamais senti inférieur devant quiconque, sauf en présence d’Ali ibn al-Madini.',
+      },
+    ],
+    milestones: [
+      { yearAH: '194 AH', yearCE: '810 CE', title: t('Birth in Bukhara', 'Naissance à Boukhara', 'مولده في بخارى في شوال'), desc: t('Born into a pious scholarly family and memorized the Qur\'an.', 'Naissance d’une famille pieuse.', 'نشأته يتيماً وحفظه للقرآن الكريم.') },
+      { yearAH: '210 AH', yearCE: '825 CE', title: t('Hajj & Beginning of Rihlah', 'Pèlerinage et Début des Voyages', 'الحج وبدء الرحلة في طلب الحديث'), desc: t('Traveled to Makkah with his mother and brother, staying in Hijaz to collect hadiths.', 'Départ pour La Mecque et 16 ans de voyages.', 'المجاورة في مكة والمدينة والشروع في سماع الحديث النبوي.') },
+      { yearAH: '232 AH', yearCE: '846 CE', title: t('Completion of Sahih al-Bukhari', 'Achèvement du Sahih', 'إتمام تصنيف الجامع الصحيح'), desc: t('Completed the Sahih in 16 years and presented it to Ahmad ibn Hanbal and Ibn al-Madini.', 'Présentation du Sahih aux grands maîtres.', 'عرض الصحيح على أئمة العصر أحمد ويحيى وابن المديني فاستحسنوه وشهدوا بصحته.') },
+      { yearAH: '256 AH', yearCE: '870 CE', title: t('Passing in Khartank', 'Décès à Khartank', 'وفاته في ليلة عيد الفطر'), desc: t('Passed away on the eve of Eid al-Fitr in Khartank near Samarkand, surrounded by musk-scented soil.', 'Décès la veille de l’Aïd al-Fitr.', 'انتقاله إلى الرفيق الأعلى بقرية خرتنك وفاح من قبره ريح المسك أسابيع طوالاً.') },
+    ],
+    symbolColor: '#06b6d4',
+    tags: ['Amir al-Muminin fil-Hadith', 'Sahih al-Bukhari', 'Photographic Memory', 'Khartank'],
+  },
+  {
+    id: 'imam_muslim',
+    name: t('Imam Muslim ibn al-Hajjaj', 'L’Imam Muslim an-Naysabouri', 'الإمام مسلم بن الحجاج النيسابوري'),
+    title: t('The Master Hadith Critic & Author of Sahih Muslim', 'Le Maître Critique du Hadith & Auteur du Sahih', 'حجة الإسلام والناقد المتقن وصاحب الجامع الصحيح المرتب'),
+    honorific: 'رحمه الله',
+    era: 'hadith_scholars',
+    roleCategory: 'hadith_master',
+    mentorId: 'imam_bukhari',
+    lifeDates: {
+      birth: { ah: '204 AH', ce: '820 CE' },
+      death: { ah: '261 AH (25 Rajab)', ce: '875 CE (6 May)' },
+    },
+    lineage: t(
+      'Abu al-Husayn Muslim ibn al-Hajjaj ibn Muslim ibn Ward al-Qushayri an-Naysaburi. Traces back to the prominent northern Arab tribe of Banu Qushayr of Hawazin and Mudar.',
+      'Muslim ibn al-Hajjaj al-Qouchayri an-Naysabouri de la tribu arabe de Qouchayr.',
+      'أبو الحسين مسلم بن الحجاج بن مسلم بن وَرْد القشيري النيسابوري، ينتهي نسبه الصريح إلى قبيلة قُشَير بن كعب بن ربيعة بن عامر بن صعصعة الهوازنية المضرية العربية الشريفة.'
+    ),
+    burialPlace: t('Nishapur (Nasrabad), Khorasan (Iran)', 'Nishapour (Nasrabad), Khorassan (Iran)', 'نصراباد بمدينة نيسابور، خراسان (إيران)'),
+    biography: t(
+      'The celebrated author of Sahih Muslim and one of the two pre-eminent Hadith authorities in human history. Born in Nishapur into an ancient noble Arab clan, he began his Hadith studies at age twelve and undertook exhaustive scholarship across Iraq, Hijaz, Syria, and Egypt. Unlike many scholars, he was financially independent as a wealthy, scrupulous merchant of fine garments and textiles, never accepting political favors. In Nishapur, he forged a sublime bond of devotion with Imam al-Bukhari, championing him through hardships. He spent fifteen years refining Sahih Muslim from 300,000 narrations, creating an impeccably ordered work where all transmission variants (Turuq) of a single Hadith are clustered seamlessly in one chapter, avoiding fragmentation. His masterpiece is preceded by his world-renowned Introduction (Muqaddimah), the cornerstone of prophetic historiography and scientific isnad verification.',
+      'Auteur du prestigieux Sahih Muslim et l’un des plus grands savants de l’Islam. Issu de la tribu arabe de Qushayr, il commença ses études à 12 ans et parcourut l’Orient. Négociant aisé en tissus, il conserva une indépendance totale vis-à-vis du pouvoir. Disciple et fidèle défenseur d’Al-Bukhari, il passa 15 ans à polir son Sahih parmi 300 000 récits, offrant une œuvre à l’agencement thématique et structurel inégalé où toutes les voies de transmission d’un même hadith sont regroupées sans dispersion.',
+      'صاحب "صحيح مسلم" وأحد الجبلين الراسخين في حفظ سنة المصطفى ﷺ مع رفيقه البخاري. وُلد في نيسابور لأسرة عربية قشيرية عريقة، وبدأ السماع وهو في الثانية عشرة من عمره، وطاف العراق والحجاز والشام ومصر. كان تاجراً ميسوراً في بزّ الأقمشة والثياب الفاخرة، عفيف النفس زاهداً لم يدخل في أعطيات السلاطين ولا أطماع الدنيا. لازم الإمام البخاري في نيسابور ملازمة التلميذ البارّ ودافع عنه في محنته. ألّف صحيحه في خمسة عشر عاماً من بين 300 ألف حديث، وتميز صحيحه بحسن الترتيب وسياق طرق الحديث في موضع واحد دون تقطيع للمتون، ووضع في صدره "المقدمة" الشهيرة التي تعد أول وأعظم دستور منهجي في نقد أسانيد الحديث وعِلله.'
+    ),
+    achievements: [
+      t('Authored Sahih Muslim: 7,563 narrations organized with unmatched structural precision and variant clustering', 'Composition du Sahih Muslim (7 563 récits organisés avec une rigueur structurelle magistrale)', 'تصنيف المسند الصحيح (صحيح مسلم) المتميز بجمع طرق الحديث وألفاظه في مكان واحد دون تقطيع'),
+      t('Pioneered the scientific methodology of Hadith criticism in his legendary Introduction (Muqaddimah Sahih Muslim)', 'Rédaction de la Muqaddima fondatrice des sciences du Hadith', 'كتابة مقدمة صحيح مسلم التي أرست قواعد علم مصطلح الحديث والتمييز بين الثقات والمعلولين'),
+      t('Model of ethical scholarly autonomy through self-sustained textile commerce', 'Modèle absolu d’indépendance financière par le commerce du tissu', 'الاستقلال المالي التام بالتجارة الحلال في الأقمشة دون قبول هدايا الحكام والولاة'),
+    ],
+    propheticPraise: {
+      ar: '«قَالَ أَبُو عَلِيٍّ النَّيْسَابُورِيُّ: مَا تَحْتَ أَدِيمِ السَّمَاءِ كِتَابٌ أَصَحُّ مِنْ كِتَابِ مُسْلِمٍ فِي عِلْمِ الْحَدِيثِ» (أي من حيث جمع الطرق وحسن الصنعة)، وقال الحافظ الذهبي: «هُوَ الْإِمَامُ الْكَبِيرُ، الْحَافِظُ الْحُجَّةُ، صَاحِبُ الصَّحِيحِ الَّذِي رَزَقَهُ اللَّهُ فِيهِ السَّعَادَةَ وَالتَّوْفِيقَ»',
+      en: 'Abu Ali an-Naysaburi said: "There is no book under the canopy of heaven more sound and well-crafted in the science of Hadith transmission than the book of Muslim." And Imam adh-Dhahabi said: "He is the great Imam, the authoritative proof, the master of the Sahih whom Allah blessed with supreme success."',
+      fr: 'Abou Ali an-Naysabouri a dit : « Il n’y a point sous la voûte céleste d’ouvrage plus rigoureux et mieux ordonné dans la science des voies du Hadith que le livre de Muslim. »',
+      hadithSource: 'Tadhkirat al-Huffaz (2/588), Siyar A\'lam an-Nubala (12/558)',
+    },
+    works: [
+      t('Al-Musnad al-Sahih (Sahih Muslim)', 'Sahih Muslim', 'المسند الصحيح المختصر بنقل العدل عن العدل إلى رسول الله ﷺ'),
+      t('Al-Muqaddimah fi Usul al-Hadith (The Foundational Introduction)', 'Al-Mouqaddima', 'مقدمة صحيح مسلم في أصول علم الرواية والنقد الحديثي'),
+      t('Kitab al-Tamyiz (Principles of Hadith Discrepancy & Defects)', 'Kitab at-Tamyiz', 'كتاب التمييز في نقد روايات الحديث وبيان عللها'),
+      t('Kitab al-Kuna wal-Asma\'', 'Kitab al-Kouna wal-Asma', 'كتاب الكُنى والأسماء لرجال الحديث'),
+      t('Kitab al-Tabaqat', 'Kitab at-Tabaqat', 'كتاب طبقات التابعين ورواة الأثر'),
+    ],
+    teachers: [
+      t('Imam Muhammad ibn Ismail al-Bukhari (Greatest Teacher & Mentor)', 'L’Imam al-Boukhari', 'أمير المؤمنين في الحديث الإمام البخاري (شيخه وقدوته)'),
+      t('Imam Ahmad ibn Hanbal', 'L’Imam Ahmad ibn Hanbal', 'الإمام أحمد بن حنبل الشيباني'),
+      t('Ishaq ibn Rahwayh', 'Ishaq ibn Rahwayh', 'الإمام إسحاق بن راهويه'),
+      t('Yahya ibn Ma\'in', 'Yahya ibn Ma’in', 'الإمام يحيى بن معين'),
+      t('Harmalah ibn Yahya (Disciple of Imam ash-Shafi\'i in Egypt)', 'Harmala ibn Yahya', 'حرملة بن يحيى التجيبي صاحب الإمام الشافعي بمصر'),
+    ],
+    students: [
+      t('Imam Abu Isa at-Tirmidhi', 'L’Imam at-Tirmidhi', 'الإمام الحافظ أبو عيسى الترمذي'),
+      t('Abu Bakr ibn Khuzaymah (Imam al-A\'immah)', 'Ibn Khouzayma', 'الإمام أبو بكر بن خزيمة إمام الأئمة'),
+      t('Abu Hatim ar-Razi', 'Abou Hatim ar-Razi', 'الإمام أبو حاتم الرازي إمام الجرح والتعديل'),
+      t('Ibrahim ibn Muhammad ibn Sufyan (Transmitter of Sahih Muslim)', 'Ibrahim ibn Soufyan', 'إبراهيم بن محمد بن سفيان الفاشاني راوية الصحيح'),
+    ],
+    famousQuotes: [
+      {
+        ar: 'إِنَّمَا أَرَدْنَا أَنْ نَقْصِدَ إِلَى جَمِيعِ مَا صَحَّ عَنْ رَسُولِ اللَّهِ ﷺ مِمَّا رَوَاهُ الثِّقَاتُ عَنِ الثِّقَاتِ، حَتَّى يَكُونَ مَفْزَعًا لِأَهْلِ الْعِلْمِ وَطَلَبَةِ الْأَثَرِ.',
+        en: 'We only intended to compile everything that is authentic from the Messenger of Allah ﷺ transmitted by trustworthy narrators from trustworthy narrators, to serve as an infallible sanctuary for scholars and students of tradition.',
+        fr: 'Nous avons uniquement voulu rassembler tout ce qui est authentique du Messager d’Allah ﷺ transmis par des gens fiables, afin de constituer un sanctuaire solide pour les gens de science.',
+      },
+      {
+        ar: 'لَا يَكُونُ حَدِيثُ الرَّجُلِ صَحِيحًا حَتَّى يَكُونَ سَالِمًا مِنَ الْعِلَّةِ وَالشُّذُوذِ.',
+        en: 'A man’s Hadith is never sound (Sahih) until it is free from hidden defect and anomaly.',
+        fr: 'Le Hadith d’un homme n’est authentique que s’il est exempt de défaut caché et d’anomalie.',
+      },
+    ],
+    milestones: [
+      { yearAH: '204 AH', yearCE: '820 CE', title: t('Birth in Nishapur', 'Naissance à Nishapour', 'مولده في نيسابور بخراسان'), desc: t('Born into the noble Arab clan of Qushayr.', 'Naissance au sein de la tribu arabe de Qouchayr.', 'نشأ في بيت علم وفضل بمدينة نيسابور عاصمة العلم بخراسان.') },
+      { yearAH: '218 AH', yearCE: '833 CE', title: t('Began Hadith Studies at 14', 'Début des études à 14 ans', 'الشروع في سماع الحديث وهو ابن أربع عشرة سنة'), desc: t('Undertook foundational study in Nishapur and early travels.', 'Premières études et voyages en Orient.', 'بدء طلب العلم والرحلة إلى مراكز العلم الكبرى.') },
+      { yearAH: '250 AH', yearCE: '864 CE', title: t('Meeting Al-Bukhari in Nishapur', 'Rencontre avec Al-Boukhari', 'ملازمة الإمام البخاري في نيسابور'), desc: t('Formed an unbreakable bond of loyalty with Imam al-Bukhari.', 'Alliance intellectuelle et dévotion avec Al-Boukhari.', 'الملازمة التاريخية للإمام البخاري والدفاع عنه في نيسابور.') },
+      { yearAH: '261 AH', yearCE: '875 CE', title: t('Passing in Nishapur', 'Décès à Nishapour', 'وفاته بنصراباد في نيسابور'), desc: t('Passed away at age 57 and buried in Nasrabad cemetery in Nishapur.', 'Décès à 57 ans à Nishapour.', 'وفاته في شهر رجب ودفنه بمقبرة نصراباد بنيسابور تاركاً أصح كتاب مركب للأمة.') },
+    ],
+    symbolColor: '#06b6d4',
+    tags: ['Author of Sahih Muslim', 'Hadith Critic', 'Structural Precision', 'Nishapur'],
   },
 
   // ==========================================
