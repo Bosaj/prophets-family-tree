@@ -1,10 +1,10 @@
 # Shajara · شجرة الأنبياء
 
-> An interactive, source-cited family tree, topography map, nature showcase, and dual timeline of the Prophets named in the Qur'an and Sunnah — lineage, migrations, organisms, celestial theater, signs, and stories — in Arabic, English, and French.
+> An interactive, source-cited family tree, topography map, nature showcase, sahaba & caliphs succession tree, scientific facts explorer, and dual timeline of the Prophets named in the Qur'an and Sunnah — lineage, migrations, organisms, celestial theater, signs, and stories — in Arabic, English, and French.
 
 **Live Demo (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
 **Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
-**Status:** v2.0.0 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
+**Status:** v2.2.0 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
 
 ![Shajara home page](docs/home.webp)
 
@@ -13,10 +13,12 @@
 ## What it does
 
 - **Constellation Tree (`/tree`)** — the whole lineage from Adam to Muhammad ﷺ as an interactive, zoomable cosmic star map. Select a name to trace the direct lineage back to Adam. Sideways on wide screens (right-to-left in Arabic), top-down on mobile. Includes filters for wives (Ummahat al-Mu'minin), children, and extended family.
+- **Tree of Sahaba, Khulafa' & Continuous Lineages (`/sahaba`)** — comprehensive succession tree tracing from Prophet Muhammad ﷺ, Ahl al-Bayt, the 5 Rightly Guided Caliphs, the Ten Promised Paradise, historic Caliphates (Umayyads, Cordoba, Abbasids, Ottomans), down to unbroken Hasanid Sharifi lineages to the present day (Moroccan Alaouite Dynasty to King Mohammed VI, Jordanian Hashemite Dynasty to King Abdullah II).
+- **Scientific Facts in Qur'an & Sunnah (`/science`)** — interactive catalog of scientific truths mentioned in scripture confirmed by modern science, backed by peer-reviewed academic papers with direct DOI links (Nature, The Lancet, PNAS, Science) across cosmology, embryology, oceanography, geology, neuroscience, and pharmacology.
 - **Pre-Adamic Realm & Iblis** — an autonomous floating celestial domain above the tree canvas documenting earlier earthly creations (Jinn, Iblis / Satan, Hinn, Binn, Nasnas) cited by classical scholars (Ibn Kathir, Al-Hasan al-Basri) and the Qur'an, completely decoupled from Adam's genealogy.
 - **Topography Map & Prophetic Routes (`/map`)** — interactive historical topography map tracing prophetic routes, waypoints, sanctuaries, and migration paths across Hijaz, the Levant, Egypt, and Mesopotamia with elevation layers.
-- **Prophetic Nature, Flora & Fauna (`/nature`)** — catalog of 29 animals, plants, and foods mentioned in the Qur'an and Hadith (the hoopoe, whale, camel, bee, ant, olive, fig, date palm, pomegranate, black seed, talbinah, etc.) with detailed nutritional/healing benefits, zoological classifications, and scriptural occurrences.
-- **Celestial Sun, Moon, Dunes & Cloud Theater** — interactive atmospheric simulator computing accurate solar altitude, astronomical moon tracking with craters, drifting atmospheric clouds, and wind-carved desert dunes.
+- **Prophetic Nature, Flora & Fauna (`/nature`)** — catalog of 30 animals, plants, and foods mentioned in the Qur'an and Hadith (including the Hoopoe / *Upupa epops*, the Dove / *Columba livia*, the whale, camel, bee, ant, olive, fig, date palm, pomegranate, black seed, etc.) with detailed nutritional/healing benefits and live audio.
+- **Celestial Sun, Moon, Dunes & Cloud Physics Theater** — interactive atmospheric simulator with direct draggable sky physics, live celestial orbit simulation loop, multi-layered drifting volumetric clouds, and real-time shadow projection on desert sand dunes.
 - **Dual Timeline (`/timeline`)** — the chronological sequence of the Prophets anchored on Qur'anic synchronisms with toggles for Hijri (BH / AH) and historical BCE/CE epochs.
 - **Interactive Relational Highlighting** — bidirectional focus between canvas relationship lines and the floating legend (parent, descendant, sacred marriage, sibling, cousin, legal guardianship).
 - **Profiles (`/p/:id`)** — comprehensive dossiers for each Prophet: mission, people, scripture, lifespan, family links, miracles, and key Qur'anic passages.
