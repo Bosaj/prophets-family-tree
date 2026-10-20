@@ -116,6 +116,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const [hoveredLegendKind, setHoveredLegendKind] = useState<EdgeKind | null>(null)
   const [showLegend, setShowLegend] = useState(false)
   const [showPreAdamModal, setShowPreAdamModal] = useState(false)
+  const [selectedPreAdamEntity, setSelectedPreAdamEntity] = useState<string | null>(null)
 
   const activeKind: EdgeKind | null =
     activeLegendKind ??
@@ -403,6 +404,28 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               <stop offset="0" stopColor="rgb(129 140 248 / 0.55)" />
               <stop offset="1" stopColor="rgb(129 140 248 / 0)" />
             </radialGradient>
+            <radialGradient id="halo-angels" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.85" />
+              <stop offset="45%" stopColor="#bae6fd" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#0284c7" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="orb-angels" cx="40%" cy="35%" r="65%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="35%" stopColor="#e0f2fe" />
+              <stop offset="75%" stopColor="#38bdf8" />
+              <stop offset="100%" stopColor="#0369a1" />
+            </radialGradient>
+            <radialGradient id="halo-iblis" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#ef4444" stopOpacity="0.85" />
+              <stop offset="50%" stopColor="#f97316" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#7f1d1d" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="orb-iblis" cx="40%" cy="35%" r="65%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="30%" stopColor="#fca5a5" />
+              <stop offset="70%" stopColor="#ef4444" />
+              <stop offset="100%" stopColor="#450a0a" />
+            </radialGradient>
           </defs>
           <g
             style={{
@@ -566,67 +589,192 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               )
             })}
 
-            {/* Pre-Adamic & Iblis Primordial Realm (Autonomous creation, detached from Adam's lineage) */}
+            {/* Pre-Adamic Celestial & Primordial Realm (Angels of Light, Iblis of Fire, & Pre-Adamic Races) */}
             {nodeById.has('adam') && (() => {
               const adam = nodeById.get('adam')!
-              const py = adam.y - 88
               const px = adam.x
+              const py = adam.y
+              const isH = wide
+
+              const angelsX = isH ? px - 110 : px - 165
+              const angelsY = isH ? py - 130 : py - 100
+
+              const iblisX = isH ? px - 110 : px + 165
+              const iblisY = isH ? py + 130 : py - 100
+
+              const centerBannerX = isH ? px - 150 : px
+              const centerBannerY = isH ? py : py - 145
+
               return (
-                <g
-                  className="cursor-pointer group/preadam"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setShowPreAdamModal(true)
-                  }}
-                >
-                  {/* Cosmic Divide Indicator (strictly NO line into Adam!) */}
+                <g className="select-none">
+                  {/* Cosmic Separation Barrier Line (Strict theological separation from Adam's lineage) */}
                   <line
-                    x1={px - 45}
-                    y1={adam.y - 32}
-                    x2={px + 45}
-                    y2={adam.y - 32}
-                    stroke="rgba(245,158,11,0.25)"
-                    strokeWidth="1"
-                    strokeDasharray="2 3"
-                  />
-                  {/* Primordial Fire Aura */}
-                  <circle cx={px} cy={py} r={28} fill="rgba(239,68,68,0.12)" className="animate-pulse" />
-                  <circle cx={px} cy={py} r={18} fill="rgba(245,158,11,0.18)" />
-                  <circle cx={px} cy={py} r={13} fill="rgba(20,10,30,0.95)" stroke="#f59e0b" strokeWidth="1.5" />
-                  <circle cx={px} cy={py} r={3.5} fill="#fca5a5" />
-                  {/* Floating Realm Pill */}
-                  <rect
-                    x={px - 105}
-                    y={py - 36}
-                    width={210}
-                    height={24}
-                    rx={12}
-                    fill="rgba(15,10,25,0.95)"
-                    stroke="rgba(245,158,11,0.65)"
+                    x1={isH ? px - 35 : px - 250}
+                    y1={isH ? py - 180 : py - 36}
+                    x2={isH ? px - 35 : px + 250}
+                    y2={isH ? py + 180 : py - 36}
+                    stroke="rgba(233,198,123,0.35)"
                     strokeWidth="1.2"
-                    className="shadow-xl"
+                    strokeDasharray="4 4"
                   />
                   <text
                     x={px}
-                    y={py - 20}
+                    y={isH ? py - 190 : py - 42}
                     textAnchor="middle"
-                    fill="#fef08a"
-                    fontSize="10"
-                    fontWeight="bold"
-                    className="select-none font-sans"
+                    fill="#e2b866"
+                    fontSize="9"
+                    fontWeight="600"
+                    className="font-sans tracking-wide"
                   >
-                    {lang === 'ar' ? '🔥 عالم ما قبل آدم وإبليس (الجن والحن)' : '🔥 Primordial Realm (Pre-Adam & Iblis)'}
+                    {lang === 'ar'
+                      ? '﴿خُلِقَتِ الْمَلَائِكَةُ مِنْ نُورٍ، وَخُلِقَ الْجَانُّ مِنْ نَارٍ، وَخُلِقَ آدَمُ مِنْ طِينٍ﴾ · خلق مستقل قبل استخلاف البشر'
+                      : 'Angels from Light · Jinn & Iblis from Fire · Adam from Clay (Independent Pre-Adamic Creation)'}
                   </text>
-                  <text
-                    x={px}
-                    y={adam.y - 36}
-                    textAnchor="middle"
-                    fill="#a1a1aa"
-                    fontSize="8.5"
-                    className="select-none font-sans italic opacity-75"
+
+                  {/* Primordial Cosmic Arc */}
+                  <path
+                    d={
+                      isH
+                        ? `M ${angelsX},${angelsY} Q ${centerBannerX},${centerBannerY} ${iblisX},${iblisY}`
+                        : `M ${angelsX},${angelsY} Q ${px},${centerBannerY + 30} ${iblisX},${iblisY}`
+                    }
+                    fill="none"
+                    stroke="rgba(245,158,11,0.25)"
+                    strokeWidth="1.2"
+                    strokeDasharray="3 3"
+                  />
+
+                  {/* 1. THE ANGELS (الملائكة الكرام - خُلقوا من نور) */}
+                  <g
+                    className="cursor-pointer group/angels"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedPreAdamEntity('angels')
+                      setShowPreAdamModal(true)
+                    }}
                   >
-                    {lang === 'ar' ? 'خلق مستقل من نار قبل استخلاف الإنسان' : 'Separate creation of fire before humankind'}
-                  </text>
+                    <circle cx={angelsX} cy={angelsY} r={32} fill="url(#halo-angels)" className="animate-pulse" />
+                    <circle cx={angelsX} cy={angelsY} r={22} fill="none" stroke="rgba(56,189,248,0.5)" strokeWidth="1" strokeDasharray="3 2" />
+                    <circle cx={angelsX} cy={angelsY} r={17} fill="url(#orb-angels)" stroke="#ffffff" strokeWidth="2" filter="drop-shadow(0 0 10px rgba(56,189,248,0.8))" />
+                    <text x={angelsX} y={angelsY + 4} textAnchor="middle" fontSize="13" className="pointer-events-none">
+                      🪽
+                    </text>
+                    <rect
+                      x={angelsX - 65}
+                      y={angelsY + 22}
+                      width={130}
+                      height={20}
+                      rx={10}
+                      fill="rgba(8,18,36,0.95)"
+                      stroke="rgba(56,189,248,0.6)"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={angelsX}
+                      y={angelsY + 35}
+                      textAnchor="middle"
+                      fill="#e0f2fe"
+                      fontSize="9.5"
+                      fontWeight="bold"
+                      className="font-sans"
+                    >
+                      {lang === 'ar' ? 'الملائكة (خُلقوا من نور)' : 'Angels (From Light)'}
+                    </text>
+                    <text
+                      x={angelsX}
+                      y={angelsY + 52}
+                      textAnchor="middle"
+                      fill="#38bdf8"
+                      fontSize="8"
+                      fontWeight="600"
+                    >
+                      {lang === 'ar' ? 'سجدوا طاعةً لأمر الله' : 'Bowed in Obedience'}
+                    </text>
+                  </g>
+
+                  {/* 2. SHAYTAN / IBLIS (إبليس / الشيطان - خُلق من نار) */}
+                  <g
+                    className="cursor-pointer group/iblis"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedPreAdamEntity('iblis')
+                      setShowPreAdamModal(true)
+                    }}
+                  >
+                    <circle cx={iblisX} cy={iblisY} r={32} fill="url(#halo-iblis)" className="animate-pulse" />
+                    <circle cx={iblisX} cy={iblisY} r={22} fill="none" stroke="rgba(239,68,68,0.5)" strokeWidth="1" strokeDasharray="3 2" />
+                    <circle cx={iblisX} cy={iblisY} r={17} fill="url(#orb-iblis)" stroke="#fca5a5" strokeWidth="2" filter="drop-shadow(0 0 10px rgba(239,68,68,0.8))" />
+                    <text x={iblisX} y={iblisY + 4} textAnchor="middle" fontSize="13" className="pointer-events-none">
+                      🔥
+                    </text>
+                    <rect
+                      x={iblisX - 65}
+                      y={iblisY + 22}
+                      width={130}
+                      height={20}
+                      rx={10}
+                      fill="rgba(30,10,12,0.95)"
+                      stroke="rgba(239,68,68,0.6)"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={iblisX}
+                      y={iblisY + 35}
+                      textAnchor="middle"
+                      fill="#fee2e2"
+                      fontSize="9.5"
+                      fontWeight="bold"
+                      className="font-sans"
+                    >
+                      {lang === 'ar' ? 'إبليس (خُلق من نار)' : 'Iblis / Satan (From Fire)'}
+                    </text>
+                    <text
+                      x={iblisX}
+                      y={iblisY + 52}
+                      textAnchor="middle"
+                      fill="#f87171"
+                      fontSize="8"
+                      fontWeight="600"
+                    >
+                      {lang === 'ar' ? 'استكبر وأبى السجود' : 'Refused out of Pride'}
+                    </text>
+                  </g>
+
+                  {/* 3. CENTER BANNER: Pre-Adamic Earthly Inhabitants (الجن والحن والبن والنسناس) */}
+                  <g
+                    className="cursor-pointer group/preadam"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedPreAdamEntity('jinn')
+                      setShowPreAdamModal(true)
+                    }}
+                  >
+                    <rect
+                      x={centerBannerX - 110}
+                      y={centerBannerY}
+                      width={220}
+                      height={26}
+                      rx={13}
+                      fill="rgba(15,10,25,0.95)"
+                      stroke="rgba(245,158,11,0.65)"
+                      strokeWidth="1.2"
+                      className="transition-colors group-hover/preadam:stroke-gold group-hover/preadam:fill-night-2"
+                      filter="drop-shadow(0 4px 12px rgba(0,0,0,0.8))"
+                    />
+                    <text
+                      x={centerBannerX}
+                      y={centerBannerY + 17}
+                      textAnchor="middle"
+                      fill="#fef08a"
+                      fontSize="10"
+                      fontWeight="bold"
+                      className="font-sans"
+                    >
+                      {lang === 'ar'
+                        ? '⚡ عالم ما قبل آدم (الجن، الحن والبن، والنسناس)'
+                        : '⚡ Pre-Adamic Realm (Jinn, Hinn & Nasnas)'}
+                    </text>
+                  </g>
                 </g>
               )
             })()}
@@ -1353,14 +1501,24 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
       {mini && (
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent" />
       )}
-      {showPreAdamModal && <TreePreAdamModal onClose={() => setShowPreAdamModal(false)} />}
+      {showPreAdamModal && (
+        <TreePreAdamModal
+          onClose={() => {
+            setShowPreAdamModal(false)
+            setSelectedPreAdamEntity(null)
+          }}
+          initialEntityId={selectedPreAdamEntity}
+        />
+      )}
     </div>
   )
 }
 
-function TreePreAdamModal({ onClose }: { onClose: () => void }) {
+function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; initialEntityId?: string | null }) {
   const { pick, lang } = useI18n()
-  const [selectedEntity, setSelectedEntity] = useState<PreAdamEntity | null>(null)
+  const [selectedEntity, setSelectedEntity] = useState<PreAdamEntity | null>(() =>
+    initialEntityId ? PRE_ADAM_ENTITIES.find((e) => e.id === initialEntityId) ?? null : null
+  )
 
   if (typeof document === 'undefined') return null
 
@@ -1384,7 +1542,9 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
                 {lang === 'ar' ? 'فصل تمهيدي في شجرة الأنبياء' : 'Primordial Prologue'}
               </span>
               <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1">
-                {lang === 'ar' ? 'عالم ما قبل آدم وإبليس: الجن، الحن، والبن، والنسناس' : 'The Pre-Adamic Realm: Jinn, Iblis, Hinn, Binn & Nasnas'}
+                {lang === 'ar'
+                  ? 'عالم ما قبل آدم: الملائكة، إبليس، الجن، والحن والبن والنسناس'
+                  : 'The Pre-Adamic Realm: Angels, Iblis, Jinn, Hinn, Binn & Nasnas'}
               </h2>
             </div>
           </div>
@@ -1402,8 +1562,8 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
         <div className="overflow-y-auto px-6 sm:px-8 py-6 space-y-6 flex-1">
           <p className="text-xs sm:text-sm text-ink-2 leading-relaxed bg-white/[0.02] p-4 rounded-2xl border border-white/5">
             {lang === 'ar'
-              ? 'آدم عليه السلام هو أبو البشر، خُلق مستقلاً من طين ولا يمت بنسب لأي خلق قبله. وثقت كتب التفسير والتاريخ الإسلامي (كابن كثير والطبري) وجود أمم أرضية وخلق مادي مكلّف خُلق من نار السموم قبل استخلاف بني آدم؛ كالجن وإبليس، والحن والبن والنسناس.'
-              : 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Classical Islamic sources document the earlier inhabitants of Earth created from smokeless flame before Adam was appointed as Khalifah.'}
+              ? 'آدم عليه السلام هو أبو البشر، خُلق مستقلاً من طين ولا يمت بنسب لأي خلق قبله. وثقت نصوص القرآن الكريم والسنة النبوية الصحيحة خلق الملائكة من نور سابقاً لخلق البشر، وسجودهم لآدم طاعةً لله، كما وثقت خلق الجان وإبليس من نار، ووجود أمم أرضية سابقة سكنت الأرض كالحن والبن والنسناس.'
+              : 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Classical Islamic texts document the creation of Angels from Light, Jinn and Iblis from Fire, and pre-Adamic earthly creatures (Hinn, Binn, Nasnas) prior to human stewardship.'}
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -1428,10 +1588,12 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
                         <span>{pick(entity.era)}</span>
                       </span>
                       <span className="text-[0.65rem] font-mono text-ink-3">
-                        {entity.id === 'iblis'
-                          ? (lang === 'ar' ? 'عزازيل / إبليس' : 'Azazil / Satan')
+                        {entity.id === 'angels'
+                          ? (lang === 'ar' ? 'خلق من نور' : 'Created from Light')
+                          : entity.id === 'iblis'
+                          ? (lang === 'ar' ? 'عزازيل / إبليس (نار)' : 'Azazil / Satan (Fire)')
                           : entity.id === 'jinn'
-                          ? (lang === 'ar' ? 'خلق من نار' : 'Smokeless Fire')
+                          ? (lang === 'ar' ? 'مارج من نار' : 'Smokeless Fire')
                           : (lang === 'ar' ? 'أمم سابقة' : 'Ancient Race')}
                       </span>
                     </div>
