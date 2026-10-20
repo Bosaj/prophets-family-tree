@@ -292,10 +292,55 @@ html[lang='ar'] body {
   }
 }
 
-/* scrollbars */
+/* Custom Islamic Gold Scrollbars for all browsers */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgb(233 198 123 / 0.25) transparent;
+  scrollbar-color: rgba(233, 198, 123, 0.45) rgba(8, 11, 28, 0.35);
+}
+
+*:hover {
+  scrollbar-color: rgba(233, 198, 123, 0.75) rgba(8, 11, 28, 0.45);
+}
+
+/* WebKit & Chromium (Chrome, Edge, Safari, Brave, Opera) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(8, 11, 28, 0.5);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(233, 198, 123, 0.65) 0%, rgba(185, 139, 62, 0.65) 100%);
+  border-radius: 9999px;
+  border: 2px solid rgba(8, 11, 28, 0.7);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fff6dc 0%, #f1d18e 50%, #b98b3e 100%);
+  box-shadow: 0 0 10px rgba(233, 198, 123, 0.6);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #fbe6b0;
+  box-shadow: 0 0 14px rgba(233, 198, 123, 0.9);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Utility to hide scrollbars when explicitly requested */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Leaflet Dark & Glow Customizations */
