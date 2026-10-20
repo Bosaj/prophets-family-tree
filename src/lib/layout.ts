@@ -104,8 +104,14 @@ export function buildLayout(
   })
   const root = hierarchy<Raw>(make('adam'), (d) => d.children)
   const laid = tree<Raw>()
-    .nodeSize(horizontal ? [86, 300] : [NODE_W, NODE_H])
-    .separation((a, b) => (a.parent === b.parent ? 1.1 : 1.35))(root)
+    .nodeSize(horizontal ? [105, 300] : [NODE_W, NODE_H])
+    .separation((a, b) => {
+      const hasMusa = a.data.id === 'musa' || b.data.id === 'musa'
+      const hasMh = a.data.id === 'muhammad' || b.data.id === 'muhammad'
+      if (hasMh) return 2.8
+      if (hasMusa) return 2.2
+      return a.parent === b.parent ? 1.15 : 1.4
+    })(root)
 
   // Map temporary positions from d3 layout
   const tempPos = new Map<string, { x: number; y: number; depth: number }>()
@@ -115,13 +121,13 @@ export function buildLayout(
 
   // 2. Position visible spouses in a vertical line with their prophet husband
   const spousePositions = new Map<string, { x: number; y: number; depth: number }>()
-  const vGap = 78
+  const vGap = 85
 
-  // Hawwa vertically below Adam
+  // Hawwa vertically below Adam (with ample room for Adam's date pill)
   if (visible('hawwa') && tempPos.has('adam')) {
     const a = tempPos.get('adam')!
     spousePositions.set('hawwa', {
-      x: horizontal ? a.x + 86 : a.x,
+      x: horizontal ? a.x + 125 : a.x,
       y: horizontal ? a.y : a.y + vGap,
       depth: a.depth + 0.5,
     })
@@ -135,25 +141,25 @@ export function buildLayout(
 
     if (visible('hajar')) {
       spousePositions.set('hajar', {
-        x: horizontal ? (ismailPos ? ismailPos.x : ib.x - 86) : (ismailPos ? ismailPos.x : ib.x - 70),
+        x: horizontal ? (ismailPos ? ismailPos.x : ib.x - 115) : (ismailPos ? ismailPos.x : ib.x - 70),
         y: horizontal ? ib.y : ib.y + vGap,
         depth: ib.depth + 0.5,
       })
     }
     if (visible('sarah')) {
       spousePositions.set('sarah', {
-        x: horizontal ? (ishaqPos ? ishaqPos.x : ib.x + 86) : (ishaqPos ? ishaqPos.x : ib.x + 70),
+        x: horizontal ? (ishaqPos ? ishaqPos.x : ib.x + 115) : (ishaqPos ? ishaqPos.x : ib.x + 70),
         y: horizontal ? ib.y : ib.y + vGap,
         depth: ib.depth + 0.5,
       })
     }
   }
 
-  // Safura vertically below Musa
+  // Safura vertically below Musa (Musa has 2.2 separation from Harun, so Safura fits perfectly)
   if (visible('safura') && tempPos.has('musa')) {
     const m = tempPos.get('musa')!
     spousePositions.set('safura', {
-      x: horizontal ? m.x + 86 : m.x,
+      x: horizontal ? m.x + 115 : m.x,
       y: horizontal ? m.y : m.y + vGap,
       depth: m.depth + 0.5,
     })
@@ -167,13 +173,13 @@ export function buildLayout(
     const lastKid = kKids[kKids.length - 1]
     const kCenterX = firstKid && lastKid && tempPos.has(firstKid) && tempPos.has(lastKid)
       ? (tempPos.get(firstKid)!.x + tempPos.get(lastKid)!.x) / 2
-      : mh.x + 86
-    const ibrahimX = tempPos.get('ibrahim_m')?.x ?? (mh.x - 86)
+      : mh.x + 115
+    const ibrahimX = tempPos.get('ibrahim_m')?.x ?? (mh.x - 105)
 
-    // Khadijah vertically below Muhammad and aligned with her children
+    // Khadijah vertically below Muhammad with clear separation from Muhammad's date pill
     if (visible('khadijah')) {
       spousePositions.set('khadijah', {
-        x: horizontal ? mh.x + 86 : kCenterX,
+        x: horizontal ? mh.x + 125 : kCenterX,
         y: horizontal ? mh.y : mh.y + vGap,
         depth: mh.depth + 0.5,
       })
@@ -188,29 +194,57 @@ export function buildLayout(
       })
     }
 
-    const topWives = ['sawdah', 'aisha', 'hafsah', 'zaynab_khuzaymah', 'umm_salamah'].filter(visible)
-    const bottomWives = ['zaynab_jahsh', 'juwayriyah', 'umm_habibah', 'safiyyah', 'maymunah'].filter(visible)
+    // The other 10 wives of the Prophet (Ummahat al-Mu'minin)
+    // In horizontal mode: placed above Mariyah and Muhammad along the open vertical generation line
+    // In vertical mode: flanked cleanly to the left and right of all children
+    // This avoids colliding with Ayyub (who sits below Muhammad) and ensures ZERO overlap
+    const upperWives = [
+      'sawdah',
+      'aisha',
+      'hafsah',
+      'zaynab_khuzaymah',
+      'umm_salamah',
+      'zaynab_jahsh',
+      'juwayriyah',
+      'umm_habibah',
+      'safiyyah',
+      'maymunah',
+    ].filter(visible)
 
-    const minX = Math.min(mh.x, ibrahimX)
-    const maxX = Math.max(mh.x + 86, kCenterX, tempPos.get('fatimah')?.x ?? mh.x)
-
-    topWives.forEach((wid, idx) => {
-      const step = (idx + 1) * 86
-      spousePositions.set(wid, {
-        x: horizontal ? minX - step : mh.x + (idx + 1) * 90,
-        y: horizontal ? mh.y : mh.y + vGap,
-        depth: mh.depth + 0.5,
+    if (horizontal) {
+      const baseTopX = Math.min(mh.x, ibrahimX)
+      upperWives.forEach((wid, idx) => {
+        const step = (idx + 1) * 95
+        spousePositions.set(wid, {
+          x: baseTopX - step,
+          y: mh.y,
+          depth: mh.depth + 0.5,
+        })
       })
-    })
+    } else {
+      const allKidsX = ['qasim', 'abdullah_m', 'ibrahim_m', 'zaynab_m', 'ruqayyah', 'umm_kulthum', 'fatimah']
+        .map((id) => tempPos.get(id)?.x)
+        .filter((v): v is number => typeof v === 'number')
+      const minChildX = Math.min(mh.x, ...allKidsX)
+      const maxChildX = Math.max(mh.x, ...allKidsX)
+      const rightWives = upperWives.slice(0, 5)
+      const leftWives = upperWives.slice(5)
 
-    bottomWives.forEach((wid, idx) => {
-      const step = (idx + 1) * 86
-      spousePositions.set(wid, {
-        x: horizontal ? maxX + step : mh.x - (idx + 1) * 90,
-        y: horizontal ? mh.y : mh.y + vGap,
-        depth: mh.depth + 0.5,
+      rightWives.forEach((wid, idx) => {
+        spousePositions.set(wid, {
+          x: maxChildX + (idx + 1) * 88,
+          y: mh.y + vGap,
+          depth: mh.depth + 0.5,
+        })
       })
-    })
+      leftWives.forEach((wid, idx) => {
+        spousePositions.set(wid, {
+          x: minChildX - (idx + 1) * 88,
+          y: mh.y + vGap,
+          depth: mh.depth + 0.5,
+        })
+      })
+    }
   }
 
   // Compute overall bounding box
