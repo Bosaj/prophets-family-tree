@@ -254,7 +254,7 @@ export function buildLayout(
     maxY = Math.max(maxY, p.y)
   }
 
-  const pad = horizontal ? 120 : 185
+  const pad = horizontal ? 360 : 250
   const widthRaw = maxX - minX + pad * 2
   const heightRaw = maxY - minY + pad * 2
 
