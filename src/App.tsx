@@ -87,7 +87,9 @@ export default function App() {
       </a>
       <Starfield density={route.name === 'tree' || route.name === 'map' ? 0.7 : 1} />
       <Header route={route} onSearch={() => setSearching(true)} />
-      <main id="main">{page}</main>
+      <main id="main" className={route.name !== 'home' && route.name !== 'tree' && route.name !== 'map' ? 'pt-28 sm:pt-20' : undefined}>
+        {page}
+      </main>
       {route.name !== 'tree' && route.name !== 'map' && (
         <footer className="border-t border-white/5">
           <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-10 text-center text-sm text-ink-3 sm:flex-row sm:justify-between sm:text-start">
