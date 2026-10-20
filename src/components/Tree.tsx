@@ -24,7 +24,7 @@ import type { Key } from '../i18n/strings'
 import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions, type TreeEdge } from '../lib/layout'
 import { treeParent } from '../data/links'
 import { byId } from '../data/people'
-import type { Kind } from '../data/types'
+import type { Kind, Lang } from '../data/types'
 import { hrefOf, navigate } from '../lib/router'
 import { A, FactText, LEVEL_STROKE, LevelChip, Refs, SubName, RefChip } from './ui'
 import { formatDate, formatBirthDeath } from '../lib/dates'
@@ -68,15 +68,20 @@ const EDGE_KIND_COLOR: Record<EdgeKind, string> = {
 const MIN_K = 0.25
 const MAX_K = 2.6
 
-const TREE_EPOCHS = [
-  { id: 'pre_adam', target: 'pre_adam', label: { en: 'Before Adam', fr: 'Avant Adam', ar: 'ما قبل آدم' }, dates: 'c. Primordial' },
-  { id: 'primordial', target: 'adam', label: { en: 'Primordial', fr: 'Primordial', ar: 'عهد البدء' }, dates: 'c. 4000+ BCE' },
-  { id: 'deluge', target: 'nuh', label: { en: 'The Deluge', fr: 'Le Déluge', ar: 'الطوفان' }, dates: 'c. 3000 BCE' },
-  { id: 'patriarchs', target: 'ibrahim', label: { en: 'Patriarchs', fr: 'Patriarches', ar: 'الخليل والآباء' }, dates: 'c. 1900 BCE' },
-  { id: 'mosaic', target: 'musa', label: { en: 'Mosaic Era', fr: 'Ère Mosaïque', ar: 'الكليم والخروج' }, dates: 'c. 1300 BCE' },
-  { id: 'kings', target: 'dawud', label: { en: 'Kingdoms', fr: 'Royaumes', ar: 'الملك والحكمة' }, dates: 'c. 1000 BCE' },
-  { id: 'messianic', target: 'isa', label: { en: 'Messianic', fr: 'Messianique', ar: 'المسيح والآيات' }, dates: 'c. 1–33 CE' },
-  { id: 'final', target: 'muhammad', label: { en: 'Final Seal', fr: 'Sceau Final', ar: 'الرسالة الخاتمة' }, dates: '570–632 CE / 11 AH' },
+const TREE_EPOCHS: Array<{
+  id: string
+  target: string
+  label: Record<Lang, string>
+  dates: Record<Lang, string>
+}> = [
+  { id: 'pre_adam', target: 'pre_adam', label: { en: 'Before Adam', fr: 'Avant Adam', ar: 'ما قبل آدم' }, dates: { en: 'Primordial', fr: 'Primordial', ar: 'أزلي' } },
+  { id: 'primordial', target: 'adam', label: { en: 'Primordial', fr: 'Primordial', ar: 'عهد البدء' }, dates: { en: '~4000+ BCE', fr: '~4000+ av. J.-C.', ar: '~4000+ ق.م' } },
+  { id: 'deluge', target: 'nuh', label: { en: 'The Deluge', fr: 'Le Déluge', ar: 'الطوفان' }, dates: { en: '~3000 BCE', fr: '~3000 av. J.-C.', ar: '~3000 ق.م' } },
+  { id: 'patriarchs', target: 'ibrahim', label: { en: 'Patriarchs', fr: 'Patriarches', ar: 'الخليل والآباء' }, dates: { en: '~1900 BCE', fr: '~1900 av. J.-C.', ar: '~1900 ق.م' } },
+  { id: 'mosaic', target: 'musa', label: { en: 'Mosaic Era', fr: 'Ère Mosaïque', ar: 'الكليم والخروج' }, dates: { en: '~1300 BCE', fr: '~1300 av. J.-C.', ar: '~1300 ق.م' } },
+  { id: 'kings', target: 'dawud', label: { en: 'Kingdoms', fr: 'Royaumes', ar: 'الملك والحكمة' }, dates: { en: '~1000 BCE', fr: '~1000 av. J.-C.', ar: '~1000 ق.م' } },
+  { id: 'messianic', target: 'isa', label: { en: 'Messianic', fr: 'Messianique', ar: 'المسيح والآيات' }, dates: { en: '~1–33 CE', fr: '~1–33 ap. J.-C.', ar: '~1–33 م' } },
+  { id: 'final', target: 'muhammad', label: { en: 'Final Seal', fr: 'Sceau Final', ar: 'الرسالة الخاتمة' }, dates: { en: '570–632 CE', fr: '570–632 ap. J.-C.', ar: '570–632 م' } },
 ]
 
 export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }) {
@@ -109,7 +114,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const [hoveredEdge, setHoveredEdge] = useState<{ edge: TreeEdge; kind: EdgeKind; x: number; y: number } | null>(null)
   const [selectedEdge, setSelectedEdge] = useState<{ edge: TreeEdge; kind: EdgeKind } | null>(null)
   const [hoveredLegendKind, setHoveredLegendKind] = useState<EdgeKind | null>(null)
-  const [showMobileLegend, setShowMobileLegend] = useState(false)
+  const [showLegend, setShowLegend] = useState(false)
   const [showPreAdamModal, setShowPreAdamModal] = useState(false)
 
   const activeKind: EdgeKind | null =
@@ -944,37 +949,55 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             </div>
           )}
 
-          {/* Mobile Legend Toggle Button */}
+          {/* Interactive Legend Toggle Pill */}
           <button
             type="button"
-            onClick={() => setShowMobileLegend((s) => !s)}
-            className="glass pointer-events-auto md:hidden absolute start-3 bottom-14 z-20 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs text-ink shadow-lg border border-white/10 cursor-pointer"
+            onClick={() => setShowLegend((s) => !s)}
+            className={`glass pointer-events-auto absolute start-3 sm:start-5 bottom-16 sm:bottom-20 z-20 flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium shadow-xl border transition-all cursor-pointer ${
+              showLegend
+                ? 'border-gold/60 bg-gold/20 text-gold shadow-[0_0_15px_rgba(233,198,123,0.35)]'
+                : 'border-white/10 text-ink hover:border-gold/40 hover:bg-white/10'
+            }`}
+            aria-expanded={showLegend}
+            title={t('legend')}
           >
             <Layers className="size-3.5 text-gold" />
             <span>{t('legend')}</span>
+            {activeLegendKind && (
+              <span className="size-2 rounded-full bg-gold animate-ping" />
+            )}
           </button>
 
-          {/* Specific Categorized Interactive Legend */}
-          <div
-            className={`glass pointer-events-auto absolute start-3 bottom-24 md:bottom-3 z-20 max-w-xs rounded-2xl p-3.5 text-xs text-ink-2 sm:start-5 sm:bottom-5 ${
-              showMobileLegend ? 'block' : 'hidden'
-            } md:block shadow-2xl backdrop-blur-xl border border-white/10`}
-          >
-            <div className="mb-2 font-bold text-ink text-[0.8rem] flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <Layers className="size-3.5 text-gold" />
-                {t('legend')}
-              </span>
-              {activeLegendKind && (
-                <button
-                  type="button"
-                  onClick={() => setActiveLegendKind(null)}
-                  className="text-[0.65rem] text-gold-2 hover:text-gold underline cursor-pointer"
-                >
-                  {t('clearHighlight')}
-                </button>
-              )}
-            </div>
+          {/* Specific Categorized Interactive Legend Card */}
+          {showLegend && (
+            <div
+              className="glass-strong pointer-events-auto absolute start-3 sm:start-5 bottom-28 sm:bottom-32 z-20 w-80 max-w-[calc(100vw-2rem)] max-h-[65vh] overflow-y-auto rounded-2xl p-3.5 text-xs text-ink-2 shadow-2xl backdrop-blur-xl border border-gold/30 no-scrollbar animate-fadeIn"
+            >
+              <div className="mb-2 font-bold text-ink text-[0.8rem] flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <Layers className="size-3.5 text-gold" />
+                  {t('legend')}
+                </span>
+                <div className="flex items-center gap-2">
+                  {activeLegendKind && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveLegendKind(null)}
+                      className="text-[0.65rem] text-gold-2 hover:text-gold underline cursor-pointer"
+                    >
+                      {t('clearHighlight')}
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setShowLegend(false)}
+                    className="rounded-full p-1 text-ink-3 hover:bg-white/10 hover:text-ink cursor-pointer"
+                    aria-label={t('close')}
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                </div>
+              </div>
 
             {/* Lineage & Marriage */}
             <div className="space-y-1 pb-2 border-b border-white/5">
@@ -1136,12 +1159,13 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               <LevelChip level="disputed" />
             </div>
           </div>
+        )}
 
-          {!sel && (
-            <p className="glass pointer-events-none absolute inset-x-0 bottom-4 mx-auto w-fit max-w-[90%] rounded-full px-4 py-2 text-center text-xs text-ink-2 md:bottom-5">
-              {t('traceHint')}
-            </p>
-          )}
+        {!sel && !showLegend && (
+          <p className="glass pointer-events-none absolute inset-x-0 bottom-16 sm:bottom-20 mx-auto w-fit max-w-[90%] rounded-full px-4 py-1.5 text-center text-xs text-ink-2 z-10 animate-fadeIn">
+            {t('traceHint')}
+          </p>
+        )}
 
           {/* Side Drawer Inspector */}
           {sel && (
@@ -1291,9 +1315,9 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
           )}
 
           {/* Bottom Floating Time-Space Epoch Ruler */}
-          <div className="absolute inset-x-4 bottom-4 z-10 flex justify-center pointer-events-none sm:inset-x-6 sm:bottom-6">
-            <div className="glass pointer-events-auto flex max-w-full items-center gap-1.5 overflow-x-auto rounded-full p-1.5 shadow-2xl border border-gold/30 bg-night-surface/95 backdrop-blur-md scrollbar-none">
-              <div className="flex items-center gap-1.5 ps-2.5 pe-1 text-xs font-semibold text-gold">
+          <div className="absolute inset-x-2 sm:inset-x-6 bottom-3 sm:bottom-5 z-10 flex justify-center pointer-events-none">
+            <div className="glass pointer-events-auto flex max-w-[calc(100vw-1.5rem)] sm:max-w-fit items-center gap-1.5 overflow-x-auto rounded-full p-1.5 shadow-2xl border border-gold/30 bg-night-surface/95 backdrop-blur-md scrollbar-none">
+              <div className="flex shrink-0 items-center gap-1.5 ps-2.5 pe-1 text-xs font-semibold text-gold">
                 <Clock className="size-3.5" />
                 <span className="hidden sm:inline">{lang === 'ar' ? 'العصور الزمانية:' : 'Epochs:'}</span>
               </div>
@@ -1304,16 +1328,16 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     key={ep.id}
                     type="button"
                     onClick={() => jumpToEpoch(ep.target)}
-                    className={`group flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs transition-all ${
+                    className={`group flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs whitespace-nowrap transition-all ${
                       active
                         ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]'
                         : 'text-ink-2 hover:bg-white/10 hover:text-ink'
                     }`}
-                    title={`${ep.label[lang]} (${formatDate(ep.dates, lang)})`}
+                    title={`${ep.label[lang]} (${ep.dates[lang]})`}
                   >
-                    <span>{ep.label[lang]}</span>
-                    <span className={`text-[0.65rem] opacity-75 ${active ? 'text-night font-mono' : 'text-gold-2 font-mono'}`}>
-                      {formatDate(ep.dates.split(' ')[0], lang)}
+                    <span className="font-medium">{ep.label[lang]}</span>
+                    <span className={`text-[0.65rem] opacity-75 ${active ? 'text-night font-bold' : 'text-gold-2 font-mono'}`}>
+                      {ep.dates[lang]}
                     </span>
                   </button>
                 )

@@ -1,6 +1,6 @@
 import { createContext, useContext, type AnchorHTMLAttributes, type ReactNode } from 'react'
 import { BookOpen, ExternalLink, ScrollText } from 'lucide-react'
-import { navigate } from '../lib/router'
+import { navigate, withBase } from '../lib/router'
 import { useI18n } from '../i18n'
 import { LEVEL_TEXT } from '../i18n/strings'
 import { parseRef, refLabel, refUrl } from '../data/sources'
@@ -8,13 +8,14 @@ import type { Fact, Level, Person, Ref } from '../data/types'
 
 /** In-app link: plain <a> for crawlers and middle-click, client-side navigation otherwise. */
 export function A({ href, children, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) {
+  const fullHref = withBase(href)
   return (
     <a
-      href={href}
+      href={fullHref}
       onClick={(e) => {
         if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
         e.preventDefault()
-        navigate(href)
+        navigate(fullHref)
       }}
       {...rest}
     >

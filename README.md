@@ -1,8 +1,10 @@
 # Shajara · شجرة الأنبياء
 
-> An interactive, source-cited family tree and timeline of the 25 Prophets named in the Qur'an — lineage, the peoples they were sent to, families, signs and stories — in Arabic, French and English.
+> An interactive, source-cited family tree, topography map, nature showcase, and dual timeline of the Prophets named in the Qur'an and Sunnah — lineage, migrations, organisms, celestial theater, signs, and stories — in Arabic, English, and French.
 
-**Live:** https://shajara-prophets.vercel.app · **Status:** v1.0.0 · **Idea:** #18 in the owner's ideas backlog · **Author:** Oussama EL HADJI
+**Live Demo (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
+**Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
+**Status:** v2.0.0 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
 
 ![Shajara home page](docs/home.webp)
 
@@ -10,70 +12,93 @@
 
 ## What it does
 
-- **Constellation tree** — the whole lineage from Adam to Muhammad ﷺ as a pannable, zoomable star map. Select a name to trace the line back to Adam. Sideways on wide screens (right-to-left in Arabic), top-down on phones. Family members (Shith, Azar, ‘Imran, Maryam) can be hidden.
-- **Timeline** — the order of the prophets, anchored on Qur'anic statements ("‘Ad came after the people of Nuh", 7:69). Historians' date estimates are hidden until you ask for them.
-- **Profiles** — for each prophet: whom he was sent to, his land, scripture, lifespan, marriage, children, signs and miracles, family links and the story, plus the main passages to read.
-- **Live Qur'an** — every verse reference opens the Uthmani text, a translation (Saheeh International / Hamidullah / al-Tafsir al-Muyassar) and Mishary Alafasy's recitation, loaded from the Al Quran Cloud API. No verse is typed by hand.
-- **Al-Mi‘raj** — the prophets met in each of the seven heavens (Sahih al-Bukhari 3207), and the five messengers of firm resolve.
-- **Search** (Ctrl K or /) across names in three languages, Biblical names and story words; Arabic search ignores diacritics and hamza forms.
-- Installable **PWA**, works offline for pages already visited; ar / fr / en with a full RTL layout.
+- **Constellation Tree (`/tree`)** — the whole lineage from Adam to Muhammad ﷺ as an interactive, zoomable cosmic star map. Select a name to trace the direct lineage back to Adam. Sideways on wide screens (right-to-left in Arabic), top-down on mobile. Includes filters for wives (Ummahat al-Mu'minin), children, and extended family.
+- **Pre-Adamic Realm & Iblis** — an autonomous floating celestial domain above the tree canvas documenting earlier earthly creations (Jinn, Iblis / Satan, Hinn, Binn, Nasnas) cited by classical scholars (Ibn Kathir, Al-Hasan al-Basri) and the Qur'an, completely decoupled from Adam's genealogy.
+- **Topography Map & Prophetic Routes (`/map`)** — interactive historical topography map tracing prophetic routes, waypoints, sanctuaries, and migration paths across Hijaz, the Levant, Egypt, and Mesopotamia with elevation layers.
+- **Prophetic Nature, Flora & Fauna (`/nature`)** — catalog of 29 animals, plants, and foods mentioned in the Qur'an and Hadith (the hoopoe, whale, camel, bee, ant, olive, fig, date palm, pomegranate, black seed, talbinah, etc.) with detailed nutritional/healing benefits, zoological classifications, and scriptural occurrences.
+- **Celestial Sun, Moon, Dunes & Cloud Theater** — interactive atmospheric simulator computing accurate solar altitude, astronomical moon tracking with craters, drifting atmospheric clouds, and wind-carved desert dunes.
+- **Dual Timeline (`/timeline`)** — the chronological sequence of the Prophets anchored on Qur'anic synchronisms with toggles for Hijri (BH / AH) and historical BCE/CE epochs.
+- **Interactive Relational Highlighting** — bidirectional focus between canvas relationship lines and the floating legend (parent, descendant, sacred marriage, sibling, cousin, legal guardianship).
+- **Profiles (`/p/:id`)** — comprehensive dossiers for each Prophet: mission, people, scripture, lifespan, family links, miracles, and key Qur'anic passages.
+- **Live Qur'an Sheet** — every verse reference opens the Uthmani text, translation (Saheeh International / Hamidullah / al-Tafsir al-Muyassar), and Mishary Alafasy's audio recitation streaming live from the Al Quran Cloud API. No verse is typed by hand.
+- **Al-Mi‘raj** — the stations of the seven heavens (Sahih al-Bukhari 3207) and the Ulul ‘Azm messengers of firm resolve.
+- **Multi-lingual & RTL** — full instant switching between Arabic, English, and French with bespoke typography (Reem Kufi, Amiri, Sora) and responsive layouts.
+- **Offline PWA** — installable Progressive Web App with offline caching for visited routes.
+
+---
 
 ## Accuracy is the product
 
-Every fact and every relationship carries a **source level**:
+Every fact and relationship carries a strict **source level**:
 
 | Level | Meaning |
 |---|---|
-| Qur'an | Stated in the Qur'an; the reference gives surah:verse |
-| Hadith | From an authentic hadith (sunnah.com numbering) or the established sira |
-| Tradition | From scholars, historians (Ibn Kathir, al-Tabari) or the Biblical account — not certain |
-| Disputed | Scholars disagree, or the information is uncertain |
+| **Qur'an** | Stated explicitly in the Qur'an; reference cites surah:verse |
+| **Hadith** | From an authentic hadith (sunnah.com numbering) or established Sunnah |
+| **Tradition** | From classical historians (Ibn Kathir, al-Tabari) or historical accounts |
+| **Disputed** | Scholarly disagreement or uncertain historical traditions |
 
-Rules: a level is never upgraded; Qur'an text is never typed by hand; dates before Muhammad ﷺ are labelled as estimates; **no images or depictions of the Prophets** — the scenes are generated landscapes of the places and events in their stories.
+Rules:
+1. A source level is never upgraded.
+2. Qur'anic text is never typed by hand — always fetched verified via the Al Quran Cloud API.
+3. Pre-Adamic creations are strictly autonomous and never connected genealogically to Adam.
+4. **No human depictions or images of the Prophets** — visual representations are limited to atmospheric landscapes and botanical/zoological photography.
 
-`npm run verify:sources` checks the dataset against the real texts: all 290+ Qur'an references must exist, about 200 of them must contain an expected word in the Saheeh International translation, and all 23 hadith references must exist and contain an expected word ([fawazahmed0/hadith-api](https://github.com/fawazahmed0/hadith-api)).
+`npm run verify:sources` validates the entire dataset against authentic texts: 278+ Qur'an citations and 32 Hadith references.
 
-Found a mistake? [Open an accuracy issue](https://github.com/Bosaj/prophets-family-tree/issues/new?labels=accuracy) with a source.
+Found a mistake? [Open an accuracy issue](https://github.com/Bosaj/prophets-family-tree/issues/new?labels=accuracy) with a primary source citation.
 
-## Stack
+---
 
-React 19 + TypeScript 7 + Vite 8, Tailwind CSS 4, d3-hierarchy (tree layout), custom SVG + canvas star field, vite-plugin-pwa, Vitest. Fonts: Reem Kufi (Arabic display), Amiri / Amiri Quran, Sora. Deployed on Vercel.
+## Tech Stack
+
+- **Framework:** React 19 + TypeScript 7 + Vite 8
+- **Styling & Design:** Tailwind CSS 4, Lucide Icons, Glassmorphism, Reem Kufi & Amiri typography
+- **Data & Visualization:** d3-hierarchy, custom SVG canvas, Leaflet 3D topography maps
+- **PWA & Offline:** vite-plugin-pwa, Workbox service workers
+- **Testing & Verification:** Vitest, automated Qur'an & Hadith source verifier script
+- **CI/CD & Deployment:** GitHub Actions (`.github/workflows/deploy.yml`), GitHub Pages SPA (`404.html`), Vercel
 
 ```
-src/data/people.ts     the 25 prophets + family members (every fact sourced)
-src/data/links.ts      relationships (parent, descendant, sibling, cousin, guardian…)
-src/data/sources.ts    reference parsing, labels and links (quran.com, sunnah.com)
-src/lib/layout.ts      tree layout, lineage, relatives
-src/lib/quran.ts       live passage loader + recitation URLs
-scripts/verify-sources.mjs   checks every reference against the texts
-scripts/images.mjs     encodes scene images (WebP + AVIF, full 2048 px kept)
+src/data/people.ts        25 Prophets + extended family (every fact sourced)
+src/data/preAdam.ts       Pre-Adamic creations & Iblis dataset with classical sources
+src/data/nature.ts        29 Qur'anic and Sunnah organisms with scriptural benefits
+src/data/links.ts         Genealogical, marital, and lateral relationship bonds
+src/data/sources.ts       Reference parsing, labels, and sunnah.com / quran.com links
+src/lib/layout.ts         Multi-generational tree layout algorithm with zero collisions
+src/lib/router.ts         Base-path-aware client router supporting GitHub Pages & subdomains
+src/components/NatureView.tsx   Organism catalog & celestial Sun/Moon/Dunes theater
+src/components/TopographyMap.tsx Interactive historical topography and migration routes
+src/components/Tree.tsx   Constellation family tree viewer & collapsible legend
 ```
 
-## Getting started
+---
+
+## Getting Started
 
 ```bash
+# Clone the repository
+git clone https://github.com/Bosaj/prophets-family-tree.git
+cd prophets-family-tree
+
+# Install dependencies
 npm install
-npm run dev            # http://localhost:5173
-npm test               # data integrity, layout, search, router, UI smoke tests
-npm run verify:sources # needs network
+
+# Start local development server
+npm run dev
+
+# Run unit tests and layout collision validation
+npm test
+
+# Verify all Qur'anic and Hadith citations against API endpoints
+npm run verify:sources
+
+# Build production bundle
 npm run build
 ```
 
-## Roadmap
+---
 
-- v0.1 — sourced dataset of the 25 Prophets + relationship graph ✅
-- v0.2 — interactive constellation tree + profiles ✅
-- v0.3 — timeline view + miracles and stories ✅
-- v0.4 — Arabic/French/English, search, PWA ✅
-- Next — review of the dataset by a qualified scholar, share cards per prophet, a printable poster, a light "manuscript" theme, more family members (Hajar, Sarah, Asiya, Khadijah…) as nodes.
+## License & Attribution
 
-## For LLM agents & contributors
-
-- **No images or depictions of Prophets, ever.** Use calligraphy, light, landscapes and geometry.
-- Every fact needs a level and references. If you are not sure, use `tradition` or `disputed` — never upgrade.
-- Add a keyword check for every new Qur'an or hadith reference in `scripts/verify-sources.mjs` and run it.
-- Keep all three languages complete — `src/data/data.test.ts` fails on any missing translation.
-
-## License
-
-[MIT](LICENSE) — © 2026 Oussama EL HADJI. Qur'an text, translations and recitation are loaded from [Al Quran Cloud](https://alquran.cloud/api) and remain under their own terms.
+Open-source educational project developed by [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/). Released under the MIT License.

@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const base = process.env.VITE_BASE || (process.env.GITHUB_PAGES ? '/prophets-family-tree/' : '/')
+const cleanBase = base.endsWith('/') ? base : `${base}/`
+
 /** Preload the display fonts so the calligraphic title doesn't reflow when they arrive. */
 function preloadFonts(): Plugin {
   return {
@@ -12,13 +15,14 @@ function preloadFonts(): Plugin {
       order: 'post',
       handler(html, ctx) {
         const fonts = Object.keys(ctx.bundle ?? {}).filter((f) => /(reem-kufi-arabic-wght-normal|sora-latin-wght-normal)-[\w-]+\.woff2$/.test(f))
-        return { html, tags: fonts.map((f) => ({ tag: 'link', attrs: { rel: 'preload', as: 'font', type: 'font/woff2', href: `/${f}`, crossorigin: '' }, injectTo: 'head' as const })) }
+        return { html, tags: fonts.map((f) => ({ tag: 'link', attrs: { rel: 'preload', as: 'font', type: 'font/woff2', href: `${cleanBase}${f}`, crossorigin: '' }, injectTo: 'head' as const })) }
       },
     },
   }
 }
 
 export default defineConfig({
+  base: cleanBase,
   plugins: [
     preloadFonts(),
     react(),
@@ -35,12 +39,12 @@ export default defineConfig({
         theme_color: '#04050d',
         background_color: '#04050d',
         display: 'standalone',
-        start_url: '/',
+        start_url: cleanBase,
         categories: ['education', 'books'],
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,woff2}', 'img/*-960.webp'],
-        navigateFallback: '/index.html',
+        navigateFallback: `${cleanBase}index.html`,
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.origin === 'https://api.alquran.cloud',
