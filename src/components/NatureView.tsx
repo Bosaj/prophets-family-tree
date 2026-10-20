@@ -1142,7 +1142,6 @@ export function NatureView() {
   const [showRealPhoto, setShowRealPhoto] = useState<boolean>(false)
   const [sunAngle, setSunAngle] = useState<number>(65) // 15 to 165 degrees
   const [shadowIntensity, setShadowIntensity] = useState<number>(65) // 20 to 100%
-  const [hoveredStagePhoto, setHoveredStagePhoto] = useState<boolean>(false)
 
   // Detail Modal / Sheet
   const [detailItem, setDetailItem] = useState<AnimalEntry | PlantFoodEntry | null>(null)
@@ -1212,6 +1211,11 @@ export function NatureView() {
   const sunXPercent = (sunAngle / 180) * 100
   // Arc altitude: High at noon (16% top), low at dawn/dusk (66% top)
   const sunYPercent = 70 - Math.sin((sunAngle * Math.PI) / 180) * 54
+
+  // Luminous Celestial Moon opposite the Sun in the sky
+  const moonXPercent = 100 - (sunAngle / 180) * 100
+  const moonYPercent = 74 - Math.sin(((180 - sunAngle) * Math.PI) / 180) * 48
+  const moonOpacity = sunAngle <= 55 ? 0.9 : sunAngle >= 125 ? 0.9 : 0.28
 
   // Ground shadow casts in the OPPOSITE direction of the sun
   // If sun is on left (sunAngle < 90), shadow points to the right!
@@ -1528,6 +1532,51 @@ export function NatureView() {
             }}
           />
 
+          {/* Drifting Celestial Clouds Layer */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+            <div
+              className="absolute top-6 -start-10 w-72 h-14 rounded-full transition-all duration-700"
+              style={{
+                filter: 'blur(12px)',
+                background:
+                  sunAngle <= 45
+                    ? 'radial-gradient(ellipse, rgba(251,191,36,0.45) 0%, rgba(244,114,182,0.2) 60%, transparent 100%)'
+                    : sunAngle >= 135
+                    ? 'radial-gradient(ellipse, rgba(249,115,22,0.45) 0%, rgba(168,85,247,0.2) 60%, transparent 100%)'
+                    : 'radial-gradient(ellipse, rgba(255,255,255,0.3) 0%, rgba(203,213,225,0.1) 60%, transparent 100%)',
+              }}
+            />
+            <div
+              className="absolute top-14 -end-8 w-80 h-16 rounded-full transition-all duration-700"
+              style={{
+                filter: 'blur(16px)',
+                background:
+                  sunAngle <= 45
+                    ? 'radial-gradient(ellipse, rgba(245,158,11,0.35) 0%, rgba(147,51,234,0.15) 60%, transparent 100%)'
+                    : sunAngle >= 135
+                    ? 'radial-gradient(ellipse, rgba(234,88,12,0.35) 0%, rgba(126,34,206,0.15) 60%, transparent 100%)'
+                    : 'radial-gradient(ellipse, rgba(255,255,255,0.25) 0%, rgba(148,163,184,0.08) 60%, transparent 100%)',
+              }}
+            />
+          </div>
+
+          {/* Luminous Celestial Moon */}
+          <div
+            className="absolute z-15 pointer-events-none flex items-center justify-center transition-all duration-500 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: `${moonXPercent}%`,
+              top: `${moonYPercent}%`,
+              opacity: moonOpacity,
+            }}
+          >
+            {/* Lunar Glow */}
+            <div className="absolute size-24 rounded-full bg-sky-200/20 blur-xl animate-pulse" />
+            <div className="size-8 rounded-full bg-gradient-to-br from-slate-100 via-sky-100 to-slate-300 shadow-[0_0_20px_rgba(224,242,254,0.7)] border border-white/60 relative overflow-hidden">
+              <div className="absolute top-1.5 start-1.5 size-2 rounded-full bg-slate-400/30" />
+              <div className="absolute bottom-2 end-2 size-2.5 rounded-full bg-slate-400/25" />
+            </div>
+          </div>
+
           {/* Actual Luminous Celestial Sun Body in the Sky */}
           <div
             className="absolute z-20 transition-all duration-150 pointer-events-none flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
@@ -1543,30 +1592,24 @@ export function NatureView() {
             <div className="size-10 rounded-full bg-gradient-to-br from-white via-amber-200 to-yellow-500 shadow-[0_0_25px_rgba(251,191,36,0.9),0_0_50px_rgba(245,158,11,0.6)] border border-white/80" />
           </div>
 
-          {/* Interactive Organism Display: Silhouette or Real Photo */}
+          {/* Organism Display in Stage Show (Hover disabled here per user request; toggles on button click) */}
           <div
-            className="relative z-10 w-48 sm:w-60 h-48 sm:h-60 flex items-center justify-center cursor-pointer"
-            onMouseEnter={() => setHoveredStagePhoto(true)}
-            onMouseLeave={() => setHoveredStagePhoto(false)}
-            onClick={(e) => {
-              e.stopPropagation()
-              setShowRealPhoto((p) => !p)
-            }}
-            title={lang === 'ar' ? 'انقر للتبديل بين الرسم والصورة الحقيقية' : 'Click to toggle Real Photo / Silhouette'}
+            className="relative z-10 w-48 sm:w-60 h-48 sm:h-60 flex items-center justify-center"
+            title={lang === 'ar' ? 'مسرح الظل والحركة' : 'Shadow Theater Stage'}
           >
             {/* Silhouette View */}
             <div
               className={`w-full h-full flex items-center justify-center transition-opacity duration-500 ${
-                showRealPhoto || hoveredStagePhoto ? 'opacity-0 pointer-events-none absolute' : 'opacity-100'
+                showRealPhoto ? 'opacity-0 pointer-events-none absolute' : 'opacity-100'
               }`}
             >
               <RenderOrganismSilhouette id={currentActive.id} animated={isMotionActive} />
             </div>
 
-            {/* Real Photograph View */}
+            {/* Real Photograph View (Toggled exclusively via Button) */}
             <div
               className={`w-44 sm:w-52 h-44 sm:h-52 rounded-2xl overflow-hidden border-2 border-gold/60 shadow-[0_10px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(233,198,123,0.4)] transition-all duration-500 relative flex items-center justify-center bg-night-2 ${
-                showRealPhoto || hoveredStagePhoto ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
+                showRealPhoto ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
               }`}
             >
               <img
@@ -1595,8 +1638,39 @@ export function NatureView() {
             }}
           />
 
-          {/* Ground Horizon Terrain Line */}
-          <div className="w-full h-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent relative mt-1" />
+          {/* Realistic Desert Sand Dunes & Sculpted Ground */}
+          <div className="w-full relative mt-2 pointer-events-none">
+            <svg viewBox="0 0 1200 65" preserveAspectRatio="none" className="w-full h-12 sm:h-14 block">
+              <defs>
+                <linearGradient id="sandDuneBack" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#78350f" stopOpacity="0.85" />
+                  <stop offset="50%" stopColor="#92400e" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#451a03" stopOpacity="0.95" />
+                </linearGradient>
+                <linearGradient id="sandDuneFront" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#d97706" stopOpacity="0.95" />
+                  <stop offset="35%" stopColor="#f59e0b" stopOpacity="0.92" />
+                  <stop offset="70%" stopColor="#b45309" stopOpacity="0.95" />
+                  <stop offset="100%" stopColor="#78350f" stopOpacity="1" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M 0 35 Q 300 15 600 30 T 1200 20 L 1200 65 L 0 65 Z"
+                fill="url(#sandDuneBack)"
+              />
+              <path
+                d="M 0 45 Q 220 22 520 38 T 1000 28 Q 1120 34 1200 40 L 1200 65 L 0 65 Z"
+                fill="url(#sandDuneFront)"
+              />
+              <path
+                d="M 0 45 Q 220 22 520 38 T 1000 28 Q 1120 34 1200 40"
+                fill="none"
+                stroke="rgba(254,240,138,0.45)"
+                strokeWidth="1.5"
+              />
+            </svg>
+          </div>
+
           <div className="w-full flex justify-between text-[0.65rem] font-mono text-ink-3 pt-1">
             <span>
               {'physicalTraits' in currentActive
@@ -1719,29 +1793,39 @@ export function NatureView() {
                         </h3>
                         <p className="text-xs font-mono text-ink-3 italic">{animal.scientificName}</p>
                       </div>
-                      <span className="ar-name gold-text text-lg font-bold shrink-0">{animal.name.ar}</span>
+                      {lang !== 'ar' && (
+                        <span className="ar-name gold-text text-lg font-bold shrink-0">{animal.name.ar}</span>
+                      )}
                     </div>
 
-                    {/* Miniature Animated Silhouette Theater + Real Photo Hover Reveal */}
-                    <div className="relative my-4 h-32 w-full rounded-xl bg-night-2/70 border border-white/5 flex flex-col items-center justify-center overflow-hidden group/theater">
+                    {/* Miniature Animated Silhouette Theater + Full Uncropped Real Photo on Hover */}
+                    <div className="relative my-4 h-44 sm:h-48 w-full rounded-2xl bg-night-2/80 border border-white/5 flex flex-col items-center justify-center overflow-hidden group/theater">
                       {/* Handcrafted Silhouette View */}
-                      <div className="w-20 h-20 relative z-10 transition-all duration-300 group-hover:opacity-0 group-hover:scale-90 flex flex-col items-center justify-center">
+                      <div className="w-24 h-24 relative z-10 transition-all duration-300 group-hover:opacity-0 group-hover:scale-90 flex flex-col items-center justify-center">
                         <RenderOrganismSilhouette id={animal.id} animated={true} />
-                        <div className="w-16 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
+                        <div className="w-20 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
                       </div>
 
-                      {/* Real Photo Revealed on Card Hover */}
-                      <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 flex items-center justify-center bg-night-3/90">
+                      {/* Real Photo Revealed on Card Hover — Fully Centered & NEVER Cropped */}
+                      <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 flex items-center justify-center bg-night-3/95 overflow-hidden">
+                        {/* Ambient blurred backdrop to fill all proportions */}
+                        <img
+                          src={`/nature/${animal.id}.jpg`}
+                          alt=""
+                          aria-hidden="true"
+                          className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+                        {/* Sharp, uncropped full subject */}
                         <img
                           src={`/nature/${animal.id}.jpg`}
                           alt={animal.scientificName}
                           loading="lazy"
-                          className="w-full h-full object-cover"
+                          className="relative z-10 max-h-full max-w-full object-contain p-2 drop-shadow-2xl"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
-                        <span className="absolute bottom-2 start-2 text-[0.65rem] font-medium text-gold bg-black/70 px-2 py-0.5 rounded-full border border-gold/30 flex items-center gap-1 backdrop-blur-sm">
+                        <span className="absolute bottom-2 start-2 text-[0.68rem] font-medium text-gold bg-black/75 px-2.5 py-0.5 rounded-full border border-gold/30 flex items-center gap-1 backdrop-blur-sm z-20">
                           <Sparkles className="size-2.5 text-gold" />
-                          <span>{lang === 'ar' ? 'صورة حقيقية' : 'Real Photo'}</span>
+                          <span>{lang === 'ar' ? 'صورة حقيقية كاملة' : 'Full Photo'}</span>
                         </span>
                       </div>
                     </div>
@@ -1804,29 +1888,39 @@ export function NatureView() {
                         </h3>
                         <p className="text-xs font-mono text-ink-3 italic">{plant.scientificName}</p>
                       </div>
-                      <span className="ar-name gold-text text-lg font-bold shrink-0">{plant.name.ar}</span>
+                      {lang !== 'ar' && (
+                        <span className="ar-name gold-text text-lg font-bold shrink-0">{plant.name.ar}</span>
+                      )}
                     </div>
 
-                    {/* Miniature Animated Silhouette Theater + Real Photo Hover Reveal */}
-                    <div className="relative my-4 h-32 w-full rounded-xl bg-night-2/70 border border-white/5 flex flex-col items-center justify-center overflow-hidden group/theater">
+                    {/* Miniature Animated Silhouette Theater + Full Uncropped Real Photo on Hover */}
+                    <div className="relative my-4 h-44 sm:h-48 w-full rounded-2xl bg-night-2/80 border border-white/5 flex flex-col items-center justify-center overflow-hidden group/theater">
                       {/* Handcrafted Silhouette View */}
-                      <div className="w-20 h-20 relative z-10 transition-all duration-300 group-hover:opacity-0 group-hover:scale-90 flex flex-col items-center justify-center">
+                      <div className="w-24 h-24 relative z-10 transition-all duration-300 group-hover:opacity-0 group-hover:scale-90 flex flex-col items-center justify-center">
                         <RenderOrganismSilhouette id={plant.id} animated={true} />
-                        <div className="w-16 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
+                        <div className="w-20 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
                       </div>
 
-                      {/* Real Photo Revealed on Card Hover */}
-                      <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 flex items-center justify-center bg-night-3/90">
+                      {/* Real Photo Revealed on Card Hover — Fully Centered & NEVER Cropped */}
+                      <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 flex items-center justify-center bg-night-3/95 overflow-hidden">
+                        {/* Ambient blurred backdrop to fill all proportions */}
+                        <img
+                          src={`/nature/${plant.id}.jpg`}
+                          alt=""
+                          aria-hidden="true"
+                          className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+                        {/* Sharp, uncropped full subject */}
                         <img
                           src={`/nature/${plant.id}.jpg`}
                           alt={plant.scientificName}
                           loading="lazy"
-                          className="w-full h-full object-cover"
+                          className="relative z-10 max-h-full max-w-full object-contain p-2 drop-shadow-2xl"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
-                        <span className="absolute bottom-2 start-2 text-[0.65rem] font-medium text-gold bg-black/70 px-2 py-0.5 rounded-full border border-gold/30 flex items-center gap-1 backdrop-blur-sm">
+                        <span className="absolute bottom-2 start-2 text-[0.68rem] font-medium text-gold bg-black/75 px-2.5 py-0.5 rounded-full border border-gold/30 flex items-center gap-1 backdrop-blur-sm z-20">
                           <Sparkles className="size-2.5 text-gold" />
-                          <span>{lang === 'ar' ? 'صورة حقيقية' : 'Real Photo'}</span>
+                          <span>{lang === 'ar' ? 'صورة حقيقية كاملة' : 'Full Photo'}</span>
                         </span>
                       </div>
                     </div>

@@ -196,12 +196,12 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1">
-              {lang === 'ar' ? 'ما قبل آدم عليه السلام: الجن، الحن، والبن، والنسناس' : 'Before Adam: The Jinn, Al-Hinn, Al-Binn & Al-Nasnas'}
+              {lang === 'ar' ? 'ما قبل آدم عليه السلام وإبليس: الجن، الحن، والبن، والنسناس' : 'Before Adam & Iblis: The Jinn, Hinn, Binn & Nasnas'}
             </h2>
             <p className="text-xs sm:text-sm text-ink-2 mt-1 leading-relaxed max-w-2xl">
               {lang === 'ar'
-                ? 'آدم عليه السلام هو أبو البشر وأول الأنبياء. وثّقت كتب التاريخ الإسلامي المعتمدة (تاريخ الطبري، والبداية والنهاية لابن كثير) أن الأرض سكنتها قبل بني آدم أُمم مكلّفة ومخلوقات مادية؛ كالجن الذين خُلقوا من نار السموم، والحن والبن والنسناس الذين أفسدوا وسفكوا الدماء.'
-                : 'Prophet Adam (peace be upon him) is the Father of Humankind (Abu al-Bashar). Classical Islamic historiography (Ibn Kathir, Al-Tabari) documents that prior to human stewardship, Earth was inhabited by the Jinn (created from smokeless flame) and primordial earthly races (Al-Hinn, Al-Binn, and the upright hominids Al-Nasnas).'}
+                ? 'آدم عليه السلام هو أبو البشر خُلق من طين مستقلاً دون نسب في الأرض. وثّقت كتب التاريخ الإسلامي المعتمدة (تاريخ الطبري، والبداية والنهاية لابن كثير) أن الأرض سكنتها قبل بني آدم أُمم مادية ومكلّفة؛ كالجن وإبليس الذين خُلقوا من نار السموم، والحن والبن والنسناس الذين أفسدوا وسفكوا الدماء.'
+                : 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Classical Islamic historiography (Ibn Kathir, Al-Tabari) documents that prior to humankind, Earth was inhabited by the Jinn and Iblis (created from smokeless flame) and ancient terrestrial creations (Al-Hinn, Al-Binn, and the upright hominids Al-Nasnas).'}
             </p>
           </div>
         </div>
@@ -213,7 +213,7 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
         </div>
       </div>
 
-      {/* Grid of 4 Pre-Adamic Cards */}
+      {/* Grid of Pre-Adamic Cards */}
       <div className="grid gap-4 sm:grid-cols-2 mt-6">
         {PRE_ADAM_ENTITIES.map((entity) => {
           const isSelected = selectedEntity?.id === entity.id
@@ -228,16 +228,28 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
               }`}
             >
               <div>
-                <div className="flex items-start justify-between gap-3">
+                {/* Clean non-squashing Card Header */}
+                <div className="space-y-2 mb-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[0.68rem] font-mono font-medium text-gold-2 bg-gold/10 px-2 py-0.5 rounded border border-gold/25 inline-flex items-center gap-1">
+                      <Sparkles className="size-2.5 text-gold" />
+                      <span>{pick(entity.era)}</span>
+                    </span>
+                    <span className="text-[0.65rem] font-mono text-ink-3">
+                      {entity.id === 'iblis'
+                        ? (lang === 'ar' ? 'عزازيل / إبليس' : 'Azazil / Satan')
+                        : entity.id === 'jinn'
+                        ? (lang === 'ar' ? 'خلق من نار' : 'Smokeless Fire')
+                        : (lang === 'ar' ? 'أمم سابقة' : 'Ancient Race')}
+                    </span>
+                  </div>
+
                   <div>
-                    <h3 className="font-bold text-ink text-base text-balance group-hover:text-gold transition-colors">
+                    <h3 className="font-bold text-ink text-lg group-hover:text-gold transition-colors leading-snug">
                       {pick(entity.name)}
                     </h3>
-                    <p className="text-xs text-gold-2 font-medium mt-0.5">{pick(entity.subTitle)}</p>
+                    <p className="text-xs text-gold-2/80 font-medium mt-1 leading-relaxed">{pick(entity.subTitle)}</p>
                   </div>
-                  <span className="text-xs font-mono text-ink-3 bg-white/5 px-2 py-0.5 rounded shrink-0">
-                    {pick(entity.era)}
-                  </span>
                 </div>
 
                 <div className="my-3 rounded-xl bg-night-3/70 p-3 border border-white/5">
