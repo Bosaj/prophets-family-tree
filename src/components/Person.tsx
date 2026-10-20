@@ -28,6 +28,7 @@ import { byId, people } from '../data/people'
 import type { Fact, Person as P } from '../data/types'
 import { refLabel } from '../data/sources'
 import { relativesOf } from '../lib/layout'
+import { formatDate } from '../lib/dates'
 import { hrefOf } from '../lib/router'
 import { A, FactText, LevelChip, Refs, Scene, useOpenVerse } from './ui'
 import { NotFound } from './NotFound'
@@ -288,13 +289,13 @@ export function Person({ id }: { id: string }) {
                     {p.dates.hijriBorn && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-ink-3">{t('timelineHijri')}</span>
-                        <span className="font-mono font-medium text-ink">{p.dates.hijriBorn}</span>
+                        <span className="font-mono font-medium text-ink">{formatDate(p.dates.hijriBorn, lang)}</span>
                       </div>
                     )}
                     {p.dates.gregorianBorn && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-ink-3">{t('timelineGregorian')}</span>
-                        <span className="font-mono font-medium text-ink">{p.dates.gregorianBorn}</span>
+                        <span className="font-mono font-medium text-ink">{formatDate(p.dates.gregorianBorn, lang)}</span>
                       </div>
                     )}
                     {p.dates.born && (
@@ -314,13 +315,13 @@ export function Person({ id }: { id: string }) {
                     {p.dates.hijriDied && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-ink-3">{t('timelineHijri')}</span>
-                        <span className="font-mono font-medium text-ink">{p.dates.hijriDied}</span>
+                        <span className="font-mono font-medium text-ink">{formatDate(p.dates.hijriDied, lang)}</span>
                       </div>
                     )}
                     {p.dates.gregorianDied && (
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-ink-3">{t('timelineGregorian')}</span>
-                        <span className="font-mono font-medium text-ink">{p.dates.gregorianDied}</span>
+                        <span className="font-mono font-medium text-ink">{formatDate(p.dates.gregorianDied, lang)}</span>
                       </div>
                     )}
                     {p.dates.died && (
@@ -350,12 +351,12 @@ export function Person({ id }: { id: string }) {
                     <div className="flex flex-wrap items-center gap-2">
                       {ev.yearHijri && (
                         <span className="rounded-full bg-gold/15 px-2.5 py-0.5 font-mono text-xs font-semibold text-gold">
-                          {ev.yearHijri}
+                          {formatDate(ev.yearHijri, lang)}
                         </span>
                       )}
                       {ev.yearBceCe && (
                         <span className="rounded-full bg-white/5 px-2.5 py-0.5 font-mono text-xs text-ink-3">
-                          {ev.yearBceCe}
+                          {formatDate(ev.yearBceCe, lang)}
                         </span>
                       )}
                       {ev.era && (

@@ -1,17 +1,63 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Baby, Calendar, Clock, Compass, Heart, Maximize2, Minus, Plus, RotateCcw, Sparkles, Users, X } from 'lucide-react'
+import {
+  ArrowRight,
+  Baby,
+  Calendar,
+  Clock,
+  Compass,
+  Heart,
+  Maximize2,
+  Minus,
+  Plus,
+  RotateCcw,
+  Sparkles,
+  Users,
+  X,
+  Layers,
+} from 'lucide-react'
 import { useI18n } from '../i18n'
-import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions } from '../lib/layout'
+import type { Key } from '../i18n/strings'
+import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions, type TreeEdge } from '../lib/layout'
 import { treeParent } from '../data/links'
 import { byId } from '../data/people'
 import type { Kind } from '../data/types'
 import { hrefOf, navigate } from '../lib/router'
-import { A, FactText, LEVEL_STROKE, LevelChip, Refs, SubName } from './ui'
+import { A, FactText, LEVEL_STROKE, LevelChip, Refs, SubName, RefChip } from './ui'
+import { formatDate, formatBirthDeath } from '../lib/dates'
 
 interface View {
   k: number
   x: number
   y: number
+}
+
+export type EdgeKind = 'parent' | 'descendant' | 'spouse' | 'sibling' | 'cousin' | 'guardian'
+
+export function getEdgeKind(e: TreeEdge): EdgeKind {
+  if (e.isMarriage) return 'spouse'
+  if (e.link.type === 'sibling') return 'sibling'
+  if (e.link.type === 'cousin') return 'cousin'
+  if (e.link.type === 'guardian') return 'guardian'
+  if (e.link.type === 'descendant') return 'descendant'
+  return 'parent'
+}
+
+const KIND_STRING_KEY: Record<EdgeKind, Key> = {
+  parent: 'linkParent',
+  descendant: 'linkDescendant',
+  spouse: 'linkSpouse',
+  sibling: 'linkSibling',
+  cousin: 'linkCousin',
+  guardian: 'linkGuardian',
+}
+
+const EDGE_KIND_COLOR: Record<EdgeKind, string> = {
+  parent: '#e9c67b',
+  descendant: '#d4a342',
+  spouse: '#e63946',
+  sibling: '#38bdf8',
+  cousin: '#c084fc',
+  guardian: '#34d399',
 }
 
 const MIN_K = 0.25
@@ -50,7 +96,40 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const pinch = useRef<{ d: number; k: number } | null>(null)
   const moved = useRef(false)
   const downNode = useRef<string | null>(null)
+  const downEdge = useRef<string | null>(null)
   const [glide, setGlide] = useState(false)
+
+  const [activeLegendKind, setActiveLegendKind] = useState<EdgeKind | null>(null)
+  const [hoveredEdge, setHoveredEdge] = useState<{ edge: TreeEdge; kind: EdgeKind; x: number; y: number } | null>(null)
+  const [selectedEdge, setSelectedEdge] = useState<{ edge: TreeEdge; kind: EdgeKind } | null>(null)
+  const [hoveredLegendKind, setHoveredLegendKind] = useState<EdgeKind | null>(null)
+  const [showMobileLegend, setShowMobileLegend] = useState(false)
+
+  const activeKind: EdgeKind | null =
+    activeLegendKind ??
+    hoveredLegendKind ??
+    (selectedEdge ? selectedEdge.kind : (hoveredEdge ? hoveredEdge.kind : null))
+
+  const highlightedCount = useMemo(() => {
+    if (!activeKind) return 0
+    return layout.edges.filter((e) => getEdgeKind(e) === activeKind).length
+  }, [layout.edges, activeKind])
+
+  const activeEdgeInfo = useMemo(() => {
+    const item = selectedEdge ?? hoveredEdge
+    if (!item) return null
+    const from = byId.get(item.edge.link.from)
+    const to = byId.get(item.edge.link.to)
+    if (!from || !to) return null
+    return {
+      edge: item.edge,
+      kind: item.kind,
+      from,
+      to,
+      refs: item.edge.link.r,
+      level: item.edge.link.l,
+    }
+  }, [selectedEdge, hoveredEdge])
 
   const path = useMemo(() => new Set(selected ? lineage(selected) : []), [selected])
   const nodeById = useMemo(() => new Map(layout.nodes.map((n) => [n.id, n])), [layout])
@@ -110,6 +189,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
 
   const onPointerDown = (e: React.PointerEvent) => {
     downNode.current = (e.target as Element).closest('[data-node]')?.getAttribute('data-node') ?? null
+    downEdge.current = (e.target as Element).closest('[data-edge-idx]')?.getAttribute('data-edge-idx') ?? null
     moved.current = false
     if (mini) return
     ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
@@ -151,8 +231,24 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
     const wasPan = pointers.current.size > 1
     pointers.current.delete(e.pointerId)
     if (pointers.current.size < 2) pinch.current = null
-    if (e.type === 'pointerup' && !wasPan && downNode.current) select(downNode.current)
+    if (e.type === 'pointerup' && !wasPan && !moved.current) {
+      if (downNode.current) {
+        select(downNode.current)
+        setSelectedEdge(null)
+      } else if (downEdge.current !== null) {
+        const idx = Number(downEdge.current)
+        const edge = layout.edges[idx]
+        if (edge) {
+          const kind = getEdgeKind(edge)
+          setSelectedEdge((cur) => (cur?.edge === edge ? null : { edge, kind }))
+          setSelected(null)
+        }
+      } else {
+        setSelectedEdge(null)
+      }
+    }
     downNode.current = null
+    downEdge.current = null
   }
 
   function select(id: string) {
@@ -162,7 +258,14 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
       return
     }
     setSelected((s) => (s === id ? null : id))
+    setSelectedEdge(null)
     reveal(id)
+  }
+
+  const jumpToPerson = (id: string) => {
+    setSelected(id)
+    reveal(id)
+    setSelectedEdge(null)
   }
 
   const jumpToEpoch = (targetId: string) => {
@@ -288,12 +391,20 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             }}
           >
             {layout.edges.map((e, i) => {
+              const kind = getEdgeKind(e)
               const onPath = path.has(e.link.from) && path.has(e.link.to) && !e.arc
-              const dim = selected && !onPath
               const isMarriage = e.isMarriage
-              const isSibling = e.link.type === 'sibling'
-              const isCousin = e.link.type === 'cousin'
-              const isGuardian = e.link.type === 'guardian'
+              const isSibling = kind === 'sibling'
+              const isCousin = kind === 'cousin'
+              const isGuardian = kind === 'guardian'
+
+              const isKindHighlighted = activeKind === kind
+              const isDirectlyActive = selectedEdge?.edge === e || hoveredEdge?.edge === e
+              const isHighlighted = isKindHighlighted || isDirectlyActive
+
+              const isDimmedByKind = activeKind !== null && !isKindHighlighted
+              const isDimmedByNode = selected !== null && !onPath
+              const dim = isDimmedByKind || (activeKind === null && isDimmedByNode)
 
               const strokeColor = isMarriage
                 ? '#e63946'
@@ -317,38 +428,94 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                         ? '6 7'
                         : undefined
 
-              const strokeWidth = isMarriage
-                ? 2.2
-                : onPath
-                  ? 2.8
-                  : e.arc
-                    ? 1.8
-                    : 1.7
+              const strokeWidth = isHighlighted
+                ? (isMarriage ? 4.2 : 3.8)
+                : isMarriage
+                  ? 2.2
+                  : onPath
+                    ? 2.8
+                    : e.arc
+                      ? 1.8
+                      : 1.7
 
-              const strokeOpacity = isMarriage
-                ? 0.95
-                : e.arc
-                  ? 0.85
-                  : 0.75
+              const strokeOpacity = isHighlighted
+                ? 1
+                : isDimmedByKind
+                  ? 0.1
+                  : dim
+                    ? 0.16
+                    : isMarriage
+                      ? 0.95
+                      : e.arc
+                        ? 0.85
+                        : 0.75
+
+              const glowClass = isHighlighted
+                ? kind === 'spouse'
+                  ? 'edge-glow-marriage'
+                  : kind === 'sibling'
+                    ? 'edge-glow-sibling'
+                    : kind === 'cousin'
+                      ? 'edge-glow-cousin'
+                      : kind === 'guardian'
+                        ? 'edge-glow-guardian'
+                        : kind === 'descendant'
+                          ? 'edge-glow-descendant'
+                          : 'edge-glow-parent'
+                : ''
 
               return (
-                <g key={i} opacity={dim ? 0.16 : 1} className="transition-opacity duration-500">
+                <g
+                  key={i}
+                  data-edge-idx={i}
+                  opacity={strokeOpacity}
+                  className="transition-all duration-300 pointer-events-auto"
+                >
+                  {/* Outer bloom stroke when glowing */}
+                  {isHighlighted && (
+                    <path
+                      d={e.d}
+                      fill="none"
+                      stroke={strokeColor}
+                      strokeWidth={strokeWidth + 5}
+                      strokeOpacity={0.4}
+                      strokeLinecap="round"
+                      className={glowClass}
+                    />
+                  )}
+
+                  {/* Main visible line */}
                   <path
                     d={e.d}
                     fill="none"
-                    stroke={strokeColor}
-                    strokeOpacity={strokeOpacity}
+                    stroke={isHighlighted ? '#ffffff' : strokeColor}
                     strokeWidth={strokeWidth}
                     strokeDasharray={strokeDash}
                     strokeLinecap="round"
+                    className={glowClass}
                   />
+
+                  {/* Marriage union circular badge */}
                   {isMarriage && e.union && (
                     <g transform={`translate(${e.union.x},${e.union.y})`}>
-                      <circle r="4" fill="#e63946" stroke="#ffffff" strokeWidth="1" />
-                      <circle r="7" fill="none" stroke="rgba(230, 57, 70, 0.5)" strokeWidth="0.8" />
+                      <circle
+                        r={isHighlighted ? 6 : 4}
+                        fill="#e63946"
+                        stroke="#ffffff"
+                        strokeWidth={isHighlighted ? 1.8 : 1}
+                        className={isHighlighted ? 'animate-pulse' : ''}
+                      />
+                      <circle
+                        r={isHighlighted ? 12 : 7}
+                        fill="none"
+                        stroke="rgba(230, 57, 70, 0.6)"
+                        strokeWidth={isHighlighted ? 1.5 : 0.8}
+                      />
                     </g>
                   )}
-                  {onPath && !isMarriage && (
+
+                  {/* Flowing particle animation on path */}
+                  {onPath && !isMarriage && !isHighlighted && (
                     <path
                       d={e.d}
                       fill="none"
@@ -358,6 +525,22 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       strokeLinecap="round"
                     />
                   )}
+
+                  {/* Wide transparent hit target for effortless hover/click */}
+                  <path
+                    d={e.d}
+                    fill="none"
+                    stroke="transparent"
+                    strokeWidth={22}
+                    strokeLinecap="round"
+                    className="cursor-pointer"
+                    onPointerEnter={(evt) => {
+                      setHoveredEdge({ edge: e, kind, x: evt.clientX, y: evt.clientY })
+                    }}
+                    onPointerLeave={() => {
+                      setHoveredEdge((cur) => (cur?.edge === e ? null : cur))
+                    }}
+                  />
                 </g>
               )
             })}
@@ -373,8 +556,8 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 if (n.person.era) return pick(n.person.era.t)
                 if (n.person.dates) {
                   const d = n.person.dates
-                  if (d.hijriBorn && d.hijriDied) return `${d.hijriBorn} – ${d.hijriDied}`
-                  if (d.gregorianBorn && d.gregorianDied) return `${d.gregorianBorn} – ${d.gregorianDied}`
+                  if (d.hijriBorn && d.hijriDied) return `${formatDate(d.hijriBorn, lang)} – ${formatDate(d.hijriDied, lang)}`
+                  if (d.gregorianBorn && d.gregorianDied) return `${formatDate(d.gregorianBorn, lang)} – ${formatDate(d.gregorianDied, lang)}`
                   if (d.born?.t) return pick(d.born.t)
                 }
                 return null
@@ -604,66 +787,271 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             </div>
           </div>
 
-          {/* Specific Categorized Legend */}
-          <div className="glass pointer-events-none absolute start-3 bottom-3 hidden max-w-xs rounded-2xl p-3.5 text-xs text-ink-2 sm:start-5 sm:bottom-5 md:block shadow-2xl backdrop-blur-xl border border-white/10">
-            <p className="mb-2 font-bold text-ink text-[0.8rem] flex items-center justify-between">
-              <span>{t('legend')}</span>
-              <span className="text-[0.65rem] text-gold font-normal font-mono">Shajara</span>
-            </p>
+          {/* Top Banner when an edge kind is highlighted across the tree */}
+          {activeLegendKind && (
+            <div className="glass pointer-events-auto absolute top-4 inset-x-0 mx-auto w-fit max-w-[90%] rounded-full px-4 py-2 text-center text-xs text-ink flex items-center gap-3 shadow-2xl border border-gold/40 z-30 backdrop-blur-md animate-fade-in">
+              <div className="flex items-center gap-2">
+                <Sparkles className="size-3.5 text-gold animate-spin-slow" />
+                <span>
+                  {t('edgeHighlightActive')}: <strong className="text-gold font-semibold">{t(KIND_STRING_KEY[activeLegendKind])}</strong> ({highlightedCount} {t('legendLines')})
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveLegendKind(null)}
+                className="ms-1.5 rounded-full bg-white/10 hover:bg-white/20 px-2 py-0.5 text-[0.65rem] font-medium text-ink transition-colors flex items-center gap-1 cursor-pointer"
+                title={t('clearHighlight')}
+              >
+                <X className="size-3" />
+                <span>{t('clearHighlight')}</span>
+              </button>
+            </div>
+          )}
+
+          {/* Interactive Edge Floating Relationship Card */}
+          {activeEdgeInfo && (
+            <div className="glass-strong pointer-events-auto absolute top-4 end-4 z-30 w-80 max-w-[calc(100vw-2rem)] rounded-2xl p-4 shadow-2xl border border-white/15 backdrop-blur-xl animate-fade-in">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="size-2.5 rounded-full shrink-0 shadow-[0_0_8px_currentColor]"
+                    style={{ backgroundColor: EDGE_KIND_COLOR[activeEdgeInfo.kind], color: EDGE_KIND_COLOR[activeEdgeInfo.kind] }}
+                  />
+                  <span className="text-[0.7rem] font-bold uppercase tracking-wider text-ink">
+                    {t(KIND_STRING_KEY[activeEdgeInfo.kind])}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedEdge(null)
+                    setHoveredEdge(null)
+                  }}
+                  className="rounded-full p-1 text-ink-3 hover:bg-white/10 hover:text-ink transition-colors cursor-pointer"
+                  aria-label={t('close')}
+                >
+                  <X className="size-3.5" />
+                </button>
+              </div>
+
+              {/* Connected persons */}
+              <div className="mt-3 flex items-center justify-between gap-2 text-xs bg-white/[0.03] p-2.5 rounded-xl border border-white/5">
+                <button
+                  type="button"
+                  onClick={() => jumpToPerson(activeEdgeInfo.from.id)}
+                  className="text-start hover:text-gold transition-colors font-medium text-ink min-w-0 flex-1 cursor-pointer"
+                >
+                  <span className="block truncate">{pick(activeEdgeInfo.from.name)}</span>
+                  <span className="ar-name block text-xs text-gold truncate">{activeEdgeInfo.from.name.ar}</span>
+                </button>
+                <span className="text-ink-3 text-xs shrink-0 px-1">➔</span>
+                <button
+                  type="button"
+                  onClick={() => jumpToPerson(activeEdgeInfo.to.id)}
+                  className="text-end hover:text-gold transition-colors font-medium text-ink min-w-0 flex-1 cursor-pointer"
+                >
+                  <span className="block truncate">{pick(activeEdgeInfo.to.name)}</span>
+                  <span className="ar-name block text-xs text-gold truncate">{activeEdgeInfo.to.name.ar}</span>
+                </button>
+              </div>
+
+              {/* Scripture & Hadith Reference Chips */}
+              {activeEdgeInfo.refs && activeEdgeInfo.refs.length > 0 && (
+                <div className="mt-2.5 flex flex-wrap gap-1.5 pt-2 border-t border-white/10">
+                  {activeEdgeInfo.refs.map((r) => (
+                    <RefChip key={r} r={r} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Mobile Legend Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setShowMobileLegend((s) => !s)}
+            className="glass pointer-events-auto md:hidden absolute start-3 bottom-14 z-20 flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs text-ink shadow-lg border border-white/10 cursor-pointer"
+          >
+            <Layers className="size-3.5 text-gold" />
+            <span>{t('legend')}</span>
+          </button>
+
+          {/* Specific Categorized Interactive Legend */}
+          <div
+            className={`glass pointer-events-auto absolute start-3 bottom-24 md:bottom-3 z-20 max-w-xs rounded-2xl p-3.5 text-xs text-ink-2 sm:start-5 sm:bottom-5 ${
+              showMobileLegend ? 'block' : 'hidden'
+            } md:block shadow-2xl backdrop-blur-xl border border-white/10`}
+          >
+            <div className="mb-2 font-bold text-ink text-[0.8rem] flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Layers className="size-3.5 text-gold" />
+                {t('legend')}
+              </span>
+              {activeLegendKind && (
+                <button
+                  type="button"
+                  onClick={() => setActiveLegendKind(null)}
+                  className="text-[0.65rem] text-gold-2 hover:text-gold underline cursor-pointer"
+                >
+                  {t('clearHighlight')}
+                </button>
+              )}
+            </div>
 
             {/* Lineage & Marriage */}
-            <div className="space-y-1.5 pb-2 border-b border-white/5">
+            <div className="space-y-1 pb-2 border-b border-white/5">
               <span className="text-[0.65rem] font-semibold text-gold tracking-wider uppercase block mb-1">
                 {t('legendLineage')}
               </span>
-              <div className="flex items-center gap-2">
-                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
-                  <line x1="0" y1="3" x2="32" y2="3" stroke="var(--color-lvl-quran)" strokeWidth="2.5" />
-                </svg>
-                <span className="text-[0.7rem] text-ink">{t('linkParent')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
-                  <line x1="0" y1="3" x2="32" y2="3" stroke="var(--color-lvl-tradition)" strokeWidth="2" strokeDasharray="6 5" />
-                </svg>
-                <span className="text-[0.7rem] text-ink-2">{t('linkDescendant')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
-                  <line x1="0" y1="3" x2="32" y2="3" stroke="#e63946" strokeWidth="2" strokeDasharray="3 3" />
-                  <circle cx="16" cy="3" r="2.5" fill="#e63946" stroke="#ffffff" strokeWidth="0.8" />
-                </svg>
-                <span className="text-[0.7rem] text-rose-300 font-medium">{t('linkSpouse')}</span>
-              </div>
+
+              {/* Parent & Child */}
+              <button
+                type="button"
+                onClick={() => setActiveLegendKind((k) => (k === 'parent' ? null : 'parent'))}
+                onPointerEnter={() => setHoveredLegendKind('parent')}
+                onPointerLeave={() => setHoveredLegendKind(null)}
+                className={`w-full flex items-center justify-between gap-2 px-2 py-1 rounded-xl transition-all text-start cursor-pointer ${
+                  activeKind === 'parent'
+                    ? 'bg-gold/20 ring-1.5 ring-gold text-ink shadow-[0_0_12px_rgba(233,198,123,0.35)]'
+                    : 'hover:bg-white/5 text-ink-2'
+                }`}
+                title={t('legendHighlightTip')}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <svg width="30" height="6" aria-hidden="true" className="shrink-0">
+                    <line x1="0" y1="3" x2="30" y2="3" stroke="var(--color-lvl-quran)" strokeWidth="2.5" />
+                  </svg>
+                  <span className="text-[0.7rem] font-medium truncate text-ink">{t('linkParent')}</span>
+                </div>
+                {activeKind === 'parent' && <Sparkles className="size-3 text-gold shrink-0 animate-pulse" />}
+              </button>
+
+              {/* Descendant */}
+              <button
+                type="button"
+                onClick={() => setActiveLegendKind((k) => (k === 'descendant' ? null : 'descendant'))}
+                onPointerEnter={() => setHoveredLegendKind('descendant')}
+                onPointerLeave={() => setHoveredLegendKind(null)}
+                className={`w-full flex items-center justify-between gap-2 px-2 py-1 rounded-xl transition-all text-start cursor-pointer ${
+                  activeKind === 'descendant'
+                    ? 'bg-gold/20 ring-1.5 ring-gold text-ink shadow-[0_0_12px_rgba(233,198,123,0.35)]'
+                    : 'hover:bg-white/5 text-ink-2'
+                }`}
+                title={t('legendHighlightTip')}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <svg width="30" height="6" aria-hidden="true" className="shrink-0">
+                    <line x1="0" y1="3" x2="30" y2="3" stroke="var(--color-lvl-tradition)" strokeWidth="2" strokeDasharray="6 5" />
+                  </svg>
+                  <span className="text-[0.7rem] font-medium truncate text-ink-2">{t('linkDescendant')}</span>
+                </div>
+                {activeKind === 'descendant' && <Sparkles className="size-3 text-gold shrink-0 animate-pulse" />}
+              </button>
+
+              {/* Spouse / Marriage */}
+              <button
+                type="button"
+                onClick={() => setActiveLegendKind((k) => (k === 'spouse' ? null : 'spouse'))}
+                onPointerEnter={() => setHoveredLegendKind('spouse')}
+                onPointerLeave={() => setHoveredLegendKind(null)}
+                className={`w-full flex items-center justify-between gap-2 px-2 py-1 rounded-xl transition-all text-start cursor-pointer ${
+                  activeKind === 'spouse'
+                    ? 'bg-rose-500/20 ring-1.5 ring-rose-500 text-rose-200 shadow-[0_0_12px_rgba(230,57,70,0.35)]'
+                    : 'hover:bg-white/5 text-ink-2'
+                }`}
+                title={t('legendHighlightTip')}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <svg width="30" height="6" aria-hidden="true" className="shrink-0">
+                    <line x1="0" y1="3" x2="30" y2="3" stroke="#e63946" strokeWidth="2" strokeDasharray="3 3" />
+                    <circle cx="15" cy="3" r="2.5" fill="#e63946" stroke="#ffffff" strokeWidth="0.8" />
+                  </svg>
+                  <span className="text-[0.7rem] font-medium truncate text-rose-300">{t('linkSpouse')}</span>
+                </div>
+                {activeKind === 'spouse' && <Sparkles className="size-3 text-rose-400 shrink-0 animate-pulse" />}
+              </button>
             </div>
 
             {/* Specific Lateral Arcs */}
-            <div className="space-y-1.5 pt-2 pb-2 border-b border-white/5">
+            <div className="space-y-1 pt-2 pb-2 border-b border-white/5">
               <span className="text-[0.65rem] font-semibold text-sky-400 tracking-wider uppercase block mb-1">
                 {t('legendBonds')}
               </span>
-              <div className="flex items-center gap-2">
-                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
-                  <line x1="0" y1="3" x2="32" y2="3" stroke="#38bdf8" strokeWidth="2" strokeDasharray="4 3" />
-                </svg>
-                <span className="text-[0.7rem] text-sky-300 font-medium">{t('linkSibling')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
-                  <line x1="0" y1="3" x2="32" y2="3" stroke="#c084fc" strokeWidth="2" strokeDasharray="2 4" />
-                </svg>
-                <span className="text-[0.7rem] text-purple-300 font-medium">{t('linkCousin')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg width="32" height="6" aria-hidden="true" className="shrink-0">
-                  <line x1="0" y1="3" x2="32" y2="3" stroke="#34d399" strokeWidth="2" strokeDasharray="7 3 2 3" />
-                </svg>
-                <span className="text-[0.7rem] text-emerald-300 font-medium">{t('linkGuardian')}</span>
-              </div>
+
+              {/* Sibling */}
+              <button
+                type="button"
+                onClick={() => setActiveLegendKind((k) => (k === 'sibling' ? null : 'sibling'))}
+                onPointerEnter={() => setHoveredLegendKind('sibling')}
+                onPointerLeave={() => setHoveredLegendKind(null)}
+                className={`w-full flex items-center justify-between gap-2 px-2 py-1 rounded-xl transition-all text-start cursor-pointer ${
+                  activeKind === 'sibling'
+                    ? 'bg-sky-500/20 ring-1.5 ring-sky-400 text-sky-200 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
+                    : 'hover:bg-white/5 text-ink-2'
+                }`}
+                title={t('legendHighlightTip')}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <svg width="30" height="6" aria-hidden="true" className="shrink-0">
+                    <line x1="0" y1="3" x2="30" y2="3" stroke="#38bdf8" strokeWidth="2" strokeDasharray="4 3" />
+                  </svg>
+                  <span className="text-[0.7rem] font-medium truncate text-sky-300">{t('linkSibling')}</span>
+                </div>
+                {activeKind === 'sibling' && <Sparkles className="size-3 text-sky-400 shrink-0 animate-pulse" />}
+              </button>
+
+              {/* Cousin */}
+              <button
+                type="button"
+                onClick={() => setActiveLegendKind((k) => (k === 'cousin' ? null : 'cousin'))}
+                onPointerEnter={() => setHoveredLegendKind('cousin')}
+                onPointerLeave={() => setHoveredLegendKind(null)}
+                className={`w-full flex items-center justify-between gap-2 px-2 py-1 rounded-xl transition-all text-start cursor-pointer ${
+                  activeKind === 'cousin'
+                    ? 'bg-purple-500/20 ring-1.5 ring-purple-400 text-purple-200 shadow-[0_0_12px_rgba(192,132,252,0.35)]'
+                    : 'hover:bg-white/5 text-ink-2'
+                }`}
+                title={t('legendHighlightTip')}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <svg width="30" height="6" aria-hidden="true" className="shrink-0">
+                    <line x1="0" y1="3" x2="30" y2="3" stroke="#c084fc" strokeWidth="2" strokeDasharray="2 4" />
+                  </svg>
+                  <span className="text-[0.7rem] font-medium truncate text-purple-300">{t('linkCousin')}</span>
+                </div>
+                {activeKind === 'cousin' && <Sparkles className="size-3 text-purple-400 shrink-0 animate-pulse" />}
+              </button>
+
+              {/* Guardian */}
+              <button
+                type="button"
+                onClick={() => setActiveLegendKind((k) => (k === 'guardian' ? null : 'guardian'))}
+                onPointerEnter={() => setHoveredLegendKind('guardian')}
+                onPointerLeave={() => setHoveredLegendKind(null)}
+                className={`w-full flex items-center justify-between gap-2 px-2 py-1 rounded-xl transition-all text-start cursor-pointer ${
+                  activeKind === 'guardian'
+                    ? 'bg-emerald-500/20 ring-1.5 ring-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(52,211,153,0.35)]'
+                    : 'hover:bg-white/5 text-ink-2'
+                }`}
+                title={t('legendHighlightTip')}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <svg width="30" height="6" aria-hidden="true" className="shrink-0">
+                    <line x1="0" y1="3" x2="30" y2="3" stroke="#34d399" strokeWidth="2" strokeDasharray="7 3 2 3" />
+                  </svg>
+                  <span className="text-[0.7rem] font-medium truncate text-emerald-300">{t('linkGuardian')}</span>
+                </div>
+                {activeKind === 'guardian' && <Sparkles className="size-3 text-emerald-400 shrink-0 animate-pulse" />}
+              </button>
             </div>
 
+            {/* Tip */}
+            <p className="mt-2 text-[0.62rem] text-ink-3 italic leading-tight">
+              {t('legendHighlightTip')}
+            </p>
+
             {/* Level Chips */}
-            <div className="mt-2.5 flex flex-wrap gap-1">
+            <div className="mt-2 flex flex-wrap gap-1">
               <LevelChip level="quran" />
               <LevelChip level="hadith" />
               <LevelChip level="tradition" />
@@ -767,13 +1155,13 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   {sel.dates.hijriBorn && (
                     <p className="text-ink-2">
                       <span className="text-gold">{t('born')}: </span>
-                      {sel.dates.hijriBorn} ({sel.dates.gregorianBorn})
+                      <span className="font-mono font-medium">{formatBirthDeath(sel.dates.hijriBorn, sel.dates.gregorianBorn, lang)}</span>
                     </p>
                   )}
                   {sel.dates.hijriDied && (
                     <p className="text-ink-2">
                       <span className="text-gold">{t('died')}: </span>
-                      {sel.dates.hijriDied} ({sel.dates.gregorianDied})
+                      <span className="font-mono font-medium">{formatBirthDeath(sel.dates.hijriDied, sel.dates.gregorianDied, lang)}</span>
                     </p>
                   )}
                   {sel.dates.born && !sel.dates.hijriBorn && <FactText fact={sel.dates.born} />}
@@ -843,11 +1231,11 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                         ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]'
                         : 'text-ink-2 hover:bg-white/10 hover:text-ink'
                     }`}
-                    title={`${ep.label[lang]} (${ep.dates})`}
+                    title={`${ep.label[lang]} (${formatDate(ep.dates, lang)})`}
                   >
                     <span>{ep.label[lang]}</span>
                     <span className={`text-[0.65rem] opacity-75 ${active ? 'text-night font-mono' : 'text-gold-2 font-mono'}`}>
-                      {ep.dates.split(' ')[0]}
+                      {formatDate(ep.dates.split(' ')[0], lang)}
                     </span>
                   </button>
                 )

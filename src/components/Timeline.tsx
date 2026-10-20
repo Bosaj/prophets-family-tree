@@ -5,6 +5,7 @@ import { people } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'
 import { A, LevelChip, Refs, Scene, SubName } from './ui'
+import { formatDate } from '../lib/dates'
 
 /** Statements in the Qur'an that fix the order between two prophets. */
 const ANCHORS: Record<number, { ref: string; en: string; fr: string; ar: string }> = {
@@ -163,7 +164,7 @@ export function Timeline() {
 }
 
 function Card({ p, estimates, mode }: { p: Person; estimates: boolean; mode: TimelineMode }) {
-  const { pick, t } = useI18n()
+  const { pick, t, lang } = useI18n()
   const [expanded, setExpanded] = useState(false)
   const showEra = p.era && (p.era.l !== 'disputed' || estimates || p.era.r?.some((r) => !r.startsWith('book:')))
 
@@ -191,12 +192,12 @@ function Card({ p, estimates, mode }: { p: Person; estimates: boolean; mode: Tim
             <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-xs text-ink-2">
               {(mode === 'dual' || mode === 'hijri') && p.dates.hijriBorn && (
                 <span className="rounded-md border border-gold/20 bg-gold/10 px-2 py-0.5 text-gold-2">
-                  {p.dates.hijriBorn}
+                  {formatDate(p.dates.hijriBorn, lang)}
                 </span>
               )}
               {(mode === 'dual' || mode === 'gregorian') && p.dates.gregorianBorn && (
                 <span className="rounded-md border border-sky-400/20 bg-sky-400/10 px-2 py-0.5 text-sky-200">
-                  {p.dates.gregorianBorn}
+                  {formatDate(p.dates.gregorianBorn, lang)}
                 </span>
               )}
             </div>
@@ -234,7 +235,21 @@ function Card({ p, estimates, mode }: { p: Person; estimates: boolean; mode: Tim
               {p.events.map((ev) => (
                 <li key={ev.id} className="relative">
                   <span className="absolute -start-[17px] top-1 size-2 rounded-full bg-gold" />
-                  <p className="font-semibold text-ink text-xs">{pick(ev.title)}</p>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="font-semibold text-ink text-xs">{pick(ev.title)}</p>
+                    <div className="flex items-center gap-1.5 shrink-0 font-mono text-[0.68rem]">
+                      {ev.yearHijri && (
+                        <span className="rounded bg-gold/10 px-1.5 py-0.5 text-gold-2">
+                          {formatDate(ev.yearHijri, lang)}
+                        </span>
+                      )}
+                      {ev.yearBceCe && (
+                        <span className="rounded bg-sky-400/10 px-1.5 py-0.5 text-sky-200">
+                          {formatDate(ev.yearBceCe, lang)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                   <p className="text-[0.75rem] text-ink-3 mt-0.5 leading-relaxed">{pick(ev.desc)}</p>
                   {ev.refs && (
                     <div className="mt-1">
