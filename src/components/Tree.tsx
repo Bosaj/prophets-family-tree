@@ -14,6 +14,9 @@ import {
   Users,
   X,
   Layers,
+  Flame,
+  BookOpen,
+  Info,
 } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { Key } from '../i18n/strings'
@@ -24,6 +27,7 @@ import type { Kind } from '../data/types'
 import { hrefOf, navigate } from '../lib/router'
 import { A, FactText, LEVEL_STROKE, LevelChip, Refs, SubName, RefChip } from './ui'
 import { formatDate, formatBirthDeath } from '../lib/dates'
+import { PRE_ADAM_ENTITIES, type PreAdamEntity } from '../data/preAdam'
 
 interface View {
   k: number
@@ -64,6 +68,7 @@ const MIN_K = 0.25
 const MAX_K = 2.6
 
 const TREE_EPOCHS = [
+  { id: 'pre_adam', target: 'pre_adam', label: { en: 'Before Adam', fr: 'Avant Adam', ar: 'ما قبل آدم' }, dates: 'c. Primordial' },
   { id: 'primordial', target: 'adam', label: { en: 'Primordial', fr: 'Primordial', ar: 'عهد البدء' }, dates: 'c. 4000+ BCE' },
   { id: 'deluge', target: 'nuh', label: { en: 'The Deluge', fr: 'Le Déluge', ar: 'الطوفان' }, dates: 'c. 3000 BCE' },
   { id: 'patriarchs', target: 'ibrahim', label: { en: 'Patriarchs', fr: 'Patriarches', ar: 'الخليل والآباء' }, dates: 'c. 1900 BCE' },
@@ -104,6 +109,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const [selectedEdge, setSelectedEdge] = useState<{ edge: TreeEdge; kind: EdgeKind } | null>(null)
   const [hoveredLegendKind, setHoveredLegendKind] = useState<EdgeKind | null>(null)
   const [showMobileLegend, setShowMobileLegend] = useState(false)
+  const [showPreAdamModal, setShowPreAdamModal] = useState(false)
 
   const activeKind: EdgeKind | null =
     activeLegendKind ??
@@ -269,6 +275,11 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   }
 
   const jumpToEpoch = (targetId: string) => {
+    if (targetId === 'pre_adam') {
+      setShowPreAdamModal(true)
+      reveal('adam')
+      return
+    }
     setGlide(true)
     setSelected(targetId)
     reveal(targetId)
@@ -544,6 +555,60 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 </g>
               )
             })}
+
+            {/* Pre-Adamic Realm Cosmic Anchor above Adam */}
+            {nodeById.has('adam') && (() => {
+              const adam = nodeById.get('adam')!
+              const py = adam.y - 75
+              const px = adam.x
+              return (
+                <g
+                  className="cursor-pointer group/preadam"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowPreAdamModal(true)
+                  }}
+                >
+                  <line
+                    x1={px}
+                    y1={py + 16}
+                    x2={px}
+                    y2={adam.y - 20}
+                    stroke="rgba(233,198,123,0.35)"
+                    strokeWidth="1.5"
+                    strokeDasharray="3 3"
+                  />
+                  {/* Cosmic Aura */}
+                  <circle cx={px} cy={py} r={24} fill="rgba(245,158,11,0.12)" className="animate-pulse" />
+                  <circle cx={px} cy={py} r={14} fill="rgba(30,27,75,0.92)" stroke="#e9c67b" strokeWidth="1.5" />
+                  <circle cx={px} cy={py} r={4} fill="#ffe699" />
+                  {/* Floating Pill Label */}
+                  <rect
+                    x={px - 84}
+                    y={py - 34}
+                    width={168}
+                    height={22}
+                    rx={11}
+                    fill="rgba(10,12,24,0.95)"
+                    stroke="rgba(233,198,123,0.55)"
+                    strokeWidth="1"
+                    className="shadow-lg"
+                  />
+                  <text
+                    x={px}
+                    y={py - 20}
+                    textAnchor="middle"
+                    fill="#ffe699"
+                    fontSize="10"
+                    fontWeight="bold"
+                    className="select-none font-sans"
+                  >
+                    {lang === 'ar' ? '✨ عالم ما قبل آدم (الجن والحن والبن)' : '✨ Pre-Adamic Realm (Jinn & Hinn)'}
+                  </text>
+                </g>
+              )
+            })()}
+
             {layout.nodes.map((n) => {
               const prophet = n.person.kind === 'prophet'
               const spouse = n.person.kind === 'spouse'
@@ -1247,6 +1312,139 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
       {mini && (
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent" />
       )}
+      {showPreAdamModal && <TreePreAdamModal onClose={() => setShowPreAdamModal(false)} />}
+    </div>
+  )
+}
+
+function TreePreAdamModal({ onClose }: { onClose: () => void }) {
+  const { pick, lang } = useI18n()
+  const [selectedEntity, setSelectedEntity] = useState<PreAdamEntity | null>(null)
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn"
+      onClick={onClose}
+    >
+      <div
+        className="relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-3xl border border-gold/40 bg-night-2 p-6 sm:p-8 shadow-2xl no-scrollbar"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 end-4 rounded-full bg-white/10 p-2 text-ink-2 hover:bg-white/20 hover:text-ink cursor-pointer"
+        >
+          <X className="size-5" />
+        </button>
+
+        <div className="flex items-start gap-3.5 mb-6">
+          <div className="size-12 rounded-2xl bg-amber-500/20 border border-gold/40 flex items-center justify-center shrink-0 shadow-inner">
+            <Flame className="size-6 text-gold animate-pulse" />
+          </div>
+          <div>
+            <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-full border border-gold/25">
+              {lang === 'ar' ? 'فصل تمهيدي في شجرة الأنبياء' : 'Primordial Prologue'}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-ink mt-1">
+              {lang === 'ar' ? 'عالم ما قبل آدم: الجن، الحن، والبن، والنسناس' : 'The Pre-Adamic Realm: Jinn, Hinn, Binn & Nasnas'}
+            </h2>
+            <p className="text-xs sm:text-sm text-ink-2 mt-1.5 leading-relaxed">
+              {lang === 'ar'
+                ? 'آدم عليه السلام هو أبو البشر، لكن كتب التفسير والتاريخ الإسلامي (كابن كثير والطبري) وثقت وجود أمم أرضية وخلق مادي مكلّف سبق وجود بني آدم في الأرض؛ كالجن المخلوقين من نار السموم، والحن والبن والنسناس الذين أفسدوا وسفكوا الدماء.'
+                : 'Prophet Adam (peace be upon him) is the Father of Humankind. Classical Islamic sources document the earlier inhabitants of Earth before Adam was appointed as Khalifah, explaining the Angels’ inquiry regarding corruption and bloodshed.'}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          {PRE_ADAM_ENTITIES.map((entity) => {
+            const isSelected = selectedEntity?.id === entity.id
+            return (
+              <div
+                key={entity.id}
+                onClick={() => setSelectedEntity(isSelected ? null : entity)}
+                className={`rounded-2xl border p-5 transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                  isSelected
+                    ? 'border-gold bg-gold/[0.08] shadow-[0_0_20px_rgba(233,198,123,0.25)]'
+                    : 'border-white/10 bg-white/[0.03] hover:border-gold/40 hover:bg-white/[0.06]'
+                }`}
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-bold text-ink text-base group-hover:text-gold transition-colors">
+                        {pick(entity.name)}
+                      </h3>
+                      <p className="text-xs text-gold-2 font-medium mt-0.5">{pick(entity.subTitle)}</p>
+                    </div>
+                    <span className="text-xs font-mono text-ink-3 bg-white/5 px-2 py-0.5 rounded shrink-0">
+                      {pick(entity.era)}
+                    </span>
+                  </div>
+
+                  <div className="my-3 rounded-xl bg-night-3/70 p-3 border border-white/5">
+                    <p className="text-xs text-ink-2 leading-relaxed">
+                      {pick(entity.summary)}
+                    </p>
+                  </div>
+
+                  <div className="text-[0.72rem] text-ink-3 space-y-1">
+                    <p><strong className="text-gold/90">{lang === 'ar' ? 'طبيعة الخلق:' : 'Nature:'}</strong> {pick(entity.nature)}</p>
+                    {entity.scientificCorrelation && (
+                      <p><strong className="text-sky-300">{lang === 'ar' ? 'الربط العلمي والإحاثي:' : 'Paleontological link:'}</strong> {pick(entity.scientificCorrelation)}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <Refs refs={entity.quranRefs} />
+                  </div>
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-gold hover:text-gold-2 transition-colors cursor-pointer"
+                  >
+                    <BookOpen className="size-3.5" />
+                    <span>{isSelected ? (lang === 'ar' ? 'إغلاق الأدلة' : 'Collapse') : (lang === 'ar' ? 'أقوال العلماء والمصادر' : 'Scholarly Sources')}</span>
+                  </button>
+                </div>
+
+                {isSelected && (
+                  <div className="mt-4 pt-4 border-t border-gold/20 space-y-3 animate-fadeIn">
+                    <div className="rounded-xl bg-black/40 p-3.5 border border-gold/20">
+                      <h4 className="text-xs font-bold text-gold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <Info className="size-3.5" />
+                        <span>{lang === 'ar' ? 'التفصيل العقدي والتاريخي:' : 'Theological & Historical Detail:'}</span>
+                      </h4>
+                      <p className="text-xs text-ink leading-relaxed">
+                        {pick(entity.detailedDescription)}
+                      </p>
+                    </div>
+
+                    {entity.scholarlySources.map((s, idx) => (
+                      <div key={idx} className="rounded-xl bg-white/[0.02] p-3 border border-white/10">
+                        <div className="flex items-center justify-between gap-2 text-xs font-semibold text-gold mb-1">
+                          <span>{pick(s.author)}</span>
+                          <span className="text-[0.68rem] text-ink-3 italic">{pick(s.work)}</span>
+                        </div>
+                        <blockquote className="text-xs text-ink-2 italic border-s-2 border-gold/40 ps-2.5 my-1 font-serif">
+                          {pick(s.citation)}
+                        </blockquote>
+                      </div>
+                    ))}
+
+                    <div className="rounded-xl bg-amber-500/10 p-3 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed">
+                      <strong className="text-gold block mb-1">{lang === 'ar' ? 'الخلاصة الإيمانية:' : 'Creed & Theological Note:'}</strong>
+                      {pick(entity.theologicalContext)}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }

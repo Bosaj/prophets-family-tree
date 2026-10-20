@@ -1139,11 +1139,14 @@ export function NatureView() {
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>('hudhud')
   const [selectedPlantId, setSelectedPlantId] = useState<string>('nakhl_tamr')
   const [isMotionActive, setIsMotionActive] = useState<boolean>(true)
+  const [showRealPhoto, setShowRealPhoto] = useState<boolean>(false)
   const [sunAngle, setSunAngle] = useState<number>(65) // 15 to 165 degrees
   const [shadowIntensity, setShadowIntensity] = useState<number>(65) // 20 to 100%
+  const [hoveredStagePhoto, setHoveredStagePhoto] = useState<boolean>(false)
 
   // Detail Modal / Sheet
   const [detailItem, setDetailItem] = useState<AnimalEntry | PlantFoodEntry | null>(null)
+  const [modalShowPhoto, setModalShowPhoto] = useState<boolean>(false)
 
   // Qur'an Audio State
   const [isPlayingAyah, setIsPlayingAyah] = useState<boolean>(false)
@@ -1416,41 +1419,98 @@ export function NatureView() {
               <span>{isMotionActive ? (lang === 'ar' ? 'حركة الكائن' : 'Motion') : (lang === 'ar' ? 'سكون' : 'Paused')}</span>
             </button>
 
-            {/* Sun Angle Slider & Time Period Badge */}
-            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs">
-              <Sun className="size-3.5 text-gold animate-spin-slow" />
+            {/* Real Photo / Silhouette Switch */}
+            <button
+              type="button"
+              onClick={() => setShowRealPhoto((v) => !v)}
+              className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
+                showRealPhoto
+                  ? 'border-gold/50 bg-gold/20 text-gold-2 shadow-[0_0_15px_rgba(233,198,123,0.3)]'
+                  : 'border-white/15 bg-white/5 text-ink-3 hover:text-ink hover:border-white/30'
+              }`}
+              title={lang === 'ar' ? 'عرض الصورة الحقيقية للكائن' : 'Toggle Real Photograph'}
+            >
+              <Sparkles className="size-3.5 text-gold" />
+              <span>{showRealPhoto ? (lang === 'ar' ? 'صورة حقيقية' : 'Real Photo') : (lang === 'ar' ? 'رسم ظلي' : 'Silhouette')}</span>
+            </button>
+
+            {/* Sun Angle Slider & Time Period Badge (Physically consistent LTR) */}
+            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs" dir="ltr">
+              <Sun className="size-3.5 text-gold animate-spin-slow shrink-0" />
               <input
                 type="range"
                 min="15"
                 max="165"
                 value={sunAngle}
                 onChange={(e) => setSunAngle(Number(e.target.value))}
-                className="w-20 accent-gold cursor-pointer"
+                className="w-24 sm:w-28 accent-gold cursor-pointer"
+                dir="ltr"
+                aria-label="Sun Angle"
               />
-              <span className="font-mono text-gold-2">{sunAngle}°</span>
-              <span className="text-[0.68rem] text-ink-3 border-s border-white/10 ps-2 hidden sm:inline">
+              <span className="font-mono text-gold-2 w-9 text-center shrink-0">{sunAngle}°</span>
+              <span className="text-[0.68rem] text-ink-3 border-s border-white/10 ps-2 hidden sm:inline whitespace-nowrap">
                 {pick(timePeriodLabel)}
               </span>
             </div>
 
-            {/* Shadow Depth Slider */}
-            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs">
-              <Moon className="size-3.5 text-gold" />
+            {/* Shadow Depth Slider with Value Display */}
+            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs" dir="ltr">
+              <Moon className="size-3.5 text-gold shrink-0" />
+              <span className="text-[0.68rem] text-ink-3 hidden xs:inline">{lang === 'ar' ? 'الظل' : 'Shadow'}</span>
               <input
                 type="range"
                 min="20"
                 max="100"
                 value={shadowIntensity}
                 onChange={(e) => setShadowIntensity(Number(e.target.value))}
-                className="w-16 accent-gold cursor-pointer"
+                className="w-16 sm:w-20 accent-gold cursor-pointer"
+                dir="ltr"
+                aria-label="Shadow Depth"
               />
+              <span className="font-mono text-gold-2 w-8 text-center shrink-0">{shadowIntensity}%</span>
             </div>
           </div>
         </div>
 
+        {/* Solar Prayer Time Presets */}
+        <div className="flex flex-wrap items-center gap-1.5 mb-2 px-1">
+          <span className="text-[0.7rem] text-ink-3 font-medium me-1">
+            {lang === 'ar' ? 'مواقيت الشمس:' : 'Sun Orbit:'}
+          </span>
+          {[
+            { angle: 20, en: 'Fajr / Dawn', ar: 'الفجر والصبح', icon: '🌅' },
+            { angle: 55, en: 'Duha / Forenoon', ar: 'الضحى', icon: '☀️' },
+            { angle: 90, en: 'Zhuhr / Midday', ar: 'الظهيرة', icon: '🌞' },
+            { angle: 125, en: 'Asr / Afternoon', ar: 'العصر', icon: '🌤️' },
+            { angle: 165, en: 'Maghrib / Sunset', ar: 'الغروب والشفق', icon: '🌇' },
+          ].map((p) => (
+            <button
+              key={p.angle}
+              type="button"
+              onClick={() => setSunAngle(p.angle)}
+              className={`rounded-full px-2.5 py-1 text-[0.7rem] transition-colors cursor-pointer flex items-center gap-1 ${
+                Math.abs(sunAngle - p.angle) <= 18
+                  ? 'border border-gold/50 bg-gold/20 text-gold-2 font-semibold shadow-[0_0_10px_rgba(233,198,123,0.2)]'
+                  : 'border border-white/10 bg-white/5 text-ink-3 hover:text-ink hover:border-white/20'
+              }`}
+            >
+              <span>{p.icon}</span>
+              <span>{lang === 'ar' ? p.ar : p.en}</span>
+            </button>
+          ))}
+        </div>
+
         {/* Visual Stage Canvas with Realistic Celestial Sun & Horizon */}
         <div
-          className="relative h-72 sm:h-80 w-full rounded-2xl border border-white/10 overflow-hidden flex flex-col justify-end items-center px-4 pb-4 select-none transition-colors duration-500"
+          className="relative h-72 sm:h-84 w-full rounded-2xl border border-white/10 overflow-hidden flex flex-col justify-end items-center px-4 pb-4 select-none transition-colors duration-500 cursor-crosshair group/stage"
+          onClick={(e) => {
+            // Interactive sky click to move sun
+            const rect = e.currentTarget.getBoundingClientRect()
+            const clickX = e.clientX - rect.left
+            const ratio = Math.max(0, Math.min(1, clickX / rect.width))
+            const angle = Math.round(15 + ratio * 150)
+            setSunAngle(angle)
+          }}
           style={{
             background:
               sunAngle <= 45
@@ -1483,9 +1543,44 @@ export function NatureView() {
             <div className="size-10 rounded-full bg-gradient-to-br from-white via-amber-200 to-yellow-500 shadow-[0_0_25px_rgba(251,191,36,0.9),0_0_50px_rgba(245,158,11,0.6)] border border-white/80" />
           </div>
 
-          {/* Animated Organism Silhouette in True Scale */}
-          <div className="relative z-10 w-48 sm:w-60 h-48 sm:h-60 flex items-center justify-center">
-            <RenderOrganismSilhouette id={currentActive.id} animated={isMotionActive} />
+          {/* Interactive Organism Display: Silhouette or Real Photo */}
+          <div
+            className="relative z-10 w-48 sm:w-60 h-48 sm:h-60 flex items-center justify-center cursor-pointer"
+            onMouseEnter={() => setHoveredStagePhoto(true)}
+            onMouseLeave={() => setHoveredStagePhoto(false)}
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowRealPhoto((p) => !p)
+            }}
+            title={lang === 'ar' ? 'انقر للتبديل بين الرسم والصورة الحقيقية' : 'Click to toggle Real Photo / Silhouette'}
+          >
+            {/* Silhouette View */}
+            <div
+              className={`w-full h-full flex items-center justify-center transition-opacity duration-500 ${
+                showRealPhoto || hoveredStagePhoto ? 'opacity-0 pointer-events-none absolute' : 'opacity-100'
+              }`}
+            >
+              <RenderOrganismSilhouette id={currentActive.id} animated={isMotionActive} />
+            </div>
+
+            {/* Real Photograph View */}
+            <div
+              className={`w-44 sm:w-52 h-44 sm:h-52 rounded-2xl overflow-hidden border-2 border-gold/60 shadow-[0_10px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(233,198,123,0.4)] transition-all duration-500 relative flex items-center justify-center bg-night-2 ${
+                showRealPhoto || hoveredStagePhoto ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
+              }`}
+            >
+              <img
+                src={`/nature/${currentActive.id}.jpg`}
+                alt={currentActive.scientificName}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+              <div className="absolute bottom-2 inset-x-2 text-center">
+                <span className="text-[0.7rem] font-bold text-gold drop-shadow-md bg-black/60 px-2 py-0.5 rounded-full border border-gold/30">
+                  {lang === 'ar' ? 'صورة فوتوغرافية حقيقية' : 'Authentic Photograph'}
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Scientifically Accurate Ground Projected Shadow */}
@@ -1627,12 +1722,28 @@ export function NatureView() {
                       <span className="ar-name gold-text text-lg font-bold shrink-0">{animal.name.ar}</span>
                     </div>
 
-                    {/* Miniature Animated Silhouette Theater */}
-                    <div className="relative my-4 h-28 w-full rounded-xl bg-night-2/70 border border-white/5 flex flex-col items-center justify-center overflow-hidden">
-                      <div className="w-20 h-20 relative z-10">
+                    {/* Miniature Animated Silhouette Theater + Real Photo Hover Reveal */}
+                    <div className="relative my-4 h-32 w-full rounded-xl bg-night-2/70 border border-white/5 flex flex-col items-center justify-center overflow-hidden group/theater">
+                      {/* Handcrafted Silhouette View */}
+                      <div className="w-20 h-20 relative z-10 transition-all duration-300 group-hover:opacity-0 group-hover:scale-90 flex flex-col items-center justify-center">
                         <RenderOrganismSilhouette id={animal.id} animated={true} />
+                        <div className="w-16 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
                       </div>
-                      <div className="w-16 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
+
+                      {/* Real Photo Revealed on Card Hover */}
+                      <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 flex items-center justify-center bg-night-3/90">
+                        <img
+                          src={`/nature/${animal.id}.jpg`}
+                          alt={animal.scientificName}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
+                        <span className="absolute bottom-2 start-2 text-[0.65rem] font-medium text-gold bg-black/70 px-2 py-0.5 rounded-full border border-gold/30 flex items-center gap-1 backdrop-blur-sm">
+                          <Sparkles className="size-2.5 text-gold" />
+                          <span>{lang === 'ar' ? 'صورة حقيقية' : 'Real Photo'}</span>
+                        </span>
+                      </div>
                     </div>
 
                     <p className="text-xs text-ink-2 leading-relaxed line-clamp-3 mb-4">
@@ -1696,12 +1807,28 @@ export function NatureView() {
                       <span className="ar-name gold-text text-lg font-bold shrink-0">{plant.name.ar}</span>
                     </div>
 
-                    {/* Miniature Animated Silhouette Theater */}
-                    <div className="relative my-4 h-28 w-full rounded-xl bg-night-2/70 border border-white/5 flex flex-col items-center justify-center overflow-hidden">
-                      <div className="w-20 h-20 relative z-10">
+                    {/* Miniature Animated Silhouette Theater + Real Photo Hover Reveal */}
+                    <div className="relative my-4 h-32 w-full rounded-xl bg-night-2/70 border border-white/5 flex flex-col items-center justify-center overflow-hidden group/theater">
+                      {/* Handcrafted Silhouette View */}
+                      <div className="w-20 h-20 relative z-10 transition-all duration-300 group-hover:opacity-0 group-hover:scale-90 flex flex-col items-center justify-center">
                         <RenderOrganismSilhouette id={plant.id} animated={true} />
+                        <div className="w-16 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
                       </div>
-                      <div className="w-16 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
+
+                      {/* Real Photo Revealed on Card Hover */}
+                      <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 flex items-center justify-center bg-night-3/90">
+                        <img
+                          src={`/nature/${plant.id}.jpg`}
+                          alt={plant.scientificName}
+                          loading="lazy"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
+                        <span className="absolute bottom-2 start-2 text-[0.65rem] font-medium text-gold bg-black/70 px-2 py-0.5 rounded-full border border-gold/30 flex items-center gap-1 backdrop-blur-sm">
+                          <Sparkles className="size-2.5 text-gold" />
+                          <span>{lang === 'ar' ? 'صورة حقيقية' : 'Real Photo'}</span>
+                        </span>
+                      </div>
                     </div>
 
                     <p className="text-xs text-ink-2 leading-relaxed line-clamp-3 mb-4">
@@ -1786,8 +1913,24 @@ export function NatureView() {
               )}
             </div>
 
-            {/* Visual Stage inside Modal with Voice Buttons */}
-            <div className="my-6 rounded-2xl bg-gradient-to-b from-night-2 to-night-3 border border-white/10 p-6 flex flex-col items-center justify-center relative">
+            {/* Visual Stage inside Modal with Voice Buttons & Photo Switch */}
+            <div className="my-6 rounded-2xl bg-gradient-to-b from-night-2 to-night-3 border border-white/10 p-6 flex flex-col items-center justify-center relative overflow-hidden">
+              {/* Floating Left: View Switch */}
+              <div className="absolute top-3 start-3">
+                <button
+                  type="button"
+                  onClick={() => setModalShowPhoto((p) => !p)}
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors cursor-pointer ${
+                    modalShowPhoto
+                      ? 'border-gold/50 bg-gold/20 text-gold-2 shadow-[0_0_12px_rgba(233,198,123,0.3)]'
+                      : 'border-white/15 bg-white/5 text-ink-3 hover:text-ink'
+                  }`}
+                >
+                  <Sparkles className="size-3 text-gold" />
+                  <span>{modalShowPhoto ? (lang === 'ar' ? 'صورة حقيقية' : 'Real Photo') : (lang === 'ar' ? 'رسم ظلي' : 'Silhouette')}</span>
+                </button>
+              </div>
+
               {/* Floating Voice Buttons */}
               <div className="absolute top-3 end-3 flex items-center gap-2">
                 <button
@@ -1808,10 +1951,26 @@ export function NatureView() {
                 </button>
               </div>
 
-              <div className="w-36 h-36">
-                <RenderOrganismSilhouette id={detailItem.id} animated={true} />
-              </div>
-              <div className="w-28 h-3 bg-black/60 rounded-[100%] blur-[4px] -mt-1 animate-shadow-breathe" />
+              {modalShowPhoto ? (
+                <div className="w-52 h-52 sm:w-60 sm:h-60 rounded-2xl overflow-hidden border-2 border-gold/40 shadow-[0_10px_25px_rgba(0,0,0,0.6)] relative my-2">
+                  <img
+                    src={`/nature/${detailItem.id}.jpg`}
+                    alt={detailItem.scientificName}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <span className="absolute bottom-2 inset-x-2 text-center text-[0.68rem] text-gold font-mono">
+                    {detailItem.scientificName}
+                  </span>
+                </div>
+              ) : (
+                <>
+                  <div className="w-36 h-36">
+                    <RenderOrganismSilhouette id={detailItem.id} animated={true} />
+                  </div>
+                  <div className="w-28 h-3 bg-black/60 rounded-[100%] blur-[4px] -mt-1 animate-shadow-breathe" />
+                </>
+              )}
             </div>
 
             {/* Scripture Context: What They Did */}
