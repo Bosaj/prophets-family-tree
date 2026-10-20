@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import {
   Search,
   Crown,
@@ -18,7 +18,6 @@ import {
   Plus,
   Minus,
   RotateCcw,
-  GitBranch,
 } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { Lang } from '../data/types'
@@ -36,112 +35,74 @@ interface TreeLink {
   type: 'lineage' | 'succession' | 'hadith' | 'mentorship'
 }
 
-// Date localization & BiDi protection helpers
-function formatDeathDate(death: { ah: string; ce: string }, lang: Lang): string {
-  if (death.ah === 'Living' || death.ce === 'Current') {
-    return lang === 'ar' ? 'معاصر' : lang === 'fr' ? 'Actuel' : 'Living'
-  }
-  let s = death.ah
-  if (lang === 'ar') {
-    s = s
-      .replace(/\bAH\b/g, 'هـ')
-      .replace(/\bBattle of Uhud\b/gi, 'غزوة أحد')
-      .replace(/\bBattle of the Camel\b/gi, 'وقعة الجمل')
-      .replace(/\bPlague of Amwas\b/gi, 'طاعون عمواس')
-      .replace(/\bduring Hajj\b/gi, 'في الحج')
-      .replace(/\bAshura\b/gi, 'عاشوراء')
-      .replace(/\b12 Rabi al-Awwal\b/gi, '12 ربيع الأول')
-      .replace(/\b3 Jumada al-Thani\b/gi, '3 جمادى الآخرة')
-      .replace(/\b21 Ramadan\b/gi, '21 رمضان')
-      .replace(/\bRabi al-Awwal\b/gi, 'ربيع الأول')
-      .replace(/\b10 Muharram\b/gi, '10 محرم')
-      .replace(/\b22 Jumada al-Akhirah\b/gi, '22 جمادى الآخرة')
-      .replace(/\b26 Dhu al-Hijjah\b/gi, '26 ذو الحجة')
-      .replace(/\b18 Dhu al-Hijjah\b/gi, '18 ذو الحجة')
-      .replace(/\b1 Shawwal\b/gi, '1 شوال')
-      .replace(/\b25 Rajab\b/gi, '25 رجب')
-      .replace(/\b20 Rajab\b/gi, '20 رجب')
-      .replace(/\b10 Ramadan\b/gi, '10 رمضان')
-  } else if (lang === 'fr') {
-    s = s.replace(/\bAH\b/g, 'H')
-  }
-  return s
+interface View {
+  k: number
+  x: number
+  y: number
 }
 
-function formatReignDate(reign: { ah?: string; ce?: string } | undefined, lang: Lang): string {
-  if (!reign?.ah) return ''
-  let s = reign.ah
-  if (lang === 'ar') {
-    s = s.replace(/\bAH\b/g, 'هـ').replace(/\bto\b/g, 'إلى')
-  } else if (lang === 'fr') {
-    s = s.replace(/\bAH\b/g, 'H').replace(/\bto\b/g, 'à')
-  }
-  return s
-}
+// Celestial Node Coordinates in a balanced, wide 2D SVG canvas (Layout: width 2400, height 1850)
+const SAHABA_NODE_COORDS: Record<string, { x: number; y: number }> = {
+  // Tier 0: Root - The Noble Messenger of Allah ﷺ (Top-Center)
+  prophet_muhammad: { x: 1200, y: 100 },
 
-// Tree Coordinates Layout: Symmetrically spaced across 5 clean parallel column tracks
-// Canvas width: 3400px, height: 2400px. Card width: 224px. All centers separated by >= 300px.
-const NODE_COORDS: Record<string, { x: number; y: number; tier: number }> = {
-  // Tier 0: Root - The Noble Messenger of Allah ﷺ (X=1800)
-  prophet_muhammad: { x: 1800, y: 80, tier: 0 },
+  // Tier 1: Core Household, Rashidun Caliph, Chief Hadith Narrator, Early Champions (Y: 280)
+  bilal_ibn_rabah: { x: 150, y: 280 },
+  khalid_ibn_walid: { x: 340, y: 280 },
+  hamzah_ibn_abd_muttalib: { x: 530, y: 280 },
+  fatimah_az_zahra: { x: 920, y: 280 },
+  abu_bakr: { x: 1280, y: 280 },
+  abu_hurairah: { x: 2150, y: 280 },
 
-  // Tier 1: Direct Companions & Pillars (Y: 260)
-  bilal_ibn_rabah: { x: 200, y: 260, tier: 1 },
-  khalid_ibn_walid: { x: 500, y: 260, tier: 1 },
-  hamzah_ibn_abd_muttalib: { x: 800, y: 260, tier: 1 },
-  fatimah_az_zahra: { x: 1350, y: 260, tier: 1 },
-  abu_bakr: { x: 1950, y: 260, tier: 1 },
-  abu_hurairah: { x: 3100, y: 260, tier: 1 },
+  // Tier 2: Grandsons, Ali, Umar, Mubasharun, Imam al-Bukhari (Y: 460-500)
+  salman_al_farsi: { x: 150, y: 460 },
+  talhah_ibn_ubaydillah: { x: 340, y: 460 },
+  zubayr_ibn_awwam: { x: 530, y: 460 },
+  husayn_ibn_ali: { x: 740, y: 460 },
+  hasan_ibn_ali: { x: 920, y: 460 },
+  ali_ibn_abi_talib: { x: 1100, y: 460 },
+  umar_ibn_khattab: { x: 1280, y: 460 },
+  imam_bukhari: { x: 2150, y: 500 },
 
-  // Tier 2: Grandsons, Caliphs, Prominent Sahaba, Hadith Master (Y: 500-560)
-  salman_al_farsi: { x: 200, y: 500, tier: 2 },
-  talhah_ibn_ubaydillah: { x: 500, y: 500, tier: 2 },
-  zubayr_ibn_awwam: { x: 800, y: 500, tier: 2 },
-  husayn_ibn_ali: { x: 1050, y: 500, tier: 2 },
-  hasan_ibn_ali: { x: 1350, y: 500, tier: 2 },
-  ali_ibn_abi_talib: { x: 1650, y: 500, tier: 2 },
-  umar_ibn_khattab: { x: 1950, y: 500, tier: 2 },
-  imam_bukhari: { x: 3100, y: 560, tier: 2 },
+  // Tier 3: Mubasharun, Idrisids, Uthman, Umayyad Founder, Imam Muslim (Y: 640-720)
+  abdurrahman_ibn_awf: { x: 340, y: 640 },
+  sad_ibn_abi_waqqas: { x: 530, y: 640 },
+  idris_i: { x: 920, y: 640 },
+  uthman_ibn_affan: { x: 1280, y: 640 },
+  muawiyah_i: { x: 1520, y: 640 },
+  imam_muslim: { x: 2150, y: 720 },
 
-  // Tier 3: Ten Promised, Idrisids, Uthman, Umayyad Founder, Imam Muslim (Y: 740-860)
-  abdurrahman_ibn_awf: { x: 500, y: 740, tier: 3 },
-  sad_ibn_abi_waqqas: { x: 800, y: 740, tier: 3 },
-  idris_i: { x: 1350, y: 760, tier: 3 },
-  uthman_ibn_affan: { x: 1950, y: 740, tier: 3 },
-  muawiyah_i: { x: 2250, y: 740, tier: 3 },
-  imam_muslim: { x: 3100, y: 860, tier: 3 },
+  // Tier 4: Sa'id, Abu Ubaydah, Sharif Hussein, Moulay Ali Cherif, High Umayyads, Cordoba (Y: 820-840)
+  said_ibn_zayd: { x: 340, y: 820 },
+  abu_ubaydah_jarrah: { x: 530, y: 820 },
+  sharif_hussein_hejaz: { x: 740, y: 840 },
+  moulay_ali_cherif: { x: 920, y: 840 },
+  abdalmalik_marwan: { x: 1520, y: 820 },
+  abdalrahman_i_cordoba: { x: 1750, y: 820 },
 
-  // Tier 4: Companions, Moroccan Alaouite & Hashemite Ancestors, High Umayyads, Cordoba (Y: 980-1040)
-  said_ibn_zayd: { x: 500, y: 980, tier: 4 },
-  abu_ubaydah_jarrah: { x: 800, y: 980, tier: 4 },
-  sharif_hussein_hejaz: { x: 1050, y: 1040, tier: 4 },
-  moulay_ali_cherif: { x: 1350, y: 1040, tier: 4 },
-  abdalmalik_marwan: { x: 2250, y: 980, tier: 4 },
-  abdalrahman_i_cordoba: { x: 2550, y: 980, tier: 4 },
+  // Tier 5: Umar II, Abd al-Rahman III of Cordoba (Y: 1000)
+  umar_ibn_abd_al_aziz: { x: 1520, y: 1000 },
+  abdalrahman_iii_cordoba: { x: 1750, y: 1000 },
 
-  // Tier 5: Umayyad Reform & Andalusian Caliphate (Y: 1220)
-  umar_ibn_abd_al_aziz: { x: 2250, y: 1220, tier: 5 },
-  abdalrahman_iii_cordoba: { x: 2550, y: 1220, tier: 5 },
+  // Tier 6: Modern Royal Dynasties Roots, Abbasids, Ottoman Origins (Y: 1180)
+  king_hussein_jordan: { x: 740, y: 1180 },
+  mohammed_v_morocco: { x: 920, y: 1180 },
+  abu_jafar_mansur: { x: 1520, y: 1180 },
+  osman_i: { x: 1750, y: 1180 },
 
-  // Tier 6: Modern Royal Dynasties Roots, Abbasids, Ottoman Origins (Y: 1460)
-  king_hussein_jordan: { x: 1050, y: 1460, tier: 6 },
-  mohammed_v_morocco: { x: 1350, y: 1460, tier: 6 },
-  abu_jafar_mansur: { x: 2250, y: 1460, tier: 6 },
-  osman_i: { x: 2550, y: 1460, tier: 6 },
+  // Tier 7: Living Hasanid Monarchs, High Abbasid & Ottoman Fatih (Y: 1360)
+  king_abdullah_ii: { x: 740, y: 1360 },
+  king_mohammed_vi: { x: 920, y: 1360 },
+  harun_al_rashid: { x: 1520, y: 1360 },
+  mehmed_ii_fatih: { x: 1750, y: 1360 },
 
-  // Tier 7: Living Hasanid Monarchs, High Abbasid & Ottoman Fatih (Y: 1700)
-  king_abdullah_ii: { x: 1050, y: 1700, tier: 7 },
-  king_mohammed_vi: { x: 1350, y: 1700, tier: 7 },
-  harun_al_rashid: { x: 2250, y: 1700, tier: 7 },
-  mehmed_ii_fatih: { x: 2550, y: 1700, tier: 7 },
+  // Tier 8: Golden Age Translation & Caliphate Translatio (Y: 1540)
+  al_mamun: { x: 1520, y: 1540 },
+  selim_i_yavuz: { x: 1750, y: 1540 },
 
-  // Tier 8: Golden Age Translation & Caliphate Translatio (Y: 1940)
-  al_mamun: { x: 2250, y: 1940, tier: 8 },
-  selim_i_yavuz: { x: 2550, y: 1940, tier: 8 },
-
-  // Tier 9: Zenith & Late Ottoman Caliphate (Y: 2180)
-  suleiman_the_magnificent: { x: 2550, y: 2180, tier: 9 },
-  abdulhamid_ii: { x: 2850, y: 2180, tier: 9 },
+  // Tier 9: Zenith & Late Ottoman Caliphate (Y: 1720)
+  suleiman_the_magnificent: { x: 1750, y: 1720 },
+  abdulhamid_ii: { x: 1950, y: 1720 },
 }
 
 const TREE_LINKS: TreeLink[] = [
@@ -209,6 +170,49 @@ const TREE_LINKS: TreeLink[] = [
   { from: 'prophet_muhammad', to: 'salman_al_farsi', type: 'mentorship' },
 ]
 
+// Date localization & BiDi protection helpers
+function formatDeathDate(death: { ah: string; ce: string }, lang: Lang): string {
+  if (death.ah === 'Living' || death.ce === 'Current') {
+    return lang === 'ar' ? 'معاصر' : lang === 'fr' ? 'Actuel' : 'Living'
+  }
+  let s = death.ah
+  if (lang === 'ar') {
+    s = s
+      .replace(/\bAH\b/g, 'هـ')
+      .replace(/\bBattle of Uhud\b/gi, 'غزوة أحد')
+      .replace(/\bBattle of the Camel\b/gi, 'وقعة الجمل')
+      .replace(/\bPlague of Amwas\b/gi, 'طاعون عمواس')
+      .replace(/\bduring Hajj\b/gi, 'في الحج')
+      .replace(/\bAshura\b/gi, 'عاشوراء')
+      .replace(/\b12 Rabi al-Awwal\b/gi, '12 ربيع الأول')
+      .replace(/\b3 Jumada al-Thani\b/gi, '3 جمادى الآخرة')
+      .replace(/\b21 Ramadan\b/gi, '21 رمضان')
+      .replace(/\bRabi al-Awwal\b/gi, 'ربيع الأول')
+      .replace(/\b10 Muharram\b/gi, '10 محرم')
+      .replace(/\b22 Jumada al-Akhirah\b/gi, '22 جمادى الآخرة')
+      .replace(/\b26 Dhu al-Hijjah\b/gi, '26 ذو الحجة')
+      .replace(/\b18 Dhu al-Hijjah\b/gi, '18 ذو الحجة')
+      .replace(/\b1 Shawwal\b/gi, '1 شوال')
+      .replace(/\b25 Rajab\b/gi, '25 رجب')
+      .replace(/\b20 Rajab\b/gi, '20 رجب')
+      .replace(/\b10 Ramadan\b/gi, '10 رمضان')
+  } else if (lang === 'fr') {
+    s = s.replace(/\bAH\b/g, 'H')
+  }
+  return s
+}
+
+function formatReignDate(reign: { ah?: string; ce?: string } | undefined, lang: Lang): string {
+  if (!reign?.ah) return ''
+  let s = reign.ah
+  if (lang === 'ar') {
+    s = s.replace(/\bAH\b/g, 'هـ').replace(/\bto\b/g, 'إلى')
+  } else if (lang === 'fr') {
+    s = s.replace(/\bAH\b/g, 'H').replace(/\bto\b/g, 'à')
+  }
+  return s
+}
+
 export function SahabaTree({ focus }: { focus?: string }) {
   const { lang, pick } = useI18n()
   const [selectedEra, setSelectedEra] = useState<SahabaEra | 'all'>('all')
@@ -221,64 +225,118 @@ export function SahabaTree({ focus }: { focus?: string }) {
     return null
   })
 
-  // Canvas Pan & Zoom State for the Interactive Tree View
-  const [zoom, setZoom] = useState<number>(0.6)
-  const [pan, setPan] = useState<{ x: number; y: number }>({ x: -450, y: 40 })
-  const isDragging = useRef(false)
-  const lastMousePos = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
-  const canvasRef = useRef<HTMLDivElement | null>(null)
+  // Canvas Pan & Zoom State for the Interactive Pure SVG Tree View (exact architecture as Tree.tsx)
+  const box = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const [view, setView] = useState<View>({ k: 0.45, x: 0, y: 0 })
+  const pointers = useRef(new Map<number, { x: number; y: number }>())
+  const pinch = useRef<{ d: number; k: number } | null>(null)
+  const moved = useRef(false)
+  const downNode = useRef<string | null>(null)
 
-  // Auto-center precisely on Prophet Muhammad ﷺ (X=1800, Y=80)
-  const centerTree = () => {
-    if (canvasRef.current) {
-      const cw = canvasRef.current.clientWidth
-      const k = cw < 768 ? 0.36 : cw < 1200 ? 0.52 : 0.62
-      setZoom(k)
-      setPan({
-        x: Math.round(cw / 2 - 1800 * k),
-        y: 40,
-      })
+  // Auto-fit function that centers the entire tree symmetrically into the viewport
+  const fit = useCallback((centerId?: string) => {
+    const el = box.current
+    if (!el) return
+    const cw = el.clientWidth
+    const ch = el.clientHeight
+    const layoutW = 2400
+    const layoutH = 1850
+
+    if (centerId && SAHABA_NODE_COORDS[centerId]) {
+      const target = SAHABA_NODE_COORDS[centerId]
+      const k = 0.75
+      setView({ k, x: cw / 2 - target.x * k, y: ch / 2.6 - target.y * k })
+      return
     }
-  }
 
-  useEffect(() => {
-    centerTree()
+    const k = Math.min(1.0, Math.min(cw / layoutW, ch / layoutH) * 0.94)
+    setView({
+      k: Math.max(0.3, k),
+      x: (cw - layoutW * k) / 2,
+      y: Math.max(20, (ch - layoutH * k) / 2),
+    })
   }, [])
 
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest('.tree-node-interactive')) return
-    isDragging.current = true
-    lastMousePos.current = { x: e.clientX, y: e.clientY }
+  useEffect(() => {
+    fit()
+    const handleResize = () => fit()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [fit])
+
+  // Gestures for SVG tree: Pan, multi-touch pinch-to-zoom, and wheel zoom
+  const handlePointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
+    if (pointers.current.size === 1) {
+      moved.current = false
+      const target = (e.target as HTMLElement).closest('[data-node]')
+      downNode.current = target ? target.getAttribute('data-node') : null
+    } else if (pointers.current.size === 2) {
+      const pList = Array.from(pointers.current.values())
+      if (pList.length >= 2) {
+        const p1 = pList[0]!
+        const p2 = pList[1]!
+        const d = Math.hypot(p2.x - p1.x, p2.y - p1.y)
+        pinch.current = { d, k: view.k }
+      }
+    }
     e.currentTarget.setPointerCapture(e.pointerId)
   }
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDragging.current) return
-    const dx = e.clientX - lastMousePos.current.x
-    const dy = e.clientY - lastMousePos.current.y
-    lastMousePos.current = { x: e.clientX, y: e.clientY }
-    setPan((prev) => ({ x: prev.x + dx, y: prev.y + dy }))
-  }
-
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (isDragging.current) {
-      isDragging.current = false
-      try {
-        e.currentTarget.releasePointerCapture(e.pointerId)
-      } catch {
-        // ignore
+  const handlePointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
+    const prev = pointers.current.get(e.pointerId)
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
+    if (pointers.current.size === 1 && prev) {
+      const dx = e.clientX - prev.x
+      const dy = e.clientY - prev.y
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved.current = true
+      setView((v) => ({ ...v, x: v.x + dx, y: v.y + dy }))
+    } else if (pointers.current.size === 2 && pinch.current) {
+      moved.current = true
+      const pList = Array.from(pointers.current.values())
+      if (pList.length >= 2) {
+        const p1 = pList[0]!
+        const p2 = pList[1]!
+        const d = Math.hypot(p2.x - p1.x, p2.y - p1.y)
+        const ratio = d / pinch.current.d
+        const newK = Math.max(0.2, Math.min(2.0, pinch.current.k * ratio))
+        setView((v) => ({ ...v, k: newK }))
       }
     }
   }
 
-  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92
-    setZoom((z) => Math.max(0.25, Math.min(1.8, z * zoomFactor)))
+  const handlePointerUp = (e: React.PointerEvent<SVGSVGElement>) => {
+    pointers.current.delete(e.pointerId)
+    if (pointers.current.size < 2) pinch.current = null
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId)
+    } catch {
+      // ignore
+    }
+    if (!moved.current && downNode.current) {
+      const fig = SAHABA_FIGURES.find((f) => f.id === downNode.current)
+      if (fig) setActiveFigure(fig)
+    }
   }
 
-  const resetView = () => {
-    centerTree()
+  const handleWheel = (e: React.WheelEvent<SVGSVGElement>) => {
+    e.preventDefault()
+    const factor = e.deltaY < 0 ? 1.08 : 0.92
+    const el = box.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const mx = e.clientX - rect.left
+    const my = e.clientY - rect.top
+    setView((v) => {
+      const nextK = Math.max(0.2, Math.min(2.2, v.k * factor))
+      const scale = nextK / v.k
+      return {
+        k: nextK,
+        x: mx - (mx - v.x) * scale,
+        y: my - (my - v.y) * scale,
+      }
+    })
   }
 
   // Filtered Figures
@@ -372,130 +430,149 @@ export function SahabaTree({ focus }: { focus?: string }) {
           </div>
 
           {/* Quick Stats Badges */}
-          <div className="flex flex-row md:flex-col gap-3 shrink-0">
-            <div className="glass rounded-2xl px-5 py-3 border border-emerald-500/20 text-center">
-              <span className="block text-2xl font-bold font-mono text-emerald-400">1400+</span>
-              <span className="text-[0.7rem] text-ink-3">
-                {lang === 'ar' ? 'عاماً من التاريخ الموصول' : 'Years of History'}
-              </span>
+          <div className="flex flex-row md:flex-col gap-2 shrink-0">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-center">
+              <div className="text-xl font-extrabold text-gold font-mono">1,446+</div>
+              <div className="text-[0.68rem] text-ink-3">
+                {lang === 'ar' ? 'سنة من التاريخ المتصل' : 'Years of Lineage'}
+              </div>
             </div>
-            <div className="glass rounded-2xl px-5 py-3 border border-cyan-500/20 text-center">
-              <span className="block text-2xl font-bold font-mono text-cyan-300">5,374+</span>
-              <span className="text-[0.7rem] text-ink-3">
-                {lang === 'ar' ? 'حديثاً محفوظاً ومسنداً' : 'Hadiths Preserved'}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Control Bar: Eras, Search & View Switcher */}
-      <div className="mb-6 space-y-4">
-        {/* Era Filter Chips */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-          {SAHABA_ERAS.map((era) => {
-            const isSelected = selectedEra === era.id
-            return (
-              <button
-                key={era.id}
-                type="button"
-                onClick={() => setSelectedEra(era.id)}
-                className={`rounded-full px-4 py-2 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
-                  isSelected
-                    ? 'shadow-lg scale-102 border-transparent text-night'
-                    : 'glass text-ink-2 hover:text-ink hover:border-white/20'
-                }`}
-                style={{
-                  backgroundColor: isSelected ? era.badgeColor : undefined,
-                  color: isSelected ? '#09090b' : undefined,
-                }}
-              >
-                <span>{pick(era.label)}</span>
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Search & Layout View Toggles */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="relative w-full sm:w-96">
-            <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 size-4 text-ink-3" />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={
-                lang === 'ar'
-                  ? 'ابحث باسم الصحابي، الخليفة، الإمام، الكتاب، أو الإنجاز...'
-                  : 'Search companion, caliph, Bukhari, Muslim, quote, or reign...'
-              }
-              className="w-full rounded-full border border-white/10 bg-white/5 py-2 pe-4 ps-10 text-xs sm:text-sm text-ink placeholder-ink-3 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400"
-            />
-            {query && (
-              <button
-                type="button"
-                onClick={() => setQuery('')}
-                className="absolute end-3 top-1/2 -translate-y-1/2 text-ink-3 hover:text-ink"
-              >
-                <X className="size-3.5" />
-              </button>
-            )}
-          </div>
-
-          <div className="flex items-center gap-2 self-end sm:self-auto">
-            <div className="flex items-center rounded-full border border-white/10 bg-white/5 p-1 text-xs">
-              <button
-                type="button"
-                onClick={() => setViewMode('tree')}
-                className={`rounded-full px-3.5 py-1.5 font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
-                  viewMode === 'tree' ? 'bg-emerald-500 text-night font-bold shadow-md' : 'text-ink-3 hover:text-ink'
-                }`}
-              >
-                <GitBranch className="size-3.5" />
-                <span>{lang === 'ar' ? 'الشجرة التفاعلية' : 'Interactive Tree'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('timeline')}
-                className={`rounded-full px-3.5 py-1.5 font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
-                  viewMode === 'timeline' ? 'bg-emerald-500 text-night font-bold shadow-md' : 'text-ink-3 hover:text-ink'
-                }`}
-              >
-                <Clock className="size-3.5" />
-                <span>{lang === 'ar' ? 'الخط الزمني' : 'Timeline'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('cards')}
-                className={`rounded-full px-3.5 py-1.5 font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
-                  viewMode === 'cards' ? 'bg-emerald-500 text-night font-bold shadow-md' : 'text-ink-3 hover:text-ink'
-                }`}
-              >
-                <Layers className="size-3.5" />
-                <span>{lang === 'ar' ? 'بطاقات السير' : 'Dossiers'}</span>
-              </button>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-center">
+              <div className="text-xl font-extrabold text-cyan-400 font-mono">41+</div>
+              <div className="text-[0.68rem] text-ink-3">
+                {lang === 'ar' ? 'شخصية موثقة ومعتمدة' : 'Documented Figures'}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 1. INTERACTIVE FULL 2D CONSTELLATION TREE CANVAS (LIKE PROPHETS TREE) */}
+      {/* View Switcher & Search Bar */}
+      <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        {/* View Mode Tabs */}
+        <div className="inline-flex rounded-2xl border border-white/10 bg-night-2 p-1 text-xs font-semibold shadow-inner">
+          <button
+            type="button"
+            onClick={() => setViewMode('tree')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 transition-all cursor-pointer ${
+              viewMode === 'tree'
+                ? 'bg-emerald-500 text-night font-bold shadow-md'
+                : 'text-ink-3 hover:text-ink'
+            }`}
+          >
+            <Layers className="size-4" />
+            <span>{lang === 'ar' ? 'الشجرة النجمية التفاعلية' : 'Interactive Tree'}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode('timeline')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 transition-all cursor-pointer ${
+              viewMode === 'timeline'
+                ? 'bg-cyan-500 text-night font-bold shadow-md'
+                : 'text-ink-3 hover:text-ink'
+            }`}
+          >
+            <Clock className="size-4" />
+            <span>{lang === 'ar' ? 'الخط الزمني المتسلسل' : 'Chronological Timeline'}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode('cards')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 transition-all cursor-pointer ${
+              viewMode === 'cards'
+                ? 'bg-amber-500 text-night font-bold shadow-md'
+                : 'text-ink-3 hover:text-ink'
+            }`}
+          >
+            <Users className="size-4" />
+            <span>{lang === 'ar' ? 'بطاقات السِّيَر المفصلة' : 'Detailed Cards'}</span>
+          </button>
+        </div>
+
+        {/* Search Input */}
+        <div className="relative min-w-[260px]">
+          <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 size-4 text-ink-3" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={
+              lang === 'ar'
+                ? 'ابحث بالاسم، اللقب، النسب، أو الحقبة...'
+                : 'Search by name, title, lineage, or era...'
+            }
+            className="w-full rounded-2xl border border-white/10 bg-night-2 ps-10 pe-4 py-2.5 text-xs text-ink placeholder:text-ink-3 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery('')}
+              className="absolute end-3 top-1/2 -translate-y-1/2 text-ink-3 hover:text-ink"
+            >
+              <X className="size-3.5" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Era Filter Chips */}
+      <div className="mb-6 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => setSelectedEra('all')}
+          className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
+            selectedEra === 'all'
+              ? 'bg-emerald-500 text-night font-bold'
+              : 'border border-white/10 bg-night-2 text-ink-3 hover:text-ink'
+          }`}
+        >
+          {lang === 'ar' ? 'الكل' : 'All Eras'} ({SAHABA_FIGURES.length})
+        </button>
+        {SAHABA_ERAS.map((era) => {
+          const count = SAHABA_FIGURES.filter((f) => f.era === era.id).length
+          const isActive = selectedEra === era.id
+          return (
+            <button
+              key={era.id}
+              type="button"
+              onClick={() => setSelectedEra(era.id)}
+              className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+                isActive
+                  ? 'bg-emerald-500 text-night font-bold shadow-md'
+                  : 'border border-white/10 bg-night-2 text-ink-3 hover:text-ink'
+              }`}
+            >
+              <span
+                className="size-2 rounded-full"
+                style={{ backgroundColor: era.badgeColor }}
+              />
+              <span>{pick(era.label)}</span>
+              <span className="opacity-70 text-[0.65rem] font-mono">({count})</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* 1. INTERACTIVE 2D PURE SVG CONSTELLATION CANVAS TREE (LIKE TREE OF PROPHETS) */}
       {viewMode === 'tree' && (
-        <div className="relative rounded-3xl border border-white/10 bg-night-1 overflow-hidden shadow-2xl h-[780px] select-none">
+        <div
+          ref={box}
+          className="relative w-full h-[780px] rounded-3xl border border-white/10 bg-[#070b18] overflow-hidden select-none shadow-2xl"
+        >
           {/* Floating Canvas Controls */}
           <div className="absolute top-4 end-4 z-20 flex items-center gap-1.5 rounded-full border border-white/10 bg-night-2/95 backdrop-blur-md px-3 py-1.5 shadow-xl">
             <button
               type="button"
-              onClick={() => setZoom((z) => Math.min(1.8, z + 0.12))}
+              onClick={() => setView((v) => ({ ...v, k: Math.min(2.0, v.k * 1.15) }))}
               className="p-1 text-ink-3 hover:text-ink transition-colors cursor-pointer"
               title="Zoom In"
             >
               <Plus className="size-4" />
             </button>
-            <span className="font-mono text-xs text-gold px-1">{Math.round(zoom * 100)}%</span>
+            <span className="font-mono text-xs text-gold px-1">{Math.round(view.k * 100)}%</span>
             <button
               type="button"
-              onClick={() => setZoom((z) => Math.max(0.25, z - 0.12))}
+              onClick={() => setView((v) => ({ ...v, k: Math.max(0.2, v.k * 0.85) }))}
               className="p-1 text-ink-3 hover:text-ink transition-colors cursor-pointer"
               title="Zoom Out"
             >
@@ -504,9 +581,9 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <div className="h-4 w-px bg-white/10 mx-1" />
             <button
               type="button"
-              onClick={resetView}
+              onClick={() => fit()}
               className="p-1 text-ink-3 hover:text-ink transition-colors cursor-pointer"
-              title="Center & Reset View"
+              title="Center & Fit Tree"
             >
               <RotateCcw className="size-4" />
             </button>
@@ -536,163 +613,225 @@ export function SahabaTree({ focus }: { focus?: string }) {
             </span>
           </div>
 
-          {/* 2D Drag & Zoom Canvas Surface */}
-          <div
-            ref={canvasRef}
-            className="w-full h-full cursor-grab active:cursor-grabbing touch-none relative overflow-hidden"
+          {/* Pure SVG Drag & Zoom Canvas Surface */}
+          <svg
+            ref={svgRef}
+            className="w-full h-full block cursor-grab active:cursor-grabbing touch-none"
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
             onWheel={handleWheel}
           >
-            <div
-              className="relative w-[3400px] h-[2400px] select-none"
-              style={{
-                transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-                transformOrigin: 'top left',
-              }}
-            >
-              {/* Connecting Curved SVG Bezier Lines */}
-              <svg className="absolute inset-0 w-[3400px] h-[2400px] pointer-events-none overflow-visible">
-                <defs>
-                  <linearGradient id="linkGradLineage" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#eab308" stopOpacity="0.85" />
-                    <stop offset="100%" stopColor="#10b981" stopOpacity="0.85" />
-                  </linearGradient>
-                  <linearGradient id="linkGradHadith" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.9" />
-                  </linearGradient>
-                  <linearGradient id="linkGradSuccession" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="#a855f7" stopOpacity="0.8" />
-                  </linearGradient>
-                </defs>
+            <defs>
+              <radialGradient id="starNebula" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#10b981" stopOpacity="0.08" />
+                <stop offset="100%" stopColor="#070b18" stopOpacity="0" />
+              </radialGradient>
+              <radialGradient id="haloProphet" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+              </radialGradient>
+              <radialGradient id="haloRashidun" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#10b981" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+              </radialGradient>
+              <radialGradient id="haloHadith" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.45" />
+                <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
+              </radialGradient>
+              <radialGradient id="haloMubashar" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#c084fc" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#c084fc" stopOpacity="0" />
+              </radialGradient>
+              <radialGradient id="haloCaliph" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#818cf8" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#818cf8" stopOpacity="0" />
+              </radialGradient>
+            </defs>
 
-                {TREE_LINKS.map((link, idx) => {
-                  const fromCoord = NODE_COORDS[link.from]
-                  const toCoord = NODE_COORDS[link.to]
-                  if (!fromCoord || !toCoord) return null
+            <g transform={`translate(${view.x},${view.y}) scale(${view.k})`}>
+              {/* Background Celestial Stars */}
+              <circle cx="1200" cy="500" r="900" fill="url(#starNebula)" />
 
-                  const isGlowing =
-                    (activeLineageIds.has(link.from) && activeLineageIds.has(link.to)) ||
-                    activeFigure?.id === link.from ||
-                    activeFigure?.id === link.to
+              {/* Connecting Curved Lines */}
+              {TREE_LINKS.map((link, idx) => {
+                const from = SAHABA_NODE_COORDS[link.from]
+                const to = SAHABA_NODE_COORDS[link.to]
+                if (!from || !to) return null
 
-                  const startX = fromCoord.x
-                  const startY = fromCoord.y + 86
-                  const endX = toCoord.x
-                  const endY = toCoord.y
+                const isGlowing =
+                  (activeLineageIds.has(link.from) && activeLineageIds.has(link.to)) ||
+                  activeFigure?.id === link.from ||
+                  activeFigure?.id === link.to
 
-                  const dy = endY - startY
-                  let pathD = ''
-                  if (dy > 30) {
-                    const midY = (startY + endY) / 2
-                    pathD = `M ${startX} ${startY} C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY}`
-                  } else {
-                    const arcHeight = Math.min(startY, endY) - 50
-                    pathD = `M ${startX} ${startY - 43} C ${startX} ${arcHeight}, ${endX} ${arcHeight}, ${endX} ${endY}`
-                  }
+                const midY = (from.y + to.y) / 2
+                const d = `M ${from.x} ${from.y} C ${from.x} ${midY}, ${to.x} ${midY}, ${to.x} ${to.y}`
 
-                  let strokeColor = 'rgba(255, 255, 255, 0.16)'
-                  if (isGlowing) strokeColor = '#facc15'
-                  else if (link.type === 'hadith' || link.type === 'mentorship') strokeColor = 'url(#linkGradHadith)'
-                  else if (link.type === 'lineage') strokeColor = 'url(#linkGradLineage)'
-                  else strokeColor = 'url(#linkGradSuccession)'
-
-                  return (
-                    <g key={idx}>
-                      <path
-                        d={pathD}
-                        fill="none"
-                        stroke={strokeColor}
-                        strokeWidth={isGlowing ? 3.8 : 1.8}
-                        strokeDasharray={link.type === 'mentorship' ? '5 5' : undefined}
-                        className={isGlowing ? 'drop-shadow-[0_0_10px_rgba(250,204,21,0.85)]' : ''}
-                      />
-                    </g>
-                  )
-                })}
-              </svg>
-
-              {/* Render Nodes (Zero-overlap horizontal placement) */}
-              {SAHABA_FIGURES.map((fig) => {
-                const coord = NODE_COORDS[fig.id]
-                if (!coord) return null
-
-                const isSelected = activeFigure?.id === fig.id
-                const isInActiveLineage = activeLineageIds.has(fig.id)
-                const isProphet = fig.roleCategory === 'prophet'
+                let stroke = 'rgba(255, 255, 255, 0.16)'
+                if (isGlowing) stroke = '#facc15'
+                else if (link.type === 'hadith' || link.type === 'mentorship') stroke = '#38bdf8'
+                else if (link.type === 'lineage') stroke = '#fbbf24'
+                else stroke = '#34d399'
 
                 return (
-                  <div
-                    key={fig.id}
-                    onClick={() => setActiveFigure(fig)}
-                    style={{
-                      left: `${coord.x}px`,
-                      top: `${coord.y}px`,
-                      transform: 'translate(-50%, 0)',
-                    }}
-                    className={`tree-node-interactive absolute w-[224px] rounded-2xl border p-3 transition-all duration-300 cursor-pointer shadow-lg backdrop-blur-md select-none ${
-                      isSelected
-                        ? 'border-gold bg-night-2/95 shadow-[0_0_26px_rgba(234,179,8,0.5)] scale-105 z-30 ring-2 ring-gold/40'
-                        : isProphet
-                        ? 'border-amber-400/90 bg-emerald-950/80 shadow-[0_0_25px_rgba(245,158,11,0.45)] ring-2 ring-amber-400/40 z-25'
-                        : isInActiveLineage
-                        ? 'border-emerald-400/80 bg-night-2/90 shadow-[0_0_16px_rgba(16,185,129,0.3)] z-20'
-                        : 'border-white/10 bg-night-2/80 hover:border-white/30 hover:bg-night-2/95 z-10'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <div
-                        className="size-7 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 border border-white/20 shadow-sm"
-                        style={{
-                          backgroundColor: `${fig.symbolColor}25`,
-                          color: fig.symbolColor,
-                        }}
-                      >
-                        {fig.roleCategory === 'prophet' ? (
-                          'ﷺ'
-                        ) : fig.roleCategory === 'hadith_master' ? (
-                          '📜'
-                        ) : fig.roleCategory === 'rashidun_caliph' ? (
-                          '👑'
-                        ) : fig.roleCategory === 'mubashar' ? (
-                          '🌟'
-                        ) : (
-                          '★'
-                        )}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h4 className="ar-name text-xs font-bold text-ink truncate gold-text">
-                          {pick(fig.name)}
-                        </h4>
-                        <p className="text-[0.65rem] text-ink-3 truncate leading-tight">
-                          {pick(fig.title)}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between text-[0.65rem] pt-1.5 border-t border-white/5 text-ink-3">
-                      <span dir="ltr" className="font-mono text-ink-3">
-                        {formatDeathDate(fig.lifeDates.death, lang)}
-                      </span>
-                      {fig.hadithsNarrated && (
-                        <span className="text-cyan-300 font-semibold font-mono">
-                          {fig.hadithsNarrated.toLocaleString()} {lang === 'ar' ? 'حديث' : 'hadiths'}
-                        </span>
-                      )}
-                      {fig.reignDates && (
-                        <span dir="ltr" className="text-amber-300 font-mono truncate max-w-[85px]">
-                          {formatReignDate(fig.reignDates, lang)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  <path
+                    key={idx}
+                    d={d}
+                    fill="none"
+                    stroke={stroke}
+                    strokeWidth={isGlowing ? 3.6 : 1.7}
+                    strokeDasharray={link.type === 'mentorship' ? '5 5' : undefined}
+                    className={isGlowing ? 'drop-shadow-[0_0_10px_rgba(250,204,21,0.9)]' : ''}
+                  />
                 )
               })}
-            </div>
-          </div>
+
+              {/* Celestial Nodes (Exact Style & Interaction as Tree of Prophets) */}
+              {SAHABA_FIGURES.map((fig) => {
+                const coord = SAHABA_NODE_COORDS[fig.id]
+                if (!coord) return null
+
+                const isProphet = fig.roleCategory === 'prophet'
+                const isRashidun = fig.roleCategory === 'rashidun_caliph'
+                const isHadithMaster = fig.roleCategory === 'hadith_master'
+                const isMubashar = fig.roleCategory === 'mubashar'
+                const isAhlulBayt = fig.roleCategory === 'ahlulbayt_imam'
+
+                const isActive = activeFigure?.id === fig.id
+                const isConnected = activeLineageIds.has(fig.id)
+
+                const r = isProphet ? 22 : isRashidun ? 18 : isHadithMaster ? 17 : 14
+                const haloFill = isProphet
+                  ? 'url(#haloProphet)'
+                  : isRashidun
+                  ? 'url(#haloRashidun)'
+                  : isHadithMaster
+                  ? 'url(#haloHadith)'
+                  : isMubashar
+                  ? 'url(#haloMubashar)'
+                  : 'url(#haloCaliph)'
+
+                const orbFill = isProphet
+                  ? '#064e3b'
+                  : isRashidun
+                  ? '#065f46'
+                  : isHadithMaster
+                  ? '#0e7490'
+                  : isMubashar
+                  ? '#581c87'
+                  : '#1e1b4b'
+
+                const dateText = formatDeathDate(fig.lifeDates.death, lang)
+                const pillW = Math.max(68, dateText.length * 6.5 + 16)
+
+                return (
+                  <g
+                    key={fig.id}
+                    data-node={fig.id}
+                    transform={`translate(${coord.x},${coord.y})`}
+                    className="cursor-pointer transition-transform duration-300 group"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setActiveFigure(fig)}
+                  >
+                    {/* Outer Glow Halo */}
+                    <circle
+                      r={r * 3.2}
+                      fill={haloFill}
+                      opacity={isActive ? 0.95 : isConnected ? 0.75 : 0.3}
+                    />
+
+                    {/* Active Pulsating Ring */}
+                    {isActive && (
+                      <circle
+                        r={r + 8}
+                        fill="none"
+                        stroke="#facc15"
+                        strokeWidth={2}
+                        strokeDasharray="3 3"
+                        className="animate-spin-slow"
+                      />
+                    )}
+
+                    {/* Core Celestial Orb */}
+                    <circle
+                      r={r}
+                      fill={orbFill}
+                      stroke={isActive ? '#facc15' : '#ffffff'}
+                      strokeWidth={isActive ? 2.2 : 1.5}
+                      strokeOpacity={0.9}
+                    />
+
+                    {/* Central Heraldic Symbol */}
+                    <text
+                      y={4}
+                      textAnchor="middle"
+                      fill="#ffffff"
+                      fontSize={isProphet ? 14 : 11}
+                      fontWeight="bold"
+                    >
+                      {isProphet ? 'ﷺ' : isHadithMaster ? '📜' : isRashidun ? '👑' : isMubashar ? '🌟' : '★'}
+                    </text>
+
+                    {/* Arabic Calligraphy Name */}
+                    <text
+                      y={r + 20}
+                      textAnchor="middle"
+                      fontFamily="Reem Kufi Variable, serif"
+                      fontSize={isProphet ? 20 : 15}
+                      fill={isProphet ? '#fbe6b0' : isAhlulBayt ? '#fef08a' : isHadithMaster ? '#67e8f9' : '#ffffff'}
+                      fontWeight={700}
+                      className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+                    >
+                      {fig.name.ar}
+                    </text>
+
+                    {/* Subtitle Name (Latin) */}
+                    {lang !== 'ar' && (
+                      <text
+                        y={r + 35}
+                        textAnchor="middle"
+                        fontFamily="Sora Variable, sans-serif"
+                        fontSize={10.5}
+                        fill="#cbd5e1"
+                        fontWeight={500}
+                        className="drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]"
+                      >
+                        {pick(fig.name)}
+                      </text>
+                    )}
+
+                    {/* Date Pill Badge */}
+                    {dateText && (
+                      <g transform={`translate(0, ${r + (lang !== 'ar' ? 48 : 34)})`}>
+                        <rect
+                          x={-pillW / 2}
+                          y="-7.5"
+                          width={pillW}
+                          height="15"
+                          rx="7.5"
+                          fill="rgba(10, 15, 29, 0.9)"
+                          stroke={isProphet ? 'rgba(234, 179, 8, 0.5)' : 'rgba(255, 255, 255, 0.2)'}
+                          strokeWidth="0.8"
+                        />
+                        <text
+                          y="3"
+                          textAnchor="middle"
+                          fontSize="8.5"
+                          fill={isProphet ? '#fde047' : isHadithMaster ? '#7dd3fc' : '#94a3b8'}
+                          fontFamily="Sora Variable, sans-serif"
+                          fontWeight={600}
+                        >
+                          {dateText}
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                )
+              })}
+            </g>
+          </svg>
 
           {/* Bottom Historical Epoch Ruler (BiDi & RTL Protected) */}
           <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/10 bg-night-2/95 backdrop-blur-md px-4 py-2.5 flex items-center justify-between gap-2 overflow-x-auto no-scrollbar text-xs">
@@ -845,6 +984,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
                         '📜'
                       ) : fig.roleCategory === 'rashidun_caliph' ? (
                         '👑'
+                      ) : fig.roleCategory === 'mubashar' ? (
+                        '🌟'
                       ) : (
                         '★'
                       )}
@@ -938,6 +1079,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   '📜'
                 ) : activeFigure.roleCategory === 'rashidun_caliph' ? (
                   '👑'
+                ) : activeFigure.roleCategory === 'mubashar' ? (
+                  '🌟'
                 ) : (
                   '★'
                 )}
@@ -1156,20 +1299,29 @@ export function SahabaTree({ focus }: { focus?: string }) {
               </ul>
             </div>
 
-            {/* Burial Place Footer */}
-            <div className="border-t border-white/10 pt-4 flex items-center justify-between text-xs text-ink-3">
+            {/* Burial Place Footer with Map navigation */}
+            <div className="border-t border-white/10 pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-ink-3">
               <span className="flex items-center gap-1.5">
-                <MapPin className="size-3.5 text-emerald-400" />
+                <MapPin className="size-3.5 text-emerald-400 shrink-0" />
                 <span>{lang === 'ar' ? 'المرقد الشريف:' : 'Burial Location:'}</span>
                 <strong className="text-ink-2 font-medium">{pick(activeFigure.burialPlace)}</strong>
               </span>
-              <button
-                type="button"
-                onClick={() => setActiveFigure(null)}
-                className="rounded-full bg-emerald-500 px-4 py-1.5 text-xs font-bold text-night hover:bg-emerald-400 transition-colors cursor-pointer"
-              >
-                {lang === 'ar' ? 'إغلاق' : 'Close'}
-              </button>
+              <div className="flex items-center gap-2 self-end sm:self-auto">
+                <a
+                  href="#/map"
+                  className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition-colors flex items-center gap-1"
+                >
+                  <MapPin className="size-3" />
+                  <span>{lang === 'ar' ? 'عرض على الخريطة' : 'View on Map'}</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setActiveFigure(null)}
+                  className="rounded-full bg-emerald-500 px-4 py-1.5 text-xs font-bold text-night hover:bg-emerald-400 transition-colors cursor-pointer"
+                >
+                  {lang === 'ar' ? 'إغلاق' : 'Close'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
