@@ -93,9 +93,27 @@ export const links: Link[] = [
     note: t('Born to Maryam without a father (3:47).', 'Né de Maryam sans père (3:47).', 'وُلد من مريم بلا أب (3:47).'),
   },
 
-  // Muhammad ﷺ's household
+  // Muhammad ﷺ's household - wives
   { from: 'muhammad', to: 'khadijah', type: 'spouse', l: 'hadith', r: ['bukhari:3818'] },
+  { from: 'muhammad', to: 'sawdah', type: 'spouse', l: 'hadith', r: ['bukhari:3818'] },
   { from: 'muhammad', to: 'aisha', type: 'spouse', l: 'hadith', r: ['bukhari:3818'] },
+  { from: 'muhammad', to: 'hafsah', type: 'spouse', l: 'hadith', r: ['bukhari:4987'] },
+  { from: 'muhammad', to: 'zaynab_khuzaymah', type: 'spouse', l: 'tradition', r: ['book:sira'] },
+  { from: 'muhammad', to: 'umm_salamah', type: 'spouse', l: 'hadith', r: ['muslim:918'] },
+  { from: 'muhammad', to: 'zaynab_jahsh', type: 'spouse', l: 'quran', r: ['33:37'] },
+  { from: 'muhammad', to: 'juwayriyah', type: 'spouse', l: 'tradition', r: ['book:sira'] },
+  { from: 'muhammad', to: 'umm_habibah', type: 'spouse', l: 'tradition', r: ['book:sira'] },
+  { from: 'muhammad', to: 'safiyyah', type: 'spouse', l: 'hadith', r: ['bukhari:371'] },
+  { from: 'muhammad', to: 'maymunah', type: 'spouse', l: 'hadith', r: ['muslim:1410'] },
+  { from: 'muhammad', to: 'mariyah', type: 'spouse', l: 'hadith', r: ['muslim:2543'] },
+
+  // Muhammad ﷺ's household - children
+  { from: 'muhammad', to: 'qasim', type: 'child', l: 'tradition', r: ['book:sira'] },
+  { from: 'muhammad', to: 'abdullah_m', type: 'child', l: 'tradition', r: ['book:sira'] },
+  { from: 'muhammad', to: 'ibrahim_m', type: 'child', l: 'hadith', r: ['muslim:2315'] },
+  { from: 'muhammad', to: 'zaynab_m', type: 'child', l: 'tradition', r: ['book:sira'] },
+  { from: 'muhammad', to: 'ruqayyah', type: 'child', l: 'hadith', r: ['bukhari:3698'] },
+  { from: 'muhammad', to: 'umm_kulthum', type: 'child', l: 'hadith', r: ['bukhari:3698'] },
   { from: 'muhammad', to: 'fatimah', type: 'child', l: 'hadith', r: ['bukhari:3714'] },
 
   // Arcs & lateral relations

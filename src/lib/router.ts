@@ -5,6 +5,8 @@ export type Route =
   | { name: 'tree'; focus?: string }
   | { name: 'map'; focus?: string }
   | { name: 'timeline' }
+  | { name: 'stature' }
+  | { name: 'stories' }
   | { name: 'sources' }
   | { name: 'person'; id: string }
   | { name: 'notfound' }
@@ -21,8 +23,10 @@ export function parsePath(path: string, search = ''): Route {
     return focus ? { name: 'map', focus } : { name: 'map' }
   }
   if (p === '/timeline') return { name: 'timeline' }
+  if (p === '/stature') return { name: 'stature' }
+  if (p === '/stories') return { name: 'stories' }
   if (p === '/sources') return { name: 'sources' }
-  const m = /^\/p\/([a-z]+)$/.exec(p)
+  const m = /^\/p\/([a-z0-9_]+)$/.exec(p)
   if (m) return { name: 'person', id: m[1]! }
   return { name: 'notfound' }
 }
@@ -37,6 +41,10 @@ export const hrefOf = (r: Route): string => {
       return r.focus ? `/map?focus=${r.focus}` : '/map'
     case 'timeline':
       return '/timeline'
+    case 'stature':
+      return '/stature'
+    case 'stories':
+      return '/stories'
     case 'sources':
       return '/sources'
     case 'person':

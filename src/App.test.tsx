@@ -49,4 +49,24 @@ describe('App', () => {
     renderAt('/p/unknown')
     expect(screen.getByText('This page does not exist.')).toBeInTheDocument()
   })
+
+  it('renders the physical stature visualizer page', () => {
+    renderAt('/stature')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Stature of the Prophets/i)
+    expect(screen.getAllByText(/Adam/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/60 cubits/i).length).toBeGreaterThan(0)
+  })
+
+  it('renders the stories of the Quran and As-Salihin page', () => {
+    renderAt('/stories')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/The Righteous & Great Stories/i)
+    expect(screen.getAllByText(/Maryam/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Ashab al-Kahf/i).length).toBeGreaterThan(0)
+  })
+
+  it('renders a spouse profile with full details', () => {
+    renderAt('/p/sawdah')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('سودة بنت زمعة')
+    expect(screen.getAllByText('Sawdah bint Zam‘ah').length).toBeGreaterThan(0)
+  })
 })

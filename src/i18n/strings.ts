@@ -165,6 +165,14 @@ const en = {
   resetView: 'Reset view',
   treeView: 'Family Tree',
   mapView: 'Topography Map',
+  navStature: 'Stature & Appearance',
+  navStories: 'Stories & Righteous',
+  statureKicker: 'Physical Stature & Hadith Descriptions',
+  statureTitle: 'Scale, Stature & Prophetic Descriptions',
+  statureLead: 'Explore the authentic heights and physical traits of the Prophets and ancient generations compared to humans today.',
+  storiesKicker: 'Qur’anic Parables & Righteous Figures',
+  storiesTitle: 'Stories of the Qur’an & As-Salihin',
+  storiesLead: 'Explore the inspiring righteous believers and parables immortalized in the Holy Qur’an.',
 }
 
 
@@ -329,6 +337,14 @@ const fr: Record<Key, string> = {
   resetView: 'Réinitialiser la vue',
   treeView: 'Arbre généalogique',
   mapView: 'Carte topographique',
+  navStature: 'Stature & Apparence',
+  navStories: 'Récits & Vertueux',
+  statureKicker: 'Stature physique et descriptions prophétiques',
+  statureTitle: 'Échelle, Stature et Descriptions Prophétiques',
+  statureLead: 'Découvrez la taille authentique et les traits physiques des Prophètes et des générations anciennes comparés à l’humanité d’aujourd’hui.',
+  storiesKicker: 'Paraboles coraniques et personnages vertueux',
+  storiesTitle: 'Récits du Coran et As-Salihine',
+  storiesLead: 'Découvrez les figures vertueuses et les récits emblématiques immortalisés dans le Noble Coran.',
 }
 
 
@@ -491,6 +507,14 @@ const ar: Record<Key, string> = {
   resetView: 'إعادة ضبط العرض',
   treeView: 'شجرة الأنساب',
   mapView: 'خريطة التضاريس',
+  navStature: 'القامة والصفات',
+  navStories: 'قصص القرآن والصالحين',
+  statureKicker: 'القامة الجسدية والشمائل النبوية',
+  statureTitle: 'مقياس القامة والصفات الخلقية للأنبياء',
+  statureLead: 'تعرف على قامة الأنبياء والأمم القديمة وأوصافهم الشريفة مقارنة بالإنسان المعاصر كما وردت في الأحاديث الصحيحة.',
+  storiesKicker: 'العِبر القرآنية وعباد الله الصالحين',
+  storiesTitle: 'قصص القرآن والصالحين المذكورين فيه',
+  storiesLead: 'استكشف سير الصالحين والصالحات وقصص الأمم والأمثال التي خلّدها القرآن الكريم.',
 }
 
 

@@ -8,6 +8,8 @@ import { Home } from './components/Home'
 import { Tree } from './components/Tree'
 import { TopographyMap } from './components/TopographyMap'
 import { Timeline } from './components/Timeline'
+import { StatureView } from './components/StatureView'
+import { SalihinView } from './components/SalihinView'
 import { Person } from './components/Person'
 import { REPO, Sources } from './components/Sources'
 import { NotFound } from './components/NotFound'
@@ -62,6 +64,10 @@ export default function App() {
         )
       case 'timeline':
         return <Timeline />
+      case 'stature':
+        return <StatureView />
+      case 'stories':
+        return <SalihinView />
       case 'sources':
         return <Sources />
       case 'person':
