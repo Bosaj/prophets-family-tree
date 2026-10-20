@@ -19,6 +19,33 @@ describe('layout', () => {
     expect(adamL.x).toBeLessThan(isaL.x)
     expect(adamR.x).toBeGreaterThan(rtl.nodes.find((n) => n.id === 'isa')!.x)
     expect(ltr.width).toBeGreaterThan(ltr.height)
+
+    const getR = (id: string) => rtl.nodes.find((n) => n.id === id)!
+    const getL = (id: string) => ltr.nodes.find((n) => n.id === id)!
+
+    // In both RTL and LTR, wives should have the exact same X as their prophet husband (vertical line)
+    expect(getR('hawwa').x).toBe(getR('adam').x)
+    expect(getL('hawwa').x).toBe(getL('adam').x)
+
+    expect(getR('hajar').x).toBe(getR('ibrahim').x)
+    expect(getR('sarah').x).toBe(getR('ibrahim').x)
+    expect(getL('hajar').x).toBe(getL('ibrahim').x)
+    expect(getL('sarah').x).toBe(getL('ibrahim').x)
+
+    expect(getR('safura').x).toBe(getR('musa').x)
+    expect(getL('safura').x).toBe(getL('musa').x)
+
+    const wivesOfMuhammad = ['khadijah', 'mariyah', 'sawdah', 'aisha', 'hafsah', 'zaynab_khuzaymah', 'umm_salamah', 'zaynab_jahsh', 'juwayriyah', 'umm_habibah', 'safiyyah', 'maymunah']
+    for (const wid of wivesOfMuhammad) {
+      expect(getR(wid).x).toBe(getR('muhammad').x)
+      expect(getL(wid).x).toBe(getL('muhammad').x)
+    }
+
+    const vert = buildLayout(true, false)
+    expect(vert.nodes).toHaveLength(people.length)
+    const getV = (id: string) => vert.nodes.find((n) => n.id === id)!
+    expect(getV('hawwa').x).toBe(getV('adam').x)
+    expect(getV('safura').x).toBe(getV('musa').x)
   })
 
   it('traces lineage back to Adam', () => {
