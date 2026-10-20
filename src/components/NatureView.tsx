@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import {
   BookOpen,
   Compass,
@@ -11,6 +11,7 @@ import {
   Search,
   Sparkles,
   Sun,
+  Volume2,
   X,
   Zap,
 } from 'lucide-react'
@@ -25,8 +26,164 @@ import {
   type PlantFoodEntry,
 } from '../data/nature'
 import { RefChip } from './ui'
+import { audioUrl, loadPassage } from '../lib/quran'
 
-// --- SVG Silhouettes ---
+// --- Audio Synthesizer & Speech Engine ---
+
+class SoundscapeEngine {
+  private ctx: AudioContext | null = null
+
+  private getContext(): AudioContext | null {
+    if (typeof window === 'undefined') return null
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+      if (AudioCtx) this.ctx = new AudioCtx()
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      void this.ctx.resume()
+    }
+    return this.ctx
+  }
+
+  playChirp() {
+    const ctx = this.getContext()
+    if (!ctx) return
+    const now = ctx.currentTime
+    const osc = ctx.createOscillator()
+    const gain = ctx.createGain()
+    osc.type = 'sine'
+    osc.frequency.setValueAtTime(1800, now)
+    osc.frequency.exponentialRampToValueAtTime(3200, now + 0.08)
+    osc.frequency.exponentialRampToValueAtTime(2200, now + 0.16)
+    gain.gain.setValueAtTime(0.001, now)
+    gain.gain.linearRampToValueAtTime(0.2, now + 0.04)
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22)
+    osc.connect(gain)
+    gain.connect(ctx.destination)
+    osc.start(now)
+    osc.stop(now + 0.24)
+  }
+
+  playBuzz() {
+    const ctx = this.getContext()
+    if (!ctx) return
+    const now = ctx.currentTime
+    const osc = ctx.createOscillator()
+    const lfo = ctx.createOscillator()
+    const lfoGain = ctx.createGain()
+    const gain = ctx.createGain()
+    osc.type = 'sawtooth'
+    osc.frequency.setValueAtTime(210, now)
+    lfo.type = 'sine'
+    lfo.frequency.setValueAtTime(28, now)
+    lfoGain.gain.setValueAtTime(15, now)
+    lfo.connect(osc.frequency)
+    gain.gain.setValueAtTime(0.001, now)
+    gain.gain.linearRampToValueAtTime(0.12, now + 0.05)
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4)
+    osc.connect(gain)
+    gain.connect(ctx.destination)
+    lfo.start(now)
+    osc.start(now)
+    lfo.stop(now + 0.45)
+    osc.stop(now + 0.45)
+  }
+
+  playOcean() {
+    const ctx = this.getContext()
+    if (!ctx) return
+    const now = ctx.currentTime
+    const osc = ctx.createOscillator()
+    const gain = ctx.createGain()
+    osc.type = 'sine'
+    osc.frequency.setValueAtTime(65, now)
+    osc.frequency.exponentialRampToValueAtTime(45, now + 0.8)
+    gain.gain.setValueAtTime(0.001, now)
+    gain.gain.linearRampToValueAtTime(0.25, now + 0.2)
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.85)
+    osc.connect(gain)
+    gain.connect(ctx.destination)
+    osc.start(now)
+    osc.stop(now + 0.9)
+  }
+
+  playWind() {
+    const ctx = this.getContext()
+    if (!ctx) return
+    const now = ctx.currentTime
+    const bufferSize = ctx.sampleRate * 0.6
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate)
+    const data = buffer.getChannelData(0)
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1
+    }
+    const noise = ctx.createBufferSource()
+    noise.buffer = buffer
+    const filter = ctx.createBiquadFilter()
+    filter.type = 'bandpass'
+    filter.frequency.setValueAtTime(450, now)
+    filter.Q.setValueAtTime(2.5, now)
+    const gain = ctx.createGain()
+    gain.gain.setValueAtTime(0.001, now)
+    gain.gain.linearRampToValueAtTime(0.15, now + 0.2)
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.58)
+    noise.connect(filter)
+    filter.connect(gain)
+    gain.connect(ctx.destination)
+    noise.start(now)
+    noise.stop(now + 0.6)
+  }
+
+  playChime() {
+    const ctx = this.getContext()
+    if (!ctx) return
+    const now = ctx.currentTime
+    ;[1046.5, 1318.5, 1567.98].forEach((freq, idx) => {
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.type = 'sine'
+      osc.frequency.setValueAtTime(freq, now + idx * 0.08)
+      gain.gain.setValueAtTime(0.001, now + idx * 0.08)
+      gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.08 + 0.02)
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.6)
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.start(now + idx * 0.08)
+      osc.stop(now + idx * 0.08 + 0.65)
+    })
+  }
+
+  playFor(id: string) {
+    if (['hudhud', 'ghurab', 'tayr_ababil'].includes(id)) {
+      this.playChirp()
+    } else if (['nahl', 'namlah', 'ankabut'].includes(id)) {
+      this.playBuzz()
+    } else if (['hut_yunus'].includes(id)) {
+      this.playOcean()
+    } else if (['sidr', 'buraq', 'talbinah', 'asal'].includes(id)) {
+      this.playChime()
+    } else {
+      this.playWind()
+    }
+  }
+}
+
+const soundEngine = new SoundscapeEngine()
+
+function speakArabic(text: string) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
+  try {
+    window.speechSynthesis.cancel()
+    const u = new SpeechSynthesisUtterance(text)
+    u.lang = 'ar-SA'
+    u.rate = 0.85
+    window.speechSynthesis.speak(u)
+  } catch {
+    // fallback gracefully
+  }
+}
+
+// --- Bespoke Handcrafted SVG Illustrations & Silhouettes ---
 
 function HoopoeSvg({ animated = true }: { animated?: boolean }) {
   return (
@@ -38,33 +195,19 @@ function HoopoeSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#78350f" />
         </linearGradient>
       </defs>
-      {/* Crest feathers */}
-      <path
-        d="M 125 45 C 135 22 155 18 165 24 C 158 32 145 36 135 48 Z"
-        fill="url(#hoopoeGrad)"
-        className={animated ? 'origin-[125px_48px] animate-pulse' : ''}
-      />
+      <path d="M 125 45 C 135 22 155 18 165 24 C 158 32 145 36 135 48 Z" fill="url(#hoopoeGrad)" className={animated ? 'origin-[125px_48px] animate-pulse' : ''} />
       <path d="M 120 48 C 128 30 142 26 150 32 C 144 38 135 42 128 50 Z" fill="#b45309" />
       <path d="M 116 52 C 122 36 132 32 138 38 C 132 44 125 48 120 54 Z" fill="#fde047" />
-      {/* Bill */}
       <path d="M 132 64 C 158 70 185 82 192 88 C 182 86 150 72 130 68 Z" fill="#451a03" />
-      {/* Head and Body */}
-      <path
-        d="M 108 52 C 125 50 135 62 128 75 C 120 90 128 110 115 125 C 95 142 55 145 30 135 C 15 130 5 120 2 110 C 15 112 40 105 55 90 C 70 75 88 54 108 52 Z"
-        fill="url(#hoopoeGrad)"
-      />
-      {/* Eye */}
+      <path d="M 108 52 C 125 50 135 62 128 75 C 120 90 128 110 115 125 C 95 142 55 145 30 135 C 15 130 5 120 2 110 C 15 112 40 105 55 90 C 70 75 88 54 108 52 Z" fill="url(#hoopoeGrad)" />
       <circle cx="120" cy="62" r="3" fill="#000" />
       <circle cx="121" cy="61" r="1" fill="#fff" />
-      {/* Wings with black and white stripes */}
       <g className={animated ? 'origin-[90px_85px] animate-creature-fly' : ''}>
         <path d="M 95 78 C 80 95 60 120 35 142 C 45 130 75 95 105 82 Z" fill="#1c1917" />
         <path d="M 85 88 C 72 102 55 125 42 136 C 50 125 72 100 95 90 Z" fill="#f8fafc" />
         <path d="M 75 98 C 65 110 50 128 45 132 C 52 122 68 105 85 96 Z" fill="#1c1917" />
       </g>
-      {/* Tail */}
       <path d="M 32 135 L 5 155 L 15 158 L 42 138 Z" fill="#0f172a" />
-      {/* Perch and feet */}
       <path d="M 85 135 L 82 148 M 80 148 L 88 148 M 72 136 L 68 148 M 65 148 L 73 148" stroke="#78350f" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   )
@@ -80,31 +223,18 @@ function AntSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#1c1917" />
         </linearGradient>
       </defs>
-      {/* Antennae */}
       <path d="M 165 65 Q 180 50 192 52 M 165 68 Q 182 62 195 70" stroke="#b45309" strokeWidth="2" fill="none" strokeLinecap="round" />
-      {/* Head */}
       <ellipse cx="152" cy="74" rx="18" ry="14" fill="url(#antGrad)" />
-      {/* Eye */}
       <ellipse cx="158" cy="70" rx="3" ry="4" fill="#fbbf24" />
-      {/* Mandibles */}
       <path d="M 168 76 Q 176 80 178 86 M 166 79 Q 174 85 174 90" stroke="#d97706" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      {/* Thorax (Middle) */}
       <ellipse cx="118" cy="80" rx="20" ry="12" fill="url(#antGrad)" />
-      {/* Petiole (Waist connector) */}
       <ellipse cx="94" cy="81" rx="6" ry="5" fill="#92400e" />
-      {/* Gaster / Abdomen (Back) */}
       <ellipse cx="58" cy="82" rx="34" ry="24" transform="rotate(-8 58 82)" fill="url(#antGrad)" />
-      {/* Abdomen segments highlights */}
       <path d="M 68 62 Q 74 82 66 102 M 52 61 Q 58 82 50 103 M 36 65 Q 42 82 34 98" stroke="#b45309" strokeWidth="1.5" fill="none" opacity="0.6" />
-      {/* 6 Articulated Legs */}
       <g className={animated ? 'animate-creature-walk origin-center' : ''}>
-        {/* Front leg */}
         <path d="M 128 82 L 145 98 L 158 135" stroke="#92400e" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        {/* Middle leg */}
         <path d="M 118 82 L 115 105 L 110 138" stroke="#78350f" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        {/* Back leg */}
         <path d="M 108 82 L 85 96 L 72 136" stroke="#451a03" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        {/* Far side legs shadow */}
         <path d="M 134 76 L 152 60 L 168 85" stroke="#451a03" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.7" />
         <path d="M 122 76 L 118 55 L 112 80" stroke="#451a03" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.7" />
         <path d="M 112 76 L 85 58 L 68 82" stroke="#451a03" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.7" />
@@ -123,37 +253,16 @@ function WhaleSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#082f49" />
         </linearGradient>
       </defs>
-      {/* Water Spout */}
       {animated && (
-        <path
-          d="M 185 45 C 185 20 175 10 170 5 M 186 45 C 190 22 200 12 210 8 M 185 42 C 185 18 185 5 187 2"
-          stroke="#7dd3fc"
-          strokeWidth="2.5"
-          fill="none"
-          strokeLinecap="round"
-          className="animate-pulse"
-        />
+        <path d="M 185 45 C 185 20 175 10 170 5 M 186 45 C 190 22 200 12 210 8 M 185 42 C 185 18 185 5 187 2" stroke="#7dd3fc" strokeWidth="2.5" fill="none" strokeLinecap="round" className="animate-pulse" />
       )}
-      {/* Massive Body */}
-      <path
-        d="M 15 88 C 30 84 55 86 85 84 C 130 82 170 60 205 60 C 225 60 238 72 235 88 C 230 108 200 120 155 122 C 110 124 55 108 15 88 Z"
-        fill="url(#whaleGrad)"
-      />
-      {/* Belly ventral pleats */}
+      <path d="M 15 88 C 30 84 55 86 85 84 C 130 82 170 60 205 60 C 225 60 238 72 235 88 C 230 108 200 120 155 122 C 110 124 55 108 15 88 Z" fill="url(#whaleGrad)" />
       <path d="M 140 118 C 170 114 195 106 215 95" stroke="#bae6fd" strokeWidth="2" fill="none" opacity="0.6" />
       <path d="M 130 121 C 160 118 190 110 205 102" stroke="#bae6fd" strokeWidth="1.5" fill="none" opacity="0.6" />
-      {/* Eye */}
       <circle cx="210" cy="78" r="3.5" fill="#fbbf24" />
       <circle cx="211" cy="77" r="1.2" fill="#fff" />
-      {/* Pectoral Fin */}
-      <path
-        d="M 155 92 C 145 115 130 135 118 142 C 122 130 135 110 152 90 Z"
-        fill="#0369a1"
-        className={animated ? 'animate-creature-swim origin-[155px_92px]' : ''}
-      />
-      {/* Dorsal Fin */}
+      <path d="M 155 92 C 145 115 130 135 118 142 C 122 130 135 110 152 90 Z" fill="#0369a1" className={animated ? 'animate-creature-swim origin-[155px_92px]' : ''} />
       <path d="M 78 84 C 74 72 68 66 60 68 C 65 74 70 80 75 84 Z" fill="#0284c7" />
-      {/* Caudal Fluke Tail */}
       <g className={animated ? 'animate-creature-swim origin-[25px_88px]' : ''}>
         <path d="M 22 88 C 10 70 2 55 0 52 C 5 65 15 80 20 86 C 15 92 5 108 0 122 C 4 118 12 102 22 88 Z" fill="#0284c7" />
       </g>
@@ -171,38 +280,20 @@ function SheCamelSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#713f12" />
         </linearGradient>
       </defs>
-      {/* Graceful S-Curved Neck and Head */}
-      <path
-        d="M 160 105 C 168 85 178 50 185 35 C 190 26 200 24 208 26 C 215 28 218 36 215 42 C 205 45 195 48 190 58 C 182 75 175 100 170 115 Z"
-        fill="url(#camelGrad)"
-      />
-      {/* Camel Ears */}
+      <path d="M 160 105 C 168 85 178 50 185 35 C 190 26 200 24 208 26 C 215 28 218 36 215 42 C 205 45 195 48 190 58 C 182 75 175 100 170 115 Z" fill="url(#camelGrad)" />
       <path d="M 195 24 L 198 14 L 202 23 Z" fill="#ca8a04" />
-      {/* Eye and Muzzle */}
       <circle cx="206" cy="32" r="2.5" fill="#451a03" />
-      <path d="M 215 36 Q 212 42 206 43" stroke="#713f12" strokeWidth="1.5" fill="none" />
-      {/* Grand Hump & Body */}
-      <path
-        d="M 65 115 C 65 110 78 72 105 60 C 128 50 145 75 155 100 C 165 110 162 135 150 145 C 130 152 85 150 68 135 C 62 128 65 118 65 115 Z"
-        fill="url(#camelGrad)"
-      />
-      {/* Legs (Front & Rear) */}
+      <path d="M 65 115 C 65 110 78 72 105 60 C 128 50 145 75 155 100 C 165 110 162 135 150 145 C 130 152 85 150 68 135 C 62 128 65 118 65 115 Z" fill="url(#camelGrad)" />
       <g className={animated ? 'animate-creature-walk origin-bottom' : ''}>
-        {/* Front Near Leg */}
         <path d="M 152 140 L 156 160 L 158 178" stroke="#ca8a04" strokeWidth="5" strokeLinecap="round" fill="none" />
-        {/* Foot Pad Front */}
         <ellipse cx="160" cy="178" rx="6" ry="2.5" fill="#713f12" />
-        {/* Rear Near Leg */}
         <path d="M 78 135 L 70 155 L 72 178" stroke="#ca8a04" strokeWidth="5.5" strokeLinecap="round" fill="none" />
-        {/* Foot Pad Rear */}
         <ellipse cx="73" cy="178" rx="6.5" ry="2.5" fill="#713f12" />
-        {/* Far Legs (Darker background) */}
         <path d="M 142 138 L 138 158 L 140 176" stroke="#854d0e" strokeWidth="4" strokeLinecap="round" fill="none" />
         <ellipse cx="141" cy="176" rx="5" ry="2" fill="#451a03" />
         <path d="M 90 135 L 95 156 L 93 176" stroke="#854d0e" strokeWidth="4.5" strokeLinecap="round" fill="none" />
         <ellipse cx="94" cy="176" rx="5" ry="2" fill="#451a03" />
       </g>
-      {/* Tail with tuft */}
       <path d="M 64 120 Q 55 135 58 152" stroke="#854d0e" strokeWidth="2.5" fill="none" />
       <path d="M 57 150 C 54 158 56 162 60 160 Z" fill="#713f12" />
     </svg>
@@ -219,33 +310,60 @@ function DogSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#78350f" />
         </linearGradient>
       </defs>
-      {/* Alert Dog Head & Muzzle */}
-      <path
-        d="M 135 48 C 145 35 160 38 175 48 C 185 55 192 62 188 70 C 182 75 168 72 160 78 C 150 85 142 90 135 85 Z"
-        fill="url(#dogGrad)"
-      />
-      {/* Ears - One upright, one relaxed */}
+      <path d="M 135 48 C 145 35 160 38 175 48 C 185 55 192 62 188 70 C 182 75 168 72 160 78 C 150 85 142 90 135 85 Z" fill="url(#dogGrad)" />
       <path d="M 142 42 L 146 22 L 155 38 Z" fill="#b45309" />
       <path d="M 152 44 L 158 28 L 164 42 Z" fill="#92400e" />
-      {/* Eye and Nose */}
       <circle cx="168" cy="54" r="2.5" fill="#1c1917" />
       <ellipse cx="188" cy="65" rx="3" ry="2" fill="#1c1917" />
-      {/* Recumbent / Sitting Guard Body */}
-      <path
-        d="M 65 95 C 65 80 85 75 110 75 C 130 75 140 85 142 105 C 144 120 135 135 110 138 C 85 140 60 138 52 125 C 48 118 55 105 65 95 Z"
-        fill="url(#dogGrad)"
-      />
-      {/* Stretched Forelegs across threshold (Bāsitun Dhirā‘ayhi) */}
+      <path d="M 65 95 C 65 80 85 75 110 75 C 130 75 140 85 142 105 C 144 120 135 135 110 138 C 85 140 60 138 52 125 C 48 118 55 105 65 95 Z" fill="url(#dogGrad)" />
       <g className={animated ? 'animate-pulse' : ''}>
         <path d="M 135 110 L 165 125 L 195 132" stroke="#b45309" strokeWidth="6" strokeLinecap="round" fill="none" />
         <ellipse cx="196" cy="132" rx="7" ry="3" fill="#78350f" />
         <path d="M 125 115 L 155 128 L 185 135" stroke="#92400e" strokeWidth="5.5" strokeLinecap="round" fill="none" />
         <ellipse cx="186" cy="135" rx="6.5" ry="3" fill="#451a03" />
       </g>
-      {/* Hindquarters resting */}
       <ellipse cx="68" cy="120" rx="18" ry="14" fill="#92400e" />
-      {/* Tail curled back */}
       <path d="M 52 118 C 35 112 30 92 42 85 C 46 82 48 88 44 94 Z" fill="#ca8a04" />
+    </svg>
+  )
+}
+
+function BaqarahSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 220 170" className="w-full h-full drop-shadow-[0_12px_24px_rgba(250,204,21,0.45)]">
+      <defs>
+        <linearGradient id="cowGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#fef08a" />
+          <stop offset="50%" stopColor="#eab308" />
+          <stop offset="100%" stopColor="#a16207" />
+        </linearGradient>
+      </defs>
+      {/* Curved Horns */}
+      <path d="M 180 42 C 185 24 195 20 202 22 M 172 45 C 168 28 158 24 152 26" stroke="#ca8a04" strokeWidth="3" fill="none" strokeLinecap="round" />
+      {/* Head & Muzzle */}
+      <path d="M 165 52 C 175 42 188 45 192 60 C 196 74 194 90 180 92 C 168 93 160 82 165 52 Z" fill="url(#cowGrad)" />
+      <circle cx="180" cy="62" r="3" fill="#451a03" />
+      <ellipse cx="188" cy="85" rx="6" ry="4" fill="#a16207" />
+      {/* Ears */}
+      <ellipse cx="158" cy="56" rx="8" ry="4" transform="rotate(-20 158 56)" fill="#ca8a04" />
+      <ellipse cx="195" cy="54" rx="8" ry="4" transform="rotate(20 195 54)" fill="#ca8a04" />
+      {/* Sleek Golden Bovine Body */}
+      <path d="M 65 85 C 75 75 110 72 155 75 C 170 76 172 90 168 115 C 162 135 145 142 110 144 C 75 145 58 135 55 110 C 53 95 58 88 65 85 Z" fill="url(#cowGrad)" />
+      {/* Sturdy Legs */}
+      <g className={animated ? 'animate-creature-walk origin-bottom' : ''}>
+        <rect x="145" y="125" width="10" height="38" rx="4" fill="#ca8a04" />
+        <rect x="130" y="122" width="9" height="38" rx="3.5" fill="#a16207" />
+        <rect x="68" y="125" width="10" height="38" rx="4" fill="#ca8a04" />
+        <rect x="85" y="122" width="9" height="38" rx="3.5" fill="#a16207" />
+        {/* Dark Hooves */}
+        <ellipse cx="150" cy="163" rx="5.5" ry="2.5" fill="#451a03" />
+        <ellipse cx="135" cy="160" rx="5" ry="2.5" fill="#1c1917" />
+        <ellipse cx="73" cy="163" rx="5.5" ry="2.5" fill="#451a03" />
+        <ellipse cx="90" cy="160" rx="5" ry="2.5" fill="#1c1917" />
+      </g>
+      {/* Tail with tuft */}
+      <path d="M 55 92 Q 42 115 45 140" stroke="#a16207" strokeWidth="2.5" fill="none" />
+      <ellipse cx="45" cy="142" rx="3" ry="6" fill="#451a03" />
     </svg>
   )
 }
@@ -260,32 +378,16 @@ function ElephantSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#1e293b" />
         </linearGradient>
       </defs>
-      {/* Massive Dome Head */}
-      <path
-        d="M 155 60 C 170 45 195 50 205 65 C 215 80 215 105 210 120 C 205 135 198 155 190 162 C 185 166 180 162 184 150 C 190 135 194 110 188 95 C 182 85 170 82 160 88 Z"
-        fill="url(#eleGrad)"
-      />
-      {/* Ivory Tusk */}
+      <path d="M 155 60 C 170 45 195 50 205 65 C 215 80 215 105 210 120 C 205 135 198 155 190 162 C 185 166 180 162 184 150 C 190 135 194 110 188 95 C 182 85 170 82 160 88 Z" fill="url(#eleGrad)" />
       <path d="M 198 108 C 215 112 228 106 235 98 C 228 108 212 118 195 114 Z" fill="#fef08a" />
-      {/* Huge Fan Ear */}
-      <path
-        d="M 152 58 C 170 56 182 75 178 98 C 175 115 158 128 142 125 C 132 120 135 95 142 75 Z"
-        fill="#334155"
-        className={animated ? 'animate-pulse' : ''}
-      />
-      {/* Colossal Body */}
-      <path
-        d="M 50 100 C 50 75 80 60 120 60 C 150 60 165 75 165 100 C 165 125 150 145 125 150 C 85 152 50 138 50 100 Z"
-        fill="url(#eleGrad)"
-      />
-      {/* Massive Pillar Legs */}
+      <path d="M 152 58 C 170 56 182 75 178 98 C 175 115 158 128 142 125 C 132 120 135 95 142 75 Z" fill="#334155" className={animated ? 'animate-pulse' : ''} />
+      <path d="M 50 100 C 50 75 80 60 120 60 C 150 60 165 75 165 100 C 165 125 150 145 125 150 C 85 152 50 138 50 100 Z" fill="url(#eleGrad)" />
       <g className={animated ? 'animate-creature-walk origin-bottom' : ''}>
         <rect x="142" y="125" width="22" height="50" rx="6" fill="#475569" />
         <rect x="122" y="122" width="18" height="50" rx="5" fill="#334155" />
         <rect x="65" y="125" width="24" height="50" rx="6" fill="#475569" />
         <rect x="85" y="122" width="18" height="50" rx="5" fill="#334155" />
       </g>
-      {/* Tail with brush */}
       <path d="M 52 102 C 45 118 48 140 46 155" stroke="#334155" strokeWidth="2.5" fill="none" />
       <ellipse cx="46" cy="157" rx="3" ry="5" fill="#1e293b" />
     </svg>
@@ -302,27 +404,197 @@ function BeeSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#854d0e" />
         </linearGradient>
       </defs>
-      {/* Translucent buzzing wings */}
       <g className={animated ? 'animate-creature-fly origin-[85px_50px]' : ''}>
         <ellipse cx="80" cy="30" rx="35" ry="16" transform="rotate(-30 80 30)" fill="rgba(224, 242, 254, 0.65)" stroke="#38bdf8" strokeWidth="1.2" />
         <ellipse cx="100" cy="35" rx="28" ry="12" transform="rotate(-15 100 35)" fill="rgba(224, 242, 254, 0.55)" stroke="#38bdf8" strokeWidth="1" />
       </g>
-      {/* Head */}
       <ellipse cx="135" cy="72" rx="14" ry="12" fill="#451a03" />
       <ellipse cx="140" cy="68" rx="4" ry="5" fill="#1c1917" />
-      {/* Antennae */}
       <path d="M 145 64 Q 155 52 162 55 M 144 68 Q 158 64 165 70" stroke="#78350f" strokeWidth="2" fill="none" strokeLinecap="round" />
-      {/* Thorax (Fuzzy golden) */}
       <ellipse cx="110" cy="74" rx="18" ry="16" fill="url(#beeGrad)" />
-      {/* Striped Abdomen */}
       <g>
         <ellipse cx="65" cy="76" rx="32" ry="20" fill="url(#beeGrad)" />
-        {/* Dark Stripes */}
         <path d="M 78 58 C 82 70 82 82 78 94 L 72 95 C 76 83 76 71 72 59 Z" fill="#1c1917" />
         <path d="M 62 56 C 66 70 66 84 62 96 L 56 96 C 60 84 60 70 56 56 Z" fill="#1c1917" />
         <path d="M 46 60 C 50 72 50 82 46 92 L 40 90 C 44 80 44 72 40 62 Z" fill="#1c1917" />
-        {/* Stinger */}
         <path d="M 33 76 L 24 76" stroke="#451a03" strokeWidth="2" strokeLinecap="round" />
+      </g>
+    </svg>
+  )
+}
+
+function WolfSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 210 160" className="w-full h-full drop-shadow-[0_12px_24px_rgba(203,213,225,0.35)]">
+      <defs>
+        <linearGradient id="wolfGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#cbd5e1" />
+          <stop offset="50%" stopColor="#64748b" />
+          <stop offset="100%" stopColor="#1e293b" />
+        </linearGradient>
+      </defs>
+      {/* Alert Pricked Ears */}
+      <path d="M 152 38 L 158 18 L 168 34 Z" fill="#475569" />
+      <path d="M 166 38 L 174 20 L 180 36 Z" fill="#334155" />
+      {/* Alert Snout & Head */}
+      <path d="M 148 48 C 158 35 175 36 188 48 C 198 56 205 62 198 70 C 188 74 175 72 165 78 C 152 86 145 88 142 80 Z" fill="url(#wolfGrad)" />
+      <circle cx="178" cy="52" r="3" fill="#f59e0b" />
+      <ellipse cx="202" cy="65" rx="3.5" ry="2.5" fill="#0f172a" />
+      {/* Lean Desert Body */}
+      <path d="M 68 85 C 75 75 105 72 145 74 C 158 75 160 88 155 108 C 150 126 135 135 105 136 C 75 137 60 125 58 105 Z" fill="url(#wolfGrad)" />
+      {/* Agile Paws */}
+      <g className={animated ? 'animate-creature-walk origin-bottom' : ''}>
+        <path d="M 142 108 L 148 135 L 155 155" stroke="#475569" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+        <path d="M 130 110 L 135 134 L 142 153" stroke="#334155" strokeWidth="4" strokeLinecap="round" fill="none" />
+        <path d="M 80 105 L 72 132 L 68 155" stroke="#475569" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+        <path d="M 92 108 L 86 135 L 82 153" stroke="#334155" strokeWidth="4" strokeLinecap="round" fill="none" />
+      </g>
+      {/* Bushy Tail */}
+      <path d="M 60 90 C 42 100 35 125 40 145 C 44 148 48 140 46 130 C 45 115 52 102 62 92 Z" fill="#475569" />
+    </svg>
+  )
+}
+
+function RavenSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 200 160" className="w-full h-full drop-shadow-[0_12px_24px_rgba(99,102,241,0.3)]">
+      <defs>
+        <linearGradient id="ravenGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#4338ca" />
+          <stop offset="40%" stopColor="#1e1b4b" />
+          <stop offset="100%" stopColor="#09090b" />
+        </linearGradient>
+      </defs>
+      {/* Heavy Sharp Beak for Excavation */}
+      <path d="M 145 62 L 185 75 L 145 80 Z" fill="#09090b" />
+      {/* Glossy Black Head & Body */}
+      <path d="M 115 50 C 132 48 148 58 145 74 C 140 92 142 112 125 128 C 105 145 65 146 38 135 C 22 130 10 118 8 108 C 22 110 48 102 65 88 C 80 72 98 52 115 50 Z" fill="url(#ravenGrad)" />
+      <circle cx="132" cy="62" r="2.8" fill="#e2e8f0" />
+      <circle cx="132" cy="62" r="1.5" fill="#000" />
+      {/* Folded Wings */}
+      <g className={animated ? 'origin-[95px_85px] animate-creature-fly' : ''}>
+        <path d="M 105 78 C 85 96 62 125 32 145 C 48 132 80 98 115 82 Z" fill="#0f172a" />
+        <path d="M 92 88 C 75 104 55 128 42 138 C 52 125 78 102 102 90 Z" fill="#312e81" opacity="0.6" />
+      </g>
+      {/* Tail */}
+      <path d="M 35 135 L 8 152 L 18 155 L 45 138 Z" fill="#09090b" />
+      {/* Scratching Talons Digging the Earth */}
+      <path d="M 90 135 L 88 150 L 98 152 M 85 150 L 76 152 M 75 136 L 72 150 L 80 152" stroke="#475569" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+    </svg>
+  )
+}
+
+function SpiderSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 200 180" className="w-full h-full drop-shadow-[0_12px_24px_rgba(203,213,225,0.3)]">
+      <defs>
+        <radialGradient id="webGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(248, 250, 252, 0.4)" />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
+      </defs>
+      {/* Intricate Radial Web Threads */}
+      <g stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" fill="none">
+        <line x1="20" y1="20" x2="180" y2="160" />
+        <line x1="180" y1="20" x2="20" y2="160" />
+        <line x1="100" y1="10" x2="100" y2="170" />
+        <line x1="10" y1="90" x2="190" y2="90" />
+        <polygon points="100,45 135,65 135,115 100,135 65,115 65,65" />
+        <polygon points="100,30 155,55 155,125 100,150 45,125 45,55" />
+      </g>
+      {/* Central Garden Spider */}
+      <g className={animated ? 'animate-creature-walk origin-center' : ''}>
+        {/* 8 Articulated Spidery Legs */}
+        <g stroke="#e2e8f0" strokeWidth="2" fill="none" strokeLinecap="round">
+          <path d="M 105 85 Q 130 65 145 45" />
+          <path d="M 108 90 Q 140 85 155 75" />
+          <path d="M 106 95 Q 140 105 152 120" />
+          <path d="M 102 98 Q 125 125 135 145" />
+          <path d="M 95 85 Q 70 65 55 45" />
+          <path d="M 92 90 Q 60 85 45 75" />
+          <path d="M 94 95 Q 60 105 48 120" />
+          <path d="M 98 98 Q 75 125 65 145" />
+        </g>
+        {/* Cephalothorax & Patterned Abdomen */}
+        <ellipse cx="100" cy="85" rx="7" ry="6" fill="#475569" />
+        <ellipse cx="100" cy="100" rx="14" ry="18" fill="#1e293b" stroke="#e2e8f0" strokeWidth="1.5" />
+        {/* Yellow cross pattern */}
+        <path d="M 100 88 L 100 112 M 92 98 L 108 98" stroke="#facc15" strokeWidth="2" strokeLinecap="round" />
+      </g>
+    </svg>
+  )
+}
+
+function BuraqSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 240 180" className="w-full h-full drop-shadow-[0_12px_28px_rgba(254,240,138,0.6)]">
+      <defs>
+        <linearGradient id="buraqGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="50%" stopColor="#fef08a" />
+          <stop offset="100%" stopColor="#ca8a04" />
+        </linearGradient>
+        <linearGradient id="wingGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.9)" />
+          <stop offset="50%" stopColor="rgba(253,224,71,0.7)" />
+          <stop offset="100%" stopColor="rgba(56,189,248,0.4)" />
+        </linearGradient>
+      </defs>
+      {/* Celestial Aura Halo */}
+      <circle cx="120" cy="90" r="75" fill="none" stroke="rgba(250,204,21,0.25)" strokeWidth="1.5" strokeDasharray="4 6" className={animated ? 'animate-spin-slow' : ''} />
+      {/* Majestic Feathered Celestial Wings */}
+      <g className={animated ? 'animate-creature-fly origin-[125px_85px]' : ''}>
+        <path d="M 125 85 C 135 45 165 15 195 10 C 180 35 170 65 155 85 Z" fill="url(#wingGrad)" />
+        <path d="M 115 88 C 120 50 142 25 170 20 C 158 42 148 70 135 90 Z" fill="url(#wingGrad)" />
+        <path d="M 105 92 C 105 60 120 40 145 35 C 135 55 125 78 118 95 Z" fill="url(#wingGrad)" />
+      </g>
+      {/* Elegant Noble White Steed Body */}
+      <path d="M 155 85 C 160 65 172 40 188 28 C 195 22 205 24 210 32 C 215 40 210 48 200 52 C 185 56 175 70 168 90 Z" fill="url(#buraqGrad)" />
+      <path d="M 80 95 C 80 82 100 75 130 75 C 160 75 170 88 168 108 C 165 125 150 135 125 136 C 95 137 80 125 80 95 Z" fill="url(#buraqGrad)" />
+      {/* Galloping Divine Hooves */}
+      <g className={animated ? 'animate-creature-gallop origin-bottom' : ''}>
+        <path d="M 160 110 L 172 135 L 188 155" stroke="#facc15" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+        <path d="M 148 112 L 155 136 L 165 154" stroke="#ca8a04" strokeWidth="4" strokeLinecap="round" fill="none" />
+        <path d="M 95 105 L 80 132 L 68 152" stroke="#facc15" strokeWidth="5" strokeLinecap="round" fill="none" />
+        <path d="M 108 108 L 98 135 L 90 154" stroke="#ca8a04" strokeWidth="4.5" strokeLinecap="round" fill="none" />
+      </g>
+      {/* Luminous Tail */}
+      <path d="M 82 90 C 60 75 48 92 45 122 C 42 138 48 150 55 154" stroke="#fef08a" strokeWidth="4" fill="none" strokeLinecap="round" className={animated ? 'animate-pulse' : ''} />
+    </svg>
+  )
+}
+
+function AbabilSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 220 170" className="w-full h-full drop-shadow-[0_12px_24px_rgba(244,63,94,0.35)]">
+      <defs>
+        <linearGradient id="ababilBird" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#38bdf8" />
+          <stop offset="50%" stopColor="#0f172a" />
+          <stop offset="100%" stopColor="#000000" />
+        </linearGradient>
+      </defs>
+      {/* Lead Bird 1 */}
+      <g className={animated ? 'animate-creature-fly origin-center' : ''}>
+        <path d="M 110 50 Q 140 25 175 45 Q 140 55 110 50" fill="url(#ababilBird)" />
+        <path d="M 110 50 Q 80 25 45 45 Q 80 55 110 50" fill="url(#ababilBird)" />
+        <ellipse cx="110" cy="50" rx="8" ry="18" fill="#0f172a" />
+        {/* Baked Clay Stone in Claws */}
+        <circle cx="110" cy="72" r="5" fill="#b91c1c" className={animated ? 'animate-pulse' : ''} />
+      </g>
+      {/* Wingman Bird 2 (Left Lower) */}
+      <g transform="translate(-40, 45) scale(0.75)" className={animated ? 'animate-creature-fly origin-center' : ''}>
+        <path d="M 110 50 Q 140 25 175 45 Q 140 55 110 50" fill="url(#ababilBird)" />
+        <path d="M 110 50 Q 80 25 45 45 Q 80 55 110 50" fill="url(#ababilBird)" />
+        <ellipse cx="110" cy="50" rx="8" ry="18" fill="#0f172a" />
+        <circle cx="110" cy="72" r="5" fill="#dc2626" />
+      </g>
+      {/* Wingman Bird 3 (Right Lower) */}
+      <g transform="translate(60, 40) scale(0.75)" className={animated ? 'animate-creature-fly origin-center' : ''}>
+        <path d="M 110 50 Q 140 25 175 45 Q 140 55 110 50" fill="url(#ababilBird)" />
+        <path d="M 110 50 Q 80 25 45 45 Q 80 55 110 50" fill="url(#ababilBird)" />
+        <ellipse cx="110" cy="50" rx="8" ry="18" fill="#0f172a" />
+        <circle cx="110" cy="72" r="5" fill="#dc2626" />
       </g>
     </svg>
   )
@@ -338,37 +610,18 @@ function HorseSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#451a03" />
         </linearGradient>
       </defs>
-      {/* Arching Neck and Regal Head */}
-      <path
-        d="M 140 85 C 145 65 158 40 175 28 C 182 22 192 24 198 32 C 204 40 200 48 190 52 C 175 56 162 70 155 90 Z"
-        fill="url(#horseGrad)"
-      />
-      {/* Pricked Ears */}
+      <path d="M 140 85 C 145 65 158 40 175 28 C 182 22 192 24 198 32 C 204 40 200 48 190 52 C 175 56 162 70 155 90 Z" fill="url(#horseGrad)" />
       <path d="M 188 24 L 192 12 L 196 22 Z" fill="#a16207" />
       <circle cx="192" cy="34" r="2.5" fill="#1c1917" />
-      {/* Flowing Mane */}
       <path d="M 168 28 C 158 35 152 48 148 62 C 142 75 138 90 135 105" stroke="#713f12" strokeWidth="4" fill="none" strokeLinecap="round" />
-      {/* Athletic Muscular Body */}
-      <path
-        d="M 65 95 C 65 82 85 75 115 75 C 145 75 155 88 152 108 C 150 125 135 135 110 136 C 80 137 65 125 65 95 Z"
-        fill="url(#horseGrad)"
-      />
-      {/* Powerful Galloping Legs */}
+      <path d="M 65 95 C 65 82 85 75 115 75 C 145 75 155 88 152 108 C 150 125 135 135 110 136 C 80 137 65 125 65 95 Z" fill="url(#horseGrad)" />
       <g className={animated ? 'animate-creature-gallop origin-bottom' : ''}>
         <path d="M 145 110 L 158 135 L 175 155" stroke="#a16207" strokeWidth="4.5" strokeLinecap="round" fill="none" />
         <path d="M 132 112 L 140 136 L 152 154" stroke="#713f12" strokeWidth="4" strokeLinecap="round" fill="none" />
         <path d="M 80 105 L 65 132 L 52 152" stroke="#a16207" strokeWidth="5" strokeLinecap="round" fill="none" />
         <path d="M 92 108 L 82 135 L 75 154" stroke="#713f12" strokeWidth="4.5" strokeLinecap="round" fill="none" />
       </g>
-      {/* High Arched Tail */}
-      <path
-        d="M 66 90 C 45 75 35 90 32 120 C 30 135 34 148 40 152"
-        stroke="#ca8a04"
-        strokeWidth="4"
-        fill="none"
-        strokeLinecap="round"
-        className={animated ? 'animate-creature-walk origin-[66px_90px]' : ''}
-      />
+      <path d="M 66 90 C 45 75 35 90 32 120 C 30 135 34 148 40 152" stroke="#ca8a04" strokeWidth="4" fill="none" strokeLinecap="round" className={animated ? 'animate-creature-walk origin-[66px_90px]' : ''} />
     </svg>
   )
 }
@@ -383,37 +636,20 @@ function CatSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#7c2d12" />
         </linearGradient>
       </defs>
-      {/* Cat Head */}
       <circle cx="132" cy="55" r="18" fill="url(#catGrad)" />
-      {/* Triangular Ears */}
       <path d="M 120 45 L 118 28 L 130 40 Z" fill="#9a3412" />
       <path d="M 136 40 L 146 28 L 144 45 Z" fill="#9a3412" />
-      {/* Whiskers */}
       <path d="M 142 60 L 165 58 M 142 63 L 166 65 M 142 66 L 162 72" stroke="#fef08a" strokeWidth="1" />
-      {/* Eyes */}
       <ellipse cx="138" cy="52" rx="3" ry="4" fill="#84cc16" />
       <line x1="138" y1="49" x2="138" y2="55" stroke="#000" strokeWidth="1.2" />
-      {/* Supple Feline Body */}
-      <path
-        d="M 60 85 C 60 70 85 68 115 68 C 128 68 135 78 132 98 C 130 115 115 125 90 126 C 65 127 55 110 60 85 Z"
-        fill="url(#catGrad)"
-      />
-      {/* Graceful Paws */}
+      <path d="M 60 85 C 60 70 85 68 115 68 C 128 68 135 78 132 98 C 130 115 115 125 90 126 C 65 127 55 110 60 85 Z" fill="url(#catGrad)" />
       <g className={animated ? 'animate-creature-walk origin-bottom' : ''}>
         <rect x="118" y="100" width="8" height="26" rx="4" fill="#c2410c" />
         <rect x="108" y="102" width="7" height="24" rx="3.5" fill="#9a3412" />
         <ellipse cx="72" cy="110" rx="14" ry="12" fill="#c2410c" />
         <rect x="65" y="115" width="8" height="12" rx="4" fill="#9a3412" />
       </g>
-      {/* High Curved S-Tail */}
-      <path
-        d="M 58 92 C 40 85 30 65 35 50 C 38 42 46 44 45 52 C 42 65 48 80 62 90"
-        stroke="#ea580c"
-        strokeWidth="4.5"
-        fill="none"
-        strokeLinecap="round"
-        className={animated ? 'animate-creature-swim origin-[58px_92px]' : ''}
-      />
+      <path d="M 58 92 C 40 85 30 65 35 50 C 38 42 46 44 45 52 C 42 65 48 80 62 90" stroke="#ea580c" strokeWidth="4.5" fill="none" strokeLinecap="round" className={animated ? 'animate-creature-swim origin-[58px_92px]' : ''} />
     </svg>
   )
 }
@@ -428,19 +664,15 @@ function DatePalmSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#451a03" />
         </linearGradient>
       </defs>
-      {/* Graceful Curved Trunk */}
       <path d="M 92 195 Q 98 120 102 75 L 112 75 Q 106 120 104 195 Z" fill="url(#palmTrunk)" />
-      {/* Trunk Scars */}
       {[100, 120, 140, 160, 180].map((y) => (
         <line key={y} x1="95" y1={y} x2="105" y2={y - 4} stroke="#451a03" strokeWidth="2" strokeLinecap="round" />
       ))}
-      {/* Hanging Golden Date Clusters */}
       <g>
         <ellipse cx="96" cy="85" rx="10" ry="14" fill="#eab308" />
         <ellipse cx="116" cy="86" rx="9" ry="13" fill="#ca8a04" />
         <ellipse cx="106" cy="92" rx="11" ry="15" fill="#fde047" />
       </g>
-      {/* Crown Fronds with gentle breeze animation */}
       <g className={animated ? 'animate-flora-sway origin-[106px_75px]' : ''}>
         <path d="M 106 75 Q 70 50 30 70 Q 75 40 106 75" fill="#15803d" />
         <path d="M 106 75 Q 60 25 15 25 Q 65 20 106 75" fill="#16a34a" />
@@ -463,54 +695,20 @@ function OliveSvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#3f6212" />
         </linearGradient>
       </defs>
-      {/* Olive Branch Stem */}
       <path d="M 25 145 Q 70 120 120 90 Q 160 65 185 35" stroke="#78350f" strokeWidth="4.5" fill="none" strokeLinecap="round" />
-      {/* Silvery-green Leaves */}
       <g className={animated ? 'animate-flora-sway origin-center' : ''}>
         <path d="M 85 110 C 65 95 60 70 80 65 C 100 68 105 95 85 110 Z" fill="#4d7c0f" />
         <path d="M 125 85 C 110 65 115 45 135 40 C 150 45 148 70 125 85 Z" fill="#65a30d" />
         <path d="M 160 55 C 150 35 162 20 180 18 C 190 25 185 45 160 55 Z" fill="#4d7c0f" />
         <path d="M 105 100 C 120 115 140 120 148 105 C 145 90 125 85 105 100 Z" fill="#84cc16" />
       </g>
-      {/* Hanging Glossy Olives with Oil Droplet */}
       <g>
         <ellipse cx="95" cy="125" rx="14" ry="18" fill="url(#oliveGrad)" />
         <ellipse cx="98" cy="120" rx="3.5" ry="6" fill="rgba(255,255,255,0.4)" />
         <ellipse cx="138" cy="98" rx="13" ry="17" fill="url(#oliveGrad)" />
         <ellipse cx="141" cy="94" rx="3" ry="5" fill="rgba(255,255,255,0.4)" />
-        {/* Golden Glowing Oil Droplet */}
         <path d="M 95 145 C 95 155 102 165 95 175 C 88 165 95 155 95 145 Z" fill="#facc15" className={animated ? 'animate-pulse' : ''} />
       </g>
-    </svg>
-  )
-}
-
-function PomegranateSvg({ animated = true }: { animated?: boolean }) {
-  return (
-    <svg viewBox="0 0 180 180" className="w-full h-full drop-shadow-[0_12px_24px_rgba(244,63,94,0.45)]">
-      <defs>
-        <linearGradient id="pomGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#fda4af" />
-          <stop offset="45%" stopColor="#e11d48" />
-          <stop offset="100%" stopColor="#881337" />
-        </linearGradient>
-      </defs>
-      {/* Stem */}
-      <path d="M 90 15 L 90 35" stroke="#713f12" strokeWidth="4" strokeLinecap="round" />
-      {/* Crown (Calyx) */}
-      <path d="M 75 35 L 70 20 L 82 28 L 90 18 L 98 28 L 110 20 L 105 35 Z" fill="#9f1239" />
-      {/* Whole Pomegranate Sphere */}
-      <circle cx="90" cy="100" r="62" fill="url(#pomGrad)" />
-      {/* Cut-open Window Showing Ruby Arils */}
-      <path d="M 70 80 Q 115 70 125 100 Q 115 135 70 120 Q 55 100 70 80 Z" fill="#fff1f2" />
-      {/* Ruby Aril Seeds */}
-      {[
-        [78, 88], [92, 85], [105, 88],
-        [82, 100], [96, 98], [110, 102],
-        [88, 112], [102, 114],
-      ].map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r="5.5" fill="#be123c" className={animated ? 'animate-pulse' : ''} />
-      ))}
     </svg>
   )
 }
@@ -526,20 +724,37 @@ function FigSvg() {
         </linearGradient>
       </defs>
       <path d="M 90 20 Q 95 40 90 55" stroke="#65a30d" strokeWidth="4" strokeLinecap="round" />
-      {/* Tear-drop Fig shape */}
-      <path
-        d="M 90 55 C 65 75 42 105 45 132 C 48 160 80 170 95 170 C 120 170 145 158 142 128 C 138 102 115 75 90 55 Z"
-        fill="url(#figGrad)"
-      />
-      {/* Interior Cut view */}
+      <path d="M 90 55 C 65 75 42 105 45 132 C 48 160 80 170 95 170 C 120 170 145 158 142 128 C 138 102 115 75 90 55 Z" fill="url(#figGrad)" />
       <ellipse cx="94" cy="125" rx="32" ry="34" fill="#f43f5e" />
       <circle cx="94" cy="125" r="26" fill="#fb7185" />
-      {/* Crunchy Micro Seeds */}
       {[85, 95, 105].map((x) =>
-        [115, 125, 135].map((y) => (
-          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.5" fill="#fef08a" />
-        ))
+        [115, 125, 135].map((y) => <circle key={`${x}-${y}`} cx={x} cy={y} r="1.5" fill="#fef08a" />)
       )}
+    </svg>
+  )
+}
+
+function PomegranateSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 180 180" className="w-full h-full drop-shadow-[0_12px_24px_rgba(244,63,94,0.45)]">
+      <defs>
+        <linearGradient id="pomGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#fda4af" />
+          <stop offset="45%" stopColor="#e11d48" />
+          <stop offset="100%" stopColor="#881337" />
+        </linearGradient>
+      </defs>
+      <path d="M 90 15 L 90 35" stroke="#713f12" strokeWidth="4" strokeLinecap="round" />
+      <path d="M 75 35 L 70 20 L 82 28 L 90 18 L 98 28 L 110 20 L 105 35 Z" fill="#9f1239" />
+      <circle cx="90" cy="100" r="62" fill="url(#pomGrad)" />
+      <path d="M 70 80 Q 115 70 125 100 Q 115 135 70 120 Q 55 100 70 80 Z" fill="#fff1f2" />
+      {[
+        [78, 88], [92, 85], [105, 88],
+        [82, 100], [96, 98], [110, 102],
+        [88, 112], [102, 114],
+      ].map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r="5.5" fill="#be123c" className={animated ? 'animate-pulse' : ''} />
+      ))}
     </svg>
   )
 }
@@ -554,34 +769,293 @@ function HoneySvg({ animated = true }: { animated?: boolean }) {
           <stop offset="100%" stopColor="#ca8a04" />
         </linearGradient>
       </defs>
-      {/* Hexagonal Honeycomb Background */}
       <polygon points="45,45 60,35 75,45 75,65 60,75 45,65" fill="#fde047" stroke="#ca8a04" strokeWidth="1.5" opacity="0.6" />
       <polygon points="75,45 90,35 105,45 105,65 90,75 75,65" fill="#fde047" stroke="#ca8a04" strokeWidth="1.5" opacity="0.8" />
       <polygon points="60,75 75,65 90,75 90,95 75,105 60,95" fill="#eab308" stroke="#ca8a04" strokeWidth="1.5" />
-      {/* Traditional Clay Jar of Honey */}
-      <path
-        d="M 65 95 L 115 95 L 125 155 C 125 165 115 172 90 172 C 65 172 55 165 55 155 Z"
-        fill="url(#honeyJar)"
-      />
-      {/* Wooden Honey Dipper with Dripping Golden Drop */}
+      <path d="M 65 95 L 115 95 L 125 155 C 125 165 115 172 90 172 C 65 172 55 165 55 155 Z" fill="url(#honeyJar)" />
       <line x1="135" y1="30" x2="100" y2="90" stroke="#78350f" strokeWidth="4.5" strokeLinecap="round" />
       <ellipse cx="102" cy="88" rx="12" ry="10" fill="#a16207" />
-      {/* Dripping honey drop */}
-      <path
-        d="M 102 98 C 102 110 108 122 102 135 C 96 122 102 110 102 98 Z"
-        fill="#fde047"
-        className={animated ? 'animate-pulse' : ''}
-      />
+      <path d="M 102 98 C 102 110 108 122 102 135 C 96 122 102 110 102 98 Z" fill="#fde047" className={animated ? 'animate-pulse' : ''} />
     </svg>
   )
 }
 
-function GenericSilhouette({ name }: { name: string }) {
+function BlackSeedSvg({ animated = true }: { animated?: boolean }) {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
-      <Sparkles className="size-12 text-gold animate-pulse mb-2" />
-      <span className="text-xs font-mono text-gold-2 uppercase tracking-widest">{name}</span>
-    </div>
+    <svg viewBox="0 0 180 180" className="w-full h-full drop-shadow-[0_12px_24px_rgba(56,189,248,0.4)]">
+      <defs>
+        <linearGradient id="nigellaFlower" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#bae6fd" />
+          <stop offset="50%" stopColor="#38bdf8" />
+          <stop offset="100%" stopColor="#0369a1" />
+        </linearGradient>
+      </defs>
+      {/* Delicate Nigella Petals */}
+      <g className={animated ? 'animate-flora-sway origin-[90px_80px]' : ''}>
+        {[0, 72, 144, 216, 288].map((angle) => (
+          <path
+            key={angle}
+            d="M 90 80 C 85 50 95 30 90 18 C 85 30 95 50 90 80 Z"
+            fill="url(#nigellaFlower)"
+            transform={`rotate(${angle} 90 80)`}
+          />
+        ))}
+      </g>
+      {/* Horned Seed Capsule in Center */}
+      <circle cx="90" cy="80" r="14" fill="#047857" />
+      <path d="M 90 80 L 82 58 M 90 80 L 98 58 M 90 80 L 90 54" stroke="#065f46" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Scattered Jet Black Seeds */}
+      {([
+        [65, 125], [78, 142], [92, 130], [105, 145], [118, 128], [85, 155], [100, 160]
+      ] as const).map(([x, y], i) => (
+        <polygon
+          key={i}
+          points={`${x},${y - 6} ${x + 5},${y + 4} ${x - 5},${y + 4}`}
+          fill="#09090b"
+          stroke="#475569"
+          strokeWidth="0.8"
+          className={animated ? 'animate-pulse' : ''}
+        />
+      ))}
+    </svg>
+  )
+}
+
+function GourdSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 200 180" className="w-full h-full drop-shadow-[0_12px_24px_rgba(245,158,11,0.45)]">
+      <defs>
+        <linearGradient id="gourdGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#fde047" />
+          <stop offset="50%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#b45309" />
+        </linearGradient>
+      </defs>
+      {/* Sprawling Vine and Broad Umbrella Leaves */}
+      <path d="M 20 140 Q 60 100 110 115 Q 160 130 190 90" stroke="#15803d" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <g className={animated ? 'animate-flora-sway origin-[55px_95px]' : ''}>
+        <path d="M 55 95 C 30 75 25 45 50 35 C 75 40 85 70 55 95 Z" fill="#16a34a" />
+        <path d="M 145 90 C 130 65 145 40 170 42 C 185 55 175 80 145 90 Z" fill="#15803d" />
+      </g>
+      {/* Ribbed Golden Pumpkin / Gourd */}
+      <g>
+        <ellipse cx="105" cy="130" rx="48" ry="35" fill="url(#gourdGrad)" />
+        <ellipse cx="105" cy="130" rx="34" ry="35" fill="none" stroke="#d97706" strokeWidth="3" />
+        <ellipse cx="105" cy="130" rx="18" ry="35" fill="none" stroke="#b45309" strokeWidth="2.5" />
+        {/* Curled Stem */}
+        <path d="M 105 95 Q 112 80 104 70" stroke="#713f12" strokeWidth="5" fill="none" strokeLinecap="round" />
+      </g>
+    </svg>
+  )
+}
+
+function SidrSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 200 190" className="w-full h-full drop-shadow-[0_12px_26px_rgba(250,204,21,0.5)]">
+      <defs>
+        <radialGradient id="sidrAura" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stopColor="rgba(250,204,21,0.4)" />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
+      </defs>
+      {/* Celestial Aura of Sidrat al-Muntaha */}
+      <circle cx="100" cy="85" r="75" fill="url(#sidrAura)" className={animated ? 'animate-pulse' : ''} />
+      {/* Gnarled Thorny Branch */}
+      <path d="M 40 175 Q 85 140 100 100 Q 115 65 155 35" stroke="#78350f" strokeWidth="5" fill="none" strokeLinecap="round" />
+      <path d="M 85 125 Q 120 115 160 120" stroke="#78350f" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      {/* Thorns */}
+      <path d="M 78 135 L 70 128 M 110 88 L 118 80 M 132 55 L 142 50" stroke="#451a03" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Oval Glossy Leaves */}
+      <g className={animated ? 'animate-flora-sway origin-[100px_100px]' : ''}>
+        <ellipse cx="125" cy="65" rx="14" ry="9" transform="rotate(-30 125 65)" fill="#15803d" />
+        <ellipse cx="150" cy="45" rx="15" ry="9" transform="rotate(-20 150 45)" fill="#16a34a" />
+        <ellipse cx="115" cy="115" rx="14" ry="8" transform="rotate(15 115 115)" fill="#16a34a" />
+        <ellipse cx="145" cy="118" rx="15" ry="9" transform="rotate(25 145 118)" fill="#15803d" />
+        <ellipse cx="75" cy="110" rx="14" ry="8" transform="rotate(-40 75 110)" fill="#16a34a" />
+      </g>
+      {/* Clusters of Sweet Golden-Red Nabq Berries */}
+      {[
+        [108, 98], [132, 85], [142, 100], [162, 110], [95, 120]
+      ].map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r="6" fill={i % 2 === 0 ? '#e11d48' : '#f59e0b'} className={animated ? 'animate-pulse' : ''} />
+      ))}
+    </svg>
+  )
+}
+
+function TalbinahSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 190 170" className="w-full h-full drop-shadow-[0_12px_24px_rgba(254,240,138,0.4)]">
+      <defs>
+        <linearGradient id="bowlGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#f8fafc" />
+          <stop offset="60%" stopColor="#cbd5e1" />
+          <stop offset="100%" stopColor="#64748b" />
+        </linearGradient>
+      </defs>
+      {/* Soothing Steam Rising */}
+      {animated && (
+        <g stroke="rgba(255,255,255,0.45)" strokeWidth="2.5" fill="none" strokeLinecap="round" className="animate-pulse">
+          <path d="M 75 45 Q 65 30 75 15" />
+          <path d="M 95 40 Q 105 25 95 10" />
+          <path d="M 115 45 Q 125 30 115 15" />
+        </g>
+      )}
+      {/* Fine Porcelain / Clay Bowl */}
+      <path d="M 35 75 C 35 125 65 148 95 148 C 125 148 155 125 155 75 Z" fill="url(#bowlGrad)" />
+      {/* Bowl Rim & Foot */}
+      <ellipse cx="95" cy="75" rx="60" ry="18" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="2" />
+      <rect x="75" y="146" width="40" height="8" rx="3" fill="#64748b" />
+      {/* Creamy White Barley Porridge Soup */}
+      <ellipse cx="95" cy="76" rx="55" ry="15" fill="#fef9c3" />
+      {/* Drizzled Golden Honey Swirls */}
+      <path d="M 65 76 Q 85 82 105 74 Q 125 80 135 74" stroke="#f59e0b" strokeWidth="3" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function KamahSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 190 160" className="w-full h-full drop-shadow-[0_12px_24px_rgba(217,119,6,0.4)]">
+      <defs>
+        <linearGradient id="truffleGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#d97706" />
+          <stop offset="60%" stopColor="#92400e" />
+          <stop offset="100%" stopColor="#451a03" />
+        </linearGradient>
+      </defs>
+      {/* Desert Sand Ground with Cracks */}
+      <path d="M 15 135 Q 95 128 175 135" stroke="#d97706" strokeWidth="3" fill="none" />
+      <path d="M 75 132 L 85 142 M 115 130 L 125 145" stroke="#b45309" strokeWidth="1.5" />
+      {/* Large Desert Truffle */}
+      <g>
+        <ellipse cx="80" cy="110" rx="36" ry="28" fill="url(#truffleGrad)" />
+        {/* Natural bumpy texture facets */}
+        <circle cx="68" cy="102" r="6" fill="#b45309" opacity="0.6" />
+        <circle cx="88" cy="112" r="7" fill="#78350f" opacity="0.6" />
+        <circle cx="95" cy="98" r="5" fill="#b45309" opacity="0.5" />
+      </g>
+      {/* Smaller Companion Truffle */}
+      <g transform="translate(45, 10)">
+        <ellipse cx="90" cy="115" rx="26" ry="22" fill="url(#truffleGrad)" />
+        <circle cx="85" cy="110" r="5" fill="#b45309" opacity="0.6" />
+        <circle cx="98" cy="118" r="4" fill="#78350f" opacity="0.6" />
+      </g>
+      {/* Glistening Dewdrop of Manna */}
+      <circle cx="80" cy="95" r="4" fill="#38bdf8" className={animated ? 'animate-pulse' : ''} />
+    </svg>
+  )
+}
+
+function QistHindiSvg() {
+  return (
+    <svg viewBox="0 0 190 160" className="w-full h-full drop-shadow-[0_12px_24px_rgba(180,83,9,0.4)]">
+      <defs>
+        <linearGradient id="qistWood" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#78350f" />
+          <stop offset="50%" stopColor="#b45309" />
+          <stop offset="100%" stopColor="#451a03" />
+        </linearGradient>
+      </defs>
+      {/* Bundle of Medicinal Wood Roots */}
+      <rect x="45" y="70" width="100" height="18" rx="5" transform="rotate(-15 95 79)" fill="url(#qistWood)" />
+      <rect x="40" y="85" width="110" height="20" rx="5" transform="rotate(5 95 95)" fill="url(#qistWood)" />
+      <rect x="50" y="102" width="95" height="18" rx="5" transform="rotate(-8 97 111)" fill="url(#qistWood)" />
+      {/* Tied Natural Hemp Cord */}
+      <rect x="88" y="65" width="14" height="65" rx="3" fill="#ca8a04" stroke="#713f12" strokeWidth="1" />
+      {/* Purple Alpine Flower of Costus */}
+      <circle cx="145" cy="55" r="14" fill="#7e22ce" />
+      <circle cx="145" cy="55" r="7" fill="#a855f7" />
+    </svg>
+  )
+}
+
+function MiswakSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 200 160" className="w-full h-full drop-shadow-[0_12px_24px_rgba(202,138,4,0.45)]">
+      <defs>
+        <linearGradient id="miswakWood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#d97706" />
+          <stop offset="50%" stopColor="#fef08a" />
+          <stop offset="100%" stopColor="#b45309" />
+        </linearGradient>
+      </defs>
+      {/* Arak Tree Green Leaf */}
+      <path d="M 40 45 C 20 65 30 95 55 90 C 70 85 65 55 40 45 Z" fill="#15803d" />
+      {/* Miswak Root Stick */}
+      <rect x="45" y="85" width="120" height="18" rx="7" transform="rotate(-18 105 94)" fill="url(#miswakWood)" stroke="#78350f" strokeWidth="2" />
+      {/* Peeled Frayed Brush Fibers Tip */}
+      <g transform="translate(138, 48) rotate(-18)" className={animated ? 'animate-pulse' : ''}>
+        <rect x="0" y="0" width="22" height="16" rx="2" fill="#fef9c3" />
+        {/* Natural Fiber Bristles */}
+        {[2, 5, 8, 11, 14].map((y) => (
+          <line key={y} x1="16" y1={y} x2="32" y2={y} stroke="#ca8a04" strokeWidth="1.5" strokeLinecap="round" />
+        ))}
+      </g>
+    </svg>
+  )
+}
+
+function GingerSvg() {
+  return (
+    <svg viewBox="0 0 190 160" className="w-full h-full drop-shadow-[0_12px_24px_rgba(217,119,6,0.4)]">
+      <defs>
+        <linearGradient id="gingerGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#fde047" />
+          <stop offset="50%" stopColor="#d97706" />
+          <stop offset="100%" stopColor="#78350f" />
+        </linearGradient>
+      </defs>
+      {/* Green Shoot Sprout */}
+      <path d="M 125 55 Q 135 30 148 18 Q 140 38 128 65" stroke="#16a34a" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+      {/* Knobby Multi-Lobed Rhizome Body */}
+      <g>
+        <circle cx="75" cy="115" r="26" fill="url(#gingerGrad)" />
+        <circle cx="110" cy="108" r="28" fill="url(#gingerGrad)" />
+        <circle cx="125" cy="80" r="18" fill="url(#gingerGrad)" />
+        <circle cx="60" cy="90" r="18" fill="url(#gingerGrad)" />
+        {/* Ring Marks */}
+        <path d="M 65 110 Q 75 122 85 112 M 100 100 Q 110 115 120 104 M 118 75 Q 128 85 132 78" stroke="#78350f" strokeWidth="2" fill="none" opacity="0.6" />
+      </g>
+    </svg>
+  )
+}
+
+function WatermelonSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 200 170" className="w-full h-full drop-shadow-[0_12px_26px_rgba(239,68,68,0.4)]">
+      <defs>
+        <linearGradient id="melonRind" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#15803d" />
+          <stop offset="100%" stopColor="#14532d" />
+        </linearGradient>
+      </defs>
+      {/* Whole Striped Melon Sphere */}
+      <circle cx="75" cy="100" r="48" fill="url(#melonRind)" />
+      {/* Green Stripes */}
+      <path d="M 75 52 Q 60 100 75 148 M 55 58 Q 42 100 55 142 M 95 58 Q 108 100 95 142" stroke="#22c55e" strokeWidth="5" fill="none" opacity="0.8" />
+      {/* Sliced Juicy Crimson Crescent Slice */}
+      <g transform="translate(110, 80)">
+        {/* Rind */}
+        <path d="M 0 50 A 45 45 0 0 0 70 0 Z" fill="#15803d" />
+        {/* White Pith */}
+        <path d="M 4 46 A 41 41 0 0 0 66 4 Z" fill="#f8fafc" />
+        {/* Red Flesh */}
+        <path d="M 7 42 A 37 37 0 0 0 62 7 Z" fill="#ef4444" />
+        {/* Black Seeds */}
+        {[
+          [24, 28], [38, 20], [45, 32]
+        ].map(([x, y], i) => (
+          <ellipse key={i} cx={x} cy={y} rx="2" ry="3.5" fill="#09090b" />
+        ))}
+      </g>
+      {/* Cluster of Fresh Ripe Dates (Rutab) Beside It */}
+      <g className={animated ? 'animate-pulse' : ''}>
+        <ellipse cx="145" cy="135" rx="10" ry="14" fill="#eab308" />
+        <ellipse cx="160" cy="138" rx="9" ry="13" fill="#ca8a04" />
+        <ellipse cx="132" cy="142" rx="9" ry="13" fill="#d97706" />
+      </g>
+    </svg>
   )
 }
 
@@ -597,13 +1071,24 @@ function RenderOrganismSilhouette({ id, animated = true }: { id: string; animate
       return <SheCamelSvg animated={animated} />
     case 'kalb_kahf':
       return <DogSvg animated={animated} />
+    case 'baqarah':
+      return <BaqarahSvg animated={animated} />
     case 'fil':
       return <ElephantSvg animated={animated} />
     case 'nahl':
       return <BeeSvg animated={animated} />
+    case 'dhib_yusuf':
+      return <WolfSvg animated={animated} />
+    case 'ghurab':
+      return <RavenSvg animated={animated} />
+    case 'ankabut':
+      return <SpiderSvg animated={animated} />
     case 'khayl_adiyat':
-    case 'buraq':
       return <HorseSvg animated={animated} />
+    case 'buraq':
+      return <BuraqSvg animated={animated} />
+    case 'tayr_ababil':
+      return <AbabilSvg animated={animated} />
     case 'qittah':
       return <CatSvg animated={animated} />
     case 'nakhl_tamr':
@@ -616,8 +1101,26 @@ function RenderOrganismSilhouette({ id, animated = true }: { id: string; animate
       return <PomegranateSvg animated={animated} />
     case 'asal':
       return <HoneySvg animated={animated} />
+    case 'habbah_sawda':
+      return <BlackSeedSvg animated={animated} />
+    case 'yaqtin_dubba':
+      return <GourdSvg animated={animated} />
+    case 'sidr':
+      return <SidrSvg animated={animated} />
+    case 'talbinah':
+      return <TalbinahSvg animated={animated} />
+    case 'kamah':
+      return <KamahSvg animated={animated} />
+    case 'qist_hindi':
+      return <QistHindiSvg />
+    case 'arak_siwak':
+      return <MiswakSvg animated={animated} />
+    case 'zanjabil':
+      return <GingerSvg />
+    case 'battikh':
+      return <WatermelonSvg animated={animated} />
     default:
-      return <GenericSilhouette name={id} />
+      return <DatePalmSvg animated={animated} />
   }
 }
 
@@ -636,11 +1139,15 @@ export function NatureView() {
   const [selectedAnimalId, setSelectedAnimalId] = useState<string>('hudhud')
   const [selectedPlantId, setSelectedPlantId] = useState<string>('nakhl_tamr')
   const [isMotionActive, setIsMotionActive] = useState<boolean>(true)
-  const [sunAngle, setSunAngle] = useState<number>(65) // 0 to 180 degrees
-  const [shadowIntensity, setShadowIntensity] = useState<number>(60) // 20 to 100%
+  const [sunAngle, setSunAngle] = useState<number>(65) // 15 to 165 degrees
+  const [shadowIntensity, setShadowIntensity] = useState<number>(65) // 20 to 100%
 
   // Detail Modal / Sheet
   const [detailItem, setDetailItem] = useState<AnimalEntry | PlantFoodEntry | null>(null)
+
+  // Qur'an Audio State
+  const [isPlayingAyah, setIsPlayingAyah] = useState<boolean>(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const ANIMAL_CATEGORIES: { id: AnimalCategory | 'all'; label: Record<string, string> }[] = [
     { id: 'all', label: { en: 'All Animals', fr: 'Tous les animaux', ar: 'جميع الكائنات' } },
@@ -695,15 +1202,76 @@ export function NatureView() {
 
   const activeAnimal = QURAN_SUNNAH_ANIMALS.find((a) => a.id === selectedAnimalId) ?? QURAN_SUNNAH_ANIMALS[0]!
   const activePlant = QURAN_SUNNAH_PLANTS.find((p) => p.id === selectedPlantId) ?? QURAN_SUNNAH_PLANTS[0]!
+  const currentActive = activeTab === 'animals' ? activeAnimal : activePlant
 
-  // Dynamic shadow transform based on sunAngle
-  const shadowSkew = (sunAngle - 90) * 0.7
-  const shadowScaleX = 1 + Math.abs(sunAngle - 90) / 70
+  // --- Real Astronomical Physics Coordinates ---
+  // Sun travels from Left (Dawn/East, 15°) to Zenith (Noon, 90°) to Right (Sunset/West, 165°)
+  const sunXPercent = (sunAngle / 180) * 100
+  // Arc altitude: High at noon (16% top), low at dawn/dusk (66% top)
+  const sunYPercent = 70 - Math.sin((sunAngle * Math.PI) / 180) * 54
+
+  // Ground shadow casts in the OPPOSITE direction of the sun
+  // If sun is on left (sunAngle < 90), shadow points to the right!
+  const shadowSkew = (90 - sunAngle) * 0.95
+  const shadowTranslateX = (90 - sunAngle) * 0.65
+  const shadowStretch = 1 + Math.abs(sunAngle - 90) / 48
+  const shadowBlur = 4 + Math.abs(sunAngle - 90) / 18
+  const shadowOpacity = (shadowIntensity / 100) * (0.85 - Math.abs(sunAngle - 90) / 380)
+
+  // Solar Time Period Label
+  const timePeriodLabel = useMemo(() => {
+    if (sunAngle <= 38) {
+      return { en: 'Dawn / Sunrise', fr: 'Aube / Lever', ar: 'الفجر / الشروق' }
+    } else if (sunAngle <= 75) {
+      return { en: 'Morning Sun (Duha)', fr: 'Matinée (Douha)', ar: 'الضحى والصباح' }
+    } else if (sunAngle <= 105) {
+      return { en: 'Solar Noon (Zahirah)', fr: 'Zénith / Midi', ar: 'الظهيرة والزوال' }
+    } else if (sunAngle <= 142) {
+      return { en: 'Afternoon (Asr)', fr: 'Après-midi (Asr)', ar: 'العصر والظلال' }
+    } else {
+      return { en: 'Sunset (Maghrib)', fr: 'Crépuscule / Coucher', ar: 'الغروب والشفق' }
+    }
+  }, [sunAngle])
+
+  // Stop Ayah audio when switching item
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current = null
+      setIsPlayingAyah(false)
+    }
+  }, [selectedAnimalId, selectedPlantId, activeTab])
+
+  // Handle Play Qur'an Ayah
+  const togglePlayAyah = async (refStr?: string) => {
+    if (isPlayingAyah && audioRef.current) {
+      audioRef.current.pause()
+      setIsPlayingAyah(false)
+      return
+    }
+    const targetRef = refStr ?? currentActive.quranRefs[0]
+    if (!targetRef) return
+    try {
+      const passage = await loadPassage(targetRef, lang)
+      if (passage.ayahs.length > 0) {
+        const firstAyah = passage.ayahs[0]!
+        const url = audioUrl(firstAyah.number)
+        const a = new Audio(url)
+        audioRef.current = a
+        a.onended = () => setIsPlayingAyah(false)
+        a.onerror = () => setIsPlayingAyah(false)
+        await a.play()
+        setIsPlayingAyah(true)
+      }
+    } catch {
+      setIsPlayingAyah(false)
+    }
+  }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 pt-4 pb-16 sm:px-6">
       {/* Top Banner / Hero Title */}
-      <div className="text-center max-w-4xl mx-auto mb-10">
+      <div className="text-center max-w-4xl mx-auto mb-8">
         <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1 text-xs font-semibold text-gold mb-3">
           <Leaf className="size-3.5" />
           <span>
@@ -718,7 +1286,7 @@ export function NatureView() {
           <span className="ar-name gold-text block mb-1">
             {lang === 'ar' ? 'حيوانات ونباتات القرآن الكريم والطب النبوي' : 'Creatures, Flora & Prophetic Medicine'}
           </span>
-          <span className="text-lg sm:text-2xl font-light text-ink-2">
+          <span className="text-base sm:text-xl font-light text-ink-2">
             {lang === 'ar'
               ? 'سجل وثائقي شامل لجميع الكائنات المذكورة، قصصها، حركتها، وظلالها، والفوائد الطبية والغذائية'
               : lang === 'fr'
@@ -742,7 +1310,7 @@ export function NatureView() {
           >
             <Compass className="size-4" />
             <span>{lang === 'ar' ? 'حيوانات القرآن والسنة' : lang === 'fr' ? 'Animaux du Coran & Sunnah' : 'Animals of Qur’an & Sunnah'}</span>
-            <span className={`text-[0.65rem] px-1.5 py-0.5 rounded-full ${activeTab === 'animals' ? 'bg-night/20 text-night' : 'bg-white/10 text-gold'}`}>
+            <span className={`text-[0.65rem] px-1.5 py-0.5 rounded-full ${activeTab === 'animals' ? 'bg-night/20 text-night font-bold' : 'bg-white/10 text-gold'}`}>
               {QURAN_SUNNAH_ANIMALS.length}
             </span>
           </button>
@@ -758,38 +1326,85 @@ export function NatureView() {
           >
             <Leaf className="size-4" />
             <span>{lang === 'ar' ? 'نباتات وأطعمة القرآن والطب النبوي' : lang === 'fr' ? 'Plantes & Aliments Prophétiques' : 'Plants & Foods of Qur’an & Sunnah'}</span>
-            <span className={`text-[0.65rem] px-1.5 py-0.5 rounded-full ${activeTab === 'plants' ? 'bg-night/20 text-night' : 'bg-white/10 text-gold'}`}>
+            <span className={`text-[0.65rem] px-1.5 py-0.5 rounded-full ${activeTab === 'plants' ? 'bg-night/20 text-night font-bold' : 'bg-white/10 text-gold'}`}>
               {QURAN_SUNNAH_PLANTS.length}
             </span>
           </button>
         </div>
       </div>
 
-      {/* Interactive Shadow & Motion Theater Stage */}
+      {/* Interactive Astronomical Sun & Shadow Theater Stage */}
       <div className="glass rounded-3xl p-6 sm:p-8 mb-10 border border-gold/30 shadow-2xl relative overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+        {/* Stage Header Info & Controls */}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
               <Sun className="size-4" />
               <span>
                 {lang === 'ar'
-                  ? 'مسرح الظلال والحركة التفاعلي للكائن المختار'
+                  ? 'مسرح الظلال والشمس الفلكي التفاعلي'
                   : lang === 'fr'
-                  ? 'Théâtre interactif d’ombres et mouvements'
-                  : 'Interactive Silhouette, Motion & Shadow Stage'}
+                  ? 'Théâtre astronomique du soleil et des ombres'
+                  : 'Interactive Celestial Sun & Shadow Stage'}
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1">
-              {activeTab === 'animals' ? pick(activeAnimal.name) : pick(activePlant.name)}
-              <span className="ar-name text-gold ms-3 text-lg font-normal">
-                {activeTab === 'animals' ? activeAnimal.name.ar : activePlant.name.ar}
-              </span>
+            {/* Title with Arabic deduplication */}
+            <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1 flex items-center gap-3">
+              <span>{pick(currentActive.name)}</span>
+              {lang !== 'ar' && (
+                <span className="ar-name text-gold text-lg font-normal">
+                  {currentActive.name.ar}
+                </span>
+              )}
             </h2>
           </div>
 
-          {/* Interactive Controls */}
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Motion Play/Pause */}
+          {/* Interactive Controls Bar */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            {/* Audio Voice: Pronounce Arabic Name */}
+            <button
+              type="button"
+              onClick={() => speakArabic(currentActive.name.ar)}
+              title={lang === 'ar' ? 'نطق الاسم بالعربية' : 'Pronounce Arabic Name'}
+              className="flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs font-medium text-gold hover:bg-gold/20 transition-colors cursor-pointer"
+            >
+              <Volume2 className="size-3.5" />
+              <span>{lang === 'ar' ? 'نطق الاسم' : 'Pronounce'}</span>
+            </button>
+
+            {/* Audio Soundscape Call / Atmosphere */}
+            <button
+              type="button"
+              onClick={() => soundEngine.playFor(currentActive.id)}
+              title={lang === 'ar' ? 'صوت الكائن أو الطبيعة' : 'Natural Sound / Call'}
+              className="flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-400/10 px-3 py-1.5 text-xs font-medium text-sky-300 hover:bg-sky-400/20 transition-colors cursor-pointer"
+            >
+              <Zap className="size-3.5" />
+              <span>{lang === 'ar' ? 'صوت الطبيعة' : 'Sound Call'}</span>
+            </button>
+
+            {/* Recite Qur'an Ayah Audio Button */}
+            {currentActive.quranRefs.length > 0 && (
+              <button
+                type="button"
+                onClick={() => togglePlayAyah()}
+                title={lang === 'ar' ? 'استمع لتلاوة الآية الكريمة بصوت العفاسي' : 'Listen to Qur’an Ayah recitation'}
+                className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
+                  isPlayingAyah
+                    ? 'border-emerald-400/50 bg-emerald-500/20 text-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.5)]'
+                    : 'border-white/15 bg-white/5 text-ink-2 hover:border-gold/40 hover:text-ink'
+                }`}
+              >
+                {isPlayingAyah ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
+                <span>
+                  {isPlayingAyah
+                    ? (lang === 'ar' ? 'إيقاف التلاوة' : 'Pause Recitation')
+                    : (lang === 'ar' ? 'تلاوة الآية' : 'Recite Ayah')}
+                </span>
+              </button>
+            )}
+
+            {/* Motion Toggle */}
             <button
               type="button"
               onClick={() => setIsMotionActive((m) => !m)}
@@ -798,13 +1413,12 @@ export function NatureView() {
               }`}
             >
               {isMotionActive ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
-              <span>{isMotionActive ? (lang === 'ar' ? 'إيقاف الحركة' : 'Pause Motion') : (lang === 'ar' ? 'تشغيل الحركة' : 'Play Motion')}</span>
+              <span>{isMotionActive ? (lang === 'ar' ? 'حركة الكائن' : 'Motion') : (lang === 'ar' ? 'سكون' : 'Paused')}</span>
             </button>
 
-            {/* Sun Angle Slider */}
+            {/* Sun Angle Slider & Time Period Badge */}
             <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs">
-              <Sun className="size-3.5 text-gold" />
-              <span className="text-ink-3 hidden sm:inline">{lang === 'ar' ? 'زاوية الشمس:' : 'Light:'}</span>
+              <Sun className="size-3.5 text-gold animate-spin-slow" />
               <input
                 type="range"
                 min="15"
@@ -813,13 +1427,15 @@ export function NatureView() {
                 onChange={(e) => setSunAngle(Number(e.target.value))}
                 className="w-20 accent-gold cursor-pointer"
               />
-              <span className="font-mono text-ink-2">{sunAngle}°</span>
+              <span className="font-mono text-gold-2">{sunAngle}°</span>
+              <span className="text-[0.68rem] text-ink-3 border-s border-white/10 ps-2 hidden sm:inline">
+                {pick(timePeriodLabel)}
+              </span>
             </div>
 
             {/* Shadow Depth Slider */}
             <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs">
               <Moon className="size-3.5 text-gold" />
-              <span className="text-ink-3 hidden sm:inline">{lang === 'ar' ? 'عمق الظل:' : 'Shadow:'}</span>
               <input
                 type="range"
                 min="20"
@@ -832,53 +1448,82 @@ export function NatureView() {
           </div>
         </div>
 
-        {/* Visual Stage Canvas */}
-        <div className="relative h-64 sm:h-72 w-full rounded-2xl bg-gradient-to-b from-night-2 via-night to-night-3 border border-white/10 overflow-hidden flex flex-col justify-end items-center px-4 pb-4">
-          {/* Distant horizon sun rays */}
+        {/* Visual Stage Canvas with Realistic Celestial Sun & Horizon */}
+        <div
+          className="relative h-72 sm:h-80 w-full rounded-2xl border border-white/10 overflow-hidden flex flex-col justify-end items-center px-4 pb-4 select-none transition-colors duration-500"
+          style={{
+            background:
+              sunAngle <= 45
+                ? 'linear-gradient(180deg, #1e1b4b 0%, #311042 35%, #7c2d12 70%, #ca8a04 100%)'
+                : sunAngle >= 135
+                ? 'linear-gradient(180deg, #09090b 0%, #2e1065 40%, #831843 75%, #c2410c 100%)'
+                : 'linear-gradient(180deg, #080b1c 0%, #0f172a 40%, #1e293b 80%, #292524 100%)',
+          }}
+        >
+          {/* Dynamic Celestial Radiant Sunlight Rays */}
           <div
-            className="absolute top-0 w-32 h-64 pointer-events-none transition-all duration-300 opacity-20 bg-gradient-to-b from-gold via-transparent to-transparent"
+            className="absolute inset-0 pointer-events-none transition-all duration-200"
             style={{
-              left: `${(sunAngle / 180) * 100}%`,
-              transform: `translateX(-50%) rotate(${(90 - sunAngle) * 0.5}deg)`,
+              background: `radial-gradient(circle at ${sunXPercent}% ${sunYPercent}%, rgba(254, 240, 138, 0.28) 0%, rgba(234, 179, 8, 0.12) 35%, transparent 70%)`,
             }}
           />
 
-          {/* Animated Organism Silhouette */}
-          <div className="relative z-10 w-44 sm:w-56 h-44 sm:h-56 flex items-center justify-center">
-            <RenderOrganismSilhouette
-              id={activeTab === 'animals' ? activeAnimal.id : activePlant.id}
-              animated={isMotionActive}
-            />
+          {/* Actual Luminous Celestial Sun Body in the Sky */}
+          <div
+            className="absolute z-20 transition-all duration-150 pointer-events-none flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: `${sunXPercent}%`,
+              top: `${sunYPercent}%`,
+            }}
+          >
+            {/* Solar Outer Corona Flare */}
+            <div className="absolute size-28 rounded-full bg-amber-400/25 blur-xl animate-pulse" />
+            <div className="absolute size-16 rounded-full bg-yellow-300/40 blur-md" />
+            {/* Core Sun Disc */}
+            <div className="size-10 rounded-full bg-gradient-to-br from-white via-amber-200 to-yellow-500 shadow-[0_0_25px_rgba(251,191,36,0.9),0_0_50px_rgba(245,158,11,0.6)] border border-white/80" />
           </div>
 
-          {/* Realistic Dynamic Ground Projected Shadow */}
+          {/* Animated Organism Silhouette in True Scale */}
+          <div className="relative z-10 w-48 sm:w-60 h-48 sm:h-60 flex items-center justify-center">
+            <RenderOrganismSilhouette id={currentActive.id} animated={isMotionActive} />
+          </div>
+
+          {/* Scientifically Accurate Ground Projected Shadow */}
           <div
-            className="relative z-0 h-4 rounded-[100%] transition-transform duration-150"
+            className="relative z-0 h-4 rounded-[100%] transition-transform duration-100"
             style={{
-              width: `${140 * shadowScaleX}px`,
-              backgroundColor: `rgba(0, 0, 0, ${shadowIntensity / 100})`,
-              filter: `blur(${6 + Math.abs(sunAngle - 90) / 15}px)`,
-              transform: `skewX(${shadowSkew}deg) translateY(4px)`,
-              opacity: isMotionActive ? undefined : 0.8,
+              width: `${135 * shadowStretch}px`,
+              backgroundColor: `rgba(0, 0, 0, ${shadowOpacity})`,
+              filter: `blur(${shadowBlur}px)`,
+              transform: `skewX(${shadowSkew}deg) translateX(${shadowTranslateX}px) translateY(4px)`,
+              opacity: isMotionActive ? undefined : 0.85,
             }}
           />
 
-          {/* Ground surface line with measuring markings */}
-          <div className="w-full h-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent relative mt-1" />
+          {/* Ground Horizon Terrain Line */}
+          <div className="w-full h-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent relative mt-1" />
           <div className="w-full flex justify-between text-[0.65rem] font-mono text-ink-3 pt-1">
-            <span>{activeTab === 'animals' ? pick(activeAnimal.physicalTraits.size) : pick(activePlant.botanicalTraits.growthForm)}</span>
-            <span className="text-gold">
-              {activeTab === 'animals' ? activeAnimal.scientificName : activePlant.scientificName}
+            <span>
+              {'physicalTraits' in currentActive
+                ? pick(currentActive.physicalTraits.size)
+                : pick(currentActive.botanicalTraits.growthForm)}
             </span>
-            <span>{activeTab === 'animals' ? pick(activeAnimal.physicalTraits.habitat) : pick(activePlant.botanicalTraits.habitat)}</span>
+            <span className="text-gold font-bold">
+              {currentActive.scientificName}
+            </span>
+            <span>
+              {'physicalTraits' in currentActive
+                ? pick(currentActive.physicalTraits.habitat)
+                : pick(currentActive.botanicalTraits.habitat)}
+            </span>
           </div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        {/* Category & Source Pills */}
         <div className="flex flex-wrap items-center gap-2">
+          {/* Category Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
             {activeTab === 'animals'
               ? ANIMAL_CATEGORIES.map((cat) => (
@@ -928,7 +1573,7 @@ export function NatureView() {
           </div>
         </div>
 
-        {/* Search input */}
+        {/* Live Search Input */}
         <div className="relative min-w-[240px] flex-1 max-w-sm">
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 size-4 text-ink-3" />
           <input
@@ -956,7 +1601,7 @@ export function NatureView() {
         </div>
       </div>
 
-      {/* Card Grid */}
+      {/* Grid of Interactive Organism Cards */}
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {activeTab === 'animals'
           ? filteredAnimals.map((animal) => {
@@ -971,7 +1616,6 @@ export function NatureView() {
                       : 'border-white/10 hover:border-gold/40 hover:bg-white/[0.06]'
                   }`}
                 >
-                  {/* Top Bar: Name, Arabic & Calligraphy */}
                   <div>
                     <div className="flex items-start justify-between gap-3">
                       <div>
@@ -984,20 +1628,18 @@ export function NatureView() {
                     </div>
 
                     {/* Miniature Animated Silhouette Theater */}
-                    <div className="relative my-4 h-28 w-full rounded-xl bg-night-2/60 border border-white/5 flex flex-col items-center justify-center overflow-hidden">
+                    <div className="relative my-4 h-28 w-full rounded-xl bg-night-2/70 border border-white/5 flex flex-col items-center justify-center overflow-hidden">
                       <div className="w-20 h-20 relative z-10">
                         <RenderOrganismSilhouette id={animal.id} animated={true} />
                       </div>
                       <div className="w-16 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
                     </div>
 
-                    {/* Summary */}
                     <p className="text-xs text-ink-2 leading-relaxed line-clamp-3 mb-4">
                       {pick(animal.summary)}
                     </p>
                   </div>
 
-                  {/* Bottom: References & Open Full Detail Button */}
                   <div className="border-t border-white/10 pt-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap gap-1.5">
@@ -1043,7 +1685,6 @@ export function NatureView() {
                       : 'border-white/10 hover:border-gold/40 hover:bg-white/[0.06]'
                   }`}
                 >
-                  {/* Top: Name & Botanical Class */}
                   <div>
                     <div className="flex items-start justify-between gap-3">
                       <div>
@@ -1055,21 +1696,19 @@ export function NatureView() {
                       <span className="ar-name gold-text text-lg font-bold shrink-0">{plant.name.ar}</span>
                     </div>
 
-                    {/* Miniature Animated Silhouette */}
-                    <div className="relative my-4 h-28 w-full rounded-xl bg-night-2/60 border border-white/5 flex flex-col items-center justify-center overflow-hidden">
+                    {/* Miniature Animated Silhouette Theater */}
+                    <div className="relative my-4 h-28 w-full rounded-xl bg-night-2/70 border border-white/5 flex flex-col items-center justify-center overflow-hidden">
                       <div className="w-20 h-20 relative z-10">
                         <RenderOrganismSilhouette id={plant.id} animated={true} />
                       </div>
                       <div className="w-16 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
                     </div>
 
-                    {/* Summary */}
                     <p className="text-xs text-ink-2 leading-relaxed line-clamp-3 mb-4">
                       {pick(plant.summary)}
                     </p>
                   </div>
 
-                  {/* Bottom: References & Details Button */}
                   <div className="border-t border-white/10 pt-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex flex-wrap gap-1.5">
@@ -1122,7 +1761,9 @@ export function NatureView() {
             {/* Header info */}
             <div className="flex items-center gap-3 mb-2">
               <span className="rounded-full bg-gold/15 px-3 py-1 text-xs font-semibold text-gold">
-                {'category' in detailItem && ('motion' in detailItem ? 'Animal in Qur’an & Sunnah' : 'Plant & Food in Qur’an & Sunnah')}
+                {'whatTheyDid' in detailItem
+                  ? (lang === 'ar' ? 'كائن في القرآن والسنة' : 'Animal in Qur’an & Sunnah')
+                  : (lang === 'ar' ? 'نبات وغذاء في القرآن والطب النبوي' : 'Plant & Food in Qur’an & Sunnah')}
               </span>
               <span className="text-xs font-mono text-ink-3 italic">{detailItem.scientificName}</span>
             </div>
@@ -1130,7 +1771,9 @@ export function NatureView() {
             <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-ink">{pick(detailItem.name)}</h2>
-                <p className="ar-name gold-text text-xl font-bold mt-1">{detailItem.name.ar}</p>
+                {lang !== 'ar' && (
+                  <p className="ar-name gold-text text-xl font-bold mt-1">{detailItem.name.ar}</p>
+                )}
               </div>
 
               {/* Calligraphy if animal */}
@@ -1143,8 +1786,28 @@ export function NatureView() {
               )}
             </div>
 
-            {/* Visual Stage inside Modal */}
-            <div className="my-6 rounded-2xl bg-gradient-to-b from-night-2 to-night-3 border border-white/10 p-6 flex flex-col items-center justify-center">
+            {/* Visual Stage inside Modal with Voice Buttons */}
+            <div className="my-6 rounded-2xl bg-gradient-to-b from-night-2 to-night-3 border border-white/10 p-6 flex flex-col items-center justify-center relative">
+              {/* Floating Voice Buttons */}
+              <div className="absolute top-3 end-3 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => speakArabic(detailItem.name.ar)}
+                  className="rounded-full bg-white/10 p-2 text-gold hover:bg-gold/20 transition-colors cursor-pointer"
+                  title={lang === 'ar' ? 'نطق الاسم' : 'Pronounce Arabic'}
+                >
+                  <Volume2 className="size-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => soundEngine.playFor(detailItem.id)}
+                  className="rounded-full bg-white/10 p-2 text-sky-300 hover:bg-sky-400/20 transition-colors cursor-pointer"
+                  title={lang === 'ar' ? 'صوت الطبيعة' : 'Play Sound'}
+                >
+                  <Zap className="size-4" />
+                </button>
+              </div>
+
               <div className="w-36 h-36">
                 <RenderOrganismSilhouette id={detailItem.id} animated={true} />
               </div>
