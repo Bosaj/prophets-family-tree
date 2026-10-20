@@ -595,51 +595,77 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               const px = adam.x
               const py = adam.y
               const isH = wide
+              const isRtl = lang === 'ar'
+              // In horizontal RTL mode, Adam is at the right edge, and descendants branch to the LEFT (lower X).
+              // Therefore "Before Adam" (primordial realm) must be placed strictly to the RIGHT of Adam (higher X, sign = 1).
+              // In horizontal LTR mode, Adam is at the left edge and descendants branch to the RIGHT, so Before Adam is to the LEFT (sign = -1).
+              const sign = isRtl ? 1 : -1
 
-              const angelsX = isH ? px - 110 : px - 165
-              const angelsY = isH ? py - 130 : py - 100
+              // Coordinates for Angels (Light) and Iblis (Fire)
+              const angelsX = isH ? px + (sign * 145) : px - 160
+              const angelsY = isH ? py - 85 : py - 110
 
-              const iblisX = isH ? px - 110 : px + 165
-              const iblisY = isH ? py + 130 : py - 100
+              const iblisX = isH ? px + (sign * 145) : px + 160
+              const iblisY = isH ? py + 85 : py - 110
 
-              const centerBannerX = isH ? px - 150 : px
-              const centerBannerY = isH ? py : py - 145
+              const centerBannerX = isH ? px + (sign * 200) : px
+              const centerBannerY = isH ? py - 13 : py - 155
 
               return (
                 <g className="select-none">
                   {/* Cosmic Separation Barrier Line (Strict theological separation from Adam's lineage) */}
                   <line
-                    x1={isH ? px - 35 : px - 250}
-                    y1={isH ? py - 180 : py - 36}
-                    x2={isH ? px - 35 : px + 250}
-                    y2={isH ? py + 180 : py - 36}
-                    stroke="rgba(233,198,123,0.35)"
-                    strokeWidth="1.2"
+                    x1={isH ? px + (sign * 60) : px - 260}
+                    y1={isH ? py - 180 : py - 50}
+                    x2={isH ? px + (sign * 60) : px + 260}
+                    y2={isH ? py + 180 : py - 50}
+                    stroke="rgba(233,198,123,0.4)"
+                    strokeWidth="1.5"
                     strokeDasharray="4 4"
                   />
                   <text
-                    x={px}
-                    y={isH ? py - 190 : py - 42}
+                    x={isH ? px + (sign * 60) : px}
+                    y={isH ? py + 195 : py - 36}
+                    textAnchor="middle"
+                    fill="#94a3b8"
+                    fontSize="8"
+                    fontWeight="600"
+                    letterSpacing="0.05em"
+                  >
+                    {lang === 'ar' ? '⸻ حاجز البدء: نسل بني آدم ⸻' : '⸻ Primordial Threshold · Adam & Humankind ⸻'}
+                  </text>
+
+                  {/* Quranic & Prophetic Principle: Creation of Angels from Light, Jinn from Fire, Adam from Clay */}
+                  <text
+                    x={isH ? px + (sign * 145) : px}
+                    y={isH ? py - 165 : py - 192}
                     textAnchor="middle"
                     fill="#e2b866"
-                    fontSize="9"
+                    fontSize="9.5"
                     fontWeight="600"
-                    className="font-sans tracking-wide"
+                    className="font-sans tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                   >
-                    {lang === 'ar'
-                      ? '﴿خُلِقَتِ الْمَلَائِكَةُ مِنْ نُورٍ، وَخُلِقَ الْجَانُّ مِنْ نَارٍ، وَخُلِقَ آدَمُ مِنْ طِينٍ﴾ · خلق مستقل قبل استخلاف البشر'
-                      : 'Angels from Light · Jinn & Iblis from Fire · Adam from Clay (Independent Pre-Adamic Creation)'}
+                    <tspan x={isH ? px + (sign * 145) : px} dy="0">
+                      {lang === 'ar'
+                        ? '﴿خُلِقَتِ الْمَلَائِكَةُ مِنْ نُورٍ، وَخُلِقَ الْجَانُّ مِنْ نَارٍ، وَخُلِقَ آدَمُ مِنْ طِينٍ﴾'
+                        : '«Angels from Light · Jinn & Iblis from Fire · Adam from Clay»'}
+                    </tspan>
+                    <tspan x={isH ? px + (sign * 145) : px} dy="14" fill="#a78bfa" fontSize="8.5" fontWeight="500">
+                      {lang === 'ar'
+                        ? 'عالم ما قبل آدم · خلق مستقل قبل استخلاف البشر على الأرض'
+                        : 'Pre-Adamic Cosmic Realm · Independent Creation Prior to Humankind'}
+                    </tspan>
                   </text>
 
                   {/* Primordial Cosmic Arc */}
                   <path
                     d={
                       isH
-                        ? `M ${angelsX},${angelsY} Q ${centerBannerX},${centerBannerY} ${iblisX},${iblisY}`
-                        : `M ${angelsX},${angelsY} Q ${px},${centerBannerY + 30} ${iblisX},${iblisY}`
+                        ? `M ${angelsX},${angelsY} Q ${px + (sign * 230)},${py} ${iblisX},${iblisY}`
+                        : `M ${angelsX},${angelsY} Q ${px},${centerBannerY + 35} ${iblisX},${iblisY}`
                     }
                     fill="none"
-                    stroke="rgba(245,158,11,0.25)"
+                    stroke="rgba(245,158,11,0.3)"
                     strokeWidth="1.2"
                     strokeDasharray="3 3"
                   />
