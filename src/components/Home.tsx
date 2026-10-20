@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronDown, GitBranch, Hourglass, ShieldCheck } from 'lucide-react'
+import { ArrowRight, BookOpen, ChevronDown, Compass, GitBranch, Hourglass, Ruler, ShieldCheck } from 'lucide-react'
 import { useI18n } from '../i18n'
 import { LEVEL_TEXT } from '../i18n/strings'
 import { byId, heavens, people, prophets, ululAzm } from '../data/people'
@@ -33,6 +33,15 @@ export function Home() {
             <div className="mt-9 flex flex-wrap gap-3">
               <A href="/tree" className="btn btn-gold">
                 <GitBranch className="size-4" aria-hidden="true" /> {t('exploreTree')}
+              </A>
+              <A href="/map" className="btn btn-ghost">
+                <Compass className="size-4" aria-hidden="true" /> {t('mapView')}
+              </A>
+              <A href="/stature" className="btn btn-ghost">
+                <Ruler className="size-4" aria-hidden="true" /> {t('navStature')}
+              </A>
+              <A href="/stories" className="btn btn-ghost">
+                <BookOpen className="size-4" aria-hidden="true" /> {t('navStories')}
               </A>
               <A href="/timeline" className="btn btn-ghost">
                 <Hourglass className="size-4" aria-hidden="true" /> {t('openTimeline')}
@@ -124,6 +133,51 @@ export function Home() {
           <Refs refs={ululAzm.r} />
         </div>
       </Section>
+
+      {/* STATURE & STORIES TEASERS */}
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="glass-strong relative flex flex-col justify-between overflow-hidden rounded-3xl p-6 transition-all hover:border-gold/40 sm:p-8">
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="flex size-11 items-center justify-center rounded-2xl border border-gold/30 bg-gold/10 text-gold-2">
+                  <Ruler className="size-5" />
+                </span>
+                <div>
+                  <p className="kicker">{t('statureKicker')}</p>
+                  <h3 className="text-xl font-bold text-ink sm:text-2xl">{t('statureTitle')}</h3>
+                </div>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-ink-2">{t('statureLead')}</p>
+            </div>
+            <div className="mt-6">
+              <A href="/stature" className="btn btn-ghost text-sm">
+                {t('navStature')} <ArrowRight className="size-4 rtl:rotate-180" aria-hidden="true" />
+              </A>
+            </div>
+          </div>
+
+          <div className="glass-strong relative flex flex-col justify-between overflow-hidden rounded-3xl p-6 transition-all hover:border-gold/40 sm:p-8">
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="flex size-11 items-center justify-center rounded-2xl border border-gold/30 bg-gold/10 text-gold-2">
+                  <BookOpen className="size-5" />
+                </span>
+                <div>
+                  <p className="kicker">{t('storiesKicker')}</p>
+                  <h3 className="text-xl font-bold text-ink sm:text-2xl">{t('storiesTitle')}</h3>
+                </div>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-ink-2">{t('storiesLead')}</p>
+            </div>
+            <div className="mt-6">
+              <A href="/stories" className="btn btn-ghost text-sm">
+                {t('navStories')} <ArrowRight className="size-4 rtl:rotate-180" aria-hidden="true" />
+              </A>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* METHOD */}
       <Section kicker={t('methodKicker')} title={t('methodTitle')} lead={t('methodLead')}>

@@ -11,6 +11,8 @@ const NAV = [
   { key: 'navTree', href: '/tree', route: 'tree' },
   { key: 'mapView', href: '/map', route: 'map' },
   { key: 'navTimeline', href: '/timeline', route: 'timeline' },
+  { key: 'navStature', href: '/stature', route: 'stature' },
+  { key: 'navStories', href: '/stories', route: 'stories' },
   { key: 'navSources', href: '/sources', route: 'sources' },
 ] as const
 
@@ -58,13 +60,13 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
           <LanguageMenu />
         </div>
       </div>
-      <nav aria-label="Main mobile" className="flex justify-center gap-1 border-t border-white/5 px-4 pb-2 sm:hidden">
+      <nav aria-label="Main mobile" className="flex items-center gap-1 overflow-x-auto border-t border-white/5 px-3 py-1.5 whitespace-nowrap sm:hidden no-scrollbar">
         {NAV.map((n) => (
           <A
             key={n.href}
             href={n.href}
             aria-current={route.name === n.route ? 'page' : undefined}
-            className={`rounded-full px-4 py-2 text-[0.8rem] ${route.name === n.route ? 'bg-white/10 text-gold-2' : 'text-ink-2'}`}
+            className={`rounded-full px-3 py-1 text-[0.75rem] shrink-0 ${route.name === n.route ? 'bg-white/10 text-gold-2 font-medium' : 'text-ink-2'}`}
           >
             {t(n.key)}
           </A>

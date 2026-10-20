@@ -39,10 +39,15 @@ describe('router', () => {
   it('parses and builds paths', () => {
     expect(parsePath('/')).toEqual({ name: 'home' })
     expect(parsePath('/p/musa')).toEqual({ name: 'person', id: 'musa' })
+    expect(parsePath('/p/zaynab_khuzaymah')).toEqual({ name: 'person', id: 'zaynab_khuzaymah' })
     expect(parsePath('/tree', '?focus=isa')).toEqual({ name: 'tree', focus: 'isa' })
     expect(parsePath('/timeline/')).toEqual({ name: 'timeline' })
+    expect(parsePath('/stature/')).toEqual({ name: 'stature' })
+    expect(parsePath('/stories/')).toEqual({ name: 'stories' })
     expect(parsePath('/nope')).toEqual({ name: 'notfound' })
     expect(hrefOf({ name: 'tree', focus: 'nuh' })).toBe('/tree?focus=nuh')
+    expect(hrefOf({ name: 'stature' })).toBe('/stature')
+    expect(hrefOf({ name: 'stories' })).toBe('/stories')
   })
 })
 

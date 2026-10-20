@@ -29,3 +29,5 @@ captures/
 Thumbs.db
 *.tsbuildinfo
 dev-dist/
+
+scratch/

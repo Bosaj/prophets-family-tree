@@ -30,7 +30,10 @@ export interface TreeLayout {
 const CHILD_ORDER = [
   'hawwa', 'qabil', 'habil', 'shith', 'idris',
   'sam', 'ham', 'yafith', 'yam', 'nuh', 'hud', 'salih', 'azar',
-  'sarah', 'hajar', 'ibrahim', 'ismail', 'khadijah', 'aisha', 'fatimah', 'muhammad',
+  'sarah', 'hajar', 'ibrahim', 'ismail',
+  'khadijah', 'sawdah', 'aisha', 'hafsah', 'zaynab_khuzaymah', 'umm_salamah', 'zaynab_jahsh', 'juwayriyah', 'umm_habibah', 'safiyyah', 'maymunah', 'mariyah',
+  'qasim', 'abdullah_m', 'ibrahim_m', 'zaynab_m', 'ruqayyah', 'umm_kulthum', 'fatimah',
+  'muhammad',
   'lut', 'shuayb', 'ishaq', 'ayyub', 'dhulkifl',
   'yaqub', 'binyamin', 'yusuf', 'safura', 'musa', 'harun',
   'ilyas', 'dawud', 'sulayman', 'alyasa', 'yunus', 'zakariya', 'yahya',
@@ -94,7 +97,7 @@ export function buildLayout(
   })
   const root = hierarchy<Raw>(make('adam'), (d) => d.children)
   const laid = tree<Raw>()
-    .nodeSize(horizontal ? [92, 168] : [NODE_W, NODE_H])
+    .nodeSize(horizontal ? [82, 280] : [NODE_W, NODE_H])
     .separation((a, b) => (a.parent === b.parent ? 1 : 1.25))(root)
 
   let minB = Infinity
