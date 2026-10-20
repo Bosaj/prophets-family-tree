@@ -267,6 +267,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
 
   // Gestures for SVG tree: Pan, multi-touch pinch-to-zoom, and wheel zoom
   const handlePointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
+    // Only primary button (left click) or touch should initiate drag
+    if (e.pointerType === 'mouse' && e.button !== 0) return
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
     if (pointers.current.size === 1) {
       moved.current = false
@@ -281,15 +283,30 @@ export function SahabaTree({ focus }: { focus?: string }) {
         pinch.current = { d, k: view.k }
       }
     }
-    e.currentTarget.setPointerCapture(e.pointerId)
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId)
+    } catch {
+      // ignore
+    }
   }
 
   const handlePointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
     const prev = pointers.current.get(e.pointerId)
-    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
-    if (pointers.current.size === 1 && prev) {
-      const dx = e.clientX - prev.x
-      const dy = e.clientY - prev.y
+    // CRITICAL: If the pointer was NOT registered in handlePointerDown, DO NOT PAN!
+    if (!prev) return
+
+    // If mouse button is not currently pressed, clean up and do not pan
+    if (e.pointerType === 'mouse' && e.buttons === 0) {
+      pointers.current.delete(e.pointerId)
+      return
+    }
+
+    const next = { x: e.clientX, y: e.clientY }
+    pointers.current.set(e.pointerId, next)
+
+    if (pointers.current.size === 1) {
+      const dx = next.x - prev.x
+      const dy = next.y - prev.y
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved.current = true
       setView((v) => ({ ...v, x: v.x + dx, y: v.y + dy }))
     } else if (pointers.current.size === 2 && pinch.current) {
@@ -307,17 +324,21 @@ export function SahabaTree({ focus }: { focus?: string }) {
   }
 
   const handlePointerUp = (e: React.PointerEvent<SVGSVGElement>) => {
+    const hadPointer = pointers.current.has(e.pointerId)
     pointers.current.delete(e.pointerId)
     if (pointers.current.size < 2) pinch.current = null
     try {
-      e.currentTarget.releasePointerCapture(e.pointerId)
+      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+        e.currentTarget.releasePointerCapture(e.pointerId)
+      }
     } catch {
       // ignore
     }
-    if (!moved.current && downNode.current) {
+    if (hadPointer && !moved.current && downNode.current) {
       const fig = SAHABA_FIGURES.find((f) => f.id === downNode.current)
       if (fig) setActiveFigure(fig)
     }
+    downNode.current = null
   }
 
   const handleWheel = (e: React.WheelEvent<SVGSVGElement>) => {
@@ -621,6 +642,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
+            onPointerLeave={handlePointerUp}
             onWheel={handleWheel}
           >
             <defs>

@@ -217,6 +217,10 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const onPointerMove = (e: React.PointerEvent) => {
     const prev = pointers.current.get(e.pointerId)
     if (!prev) return
+    if (e.pointerType === 'mouse' && e.buttons === 0) {
+      pointers.current.delete(e.pointerId)
+      return
+    }
     const next = { x: e.clientX, y: e.clientY }
     pointers.current.set(e.pointerId, next)
     if (pointers.current.size === 2 && pinch.current) {
