@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Baby, Calendar, Compass, Heart, Maximize2, Minus, Plus, RotateCcw, Sparkles, Users, X } from 'lucide-react'
+import { ArrowRight, Baby, Calendar, Clock, Compass, Heart, Maximize2, Minus, Plus, RotateCcw, Sparkles, Users, X } from 'lucide-react'
 import { useI18n } from '../i18n'
 import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions } from '../lib/layout'
 import { treeParent } from '../data/links'
@@ -16,6 +16,16 @@ interface View {
 
 const MIN_K = 0.25
 const MAX_K = 2.6
+
+const TREE_EPOCHS = [
+  { id: 'primordial', target: 'adam', label: { en: 'Primordial', fr: 'Primordial', ar: 'عهد البدء' }, dates: 'c. 4000+ BCE' },
+  { id: 'deluge', target: 'nuh', label: { en: 'The Deluge', fr: 'Le Déluge', ar: 'الطوفان' }, dates: 'c. 3000 BCE' },
+  { id: 'patriarchs', target: 'ibrahim', label: { en: 'Patriarchs', fr: 'Patriarches', ar: 'الخليل والآباء' }, dates: 'c. 1900 BCE' },
+  { id: 'mosaic', target: 'musa', label: { en: 'Mosaic Era', fr: 'Ère Mosaïque', ar: 'الكليم والخروج' }, dates: 'c. 1300 BCE' },
+  { id: 'kings', target: 'dawud', label: { en: 'Kingdoms', fr: 'Royaumes', ar: 'الملك والحكمة' }, dates: 'c. 1000 BCE' },
+  { id: 'messianic', target: 'isa', label: { en: 'Messianic', fr: 'Messianique', ar: 'المسيح والآيات' }, dates: 'c. 1–33 CE' },
+  { id: 'final', target: 'muhammad', label: { en: 'Final Seal', fr: 'Sceau Final', ar: 'الرسالة الخاتمة' }, dates: '570–632 CE / 11 AH' },
+]
 
 export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }) {
   const { t, pick, lang } = useI18n()
@@ -155,6 +165,12 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
     reveal(id)
   }
 
+  const jumpToEpoch = (targetId: string) => {
+    setGlide(true)
+    setSelected(targetId)
+    reveal(targetId)
+  }
+
   function reveal(id: string) {
     const el = box.current
     const n = nodeById.get(id)
@@ -227,11 +243,12 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               <stop offset="0.75" stopColor="#d4a342" />
               <stop offset="1" stopColor="#8a6327" />
             </radialGradient>
-            <radialGradient id="orb-spouse" cx="45%" cy="35%" r="65%">
+            <radialGradient id="orb-spouse" cx="35%" cy="30%" r="70%">
               <stop offset="0" stopColor="#ffffff" />
-              <stop offset="0.35" stopColor="#fbcfe8" />
-              <stop offset="0.75" stopColor="#f472b6" />
-              <stop offset="1" stopColor="#9d174d" />
+              <stop offset="0.25" stopColor="#ff758f" />
+              <stop offset="0.65" stopColor="#e63946" />
+              <stop offset="0.9" stopColor="#a4161a" />
+              <stop offset="1" stopColor="#590d22" />
             </radialGradient>
             <radialGradient id="orb-child" cx="45%" cy="35%" r="65%">
               <stop offset="0" stopColor="#ffffff" />
@@ -250,8 +267,9 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               <stop offset="1" stopColor="rgb(233 198 123 / 0)" />
             </radialGradient>
             <radialGradient id="halo-spouse" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stopColor="rgb(244 114 182 / 0.6)" />
-              <stop offset="1" stopColor="rgb(244 114 182 / 0)" />
+              <stop offset="0" stopColor="rgba(230, 57, 70, 0.75)" />
+              <stop offset="0.55" stopColor="rgba(217, 4, 41, 0.35)" />
+              <stop offset="1" stopColor="rgba(155, 17, 30, 0)" />
             </radialGradient>
             <radialGradient id="halo-child" cx="50%" cy="50%" r="50%">
               <stop offset="0" stopColor="rgb(56 189 248 / 0.6)" />
@@ -273,18 +291,25 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               const onPath = path.has(e.link.from) && path.has(e.link.to) && !e.arc
               const dim = selected && !onPath
               const dashed = e.link.type !== 'parent' || e.arc
+              const isMarriage = e.isMarriage
               return (
                 <g key={i} opacity={dim ? 0.16 : 1} className="transition-opacity duration-500">
                   <path
                     d={e.d}
                     fill="none"
-                    stroke={LEVEL_STROKE[e.link.l]}
-                    strokeOpacity={e.arc ? 0.55 : 0.75}
-                    strokeWidth={onPath ? 2.8 : e.arc ? 1.2 : 1.7}
-                    strokeDasharray={dashed ? (e.arc ? '2 6' : '6 7') : undefined}
+                    stroke={isMarriage ? '#e63946' : LEVEL_STROKE[e.link.l]}
+                    strokeOpacity={isMarriage ? 0.95 : e.arc ? 0.55 : 0.75}
+                    strokeWidth={isMarriage ? 2.2 : onPath ? 2.8 : e.arc ? 1.2 : 1.7}
+                    strokeDasharray={isMarriage ? '3 3' : dashed ? (e.arc ? '2 6' : '6 7') : undefined}
                     strokeLinecap="round"
                   />
-                  {onPath && (
+                  {isMarriage && e.union && (
+                    <g transform={`translate(${e.union.x},${e.union.y})`}>
+                      <circle r="4" fill="#e63946" stroke="#ffffff" strokeWidth="1" />
+                      <circle r="7" fill="none" stroke="rgba(230, 57, 70, 0.5)" strokeWidth="0.8" />
+                    </g>
+                  )}
+                  {onPath && !isMarriage && (
                     <path
                       d={e.d}
                       fill="none"
@@ -305,7 +330,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               const onPath = path.has(n.id)
               const dim = selected && !onPath
               const r = prophet ? (n.person.ululAzm ? 17 : 13) : spouse ? 11 : child ? 10 : 9
-              const dateLabel = (() => {
+              const dateLabelRaw = (() => {
                 if (n.person.era) return pick(n.person.era.t)
                 if (n.person.dates) {
                   const d = n.person.dates
@@ -315,6 +340,12 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 }
                 return null
               })()
+              const dateLabel = dateLabelRaw
+                ? dateLabelRaw.length > 28
+                  ? (dateLabelRaw.includes('،') ? dateLabelRaw.split('،')[0] : dateLabelRaw.slice(0, 26) + '…')
+                  : dateLabelRaw
+                : null
+              const pillW = dateLabel ? Math.max(88, Math.min(220, dateLabel.length * 7.5 + 24)) : 0
               return (
                 <g
                   key={n.id}
@@ -342,7 +373,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     <circle
                       r={r + 7}
                       fill="none"
-                      stroke={prophet ? '#fbe6b0' : spouse ? '#f4a7bb' : child ? '#7ec8e3' : '#c9d0f5'}
+                      stroke={prophet ? '#fbe6b0' : spouse ? '#ff4d6d' : child ? '#7ec8e3' : '#c9d0f5'}
                       strokeWidth={1.5}
                       strokeDasharray="2 3"
                       className="orbit"
@@ -371,7 +402,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     textAnchor="middle"
                     fontFamily="Reem Kufi Variable, serif"
                     fontSize={prophet ? 22 : 16}
-                    fill={prophet ? '#fbe6b0' : spouse ? '#fddde6' : child ? '#d7f0fa' : '#c9d0f5'}
+                    fill={prophet ? '#fbe6b0' : spouse ? '#ff758f' : child ? '#d7f0fa' : '#c9d0f5'}
                     fontWeight={600}
                     className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
                   >
@@ -393,20 +424,20 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   {dateLabel && (
                     <g transform={`translate(0, ${r + (lang !== 'ar' ? 62 : 46)})`}>
                       <rect
-                        x="-62"
+                        x={-pillW / 2}
                         y="-9"
-                        width="124"
+                        width={pillW}
                         height="18"
                         rx="9"
-                        fill="rgba(16, 12, 30, 0.85)"
-                        stroke={prophet ? 'rgba(233, 198, 123, 0.45)' : 'rgba(255, 255, 255, 0.2)'}
+                        fill="rgba(16, 12, 30, 0.9)"
+                        stroke={prophet ? 'rgba(233, 198, 123, 0.45)' : spouse ? 'rgba(230, 57, 70, 0.45)' : 'rgba(255, 255, 255, 0.2)'}
                         strokeWidth="0.8"
                       />
                       <text
                         y="3.5"
                         textAnchor="middle"
                         fontSize="9.5"
-                        fill={prophet ? '#f6e3b4' : '#cbd5e1'}
+                        fill={prophet ? '#f6e3b4' : spouse ? '#ff85a1' : '#cbd5e1'}
                         fontFamily="Sora Variable, sans-serif"
                         fontWeight={500}
                         letterSpacing="0.2"
@@ -444,12 +475,12 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   <button
                     type="button"
                     onClick={() => setShowSpouses((v) => !v)}
-                    className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-colors ${
-                      showSpouses ? 'bg-rose-500/20 text-rose-300' : 'text-ink-3 hover:text-ink'
+                    className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-all ${
+                      showSpouses ? 'bg-rose-600/30 text-rose-200 border border-rose-500/40 shadow-[0_0_12px_rgba(230,57,70,0.3)]' : 'text-ink-3 hover:text-ink'
                     }`}
                     title={t('showWives')}
                   >
-                    <Heart className="size-3.5" aria-hidden="true" />
+                    <Heart className="size-3.5 fill-current" aria-hidden="true" />
                     <span>{t('showWives')}</span>
                   </button>
 
@@ -717,6 +748,37 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               </A>
             </aside>
           )}
+
+          {/* Bottom Floating Time-Space Epoch Ruler */}
+          <div className="absolute inset-x-4 bottom-4 z-10 flex justify-center pointer-events-none sm:inset-x-6 sm:bottom-6">
+            <div className="glass pointer-events-auto flex max-w-full items-center gap-1.5 overflow-x-auto rounded-full p-1.5 shadow-2xl border border-gold/30 bg-night-surface/95 backdrop-blur-md scrollbar-none">
+              <div className="flex items-center gap-1.5 ps-2.5 pe-1 text-xs font-semibold text-gold">
+                <Clock className="size-3.5" />
+                <span className="hidden sm:inline">{lang === 'ar' ? 'العصور الزمانية:' : 'Epochs:'}</span>
+              </div>
+              {TREE_EPOCHS.map((ep) => {
+                const active = selected && lineage(selected).includes(ep.target)
+                return (
+                  <button
+                    key={ep.id}
+                    type="button"
+                    onClick={() => jumpToEpoch(ep.target)}
+                    className={`group flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs transition-all ${
+                      active
+                        ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]'
+                        : 'text-ink-2 hover:bg-white/10 hover:text-ink'
+                    }`}
+                    title={`${ep.label[lang]} (${ep.dates})`}
+                  >
+                    <span>{ep.label[lang]}</span>
+                    <span className={`text-[0.65rem] opacity-75 ${active ? 'text-night font-mono' : 'text-gold-2 font-mono'}`}>
+                      {ep.dates.split(' ')[0]}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
         </>
       )}
       {mini && (

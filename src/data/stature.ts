@@ -152,6 +152,58 @@ export const STATURE_SCALE_DATA: StatureComparison[] = [
       'قال رسول الله ﷺ: «يَدْخُلُ أَهْلُ الجَنَّةِ الجَنَّةَ جُرْدًا مُرْدًا كُحْلًا أَبْنَاءَ ثَلاَثِينَ أَوْ ثَلاَثٍ وَثَلاَثِينَ سَنَةً، عَلَى خَلْقِ آدَمَ طُولُهُ سِتُّونَ ذِرَاعًا» (سنن الترمذي 2545)'
     ),
   },
+  {
+    id: 'sauropod_diplodocus',
+    name: t('Diplodocus / Sauropod Titan', 'Diplodocus / Titanosaure', 'الديناصور العملاق (سوروبود / ديبلودوكس)'),
+    era: t('Prehistoric Epoch (Fossil Record)', 'Ère préhistorique (Mésozoïque)', 'عصور ما قبل التاريخ (الحفريات الجيولوجية)'),
+    heightMeters: 12.0,
+    heightCubits: 24,
+    scaleRatio: 6.86,
+    description: t(
+      'One of the longest land animals ever discovered (reaching 24–27 meters in total length, with its head towering up to 12 meters). Placed next to Adam’s 30-meter stature, Adam stands more than double the vertical height of this massive sauropod.',
+      'L’un des plus gigantesques dinosaures sauropodes découverts (24 à 27 m de longueur totale et une tête culminant à 12 m). Comparé à la stature de 30 mètres d’Adam, ce dernier le dépasse de plus du double en hauteur.',
+      'أحد أضخم الحيوانات البرية المكتشفة في تاريخ الأرض (يصل طوله إلى 26 متراً وارتفاع رأسه لنحو 12 متراً). وبمقارنته مع قامة آدم (30 متراً) يظهر أن آدم أطول منه بمرتين ونصف، مما يوضح عظمة خلق الله للأولين.'
+    ),
+  },
+  {
+    id: 'tall_giraffe',
+    name: t('Giraffe (Tallest Living Land Animal)', 'Girafe (Plus grand animal terrestre vivant)', 'الزرافة (أطول الكائنات البرية الحية)'),
+    era: t('Extant Modern Fauna', 'Faune terrestre moderne', 'الحياة البرية المعاصرة'),
+    heightMeters: 5.5,
+    heightCubits: 11,
+    scaleRatio: 3.14,
+    description: t(
+      'The tallest extant terrestrial creature, reaching up to 5.5 meters (18 ft). Significantly shorter than the people of ‘Ad (7.5m) and dwarfed by primordial human proportions.',
+      'Le plus grand animal terrestre actuel, culminant jusqu’à 5,5 mètres. Bien plus petite que la stature du peuple de ‘Ad (7,5 m) et minuscule face à la stature d’Adam.',
+      'أطول كائن بري يعيش على وجه الأرض اليوم (نحو 5.5 متر). وبالمقارنة، فإن عمالقة قوم عاد (7.5 متر) كانوا أطول من الزرافة البالغة، بينما يقف الإنسان المعاصر عند ركبتها تقريباً.'
+    ),
+  },
+  {
+    id: 'trex_apex',
+    name: t('Tyrannosaurus Rex (T-Rex)', 'Tyrannosaure Rex (T-Rex)', 'ديناصور تي-ريكس (المفترس العملاق)'),
+    era: t('Late Cretaceous (Fossil Record)', 'Crétacé supérieur (paléontologie)', 'العصر الطباشيري المتأخر (حفريات)'),
+    heightMeters: 4.5,
+    heightCubits: 9,
+    scaleRatio: 2.57,
+    description: t(
+      'The iconic apex predator dinosaur, standing approximately 4.2–4.6 meters tall at the hip and head, and 12 meters in length. Roughly comparable in vertical standing height to the ancient people of Thamud.',
+      'Le prédateur géant le plus emblématique, mesurant environ 4,5 mètres de haut à la tête et 12 mètres de long. Une hauteur comparable à celle des bâtisseurs de Thamoud.',
+      'أشهر الديناصورات المفترسة، يبلغ ارتفاع رأسه نحو 4.5 أمتار وطوله 12 متراً، وهو قريب من قامة عمالقة قوم ثمود الذين كانوا ينحتون الجبال بيوتاً.'
+    ),
+  },
+  {
+    id: 'african_elephant',
+    name: t('African Bush Elephant', 'Éléphant de savane d’Afrique', 'الفيل الإفريقي (أضخم ثدييات اليابسة)'),
+    era: t('Extant Modern Fauna', 'Faune terrestre moderne', 'الحياة البرية المعاصرة'),
+    heightMeters: 3.5,
+    heightCubits: 7,
+    scaleRatio: 2.0,
+    description: t(
+      'The largest living land mammal, reaching up to 3.5–4.0 meters at the shoulder. Modern humans reach less than half its shoulder height.',
+      'Le plus grand mammifère terrestre vivant, atteignant 3,5 à 4 mètres au garrot. L’humain moderne atteint à peine le bas de son flanc.',
+      'أضخم الثدييات البرية على قيد الحياة اليوم، يصل ارتفاع كتفه إلى 3.5 متر، ويعادل تقريباً ضعف طول الإنسان المعاصر.'
+    ),
+  },
 ]
 
 /**

@@ -3,6 +3,7 @@ import {
   ArrowDownUp,
   BookOpen,
   ExternalLink,
+  Layers,
   Ruler,
   Sparkles,
 } from 'lucide-react'
@@ -15,6 +16,7 @@ export function StatureView() {
   const [selectedScaleId, setSelectedScaleId] = useState<string>('adam_primordial')
   const [selectedProphetId, setSelectedProphetId] = useState<string>('muhammad_desc')
   const [unit, setUnit] = useState<'metric' | 'imperial' | 'cubits'>('metric')
+  const [stageZoom, setStageZoom] = useState<'full' | 'megafauna' | 'humanoid'>('full')
 
   const activeScale = STATURE_SCALE_DATA.find((s) => s.id === selectedScaleId) ?? STATURE_SCALE_DATA[0]!
   const activeDesc = PROPHETIC_DESCRIPTIONS.find((p) => p.id === selectedProphetId) ?? PROPHETIC_DESCRIPTIONS[0]!
@@ -90,6 +92,375 @@ export function StatureView() {
           >
             {lang === 'ar' ? 'الأذرع (ذراع)' : 'Cubits (ذراع)'}
           </button>
+        </div>
+      </div>
+
+      {/* Interactive Silhouette & Dinosaur Comparison Theater */}
+      <div className="glass rounded-3xl p-6 sm:p-8 mb-12 border border-gold/30 shadow-2xl relative overflow-hidden">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div>
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
+              <Layers className="size-4" />
+              <span>{lang === 'ar' ? 'مسرح مقارنة الظلال والقامة الحقيقية مع الكائنات والديناصورات' : 'Interactive Silhouette & Prehistoric Scale Stage'}</span>
+            </div>
+            <p className="mt-1 text-xs sm:text-sm text-ink-3">
+              {lang === 'ar'
+                ? 'قارن طول قامة آدم عليه السلام (30 متراً) وقوم عاد وثمود وموسى عليه السلام جنباً إلى جنب مع كائنات الأرض والديناصورات المنقرضة على أرضية واحدة وبظلال واقعية'
+                : 'Direct standing scale comparison between Adam (30m), ancient giants, prophets, dinosaurs (Sauropod & T-Rex), and megafauna.'}
+            </p>
+          </div>
+
+          {/* Scale Zoom Controls */}
+          <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 p-1 text-xs">
+            <button
+              type="button"
+              onClick={() => setStageZoom('full')}
+              className={`rounded-full px-3.5 py-1.5 font-medium transition-all ${
+                stageZoom === 'full' ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]' : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              {lang === 'ar' ? 'الكل (30م)' : '0–30m Full'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setStageZoom('megafauna')}
+              className={`rounded-full px-3.5 py-1.5 font-medium transition-all ${
+                stageZoom === 'megafauna' ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]' : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              {lang === 'ar' ? 'العمالقة والديناصورات (12م)' : '0–12m Megafauna'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setStageZoom('humanoid')}
+              className={`rounded-full px-3.5 py-1.5 font-medium transition-all ${
+                stageZoom === 'humanoid' ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]' : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              {lang === 'ar' ? 'تقريب بشري (4.5م)' : '0–4.5m Humanoid'}
+            </button>
+          </div>
+        </div>
+
+        {/* SVG Silhouette Stage */}
+        <div className="w-full overflow-x-auto rounded-2xl border border-white/10 bg-gradient-to-b from-night-surface/90 via-night/95 to-black p-2 sm:p-4">
+          <svg viewBox="0 0 1000 420" className="w-full min-w-[720px] select-none" role="img" aria-label="Scale Stage">
+            <defs>
+              <linearGradient id="ground-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="rgba(233, 198, 123, 0.45)" />
+                <stop offset="12%" stopColor="rgba(35, 30, 52, 0.95)" />
+                <stop offset="100%" stopColor="rgba(10, 8, 20, 0.99)" />
+              </linearGradient>
+            </defs>
+
+            {/* Grid measurement lines */}
+            {stageZoom === 'full' && (
+              <>
+                {[0, 5, 10, 15, 20, 25, 30].map((m) => {
+                  const y = 360 - m * 10
+                  return (
+                    <g key={m} opacity="0.35">
+                      <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
+                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
+                        {m}m
+                      </text>
+                    </g>
+                  )
+                })}
+              </>
+            )}
+
+            {stageZoom === 'megafauna' && (
+              <>
+                {[0, 2, 4, 6, 8, 10, 12].map((m) => {
+                  const y = 360 - m * 26
+                  return (
+                    <g key={m} opacity="0.35">
+                      <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
+                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
+                        {m}m
+                      </text>
+                    </g>
+                  )
+                })}
+              </>
+            )}
+
+            {stageZoom === 'humanoid' && (
+              <>
+                {[0, 1, 2, 3, 4].map((m) => {
+                  const y = 360 - m * 72
+                  return (
+                    <g key={m} opacity="0.35">
+                      <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
+                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
+                        {m}m
+                      </text>
+                    </g>
+                  )
+                })}
+              </>
+            )}
+
+            {/* Ground surface */}
+            <rect x="0" y="360" width="1000" height="60" fill="url(#ground-gradient)" />
+            <line x1="0" y1="360" x2="1000" y2="360" stroke="#e9c67b" strokeWidth="1.5" strokeOpacity="0.8" />
+
+            {/* Figures Rendered According to Zoom Mode */}
+            {stageZoom === 'full' && (
+              <>
+                {/* Adam (30m) */}
+                <g onClick={() => setSelectedScaleId('adam_primordial')}>
+                  <HumanSilhouette
+                    h={300}
+                    x={130}
+                    groundY={360}
+                    active={selectedScaleId === 'adam_primordial'}
+                    label={lang === 'ar' ? 'آدم (30م / 60 ذراعاً)' : 'Adam (30m / 60 cubits)'}
+                  />
+                </g>
+
+                {/* Sauropod / Diplodocus (12m head height) */}
+                <g onClick={() => setSelectedScaleId('sauropod_diplodocus')}>
+                  <SauropodSilhouette
+                    h={120}
+                    x={350}
+                    groundY={360}
+                    active={selectedScaleId === 'sauropod_diplodocus'}
+                    label={lang === 'ar' ? 'سوروبود (12م)' : 'Sauropod (12m)'}
+                  />
+                </g>
+
+                {/* People of 'Ad (7.5m) */}
+                <g onClick={() => setSelectedScaleId('people_of_ad')}>
+                  <HumanSilhouette
+                    h={75}
+                    x={530}
+                    groundY={360}
+                    active={selectedScaleId === 'people_of_ad'}
+                    label={lang === 'ar' ? 'عاد (7.5م)' : "‘Ad (7.5m)"}
+                  />
+                </g>
+
+                {/* Giraffe (5.5m) */}
+                <g onClick={() => setSelectedScaleId('tall_giraffe')}>
+                  <GiraffeSilhouette
+                    h={55}
+                    x={635}
+                    groundY={360}
+                    active={selectedScaleId === 'tall_giraffe'}
+                    label={lang === 'ar' ? 'زرافة (5.5م)' : 'Giraffe (5.5m)'}
+                  />
+                </g>
+
+                {/* T-Rex (4.5m) */}
+                <g onClick={() => setSelectedScaleId('trex_apex')}>
+                  <TRexSilhouette
+                    h={45}
+                    x={735}
+                    groundY={360}
+                    active={selectedScaleId === 'trex_apex'}
+                    label={lang === 'ar' ? 'تي-ريكس (4.5م)' : 'T-Rex (4.5m)'}
+                  />
+                </g>
+
+                {/* Thamud (4m) */}
+                <g onClick={() => setSelectedScaleId('thamud_ancient')}>
+                  <HumanSilhouette
+                    h={40}
+                    x={830}
+                    groundY={360}
+                    active={selectedScaleId === 'thamud_ancient'}
+                    label={lang === 'ar' ? 'ثمود (4م)' : 'Thamud (4m)'}
+                  />
+                </g>
+
+                {/* African Elephant (3.5m) */}
+                <g onClick={() => setSelectedScaleId('african_elephant')}>
+                  <ElephantSilhouette
+                    h={35}
+                    x={905}
+                    groundY={360}
+                    active={selectedScaleId === 'african_elephant'}
+                    label={lang === 'ar' ? 'فيل (3.5م)' : 'Elephant (3.5m)'}
+                  />
+                </g>
+
+                {/* Musa (2.1m) */}
+                <g onClick={() => setSelectedScaleId('musa_era')}>
+                  <HumanSilhouette
+                    h={21}
+                    x={955}
+                    groundY={360}
+                    active={selectedScaleId === 'musa_era'}
+                    label={lang === 'ar' ? 'موسى (2.1م)' : 'Musa (2.1m)'}
+                  />
+                </g>
+
+                {/* Modern Human (1.75m) */}
+                <g onClick={() => setSelectedScaleId('modern_human')}>
+                  <HumanSilhouette
+                    h={17.5}
+                    x={985}
+                    groundY={360}
+                    active={selectedScaleId === 'modern_human'}
+                    label={lang === 'ar' ? 'المعاصر (1.75م)' : 'Modern (1.75m)'}
+                  />
+                </g>
+              </>
+            )}
+
+            {stageZoom === 'megafauna' && (
+              <>
+                {/* Sauropod / Diplodocus (12m -> 312px) */}
+                <g onClick={() => setSelectedScaleId('sauropod_diplodocus')}>
+                  <SauropodSilhouette
+                    h={312}
+                    x={180}
+                    groundY={360}
+                    active={selectedScaleId === 'sauropod_diplodocus'}
+                    label={lang === 'ar' ? 'سوروبود العملاق (12م / 24 ذراعاً)' : 'Giant Sauropod (12m)'}
+                  />
+                </g>
+
+                {/* People of 'Ad (7.5m -> 195px) */}
+                <g onClick={() => setSelectedScaleId('people_of_ad')}>
+                  <HumanSilhouette
+                    h={195}
+                    x={390}
+                    groundY={360}
+                    active={selectedScaleId === 'people_of_ad'}
+                    label={lang === 'ar' ? 'قوم عاد (7.5م / 15 ذراعاً)' : "People of ‘Ad (7.5m)"}
+                  />
+                </g>
+
+                {/* Giraffe (5.5m -> 143px) */}
+                <g onClick={() => setSelectedScaleId('tall_giraffe')}>
+                  <GiraffeSilhouette
+                    h={143}
+                    x={510}
+                    groundY={360}
+                    active={selectedScaleId === 'tall_giraffe'}
+                    label={lang === 'ar' ? 'الزرافة (5.5م)' : 'Giraffe (5.5m)'}
+                  />
+                </g>
+
+                {/* T-Rex (4.5m -> 117px) */}
+                <g onClick={() => setSelectedScaleId('trex_apex')}>
+                  <TRexSilhouette
+                    h={117}
+                    x={630}
+                    groundY={360}
+                    active={selectedScaleId === 'trex_apex'}
+                    label={lang === 'ar' ? 'تي-ريكس (4.5م)' : 'T-Rex (4.5m)'}
+                  />
+                </g>
+
+                {/* Thamud (4m -> 104px) */}
+                <g onClick={() => setSelectedScaleId('thamud_ancient')}>
+                  <HumanSilhouette
+                    h={104}
+                    x={740}
+                    groundY={360}
+                    active={selectedScaleId === 'thamud_ancient'}
+                    label={lang === 'ar' ? 'ثمود (4م / 8 أذرع)' : 'Thamud (4m)'}
+                  />
+                </g>
+
+                {/* Elephant (3.5m -> 91px) */}
+                <g onClick={() => setSelectedScaleId('african_elephant')}>
+                  <ElephantSilhouette
+                    h={91}
+                    x={830}
+                    groundY={360}
+                    active={selectedScaleId === 'african_elephant'}
+                    label={lang === 'ar' ? 'فيل إفريقي (3.5م)' : 'Elephant (3.5m)'}
+                  />
+                </g>
+
+                {/* Musa (2.1m -> 54.6px) */}
+                <g onClick={() => setSelectedScaleId('musa_era')}>
+                  <HumanSilhouette
+                    h={54.6}
+                    x={915}
+                    groundY={360}
+                    active={selectedScaleId === 'musa_era'}
+                    label={lang === 'ar' ? 'موسى (2.1م)' : 'Musa (2.1m)'}
+                  />
+                </g>
+
+                {/* Modern Human (1.75m -> 45.5px) */}
+                <g onClick={() => setSelectedScaleId('modern_human')}>
+                  <HumanSilhouette
+                    h={45.5}
+                    x={970}
+                    groundY={360}
+                    active={selectedScaleId === 'modern_human'}
+                    label={lang === 'ar' ? 'المعاصر (1.75م)' : 'Modern (1.75m)'}
+                  />
+                </g>
+              </>
+            )}
+
+            {stageZoom === 'humanoid' && (
+              <>
+                {/* T-Rex (4.5m -> 324px) */}
+                <g onClick={() => setSelectedScaleId('trex_apex')}>
+                  <TRexSilhouette
+                    h={324}
+                    x={170}
+                    groundY={360}
+                    active={selectedScaleId === 'trex_apex'}
+                    label={lang === 'ar' ? 'تي-ريكس المفترس (4.5م)' : 'T-Rex Apex (4.5m)'}
+                  />
+                </g>
+
+                {/* Thamud (4m -> 288px) */}
+                <g onClick={() => setSelectedScaleId('thamud_ancient')}>
+                  <HumanSilhouette
+                    h={288}
+                    x={360}
+                    groundY={360}
+                    active={selectedScaleId === 'thamud_ancient'}
+                    label={lang === 'ar' ? 'قوم ثمود (4م / 8 أذرع)' : 'Thamud Giant (4m)'}
+                  />
+                </g>
+
+                {/* Elephant (3.5m -> 252px) */}
+                <g onClick={() => setSelectedScaleId('african_elephant')}>
+                  <ElephantSilhouette
+                    h={252}
+                    x={540}
+                    groundY={360}
+                    active={selectedScaleId === 'african_elephant'}
+                    label={lang === 'ar' ? 'الفيل الإفريقي (3.5م)' : 'African Elephant (3.5m)'}
+                  />
+                </g>
+
+                {/* Musa (2.1m -> 151px) */}
+                <g onClick={() => setSelectedScaleId('musa_era')}>
+                  <HumanSilhouette
+                    h={151.2}
+                    x={740}
+                    groundY={360}
+                    active={selectedScaleId === 'musa_era'}
+                    label={lang === 'ar' ? 'موسى عليه السلام (2.1م)' : 'Prophet Musa (2.1m)'}
+                  />
+                </g>
+
+                {/* Modern Human (1.75m -> 126px) */}
+                <g onClick={() => setSelectedScaleId('modern_human')}>
+                  <HumanSilhouette
+                    h={126}
+                    x={890}
+                    groundY={360}
+                    active={selectedScaleId === 'modern_human'}
+                    label={lang === 'ar' ? 'الإنسان المعاصر (1.75م)' : 'Modern Human (1.75m)'}
+                  />
+                </g>
+              </>
+            )}
+          </svg>
         </div>
       </div>
 
@@ -369,5 +740,137 @@ export function StatureView() {
         </div>
       </div>
     </div>
+  )
+}
+
+function HumanSilhouette({ h, x, groundY, active, label }: { h: number; x: number; groundY: number; active: boolean; label: string }) {
+  const s = h / 100
+  const shadowRx = Math.max(7, h * 0.16)
+  const shadowRy = Math.max(2.5, h * 0.04)
+  return (
+    <g className="cursor-pointer transition-all duration-300">
+      {/* Ground shadow */}
+      <ellipse cx={x} cy={groundY + 2.5} rx={shadowRx} ry={shadowRy} fill="rgba(0,0,0,0.6)" />
+      {/* Active halo */}
+      {active && (
+        <ellipse cx={x} cy={groundY - h / 2} rx={Math.max(12, h * 0.2)} ry={h * 0.52} fill="rgba(233, 198, 123, 0.15)" />
+      )}
+      {/* Body silhouette */}
+      <g transform={`translate(${x}, ${groundY - h}) scale(${s})`}>
+        <circle cx="0" cy="8.5" r="7.5" fill={active ? '#fbe6b0' : '#1e1b2e'} stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.2)'} strokeWidth="1.2" />
+        <path
+          d="M -2,17 C -6,18 -12,21 -13,31 L -12,54 C -12,57 -9,57 -9,54 L -8,36 L -8,56 L -10,98 C -10,100 -5,100 -5,98 L -3,60 L -1,60 L 1,60 L 3,60 L 5,98 C 5,100 10,100 10,98 L 8,56 L 8,36 L 9,54 C 9,57 12,57 12,54 L 13,31 C 12,21 6,18 2,17 Z"
+          fill={active ? '#fbe6b0' : '#1e1b2e'}
+          stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.2)'}
+          strokeWidth="1.2"
+        />
+      </g>
+      {/* Label above */}
+      <text
+        x={x}
+        y={groundY - h - 8}
+        textAnchor="middle"
+        fontSize={Math.max(9, Math.min(12, h * 0.12))}
+        fill={active ? '#fbe6b0' : '#c3bdd2'}
+        fontWeight={active ? 700 : 500}
+        className="drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]"
+      >
+        {label}
+      </text>
+    </g>
+  )
+}
+
+function SauropodSilhouette({ h, x, groundY, active, label }: { h: number; x: number; groundY: number; active: boolean; label: string }) {
+  const s = h / 100
+  return (
+    <g className="cursor-pointer transition-all duration-300">
+      <ellipse cx={x} cy={groundY + 3.5} rx={h * 0.75} ry={Math.max(4, h * 0.08)} fill="rgba(0,0,0,0.6)" />
+      {active && (
+        <ellipse cx={x} cy={groundY - h * 0.45} rx={h * 0.85} ry={h * 0.55} fill="rgba(233, 198, 123, 0.12)" />
+      )}
+      <g transform={`translate(${x}, ${groundY - h}) scale(${s})`}>
+        <path
+          d="M -70,8 C -75,6 -80,10 -76,14 C -70,18 -55,30 -42,50 C -36,58 -32,68 -30,72 L -33,98 C -33,100 -27,100 -27,98 L -24,76 L -16,76 L -18,98 C -18,100 -12,100 -12,98 L -10,74 C -2,72 8,72 20,74 L 22,98 C 22,100 28,100 28,98 L 26,76 L 36,76 L 34,98 C 34,100 40,100 40,98 L 42,70 C 58,68 85,60 115,50 C 120,48 120,44 112,45 C 80,48 50,52 35,50 C 20,40 -5,40 -25,48 C -35,35 -48,20 -60,10 Z"
+          fill={active ? '#fbe6b0' : '#181524'}
+          stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.2)'}
+          strokeWidth="1.2"
+        />
+      </g>
+      <text x={x} y={groundY - h - 8} textAnchor="middle" fontSize={11} fill={active ? '#fbe6b0' : '#c3bdd2'} fontWeight={active ? 700 : 500}>
+        {label}
+      </text>
+    </g>
+  )
+}
+
+function TRexSilhouette({ h, x, groundY, active, label }: { h: number; x: number; groundY: number; active: boolean; label: string }) {
+  const s = h / 100
+  return (
+    <g className="cursor-pointer transition-all duration-300">
+      <ellipse cx={x} cy={groundY + 2.5} rx={h * 0.55} ry={Math.max(3, h * 0.08)} fill="rgba(0,0,0,0.6)" />
+      {active && (
+        <ellipse cx={x} cy={groundY - h * 0.45} rx={h * 0.65} ry={h * 0.55} fill="rgba(233, 198, 123, 0.12)" />
+      )}
+      <g transform={`translate(${x}, ${groundY - h}) scale(${s})`}>
+        <path
+          d="M -42,8 C -50,12 -52,22 -44,26 C -38,28 -34,22 -32,24 C -28,34 -24,42 -18,48 L -24,56 C -25,58 -22,60 -20,58 L -14,52 C -8,52 2,54 8,62 L 6,98 C 6,100 12,100 14,98 L 18,72 L 26,98 C 26,100 32,100 34,98 L 32,68 C 45,65 70,55 95,45 C 100,43 98,40 92,42 C 68,48 45,48 30,42 C 16,36 -2,32 -18,22 C -24,14 -32,6 -42,8 Z"
+          fill={active ? '#fbe6b0' : '#181524'}
+          stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.2)'}
+          strokeWidth="1.2"
+        />
+      </g>
+      <text x={x} y={groundY - h - 8} textAnchor="middle" fontSize={10} fill={active ? '#fbe6b0' : '#c3bdd2'} fontWeight={active ? 700 : 500}>
+        {label}
+      </text>
+    </g>
+  )
+}
+
+function GiraffeSilhouette({ h, x, groundY, active, label }: { h: number; x: number; groundY: number; active: boolean; label: string }) {
+  const s = h / 100
+  return (
+    <g className="cursor-pointer transition-all duration-300">
+      <ellipse cx={x} cy={groundY + 2.5} rx={h * 0.3} ry={Math.max(2, h * 0.06)} fill="rgba(0,0,0,0.6)" />
+      {active && (
+        <ellipse cx={x} cy={groundY - h * 0.45} rx={h * 0.35} ry={h * 0.55} fill="rgba(233, 198, 123, 0.12)" />
+      )}
+      <g transform={`translate(${x}, ${groundY - h}) scale(${s})`}>
+        <path
+          d="M -16,4 C -20,6 -20,12 -16,14 L -8,46 C -12,48 -16,55 -16,62 L -18,98 C -18,100 -14,100 -14,98 L -11,68 L -6,68 L -8,98 C -8,100 -4,100 -4,98 L -2,66 C 8,64 16,66 20,70 L 18,98 C 18,100 22,100 22,98 L 24,72 L 28,98 C 28,100 32,100 32,98 L 30,66 C 30,56 22,50 14,50 C 4,50 -2,44 -4,35 L -10,8 C -10,5 -13,3 -16,4 Z"
+          fill={active ? '#fbe6b0' : '#181524'}
+          stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.2)'}
+          strokeWidth="1.2"
+        />
+      </g>
+      <text x={x} y={groundY - h - 8} textAnchor="middle" fontSize={10} fill={active ? '#fbe6b0' : '#c3bdd2'} fontWeight={active ? 700 : 500}>
+        {label}
+      </text>
+    </g>
+  )
+}
+
+function ElephantSilhouette({ h, x, groundY, active, label }: { h: number; x: number; groundY: number; active: boolean; label: string }) {
+  const s = h / 100
+  return (
+    <g className="cursor-pointer transition-all duration-300">
+      <ellipse cx={x} cy={groundY + 2.5} rx={h * 0.45} ry={Math.max(3, h * 0.07)} fill="rgba(0,0,0,0.6)" />
+      {active && (
+        <ellipse cx={x} cy={groundY - h * 0.45} rx={h * 0.5} ry={h * 0.55} fill="rgba(233, 198, 123, 0.12)" />
+      )}
+      <g transform={`translate(${x}, ${groundY - h}) scale(${s})`}>
+        <path
+          d="M -26,18 C -36,20 -44,32 -42,50 C -42,65 -48,75 -44,80 C -40,84 -38,76 -36,65 L -32,98 C -32,100 -24,100 -24,98 L -22,66 L -14,66 L -16,98 C -16,100 -8,100 -8,98 L -6,64 C 6,64 16,64 22,68 L 20,98 C 20,100 28,100 28,98 L 30,68 L 36,98 C 36,100 44,100 44,98 L 42,58 C 42,38 30,22 10,20 C -4,18 -18,16 -26,18 Z"
+          fill={active ? '#fbe6b0' : '#181524'}
+          stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.2)'}
+          strokeWidth="1.2"
+        />
+        {/* Ivory Tusk */}
+        <path d="M -36,46 C -44,52 -46,62 -40,65 C -42,58 -38,50 -32,46 Z" fill="#ffffff" />
+      </g>
+      <text x={x} y={groundY - h - 8} textAnchor="middle" fontSize={10} fill={active ? '#fbe6b0' : '#c3bdd2'} fontWeight={active ? 700 : 500}>
+        {label}
+      </text>
+    </g>
   )
 }

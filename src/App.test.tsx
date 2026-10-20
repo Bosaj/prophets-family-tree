@@ -69,4 +69,10 @@ describe('App', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('سودة بنت زمعة')
     expect(screen.getAllByText('Sawdah bint Zam‘ah').length).toBeGreaterThan(0)
   })
+
+  it('renders the topography real map view', () => {
+    renderAt('/map')
+    expect(screen.getByText('Satellite')).toBeInTheDocument()
+    expect(screen.getByText('Terrain')).toBeInTheDocument()
+  })
 })

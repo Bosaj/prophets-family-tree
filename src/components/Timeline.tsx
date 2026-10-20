@@ -125,30 +125,32 @@ export function Timeline() {
       </header>
 
       <ol className="relative mt-16">
-        <div aria-hidden="true" className="absolute inset-y-0 start-5 w-px bg-gradient-to-b from-transparent via-gold/50 to-transparent md:start-1/2" />
+        <div aria-hidden="true" className="absolute inset-y-0 start-5 w-px -translate-x-1/2 rtl:translate-x-1/2 bg-gradient-to-b from-transparent via-gold/50 to-transparent md:start-1/2 md:-translate-x-1/2 md:rtl:translate-x-1/2" />
         {groups.map(([order, group], gi) => {
           const anchor = ANCHORS[order]
           const side = gi % 2 === 0
           return (
             <li key={order} className="relative mb-12 ps-14 md:mb-16 md:ps-0">
               {anchor && (
-                <div className="mb-6 flex md:justify-center">
-                  <p className="glass inline-flex max-w-md flex-wrap items-center gap-2 rounded-2xl px-4 py-2 text-xs text-ink-2 shadow-md">
-                    <span>{anchor[lang]}</span>
+                <div className="mb-8 flex md:justify-center relative z-20">
+                  <div className="glass inline-flex max-w-lg flex-wrap items-center justify-center gap-2 rounded-2xl border border-gold/30 bg-night-surface/90 px-4 py-2 text-xs text-ink-2 shadow-lg backdrop-blur-md text-center">
+                    <span className="font-semibold text-gold-2">{anchor[lang]}</span>
                     <Refs refs={[anchor.ref]} />
-                  </p>
+                  </div>
                 </div>
               )}
-              <span aria-hidden="true" className="absolute start-5 top-8 grid size-3 -translate-x-1/2 place-items-center rtl:translate-x-1/2 md:start-1/2">
-                <span className="absolute size-3.5 rounded-full bg-gold shadow-[0_0_18px_4px_rgb(233_198_123/0.55)]" />
-                <span className="absolute size-3.5 animate-[pulse-ring_2.8s_ease-out_infinite] rounded-full border border-gold" />
-              </span>
-              <div className={`md:w-1/2 ${side ? 'md:pe-12' : 'md:ms-auto md:ps-12'}`}>
-                {group.length > 1 && <p className="mb-2 text-xs font-semibold text-gold">{t('contemporaries')}</p>}
-                <div className="grid gap-4">
-                  {group.map((p) => (
-                    <Card key={p.id} p={p} estimates={estimates} mode={mode} />
-                  ))}
+              <div className="relative">
+                <span aria-hidden="true" className="absolute -start-9 top-7 grid size-3.5 -translate-x-1/2 place-items-center rtl:translate-x-1/2 md:start-1/2 md:-translate-x-1/2 md:rtl:translate-x-1/2 z-10">
+                  <span className="absolute size-3.5 rounded-full bg-gold shadow-[0_0_18px_4px_rgb(233_198_123/0.65)]" />
+                  <span className="absolute size-4 animate-[pulse-ring_2.8s_ease-out_infinite] rounded-full border border-gold/70" />
+                </span>
+                <div className={`md:w-1/2 ${side ? 'md:pe-12' : 'md:ms-auto md:ps-12'}`}>
+                  {group.length > 1 && <p className="mb-2 text-xs font-semibold text-gold">{t('contemporaries')}</p>}
+                  <div className="grid gap-4">
+                    {group.map((p) => (
+                      <Card key={p.id} p={p} estimates={estimates} mode={mode} />
+                    ))}
+                  </div>
                 </div>
               </div>
               <span className="sr-only">{group.map((p) => pick(p.name)).join(', ')}</span>
