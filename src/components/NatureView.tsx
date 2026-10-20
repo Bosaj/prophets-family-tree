@@ -2162,48 +2162,57 @@ export function NatureView() {
 
       {/* Comprehensive Detail Modal / Drawer */}
       {detailItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night/80 backdrop-blur-md animate-fade-in">
-          <div className="glass-strong relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-gold/40 p-6 sm:p-8 shadow-2xl">
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={() => setDetailItem(null)}
-              className="absolute end-4 top-4 rounded-full border border-white/10 bg-white/5 p-2 text-ink-2 hover:bg-white/10 hover:text-ink cursor-pointer"
-              aria-label="Close"
-            >
-              <X className="size-5" />
-            </button>
-
-            {/* Header info */}
-            <div className="flex items-center gap-3 mb-2">
-              <span className="rounded-full bg-gold/15 px-3 py-1 text-xs font-semibold text-gold">
-                {'whatTheyDid' in detailItem
-                  ? (lang === 'ar' ? 'كائن في القرآن والسنة' : 'Animal in Qur’an & Sunnah')
-                  : (lang === 'ar' ? 'نبات وغذاء في القرآن والطب النبوي' : 'Plant & Food in Qur’an & Sunnah')}
-              </span>
-              <span className="text-xs font-mono text-ink-3 italic">{detailItem.scientificName}</span>
-            </div>
-
-            <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-ink">{pick(detailItem.name)}</h2>
-                {lang !== 'ar' && (
-                  <p className="ar-name gold-text text-xl font-bold mt-1">{detailItem.name.ar}</p>
-                )}
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-night/85 backdrop-blur-md animate-fade-in"
+          onClick={() => setDetailItem(null)}
+        >
+          <div
+            className="glass-strong relative flex flex-col max-h-[92vh] w-full max-w-3xl rounded-3xl border border-gold/40 shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Pinned Sticky Header */}
+            <div className="flex items-center justify-between border-b border-white/10 px-6 sm:px-8 py-4 sm:py-5 shrink-0 bg-night-surface/95 backdrop-blur-xl z-10">
+              <div className="flex-1 pe-4">
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <span className="rounded-full bg-gold/15 px-3 py-0.5 text-xs font-semibold text-gold border border-gold/25">
+                    {'whatTheyDid' in detailItem
+                      ? (lang === 'ar' ? 'كائن في القرآن والسنة' : 'Animal in Qur’an & Sunnah')
+                      : (lang === 'ar' ? 'نبات وغذاء في القرآن والطب النبوي' : 'Plant & Food in Qur’an & Sunnah')}
+                  </span>
+                  <span className="text-xs font-mono text-ink-3 italic">{detailItem.scientificName}</span>
+                </div>
+                <div className="flex flex-wrap items-baseline gap-2.5">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-ink">{pick(detailItem.name)}</h2>
+                  {lang !== 'ar' && (
+                    <span className="ar-name gold-text text-lg sm:text-xl font-bold">{detailItem.name.ar}</span>
+                  )}
+                </div>
               </div>
 
-              {/* Calligraphy if animal */}
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setDetailItem(null)}
+                className="rounded-full border border-white/15 bg-white/5 p-2 text-ink-2 hover:bg-white/15 hover:text-ink cursor-pointer shrink-0 transition-colors"
+                aria-label="Close"
+              >
+                <X className="size-5" />
+              </button>
+            </div>
+
+            {/* Scrollable Content Body with Custom Gold Scrollbar */}
+            <div className="overflow-y-auto px-6 sm:px-8 py-6 space-y-6 flex-1">
+              {/* Calligraphy banner if available */}
               {'arabicCalligraphy' in detailItem && detailItem.arabicCalligraphy && (
-                <div className="hidden sm:block text-end max-w-xs">
-                  <p className="ar-name text-xs text-gold/80 font-['Amiri_Quran',_serif] leading-relaxed">
+                <div className="rounded-2xl border border-gold/20 bg-gold/5 px-4 py-2.5 text-center">
+                  <p className="ar-name text-sm sm:text-base text-gold font-['Amiri_Quran',_serif] leading-relaxed">
                     «{detailItem.arabicCalligraphy}»
                   </p>
                 </div>
               )}
-            </div>
 
-            {/* Visual Stage inside Modal with Voice Buttons & Photo Switch */}
-            <div className="my-6 rounded-2xl bg-gradient-to-b from-night-2 to-night-3 border border-white/10 p-6 flex flex-col items-center justify-center relative overflow-hidden">
+              {/* Visual Stage inside Modal with Voice Buttons & Photo Switch */}
+              <div className="rounded-2xl bg-gradient-to-b from-night-2 to-night-3 border border-white/10 p-6 flex flex-col items-center justify-center relative overflow-hidden">
               {/* Floating Left: View Switch */}
               <div className="absolute top-3 start-3">
                 <button
@@ -2359,6 +2368,7 @@ export function NatureView() {
                   </div>
                 ))}
               </div>
+            </div>
             </div>
           </div>
         </div>

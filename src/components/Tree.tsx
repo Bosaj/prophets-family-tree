@@ -1362,41 +1362,47 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn"
       onClick={onClose}
     >
       <div
-        className="relative max-h-[88vh] w-full max-w-4xl overflow-y-auto rounded-3xl border border-gold/40 bg-night-2 p-6 sm:p-8 shadow-2xl no-scrollbar"
+        className="relative flex flex-col max-h-[90vh] w-full max-w-4xl rounded-3xl border border-gold/40 bg-night-2 shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-4 end-4 rounded-full bg-white/10 p-2 text-ink-2 hover:bg-white/20 hover:text-ink cursor-pointer z-10"
-        >
-          <X className="size-5" />
-        </button>
-
-        <div className="flex items-start gap-3.5 mb-6">
-          <div className="size-12 rounded-2xl bg-amber-500/20 border border-gold/40 flex items-center justify-center shrink-0 shadow-inner">
-            <Flame className="size-6 text-gold animate-pulse" />
+        {/* Pinned Sticky Header */}
+        <div className="flex items-center justify-between border-b border-white/10 px-6 sm:px-8 py-5 shrink-0 bg-night-surface/95 backdrop-blur-xl z-10">
+          <div className="flex items-start gap-3.5 pe-4">
+            <div className="size-11 sm:size-12 rounded-2xl bg-amber-500/20 border border-gold/40 flex items-center justify-center shrink-0 shadow-inner">
+              <Flame className="size-5 sm:size-6 text-gold animate-pulse" />
+            </div>
+            <div>
+              <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-full border border-gold/25">
+                {lang === 'ar' ? 'فصل تمهيدي في شجرة الأنبياء' : 'Primordial Prologue'}
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1">
+                {lang === 'ar' ? 'عالم ما قبل آدم وإبليس: الجن، الحن، والبن، والنسناس' : 'The Pre-Adamic Realm: Jinn, Iblis, Hinn, Binn & Nasnas'}
+              </h2>
+            </div>
           </div>
-          <div>
-            <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-full border border-gold/25">
-              {lang === 'ar' ? 'فصل تمهيدي في شجرة الأنبياء' : 'Primordial Prologue'}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-ink mt-1">
-              {lang === 'ar' ? 'عالم ما قبل آدم وإبليس: الجن، الحن، والبن، والنسناس' : 'The Pre-Adamic Realm: Jinn, Iblis, Hinn, Binn & Nasnas'}
-            </h2>
-            <p className="text-xs sm:text-sm text-ink-2 mt-1.5 leading-relaxed">
-              {lang === 'ar'
-                ? 'آدم عليه السلام هو أبو البشر، خُلق مستقلاً من طين ولا يمت بنسب لأي خلق قبله. وثقت كتب التفسير والتاريخ الإسلامي (كابن كثير والطبري) وجود أمم أرضية وخلق مادي مكلّف خُلق من نار السموم قبل استخلاف بني آدم؛ كالجن وإبليس، والحن والبن والنسناس.'
-                : 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Classical Islamic sources document the earlier inhabitants of Earth created from smokeless flame before Adam was appointed as Khalifah.'}
-            </p>
-          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full border border-white/10 bg-white/5 p-2 text-ink-2 hover:bg-white/15 hover:text-ink cursor-pointer shrink-0 transition-colors"
+            aria-label="Close"
+          >
+            <X className="size-5" />
+          </button>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        {/* Scrollable Body with Custom Gold Scrollbar */}
+        <div className="overflow-y-auto px-6 sm:px-8 py-6 space-y-6 flex-1">
+          <p className="text-xs sm:text-sm text-ink-2 leading-relaxed bg-white/[0.02] p-4 rounded-2xl border border-white/5">
+            {lang === 'ar'
+              ? 'آدم عليه السلام هو أبو البشر، خُلق مستقلاً من طين ولا يمت بنسب لأي خلق قبله. وثقت كتب التفسير والتاريخ الإسلامي (كابن كثير والطبري) وجود أمم أرضية وخلق مادي مكلّف خُلق من نار السموم قبل استخلاف بني آدم؛ كالجن وإبليس، والحن والبن والنسناس.'
+              : 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Classical Islamic sources document the earlier inhabitants of Earth created from smokeless flame before Adam was appointed as Khalifah.'}
+          </p>
+
+          <div className="grid gap-4 sm:grid-cols-2">
           {PRE_ADAM_ENTITIES.map((entity) => {
             const isSelected = selectedEntity?.id === entity.id
             return (
@@ -1494,6 +1500,7 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
               </div>
             )
           })}
+        </div>
         </div>
       </div>
     </div>,

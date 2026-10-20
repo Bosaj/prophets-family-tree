@@ -1048,78 +1048,84 @@ export function SahabaTree({ focus }: { focus?: string }) {
       {/* EXPANSIVE PROPHET-LIKE FULL DOSSIER DRAWER / MODAL */}
       {activeFigure && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in"
           onClick={() => setActiveFigure(null)}
         >
           <div
-            className="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-3xl border border-emerald-500/30 bg-night-1 p-6 sm:p-9 shadow-2xl text-ink"
+            className="relative flex flex-col w-full max-w-3xl max-h-[92vh] rounded-3xl border border-emerald-500/30 bg-night-1 shadow-2xl text-ink overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={() => setActiveFigure(null)}
-              className="absolute end-4 top-4 rounded-full border border-white/10 bg-white/5 p-2 text-ink-3 hover:text-ink hover:border-white/30 transition-colors cursor-pointer"
-            >
-              <X className="size-4" />
-            </button>
-
-            {/* Header info */}
-            <div className="flex items-center gap-4 mb-6">
-              <div
-                className="size-16 rounded-2xl flex items-center justify-center text-2xl font-bold border-2 border-white/20 shadow-xl"
-                style={{
-                  backgroundColor: `${activeFigure.symbolColor}25`,
-                  color: activeFigure.symbolColor,
-                }}
-              >
-                {activeFigure.roleCategory === 'prophet' ? (
-                  'ﷺ'
-                ) : activeFigure.roleCategory === 'hadith_master' ? (
-                  '📜'
-                ) : activeFigure.roleCategory === 'rashidun_caliph' ? (
-                  '👑'
-                ) : activeFigure.roleCategory === 'mubashar' ? (
-                  '🌟'
-                ) : (
-                  '★'
-                )}
-              </div>
-              <div>
-                <h2 className="ar-name text-2xl sm:text-3xl font-bold text-ink gold-text flex items-center gap-2">
-                  <span>{pick(activeFigure.name)}</span>
-                  {activeFigure.honorific && (
-                    <span className="text-sm font-normal text-emerald-400">
-                      {activeFigure.honorific}
-                    </span>
-                  )}
-                </h2>
-                <p className="text-sm text-ink-2 font-medium">
-                  {pick(activeFigure.title)}
-                </p>
-                <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs text-ink-3 font-mono">
-                  {activeFigure.reignDates && (
-                    <span className="text-amber-400 font-semibold inline-flex items-center gap-1">
-                      <span>{lang === 'ar' ? 'الخلافة: ' : 'Reign: '}</span>
-                      <span dir="ltr">{formatReignDate(activeFigure.reignDates, lang)}</span>
-                    </span>
-                  )}
-                  <span>·</span>
-                  <span className="inline-flex items-center gap-1">
-                    <span>{lang === 'ar' ? 'الوفاة: ' : 'Passed: '}</span>
-                    <span dir="ltr">{formatDeathDate(activeFigure.lifeDates.death, lang)}</span>
-                  </span>
-                  {activeFigure.hadithsNarrated && (
-                    <>
-                      <span>·</span>
-                      <span className="text-cyan-300 font-bold font-mono">
-                        {activeFigure.hadithsNarrated.toLocaleString()} {lang === 'ar' ? 'حديثاً مسنداً' : 'Hadiths'}
-                      </span>
-                    </>
+            {/* Pinned Sticky Header */}
+            <div className="flex items-center justify-between border-b border-white/10 px-6 sm:px-9 py-5 shrink-0 bg-night-surface/95 backdrop-blur-xl z-10">
+              <div className="flex items-center gap-4">
+                <div
+                  className="size-14 sm:size-16 rounded-2xl flex items-center justify-center text-2xl font-bold border-2 border-white/20 shadow-xl shrink-0"
+                  style={{
+                    backgroundColor: `${activeFigure.symbolColor}25`,
+                    color: activeFigure.symbolColor,
+                  }}
+                >
+                  {activeFigure.roleCategory === 'prophet' ? (
+                    'ﷺ'
+                  ) : activeFigure.roleCategory === 'hadith_master' ? (
+                    '📜'
+                  ) : activeFigure.roleCategory === 'rashidun_caliph' ? (
+                    '👑'
+                  ) : activeFigure.roleCategory === 'mubashar' ? (
+                    '🌟'
+                  ) : (
+                    '★'
                   )}
                 </div>
+                <div>
+                  <h2 className="ar-name text-2xl sm:text-3xl font-bold text-ink gold-text flex items-center gap-2">
+                    <span>{pick(activeFigure.name)}</span>
+                    {activeFigure.honorific && (
+                      <span className="text-sm font-normal text-emerald-400">
+                        {activeFigure.honorific}
+                      </span>
+                    )}
+                  </h2>
+                  <p className="text-sm text-ink-2 font-medium">
+                    {pick(activeFigure.title)}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs text-ink-3 font-mono">
+                    {activeFigure.reignDates && (
+                      <span className="text-amber-400 font-semibold inline-flex items-center gap-1">
+                        <span>{lang === 'ar' ? 'الخلافة: ' : 'Reign: '}</span>
+                        <span dir="ltr">{formatReignDate(activeFigure.reignDates, lang)}</span>
+                      </span>
+                    )}
+                    {activeFigure.reignDates && <span>·</span>}
+                    <span className="inline-flex items-center gap-1">
+                      <span>{lang === 'ar' ? 'الوفاة: ' : 'Passed: '}</span>
+                      <span dir="ltr">{formatDeathDate(activeFigure.lifeDates.death, lang)}</span>
+                    </span>
+                    {activeFigure.hadithsNarrated && (
+                      <>
+                        <span>·</span>
+                        <span className="text-cyan-300 font-bold font-mono">
+                          {activeFigure.hadithsNarrated.toLocaleString()} {lang === 'ar' ? 'حديثاً مسنداً' : 'Hadiths'}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
+
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setActiveFigure(null)}
+                className="rounded-full border border-white/10 bg-white/5 p-2 text-ink-3 hover:text-ink hover:border-white/30 transition-colors cursor-pointer shrink-0"
+                aria-label="Close"
+              >
+                <X className="size-4" />
+              </button>
             </div>
+
+            {/* Scrollable Body with Custom Gold Scrollbar */}
+            <div className="overflow-y-auto px-6 sm:px-9 py-6 space-y-6 flex-1">
 
             {/* Noble Lineage Block */}
             <div className="mb-6 rounded-2xl border border-emerald-500/25 bg-emerald-950/20 p-4">
@@ -1322,6 +1328,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   {lang === 'ar' ? 'إغلاق' : 'Close'}
                 </button>
               </div>
+            </div>
             </div>
           </div>
         </div>
