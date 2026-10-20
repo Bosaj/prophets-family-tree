@@ -26,7 +26,7 @@ export function Home() {
           <div className="reveal max-w-3xl">
             <p className="kicker">{t('tagline')}</p>
             <h1 className="mt-5">
-              <span className="ar-name gold-text block text-[clamp(3.6rem,2rem+8vw,8.5rem)] leading-[1.05] font-bold drop-shadow-[0_8px_40px_rgb(233_198_123/0.25)]">شجرة الأنبياء</span>
+              <span className="ar-name gold-text block text-[clamp(3.6rem,2rem+8vw,8.5rem)] leading-[1.3] font-bold drop-shadow-[0_8px_40px_rgb(233_198_123/0.25)] pt-6 pb-2 -mt-6 -mb-2">شجرة الأنبياء</span>
               {lang !== 'ar' && <span className="mt-2 block text-2xl font-light tracking-[0.3em] text-ink/90 uppercase sm:text-3xl">Shajara</span>}
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-pretty text-ink-2 sm:text-lg">{t('heroLead')}</p>

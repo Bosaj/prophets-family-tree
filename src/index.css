@@ -82,6 +82,8 @@ html[lang='ar'] body {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .kicker {
     font-size: 0.72rem;
@@ -160,7 +162,13 @@ html[lang='ar'] body {
   }
   .ar-name {
     font-family: var(--font-display);
-    line-height: 1.25;
+    line-height: 1.35;
+  }
+  .ar-name.gold-text {
+    padding-top: 0.18em;
+    padding-bottom: 0.12em;
+    margin-top: -0.18em;
+    margin-bottom: -0.12em;
   }
   .naskh {
     font-family: var(--font-naskh);

@@ -96,7 +96,7 @@ export function Person({ id }: { id: string }) {
               {p.heaven && <span className="chip text-lvl-hadith">{t('heavenBadge', { n: p.heaven })}</span>}
             </div>
             <h1 className="mt-4">
-              <span className="ar-name gold-text block text-[clamp(4rem,2rem+9vw,9rem)] leading-none font-bold drop-shadow-[0_10px_50px_rgb(233_198_123/0.3)]">{p.name.ar}</span>
+              <span className="ar-name gold-text block text-[clamp(4rem,2rem+9vw,9rem)] leading-[1.3] font-bold drop-shadow-[0_10px_50px_rgb(233_198_123/0.3)] pt-6 pb-2 -mt-6 -mb-2">{p.name.ar}</span>
               <span className="mt-3 block text-2xl font-light text-ink sm:text-3xl">
                 {lang === 'ar' ? (
                   <span dir="ltr">{p.alt ? p.alt.en : p.name.en}</span>
