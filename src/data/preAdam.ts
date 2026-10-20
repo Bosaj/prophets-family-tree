@@ -20,6 +20,65 @@ export interface PreAdamEntity {
 
 export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   {
+    id: 'angels',
+    name: {
+      en: 'Al-Mala’ikah (The Angels of Light)',
+      fr: 'Les Anges (Al-Malā’ikah, Créatures de Lumière)',
+      ar: 'الملائكة الكرام (خلق النور والطاعة المطلقة)',
+    },
+    subTitle: {
+      en: 'Created from pure celestial light before Adam; prostrated by divine command',
+      fr: 'Créés de pure lumière céleste avant Adam ; prosternés sur ordre divin',
+      ar: 'خُلقوا من نور قبل خلق آدم، وسجدوا له طاعةً لأمر الله وإعظاماً لخلافة الإنسان',
+    },
+    nature: {
+      en: 'Noble spiritual beings created from light (Nur), possessing wings, completely devoid of disobedience, executing divine commands perpetually',
+      fr: 'Êtres spirituels créés de lumière (Nur), ailés, impeccables et accomplissant sans cesse les décrets divins',
+      ar: 'خلق نوراني عظيم لا يعصون الله ما أمرهم ويفعلون ما يؤمرون، يسبحون الليل والنهار لا يفترون (صحيح مسلم 2996)',
+    },
+    era: {
+      en: 'Primordial Eternity Pre-Adam',
+      fr: 'Éternité primordiale avant Adam',
+      ar: 'الأزلية وسابق الخلق قبل استخلاف آدم',
+    },
+    quranRefs: ['35:1', '66:6', '2:30-34', '16:49-50', '21:19-20'],
+    scholarlySources: [
+      {
+        author: { en: 'Aisha bint Abi Bakr (ra)', fr: 'Aïcha (ra)', ar: 'أم المؤمنين عائشة رضي الله عنها' },
+        work: { en: 'Sahih Muslim (Hadith 2996)', fr: 'Sahih Mouslim (2996)', ar: 'صحيح مسلم (2996)' },
+        citation: {
+          en: 'The Messenger of Allah ﷺ said: “The Angels were created from light, the Jinn were created from a smokeless flame of fire, and Adam was created from what has been described to you [clay].”',
+          fr: 'Le Messager d’Allah ﷺ a dit : « Les anges furent créés de lumière, les djinns furent créés d’une flamme ardente de feu, et Adam fut créé de ce qui vous a été décrit [argile]. »',
+          ar: '«خُلِقَتِ الْمَلَائِكَةُ مِنْ نُورٍ، وَخُلِقَ الْجَانُّ مِنْ مَارِجٍ مِنْ نَارٍ، وَخُلِقَ آدَمُ مِمَّا وُصِفَ لَكُمْ.»',
+        },
+      },
+      {
+        author: { en: 'Ibn Kathir', fr: 'Ibn Kathir', ar: 'الحافظ ابن كثير' },
+        work: { en: 'Al-Bidayah wa-n-Nihayah', fr: 'Al-Bidayah wa-n-Nihayah', ar: 'البداية والنهاية' },
+        citation: {
+          en: '“Allah created the angels prior to the creation of Adam and prior to the creation of the heavens and the earth. They are honored servants who speak not until He has spoken, and act by His command.”',
+          fr: '« Allah créa les anges avant la création d’Adam et avant les cieux et la terre. Ce sont des serviteurs honorés qui ne devancent jamais Sa parole et exécutent Ses ordres. »',
+          ar: '«خلق الله الملائكة قبل خلق آدم وقبل خلق السماوات والأرض، وهم عباد مكرمون لا يسبقونه بالقول وهم بأمره يعملون، وكلّف كل طائفة منهم بوظيفة كونية وتشريعية.»',
+        },
+      },
+    ],
+    summary: {
+      en: 'The Angels were created from pure light long before humankind. When Allah announced the creation of Adam as earthly Khalifah, they inquired out of wonder, witnessed Adam’s divinely taught knowledge, and prostrated in total submission to Allah’s decree.',
+      fr: 'Les anges furent créés de pure lumière bien avant l’humanité. Lorsque Dieu annonça la création d’Adam comme Khalife, ils s’enquirent avec déférence, constatèrent le savoir conféré à Adam et se prosternèrent dans une obéissance absolue.',
+      ar: 'خلق نوراني طاهر سابق لخلق بني آدم. لما أعلمهم الله باستخلاف آدم استفسروا استعلاماً للحكمة، فشهدوا علمه الذي علمه الله وسجدوا لآدم طاعة لربهم وتكريماً لأبي البشر.',
+    },
+    detailedDescription: {
+      en: 'Belief in the Angels is the second pillar of Islamic faith (Iman). They are vast in number and immense in power: Archangel Jibril (revelation and life of hearts), Mikail (rain and physical sustenance), Israfil (blower of the Horn of Resurrection), and Malak al-Mawt (gatherer of souls). When Allah shaped Adam from clay and breathed into him the divine spirit, He commanded the angels to prostrate to Adam as a gesture of honor and recognition of human potential. All angels bowed instantly without hesitation, embodying supreme obedience in contrast to the arrogance of Iblis.',
+      fr: 'La foi aux anges est le second pilier de la foi musulmane. Ils sont d’une force cosmique colossale : Jibril (la révélation), Mikail (la pluie et la subsistance), Israfil (la Trompette de la Résurrection), et Malak al-Mawt (l’ange de la mort). Lorsqu’Allah insuffla Son souffle en Adam, Il ordonna aux anges de se prosterner devant lui par hommage. Tous s’inclinèrent spontanément, illustrant la sainteté et l’obéissance immaculée.',
+      ar: 'الإيمان بالملائكة ركن من أركان الإيمان الستة. وهم جند الله الأطهار أولو أجنحة مثنى وثلاث ورباع ويزيد في الخلق ما يشاء: منهم جبريل أمين الوحي، وميكائيل موكل بالقطر والأرزاق، وإسرافيل صاحب الصور، وملك الموت، وحملة العرش. وعندما أمرهم الله بالسجود لآدم ﴿فَسَجَدَ الْمَلَائِكَةُ كُلُّهُمْ أَجْمَعُونَ﴾ امتثالاً خالصاً وتكريماً لعلم آدم وخلافته.',
+    },
+    theologicalContext: {
+      en: 'Angels have no rebellious inclination or pride; their prostration to Adam was pure worship and obedience to Allah, manifesting the distinction between celestial obedience (Light) and demonic rebellion (Fire).',
+      fr: 'Les anges ne possèdent nul penchant à la rébellion ; leur prosternation envers Adam était un acte de pure adoration et d’obéissance envers Allah, contrastant la lumière de la dévotion avec le feu de l’orgueil.',
+      ar: 'سجود الملائكة لآدم كان سجود تحية وتكريم بأمر الله وطاعة له لا سجود عبادة، مبرهناً على كرامة بني آدم إذا آمنوا واستقاموا.',
+    },
+  },
+  {
     id: 'jinn',
     name: {
       en: 'Al-Jinn (Pre-Adamic Inhabitants)',
