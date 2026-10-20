@@ -21,7 +21,7 @@ import { Logo } from './components/Logo'
 
 export default function App() {
   const route = useRoute()
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
   const [verse, setVerse] = useState<string | null>(null)
   const [searching, setSearching] = useState(false)
   const openVerse = useCallback((r: string) => setVerse(r), [])
@@ -95,7 +95,48 @@ export default function App() {
           <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-10 text-center text-sm text-ink-3 sm:flex-row sm:justify-between sm:text-start">
             <div className="flex items-center gap-3">
               <Logo className="size-7" />
-              <span>{t('footer')}</span>
+              <span>
+                {lang === 'ar' ? (
+                  <>
+                    مشروع مفتوح المصدر من{' '}
+                    <a
+                      href="https://www.linkedin.com/in/oussama-elhadji/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gold hover:underline font-semibold transition-colors"
+                    >
+                      أسامة الحاجي
+                    </a>
+                    .
+                  </>
+                ) : lang === 'fr' ? (
+                  <>
+                    Un projet open-source par{' '}
+                    <a
+                      href="https://www.linkedin.com/in/oussama-elhadji/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gold hover:underline font-semibold transition-colors"
+                    >
+                      Oussama Elhadji
+                    </a>
+                    .
+                  </>
+                ) : (
+                  <>
+                    An open-source work by{' '}
+                    <a
+                      href="https://www.linkedin.com/in/oussama-elhadji/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gold hover:underline font-semibold transition-colors"
+                    >
+                      Oussama Elhadji
+                    </a>
+                    .
+                  </>
+                )}
+              </span>
             </div>
             <p className="max-w-md text-xs">{t('disclaimer')}</p>
             <a href={REPO} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-gold">

@@ -22,14 +22,14 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   {
     id: 'jinn',
     name: {
-      en: 'Al-Jinn (The Pre-Adamic Inhabitants)',
+      en: 'Al-Jinn (Pre-Adamic Inhabitants)',
       fr: 'Les Djinns (Habitants pré-adamiques)',
-      ar: 'الجن (سكان الأرض قبل آدم)',
+      ar: 'الجن (سكان الأرض الأوائل)',
     },
     subTitle: {
-      en: 'Created from smokeless fire 2,000 years before humankind',
-      fr: 'Créés d’un feu pur et sans fumée 2 000 ans avant l’humanité',
-      ar: 'خُلقوا من نار السموم قبل بني آدم بألفي عام',
+      en: 'Created from scorching smokeless fire 2,000 years before humankind',
+      fr: 'Créés d’un feu sans fumée 2 000 ans avant l’humanité',
+      ar: 'خُلقوا من نار السموم قبل استخلاف بني آدم بألفي عام',
     },
     nature: {
       en: 'Created from a smokeless flame of scorching fire (Mārij min Nār / Nār as-Samūm)',
@@ -37,9 +37,9 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
       ar: 'مِن مَّارِجٍ مِّن نَّارٍ، ومِن نَّارِ السَّمُومِ',
     },
     era: {
-      en: 'Approx. 2,000 years before Prophet Adam (pbuh)',
-      fr: 'Environ 2 000 ans avant le Prophète Adam (psl)',
-      ar: 'نحو ألفي عام قبل هبوط آدم عليه السلام',
+      en: 'c. 2,000 yrs Pre-Adam',
+      fr: 'env. 2 000 ans avant Adam',
+      ar: 'نحو 2000 سنة قبل آدم',
     },
     quranRefs: ['15:27', '55:15', '2:30'],
     scholarlySources: [
@@ -79,16 +79,75 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
     },
   },
   {
+    id: 'iblis',
+    name: {
+      en: 'Iblis (Shaytan / Azazil)',
+      fr: 'Iblîs (Satan / Azazîl)',
+      ar: 'إبليس (الشيطان / عزازيل)',
+    },
+    subTitle: {
+      en: 'From the Jinn; refused to prostrate to Adam out of arrogance and became humankind’s sworn enemy',
+      fr: 'Issu des djinns ; refusa de se prosterner devant Adam par orgueil et devint l’ennemi juré de l’homme',
+      ar: 'كان من الجن فاستكبر عن السجود لآدم طمعاً وغروراً، وصار العدو المبين لبني آدم',
+    },
+    nature: {
+      en: 'Created from smokeless fire; attained high rank among angels through prior worship, then fell into pride',
+      fr: 'Créé de feu sans fumée ; élevé au rang des anges par sa dévotion passée, avant de chuter par orgueil',
+      ar: 'مخلوق من النار، بلغ منازل عالية بعبادته السابقة حتى رفع مع الملائكة، ثم سقط بالكبر والحسد',
+    },
+    era: {
+      en: 'Before & during Adam’s creation',
+      fr: 'Avant et lors de la création d’Adam',
+      ar: 'قبل خلق آدم واستمر عدواً مبيناً',
+    },
+    quranRefs: ['18:50', '38:76', '7:11-18', '2:34'],
+    scholarlySources: [
+      {
+        author: { en: 'Al-Hasan al-Basri', fr: 'Al-Hasan al-Basri', ar: 'الحسن البصري رحمه الله' },
+        work: { en: 'Tafsir Ibn Kathir (Surah Al-Kahf 18:50)', fr: 'Tafsir Ibn Kathir', ar: 'تفسير ابن كثير' },
+        citation: {
+          en: '“Iblis was not an angel for even a single blink of an eye; he is the origin and progenitor of the Jinn, just as Adam is the progenitor of humankind.”',
+          fr: '« Iblîs ne fut pas un ange, ne fût-ce qu’un clin d’œil ; il est la souche des djinns, tout comme Adam est la souche de l’humanité. »',
+          ar: '«ما كان إبليس من الملائكة طرفة عين قط، وإنه لأصل الجن كما أن آدم أصل الإنس.»',
+        },
+      },
+      {
+        author: { en: 'Ibn Kathir', fr: 'Ibn Kathir', ar: 'الحافظ ابن كثير' },
+        work: { en: 'Al-Bidayah wa-n-Nihayah', fr: 'Al-Bidayah wa-n-Nihayah', ar: 'البداية والنهاية' },
+        citation: {
+          en: '“When Allah commanded the angels and all in their assembly to prostrate to Adam, Iblis said: ‘I am better than him: You created me from fire and created him from clay.’ So his hidden envy and pride were laid bare.”',
+          fr: '« Quand Allah ordonna la prosternation devant Adam, Iblîs dit : “Je suis meilleur que lui : Tu m’as créé de feu et Tu l’as créé d’argile.” Son envie et son arrogance secrètes furent ainsi dévoilées. »',
+          ar: '«لما أمر الله بالسجود لآدم امتنع إبليس حسداً واستكباراً وقال: أنا خير منه خلقتني من نار وخلقته من طين، فكفر واستحق اللعنة والطرد من رحمة الله.»',
+        },
+      },
+    ],
+    summary: {
+      en: 'Iblis was an exalted worshipper from the Jinn who dwelled among the angels. When Allah created Adam from clay and commanded prostration in honor, Iblis refused, claiming superiority of fire over clay, and was cast out as Satan (humankind’s open adversary).',
+      fr: 'Iblîs était un adorateur issu des djinns, admis parmi les anges. Lorsque Dieu créa Adam d’argile et ordonna la prosternation d’honneur, Iblîs refusa, prétendant la supériorité du feu sur la terre, et fut déchu pour devenir Satan, l’ennemi déclaré de l’humanité.',
+      ar: 'كان إبليس من الجن يعبد الله حتى رُفع في الملأ الأعلى، فلما خلق الله آدم من طين ونفخ فيه من روحه وأمر بالسجود له، أبى إبليس واستكبر قائلاً: ﴿أَنَا خَيْرٌ مِّنْهُ خَلَقْتَنِي مِن نَّارٍ وَخَلَقْتَهُ مِن طِينٍ﴾، فحلّت عليه اللعنة وصار إمام الغواية والوسوسة.',
+    },
+    detailedDescription: {
+      en: 'The Qur’an states definitively: "He was of the Jinn and he rebelled against the command of his Lord" (Surah Al-Kahf 18:50). When the angels bowed in obedience to the Divine command, Iblis committed the first sin of cosmic pride (Kibr) and false analogy, judging that fire is superior to clay. Exiled from the heavenly assembly, he asked for respite until the Day of Resurrection, swearing to ambush the descendants of Adam through deception and whispered doubt.',
+      fr: 'Le Coran énonce clairement : « Il était du nombre des djinns puis il transgressa le commandement de son Seigneur » (Al-Kahf 18:50). Alors que les anges s’inclinèrent en obéissance, Iblîs commit le premier péché d’orgueil cosmique, arguant que le feu surpasse la glaise. Chassé du sanctuaire céleste, il obtint un répit jusqu’au Jour Dernier et jura de tendre des embuscades aux enfants d’Adam par la ruse et le doute.',
+      ar: 'أوضح القرآن الكريم في سورة الكهف: ﴿كَانَ مِنَ الْجِنِّ فَفَسَقَ عَنْ أَمْرِ رَبِّهِ﴾. فارتكب أول ذنب في الملأ الأعلى وهو الكبر والقياس الفاسد بأن النار أشرف من الطين، متجاهلاً فضل الروح الإلهية والعلم والبيان الذي حظي به آدم. وعندما طُرد طلب الإنظار إلى يوم يبعثون، فأُمهل ليفتتن به من يشاء، وأكد الله تعالى أنه ليس له سلطان على عباده المخلصين.',
+    },
+    theologicalContext: {
+      en: 'Iblis is not an independent dualistic "evil god", but a created mortal creature subject to Allah’s decree, whose whispers can be warded off through faith and refuge in Allah (Isti‘adhah).',
+      fr: 'Iblîs n’est point une divinité rivale du mal, mais une créature soumise au décret d’Allah, dont les murmures se dissipent par la foi sincère et le refuge auprès de Dieu.',
+      ar: 'ليس الشيطان ندّاً لله ولا إلهاً للشر، بل هو مخلوق مقهور بمشيئة الله وقدره، وكيده ضعيف أمام عباد الله المخلصين المستعيذين بربهم.',
+    },
+  },
+  {
     id: 'hinn_binn',
     name: {
-      en: 'Al-Hinn & Al-Binn (The Primordial Earthly Races)',
-      fr: 'Al-Hinn et Al-Binn (Les races terrestres primitives)',
+      en: 'Al-Hinn & Al-Binn (Primordial Races)',
+      fr: 'Al-Hinn & Al-Binn (Races primitives)',
       ar: 'الحِنّ والبِنّ (الأمم الأرضية الأولى)',
     },
     subTitle: {
-      en: 'Pre-Adamic earthly creatures recorded in classical Islamic historiography',
-      fr: 'Créatures terrestres pré-adamiques mentionnées dans les chroniques islamiques classiques',
-      ar: 'أمم سكنت الأرض قبل خلق آدم وقبل استخلاف الجن',
+      en: 'Pre-Adamic earthly creatures recorded in classical Islamic chronicles',
+      fr: 'Créatures terrestres pré-adamiques mentionnées dans les chroniques classiques',
+      ar: 'أمم سكنت الأرض قبل خلق آدم وقبل استخلاف الجن وسفكت الدماء',
     },
     nature: {
       en: 'Primordial physical terrestrial beings of flesh and blood, formed from earth and water',
@@ -96,9 +155,9 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
       ar: 'خلق أرضي مادي من طين وماء، ذوو دماء وأجساد حسية',
     },
     era: {
-      en: 'Primordial Earth, preceding Adam and concurrent with ancient Jinn epochs',
-      fr: 'Terre primordiale, précédant Adam et concomitante aux époques archaïques des djinns',
-      ar: 'العصور السحيقة للأرض، قبل خلق آدم ومع بواكير وجود الجن',
+      en: 'Primordial Earth',
+      fr: 'Terre primordiale',
+      ar: 'العصور السحيقة للأرض',
     },
     quranRefs: ['2:30'],
     scholarlySources: [
@@ -155,9 +214,9 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
       ar: 'كائنات حية تمشي على قدمين وتشبه البشر في الخلقة الظاهرة، دون نفخة الروح الإلهية أو التكليف والشرائع',
     },
     era: {
-      en: 'Prehistoric epochs of Earth, prior to the descent of Prophet Adam (pbuh)',
-      fr: 'Époques préhistoriques de la Terre, avant la descente du Prophète Adam (psl)',
-      ar: 'عصور الأرض السحيقة وما قبل التاريخ البشري',
+      en: 'Prehistoric Earth',
+      fr: 'Terre préhistorique',
+      ar: 'عصور ما قبل التاريخ',
     },
     quranRefs: ['2:30', '15:28-29'],
     scholarlySources: [
@@ -206,7 +265,7 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
     name: {
       en: 'The Celestial Dialogue: Why the Angels Inquired (2:30)',
       fr: 'Le Dialogue Céleste : L’interrogation des Anges (2:30)',
-      ar: 'الحوار الملائكي وسر التساؤل: ﴿أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا﴾',
+      ar: 'الحوار القدسي وسر سؤال الملائكة: ﴿أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا﴾',
     },
     subTitle: {
       en: 'The divine wisdom behind appointing humanity as stewards of Earth',
@@ -219,9 +278,9 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
       ar: 'حوار قرآني قدسي بين رب العزة جل وعلا وملائكته المقربين',
     },
     era: {
-      en: 'At the dawn of the creation of Prophet Adam (pbuh)',
-      fr: 'À l’aube de la création du Prophète Adam (psl)',
-      ar: 'بواكير خلق آدم عليه السلام قبل هبوطه إلى الأرض',
+      en: 'Dawn of Humankind',
+      fr: 'Aube de l’humanité',
+      ar: 'فجر استخلاف الإنسان',
     },
     quranRefs: ['2:30', '2:31-33'],
     scholarlySources: [

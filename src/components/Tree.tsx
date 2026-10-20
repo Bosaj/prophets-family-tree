@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
   ArrowRight,
   Baby,
@@ -556,10 +557,10 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               )
             })}
 
-            {/* Pre-Adamic Realm Cosmic Anchor above Adam */}
+            {/* Pre-Adamic & Iblis Primordial Realm (Autonomous creation, detached from Adam's lineage) */}
             {nodeById.has('adam') && (() => {
               const adam = nodeById.get('adam')!
-              const py = adam.y - 75
+              const py = adam.y - 88
               const px = adam.x
               return (
                 <g
@@ -569,41 +570,53 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     setShowPreAdamModal(true)
                   }}
                 >
+                  {/* Cosmic Divide Indicator (strictly NO line into Adam!) */}
                   <line
-                    x1={px}
-                    y1={py + 16}
-                    x2={px}
-                    y2={adam.y - 20}
-                    stroke="rgba(233,198,123,0.35)"
-                    strokeWidth="1.5"
-                    strokeDasharray="3 3"
-                  />
-                  {/* Cosmic Aura */}
-                  <circle cx={px} cy={py} r={24} fill="rgba(245,158,11,0.12)" className="animate-pulse" />
-                  <circle cx={px} cy={py} r={14} fill="rgba(30,27,75,0.92)" stroke="#e9c67b" strokeWidth="1.5" />
-                  <circle cx={px} cy={py} r={4} fill="#ffe699" />
-                  {/* Floating Pill Label */}
-                  <rect
-                    x={px - 84}
-                    y={py - 34}
-                    width={168}
-                    height={22}
-                    rx={11}
-                    fill="rgba(10,12,24,0.95)"
-                    stroke="rgba(233,198,123,0.55)"
+                    x1={px - 45}
+                    y1={adam.y - 32}
+                    x2={px + 45}
+                    y2={adam.y - 32}
+                    stroke="rgba(245,158,11,0.25)"
                     strokeWidth="1"
-                    className="shadow-lg"
+                    strokeDasharray="2 3"
+                  />
+                  {/* Primordial Fire Aura */}
+                  <circle cx={px} cy={py} r={28} fill="rgba(239,68,68,0.12)" className="animate-pulse" />
+                  <circle cx={px} cy={py} r={18} fill="rgba(245,158,11,0.18)" />
+                  <circle cx={px} cy={py} r={13} fill="rgba(20,10,30,0.95)" stroke="#f59e0b" strokeWidth="1.5" />
+                  <circle cx={px} cy={py} r={3.5} fill="#fca5a5" />
+                  {/* Floating Realm Pill */}
+                  <rect
+                    x={px - 105}
+                    y={py - 36}
+                    width={210}
+                    height={24}
+                    rx={12}
+                    fill="rgba(15,10,25,0.95)"
+                    stroke="rgba(245,158,11,0.65)"
+                    strokeWidth="1.2"
+                    className="shadow-xl"
                   />
                   <text
                     x={px}
                     y={py - 20}
                     textAnchor="middle"
-                    fill="#ffe699"
+                    fill="#fef08a"
                     fontSize="10"
                     fontWeight="bold"
                     className="select-none font-sans"
                   >
-                    {lang === 'ar' ? '✨ عالم ما قبل آدم (الجن والحن والبن)' : '✨ Pre-Adamic Realm (Jinn & Hinn)'}
+                    {lang === 'ar' ? '🔥 عالم ما قبل آدم وإبليس (الجن والحن)' : '🔥 Primordial Realm (Pre-Adam & Iblis)'}
+                  </text>
+                  <text
+                    x={px}
+                    y={adam.y - 36}
+                    textAnchor="middle"
+                    fill="#a1a1aa"
+                    fontSize="8.5"
+                    className="select-none font-sans italic opacity-75"
+                  >
+                    {lang === 'ar' ? 'خلق مستقل من نار قبل استخلاف الإنسان' : 'Separate creation of fire before humankind'}
                   </text>
                 </g>
               )
@@ -1321,9 +1334,11 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
   const { pick, lang } = useI18n()
   const [selectedEntity, setSelectedEntity] = useState<PreAdamEntity | null>(null)
 
-  return (
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn"
       onClick={onClose}
     >
       <div
@@ -1333,7 +1348,7 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 end-4 rounded-full bg-white/10 p-2 text-ink-2 hover:bg-white/20 hover:text-ink cursor-pointer"
+          className="absolute top-4 end-4 rounded-full bg-white/10 p-2 text-ink-2 hover:bg-white/20 hover:text-ink cursor-pointer z-10"
         >
           <X className="size-5" />
         </button>
@@ -1347,12 +1362,12 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
               {lang === 'ar' ? 'فصل تمهيدي في شجرة الأنبياء' : 'Primordial Prologue'}
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-ink mt-1">
-              {lang === 'ar' ? 'عالم ما قبل آدم: الجن، الحن، والبن، والنسناس' : 'The Pre-Adamic Realm: Jinn, Hinn, Binn & Nasnas'}
+              {lang === 'ar' ? 'عالم ما قبل آدم وإبليس: الجن، الحن، والبن، والنسناس' : 'The Pre-Adamic Realm: Jinn, Iblis, Hinn, Binn & Nasnas'}
             </h2>
             <p className="text-xs sm:text-sm text-ink-2 mt-1.5 leading-relaxed">
               {lang === 'ar'
-                ? 'آدم عليه السلام هو أبو البشر، لكن كتب التفسير والتاريخ الإسلامي (كابن كثير والطبري) وثقت وجود أمم أرضية وخلق مادي مكلّف سبق وجود بني آدم في الأرض؛ كالجن المخلوقين من نار السموم، والحن والبن والنسناس الذين أفسدوا وسفكوا الدماء.'
-                : 'Prophet Adam (peace be upon him) is the Father of Humankind. Classical Islamic sources document the earlier inhabitants of Earth before Adam was appointed as Khalifah, explaining the Angels’ inquiry regarding corruption and bloodshed.'}
+                ? 'آدم عليه السلام هو أبو البشر، خُلق مستقلاً من طين ولا يمت بنسب لأي خلق قبله. وثقت كتب التفسير والتاريخ الإسلامي (كابن كثير والطبري) وجود أمم أرضية وخلق مادي مكلّف خُلق من نار السموم قبل استخلاف بني آدم؛ كالجن وإبليس، والحن والبن والنسناس.'
+                : 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Classical Islamic sources document the earlier inhabitants of Earth created from smokeless flame before Adam was appointed as Khalifah.'}
             </p>
           </div>
         </div>
@@ -1371,16 +1386,28 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
                 }`}
               >
                 <div>
-                  <div className="flex items-start justify-between gap-3">
+                  {/* Clean Non-Squashing Header */}
+                  <div className="space-y-2 mb-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[0.68rem] font-mono font-medium text-gold-2 bg-gold/10 px-2 py-0.5 rounded border border-gold/25 inline-flex items-center gap-1">
+                        <Sparkles className="size-2.5 text-gold" />
+                        <span>{pick(entity.era)}</span>
+                      </span>
+                      <span className="text-[0.65rem] font-mono text-ink-3">
+                        {entity.id === 'iblis'
+                          ? (lang === 'ar' ? 'عزازيل / إبليس' : 'Azazil / Satan')
+                          : entity.id === 'jinn'
+                          ? (lang === 'ar' ? 'خلق من نار' : 'Smokeless Fire')
+                          : (lang === 'ar' ? 'أمم سابقة' : 'Ancient Race')}
+                      </span>
+                    </div>
+
                     <div>
-                      <h3 className="font-bold text-ink text-base group-hover:text-gold transition-colors">
+                      <h3 className="font-bold text-ink text-lg group-hover:text-gold transition-colors leading-snug">
                         {pick(entity.name)}
                       </h3>
-                      <p className="text-xs text-gold-2 font-medium mt-0.5">{pick(entity.subTitle)}</p>
+                      <p className="text-xs text-gold-2/80 font-medium mt-1 leading-relaxed">{pick(entity.subTitle)}</p>
                     </div>
-                    <span className="text-xs font-mono text-ink-3 bg-white/5 px-2 py-0.5 rounded shrink-0">
-                      {pick(entity.era)}
-                    </span>
                   </div>
 
                   <div className="my-3 rounded-xl bg-night-3/70 p-3 border border-white/5">
@@ -1445,6 +1472,7 @@ function TreePreAdamModal({ onClose }: { onClose: () => void }) {
           })}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
