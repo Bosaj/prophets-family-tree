@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/), versioning: [SemVer](https://semver.org/).
 
+## [2.3.0] — 2026-10-20
+### Added
+- **Interactive Constellation Tree & Chronological Timeline for Sahaba & Caliphs (`/sahaba`)**:
+  - Full 2D draggable and zoomable constellation canvas matching the Prophets' constellation tree, with pan/zoom controls (+, -, reset), SVG Bézier connecting lines, and glowing lineage/mentorship tracing.
+  - Dedicated Chronological Timeline mode spanning from 53 BH (571 CE) through the Rashidun, Umayyads, Abbasids, and Ottomans down to modern living Prophetic dynasties, with era filter chips and dual Hijri/CE dates.
+  - Quick multi-view switcher: Interactive Tree Canvas (`tree`), Chronological Timeline (`timeline`), and Detailed Dossiers Grid (`cards`).
+- **Prophet-Level In-Depth Biographies for Hadith Masters**:
+  - **Abu Hurairah (أبو هريرة عبد الرحمن بن صخر الدوسي رضي الله عنه)**: Foremost narrator of the prophetic Sunnah (5,374 Hadiths), Miracle of the Spread Cloak (*Bast ar-Rida'*), division of night into prayer thirds, governorship of Bahrain and Madinah, and resting place in Al-Baqi'.
+  - **Imam al-Bukhari (الإمام محمد بن إسماعيل البخاري رحمه الله)**: Author of *Sahih al-Bukhari*, restoration of childhood sight through his mother's prayer, 16-year journey gathering 600,000 narrations, Istikharah & ghusl before every recorded Hadith, the famous Baghdad 100-swapped-hadiths test, and burial in Khartank/Samarkand.
+  - **Imam Muslim (الإمام مسلم بن الحجاج النيسابوري رحمه الله)**: Author of *Sahih Muslim*, foremost student and champion of Al-Bukhari, thematic Isnad clustering and rigorous methodologies, independence as an ethical silk merchant, foundational *Muqaddimah*, and burial in Nishapur.
+  - Comprehensive Prophet-grade dossiers featuring authored books, prominent teachers, foremost disciples, golden maxims & quotes, and milestone timelines across Arabic, English, and French.
+
 ## [2.2.0] — 2026-10-20
 ### Added
 - **Tree of Sahaba, Khulafa' & Living Prophetic Dynasties (`/sahaba`)**:
