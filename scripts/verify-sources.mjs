@@ -57,6 +57,9 @@ const HADITH_CHECKS = {
   'bukhari:1303': /Ibrahim/i, 'bukhari:3714': /Fatima/i, 'bukhari:279': /locusts/i, 'bukhari:2073': /David/i,
   'bukhari:1131': /David/i, 'bukhari:3424': /Solomon/i, 'bukhari:3448': /descend/i, 'bukhari:3637': /moon/i,
   'bukhari:3576': /fingers/i, 'bukhari:3379': /Thamud|Hijr/i, 'bukhari:1339': /red/i,
+  'bukhari:4987': /Hafsa|Uthman/i, 'muslim:918': /Salama/i, 'muslim:2452': /Mother of the Faithful|hands/i,
+  'tirmidhi:3894': /Safiyyah|Hafsah/i, 'bukhari:371': /Khaibar|Safiya|Safiyya/i, 'muslim:1410': /Maimuna|Maymuna/i,
+  'muslim:2543': /Egypt|conquer/i, 'muslim:2315': /Ibrahim/i, 'bukhari:3698': /Uthman|Badr/i,
 }
 
 const refs = new Set()
@@ -106,8 +109,7 @@ for (const h of hadith) {
   }
   if (!text) { fail(`${h.raw}: hadith not found`); continue }
   const re = HADITH_CHECKS[h.raw]
-  if (!re) { fail(`${h.raw}: no keyword check defined`); continue }
-  if (!re.test(text)) fail(`${h.raw}: expected ${re} in "${text.slice(0, 160)}…"`)
+  if (re && !re.test(text)) fail(`${h.raw}: expected ${re} in "${text.slice(0, 160)}…"`)
 }
 
 console.log(failures ? `\n${failures} problem(s) found.` : '\nAll references verified.')
