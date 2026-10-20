@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react'
-import { Calendar, ChevronDown, ChevronUp, Clock, Sparkles } from 'lucide-react'
+import { Calendar, ChevronDown, ChevronUp, Clock, Sparkles, Flame, BookOpen, Info } from 'lucide-react'
 import { useI18n } from '../i18n'
 import { people } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'
 import { A, LevelChip, Refs, Scene, SubName } from './ui'
 import { formatDate } from '../lib/dates'
+import { PRE_ADAM_ENTITIES, type PreAdamEntity } from '../data/preAdam'
 
 /** Statements in the Qur'an that fix the order between two prophets. */
 const ANCHORS: Record<number, { ref: string; en: string; fr: string; ar: string }> = {
@@ -27,11 +28,12 @@ interface EraGroup {
 
 const ERAS: EraGroup[] = [
   { id: 'all', title: { en: 'All Eras', fr: 'Toutes les époques', ar: 'جميع العصور' }, range: [1, 19] },
+  { id: 'pre_adam', title: { en: 'Before Adam (Jinn & Pre-Humans)', fr: 'Avant Adam (Djinns & Hinn)', ar: 'عالم ما قبل آدم (الجن، الحن، والبن)' }, range: [0, 0] },
   { id: 'dawn', title: { en: 'Dawn of Humankind', fr: 'L’aube de l’humanité', ar: 'فجر البشرية والطوفان' }, range: [1, 3] },
   { id: 'arab', title: { en: 'Ancient Arab Prophets', fr: 'Prophètes arabes anciens', ar: 'الأنبياء العرب القدماء' }, range: [4, 5] },
   { id: 'patriarchs', title: { en: 'The Patriarchal Era', fr: 'L’époque patriarcale', ar: 'عصر الخليل إبراهيم والآباء' }, range: [6, 10] },
   { id: 'mosaic', title: { en: 'Exodus & Prophethood', fr: 'L’Exode et l’Alliance', ar: 'عصر موسى والخروج' }, range: [11, 11] },
-  { id: 'kingdom', title: { en: 'Kingdom of Israel', fr: 'Le Royaume d’Israël', ar: 'عصر الملوك وأنprophets بني إسرائيل' }, range: [12, 16] },
+  { id: 'kingdom', title: { en: 'Kingdom of Israel', fr: 'Le Royaume d’Israël', ar: 'عصر الملوك وأنبياء بني إسرائيل' }, range: [12, 16] },
   { id: 'messianic', title: { en: 'The Messianic Dawn', fr: 'L’aube messianique', ar: 'عصر زكريا ويحيى وعيسى' }, range: [17, 18] },
   { id: 'final', title: { en: 'The Seal of Prophecy', fr: 'Le Sceau de la prophétie', ar: 'عصر الرسالة المحمدية الخاتمة' }, range: [19, 19] },
 ]
@@ -113,9 +115,9 @@ export function Timeline() {
               key={era.id}
               type="button"
               onClick={() => setActiveEra(era.id)}
-              className={`rounded-full px-3 py-1 text-xs transition-colors ${
+              className={`rounded-full px-3 py-1 text-xs transition-colors cursor-pointer ${
                 activeEra === era.id
-                  ? 'border border-gold/40 bg-gold/15 text-gold-2 font-medium'
+                  ? 'border border-gold/40 bg-gold/15 text-gold-2 font-medium shadow-[0_0_12px_rgba(233,198,123,0.2)]'
                   : 'border border-white/5 bg-white/[0.02] text-ink-3 hover:text-ink hover:border-white/20'
               }`}
             >
@@ -125,41 +127,182 @@ export function Timeline() {
         </div>
       </header>
 
-      <ol className="relative mt-16">
-        <div aria-hidden="true" className="absolute inset-y-0 start-5 w-px -translate-x-1/2 rtl:translate-x-1/2 bg-gradient-to-b from-transparent via-gold/50 to-transparent md:start-1/2 md:-translate-x-1/2 md:rtl:translate-x-1/2" />
-        {groups.map(([order, group], gi) => {
-          const anchor = ANCHORS[order]
-          const side = gi % 2 === 0
+      {/* Pre-Adamic Realm Prologue (Jinn, Hinn, Binn, Nasnas & Angels' Inquiry) */}
+      {(activeEra === 'all' || activeEra === 'pre_adam') && (
+        <PreAdamSection activeEra={activeEra} />
+      )}
+
+      {groups.length > 0 && (
+        <ol className="relative mt-16">
+          <div aria-hidden="true" className="absolute inset-y-0 start-5 w-px -translate-x-1/2 rtl:translate-x-1/2 bg-gradient-to-b from-transparent via-gold/50 to-transparent md:start-1/2 md:-translate-x-1/2 md:rtl:translate-x-1/2" />
+          {groups.map(([order, group], gi) => {
+            const anchor = ANCHORS[order]
+            const side = gi % 2 === 0
+            return (
+              <li key={order} className="relative mb-12 ps-14 md:mb-16 md:ps-0">
+                {anchor && (
+                  <div className="mb-8 flex md:justify-center relative z-20">
+                    <div className="glass inline-flex max-w-lg flex-wrap items-center justify-center gap-2 rounded-2xl border border-gold/30 bg-night-surface/90 px-4 py-2 text-xs text-ink-2 shadow-lg backdrop-blur-md text-center">
+                      <span className="font-semibold text-gold-2">{anchor[lang]}</span>
+                      <Refs refs={[anchor.ref]} />
+                    </div>
+                  </div>
+                )}
+                <div className="relative">
+                  <span aria-hidden="true" className="absolute -start-9 top-7 grid size-3.5 -translate-x-1/2 place-items-center rtl:translate-x-1/2 md:start-1/2 md:-translate-x-1/2 md:rtl:translate-x-1/2 z-10">
+                    <span className="absolute size-3.5 rounded-full bg-gold shadow-[0_0_18px_4px_rgb(233_198_123/0.65)]" />
+                    <span className="absolute size-4 animate-[pulse-ring_2.8s_ease-out_infinite] rounded-full border border-gold/70" />
+                  </span>
+                  <div className={`md:w-1/2 ${side ? 'md:pe-12' : 'md:ms-auto md:ps-12'}`}>
+                    {group.length > 1 && <p className="mb-2 text-xs font-semibold text-gold">{t('contemporaries')}</p>}
+                    <div className="grid gap-4">
+                      {group.map((p) => (
+                        <Card key={p.id} p={p} estimates={estimates} mode={mode} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <span className="sr-only">{group.map((p) => pick(p.name)).join(', ')}</span>
+              </li>
+            )
+          })}
+        </ol>
+      )}
+    </div>
+  )
+}
+
+function PreAdamSection({ activeEra }: { activeEra: string }) {
+  const { pick, lang } = useI18n()
+  const [selectedEntity, setSelectedEntity] = useState<PreAdamEntity | null>(null)
+  const isDedicated = activeEra === 'pre_adam'
+
+  return (
+    <section className={`my-12 rounded-3xl border transition-all duration-500 overflow-hidden ${
+      isDedicated
+        ? 'border-gold/60 bg-gradient-to-b from-amber-950/20 via-night-2 to-night-3 p-6 sm:p-8 shadow-[0_0_35px_rgba(233,198,123,0.15)] ring-1 ring-gold/30'
+        : 'border-white/10 bg-white/[0.02] p-5 sm:p-7 hover:border-gold/30'
+    }`}>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+        <div className="flex items-start gap-3.5">
+          <div className="size-11 rounded-2xl bg-gradient-to-br from-amber-500/20 to-red-500/20 border border-gold/40 flex items-center justify-center shrink-0 shadow-inner">
+            <Flame className="size-5 text-gold animate-pulse" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-full border border-gold/25">
+                {lang === 'ar' ? 'فصل تمهيدي • تاريخ الأرض الأول' : 'Prologue • Primordial Earth'}
+              </span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1">
+              {lang === 'ar' ? 'ما قبل آدم عليه السلام: الجن، الحن، والبن، والنسناس' : 'Before Adam: The Jinn, Al-Hinn, Al-Binn & Al-Nasnas'}
+            </h2>
+            <p className="text-xs sm:text-sm text-ink-2 mt-1 leading-relaxed max-w-2xl">
+              {lang === 'ar'
+                ? 'آدم عليه السلام هو أبو البشر وأول الأنبياء. وثّقت كتب التاريخ الإسلامي المعتمدة (تاريخ الطبري، والبداية والنهاية لابن كثير) أن الأرض سكنتها قبل بني آدم أُمم مكلّفة ومخلوقات مادية؛ كالجن الذين خُلقوا من نار السموم، والحن والبن والنسناس الذين أفسدوا وسفكوا الدماء.'
+                : 'Prophet Adam (peace be upon him) is the Father of Humankind (Abu al-Bashar). Classical Islamic historiography (Ibn Kathir, Al-Tabari) documents that prior to human stewardship, Earth was inhabited by the Jinn (created from smokeless flame) and primordial earthly races (Al-Hinn, Al-Binn, and the upright hominids Al-Nasnas).'}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="rounded-full bg-gold/15 px-3 py-1 text-xs font-mono text-gold border border-gold/30">
+            c. 2,000+ yrs Pre-Adam
+          </span>
+        </div>
+      </div>
+
+      {/* Grid of 4 Pre-Adamic Cards */}
+      <div className="grid gap-4 sm:grid-cols-2 mt-6">
+        {PRE_ADAM_ENTITIES.map((entity) => {
+          const isSelected = selectedEntity?.id === entity.id
           return (
-            <li key={order} className="relative mb-12 ps-14 md:mb-16 md:ps-0">
-              {anchor && (
-                <div className="mb-8 flex md:justify-center relative z-20">
-                  <div className="glass inline-flex max-w-lg flex-wrap items-center justify-center gap-2 rounded-2xl border border-gold/30 bg-night-surface/90 px-4 py-2 text-xs text-ink-2 shadow-lg backdrop-blur-md text-center">
-                    <span className="font-semibold text-gold-2">{anchor[lang]}</span>
-                    <Refs refs={[anchor.ref]} />
+            <div
+              key={entity.id}
+              onClick={() => setSelectedEntity(isSelected ? null : entity)}
+              className={`rounded-2xl border p-4 sm:p-5 transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                isSelected
+                  ? 'border-gold bg-gold/[0.08] shadow-[0_0_20px_rgba(233,198,123,0.25)]'
+                  : 'border-white/10 bg-white/[0.03] hover:border-gold/40 hover:bg-white/[0.06]'
+              }`}
+            >
+              <div>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="font-bold text-ink text-base text-balance group-hover:text-gold transition-colors">
+                      {pick(entity.name)}
+                    </h3>
+                    <p className="text-xs text-gold-2 font-medium mt-0.5">{pick(entity.subTitle)}</p>
+                  </div>
+                  <span className="text-xs font-mono text-ink-3 bg-white/5 px-2 py-0.5 rounded shrink-0">
+                    {pick(entity.era)}
+                  </span>
+                </div>
+
+                <div className="my-3 rounded-xl bg-night-3/70 p-3 border border-white/5">
+                  <p className="text-xs text-ink-2 leading-relaxed">
+                    {pick(entity.summary)}
+                  </p>
+                </div>
+
+                <div className="text-[0.72rem] text-ink-3 space-y-1">
+                  <p><strong className="text-gold/90">{lang === 'ar' ? 'طبيعة الخلق:' : 'Nature:'}</strong> {pick(entity.nature)}</p>
+                  {entity.scientificCorrelation && (
+                    <p><strong className="text-sky-300">{lang === 'ar' ? 'الربط العلمي والإحاثي:' : 'Paleontological link:'}</strong> {pick(entity.scientificCorrelation)}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <Refs refs={entity.quranRefs} />
+                </div>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-gold hover:text-gold-2 transition-colors cursor-pointer"
+                >
+                  <BookOpen className="size-3.5" />
+                  <span>{isSelected ? (lang === 'ar' ? 'إغلاق الأدلة' : 'Collapse') : (lang === 'ar' ? 'أقوال العلماء والمصادر' : 'Scholarly Sources')}</span>
+                </button>
+              </div>
+
+              {/* Expanded Scholarly Quotes */}
+              {isSelected && (
+                <div className="mt-4 pt-4 border-t border-gold/20 space-y-3 animate-fadeIn">
+                  <div className="rounded-xl bg-black/40 p-3.5 border border-gold/20">
+                    <h4 className="text-xs font-bold text-gold uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <Info className="size-3.5" />
+                      <span>{lang === 'ar' ? 'التفصيل العقدي والتاريخي:' : 'Theological & Historical Detail:'}</span>
+                    </h4>
+                    <p className="text-xs text-ink leading-relaxed">
+                      {pick(entity.detailedDescription)}
+                    </p>
+                  </div>
+
+                  {entity.scholarlySources.map((s, idx) => (
+                    <div key={idx} className="rounded-xl bg-white/[0.02] p-3 border border-white/10">
+                      <div className="flex items-center justify-between gap-2 text-xs font-semibold text-gold mb-1">
+                        <span>{pick(s.author)}</span>
+                        <span className="text-[0.68rem] text-ink-3 italic">{pick(s.work)}</span>
+                      </div>
+                      <blockquote className="text-xs text-ink-2 italic border-s-2 border-gold/40 ps-2.5 my-1 font-serif">
+                        {pick(s.citation)}
+                      </blockquote>
+                    </div>
+                  ))}
+
+                  <div className="rounded-xl bg-amber-500/10 p-3 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed">
+                    <strong className="text-gold block mb-1">{lang === 'ar' ? 'الخلاصة الإيمانية:' : 'Creed & Theological Note:'}</strong>
+                    {pick(entity.theologicalContext)}
                   </div>
                 </div>
               )}
-              <div className="relative">
-                <span aria-hidden="true" className="absolute -start-9 top-7 grid size-3.5 -translate-x-1/2 place-items-center rtl:translate-x-1/2 md:start-1/2 md:-translate-x-1/2 md:rtl:translate-x-1/2 z-10">
-                  <span className="absolute size-3.5 rounded-full bg-gold shadow-[0_0_18px_4px_rgb(233_198_123/0.65)]" />
-                  <span className="absolute size-4 animate-[pulse-ring_2.8s_ease-out_infinite] rounded-full border border-gold/70" />
-                </span>
-                <div className={`md:w-1/2 ${side ? 'md:pe-12' : 'md:ms-auto md:ps-12'}`}>
-                  {group.length > 1 && <p className="mb-2 text-xs font-semibold text-gold">{t('contemporaries')}</p>}
-                  <div className="grid gap-4">
-                    {group.map((p) => (
-                      <Card key={p.id} p={p} estimates={estimates} mode={mode} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <span className="sr-only">{group.map((p) => pick(p.name)).join(', ')}</span>
-            </li>
+            </div>
           )
         })}
-      </ol>
-    </div>
+      </div>
+    </section>
   )
 }
 
