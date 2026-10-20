@@ -5,6 +5,7 @@ import { links, treeParent } from './links'
 import { parseRef, refLabel, refUrl } from './sources'
 import type { Fact, L3 } from './types'
 import { allTextRefs } from './verified'
+import { SACRED_SITES, ROUTES } from '../components/TopographyMap'
 
 const facts = (p: (typeof people)[number]): Fact[] =>
   [p.title, p.role, p.era, p.sentTo, p.place, p.scripture, p.lifespan, p.marriage, p.children, ...(p.signs ?? []), ...(p.notes ?? [])].filter(Boolean) as Fact[]
@@ -92,6 +93,41 @@ describe('dataset', () => {
       if (!p.image) continue
       for (const v of ['2048.webp', '960.webp', '2048.avif', '960.avif']) {
         expect(fs.existsSync(path.resolve('public/img', `${p.image}-${v}`)), `${p.image}-${v}`).toBe(true)
+      }
+    }
+  })
+
+  it('has comprehensive, authentic sacred sites and prophetic routes in TopographyMap', () => {
+    expect(SACRED_SITES.length).toBeGreaterThanOrEqual(30)
+    for (const site of SACRED_SITES) {
+      expect(site.id).toBeTruthy()
+      expect(site.lat).toBeGreaterThan(10)
+      expect(site.lat).toBeLessThan(45)
+      expect(site.lng).toBeGreaterThan(30)
+      expect(site.lng).toBeLessThan(60)
+      expect(site.name.en).toBeTruthy()
+      expect(site.name.fr).toBeTruthy()
+      expect(site.name.ar).toMatch(/[؀-ۿ]/)
+      if (site.prophetId) {
+        expect(byId.has(site.prophetId), `site ${site.id} references invalid prophet ${site.prophetId}`).toBe(true)
+      }
+    }
+
+    expect(ROUTES.length).toBeGreaterThanOrEqual(7)
+    for (const route of ROUTES) {
+      expect(route.id).toBeTruthy()
+      expect(route.color).toMatch(/^#[0-9a-f]{6}$/i)
+      expect(byId.has(route.prophetId), `route ${route.id} references invalid prophet ${route.prophetId}`).toBe(true)
+      expect(route.coords.length).toBeGreaterThanOrEqual(4)
+      expect(route.stops.length).toBeGreaterThanOrEqual(4)
+      for (const stop of route.stops) {
+        expect(stop.name.en).toBeTruthy()
+        expect(stop.name.fr).toBeTruthy()
+        expect(stop.name.ar).toMatch(/[؀-ۿ]/)
+        expect(stop.lat).toBeGreaterThan(10)
+        expect(stop.lat).toBeLessThan(45)
+        expect(stop.lng).toBeGreaterThan(30)
+        expect(stop.lng).toBeLessThan(60)
       }
     }
   })
