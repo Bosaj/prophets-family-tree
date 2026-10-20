@@ -80,8 +80,25 @@ describe('App', () => {
     renderAt('/nature')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Creatures, Flora & Prophetic Medicine/i)
     expect(screen.getAllByText(/Hoopoe/i).length).toBeGreaterThan(0)
+    // Check that Upupa epops is explicitly explained so users understand the biological name
+    expect(screen.getAllByText(/Upupa epops/i).length).toBeGreaterThan(0)
     const plantsBtn = screen.getByRole('button', { name: /Plants & Foods/i })
     await userEvent.click(plantsBtn)
     expect(screen.getAllByText(/Date Palm/i).length).toBeGreaterThan(0)
+  })
+
+  it('renders the sahaba, caliphs and continuous prophetic lineage page', () => {
+    renderAt('/sahaba')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Tree of Sahaba, Caliphs & Prophetic Lineages/i)
+    expect(screen.getAllByText(/Abu Bakr/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Umar ibn al-Khattab/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/King Mohammed VI/i).length).toBeGreaterThan(0)
+  })
+
+  it('renders the scientific miracles and research papers page', () => {
+    renderAt('/science')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Scientific Facts in Qur'an & Hadith/i)
+    expect(screen.getAllByText(/The Expanding Universe/i).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Peer-Reviewed DOIs/i).length).toBeGreaterThan(0)
   })
 })

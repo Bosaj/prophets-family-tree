@@ -1012,6 +1012,88 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
       ),
     },
   },
+  {
+    id: 'hamama',
+    name: t('Dove & Pigeon', 'Colombe et Pigeon', 'الحمامة واليمامة'),
+    scientificName: 'Columba livia',
+    arabicCalligraphy: 'حَمَامُ الْغَارِ وَسَفِينَةِ نُوحٍ وَحَمَامُ الْحَرَمَيْنِ',
+    category: 'birds',
+    source: 'quran_and_sunnah',
+    quranRefs: ['11:44'],
+    hadithRefs: [
+      {
+        book: 'Musnad Ahmad',
+        number: '3251',
+        text: t(
+          'During the Hijrah to Madinah, two wild doves nested and laid eggs at the mouth of Cave Thawr, and the spider spun its web, concealing the Prophet ﷺ and Abu Bakr from the Quraysh trackers.',
+          'Lors de l’Hégire, deux colombes sauvages nichèrent à l’entrée de la grotte de Thawr, dissimulant le Prophète ﷺ et Abou Bakr aux poursuivants de Quraych.',
+          'فَأَمَرَ اللَّهُ تَعَالَى شَجَرَةً فَنَبَتَتْ، وَأَمَرَ الْعَنْكَبُوتَ فَنَسَجَتْ، وَأَمَرَ حَمَامَتَيْنِ فَبَاضَتَا عَلَى فَمِ الْغَارِ، فَصَرَفَ اللَّهُ بِذَلِكَ أَعْيُنَ الْمُشْرِكِينَ عَنْهُمَا.'
+        ),
+      },
+      {
+        book: 'Bukhari',
+        number: '1833',
+        text: t(
+          'The Prophet ﷺ said regarding Mecca: "Allah made this city sacred... its game (including the sanctuary pigeons) shall not be chased or frightened, and its thorny trees shall not be cut."',
+          'Le Prophète ﷺ déclara au sujet de La Mecque : « Allah a sanctifié cette cité... son gibier ne doit point être pourchassé ou effrayé. »',
+          'إِنَّ هَذَا الْبَلَدَ حَرَّمَهُ اللَّهُ يَوْمَ خَلَقَ السَّمَاوَاتِ وَالأَرْضَ... لاَ يُنَفَّرُ صَيْدُهُ، وَلاَ يُعْضَدُ شَوْكُهُ.'
+        ),
+      },
+      {
+        book: 'Abu Dawud',
+        number: '2675',
+        text: t(
+          'A companion took two chicks from a mother dove (Hummarah), causing her to flutter in deep distress. The Prophet ﷺ exclaimed: "Who has grieved this mother bird by taking her young? Return her chicks to her!"',
+          'Un homme prit les oisillons d’une colombe qui vint voleter d’angoisse. Le Prophète ﷺ dit : « Qui a affligé cette mère par ses petits ? Rendez-les-lui ! »',
+          'مَنْ فَجَعَ هَذِهِ بِوَلَدِهَا؟ رُدُّوا وَلَدَهَا إِلَيْهَا.'
+        ),
+      },
+    ],
+    relatedProphets: ['nuh', 'muhammad'],
+    summary: t(
+      'The emblem of sanctuary, divine peace, and prophetic protection: from the dove of Noah’s Ark heralding the post-deluge dawn with an olive sprig, to the wild doves nesting at the mouth of Cave Thawr shielding the Messenger ﷺ during the Hijrah, to the sacred protected pigeons of Mecca and Medina.',
+      'Symbole de paix divine et de sanctuaire prophétique : de la colombe de l’Arche de Noé annonçant le salut par le rameau d’olivier, aux colombes de la grotte de Thawr lors de l’Hégire, jusqu’aux pigeons inviolables des deux Sanctuaires sacrés.',
+      'طائر السكينة والسلام الإلهي في تاريخ النبوات: من حمامة نوح التي بشرت بالنجاة وانحسار الطوفان بغصن الزيتون، إلى حمام غار ثور الذي عشش وباض على فم الغار حمايةً للمصطفى ﷺ وصاحبه الصديق، إلى حمام الحرمين الشريفين الآمن في كنف الله.'
+    ),
+    whatTheyDid: t(
+      'In classical accounts of the Ark, Noah released the dove which returned carrying an olive leaf in its beak, proving that vegetation and dry land had emerged from the receding waters. Centuries later, during the critical night of the Hijrah, Allah guided a pair of wild doves to nest and lay eggs directly across the opening of Cave Thawr; when Quraysh searchers arrived, seeing the unperturbed nesting birds and spider silk, they concluded no human could have entered and turned away. In the Sunnah, the sanctuary pigeons of the Haramain are granted perpetual legal immunity under Shariah, symbolizing absolute peace and safety in the House of Allah.',
+      'Dans les récits de l’Arche, Noé envoya la colombe qui revint avec un rameau d’olivier au bec, attestant du retrait des eaux. Lors de la nuit cruciale de l’Hégire, deux colombes nichèrent devant la grotte de Thawr, persuadant les Quraychites qu’aucun homme n’avait pu y pénétrer. En droit islamique, les pigeons du Haram bénéficient d’une immunité totale, incarnant la sécurité absolue dans l’enceinte sacrée.',
+      'في سفينة نوح عليه السلام أرسل الحمامة فرجعت وفي منقارها ورقة زيتون تدل على انحسار الطوفان وظهور الأرض الخضراء. وفي هجرة المصطفى ﷺ، كانت الحمام مع العنكبوت جنوداً لله تعالى، إذ باضت على فم الغار وظللت المكان بأمانها، فلما رأى كفار قريش عشها سالماً أيقنوا أن أحداً لم يدخل الغار فانصرفوا خائبين. وفي شريعة الإسلام حظي حمام الحرمين الشريفين بمكانة استثنائية يحرم معها إزعاجه أو صيده، تجسيداً لحرمة المكان وأمانه.'
+    ),
+    physicalTraits: {
+      size: t('32–37 cm length, 64–72 cm wingspan', '32–37 cm de long, 64–72 cm d’envergure', 'طولها 32-37 سم، وامتداد جناحيها 64-72 سم'),
+      habitat: t('Rocky cliffs, ancient sanctuaries, desert oases, and mountain clefts', 'Falaises rocheuses, sanctuaires anciens, oasis désertiques', 'المنحدرات الصخرية، واحات النخيل، وجنبات الحرمين الشريفين'),
+      uniqueFeature: t('Iridescent neck plumage, incredible homing compass, and production of antioxidant crop milk', 'Plumage irisé au cou, compas magnétique inné et sécrétion de lait de jabot protecteur', 'ريش عنق قزحي متلألئ، بوصلة مغناطيسية فطرية، وإفراز لبن الحوصلة الغني بالمناعة'),
+    },
+    motion: {
+      animationType: 'fly',
+      strideLength: 'Swift direct clapping flight up to 80 km/h',
+      paceDescription: t('Graceful wing clapping and gliding with rapid horizontal speed', 'Vol battu direct et rapide avec d’amples planés', 'طيران سريع مستقيم مع رفرفة قوية وانزلاق هوائي انسيابي رشيق'),
+      soundOrSignal: t('Gentle repetitive "coo-coo-roo" cooing inspiring tranquility', 'Roucoulement doux et apaisant', 'هديل عذب رقيق "هدل" يبعث على الطمأنينة والسكينة'),
+    },
+    benefitsAndWisdom: {
+      spiritual: t(
+        'Teaches trust in Allah (Tawakkul) and divine security; the Prophet ﷺ said: "If you trusted in Allah with true reliance, He would provide for you as He provides for the birds: they go out hungry in the morning and return full at evening."',
+        'Incarne la confiance totale en Allah (Tawakkul) : « Si vous vous en remettiez à Allah d’une confiance véritable, Il vous pourvoirait comme Il pourvoit aux oiseaux... »',
+        'رمز التوكل على الله وحسن الظن به؛ قال النبي ﷺ: «لَوْ أَنَّكُمْ كُنْتُمْ تَوَكَّلُونَ عَلَى اللَّهِ حَقَّ تَوَكُّلِهِ لَرُزِقْتُمْ كَمَا تُرْزَقُ الطَّيْرُ تَغْدُو خِمَاصًا وَتَرُوحُ بِطَانًا».'
+      ),
+      sunnahGuidance: t(
+        'Prophetic prohibition against harming nesting birds or separating a mother bird from her young; strict legal inviolability of birds within the sacred precincts of Mecca and Medina.',
+        'Interdiction formelle de séparer une mère oiseau de ses petits et protection légale absolue dans les Sanctuaires sacrés.',
+        'النهي النبوي المشدد عن فجع الطير في فراخه أو صيد حمام الحرم، وتكريس مبدأ الرحمة الشاملة بكافة الكائنات الحية.'
+      ),
+      scientificEcological: t(
+        'Advanced magnetoreception utilizing cryptochrome retinal pigments and atmospheric infrasound mapping for homing precision over thousands of kilometers; rich seed disperser regenerating desert flora.',
+        'Sens magnétique fondé sur les cryptochromes rétiniens permettant un retour au nid sur des milliers de kilomètres; disséminateur végétal clé.',
+        'تمتلك بوصلة بصرية مغناطيسية تعتمد على صبغات الكريبتوكروم وشبكة استشعار الموجات تحت الصوتية، مع إفراز لبن الحوصلة الفريد الغني بمضادات الأكسدة والأجسام المضادة.'
+      ),
+      practicalBenefits: t(
+        'Ancient long-distance carrier messaging system (Al-Hammam az-Zajil) trusted for centuries across the Islamic realm for urgent communication and relief.',
+        'Réseau postal aérien historique (Pigeon voyageur) utilisé pendant des siècles à travers les califats islamiques.',
+        'أساس البريد الجوي السريع في الحضارة الإسلامية (الحمام الزاجل)، ومصدر طبيعي لتخصيب التربة وتكاثر الغطاء النباتي.'
+      ),
+    },
+  },
 ]
 
 export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [

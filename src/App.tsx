@@ -11,6 +11,8 @@ import { Timeline } from './components/Timeline'
 import { StatureView } from './components/StatureView'
 import { SalihinView } from './components/SalihinView'
 import { NatureView } from './components/NatureView'
+import { SahabaTree } from './components/SahabaTree'
+import { ScienceView } from './components/ScienceView'
 import { Person } from './components/Person'
 import { REPO, Sources } from './components/Sources'
 import { NotFound } from './components/NotFound'
@@ -71,6 +73,10 @@ export default function App() {
         return <SalihinView />
       case 'nature':
         return <NatureView />
+      case 'sahaba':
+        return <SahabaTree key={route.focus ?? 'all'} focus={route.focus} />
+      case 'science':
+        return <ScienceView />
       case 'sources':
         return <Sources />
       case 'person':

@@ -153,8 +153,31 @@ class SoundscapeEngine {
     })
   }
 
+  playCoo() {
+    const ctx = this.getContext()
+    if (!ctx) return
+    const now = ctx.currentTime
+    ;[380, 430, 360, 410].forEach((freq, idx) => {
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.type = 'sine'
+      const start = now + idx * 0.16
+      osc.frequency.setValueAtTime(freq, start)
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.88, start + 0.14)
+      gain.gain.setValueAtTime(0.001, start)
+      gain.gain.linearRampToValueAtTime(0.16, start + 0.03)
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.15)
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.start(start)
+      osc.stop(start + 0.16)
+    })
+  }
+
   playFor(id: string) {
-    if (['hudhud', 'ghurab', 'tayr_ababil'].includes(id)) {
+    if (id === 'hamama') {
+      this.playCoo()
+    } else if (['hudhud', 'ghurab', 'tayr_ababil'].includes(id)) {
       this.playChirp()
     } else if (['nahl', 'namlah', 'ankabut'].includes(id)) {
       this.playBuzz()
@@ -209,6 +232,69 @@ function HoopoeSvg({ animated = true }: { animated?: boolean }) {
       </g>
       <path d="M 32 135 L 5 155 L 15 158 L 42 138 Z" fill="#0f172a" />
       <path d="M 85 135 L 82 148 M 80 148 L 88 148 M 72 136 L 68 148 M 65 148 L 73 148" stroke="#78350f" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function DoveSvg({ animated = true }: { animated?: boolean }) {
+  return (
+    <svg viewBox="0 0 200 160" className="w-full h-full drop-shadow-[0_10px_20px_rgba(224,242,254,0.45)]">
+      <defs>
+        <linearGradient id="doveGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="35%" stopColor="#f1f5f9" />
+          <stop offset="70%" stopColor="#cbd5e1" />
+          <stop offset="100%" stopColor="#64748b" />
+        </linearGradient>
+        <linearGradient id="doveNeckSheen" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#38bdf8" />
+          <stop offset="50%" stopColor="#c084fc" />
+          <stop offset="100%" stopColor="#34d399" />
+        </linearGradient>
+      </defs>
+      {/* Olive Twig in Beak (Symbol of Peace and Noah's Ark Return) */}
+      <g>
+        <path d="M 158 50 Q 172 44 186 38" stroke="#15803d" strokeWidth="2" fill="none" strokeLinecap="round" />
+        <ellipse cx="174" cy="39" rx="5" ry="2.5" transform="rotate(-25 174 39)" fill="#22c55e" />
+        <ellipse cx="184" cy="37" rx="4" ry="2" transform="rotate(-40 184 37)" fill="#4ade80" />
+        <ellipse cx="168" cy="45" rx="4" ry="2.2" transform="rotate(20 168 45)" fill="#16a34a" />
+      </g>
+      {/* Dove Head & Body */}
+      <path
+        d="M 128 40 C 145 38 156 44 156 52 C 156 60 146 66 136 70 C 128 80 132 102 122 118 C 102 134 64 138 38 128 C 22 122 12 112 8 102 C 22 104 45 98 60 84 C 76 68 96 42 128 40 Z"
+        fill="url(#doveGrad)"
+      />
+      {/* Iridescent Neck Sheen Ring */}
+      <path
+        d="M 132 54 C 140 56 146 62 142 68 C 136 70 128 66 126 60 Z"
+        fill="url(#doveNeckSheen)"
+        opacity="0.65"
+      />
+      {/* Beak */}
+      <path d="M 154 48 L 166 51 L 154 54 Z" fill="#f59e0b" />
+      {/* Eye */}
+      <circle cx="144" cy="46" r="2.8" fill="#e11d48" />
+      <circle cx="144" cy="46" r="1.5" fill="#0f172a" />
+      <circle cx="145" cy="45" r="0.6" fill="#ffffff" />
+      {/* Flapping Wing */}
+      <g className={animated ? 'origin-[92px_78px] animate-creature-fly' : ''}>
+        <path
+          d="M 96 70 C 82 86 60 112 34 132 C 46 120 76 88 106 74 Z"
+          fill="#cbd5e1"
+        />
+        <path
+          d="M 86 80 C 72 94 54 116 40 126 C 50 116 72 92 96 82 Z"
+          fill="#f8fafc"
+        />
+        <path
+          d="M 76 90 C 66 102 50 118 44 122 C 52 112 68 96 86 88 Z"
+          fill="#94a3b8"
+        />
+      </g>
+      {/* Tail Feathers */}
+      <path d="M 38 128 L 8 148 L 20 152 L 48 132 Z" fill="#64748b" />
+      {/* Gentle Red Claws */}
+      <path d="M 88 128 L 84 142 M 81 142 L 89 142 M 74 129 L 70 142 M 67 142 L 75 142" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   )
 }
@@ -1063,6 +1149,8 @@ function RenderOrganismSilhouette({ id, animated = true }: { id: string; animate
   switch (id) {
     case 'hudhud':
       return <HoopoeSvg animated={animated} />
+    case 'hamama':
+      return <DoveSvg animated={animated} />
     case 'namlah':
       return <AntSvg animated={animated} />
     case 'hut_yunus':
@@ -1142,6 +1230,29 @@ export function NatureView() {
   const [showRealPhoto, setShowRealPhoto] = useState<boolean>(false)
   const [sunAngle, setSunAngle] = useState<number>(65) // 15 to 165 degrees
   const [shadowIntensity, setShadowIntensity] = useState<number>(65) // 20 to 100%
+  const [isOrbiting, setIsOrbiting] = useState<boolean>(false)
+  const [isDraggingSky, setIsDraggingSky] = useState<boolean>(false)
+
+  // Live celestial orbit physics simulation
+  useEffect(() => {
+    if (!isOrbiting) return
+    let animId: number
+    let lastTime = performance.now()
+    const orbitSpeed = 12 // degrees per second
+
+    const step = (now: number) => {
+      const dt = (now - lastTime) / 1000
+      lastTime = now
+      setSunAngle((prev) => {
+        const next = prev + orbitSpeed * dt
+        return next > 165 ? 15 : next
+      })
+      animId = requestAnimationFrame(step)
+    }
+
+    animId = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(animId)
+  }, [isOrbiting])
 
   // Detail Modal / Sheet
   const [detailItem, setDetailItem] = useState<AnimalEntry | PlantFoodEntry | null>(null)
@@ -1476,7 +1587,30 @@ export function NatureView() {
           </div>
         </div>
 
-        {/* Solar Prayer Time Presets */}
+        {/* Upupa epops / Hoopoe Clarity Note for User */}
+        {currentActive.id === 'hudhud' && (
+          <div className="mb-3 rounded-xl border border-amber-400/40 bg-gradient-to-r from-amber-500/15 via-amber-400/10 to-transparent p-3 text-xs leading-relaxed text-amber-200 flex items-start gap-3 shadow-sm">
+            <span className="text-xl shrink-0">🪶</span>
+            <div>
+              <div className="font-bold text-amber-300 text-sm mb-0.5">
+                {lang === 'ar'
+                  ? 'طائر الهُدْهُد (Upupa epops) · طائر نبي الله سليمان عليه السلام'
+                  : lang === 'fr'
+                  ? 'La Huppe fasciée (Upupa epops) · L’oiseau du Prophète Salomon'
+                  : 'The Hoopoe (Upupa epops) · Prophet Solomon’s Bird'}
+              </div>
+              <p className="text-ink-2 text-xs">
+                {lang === 'ar'
+                  ? '«Upupa epops» هو الاسم العلمي اللاتيني المصنّف عالمياً لطائر الهُدْهُد، وهو الطائر الحكيم والمستكشف الصادق الذي تفقّده نبي الله سليمان وحمل رسالة التوحيد إلى ملكة سبأ بلقيس (سورة النمل، الآيات 20-28).'
+                  : lang === 'fr'
+                  ? '« Upupa epops » est le nom scientifique international de la Huppe fasciée (الهدهد), l’oiseau messager du Prophète Salomon qui porta la lettre de foi à la Reine de Saba (Sourate An-Naml 27:20-28).'
+                  : '« Upupa epops » is the recognized scientific binomial name for the Hoopoe (الهدهد), the wise scout bird of Prophet Sulayman (Solomon) who carried the message of monotheism to the Queen of Sheba (Surah An-Naml 27:20-28).'}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Solar Prayer Time Presets & Live Orbit Physics */}
         <div className="flex flex-wrap items-center gap-1.5 mb-2 px-1">
           <span className="text-[0.7rem] text-ink-3 font-medium me-1">
             {lang === 'ar' ? 'مواقيت الشمس:' : 'Sun Orbit:'}
@@ -1491,7 +1625,10 @@ export function NatureView() {
             <button
               key={p.angle}
               type="button"
-              onClick={() => setSunAngle(p.angle)}
+              onClick={() => {
+                setIsOrbiting(false)
+                setSunAngle(p.angle)
+              }}
               className={`rounded-full px-2.5 py-1 text-[0.7rem] transition-colors cursor-pointer flex items-center gap-1 ${
                 Math.abs(sunAngle - p.angle) <= 18
                   ? 'border border-gold/50 bg-gold/20 text-gold-2 font-semibold shadow-[0_0_10px_rgba(233,198,123,0.2)]'
@@ -1502,18 +1639,61 @@ export function NatureView() {
               <span>{lang === 'ar' ? p.ar : p.en}</span>
             </button>
           ))}
+
+          {/* Live Orbit Physics Loop Toggle */}
+          <button
+            type="button"
+            onClick={() => setIsOrbiting((o) => !o)}
+            className={`rounded-full px-3 py-1 text-[0.7rem] transition-colors cursor-pointer flex items-center gap-1.5 ms-auto ${
+              isOrbiting
+                ? 'border border-amber-400/80 bg-amber-500/25 text-amber-300 font-bold shadow-[0_0_12px_rgba(245,158,11,0.5)] animate-pulse'
+                : 'border border-white/15 bg-white/5 text-ink-2 hover:text-ink hover:border-white/30'
+            }`}
+            title={lang === 'ar' ? 'محاكاة الحركة الفلكية الحية للشمس والأجرام' : 'Live celestial orbit physics loop'}
+          >
+            <span>{isOrbiting ? '⏸️' : '▶️'}</span>
+            <span>{lang === 'ar' ? 'دوران الفلك الحي' : 'Live Orbit Physics'}</span>
+          </button>
         </div>
 
         {/* Visual Stage Canvas with Realistic Celestial Sun & Horizon */}
         <div
-          className="relative h-72 sm:h-84 w-full rounded-2xl border border-white/10 overflow-hidden flex flex-col justify-end items-center px-4 pb-4 select-none transition-colors duration-500 cursor-crosshair group/stage"
-          onClick={(e) => {
-            // Interactive sky click to move sun
+          className={`relative h-72 sm:h-84 w-full rounded-2xl border border-white/10 overflow-hidden flex flex-col justify-end items-center px-4 pb-4 select-none transition-colors duration-500 touch-none group/stage ${
+            isDraggingSky ? 'cursor-grabbing' : 'cursor-grab'
+          }`}
+          onPointerDown={(e) => {
+            setIsDraggingSky(true)
+            setIsOrbiting(false)
+            e.currentTarget.setPointerCapture(e.pointerId)
             const rect = e.currentTarget.getBoundingClientRect()
-            const clickX = e.clientX - rect.left
-            const ratio = Math.max(0, Math.min(1, clickX / rect.width))
-            const angle = Math.round(15 + ratio * 150)
-            setSunAngle(angle)
+            const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+            setSunAngle(Math.round(15 + ratio * 150))
+          }}
+          onPointerMove={(e) => {
+            if (!isDraggingSky) return
+            const rect = e.currentTarget.getBoundingClientRect()
+            const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+            setSunAngle(Math.round(15 + ratio * 150))
+          }}
+          onPointerUp={(e) => {
+            if (isDraggingSky) {
+              setIsDraggingSky(false)
+              try {
+                e.currentTarget.releasePointerCapture(e.pointerId)
+              } catch {
+                // ignore
+              }
+            }
+          }}
+          onPointerCancel={(e) => {
+            if (isDraggingSky) {
+              setIsDraggingSky(false)
+              try {
+                e.currentTarget.releasePointerCapture(e.pointerId)
+              } catch {
+                // ignore
+              }
+            }
           }}
           style={{
             background:
@@ -1532,30 +1712,45 @@ export function NatureView() {
             }}
           />
 
-          {/* Drifting Celestial Clouds Layer */}
+          {/* Drifting Celestial Clouds Layer (Multi-tiered Volumetric Clouds) */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+            {/* High Altitude Cirrus Cloud */}
             <div
-              className="absolute top-6 -start-10 w-72 h-14 rounded-full transition-all duration-700"
+              className="absolute top-4 w-96 h-12 rounded-full animate-cloud-slow opacity-75"
               style={{
-                filter: 'blur(12px)',
+                filter: 'blur(10px)',
                 background:
                   sunAngle <= 45
                     ? 'radial-gradient(ellipse, rgba(251,191,36,0.45) 0%, rgba(244,114,182,0.2) 60%, transparent 100%)'
                     : sunAngle >= 135
                     ? 'radial-gradient(ellipse, rgba(249,115,22,0.45) 0%, rgba(168,85,247,0.2) 60%, transparent 100%)'
-                    : 'radial-gradient(ellipse, rgba(255,255,255,0.3) 0%, rgba(203,213,225,0.1) 60%, transparent 100%)',
+                    : 'radial-gradient(ellipse, rgba(255,255,255,0.4) 0%, rgba(203,213,225,0.15) 60%, transparent 100%)',
               }}
             />
+            {/* Mid Altitude Cumulus Cloud */}
             <div
-              className="absolute top-14 -end-8 w-80 h-16 rounded-full transition-all duration-700"
+              className="absolute top-12 w-80 h-16 rounded-full animate-cloud-mid opacity-60"
               style={{
-                filter: 'blur(16px)',
+                filter: 'blur(14px)',
                 background:
                   sunAngle <= 45
                     ? 'radial-gradient(ellipse, rgba(245,158,11,0.35) 0%, rgba(147,51,234,0.15) 60%, transparent 100%)'
                     : sunAngle >= 135
                     ? 'radial-gradient(ellipse, rgba(234,88,12,0.35) 0%, rgba(126,34,206,0.15) 60%, transparent 100%)'
-                    : 'radial-gradient(ellipse, rgba(255,255,255,0.25) 0%, rgba(148,163,184,0.08) 60%, transparent 100%)',
+                    : 'radial-gradient(ellipse, rgba(255,255,255,0.3) 0%, rgba(148,163,184,0.1) 60%, transparent 100%)',
+              }}
+            />
+            {/* Low Ambient Fluffy Cloud Puff */}
+            <div
+              className="absolute top-20 w-64 h-14 rounded-full animate-cloud-fast opacity-50"
+              style={{
+                filter: 'blur(12px)',
+                background:
+                  sunAngle <= 45
+                    ? 'radial-gradient(ellipse, rgba(253,224,71,0.3) 0%, rgba(244,63,94,0.12) 60%, transparent 100%)'
+                    : sunAngle >= 135
+                    ? 'radial-gradient(ellipse, rgba(251,146,60,0.3) 0%, rgba(192,132,252,0.12) 60%, transparent 100%)'
+                    : 'radial-gradient(ellipse, rgba(255,255,255,0.25) 0%, rgba(226,232,240,0.08) 60%, transparent 100%)',
               }}
             />
           </div>
@@ -1677,8 +1872,8 @@ export function NatureView() {
                 ? pick(currentActive.physicalTraits.size)
                 : pick(currentActive.botanicalTraits.growthForm)}
             </span>
-            <span className="text-gold font-bold">
-              {currentActive.scientificName}
+            <span className="text-gold font-bold text-center px-2">
+              {pick(currentActive.name)} · {currentActive.scientificName} {currentActive.id === 'hudhud' ? (lang === 'ar' ? '· طائر نبي الله سليمان' : '· Prophet Solomon’s Bird') : ''}
             </span>
             <span>
               {'physicalTraits' in currentActive

@@ -9,6 +9,8 @@ import { Logo } from './Logo'
 
 const NAV = [
   { key: 'navTree', href: '/tree', route: 'tree' },
+  { key: 'navSahaba', href: '/sahaba', route: 'sahaba' },
+  { key: 'navScience', href: '/science', route: 'science' },
   { key: 'mapView', href: '/map', route: 'map' },
   { key: 'navTimeline', href: '/timeline', route: 'timeline' },
   { key: 'navStature', href: '/stature', route: 'stature' },

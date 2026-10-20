@@ -253,6 +253,26 @@ html[lang='ar'] body {
 .animate-flora-sway { animation: flora-sway 3.8s ease-in-out infinite; transform-origin: bottom center; }
 .animate-shadow-breathe { animation: shadow-breathe 1.4s ease-in-out infinite; transform-origin: center; }
 
+@keyframes cloud-drift-1 {
+  0% { transform: translateX(-40%); }
+  50% { transform: translateX(40%); }
+  100% { transform: translateX(-40%); }
+}
+@keyframes cloud-drift-2 {
+  0% { transform: translateX(35%); }
+  50% { transform: translateX(-35%); }
+  100% { transform: translateX(35%); }
+}
+@keyframes cloud-drift-3 {
+  0% { transform: translateX(-25%); }
+  50% { transform: translateX(50%); }
+  100% { transform: translateX(-25%); }
+}
+.animate-cloud-slow { animation: cloud-drift-1 45s ease-in-out infinite; }
+.animate-cloud-mid { animation: cloud-drift-2 32s ease-in-out infinite; }
+.animate-cloud-fast { animation: cloud-drift-3 22s ease-in-out infinite; }
+
+
 
 
 @media (prefers-reduced-motion: reduce) {

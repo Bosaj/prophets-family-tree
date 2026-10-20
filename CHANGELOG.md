@@ -2,6 +2,28 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/), versioning: [SemVer](https://semver.org/).
 
+## [2.2.0] — 2026-10-20
+### Added
+- **Tree of Sahaba, Khulafa' & Living Prophetic Dynasties (`/sahaba`)**:
+  - Interactive succession tree and genealogical catalog tracing from Prophet Muhammad ﷺ and Ahl al-Bayt (Sayyidah Fatimah, Sayyiduna Ali, Al-Hasan, Al-Husayn).
+  - The 5 Khulafa' ar-Rashidun (Abu Bakr, Umar, Uthman, Ali, Al-Hasan completing the 30-year Prophetic Caliphate).
+  - The Ten Promised Paradise (العشرة المبشرون بالجنة) with authentic Hadith citations.
+  - Eminent early Sahaba luminaries (Hamzah, Bilal, Salman al-Farsi, Khalid ibn al-Walid, Abu Ubaydah).
+  - Historic caliphates: Umayyads of Damascus, Caliphate of Cordoba (Al-Andalus), Abbasids of Baghdad, and Ottomans of Istanbul.
+  - Continuous unbroken Prophetic lineages to modern times: the Moroccan Alaouite Dynasty to His Majesty King Mohammed VI (Amir al-Mu'minin) and the Jordanian Hashemite Dynasty to His Majesty King Abdullah II (Custodian of Jerusalem's Holy Sites).
+- **Scientific Facts in Qur'an & Hadith Proven by Peer-Reviewed Research (`/science`)**:
+  - Rigorous catalog of scientific facts in scripture backed by direct peer-reviewed journal papers (authors, journals, publication years, and DOI links).
+  - Covers Cosmology (*Expanding Universe* - Hubble / Perlmutter), Embryology (*Human Developmental Stages* - Keith L. Moore / Carnegie Stages), Oceanography (*Internal Waves in Deep Oceans* - Alford et al., *Nature*), Hydrology (*Halocline Barrier Between Seas* - Armi & Farmer), Earth Sciences (*Mountains as Isostatic Pegs* - Watts, *Cambridge*), Astrophysics (*Supernova Origin of Iron* - Burbidge et al.), Neuroscience (*Nociceptors in Skin* - David Julius, *Nobel 2021*; *Prefrontal Cortex in Deception* - Langleben, *NeuroImage*), Atmospheric Physics (*Hypobaric Hypoxia on High Altitude Ascent* - West, *The Lancet*), and Prophetic Medicine (*Nigella Sativa / Thymoquinone* and *Honey Defensin-1 Antimicrobial Matrix* - *FASEB Journal*).
+  - Integrated Uthmani verse recitation with live audio and multilingual explanations (AR/EN/FR).
+- **The Dove / Pigeon (*Columba livia* / الحمامة واليمامة)**:
+  - Added the Dove to the Prophetic Fauna catalog with photorealistic imagery, authentic Qur'an (Noah's Ark return) and Hadith context (Cave of Thawr, Sanctuary birds of the Haramain), and bespoke SVG silhouette with olive branch.
+- **Nature Stage Physics & Volumetric Drifting Clouds**:
+  - Draggable sky dome physics: direct touch and pointer drag interaction across the celestial arc with smooth angle scrubbing.
+  - Live Celestial Orbit loop (`▶️ دوران الفلك الحي`) continuously animating solar and lunar bodies with real-time shadow projection on dunes.
+  - Multi-tiered procedural volumetric cloud layers drifting with realistic parallax and sun-responsive color grading.
+- **Clear Explanation of "Upupa epops"**:
+  - Clarified prominently that *Upupa epops* is the international scientific binomial classification for the Hoopoe (الهدهد), the wise scout bird of Prophet Sulayman (Surah An-Naml 27:20-28), eliminating user ambiguity.
+
 ## [2.0.0] — 2026-10-20
 ### Added
 - **Pre-Adamic Realm & Jinn Cosmological Island**: Autonomous floating celestial domain in the tree viewer highlighting earlier terrestrial creations (Jinn, Iblis / Shaytan, Hinn, Binn, Nasnas) with classical Islamic scholarly sources (Ibn Kathir, Al-Hasan al-Basri) and Qur'anic verses (18:50, 38:76, 2:34).
