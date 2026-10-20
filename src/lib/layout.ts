@@ -52,7 +52,7 @@ interface Raw {
 }
 
 export const NODE_W = 108
-export const NODE_H = 132
+export const NODE_H = 175
 
 export interface LayoutFilterOptions {
   includeFamily?: boolean
@@ -64,8 +64,8 @@ export interface LayoutFilterOptions {
 /**
  * Lay the tree out top-down (phones) or sideways (wide screens).
  * Sideways, generations flow left to right, or right to left when `rtl`.
- * Wives are positioned in-line with their prophet spouses, and children
- * branch from the union of both parents.
+ * Wives and prophets are arranged in vertical lines, with children
+ * descending directly from both parents along the vertical lineage.
  */
 export function buildLayout(
   filterOpts: boolean | LayoutFilterOptions = true,
@@ -89,7 +89,7 @@ export function buildLayout(
   const kids = new Map<string, string[]>()
   for (const p of people) {
     if (p.id === 'adam' || !visible(p.id)) continue
-    // Spouses will be positioned in-line alongside their prophet partner, not as hierarchy children
+    // Spouses will be positioned vertically in-line between their prophet husband and children
     if (p.kind === 'spouse') continue
 
     let parent = treeParent.get(p.id)?.from
@@ -104,7 +104,7 @@ export function buildLayout(
   })
   const root = hierarchy<Raw>(make('adam'), (d) => d.children)
   const laid = tree<Raw>()
-    .nodeSize(horizontal ? [86, 290] : [NODE_W, NODE_H])
+    .nodeSize(horizontal ? [86, 300] : [NODE_W, NODE_H])
     .separation((a, b) => (a.parent === b.parent ? 1.1 : 1.35))(root)
 
   // Map temporary positions from d3 layout
@@ -113,71 +113,102 @@ export function buildLayout(
     tempPos.set(n.data.id, { x: n.x, y: n.y, depth: n.depth })
   })
 
-  // 2. Position visible spouses in-line with their prophet husband
+  // 2. Position visible spouses in a vertical line with their prophet husband
   const spousePositions = new Map<string, { x: number; y: number; depth: number }>()
+  const vGap = 78
+  const hGap = 90
 
-  // Hawwa with Adam
+  // Hawwa vertically below Adam
   if (visible('hawwa') && tempPos.has('adam')) {
     const a = tempPos.get('adam')!
     spousePositions.set('hawwa', {
-      x: a.x + (horizontal ? 0 : 130),
-      y: a.y + (horizontal ? 90 : 0),
-      depth: a.depth,
+      x: horizontal ? a.x + hGap : a.x,
+      y: horizontal ? a.y : a.y + vGap,
+      depth: a.depth + 0.5,
     })
   }
 
-  // Sarah & Hajar with Ibrahim
+  // Sarah & Hajar vertically in-line with Ibrahim and directly above their respective sons
   if (tempPos.has('ibrahim')) {
     const ib = tempPos.get('ibrahim')!
-    if (visible('sarah')) {
-      spousePositions.set('sarah', {
-        x: ib.x + (horizontal ? 0 : -130),
-        y: ib.y + (horizontal ? -90 : 0),
-        depth: ib.depth,
+    const ismailPos = tempPos.get('ismail')
+    const ishaqPos = tempPos.get('ishaq')
+
+    if (visible('hajar')) {
+      const targetX = ismailPos ? ismailPos.x : ib.x - 70
+      spousePositions.set('hajar', {
+        x: horizontal ? ib.x + hGap : targetX,
+        y: horizontal ? (ismailPos ? ismailPos.y : ib.y - 65) : ib.y + vGap,
+        depth: ib.depth + 0.5,
       })
     }
-    if (visible('hajar')) {
-      spousePositions.set('hajar', {
-        x: ib.x + (horizontal ? 0 : 130),
-        y: ib.y + (horizontal ? 90 : 0),
-        depth: ib.depth,
+    if (visible('sarah')) {
+      const targetX = ishaqPos ? ishaqPos.x : ib.x + 70
+      spousePositions.set('sarah', {
+        x: horizontal ? ib.x + hGap : targetX,
+        y: horizontal ? (ishaqPos ? ishaqPos.y : ib.y + 65) : ib.y + vGap,
+        depth: ib.depth + 0.5,
       })
     }
   }
 
-  // Safura with Musa
+  // Safura vertically below Musa
   if (visible('safura') && tempPos.has('musa')) {
     const m = tempPos.get('musa')!
-    const harunPos = tempPos.get('harun')
-    const offset = harunPos && harunPos.x > m.x ? -130 : 130
     spousePositions.set('safura', {
-      x: m.x + (horizontal ? 0 : offset),
-      y: m.y + (horizontal ? -90 : 0),
-      depth: m.depth,
+      x: horizontal ? m.x + hGap : m.x,
+      y: horizontal ? m.y : m.y + vGap,
+      depth: m.depth + 0.5,
     })
   }
 
   // Wives of Muhammad ﷺ
   if (tempPos.has('muhammad')) {
     const mh = tempPos.get('muhammad')!
-    const rightWives = ['khadijah', 'sawdah', 'aisha', 'hafsah', 'zaynab_khuzaymah', 'umm_salamah'].filter(visible)
-    const leftWives = ['mariyah', 'zaynab_jahsh', 'juwayriyah', 'umm_habibah', 'safiyyah', 'maymunah'].filter(visible)
+    const kKids = ['qasim', 'abdullah_m', 'zaynab_m', 'ruqayyah', 'umm_kulthum', 'fatimah'].filter((id) => tempPos.has(id))
+    const firstKid = kKids[0]
+    const lastKid = kKids[kKids.length - 1]
+    const kCenterX = firstKid && lastKid && tempPos.has(firstKid) && tempPos.has(lastKid)
+      ? (tempPos.get(firstKid)!.x + tempPos.get(lastKid)!.x) / 2
+      : mh.x - 65
+    const ibrahimX = tempPos.get('ibrahim_m')?.x ?? mh.x + 95
+
+    // Khadijah vertically above her children
+    if (visible('khadijah')) {
+      spousePositions.set('khadijah', {
+        x: horizontal ? mh.x + hGap : kCenterX,
+        y: horizontal ? kCenterX : mh.y + vGap,
+        depth: mh.depth + 0.5,
+      })
+    }
+
+    // Mariyah vertically above her son Ibrahim
+    if (visible('mariyah')) {
+      spousePositions.set('mariyah', {
+        x: horizontal ? mh.x + hGap : ibrahimX,
+        y: horizontal ? ibrahimX : mh.y + vGap,
+        depth: mh.depth + 0.5,
+      })
+    }
+
+    const rightWives = ['sawdah', 'aisha', 'hafsah', 'zaynab_khuzaymah', 'umm_salamah'].filter(visible)
+    const leftWives = ['zaynab_jahsh', 'juwayriyah', 'umm_habibah', 'safiyyah', 'maymunah'].filter(visible)
 
     rightWives.forEach((wid, idx) => {
-      const step = (idx + 1) * 125
+      const step = (idx + 1) * 110
       spousePositions.set(wid, {
-        x: mh.x + (horizontal ? 0 : step),
-        y: mh.y + (horizontal ? (idx + 1) * 85 : 0),
-        depth: mh.depth,
+        x: horizontal ? mh.x + hGap : mh.x + step,
+        y: horizontal ? mh.y + (idx + 1) * 75 : mh.y + vGap,
+        depth: mh.depth + 0.5,
       })
     })
 
     leftWives.forEach((wid, idx) => {
-      const step = (idx + 1) * -125
+      const step = (idx + 1) * -110
       spousePositions.set(wid, {
-        x: mh.x + (horizontal ? 0 : step),
-        y: mh.y + (horizontal ? (idx + 1) * -85 : 0),
-        depth: mh.depth,
+        x: horizontal ? mh.x + hGap : mh.x + step,
+        y: horizontal ? mh.y - (idx + 1) * 75 : mh.y + vGap,
+        depth: mh.depth + 0.5,
       })
     })
   }
@@ -227,24 +258,31 @@ export function buildLayout(
   const dir = rtl ? -1 : 1
   const edges: TreeEdge[] = []
 
-  // 3. Marriage edges between prophet and in-line spouse
+  // 3. Vertical marriage edges from prophet down to wives
   for (const [spouseId, husbandId] of Object.entries(SPOUSE_OF)) {
     if (!visible(spouseId) || !pos.has(spouseId) || !pos.has(husbandId)) continue
     const h = pos.get(husbandId)!
     const s = pos.get(spouseId)!
-    const midX = (h.x + s.x) / 2
-    const midY = (h.y + s.y) / 2
-    const d = `M ${h.x} ${h.y} L ${s.x} ${s.y}`
+    let d: string
+    if (horizontal) {
+      const midX = (h.x + s.x) / 2
+      d = `M ${h.x + 22 * dir},${h.y} C ${midX},${h.y} ${midX},${s.y} ${s.x - 20 * dir},${s.y}`
+    } else {
+      const midY = (h.y + s.y) / 2
+      d = h.x === s.x
+        ? `M ${h.x},${h.y + 22} L ${s.x},${s.y - 20}`
+        : `M ${h.x},${h.y + 22} C ${h.x},${midY} ${s.x},${midY} ${s.x},${s.y - 20}`
+    }
     edges.push({
       link: { from: husbandId, to: spouseId, type: 'spouse', l: 'hadith' },
       arc: false,
       d,
       isMarriage: true,
-      union: { x: midX, y: midY },
+      union: { x: s.x, y: s.y },
     })
   }
 
-  // 4. Descent edges
+  // 4. Descent edges: when mother is visible, child branches vertically from mother!
   laid.each((n) => {
     if (!n.parent) return
     const childId = n.data.id
@@ -255,23 +293,24 @@ export function buildLayout(
 
     let startX: number
     let startY: number
-    let unionPt: { x: number; y: number } | undefined
+    let sourceId: string
 
     if (hasMother) {
-      // Child branches from the union of BOTH parents!
-      const fatherPos = pos.get(fatherId)!
       const motherPos = pos.get(motherId)!
-      startX = (fatherPos.x + motherPos.x) / 2
-      startY = (fatherPos.y + motherPos.y) / 2
-      unionPt = { x: startX, y: startY }
+      startX = motherPos.x
+      startY = motherPos.y
+      sourceId = motherId
     } else {
       const fatherPos = pos.get(fatherId)!
       startX = fatherPos.x
       startY = fatherPos.y
+      sourceId = fatherId
     }
 
     const link = treeParent.get(childId)
-    const shown: Link = link && link.from === fatherId ? link : { from: fatherId, to: childId, type: 'descendant', l: 'tradition' }
+    const shown: Link = link && link.from === fatherId
+      ? link
+      : { from: sourceId, to: childId, type: 'child', l: 'tradition' }
 
     if (horizontal) {
       const midX = (startX + childPos.x) / 2
@@ -279,15 +318,18 @@ export function buildLayout(
         link: shown,
         arc: false,
         d: `M${startX + 22 * dir},${startY} C${midX},${startY} ${midX},${childPos.y} ${childPos.x - 22 * dir},${childPos.y}`,
-        union: unionPt,
+        union: hasMother ? { x: startX, y: startY } : undefined,
       })
     } else {
       const midY = (startY + childPos.y) / 2
+      const d = startX === childPos.x
+        ? `M${startX},${startY + 20} L${childPos.x},${childPos.y - 26}`
+        : `M${startX},${startY + 20} C${startX},${midY} ${childPos.x},${midY} ${childPos.x},${childPos.y - 26}`
       edges.push({
         link: shown,
         arc: false,
-        d: `M${startX},${startY + 24} C${startX},${midY} ${childPos.x},${midY} ${childPos.x},${childPos.y - 26}`,
-        union: unionPt,
+        d,
+        union: hasMother ? { x: startX, y: startY } : undefined,
       })
     }
   })
