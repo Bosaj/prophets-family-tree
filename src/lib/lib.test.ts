@@ -46,6 +46,27 @@ describe('layout', () => {
     const getV = (id: string) => vert.nodes.find((n) => n.id === id)!
     expect(getV('hawwa').x).toBe(getV('adam').x)
     expect(getV('safura').x).toBe(getV('musa').x)
+
+    // Helper to find overlaps in any layout
+    const checkOverlaps = (layoutNodes: typeof rtl.nodes) => {
+      const issues: string[] = []
+      for (let i = 0; i < layoutNodes.length; i++) {
+        for (let j = i + 1; j < layoutNodes.length; j++) {
+          const a = layoutNodes[i]!
+          const b = layoutNodes[j]!
+          const dx = Math.abs(a.x - b.x)
+          const dy = Math.abs(a.y - b.y)
+          if (dx < 60 && dy < 85) {
+            issues.push(`${a.id} & ${b.id} [dx=${dx.toFixed(1)}, dy=${dy.toFixed(1)}]`)
+          }
+        }
+      }
+      return issues
+    }
+
+    expect(checkOverlaps(rtl.nodes)).toEqual([])
+    expect(checkOverlaps(ltr.nodes)).toEqual([])
+    expect(checkOverlaps(vert.nodes)).toEqual([])
   })
 
   it('traces lineage back to Adam', () => {
