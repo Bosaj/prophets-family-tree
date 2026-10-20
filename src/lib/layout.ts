@@ -116,13 +116,12 @@ export function buildLayout(
   // 2. Position visible spouses in a vertical line with their prophet husband
   const spousePositions = new Map<string, { x: number; y: number; depth: number }>()
   const vGap = 78
-  const hGap = 90
 
   // Hawwa vertically below Adam
   if (visible('hawwa') && tempPos.has('adam')) {
     const a = tempPos.get('adam')!
     spousePositions.set('hawwa', {
-      x: horizontal ? a.x + hGap : a.x,
+      x: horizontal ? a.x + 86 : a.x,
       y: horizontal ? a.y : a.y + vGap,
       depth: a.depth + 0.5,
     })
@@ -135,18 +134,16 @@ export function buildLayout(
     const ishaqPos = tempPos.get('ishaq')
 
     if (visible('hajar')) {
-      const targetX = ismailPos ? ismailPos.x : ib.x - 70
       spousePositions.set('hajar', {
-        x: horizontal ? ib.x + hGap : targetX,
-        y: horizontal ? (ismailPos ? ismailPos.y : ib.y - 65) : ib.y + vGap,
+        x: horizontal ? (ismailPos ? ismailPos.x : ib.x - 86) : (ismailPos ? ismailPos.x : ib.x - 70),
+        y: horizontal ? ib.y : ib.y + vGap,
         depth: ib.depth + 0.5,
       })
     }
     if (visible('sarah')) {
-      const targetX = ishaqPos ? ishaqPos.x : ib.x + 70
       spousePositions.set('sarah', {
-        x: horizontal ? ib.x + hGap : targetX,
-        y: horizontal ? (ishaqPos ? ishaqPos.y : ib.y + 65) : ib.y + vGap,
+        x: horizontal ? (ishaqPos ? ishaqPos.x : ib.x + 86) : (ishaqPos ? ishaqPos.x : ib.x + 70),
+        y: horizontal ? ib.y : ib.y + vGap,
         depth: ib.depth + 0.5,
       })
     }
@@ -156,7 +153,7 @@ export function buildLayout(
   if (visible('safura') && tempPos.has('musa')) {
     const m = tempPos.get('musa')!
     spousePositions.set('safura', {
-      x: horizontal ? m.x + hGap : m.x,
+      x: horizontal ? m.x + 86 : m.x,
       y: horizontal ? m.y : m.y + vGap,
       depth: m.depth + 0.5,
     })
@@ -170,44 +167,47 @@ export function buildLayout(
     const lastKid = kKids[kKids.length - 1]
     const kCenterX = firstKid && lastKid && tempPos.has(firstKid) && tempPos.has(lastKid)
       ? (tempPos.get(firstKid)!.x + tempPos.get(lastKid)!.x) / 2
-      : mh.x - 65
-    const ibrahimX = tempPos.get('ibrahim_m')?.x ?? mh.x + 95
+      : mh.x + 86
+    const ibrahimX = tempPos.get('ibrahim_m')?.x ?? (mh.x - 86)
 
-    // Khadijah vertically above her children
+    // Khadijah vertically below Muhammad and aligned with her children
     if (visible('khadijah')) {
       spousePositions.set('khadijah', {
-        x: horizontal ? mh.x + hGap : kCenterX,
-        y: horizontal ? kCenterX : mh.y + vGap,
+        x: horizontal ? mh.x + 86 : kCenterX,
+        y: horizontal ? mh.y : mh.y + vGap,
         depth: mh.depth + 0.5,
       })
     }
 
-    // Mariyah vertically above her son Ibrahim
+    // Mariyah vertically aligned with her son Ibrahim
     if (visible('mariyah')) {
       spousePositions.set('mariyah', {
-        x: horizontal ? mh.x + hGap : ibrahimX,
-        y: horizontal ? ibrahimX : mh.y + vGap,
+        x: ibrahimX,
+        y: horizontal ? mh.y : mh.y + vGap,
         depth: mh.depth + 0.5,
       })
     }
 
-    const rightWives = ['sawdah', 'aisha', 'hafsah', 'zaynab_khuzaymah', 'umm_salamah'].filter(visible)
-    const leftWives = ['zaynab_jahsh', 'juwayriyah', 'umm_habibah', 'safiyyah', 'maymunah'].filter(visible)
+    const topWives = ['sawdah', 'aisha', 'hafsah', 'zaynab_khuzaymah', 'umm_salamah'].filter(visible)
+    const bottomWives = ['zaynab_jahsh', 'juwayriyah', 'umm_habibah', 'safiyyah', 'maymunah'].filter(visible)
 
-    rightWives.forEach((wid, idx) => {
-      const step = (idx + 1) * 110
+    const minX = Math.min(mh.x, ibrahimX)
+    const maxX = Math.max(mh.x + 86, kCenterX, tempPos.get('fatimah')?.x ?? mh.x)
+
+    topWives.forEach((wid, idx) => {
+      const step = (idx + 1) * 86
       spousePositions.set(wid, {
-        x: horizontal ? mh.x + hGap : mh.x + step,
-        y: horizontal ? mh.y + (idx + 1) * 75 : mh.y + vGap,
+        x: horizontal ? minX - step : mh.x + (idx + 1) * 90,
+        y: horizontal ? mh.y : mh.y + vGap,
         depth: mh.depth + 0.5,
       })
     })
 
-    leftWives.forEach((wid, idx) => {
-      const step = (idx + 1) * -110
+    bottomWives.forEach((wid, idx) => {
+      const step = (idx + 1) * 86
       spousePositions.set(wid, {
-        x: horizontal ? mh.x + hGap : mh.x + step,
-        y: horizontal ? mh.y - (idx + 1) * 75 : mh.y + vGap,
+        x: horizontal ? maxX + step : mh.x - (idx + 1) * 90,
+        y: horizontal ? mh.y : mh.y + vGap,
         depth: mh.depth + 0.5,
       })
     })
@@ -265,11 +265,17 @@ export function buildLayout(
     const s = pos.get(spouseId)!
     let d: string
     if (horizontal) {
-      const midX = (h.x + s.x) / 2
-      d = `M ${h.x + 22 * dir},${h.y} C ${midX},${h.y} ${midX},${s.y} ${s.x - 20 * dir},${s.y}`
+      if (Math.abs(h.x - s.x) < 2) {
+        const startY = s.y > h.y ? h.y + 18 : h.y - 18
+        const endY = s.y > h.y ? s.y - 16 : s.y + 16
+        d = `M ${h.x},${startY} L ${s.x},${endY}`
+      } else {
+        const midX = (h.x + s.x) / 2
+        d = `M ${h.x + 22 * dir},${h.y} C ${midX},${h.y} ${midX},${s.y} ${s.x - 20 * dir},${s.y}`
+      }
     } else {
       const midY = (h.y + s.y) / 2
-      d = h.x === s.x
+      d = Math.abs(h.x - s.x) < 2
         ? `M ${h.x},${h.y + 22} L ${s.x},${s.y - 20}`
         : `M ${h.x},${h.y + 22} C ${h.x},${midY} ${s.x},${midY} ${s.x},${s.y - 20}`
     }
