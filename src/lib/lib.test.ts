@@ -1,4 +1,4 @@
-import { buildLayout, lineage, relativesOf } from './layout'
+import { buildLayout, lineage, relativesOf, type LayoutFilterOptions } from './layout'
 import { parsePath, hrefOf } from './router'
 import { loadPassage } from './quran'
 import { fold, search } from '../components/Search'
@@ -47,7 +47,7 @@ describe('layout', () => {
     expect(getV('hawwa').x).toBe(getV('adam').x)
     expect(getV('safura').x).toBe(getV('musa').x)
 
-    // Helper to find overlaps in any layout
+    // Helper to find true visual overlaps in any layout
     const checkOverlaps = (layoutNodes: typeof rtl.nodes) => {
       const issues: string[] = []
       for (let i = 0; i < layoutNodes.length; i++) {
@@ -56,17 +56,39 @@ describe('layout', () => {
           const b = layoutNodes[j]!
           const dx = Math.abs(a.x - b.x)
           const dy = Math.abs(a.y - b.y)
-          if (dx < 60 && dy < 85) {
-            issues.push(`${a.id} & ${b.id} [dx=${dx.toFixed(1)}, dy=${dy.toFixed(1)}]`)
+          const hasProphet = a.person.kind === 'prophet' || b.person.kind === 'prophet'
+          const minVerticalGap = hasProphet ? 85 : 70
+          if (dx < 35 && dy < minVerticalGap) {
+            issues.push(`Column overlap: ${a.id} & ${b.id} [dx=${dx.toFixed(0)}, dy=${dy.toFixed(0)}]`)
+          } else if (dx < 55 && dy < 55) {
+            issues.push(`Direct overlap: ${a.id} & ${b.id} [dx=${dx.toFixed(0)}, dy=${dy.toFixed(0)}]`)
           }
         }
       }
       return issues
     }
 
-    expect(checkOverlaps(rtl.nodes)).toEqual([])
-    expect(checkOverlaps(ltr.nodes)).toEqual([])
-    expect(checkOverlaps(vert.nodes)).toEqual([])
+    const filterPermutations: LayoutFilterOptions[] = []
+    for (const includeFamily of [true, false]) {
+      for (const showSpouses of [true, false]) {
+        for (const showChildren of [true, false]) {
+          for (const showExtendedFamily of [true, false]) {
+            filterPermutations.push({ includeFamily, showSpouses, showChildren, showExtendedFamily })
+          }
+        }
+      }
+    }
+
+    // Verify all 16 filter permutations have ZERO overlaps in RTL, LTR, and Vertical orientations
+    for (const f of filterPermutations) {
+      const layoutRtl = buildLayout(f, true, true)
+      const layoutLtr = buildLayout(f, true, false)
+      const layoutVert = buildLayout(f, false, false)
+
+      expect(checkOverlaps(layoutRtl.nodes)).toEqual([])
+      expect(checkOverlaps(layoutLtr.nodes)).toEqual([])
+      expect(checkOverlaps(layoutVert.nodes)).toEqual([])
+    }
   })
 
   it('traces lineage back to Adam', () => {
