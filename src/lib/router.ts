@@ -12,8 +12,25 @@ export type Route =
   | { name: 'person'; id: string }
   | { name: 'notfound' }
 
+export function withBase(path: string): string {
+  const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : '/').replace(/\/+$/, '')
+  if (!base) return path
+  if (path === '/') return `${base}/`
+  if (path.startsWith(base)) return path
+  return `${base}${path.startsWith('/') ? path : `/${path}`}`
+}
+
+export function stripBase(path: string): string {
+  const base = (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : '/').replace(/\/+$/, '')
+  if (!base) return path
+  if (path === base || path === `${base}/`) return '/'
+  if (path.startsWith(`${base}/`)) return path.slice(base.length)
+  if (path.startsWith(base)) return path.slice(base.length) || '/'
+  return path
+}
+
 export function parsePath(path: string, search = ''): Route {
-  const p = path.replace(/\/+$/, '') || '/'
+  const p = stripBase(path.replace(/\/+$/, '') || '/')
   if (p === '/') return { name: 'home' }
   if (p === '/tree') {
     const focus = new URLSearchParams(search).get('focus') ?? undefined
@@ -34,28 +51,39 @@ export function parsePath(path: string, search = ''): Route {
 }
 
 export const hrefOf = (r: Route): string => {
+  let sub = '/'
   switch (r.name) {
     case 'home':
-      return '/'
+      sub = '/'
+      break
     case 'tree':
-      return r.focus ? `/tree?focus=${r.focus}` : '/tree'
+      sub = r.focus ? `/tree?focus=${r.focus}` : '/tree'
+      break
     case 'map':
-      return r.focus ? `/map?focus=${r.focus}` : '/map'
+      sub = r.focus ? `/map?focus=${r.focus}` : '/map'
+      break
     case 'timeline':
-      return '/timeline'
+      sub = '/timeline'
+      break
     case 'stature':
-      return '/stature'
+      sub = '/stature'
+      break
     case 'stories':
-      return '/stories'
+      sub = '/stories'
+      break
     case 'nature':
-      return '/nature'
+      sub = '/nature'
+      break
     case 'sources':
-      return '/sources'
+      sub = '/sources'
+      break
     case 'person':
-      return `/p/${r.id}`
+      sub = `/p/${r.id}`
+      break
     default:
-      return '/'
+      sub = '/'
   }
+  return withBase(sub)
 }
 
 const listeners = new Set<() => void>()
@@ -68,9 +96,10 @@ function emit() {
 if (typeof window !== 'undefined') window.addEventListener('popstate', emit)
 
 export function navigate(href: string, opts: { replace?: boolean } = {}) {
-  if (href === location.pathname + location.search) return
-  if (opts.replace) history.replaceState(null, '', href)
-  else history.pushState(null, '', href)
+  const full = withBase(href)
+  if (full === location.pathname + location.search) return
+  if (opts.replace) history.replaceState(null, '', full)
+  else history.pushState(null, '', full)
   emit()
   if (!opts.replace) window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
 }
