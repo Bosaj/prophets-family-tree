@@ -116,11 +116,61 @@ export const links: Link[] = [
   { from: 'muhammad', to: 'umm_kulthum', type: 'child', l: 'hadith', r: ['bukhari:3698'] },
   { from: 'muhammad', to: 'fatimah', type: 'child', l: 'hadith', r: ['bukhari:3714'] },
 
+  // Maternal parent links
+  { from: 'hawwa', to: 'qabil', type: 'child', l: 'tradition', r: ['book:qisas'] },
+  { from: 'hawwa', to: 'habil', type: 'child', l: 'tradition', r: ['book:qisas'] },
+  { from: 'hawwa', to: 'shith', type: 'child', l: 'tradition', r: ['book:qisas'] },
+  { from: 'sarah', to: 'ishaq', type: 'child', l: 'quran', r: ['11:71'] },
+  { from: 'hajar', to: 'ismail', type: 'child', l: 'quran', r: ['14:37'] },
+  { from: 'khadijah', to: 'qasim', type: 'child', l: 'tradition', r: ['book:sira'] },
+  { from: 'khadijah', to: 'abdullah_m', type: 'child', l: 'tradition', r: ['book:sira'] },
+  { from: 'khadijah', to: 'zaynab_m', type: 'child', l: 'tradition', r: ['book:sira'] },
+  { from: 'khadijah', to: 'ruqayyah', type: 'child', l: 'hadith', r: ['bukhari:3698'] },
+  { from: 'khadijah', to: 'umm_kulthum', type: 'child', l: 'hadith', r: ['bukhari:3698'] },
+  { from: 'khadijah', to: 'fatimah', type: 'child', l: 'hadith', r: ['bukhari:3714'] },
+  { from: 'mariyah', to: 'ibrahim_m', type: 'child', l: 'hadith', r: ['muslim:2315'] },
+
   // Arcs & lateral relations
   { from: 'musa', to: 'harun', type: 'sibling', l: 'quran', r: ['20:29-30', '19:53'] },
   { from: 'yahya', to: 'isa', type: 'cousin', l: 'hadith', r: ['bukhari:3430'] },
   { from: 'zakariya', to: 'maryam', type: 'guardian', l: 'quran', r: ['3:37'] },
 ]
+
+/** Maps known children to their documented mother */
+export const CHILD_MOTHER: Record<string, string> = {
+  qabil: 'hawwa',
+  habil: 'hawwa',
+  shith: 'hawwa',
+  ismail: 'hajar',
+  ishaq: 'sarah',
+  qasim: 'khadijah',
+  abdullah_m: 'khadijah',
+  zaynab_m: 'khadijah',
+  ruqayyah: 'khadijah',
+  umm_kulthum: 'khadijah',
+  fatimah: 'khadijah',
+  ibrahim_m: 'mariyah',
+}
+
+/** Maps spouses to their prophet husband */
+export const SPOUSE_OF: Record<string, string> = {
+  hawwa: 'adam',
+  sarah: 'ibrahim',
+  hajar: 'ibrahim',
+  safura: 'musa',
+  khadijah: 'muhammad',
+  sawdah: 'muhammad',
+  aisha: 'muhammad',
+  hafsah: 'muhammad',
+  zaynab_khuzaymah: 'muhammad',
+  umm_salamah: 'muhammad',
+  zaynab_jahsh: 'muhammad',
+  juwayriyah: 'muhammad',
+  umm_habibah: 'muhammad',
+  safiyyah: 'muhammad',
+  maymunah: 'muhammad',
+  mariyah: 'muhammad',
+}
 
 /** The link that places a person in the tree (its parent in the drawing). */
 export const treeParent = new Map<string, Link>()

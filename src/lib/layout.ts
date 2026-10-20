@@ -1,5 +1,5 @@
 import { hierarchy, tree, type HierarchyPointNode } from 'd3-hierarchy'
-import { links, treeParent } from '../data/links'
+import { links, treeParent, CHILD_MOTHER, SPOUSE_OF } from '../data/links'
 import { byId, people } from '../data/people'
 import type { Link, Person } from '../data/types'
 
@@ -17,6 +17,8 @@ export interface TreeEdge {
   d: string
   /** Arcs connect relatives that are not parent/child in the drawing. */
   arc: boolean
+  isMarriage?: boolean
+  union?: { x: number; y: number }
 }
 
 export interface TreeLayout {
@@ -62,6 +64,8 @@ export interface LayoutFilterOptions {
 /**
  * Lay the tree out top-down (phones) or sideways (wide screens).
  * Sideways, generations flow left to right, or right to left when `rtl`.
+ * Wives are positioned in-line with their prophet spouses, and children
+ * branch from the union of both parents.
  */
 export function buildLayout(
   filterOpts: boolean | LayoutFilterOptions = true,
@@ -81,71 +85,220 @@ export function buildLayout(
     return true
   }
 
-
-  // Build the drawing tree. When family members are hidden, their children attach to the nearest visible ancestor.
+  // 1. Build hierarchy of non-spouse nodes
   const kids = new Map<string, string[]>()
   for (const p of people) {
     if (p.id === 'adam' || !visible(p.id)) continue
+    // Spouses will be positioned in-line alongside their prophet partner, not as hierarchy children
+    if (p.kind === 'spouse') continue
+
     let parent = treeParent.get(p.id)?.from
     while (parent && !visible(parent)) parent = treeParent.get(parent)?.from
     if (!parent) continue
     kids.set(parent, [...(kids.get(parent) ?? []), p.id])
   }
+
   const make = (id: string): Raw => ({
     id,
     children: (kids.get(id) ?? []).sort((a, b) => rank(a) - rank(b)).map(make),
   })
   const root = hierarchy<Raw>(make('adam'), (d) => d.children)
   const laid = tree<Raw>()
-    .nodeSize(horizontal ? [82, 280] : [NODE_W, NODE_H])
-    .separation((a, b) => (a.parent === b.parent ? 1 : 1.25))(root)
+    .nodeSize(horizontal ? [86, 290] : [NODE_W, NODE_H])
+    .separation((a, b) => (a.parent === b.parent ? 1.1 : 1.35))(root)
 
-  let minB = Infinity
-  let maxB = -Infinity
-  let maxD = 0
-  laid.each((n) => {
-    minB = Math.min(minB, n.x)
-    maxB = Math.max(maxB, n.x)
-    maxD = Math.max(maxD, n.y)
+  // Map temporary positions from d3 layout
+  const tempPos = new Map<string, { x: number; y: number; depth: number }>()
+  laid.each((n: HierarchyPointNode<Raw>) => {
+    tempPos.set(n.data.id, { x: n.x, y: n.y, depth: n.depth })
   })
-  const pad = 90
-  const breadth = maxB - minB + pad * 2
-  const length = maxD + pad * 2
+
+  // 2. Position visible spouses in-line with their prophet husband
+  const spousePositions = new Map<string, { x: number; y: number; depth: number }>()
+
+  // Hawwa with Adam
+  if (visible('hawwa') && tempPos.has('adam')) {
+    const a = tempPos.get('adam')!
+    spousePositions.set('hawwa', {
+      x: a.x + (horizontal ? 0 : 130),
+      y: a.y + (horizontal ? 90 : 0),
+      depth: a.depth,
+    })
+  }
+
+  // Sarah & Hajar with Ibrahim
+  if (tempPos.has('ibrahim')) {
+    const ib = tempPos.get('ibrahim')!
+    if (visible('sarah')) {
+      spousePositions.set('sarah', {
+        x: ib.x + (horizontal ? 0 : -130),
+        y: ib.y + (horizontal ? -90 : 0),
+        depth: ib.depth,
+      })
+    }
+    if (visible('hajar')) {
+      spousePositions.set('hajar', {
+        x: ib.x + (horizontal ? 0 : 130),
+        y: ib.y + (horizontal ? 90 : 0),
+        depth: ib.depth,
+      })
+    }
+  }
+
+  // Safura with Musa
+  if (visible('safura') && tempPos.has('musa')) {
+    const m = tempPos.get('musa')!
+    const harunPos = tempPos.get('harun')
+    const offset = harunPos && harunPos.x > m.x ? -130 : 130
+    spousePositions.set('safura', {
+      x: m.x + (horizontal ? 0 : offset),
+      y: m.y + (horizontal ? -90 : 0),
+      depth: m.depth,
+    })
+  }
+
+  // Wives of Muhammad ﷺ
+  if (tempPos.has('muhammad')) {
+    const mh = tempPos.get('muhammad')!
+    const rightWives = ['khadijah', 'sawdah', 'aisha', 'hafsah', 'zaynab_khuzaymah', 'umm_salamah'].filter(visible)
+    const leftWives = ['mariyah', 'zaynab_jahsh', 'juwayriyah', 'umm_habibah', 'safiyyah', 'maymunah'].filter(visible)
+
+    rightWives.forEach((wid, idx) => {
+      const step = (idx + 1) * 125
+      spousePositions.set(wid, {
+        x: mh.x + (horizontal ? 0 : step),
+        y: mh.y + (horizontal ? (idx + 1) * 85 : 0),
+        depth: mh.depth,
+      })
+    })
+
+    leftWives.forEach((wid, idx) => {
+      const step = (idx + 1) * -125
+      spousePositions.set(wid, {
+        x: mh.x + (horizontal ? 0 : step),
+        y: mh.y + (horizontal ? (idx + 1) * -85 : 0),
+        depth: mh.depth,
+      })
+    })
+  }
+
+  // Compute overall bounding box
+  let minX = Infinity
+  let maxX = -Infinity
+  let minY = Infinity
+  let maxY = -Infinity
+
+  for (const p of [...tempPos.values(), ...spousePositions.values()]) {
+    minX = Math.min(minX, p.x)
+    maxX = Math.max(maxX, p.x)
+    minY = Math.min(minY, p.y)
+    maxY = Math.max(maxY, p.y)
+  }
+
+  const pad = 95
+  const widthRaw = maxX - minX + pad * 2
+  const heightRaw = maxY - minY + pad * 2
+
   const nodes: TreeNode[] = []
   const pos = new Map<string, { x: number; y: number }>()
-  laid.each((n: HierarchyPointNode<Raw>) => {
-    const b = n.x - minB + pad
-    const d = n.y + pad
-    const x = horizontal ? (rtl ? length - d : d) : b
-    const y = horizontal ? b : d
-    pos.set(n.data.id, { x, y })
-    nodes.push({ id: n.data.id, person: byId.get(n.data.id)!, x, y, depth: n.depth })
-  })
-  const dir = rtl ? -1 : 1
 
+  const registerNode = (id: string, rawX: number, rawY: number, depth: number) => {
+    let finalX: number
+    let finalY: number
+    if (horizontal) {
+      const d = rawY - minY + pad
+      finalX = rtl ? heightRaw - d : d
+      finalY = rawX - minX + pad
+    } else {
+      finalX = rawX - minX + pad
+      finalY = rawY - minY + pad
+    }
+    pos.set(id, { x: finalX, y: finalY })
+    nodes.push({ id, person: byId.get(id)!, x: finalX, y: finalY, depth })
+  }
+
+  for (const [id, p] of tempPos.entries()) {
+    registerNode(id, p.x, p.y, p.depth)
+  }
+  for (const [id, p] of spousePositions.entries()) {
+    registerNode(id, p.x, p.y, p.depth)
+  }
+
+  const dir = rtl ? -1 : 1
   const edges: TreeEdge[] = []
+
+  // 3. Marriage edges between prophet and in-line spouse
+  for (const [spouseId, husbandId] of Object.entries(SPOUSE_OF)) {
+    if (!visible(spouseId) || !pos.has(spouseId) || !pos.has(husbandId)) continue
+    const h = pos.get(husbandId)!
+    const s = pos.get(spouseId)!
+    const midX = (h.x + s.x) / 2
+    const midY = (h.y + s.y) / 2
+    const d = `M ${h.x} ${h.y} L ${s.x} ${s.y}`
+    edges.push({
+      link: { from: husbandId, to: spouseId, type: 'spouse', l: 'hadith' },
+      arc: false,
+      d,
+      isMarriage: true,
+      union: { x: midX, y: midY },
+    })
+  }
+
+  // 4. Descent edges
   laid.each((n) => {
     if (!n.parent) return
-    const from = pos.get(n.parent.data.id)!
-    const to = pos.get(n.data.id)!
-    const link = treeParent.get(n.data.id)
-    // A link whose source was hidden is shown as a generic descendant link.
-    const shown: Link = link && link.from === n.parent.data.id ? link : { from: n.parent.data.id, to: n.data.id, type: 'descendant', l: 'tradition' }
-    if (horizontal) {
-      const midX = (from.x + to.x) / 2
-      edges.push({ link: shown, arc: false, d: `M${from.x + 22 * dir},${from.y} C${midX},${from.y} ${midX},${to.y} ${to.x - 22 * dir},${to.y}` })
+    const childId = n.data.id
+    const fatherId = n.parent.data.id
+    const childPos = pos.get(childId)!
+    const motherId = CHILD_MOTHER[childId]
+    const hasMother = motherId && visible(motherId) && pos.has(motherId)
+
+    let startX: number
+    let startY: number
+    let unionPt: { x: number; y: number } | undefined
+
+    if (hasMother) {
+      // Child branches from the union of BOTH parents!
+      const fatherPos = pos.get(fatherId)!
+      const motherPos = pos.get(motherId)!
+      startX = (fatherPos.x + motherPos.x) / 2
+      startY = (fatherPos.y + motherPos.y) / 2
+      unionPt = { x: startX, y: startY }
     } else {
-      const midY = (from.y + to.y) / 2
-      edges.push({ link: shown, arc: false, d: `M${from.x},${from.y + 26} C${from.x},${midY} ${to.x},${midY} ${to.x},${to.y - 26}` })
+      const fatherPos = pos.get(fatherId)!
+      startX = fatherPos.x
+      startY = fatherPos.y
+    }
+
+    const link = treeParent.get(childId)
+    const shown: Link = link && link.from === fatherId ? link : { from: fatherId, to: childId, type: 'descendant', l: 'tradition' }
+
+    if (horizontal) {
+      const midX = (startX + childPos.x) / 2
+      edges.push({
+        link: shown,
+        arc: false,
+        d: `M${startX + 22 * dir},${startY} C${midX},${startY} ${midX},${childPos.y} ${childPos.x - 22 * dir},${childPos.y}`,
+        union: unionPt,
+      })
+    } else {
+      const midY = (startY + childPos.y) / 2
+      edges.push({
+        link: shown,
+        arc: false,
+        d: `M${startX},${startY + 24} C${startX},${midY} ${childPos.x},${midY} ${childPos.x},${childPos.y - 26}`,
+        union: unionPt,
+      })
     }
   })
+
+  // 5. Arcs for siblings, cousins, guardians
   for (const k of links) {
     if (!['sibling', 'cousin', 'guardian'].includes(k.type)) continue
     const a = pos.get(k.from)
     const b = pos.get(k.to)
     if (!a || !b) continue
     if (horizontal) {
-      // Bulge towards later generations so the arc stays clear of the labels under each node.
       const lift = Math.max(46, Math.abs(a.y - b.y) * 0.35)
       const side = Math.max(a.x * dir, b.x * dir) * dir + lift * dir
       edges.push({ link: k, arc: true, d: `M${a.x + 20 * dir},${a.y} C${side},${a.y} ${side},${b.y} ${b.x + 20 * dir},${b.y}` })
@@ -156,7 +309,10 @@ export function buildLayout(
     }
   }
 
-  return horizontal ? { nodes, edges, width: length, height: breadth } : { nodes, edges, width: breadth, height: length }
+  const finalWidth = horizontal ? heightRaw : widthRaw
+  const finalHeight = horizontal ? widthRaw : heightRaw
+
+  return { nodes, edges, width: finalWidth, height: finalHeight }
 }
 
 /** Ids from a person up to Adam, following the tree parents. */
