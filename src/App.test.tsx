@@ -75,4 +75,13 @@ describe('App', () => {
     expect(screen.getByText('Satellite')).toBeInTheDocument()
     expect(screen.getByText('Terrain')).toBeInTheDocument()
   })
+
+  it('renders the creatures, flora and prophetic medicine page', async () => {
+    renderAt('/nature')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Creatures, Flora & Prophetic Medicine/i)
+    expect(screen.getAllByText(/Hoopoe/i).length).toBeGreaterThan(0)
+    const plantsBtn = screen.getByRole('button', { name: /Plants & Foods/i })
+    await userEvent.click(plantsBtn)
+    expect(screen.getAllByText(/Date Palm/i).length).toBeGreaterThan(0)
+  })
 })

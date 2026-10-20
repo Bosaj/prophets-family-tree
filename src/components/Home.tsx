@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, ChevronDown, Compass, GitBranch, Hourglass, Ruler, ShieldCheck } from 'lucide-react'
+import { ArrowRight, BookOpen, ChevronDown, Compass, GitBranch, Hourglass, Leaf, Ruler, ShieldCheck } from 'lucide-react'
 import { useI18n } from '../i18n'
 import { LEVEL_TEXT } from '../i18n/strings'
 import { byId, heavens, people, prophets, ululAzm } from '../data/people'
@@ -42,6 +42,9 @@ export function Home() {
               </A>
               <A href="/stories" className="btn btn-ghost">
                 <BookOpen className="size-4" aria-hidden="true" /> {t('navStories')}
+              </A>
+              <A href="/nature" className="btn btn-ghost">
+                <Leaf className="size-4" aria-hidden="true" /> {t('navNature')}
               </A>
               <A href="/timeline" className="btn btn-ghost">
                 <Hourglass className="size-4" aria-hidden="true" /> {t('openTimeline')}

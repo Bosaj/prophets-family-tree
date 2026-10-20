@@ -219,6 +219,41 @@ html[lang='ar'] body {
 .spouse-node-glow { animation: spouse-pulse 4s ease-in-out infinite; }
 .child-node-glow { animation: child-pulse 4s ease-in-out infinite; }
 
+/* Motion and Shadow Animations for Animals & Flora */
+@keyframes creature-walk {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3.5px) rotate(0.8deg); }
+}
+@keyframes creature-fly {
+  0%, 100% { transform: translateY(-5px) scaleY(1); }
+  50% { transform: translateY(4px) scaleY(0.92); }
+}
+@keyframes creature-swim {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  50% { transform: translateX(5px) rotate(-1.5deg); }
+}
+@keyframes creature-gallop {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-6px) rotate(-2deg); }
+  70% { transform: translateY(-1px) rotate(1.5deg); }
+}
+@keyframes flora-sway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(2deg) translateY(-1.5px); }
+}
+@keyframes shadow-breathe {
+  0%, 100% { transform: scaleX(1) scaleY(1); opacity: 0.55; }
+  50% { transform: scaleX(0.86) scaleY(0.75); opacity: 0.3; }
+}
+
+.animate-creature-walk { animation: creature-walk 1.4s ease-in-out infinite; transform-origin: bottom center; }
+.animate-creature-fly { animation: creature-fly 1.1s ease-in-out infinite; transform-origin: center; }
+.animate-creature-swim { animation: creature-swim 2.2s ease-in-out infinite; transform-origin: center; }
+.animate-creature-gallop { animation: creature-gallop 0.85s ease-in-out infinite; transform-origin: bottom center; }
+.animate-flora-sway { animation: flora-sway 3.8s ease-in-out infinite; transform-origin: bottom center; }
+.animate-shadow-breathe { animation: shadow-breathe 1.4s ease-in-out infinite; transform-origin: center; }
+
+
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
