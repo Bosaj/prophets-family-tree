@@ -190,12 +190,16 @@ const en = {
   mapView: 'Topography Map',
   navStature: 'Stature & Appearance',
   navStories: 'Stories & Righteous',
+  navNature: 'Creatures & Flora',
   statureKicker: 'Physical Stature & Hadith Descriptions',
   statureTitle: 'Scale, Stature & Prophetic Descriptions',
   statureLead: 'Explore the authentic heights and physical traits of the Prophets and ancient generations compared to humans today.',
   storiesKicker: 'Qur’anic Parables & Righteous Figures',
   storiesTitle: 'Stories of the Qur’an & As-Salihin',
   storiesLead: 'Explore the inspiring righteous believers and parables immortalized in the Holy Qur’an.',
+  natureKicker: 'Creatures, Plants & Sacred Sustenance',
+  natureTitle: 'Animals, Flora & Prophetic Medicine',
+  natureLead: 'Explore all animals, plants, fruits, and healing remedies mentioned in the Holy Qur’an and authentic Sunnah with interactive motions, shadows, and clinical benefits.',
 }
 
 
@@ -385,12 +389,16 @@ const fr: Record<Key, string> = {
   mapView: 'Carte topographique',
   navStature: 'Stature & Apparence',
   navStories: 'Récits & Vertueux',
+  navNature: 'Créatures & Flore',
   statureKicker: 'Stature physique et descriptions prophétiques',
   statureTitle: 'Échelle, Stature et Descriptions Prophétiques',
   statureLead: 'Découvrez la taille authentique et les traits physiques des Prophètes et des générations anciennes comparés à l’humanité d’aujourd’hui.',
   storiesKicker: 'Paraboles coraniques et personnages vertueux',
   storiesTitle: 'Récits du Coran et As-Salihine',
   storiesLead: 'Découvrez les figures vertueuses et les récits emblématiques immortalisés dans le Noble Coran.',
+  natureKicker: 'Créatures, Plantes & Aliments Sacrés',
+  natureTitle: 'Animaux, Flore & Médecine Prophétique',
+  natureLead: 'Découvrez tous les animaux, plantes, fruits et remèdes guérisseurs cités dans le Saint Coran et la Sunnah authentique avec mouvements interactifs, ombres portées et vertus médicales.',
 }
 
 
@@ -578,12 +586,16 @@ const ar: Record<Key, string> = {
   mapView: 'خريطة التضاريس',
   navStature: 'القامة والصفات',
   navStories: 'قصص القرآن والصالحين',
+  navNature: 'الكائنات والنباتات',
   statureKicker: 'القامة الجسدية والشمائل النبوية',
   statureTitle: 'مقياس القامة والصفات الخلقية للأنبياء',
   statureLead: 'تعرف على قامة الأنبياء والأمم القديمة وأوصافهم الشريفة مقارنة بالإنسان المعاصر كما وردت في الأحاديث الصحيحة.',
   storiesKicker: 'العِبر القرآنية وعباد الله الصالحين',
   storiesTitle: 'قصص القرآن والصالحين المذكورين فيه',
   storiesLead: 'استكشف سير الصالحين والصالحات وقصص الأمم والأمثال التي خلّدها القرآن الكريم.',
+  natureKicker: 'حيوانات ونباتات وأطعمة الوحي',
+  natureTitle: 'حيوانات ونباتات القرآن والطب النبوي',
+  natureLead: 'استكشف جميع الحيوانات والطيور والنباتات والأغذية المذكورة في القرآن الكريم والسنة النبوية بحركات تفاعلية وظلال واقعية وفوائد طبية وغذائية شاملة.',
 }
 
 

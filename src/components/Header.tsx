@@ -13,6 +13,7 @@ const NAV = [
   { key: 'navTimeline', href: '/timeline', route: 'timeline' },
   { key: 'navStature', href: '/stature', route: 'stature' },
   { key: 'navStories', href: '/stories', route: 'stories' },
+  { key: 'navNature', href: '/nature', route: 'nature' },
   { key: 'navSources', href: '/sources', route: 'sources' },
 ] as const
 

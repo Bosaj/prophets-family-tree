@@ -10,6 +10,7 @@ import { TopographyMap } from './components/TopographyMap'
 import { Timeline } from './components/Timeline'
 import { StatureView } from './components/StatureView'
 import { SalihinView } from './components/SalihinView'
+import { NatureView } from './components/NatureView'
 import { Person } from './components/Person'
 import { REPO, Sources } from './components/Sources'
 import { NotFound } from './components/NotFound'
@@ -68,6 +69,8 @@ export default function App() {
         return <StatureView />
       case 'stories':
         return <SalihinView />
+      case 'nature':
+        return <NatureView />
       case 'sources':
         return <Sources />
       case 'person':

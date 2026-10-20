@@ -7,6 +7,7 @@ export type Route =
   | { name: 'timeline' }
   | { name: 'stature' }
   | { name: 'stories' }
+  | { name: 'nature' }
   | { name: 'sources' }
   | { name: 'person'; id: string }
   | { name: 'notfound' }
@@ -25,6 +26,7 @@ export function parsePath(path: string, search = ''): Route {
   if (p === '/timeline') return { name: 'timeline' }
   if (p === '/stature') return { name: 'stature' }
   if (p === '/stories') return { name: 'stories' }
+  if (p === '/nature') return { name: 'nature' }
   if (p === '/sources') return { name: 'sources' }
   const m = /^\/p\/([a-z0-9_]+)$/.exec(p)
   if (m) return { name: 'person', id: m[1]! }
@@ -45,6 +47,8 @@ export const hrefOf = (r: Route): string => {
       return '/stature'
     case 'stories':
       return '/stories'
+    case 'nature':
+      return '/nature'
     case 'sources':
       return '/sources'
     case 'person':
