@@ -377,6 +377,116 @@ export const SACRED_SITES: SacredSitePin[] = [
     prophetId: 'dawud',
     quranRef: 'Sad 38:21',
   },
+  {
+    id: 'baqi_madinah',
+    name: { en: 'Jannat al-Baqi‘ Cemetery (Madinah)', fr: 'Cimetière d’al-Baqi‘ (Médine)', ar: 'جنة البقيع (المدينة المنورة)' },
+    type: 'sanctuary',
+    lat: 24.4672,
+    lng: 39.6158,
+    desc: { en: 'The historic resting ground in Madinah adjacent to the Prophet’s Mosque, where over 10,000 illustrious Sahaba, the wives of the Prophet (Mothers of the Believers), and Ahl al-Bayt rest in eternal peace.', fr: 'Le cimetière historique de Médine où reposent plus de 10 000 illustres compagnons, les mères des croyants et les membres de la noble famille prophétique.', ar: 'المقبرة التاريخية العظيمة بالمدينة المنورة المجاورة للحرم النبوي، التي تضم رفات أكثر من عشرة آلاف صحابي جليل وأمهات المؤمنين وآل البيت الأطهار.' },
+    prophetId: 'muhammad',
+    quranRef: 'Sahih Muslim 974',
+  },
+  {
+    id: 'yarmouk_battle',
+    name: { en: 'Yarmouk Valley (Decisive Victory of the Sahaba)', fr: 'Vallée du Yarmouk (Bataille décisive)', ar: 'وادي اليرموك (معركة اليرمouk الكبرى)' },
+    type: 'sanctuary',
+    lat: 32.7483,
+    lng: 35.8690,
+    desc: { en: 'The scenic gorge where Khalid ibn al-Walid and the companion army achieved their epochal victory in 15 AH (636 CE), liberating the Levant from Byzantine rule and opening Jerusalem.', fr: 'Le défilé historique où Khalid ibn al-Walid et l’armée des compagnons remportèrent la victoire décisive de 15 H (636), ouvrant la voie à la libération de Jérusalem.', ar: 'الوادي التاريخي الأشم حيث قاد سيف الله خالد بن الوليد وأصحاب النبي ملحمة اليرموك الخالدة سنة 15 هـ، مؤذنة بتحرير بلاد الشام وفتح القدس.' },
+    prophetId: 'muhammad',
+    quranRef: 'Tarikh at-Tabari',
+  },
+  {
+    id: 'kufa_grand_mosque',
+    name: { en: 'Great Mosque of Kufa (Capital of Ali ibn Abi Talib)', fr: 'Grande Mosquée de Koufa', ar: 'مسجد الكوفة المعظم' },
+    type: 'sanctuary',
+    lat: 32.0294,
+    lng: 44.4008,
+    desc: { en: 'One of the earliest grand mosques in Islam, founded in 17 AH by Sa‘d ibn Abi Waqqas, later serving as the seat of the Caliphate under the Commander of the Faithful Ali ibn Abi Talib.', fr: 'L’une des plus anciennes grandes mosquées de l’Islam, fondée en 17 H par Sa‘d ibn Abi Waqqas et capitale du califat sous Ali ibn Abi Talib.', ar: 'من أقدم وأقدس مساجد الإسلام، خطّه سعد بن أبي وقاص سنة 17 هـ، وكان عاصمة خلافة أمير المؤمنين علي بن أبي طالب ومقر حكمه وقضائه العادل.' },
+    prophetId: 'muhammad',
+    quranRef: 'Ansab al-Ashraf',
+  },
+  {
+    id: 'amr_mosque_fustat',
+    name: { en: 'Mosque of ‘Amr ibn al-‘Aas (Fustat / Cairo)', fr: 'Mosquée d’Amr ibn al-Aas (Le Caire)', ar: 'جامع عمرو بن العاص (الفسطاط - القاهرة)' },
+    type: 'sanctuary',
+    lat: 30.0101,
+    lng: 31.2331,
+    desc: { en: 'The "Taj al-Jawami‘" (Crown of Mosques) founded in 21 AH (642 CE) by ‘Amr ibn al-‘Aas; the very first mosque ever erected on the entire African continent.', fr: 'La toute première mosquée érigée sur le continent africain, fondée en 21 H (642) par le compagnon ‘Amr ibn al-‘Aas à Foussat.', ar: 'تاج الجوامع وأول مسجد أُسس في قارة إفريقيا قاطبة سنة 21 هـ (642 م) على يد الفاتح الصحابي عمرو بن العاص بالفسطاط عاصمة مصر الإسلامية.' },
+    prophetId: 'muhammad',
+    quranRef: 'Husn al-Muhadarah',
+  },
+  {
+    id: 'damascus_umayyad',
+    name: { en: 'Great Umayyad Mosque of Damascus', fr: 'Grande Mosquée des Omeyyades de Damas', ar: 'الجامع الأموي الكبير بدمشق' },
+    type: 'sanctuary',
+    lat: 33.5119,
+    lng: 36.3067,
+    desc: { en: 'Masterpiece of early Islamic architecture completed by Caliph al-Walid I in 96 AH (715 CE), heart of the Umayyad Caliphate reigning across three continents.', fr: 'Chef-d’œuvre architectural bâti par le calife al-Walid Ier en 96 H, cœur battant du califat omeyyade étendu sur trois continents.', ar: 'درة العمارة الإسلامية الخالدة التي شادها الخليفة الوليد بن عبد الملك سنة 96 هـ، عاصمة الخلافة الأموية ومركز إشعاعها الحضاري العالمي.' },
+    prophetId: 'muhammad',
+    quranRef: 'Al-Bidayah wan-Nihayah',
+  },
+  {
+    id: 'cordoba_mezquita',
+    name: { en: 'Mezquita-Cathedral of Cordoba (Al-Andalus)', fr: 'Grande Mosquée de Cordoue (Al-Andalus)', ar: 'جامع قرطبة الكبير (الأندلس)' },
+    type: 'sanctuary',
+    lat: 37.8790,
+    lng: -4.7794,
+    desc: { en: 'The radiant crown of Muslim Spain founded by Abd al-Rahman I in 170 AH (786 CE); beacon of European philosophy, astronomy, medicine, and tolerance throughout the Middle Ages.', fr: 'Phare de la civilisation andalouse fondé par Abd al-Rahman Ier en 170 H, haut-lieu de rayonnement scientifique, philosophique et artistique en Europe médiévale.', ar: 'تاج الحضارة الأندلسية الذي أسسه صقر قريش عبد الرحمن الداخل سنة 170 هـ، منارة العلم والطب والفلسفة التي أضاءت ظلمات أوروبا في القرون الوسطى.' },
+    prophetId: 'muhammad',
+    quranRef: 'Nafh at-Tib',
+  },
+  {
+    id: 'baghdad_house_of_wisdom',
+    name: { en: 'Bayt al-Hikmah / House of Wisdom (Baghdad)', fr: 'Maison de la Sagesse (Bagdad)', ar: 'بيت الحكمة بدار السلام (بغداد)' },
+    type: 'sanctuary',
+    lat: 33.3406,
+    lng: 44.4010,
+    desc: { en: 'Epicenter of the Abbasid Golden Age founded by Harun al-Rashid and al-Ma’mun in Baghdad; where universal mathematics (algebra), astronomy, optics, and philosophy flourished.', fr: 'Épicentre de l’Âge d’Or abbasside fondé par Harun al-Rashid et al-Ma’mun, berceau de l’algèbre, de l’optique moderne et de la traduction universelle.', ar: 'أم الأكاديميات الكبرى في العصر الذهبي العباسي التي رعاها الرشيد والمأمون في بغداد، حيث ولدت علوم الجبر الحديثة والبصريات وتُرجم تراث الإنسانية.' },
+    prophetId: 'muhammad',
+    quranRef: 'Wafayat al-A‘yan',
+  },
+  {
+    id: 'samarkand_bukhari',
+    name: { en: 'Mausoleum of Imam al-Bukhari (Samarkand)', fr: 'Mausolée de l’Imam al-Bukhari (Samarcande)', ar: 'مزار ومجمع الإمام البخاري (سمرقند - خرتنك)' },
+    type: 'sanctuary',
+    lat: 39.7972,
+    lng: 66.9022,
+    desc: { en: 'Sanctuary of the undisputed Commander of Hadith Scholars, Imam Muhammad ibn Isma‘il al-Bukhari (d. 256 AH / 870 CE), author of the most authentic book after the Book of Allah.', fr: 'Mémorial du prince des traditionnistes, l’Imam al-Bukhari (m. 256 H), auteur du recueil le plus authentique après le Coran.', ar: 'الروضة الزكية لأمير المؤمنين في الحديث الإمام محمد بن إسماعيل البخاري (ت 256 هـ)، جامع أصح كتاب بعد كتاب الله العزيز بربوع خرتنك بسمرقند.' },
+    prophetId: 'muhammad',
+    quranRef: 'Siyar A‘lam an-Nubala',
+  },
+  {
+    id: 'nishapur_muslim',
+    name: { en: 'Sanctuary of Imam Muslim ibn al-Hajjaj (Nishapur)', fr: 'Sanctuaire de l’Imam Muslim (Nichapour)', ar: 'مرقد الإمام مسلم بن الحجاج (نيسابور)' },
+    type: 'sanctuary',
+    lat: 36.2133,
+    lng: 58.7958,
+    desc: { en: 'Final resting place of Imam Muslim ibn al-Hajjaj an-Naysaburi (d. 261 AH / 875 CE), author of Sahih Muslim renowned for unparalleled structural precision and hadith chains.', fr: 'Dernière demeure de l’Imam Muslim an-Naysaburi (m. 261 H), maître incontesté de la méthodologie et de la précision des chaînes de transmission.', ar: 'مرقد حجة الإسلام وإمام المحدثين مسلم بن الحجاج القشيري النيسابوري (ت 261 هـ) صاحب الصحيح الجامع الرصين الذي أجمع علماء الأمة على عظمته وإتقانه.' },
+    prophetId: 'muhammad',
+    quranRef: 'Tadhkirat al-Huffaz',
+  },
+  {
+    id: 'fez_qarawiyyin',
+    name: { en: 'University & Mosque of al-Qarawiyyin (Fez, Morocco)', fr: 'Université et Mosquée al-Qarawiyyin (Fès)', ar: 'جامع وجامعة القرويين (فاس - المغرب)' },
+    type: 'sanctuary',
+    lat: 34.0649,
+    lng: -4.9734,
+    desc: { en: 'Founded in 245 AH (859 CE) by Fatima al-Fihri, recognized by UNESCO and Guinness as the oldest continuously operating university in the world, educating Ibn Khaldun and Maimonides.', fr: 'Fondée en 859 par Fatima al-Fihriya à Fès, reconnue par l’UNESCO comme la plus ancienne université au monde encore en activité.', ar: 'أسستها العالمة الجليلة فاطمة الفهرية سنة 245 هـ (859 م) بمدينة فاس المغربية، أقدم جامعة مستمرة تمنح درجات علمية في تاريخ البشرية بشهادة اليونسكو.' },
+    prophetId: 'muhammad',
+    quranRef: 'Rawd al-Qirtas',
+  },
+  {
+    id: 'istanbul_eyup_hagia',
+    name: { en: 'Sanctuary of Abu Ayyub al-Ansari & Hagia Sophia (Istanbul)', fr: 'Sanctuaire d’Abou Ayyoub al-Ansari et Sainte-Sophie (Istanbul)', ar: 'مرقد الصحابي أبي أيوب الأنصاري وآيا صوفيا (إسطنبول)' },
+    type: 'sanctuary',
+    lat: 41.0478,
+    lng: 28.9342,
+    desc: { en: 'Resting place of the venerable companion Abu Ayyub al-Ansari who hosted the Prophet in Madinah, beside the imperial seat of the Ottoman Caliphate on the Bosphorus.', fr: 'Mausolée du vénérable compagnon Abou Ayyoub al-Ansari qui accueillit le Prophète à Médine, aux côtés du siège impérial ottoman sur le Bosphore.', ar: 'مرقد الصحابي البدري الجليل أبي أيوب الأنصاري مضيف رسول الله ﷺ، في قلب عاصمة الخلافة العثمانية بإسطنبول حيث تحقق الوعد النبوي الشريف.' },
+    prophetId: 'muhammad',
+    quranRef: 'Musnad Ahmad 18977',
+  },
 ]
 
 export const ROUTES: PropheticRoute[] = [
@@ -804,6 +914,337 @@ export const ROUTES: PropheticRoute[] = [
       },
     ],
   },
+  {
+    id: 'islam_expansion_prophetic',
+    name: {
+      en: 'The Prophetic Dawn & Unification of Arabia',
+      fr: 'L’Aube Prophétique et l’Unification de l’Arabie',
+      ar: 'فجر النبوة وتوحيد شبه الجزيرة العربية',
+    },
+    color: '#10b981',
+    prophetId: 'muhammad',
+    period: { en: '1–11 AH (622–632 CE)', fr: '1–11 H (622–632)', ar: '1–11 هـ (622–632 م)' },
+    desc: {
+      en: 'The radiant dawn of Islam originating from Makkah and Madinah, establishing peace, justice, and pure monotheism across the entire Arabian Peninsula from the Red Sea to Oman and Yemen.',
+      fr: 'Le rayonnement initial de l’Islam depuis Médine et La Mecque, unifiant la péninsule arabique par la justice et le monothéisme pur.',
+      ar: 'انبثاق نور الإسلام المبين من مكة والمدينة المنورة وتوحيد جزيرة العرب بالعدل والتوحيد من جبال اليمن إلى أطراف الشام وعمان.',
+    },
+    coords: [
+      [21.4225, 39.8262], // Makkah
+      [24.4686, 39.6108], // Madinah
+      [23.7833, 38.7833], // Badr
+      [25.6989, 39.2972], // Khaybar
+      [31.0833, 35.7000], // Mu'tah
+      [28.3835, 36.5662], // Tabuk
+      [17.4933, 44.1277], // Najran
+      [15.3694, 44.1910], // Sana'a
+      [24.3639, 56.7469], // Sohar
+    ],
+    stops: [
+      {
+        name: { en: 'Madinah al-Munawwarah', fr: 'Médine l’Illuminée', ar: 'المدينة المنورة (دار الهجرة)' },
+        lat: 24.4686,
+        lng: 39.6108,
+        desc: { en: 'The beacon of light where the Constitution of Madinah was enacted, bonding the Muhajirun and Ansar in fraternal unity.', fr: 'Sanctuaire d’accueil où fut rédigée la Constitution de Médine unissant émigrés et partisans.', ar: 'مهاجر النبي ومقر إقامة دولته النبوية المباركة وصياغة وثيقة المدينة الخالدة.' },
+        quranRef: 'At-Tawbah 9:100',
+      },
+      {
+        name: { en: 'Badr al-Kubra (Day of Criterion)', fr: 'Badr (Jour du Discernement)', ar: 'بدر الكبرى (يوم الفرقان)' },
+        lat: 23.7833,
+        lng: 38.7833,
+        desc: { en: 'The momentous turning point in 2 AH where truth prevailed over idolatry with divine assistance.', fr: 'Le tournant décisif de l’an 2 de l’Hégire où la vérité triompha avec le secours divin.', ar: 'المعركة الفاصلة في 17 رمضان 2 هـ: ﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾.' },
+        quranRef: 'Ali Imran 3:123',
+      },
+      {
+        name: { en: 'Conquest of Makkah (Fath Makkah)', fr: 'Ouverture de La Mecque', ar: 'فتح مكة الأعظم (إنا فتحنا لك فتحا مبينا)' },
+        lat: 21.4225,
+        lng: 39.8262,
+        desc: { en: 'Peaceful return in 8 AH: cleansing the Ka‘bah of 360 idols and announcing universal pardon: "Go, for you are free".', fr: 'Entrée triomphale et pacifique en l’an 8 H, purification de la Ka‘bah et amnistie générale.', ar: 'دخول مكة في 8 هـ دون إراقة دماء، وتطهير البيت الحرام وإعلان العفو العام: اذهبوا فأنتم الطلقاء.' },
+        quranRef: 'Al-Fath 48:1',
+      },
+      {
+        name: { en: 'Expedition of Tabuk', fr: 'Expédition de Tabouk', ar: 'غزوة تبوك (جيش العسرة)' },
+        lat: 28.3835,
+        lng: 36.5662,
+        desc: { en: 'The grand march to the northern Byzantine frontier in 9 AH, cementing the sovereignty of the Islamic state.', fr: 'La grande marche vers la frontière byzantine au nord en 9 H, consolidant la souveraineté islamique.', ar: 'غزوة العسرة الكبرى سنة 9 هـ لردع الروم وحماية الثغور الشمالية لجزيرة العرب.' },
+        quranRef: 'At-Tawbah 9:117',
+      },
+      {
+        name: { en: 'Sana‘a & Peaceful Entry of Yemen', fr: 'Sanaa et adhésion du Yémen', ar: 'صنعاء ودخول أهل اليمن أفواجا' },
+        lat: 15.3694,
+        lng: 44.1910,
+        desc: { en: 'The Yemenite tribes accepted Islam peacefully under the envoys Ali ibn Abi Talib and Mu‘adh ibn Jabal.', fr: 'Les tribus yéménites embrassent l’Islam pacifiquement sous la guidance de Mu‘adh et Ali.', ar: 'إسلام قبائل اليمن طواعية في يوم واحد على يد علي بن أبي طالب ومعاذ بن جبل: ﴿وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا﴾.' },
+        quranRef: 'An-Nasr 110:2',
+      },
+    ],
+  },
+  {
+    id: 'islam_expansion_rashidun',
+    name: {
+      en: 'The Rashidun Caliphate: Levant, Mesopotamia, Persia & Egypt',
+      fr: 'Les Califes Bien Guidés : Cham, Perse et Égypte',
+      ar: 'الفتوحات الراشدية: الشام والعراق وفارس ومصر',
+    },
+    color: '#38bdf8',
+    prophetId: 'muhammad',
+    period: { en: '11–41 AH (632–661 CE)', fr: '11–41 H (632–661)', ar: '11–41 هـ (632–661 م)' },
+    desc: {
+      en: 'Under Abu Bakr, Umar, Uthman, and Ali (may Allah be pleased with them), the companions dismantled tyrannical imperial rule, toppled the Sasanian Persian empire, and liberated Jerusalem and Egypt with unprecedented justice.',
+      fr: 'Sous les quatre premiers califes, les compagnons libèrent le Levant, la Mésopotamie, la Perse et l’Égypte, instaurant la justice et garantissant la liberté religieuse.',
+      ar: 'في خلافة أبي بكر وعمر وعثمان وعلي رضي الله عنهم، دحر الجبروت الساساني وتحرير الشام ومصر وفتح بيت المقدس بالعدل والتسامح الفريد.'
+    },
+    coords: [
+      [24.4686, 39.6108], // Madinah
+      [32.7483, 35.8690], // Yarmouk
+      [33.5138, 36.2765], // Damascus
+      [31.7767, 35.2345], // Jerusalem
+      [31.9833, 44.5333], // Al-Qadisiyyah
+      [33.0936, 44.5808], // Ctesiphon
+      [34.1886, 48.3769], // Nahavand
+      [30.0101, 31.2331], // Fustat
+      [31.2001, 29.9187], // Alexandria
+      [32.8872, 13.1913], // Tripoli
+    ],
+    stops: [
+      {
+        name: { en: 'Battle of the Yarmouk Valley (15 AH)', fr: 'Bataille du Yarmouk (15 H)', ar: 'معركة اليرموك الخالدة (15 هـ)' },
+        lat: 32.7483,
+        lng: 35.8690,
+        desc: { en: 'Khalid ibn al-Walid and Abu Ubaydah vanquished the massive imperial Byzantine army, liberating Syria.', fr: 'Khalid ibn al-Walid triomphe de la grande armée byzantine, scellant le destin de la Syrie.', ar: 'ملحمة سيف الله خالد بن الوليد وأبي عبيدة التي حطمت أركان الهيمنة البيزنطية بالشام.' },
+        quranRef: 'Tarikh at-Tabari',
+      },
+      {
+        name: { en: 'Opening of Jerusalem & The Umariyya Covenant (16 AH)', fr: 'Ouverture de Jérusalem et Pacte d’Umar', ar: 'فتح بيت المقدس والعهدة العمرية (16 هـ)' },
+        lat: 31.7767,
+        lng: 35.2345,
+        desc: { en: 'Caliph Umar personally entered Jerusalem and granted Patriarch Sophronius total protection for Christian shrines, lives, and freedom of worship.', fr: 'Le calife Omar garantit la protection sacrée des églises, des personnes et de la foi des chrétiens.', ar: 'دخول أمير المؤمنين عمر بن الخطاب متواضعا لكنيسة القيامة وكتابة العهدة العمرية التي حمت كنائس النصارى وأموالهم.' },
+        quranRef: 'Al-Bidayah wan-Nihayah',
+      },
+      {
+        name: { en: 'Battle of al-Qadisiyyah & Al-Mada’in (15–16 AH)', fr: 'Bataille d’al-Qadisiyyah et Ctésiphon', ar: 'القادسية وفتح المدائن عاصمة الأكاسرة' },
+        lat: 31.9833,
+        lng: 44.5333,
+        desc: { en: 'Sa‘d ibn Abi Waqqas broke the core Persian military, liberating Iraq and entering the White Palace of Ctesiphon.', fr: 'Sa‘d ibn Abi Waqqas défait l’armée sassanide et libère l’Irak.', ar: 'قيادة سعد بن أبي وقاص لدحر جيش رستم وتحرير العراق ودخول إيوان كسرى مصداقا لبشارة النبي ﷺ.' },
+        quranRef: 'Sahih Muslim 2918',
+      },
+      {
+        name: { en: 'Nahavand: The Victory of Victories (21 AH)', fr: 'Nahavand : Victoire des Victoires', ar: 'معركة نهاوند (فتح الفتوح 21 هـ)' },
+        lat: 34.1886,
+        lng: 48.3769,
+        desc: { en: 'The decisive victory in the Zagros mountains ending Sasanian imperial cohesion and opening Persia to Islam.', fr: 'Victoire décisive mettant fin à l’empire perse et ouvrant la Perse à l’Islam.', ar: 'فتح الفتوح في جبال زاغروس التي سقطت بها دولة الأكاسرة ومهدت لدخول بلاد فارس في دين الله.' },
+        quranRef: 'Siyar A‘lam an-Nubala',
+      },
+      {
+        name: { en: 'Liberation of Egypt & Foundation of Fustat (20–21 AH)', fr: 'Libération de l’Égypte et Fustat', ar: 'فتح مصر وبناء الفسطاط (20–21 هـ)' },
+        lat: 30.0101,
+        lng: 31.2331,
+        desc: { en: '‘Amr ibn al-‘Aas liberated the native Coptic Christians from Byzantine religious tyranny, building the first mosque in Africa.', fr: '‘Amr ibn al-‘Aas libère les coptes d’Égypte de l’oppression byzantine et fonde la première mosquée d’Afrique.', ar: 'تحرير عمرو بن العاص لأهل مصر وقباطها من ظلم الرومان وتأسيس الفسطاط وأول مسجد بقارة إفريقيا.' },
+        quranRef: 'Husn al-Muhadarah',
+      },
+    ],
+  },
+  {
+    id: 'islam_expansion_umayyad',
+    name: {
+      en: 'Umayyad & Andalusian Horizon: Atlantic to China',
+      fr: 'L’Empire Omeyyade et Al-Andalus : de l’Atlantique à la Chine',
+      ar: 'الفتوحات الأموية والأندلسية: من الأطلسي إلى تخوم الصين',
+    },
+    color: '#e9c67b',
+    prophetId: 'muhammad',
+    period: { en: '41–132 AH (661–750 CE)', fr: '41–132 H (661–750)', ar: '41–132 هـ (661–750 م)' },
+    desc: {
+      en: 'The largest contiguous empire of antiquity: advancing from Damascus across North Africa to Spain and southern France (Al-Andalus), while simultaneously reaching Bukhara, Samarkand, and the Indus River in Pakistan.',
+      fr: 'Le plus grand empire d’un seul tenant de son époque : de Damas à Cordoue et de Boukhara aux rives de l’Indus.',
+      ar: 'أوسع رقعة حضارية في تاريخ القرون الوسطى: من دمشق والقيروان وجبل طارق إلى قرطبة، ومن بخارى وسمرقند إلى بلاد السند ونهر الهند.'
+    },
+    coords: [
+      [33.5138, 36.2765], // Damascus
+      [35.6781, 10.0963], // Qayrawan
+      [35.7595, -5.8340], // Tangier
+      [36.1408, -5.3536], // Gibraltar
+      [37.8790, -4.7794], // Cordoba
+      [39.8628, -4.0273], // Toledo
+      [37.6625, 62.1864], // Merv
+      [39.7681, 64.4556], // Bukhara
+      [39.6542, 66.9597], // Samarkand
+      [39.4677, 75.9898], // Kashgar
+      [24.7500, 67.5500], // Debal / Sindh
+      [30.1575, 71.5249], // Multan
+    ],
+    stops: [
+      {
+        name: { en: 'Damascus (Imperial Umayyad Capital)', fr: 'Damas (Capitale Omeyyade)', ar: 'دمشق (حاضرة الخلافة الأموية)' },
+        lat: 33.5138,
+        lng: 36.2765,
+        desc: { en: 'Political and cultural epicenter of the world, adorned with the legendary Great Umayyad Mosque.', fr: 'Capitale politique et culturelle d’un empire mondial, parée de la Grande Mosquée des Omeyyades.', ar: 'عاصمة الخلافة التي أدارت أكبر إمبراطورية في العالم الوسيط وشيدت تحفة الجامع الأموي.' },
+        quranRef: 'Tarikh Dimashq',
+      },
+      {
+        name: { en: 'Qayrawan (Spiritual Vanguard of the Maghreb, 50 AH)', fr: 'Kairouan (Phare du Maghreb)', ar: 'القيروان (معسكر عقبة بن نافع 50 هـ)' },
+        lat: 35.6781,
+        lng: 10.0963,
+        desc: { en: 'Founded by Uqba ibn Nafi as the radiant fortress of Islamic faith, learning, and governance in North Africa.', fr: 'Fondée par Oqba ibn Nafi comme forteresse de la foi et du savoir en Afrique du Nord.', ar: 'أسسها الفاتح عقبة بن نافع لتكون منارة التوحيد والجهاد ومركز انطلاق الإسلام لربوع إفريقيا.' },
+        quranRef: 'Riyad an-Nufus',
+      },
+      {
+        name: { en: 'Jabal Tariq (Gibraltar) & Opening of Al-Andalus (92 AH)', fr: 'Gibraltar et Ouverture d’Al-Andalus', ar: 'جبل طارق وفتح الأندلس (92 هـ)' },
+        lat: 36.1408,
+        lng: -5.3536,
+        desc: { en: 'Tariq ibn Ziyad crossed the strait, defeating King Roderick and initiating eight centuries of brilliant civilization in Spain.', fr: 'Tariq ibn Ziyad traverse le détroit, fondant huit siècles de brillante civilisation andalouse.', ar: 'عبور طارق بن زياد وموسى بن نصير لفتح شبه الجزيرة الإيبيرية وبدء عصر الحضارة الأندلسية البهيج.' },
+        quranRef: 'Nafh at-Tib',
+      },
+      {
+        name: { en: 'Cordoba (The Jewel of the World)', fr: 'Cordoue (Parure du Monde)', ar: 'قرطبة (عروس الأندلس وقبلة العلماء)' },
+        lat: 37.8790,
+        lng: -4.7794,
+        desc: { en: 'The most cultivated city in medieval Europe with 70 libraries, paved streets, and harmonious scientific scholarship.', fr: 'La cité la plus lettrée de l’Europe médiévale avec ses bibliothèques et ses universités.', ar: 'قاعدة الأندلس الفكرية والعلمية التي أضاءت ظلام أوروبا بمكتباتها السبعين وجامعها المعظم.' },
+        quranRef: 'Al-Hulal al-Mawshiyyah',
+      },
+      {
+        name: { en: 'Bukhara & Samarkand (Transoxiana, 86–94 AH)', fr: 'Boukhara et Samarcande', ar: 'بخارى وسمرقند (ما وراء النهر)' },
+        lat: 39.6542,
+        lng: 66.9597,
+        desc: { en: 'Qutayba ibn Muslim carried Islam across the Oxus, establishing the twin fountains of future Islamic science and Hadith.', fr: 'Qoutayba ibn Mouslim ouvre la Transoxiane, futur berceau des plus grands savants du Hadith.', ar: 'فتح قتيبة بن مسلم الباهلي لبلاد ما وراء النهر مهبط كبار علماء الإسلام كالبخاري والترمذي والبيروني.' },
+        quranRef: 'Tarikh at-Tabari',
+      },
+      {
+        name: { en: 'Debal & Multan (Indus River Valley, 93 AH)', fr: 'Debal et Multan (Vallée de l’Indus)', ar: 'الديبل وملتان (بلاد السند وحوض الهند)' },
+        lat: 24.7500,
+        lng: 67.5500,
+        desc: { en: 'Muhammad ibn al-Qasim introduced Islam to the Indian subcontinent, instituting full protection for temples and local religions.', fr: 'Muhammad ibn al-Qasim introduit l’Islam dans le sous-continent indien dans la tolérance des cultes.', ar: 'فتح محمد بن القاسم الثقفي للسند وحوض نهر السند وإرساء مبادئ التسامح وحماية المعابد.' },
+        quranRef: 'Chach Nama',
+      },
+    ],
+  },
+  {
+    id: 'islam_expansion_maritime',
+    name: {
+      en: 'Abbasid Golden Age: Maritime Spice Route & Silk Road',
+      fr: 'L’Âge d’Or Abbasside : Voies Maritimes et Route de la Soie',
+      ar: 'العصر العباسي وطرق التجارة البحرية والحرير العالمية',
+    },
+    color: '#a855f7',
+    prophetId: 'muhammad',
+    period: { en: '132–656 AH (750–1258 CE)', fr: '132–656 H (750–1258)', ar: '132–656 هـ (750–1258 م)' },
+    desc: {
+      en: 'The peaceful diffusion of Islam through upright merchant ethics, mathematics, medicine, and seafaring across the Indian Ocean: reaching East Africa (Zanzibar), India (Kerala), and Southeast Asia (Sumatra, Malacca, Canton).',
+      fr: 'Diffusion pacifique par le commerce éthique et la science le long de l’océan Indien : vers l’Afrique de l’Est, l’Inde et l’Asie du Sud-Est.',
+      ar: 'انتشار الإسلام السلمي بالأخلاق الرفيعة والتجارة البحرية والعلوم: من موانئ البصرة وعمان إلى زنجبار وكيرلا وسومطرة وملاكا وموانئ كانتون.'
+    },
+    coords: [
+      [33.3406, 44.4010], // Baghdad
+      [30.5081, 47.7835], // Basra
+      [23.5880, 58.3829], // Muscat / Sohar
+      [2.0469, 45.3182],  // Mogadishu
+      [-6.1659, 39.2026], // Zanzibar
+      [11.2588, 75.7804], // Calicut / Kerala
+      [5.1290, 97.2285],  // Samudera Pasai
+      [2.1896, 102.2501], // Malacca
+      [23.1291, 113.2644] // Canton / Guangzhou
+    ],
+    stops: [
+      {
+        name: { en: 'Baghdad (Dar al-Salam & House of Wisdom)', fr: 'Bagdad (Cité de la Paix)', ar: 'بغداد (دار السلام وبيت الحكمة)' },
+        lat: 33.3406,
+        lng: 44.4010,
+        desc: { en: 'Cosmopolitan world capital of astronomy, medicine, philosophy, and mathematics under Harun al-Rashid and al-Ma’mun.', fr: 'Capitale mondiale des sciences, de la médecine et de l’astronomie sous Haroun al-Rachid.', ar: 'عاصمة الدنيا ومستقر بيت الحكمة حيث التقى علماء الأمم لترجمة العلوم وتطوير الطب والفلك والجبر.' },
+        quranRef: 'Tarikh Baghdad',
+      },
+      {
+        name: { en: 'Swahili Coast: Mogadishu & Zanzibar', fr: 'Côte Swahilie : Mogadiscio et Zanzibar', ar: 'سواحل الزنج: مقديشو وزنجبار' },
+        lat: -6.1659,
+        lng: 39.2026,
+        desc: { en: 'Thriving Indian Ocean sultanates founded on trade, giving birth to the Swahili language (fusing Arabic and Bantu).', fr: 'Sultanats prospères de l’océan Indien donnant naissance à la culture et la langue swahilies.', ar: 'مراكز التجارة البحرية والتعايش السلمي التي ولدت منها الحضارة السواحيلية الخالدة.' },
+        quranRef: 'Rihlat Ibn Battuta',
+      },
+      {
+        name: { en: 'Malabar Coast: Cheraman Juma Mosque (Kerala, India)', fr: 'Côte de Malabar : Kerala', ar: 'ساحل المليبار وكيرلا (مسجد شيرامان)' },
+        lat: 11.2588,
+        lng: 75.7804,
+        desc: { en: 'Legendary arrival of Muslim merchants during the Prophet’s era; King Cheraman Perumal embraced Islam and built India’s oldest mosque.', fr: 'Les marchands musulmans introduisent l’Islam pacifiquement en Inde dès le VIIe siècle.', ar: 'دخول الإسلام سلميا بالهند عبر تجار البهار، وإسلام الملك الهندي شيرامان وبناء أقدم مساجد الهند.' },
+        quranRef: 'Tuhfat al-Mujahidin',
+      },
+      {
+        name: { en: 'Samudera Pasai & Malacca (Malay Archipelago)', fr: 'Samudera Pasai et Malacca (Insulinde)', ar: 'سلطنة باساي ومضيق ملاكا (إندونيسيا وماليزيا)' },
+        lat: 2.1896,
+        lng: 102.2501,
+        desc: { en: 'Trade guilds and Sufi teachers introduced Islam to Indonesia and Malaysia with no military force, creating the world’s largest Muslim population.', fr: 'L’Islam se répand en Indonésie et en Malaisie uniquement par l’exemplarité des marchands et des maîtres soufis.', ar: 'انتشار الإسلام السلمي بالقدوة الحسنة في إندونيسيا وماليزيا، لتشكل اليوم أكبر كتلة سكانية للمسلمين.' },
+        quranRef: 'Hikayat Raja-raja Pasai',
+      },
+      {
+        name: { en: 'Huaisheng Mosque (Canton / Guangzhou, China)', fr: 'Mosquée Huaisheng (Canton, Chine)', ar: 'جامع怀圣 (مسجد الذكرى بكانتون - الصين)' },
+        lat: 23.1291,
+        lng: 113.2644,
+        desc: { en: 'One of the oldest mosques in the world, founded by early Sahaba along the maritime Silk Road during the Tang Dynasty (627 CE).', fr: 'L’une des plus anciennes mosquées au monde, fondée par les premiers compagnons sous la dynastie Tang.', ar: 'من أقدم مساجد العالم، أسسه صحابة رسول الله الذين ركبوا بحار طريق الحرير في عهد أسرة تانغ.' },
+        quranRef: 'Old Tang History',
+      },
+    ],
+  },
+  {
+    id: 'islam_expansion_ottoman',
+    name: {
+      en: 'The Ottoman Horizon: Three Continents & the Balkans',
+      fr: 'L’Empire Ottoman : Trois Continents et les Balkans',
+      ar: 'الامتداد العثماني: قارات العالم القديم الثلاث وحوض البلقان',
+    },
+    color: '#ef4444',
+    prophetId: 'muhammad',
+    period: { en: '699–1342 AH (1299–1924 CE)', fr: '699–1342 H (1299–1924)', ar: '699–1342 هـ (1299–1924 م)' },
+    desc: {
+      en: 'The Ottoman Caliphate unified the lands of Islam across Anatolia, the Levant, Egypt, the Holy Sanctuaries of Hijaz, and expanded deeply into Southeastern Europe and the Balkans up to the gates of Vienna.',
+      fr: 'Le califat ottoman unifie l’Anatolie, le Levant, le Maghreb, le Hedjaz et s’étend profondément dans les Balkans jusqu’aux portes de Vienne.',
+      ar: 'الخلافة العثمانية توحد الأناضول والشام ومصر والحرمين الشريفين وتمتد عميقا في جنوب شرق أوروبا وبلاد البلقان حتى أسوار فيينا.'
+    },
+    coords: [
+      [40.1885, 29.0610], // Bursa
+      [41.6772, 26.5557], // Edirne
+      [41.0082, 28.9784], // Istanbul
+      [40.6401, 22.9444], // Thessaloniki
+      [41.9981, 21.4254], // Skopje
+      [43.8563, 18.4131], // Sarajevo
+      [44.7866, 20.4489], // Belgrade
+      [47.4979, 19.0402], // Buda
+      [48.2082, 16.3738]  // Vienna Gates
+    ],
+    stops: [
+      {
+        name: { en: 'Bursa & Edirne (Imperial Roots)', fr: 'Bourse et Andrinople', ar: 'بورصة وأدرنة (عواصم التأسيس الأولى)' },
+        lat: 41.6772,
+        lng: 26.5557,
+        desc: { en: 'The initial capitals where early Ottoman statehood, guild solidarity (Ahi), and imperial architecture were forged.', fr: 'Les premières capitales où se forgèrent les institutions et l’architecture monumentale ottomane.', ar: 'عواصم الدولة الأولى التي انطلقت منها الفتوحات ورُسخت فيها أخلاق الفتوة ونظام الأخيّة.' },
+        quranRef: 'Devlet-i Aliyye',
+      },
+      {
+        name: { en: 'Opening of Istanbul / Constantinople (857 AH / 1453 CE)', fr: 'Ouverture d’Istanbul (857 H / 1453)', ar: 'فتح القسطنطينية (857 هـ / 1453 م)' },
+        lat: 41.0082,
+        lng: 28.9784,
+        desc: { en: 'Sultan Mehmed the Conqueror fulfilled the prophetic glad tidings, transforming the city into the glorious capital of Islam.', fr: 'Le sultan Mehmed le Conquérant accomplit la prophétie, faisant d’Istanbul la capitale du califat.', ar: 'تحقق البشارة النبوية على يد السلطان محمد الفاتح: "لتفتحن القسطنطينية، فلنعم الأمير أميرها ولنعم الجيش ذلك الجيش".' },
+        quranRef: 'Musnad Ahmad 18977',
+      },
+      {
+        name: { en: 'Sarajevo & Mostar (Heart of the Balkans)', fr: 'Sarajevo et Mostar (Cœur des Balkans)', ar: 'سراييفو وموستار (جوهرة البلقان الإسلامي)' },
+        lat: 43.8563,
+        lng: 18.4131,
+        desc: { en: 'The jewel of the Western Balkans where mosques, stone bridges, and multi-faith coexistence flourished.', fr: 'Le joyau des Balkans où fleurirent les ponts de pierre, les madrasas et le vivre-ensemble.', ar: 'مدينة المساجد والجسور المعلقة والتعايش السلمي الخلاق في قلب جبال البوسنة والهرسك.' },
+        quranRef: 'Seyahatname',
+      },
+      {
+        name: { en: 'Belgrade Fortress on the Danube (927 AH / 1521 CE)', fr: 'Forteresse de Belgrade sur le Danube', ar: 'قلعة بلغراد على نهر الدانوب (927 هـ)' },
+        lat: 44.7866,
+        lng: 20.4489,
+        desc: { en: 'Sultan Suleiman the Magnificent secured the strategic Danubian corridor uniting Central Europe with the Mediterranean.', fr: 'Soliman le Magnifique ouvre la voie stratégique du Danube vers l’Europe centrale.', ar: 'فتح السلطان سليمان القانوني للقلعة الإستراتيجية وربط تجارة أوروبا الوسطى بحوض المتوسط.' },
+        quranRef: 'Zubdetu’l-Tevarih',
+      },
+      {
+        name: { en: 'Gates of Vienna (935 AH / 1529 CE)', fr: 'Aux Portes de Vienne (935 H / 1529)', ar: 'أسوار فيينا (أقصى امتداد في أوروبا الوسطى)' },
+        lat: 48.2082,
+        lng: 16.3738,
+        desc: { en: 'The northern frontier where Ottoman diplomacy, trade, and culture met Central Europe at the zenith of the empire.', fr: 'La frontière septentrionale où la diplomatie et la culture ottomanes côtoyèrent l’Europe centrale.', ar: 'الحد الشمالي الذي بلغه المسلمون في قلب القارة الأوروبية في عهد القانوني.' },
+        quranRef: 'Soliman le Magnifique',
+      },
+    ],
+  },
 ]
 
 const ERAS = [
@@ -813,6 +1254,7 @@ const ERAS = [
   { id: 'abrahamic', label: { en: 'Abrahamic', fr: 'Abrahamique', ar: 'العهد الإبراهيمي' }, ids: ['ibrahim', 'lut', 'ismail', 'ishaq', 'yaqub', 'yusuf'] },
   { id: 'israelite', label: { en: 'Mosaic & Israelite', fr: 'Mosaïque et Rois', ar: 'موسى وملوك إسرائيل' }, ids: ['ayyub', 'shuayb', 'musa', 'harun', 'dhulkifl', 'dawud', 'sulayman', 'ilyas', 'alyasa', 'yunus'] },
   { id: 'prophetic', label: { en: 'Messianic & Seal', fr: 'Messianique et Sceau', ar: 'المسيح وخاتم النبيين' }, ids: ['zakariya', 'yahya', 'isa', 'muhammad'] },
+  { id: 'islamic_spread', label: { en: 'Spread of Islam', fr: 'Expansion de l’Islam', ar: 'انتشار الإسلام في العالم' }, ids: ['muhammad'] },
 ]
 
 export function TopographyMap({ focus }: { focus?: string }) {
