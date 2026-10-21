@@ -258,6 +258,47 @@ export function SahabaTree({ focus }: { focus?: string }) {
     })
   }, [])
 
+  // Auto-focus camera on figures matching a specific selected era
+  const focusEra = useCallback(
+    (eraId: SahabaEra | 'all') => {
+      if (eraId === 'all') {
+        fit()
+        return
+      }
+      const el = box.current
+      if (!el) return
+      const cw = el.clientWidth || 1000
+      const ch = el.clientHeight || 780
+
+      const matching = SAHABA_FIGURES.filter((f) => f.era === eraId)
+        .map((f) => SAHABA_NODE_COORDS[f.id])
+        .filter((c): c is { x: number; y: number } => !!c)
+
+      if (matching.length === 0) {
+        fit()
+        return
+      }
+
+      const minX = Math.min(...matching.map((c) => c.x))
+      const maxX = Math.max(...matching.map((c) => c.x))
+      const minY = Math.min(...matching.map((c) => c.y))
+      const maxY = Math.max(...matching.map((c) => c.y))
+
+      const spanX = Math.max(500, maxX - minX + 280)
+      const spanY = Math.max(400, maxY - minY + 280)
+      const midX = (minX + maxX) / 2
+      const midY = (minY + maxY) / 2
+
+      const k = Math.max(0.4, Math.min(1.0, Math.min(cw / spanX, ch / spanY) * 0.85))
+      setView({
+        k,
+        x: cw / 2 - midX * k,
+        y: ch / 2 - midY * k,
+      })
+    },
+    [fit]
+  )
+
   useEffect(() => {
     fit()
     const handleResize = () => fit()
@@ -538,37 +579,36 @@ export function SahabaTree({ focus }: { focus?: string }) {
 
       {/* Era Filter Chips */}
       <div className="mb-6 flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => setSelectedEra('all')}
-          className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
-            selectedEra === 'all'
-              ? 'bg-emerald-500 text-night font-bold'
-              : 'border border-white/10 bg-night-2 text-ink-3 hover:text-ink'
-          }`}
-        >
-          {lang === 'ar' ? 'الكل' : 'All Eras'} ({SAHABA_FIGURES.length})
-        </button>
         {SAHABA_ERAS.map((era) => {
-          const count = SAHABA_FIGURES.filter((f) => f.era === era.id).length
+          const count =
+            era.id === 'all'
+              ? SAHABA_FIGURES.length
+              : SAHABA_FIGURES.filter((f) => f.era === era.id).length
           const isActive = selectedEra === era.id
           return (
             <button
               key={era.id}
               type="button"
-              onClick={() => setSelectedEra(era.id)}
-              className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+              onClick={() => {
+                setSelectedEra(era.id)
+                if (era.id === 'all') {
+                  fit()
+                } else {
+                  focusEra(era.id)
+                }
+              }}
+              className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
                 isActive
-                  ? 'bg-emerald-500 text-night font-bold shadow-md'
-                  : 'border border-white/10 bg-night-2 text-ink-3 hover:text-ink'
+                  ? 'bg-emerald-500 text-night font-bold shadow-md ring-2 ring-emerald-400/50 scale-[1.03]'
+                  : 'border border-white/10 bg-night-2 text-ink-3 hover:text-ink hover:border-white/20'
               }`}
             >
               <span
-                className="size-2 rounded-full"
+                className="size-2 rounded-full shrink-0"
                 style={{ backgroundColor: era.badgeColor }}
               />
               <span>{pick(era.label)}</span>
-              <span className="opacity-70 text-[0.65rem] font-mono">({count})</span>
+              <span className="opacity-80 text-[0.65rem] font-mono">({count})</span>
             </button>
           )
         })}
@@ -610,29 +650,56 @@ export function SahabaTree({ focus }: { focus?: string }) {
             </button>
           </div>
 
-          {/* Interactive Legend Pill */}
-          <div className="absolute top-4 start-4 z-20 hidden md:flex items-center gap-3 rounded-full border border-white/10 bg-night-2/95 backdrop-blur-md px-4 py-1.5 text-xs text-ink-2 shadow-xl">
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-2.5 rounded-full bg-emerald-400" />
-              <span>{lang === 'ar' ? 'الخلفاء الراشدون' : 'Rashidun'}</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-2.5 rounded-full bg-cyan-400" />
-              <span>{lang === 'ar' ? 'أئمة الحديث' : 'Hadith Masters'}</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-2.5 rounded-full bg-amber-400" />
-              <span>{lang === 'ar' ? 'آل البيت والنسب الشريف' : 'Prophetic Lineage'}</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-2.5 rounded-full bg-purple-400" />
-              <span>{lang === 'ar' ? 'المبشرون وكبار الصحابة' : 'Promised Paradise'}</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-2.5 rounded-full bg-indigo-400" />
-              <span>{lang === 'ar' ? 'الخلافات الإسلامية' : 'Caliphates'}</span>
-            </span>
-          </div>
+          {/* Active Era Filter Banner or Interactive Legend Pill */}
+          {selectedEra !== 'all' ? (
+            <div className="absolute top-4 start-4 z-20 flex items-center gap-2 rounded-full border border-emerald-500/50 bg-night-2/95 backdrop-blur-md px-4 py-1.5 text-xs text-ink shadow-xl animate-fadeIn">
+              <span
+                className="size-2.5 rounded-full animate-ping shrink-0"
+                style={{
+                  backgroundColor:
+                    SAHABA_ERAS.find((e) => e.id === selectedEra)?.badgeColor ?? '#10b981',
+                }}
+              />
+              <span className="font-bold text-emerald-300">
+                {lang === 'ar' ? 'تصفية محددة:' : 'Active Filter:'}{' '}
+                {pick(SAHABA_ERAS.find((e) => e.id === selectedEra)?.label ?? { en: '', fr: '', ar: '' })} (
+                {SAHABA_FIGURES.filter((f) => f.era === selectedEra).length})
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedEra('all')
+                  fit()
+                }}
+                className="ms-2 text-[0.7rem] bg-white/10 hover:bg-emerald-500 hover:text-night text-ink-2 px-2.5 py-0.5 rounded-full transition-colors cursor-pointer font-medium"
+              >
+                {lang === 'ar' ? 'إلغاء التصفية وعرض الكل ✕' : 'Clear & Show All ✕'}
+              </button>
+            </div>
+          ) : (
+            <div className="absolute top-4 start-4 z-20 hidden md:flex items-center gap-3 rounded-full border border-white/10 bg-night-2/95 backdrop-blur-md px-4 py-1.5 text-xs text-ink-2 shadow-xl">
+              <span className="inline-flex items-center gap-1.5">
+                <span className="size-2.5 rounded-full bg-emerald-400" />
+                <span>{lang === 'ar' ? 'الخلفاء الراشدون' : 'Rashidun'}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="size-2.5 rounded-full bg-cyan-400" />
+                <span>{lang === 'ar' ? 'أئمة الحديث' : 'Hadith Masters'}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="size-2.5 rounded-full bg-amber-400" />
+                <span>{lang === 'ar' ? 'آل البيت والنسب الشريف' : 'Prophetic Lineage'}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="size-2.5 rounded-full bg-purple-400" />
+                <span>{lang === 'ar' ? 'المبشرون وكبار الصحابة' : 'Promised Paradise'}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="size-2.5 rounded-full bg-indigo-400" />
+                <span>{lang === 'ar' ? 'الخلافات الإسلامية' : 'Caliphates'}</span>
+              </span>
+            </div>
+          )}
 
           {/* Pure SVG Drag & Zoom Canvas Surface */}
           <svg
@@ -687,6 +754,13 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   activeFigure?.id === link.from ||
                   activeFigure?.id === link.to
 
+                const fromFig = SAHABA_FIGURES.find((f) => f.id === link.from)
+                const toFig = SAHABA_FIGURES.find((f) => f.id === link.to)
+                const lineMatchesEra =
+                  selectedEra === 'all' ||
+                  fromFig?.era === selectedEra ||
+                  toFig?.era === selectedEra
+
                 const midY = (from.y + to.y) / 2
                 const d = `M ${from.x} ${from.y} C ${from.x} ${midY}, ${to.x} ${midY}, ${to.x} ${to.y}`
 
@@ -704,6 +778,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     stroke={stroke}
                     strokeWidth={isGlowing ? 3.6 : 1.7}
                     strokeDasharray={link.type === 'mentorship' ? '5 5' : undefined}
+                    opacity={isGlowing ? 1 : lineMatchesEra ? 0.85 : 0.12}
                     className={isGlowing ? 'drop-shadow-[0_0_10px_rgba(250,204,21,0.9)]' : ''}
                   />
                 )
@@ -722,6 +797,11 @@ export function SahabaTree({ focus }: { focus?: string }) {
 
                 const isActive = activeFigure?.id === fig.id
                 const isConnected = activeLineageIds.has(fig.id)
+
+                const isMatchEra = selectedEra === 'all' || fig.era === selectedEra
+                const isSearchMatch = !query.trim() || filteredFigures.some((ff) => ff.id === fig.id)
+                const isHighlighted = isMatchEra && isSearchMatch
+                const isDimmed = !isHighlighted || (activeFigure && !isConnected && !isActive)
 
                 const r = isProphet ? 22 : isRashidun ? 18 : isHadithMaster ? 17 : 14
                 const haloFill = isProphet
@@ -752,7 +832,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     key={fig.id}
                     data-node={fig.id}
                     transform={`translate(${coord.x},${coord.y})`}
-                    className="cursor-pointer transition-transform duration-300 group"
+                    className="cursor-pointer transition-all duration-300 group"
+                    opacity={isDimmed ? 0.22 : 1}
                     role="button"
                     tabIndex={0}
                     onClick={() => setActiveFigure(fig)}
@@ -761,7 +842,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     <circle
                       r={r * 3.2}
                       fill={haloFill}
-                      opacity={isActive ? 0.95 : isConnected ? 0.75 : 0.3}
+                      opacity={isActive ? 0.95 : isConnected ? 0.75 : isMatchEra && selectedEra !== 'all' ? 0.7 : 0.3}
                     />
 
                     {/* Active Pulsating Ring */}
@@ -772,7 +853,21 @@ export function SahabaTree({ focus }: { focus?: string }) {
                         stroke="#facc15"
                         strokeWidth={2}
                         strokeDasharray="3 3"
-                        className="animate-spin-slow"
+                        className="animate-spin"
+                        style={{ animationDuration: '6s' }}
+                      />
+                    )}
+
+                    {/* Filter Matching Beacon Ring */}
+                    {!isActive && selectedEra !== 'all' && isMatchEra && (
+                      <circle
+                        r={r + 7}
+                        fill="none"
+                        stroke="#34d399"
+                        strokeWidth={1.8}
+                        strokeDasharray="3 3"
+                        className="animate-spin"
+                        style={{ animationDuration: '8s' }}
                       />
                     )}
 
@@ -894,7 +989,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
 
       {/* 2. CHRONOLOGICAL TIMELINE VIEW */}
       {viewMode === 'timeline' && (
-        <div className="relative rounded-3xl border border-white/10 bg-night-2 p-6 sm:p-10 shadow-2xl">
+        <div data-testid="sahaba-timeline" className="relative rounded-3xl border border-white/10 bg-night-2 p-6 sm:p-10 shadow-2xl">
           <div className="mb-8 pb-4 border-b border-white/10">
             <h2 className="ar-name text-2xl font-bold text-ink gold-text mb-1">
               {lang === 'ar' ? 'الخط الزمني الموثق للصحابة والخلفاء وأئمة الحديث' : 'Chronological Timeline of Companions, Caliphs & Hadith Masters'}
@@ -910,6 +1005,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             {chronologicalFigures.map((fig, idx) => (
               <div
                 key={fig.id}
+                data-testid={`sahaba-timeline-${fig.id}`}
                 onClick={() => setActiveFigure(fig)}
                 className="relative ps-14 group cursor-pointer"
               >
@@ -982,10 +1078,19 @@ export function SahabaTree({ focus }: { focus?: string }) {
 
       {/* 3. BIOGRAPHICAL CARDS VIEW */}
       {viewMode === 'cards' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div data-testid="sahaba-cards" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredFigures.map((fig) => (
             <div
               key={fig.id}
+              data-testid={`sahaba-card-${fig.id}`}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  setActiveFigure(fig)
+                }
+              }}
               onClick={() => setActiveFigure(fig)}
               className="group relative rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-5 transition-all duration-300 hover:border-emerald-500/50 hover:bg-white/[0.07] hover:shadow-[0_10px_30px_rgba(16,185,129,0.15)] cursor-pointer flex flex-col justify-between"
             >

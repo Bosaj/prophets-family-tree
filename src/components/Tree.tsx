@@ -769,6 +769,9 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   {/* 3. CENTER BANNER: Pre-Adamic Earthly Inhabitants (الجن والحن والبن والنسناس) */}
                   <g
                     className="cursor-pointer group/preadam"
+                    data-testid="preadam-banner"
+                    role="button"
+                    tabIndex={0}
                     onClick={(e) => {
                       e.stopPropagation()
                       setSelectedPreAdamEntity('jinn')
