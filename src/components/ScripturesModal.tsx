@@ -45,8 +45,8 @@ export function ScripturesModal({
     zabur: `${import.meta.env.BASE_URL}scriptures/zabur.png`,
     injeel: `${import.meta.env.BASE_URL}scriptures/injeel.png`,
     suhuf_ibrahim: `${import.meta.env.BASE_URL}scriptures/suhuf_ibrahim.png`,
-    suhuf_idris: `${import.meta.env.BASE_URL}scriptures/suhuf_ibrahim.png`,
-    suhuf_shith: `${import.meta.env.BASE_URL}scriptures/suhuf_ibrahim.png`,
+    suhuf_idris: `${import.meta.env.BASE_URL}scriptures/suhuf_idris.png`,
+    suhuf_shith: `${import.meta.env.BASE_URL}scriptures/suhuf_shith.png`,
   }
 
   return (
@@ -57,13 +57,13 @@ export function ScripturesModal({
       onClick={onClose}
     >
       <div
-        className="glass-card relative flex flex-col w-full max-w-5xl max-h-[92vh] overflow-hidden rounded-2xl border border-amber-500/30 bg-[#0d0918]/95 shadow-[0_0_50px_rgba(245,158,11,0.2)] text-amber-50"
+        className="glass-card relative flex flex-col w-full max-w-5xl max-h-[92vh] min-h-0 overflow-hidden rounded-2xl border border-amber-500/30 bg-[#0d0918]/95 shadow-[0_0_50px_rgba(245,158,11,0.2)] text-amber-50"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Bar */}
-        <div className="flex items-center justify-between border-b border-amber-500/20 px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-amber-950/40 via-purple-950/30 to-amber-950/40">
+        <div className="shrink-0 flex items-center justify-between border-b border-amber-500/20 px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-amber-950/40 via-purple-950/30 to-amber-950/40">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/20 border border-amber-500/40 shadow-inner">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 border border-amber-500/40 shadow-inner">
               <BookOpen className="h-5 w-5 text-amber-300" />
             </div>
             <div>
@@ -86,15 +86,15 @@ export function ScripturesModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-2 text-amber-300/70 hover:bg-amber-500/20 hover:text-amber-100 transition-colors"
+            className="shrink-0 rounded-lg p-2 text-amber-300/70 hover:bg-amber-500/20 hover:text-amber-100 transition-colors"
             aria-label="Close"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Horizontal Scripture Selector Pills */}
-        <div className="flex items-center gap-2 px-4 py-2.5 sm:px-6 overflow-x-auto border-b border-amber-500/15 bg-black/40 scrollbar-thin">
+        {/* Horizontal Scripture Selector Pills - No scrollbar, wrapped cleanly */}
+        <div className="shrink-0 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-6 sm:py-2.5 border-b border-amber-500/15 bg-black/50 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {SCRIPTURES.map((book) => {
             const isSelected = book.id === selectedId
             return (
@@ -105,7 +105,7 @@ export function ScripturesModal({
                   setSelectedId(book.id)
                   setSelectedVersionId(book.versions[0]?.id || null)
                 }}
-                className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-all ${
+                className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 sm:px-3 sm:py-1.5 text-xs font-medium transition-all ${
                   isSelected
                     ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold shadow-md shadow-amber-500/30 ring-2 ring-amber-300/60'
                     : 'bg-white/5 text-amber-200/80 hover:bg-white/10 hover:text-amber-100 border border-white/5'
@@ -118,7 +118,7 @@ export function ScripturesModal({
                 <span
                   className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono ${
                     isSelected
-                      ? 'bg-black/20 text-slate-950'
+                      ? 'bg-black/25 text-slate-950 font-bold'
                       : 'bg-amber-400/10 text-amber-300'
                   }`}
                 >
@@ -140,7 +140,7 @@ export function ScripturesModal({
         </div>
 
         {/* Modal Body */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 pb-20 space-y-6">
           {/* Main Hero Card for Current Book */}
           <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-950/40 via-purple-950/20 to-black/60 p-4 sm:p-6 shadow-xl">
             <div className="flex flex-col md:flex-row gap-6 items-start">
@@ -170,13 +170,13 @@ export function ScripturesModal({
               </div>
 
               {/* Information Columns */}
-              <div className="flex-1 space-y-3">
+              <div className="flex-1 min-w-0 space-y-3 w-full">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div>
-                    <h3 className="text-2xl sm:text-3xl font-bold font-serif text-amber-200">
+                  <div className="min-w-0">
+                    <h3 className="text-2xl sm:text-3xl font-bold font-serif text-amber-200 break-words">
                       {currentBook.title.ar}
                     </h3>
-                    <p className="text-sm sm:text-base font-medium text-amber-300/80">
+                    <p className="text-sm sm:text-base font-medium text-amber-300/80 break-words">
                       {pick(currentBook.title)} · {currentBook.transliteration}
                     </p>
                   </div>
@@ -187,7 +187,7 @@ export function ScripturesModal({
                         onClose()
                         onSelectPerson(currentBook.prophetId)
                       }}
-                      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/40 hover:bg-amber-500/30 transition-colors"
+                      className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/40 hover:bg-amber-500/30 transition-colors"
                     >
                       <span>{pick(currentBook.prophetName)}</span>
                       <ExternalLink className="h-3 w-3" />
@@ -196,55 +196,55 @@ export function ScripturesModal({
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-                  <div className="flex items-center gap-2 rounded-lg bg-black/40 p-2 border border-white/5">
-                    <Globe className="h-4 w-4 text-amber-400 shrink-0" />
-                    <div>
-                      <span className="text-amber-200/60 block">
+                  <div className="flex items-start gap-2.5 rounded-lg bg-black/40 p-2.5 border border-white/5 min-w-0">
+                    <Globe className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <span className="text-amber-200/60 block text-[11px]">
                         {lang === 'ar'
                           ? 'اللغة الأصلية للوحي'
                           : 'Original Revelation Language'}
                       </span>
-                      <span className="font-semibold text-amber-100">
+                      <span className="font-semibold text-amber-100 break-words leading-tight block">
                         {pick(currentBook.originalLanguage)}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 rounded-lg bg-black/40 p-2 border border-white/5">
-                    <History className="h-4 w-4 text-amber-400 shrink-0" />
-                    <div>
-                      <span className="text-amber-200/60 block">
+                  <div className="flex items-start gap-2.5 rounded-lg bg-black/40 p-2.5 border border-white/5 min-w-0">
+                    <History className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <span className="text-amber-200/60 block text-[11px]">
                         {lang === 'ar' ? 'العصر التاريخي' : 'Revealed Era'}
                       </span>
-                      <span className="font-semibold text-amber-100">
+                      <span className="font-semibold text-amber-100 break-words leading-tight block">
                         {pick(currentBook.revealedEra)}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 rounded-lg bg-black/40 p-2 border border-white/5">
-                    <Library className="h-4 w-4 text-amber-400 shrink-0" />
-                    <div>
-                      <span className="text-amber-200/60 block">
+                  <div className="flex items-start gap-2.5 rounded-lg bg-black/40 p-2.5 border border-white/5 min-w-0">
+                    <Library className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <span className="text-amber-200/60 block text-[11px]">
                         {lang === 'ar'
                           ? 'مكان التنزيل النبوي'
                           : 'Revealed Location'}
                       </span>
-                      <span className="font-semibold text-amber-100">
+                      <span className="font-semibold text-amber-100 break-words leading-tight block">
                         {pick(currentBook.revealedLocation)}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 rounded-lg bg-black/40 p-2 border border-white/5">
-                    <Layers className="h-4 w-4 text-amber-400 shrink-0" />
-                    <div>
-                      <span className="text-amber-200/60 block">
+                  <div className="flex items-start gap-2.5 rounded-lg bg-black/40 p-2.5 border border-white/5 min-w-0">
+                    <Layers className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <span className="text-amber-200/60 block text-[11px]">
                         {lang === 'ar'
                           ? 'كم عدد النسخ والروايات؟'
                           : 'How Many Versions Exist?'}
                       </span>
-                      <span className="font-semibold text-amber-300">
+                      <span className="font-semibold text-amber-300 break-words leading-tight block">
                         {currentBook.id === 'quran'
                           ? lang === 'ar'
                             ? 'نص إمام واحد (١٠ قراءات متواترة)'
@@ -268,28 +268,28 @@ export function ScripturesModal({
             {/* Quranic Citations for this Book */}
             <div className="mt-4 pt-4 border-t border-amber-500/20 space-y-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
-                <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+                <Sparkles className="h-3.5 w-3.5 text-amber-400 shrink-0" />
                 <span>
                   {lang === 'ar'
                     ? 'الآيات القرآنية الشريفة في ذكر هذا الكتاب'
                     : 'Noble Qur’anic Verses Referencing This Scripture'}
                 </span>
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                 {currentBook.quranReferences.map((ref, idx) => (
                   <div
                     key={idx}
-                    className="rounded-lg bg-black/50 p-2.5 border border-amber-500/15 text-xs space-y-1"
+                    className="rounded-lg bg-black/50 p-3 border border-amber-500/15 text-xs space-y-1.5 min-w-0"
                   >
                     <div className="flex items-center justify-between text-amber-400 font-mono text-[10px]">
                       <span>
                         {lang === 'ar' ? 'سورة' : 'Surah'} {ref.surah} : {ref.ayah}
                       </span>
                     </div>
-                    <p className="text-amber-200 font-serif text-sm leading-relaxed text-right dir-rtl">
+                    <p className="text-amber-200 font-serif text-sm leading-relaxed text-right">
                       {ref.arabicText}
                     </p>
-                    <p className="text-amber-100/70 italic text-[11px]">
+                    <p className="text-amber-100/70 italic text-[11px] leading-normal">
                       {lang === 'fr' ? ref.translationFr : ref.translationEn}
                     </p>
                   </div>
@@ -303,7 +303,7 @@ export function ScripturesModal({
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="text-base sm:text-lg font-bold font-serif text-amber-200 flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-amber-400" />
+                  <FileText className="h-5 w-5 text-amber-400 shrink-0" />
                   <span>
                     {lang === 'ar'
                       ? `تفصيل النسخ والمخطوطات والتقاليد النصية (${currentBook.versions.length})`
@@ -325,27 +325,30 @@ export function ScripturesModal({
                     key={ver.id}
                     type="button"
                     onClick={() => setSelectedVersionId(ver.id)}
-                    className={`flex flex-col text-left p-3 rounded-xl border transition-all text-xs ${
+                    className={`flex flex-col text-start p-3 rounded-xl border transition-all text-xs min-w-0 ${
                       isActive
                         ? 'bg-amber-500/20 border-amber-400/80 shadow-md shadow-amber-500/20 ring-1 ring-amber-400'
                         : 'bg-black/30 border-white/10 hover:bg-white/5 hover:border-amber-400/30'
                     }`}
                   >
-                    <div className="flex items-start justify-between gap-1 w-full">
-                      <span className="font-bold text-amber-200 font-serif text-sm line-clamp-1">
+                    <div className="flex items-start justify-between gap-1.5 w-full">
+                      <span className="font-bold text-amber-200 font-serif text-sm break-words">
                         {ver.name.ar}
                       </span>
                       {isActive && (
-                        <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0" />
+                        <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                       )}
                     </div>
-                    <span className="text-[11px] text-amber-100/70 font-sans line-clamp-1">
+                    <span className="text-[11px] text-amber-100/70 font-sans break-words mt-0.5">
                       {pick(ver.name)}
                     </span>
-                    <div className="mt-2 flex items-center gap-1.5 text-[10px] text-amber-300/80 font-mono">
-                      <span>{pick(ver.language)}</span>
-                      <span>•</span>
-                      <span>{pick(ver.period)}</span>
+                    <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-[10px] text-amber-300/80 font-mono">
+                      <span className="rounded bg-black/40 px-1.5 py-0.5 border border-white/5">
+                        {pick(ver.language)}
+                      </span>
+                      <span className="rounded bg-black/40 px-1.5 py-0.5 border border-white/5">
+                        {pick(ver.period)}
+                      </span>
                     </div>
                   </button>
                 )
@@ -354,53 +357,53 @@ export function ScripturesModal({
 
             {/* Active Selected Version Deep Inspection Panel */}
             {activeVersion && (
-              <div className="rounded-xl border border-amber-400/40 bg-gradient-to-br from-amber-950/30 via-slate-900/60 to-black/80 p-4 sm:p-5 space-y-3">
+              <div className="rounded-xl border border-amber-400/40 bg-gradient-to-br from-amber-950/30 via-slate-900/60 to-black/80 p-4 sm:p-5 space-y-3 shadow-xl">
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
-                  <div>
-                    <h5 className="text-base sm:text-lg font-bold text-amber-200 font-serif">
+                  <div className="min-w-0">
+                    <h5 className="text-base sm:text-lg font-bold text-amber-200 font-serif break-words">
                       {activeVersion.name.ar} · {pick(activeVersion.name)}
                     </h5>
-                    <p className="text-xs text-amber-300 font-sans">
+                    <p className="text-xs text-amber-300 font-sans break-words mt-0.5">
                       {pick(activeVersion.significance)}
                     </p>
                   </div>
-                  <span className="rounded-full px-3 py-1 text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/40 font-mono">
+                  <span className="shrink-0 rounded-full px-3 py-1 text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/40 font-mono">
                     {pick(activeVersion.period)}
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-amber-100/90 leading-relaxed">
+                <p className="text-xs sm:text-sm text-amber-100/90 leading-relaxed font-sans">
                   {pick(activeVersion.description)}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs">
-                  <div className="rounded-lg bg-black/50 p-2.5 border border-white/5">
-                    <span className="text-amber-200/60 block font-semibold mb-1">
+                  <div className="rounded-lg bg-black/50 p-3 border border-white/5 min-w-0">
+                    <span className="text-amber-200/60 block font-semibold mb-1 text-[11px]">
                       {lang === 'ar' ? 'المخطوطات الباقية' : 'Extant Manuscripts'}
                     </span>
-                    <span className="text-amber-100 font-mono text-[11px]">
+                    <span className="text-amber-100 font-mono text-[11px] break-words block leading-relaxed">
                       {pick(activeVersion.extantManuscripts)}
                     </span>
                   </div>
 
-                  <div className="rounded-lg bg-black/50 p-2.5 border border-white/5">
-                    <span className="text-amber-200/60 block font-semibold mb-1">
+                  <div className="rounded-lg bg-black/50 p-3 border border-white/5 min-w-0">
+                    <span className="text-amber-200/60 block font-semibold mb-1 text-[11px]">
                       {lang === 'ar'
                         ? 'عدد الفروق وحالة النص'
                         : 'Variants / Status'}
                     </span>
-                    <span className="text-amber-300 font-mono text-[11px]">
+                    <span className="text-amber-300 font-mono text-[11px] break-words block leading-relaxed">
                       {pick(activeVersion.variantCountOrStatus)}
                     </span>
                   </div>
 
-                  <div className="rounded-lg bg-black/50 p-2.5 border border-white/5">
-                    <span className="text-amber-200/60 block font-semibold mb-1">
+                  <div className="rounded-lg bg-black/50 p-3 border border-white/5 min-w-0">
+                    <span className="text-amber-200/60 block font-semibold mb-1 text-[11px]">
                       {lang === 'ar'
                         ? 'المنظور العلمي والعقدي'
                         : 'Theological Perspective'}
                     </span>
-                    <span className="text-amber-200/90 text-[11px]">
+                    <span className="text-amber-200/90 text-[11px] break-words block leading-relaxed">
                       {pick(activeVersion.theologicalPerspective)}
                     </span>
                   </div>
@@ -410,9 +413,9 @@ export function ScripturesModal({
           </div>
 
           {/* Comparative Doctrine Card: The Singular Qur'an vs Earlier Textual Pluriformity */}
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 sm:p-5 text-xs sm:text-sm space-y-2">
+          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4 sm:p-5 text-xs sm:text-sm space-y-2 mb-2">
             <h4 className="font-bold font-serif text-emerald-300 text-sm sm:text-base flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-emerald-400" />
+              <ShieldCheck className="h-5 w-5 text-emerald-400 shrink-0" />
               <span>
                 {lang === 'ar'
                   ? 'القاعدة الإسلامية: حفظ القرآن الكريم المهيمن وسر اختلاف نسخ الكتب السابقة'
@@ -430,7 +433,7 @@ export function ScripturesModal({
         </div>
 
         {/* Footer */}
-        <div className="border-t border-amber-500/20 px-4 py-3 sm:px-6 flex items-center justify-between bg-black/60 text-xs text-amber-200/70">
+        <div className="shrink-0 border-t border-amber-500/20 px-4 py-3 sm:px-6 flex items-center justify-between bg-black/80 backdrop-blur-sm text-xs text-amber-200/70">
           <span>
             {lang === 'ar'
               ? 'مشروع شجرة الأنبياء · أسامة الحاجي'
