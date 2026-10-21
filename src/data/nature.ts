@@ -749,6 +749,70 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
     },
   },
   {
+    id: 'ba_udah',
+    name: t('The Mosquito & Micro-Organisms', 'Le Moustique et Micro-organismes', 'البعوضة وما فوقها'),
+    scientificName: 'Culicidae (Culex / Anopheles)',
+    arabicCalligraphy: 'إِنَّ اللَّهَ لَا يَسْتَحْيِي أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا',
+    category: 'insects',
+    source: 'quran_and_sunnah',
+    quranRefs: ['2:26'],
+    hadithRefs: [
+      {
+        book: 'Tirmidhi',
+        number: '2320',
+        text: t(
+          'If this worldly life were worth the wing of a mosquito to Allah, He would not have granted a disbeliever even a single sip of water from it.',
+          'Si ce bas-monde valait auprès d’Allah ne serait-ce que l’aile d’un moustique, Il n’aurait pas abreuvé un mécréant d’une seule gorgée d’eau.',
+          'لَوْ كَانَتِ الدُّنْيَا تَعْدِلُ عِنْدَ اللَّهِ جَنَاحَ بَعُوضَةٍ، مَا سَقَى كَافِراً مِنْهَا شَرْبَةَ مَاءٍ.'
+        ),
+      },
+    ],
+    relatedProphets: ['muhammad'],
+    summary: t(
+      'The diminutive insect cited in Surah Al-Baqarah (2:26) whose micro-engineering astounds science: carrying ectoparasitic water mites living upon its body, equipped with 100 compound eyes, 3 hearts, 6 surgical micro-blades, and infrared thermoreception.',
+      'L’insecte mentionné dans la sourate Al-Baqarah (2:26) dont la biomécanique prodigieuse recèle des acariens parasites vivant sur son corps, 100 yeux composés, 3 cœurs et 6 micro-aiguilles chirurgicales.',
+      'الحشرة المعجزة المذكورة في سورة البقرة التي كشف العلم عن تعقيدها المجهري الفائق: طفيليات ميكروسكوبية تعيش فوق ظهرها، و100 عين مركبة، و3 قلوب، و6 إبر جراحية دقيقة، ومستقبلات حرارية ترصد 0.001 درجة.'
+    ),
+    whatTheyDid: t(
+      'When polytheists questioned why the Creator would cite small insects, Allah revealed: "Indeed, Allah is not timid to present an example — that of a mosquito or what is above it (فما فوقها)." Modern electron microscopy confirmed that adult mosquitoes carry specialized ectoparasitic water mites (Arrenurus spp.) firmly anchored atop their thorax and abdomen, sucking their fluids — a whole living ecosystem thriving upon the mosquito.',
+      'Face aux moqueries des mécréants sur la petitesse des insectes, Allah révéla : « Certes, Allah ne se gêne point de citer en exemple un moustique ou quoi que ce soit au-dessus. » La microscopie électronique confirma que des acariens parasites vivent littéralement ancrés au-dessus du moustique.',
+      'عندما استنكر المشركون ذكر الذباب والعنكبوت في القرآن نزل قوله تعالى: ﴿إِنَّ اللَّهَ لَا يَسْتَحْيِي أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا﴾. وكشف المجهر الإلكتروني الحديث عن وجود كائنات دقيقة وحشرات طفيلية من حلم الماء (Arrenurus) تعيش متطفلة ملتصقة بظهر وصدر البعوضة وتتغذى عليها، محققة الإعجاز اللفظي الدقيق للآية.'
+    ),
+    physicalTraits: {
+      size: t('3–6 mm body length, 1.5–2.5 mg weight', '3–6 mm de long, 1,5–2,5 mg', 'طول 3-6 مم، ووزن لا يتجاوز 2 مليغرام'),
+      habitat: t('Freshwater pools, marshes, vegetation, urban basins', 'Eaux stagnantes, marais et zones végétalisées', 'المياه الراكدة، البرك العذبة، والمستنقعات'),
+      uniqueFeature: t('Ectoparasitic mites living on its back; 6-needle proboscis, 3 hearts, 100 compound eye lenses', 'Acariens parasites sur son dos, trompe à 6 micro-bistouris, 3 cœurs et 100 facettes optiques', 'طفيليات مجهرية تعلو ظهرها، وخرطوم بـ 6 إبر جراحية دقيقة، و3 قلوب، و100 عين مركبة'),
+    },
+    motion: {
+      animationType: 'fly',
+      strideLength: 'Rapid wingbeat at 400–600 Hz producing characteristic acoustic pitch',
+      paceDescription: t('Ultralight aerodynamic hovering and precision skin landing without tactile detection', 'Vol stationnaire ultra-léger et atterrissage indolore', 'طيران انسيابي خفيف بسرعة خفقان أجنحة 600 هرتز وهبوط غير محسوس على الجلد'),
+      soundOrSignal: t('Auditory flight hum and antenna pheromone/CO2 chemical tracking', 'Bourdonnement acoustique caractéristique et thermoréception infrarouge', 'طنين خفقان الأجنحة واستشعار غاز ثاني أكسيد الكربون وحرارة الأجسام'),
+    },
+    benefitsAndWisdom: {
+      spiritual: t(
+        'Teaches that divine grandeur is revealed in the smallest creations; illustrates the insignificance of worldly pride compared to eternity.',
+        'Montre que la grandeur divine éclate dans l’infiniment petit et rappelle la vanité des illusions terrestres.',
+        'برهان على عظمة الخالق في أدق المخلوقات، وتذكير بحقارة الدنيا وزوالها وأنها لا تزن عند الله جناح بعوضة.'
+      ),
+      sunnahGuidance: t(
+        'The Prophet ﷺ used the wing of a mosquito as an eloquent metaphor for the absolute insignificance of worldly vanity without faith.',
+        'Le Prophète ﷺ prit l’aile de moustique comme parabole de l’insignifiance de l’orgueil matériel.',
+        'ضرب النبي ﷺ جناح البعوضة مثلاً بليغاً لهوان الدنيا الزائلة عند الله تعالى.'
+      ),
+      scientificEcological: t(
+        'Micro-engineering wonder: host to specialized Arrenurus parasites; aquatic larvae serve as foundation for freshwater ecosystems; males act as essential plant pollinators.',
+        'Merveille biomécanique : hôte d’acariens parasites, base trophique aquatique et pollinisation par les mâles.',
+        'معجزة في الهندسة الحيوية: كائنات تعلو ظهرها، ويرقاتها أساس للسلسلة الغذائية في المياه العذبة، وذكورها ملقحات هامة للنباتات.'
+      ),
+      practicalBenefits: t(
+        'Biomimetic design of painless micro-needles and surgical micro-injectors based on the serrated mosquito proboscis.',
+        'Conception de micro-aiguilles indolores et de scalpels chirurgicaux inspirés de la trompe du moustique.',
+        'تصميم إبر طبية دقيقة غير مؤلمة للحقن وسحب الدم مستوحاة من التركيب المشرطي لخرطوم البعوضة.'
+      ),
+    },
+  },
+  {
     id: 'khayl_adiyat',
     name: t('The Charging Steeds & War Horses', 'Les Coursiers & Chevaux de Bataille', 'الخيل والعاديات والجياد'),
     scientificName: 'Equus caballus (Arabian Purebred)',

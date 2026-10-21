@@ -1690,6 +1690,71 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                       <strong className="text-gold block mb-1">{lang === 'ar' ? 'الخلاصة الإيمانية:' : 'Creed & Theological Note:'}</strong>
                       {pick(entity.theologicalContext)}
                     </div>
+
+                    {/* Famous Archangels in Quran & Sunnah & How They Look */}
+                    {entity.famousAngels && entity.famousAngels.length > 0 && (
+                      <div className="space-y-3 pt-3 border-t border-gold/20">
+                        <div className="rounded-xl bg-gradient-to-r from-sky-500/20 via-gold/15 to-transparent p-3.5 border border-sky-400/30">
+                          <h4 className="text-xs font-bold text-sky-200 uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                            <Sparkles className="size-3.5 text-gold" />
+                            <span>
+                              {lang === 'ar'
+                                ? 'أشهر الملائكة في القرآن والسنة ومظهرهم المهيب (كيف يبدون)'
+                                : 'Great Archangels in the Qur’an & Sunnah & How They Look'}
+                            </span>
+                          </h4>
+                          <p className="text-[0.72rem] text-ink-2">
+                            {lang === 'ar'
+                              ? 'بيان وظائفهم الكونية وأوصاف خلقهم العظيم وهيئاتهم الثابتة في النصوص النبوية الشريفة'
+                              : 'Their celestial duties and authentic descriptions in Prophetic traditions.'}
+                          </p>
+                        </div>
+
+                        <div className="space-y-2.5 max-h-[380px] overflow-y-auto pe-1">
+                          {entity.famousAngels.map((angel) => (
+                            <div
+                              key={angel.id}
+                              className="rounded-xl bg-black/60 p-3.5 border border-white/10 hover:border-gold/40 transition-colors"
+                            >
+                              <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs font-bold text-gold">
+                                    {pick(angel.name)}
+                                  </span>
+                                  <span className="text-[0.65rem] text-gold-3 font-serif">
+                                    {angel.arabicHonorific}
+                                  </span>
+                                </div>
+                                <span className="font-mono text-[0.65rem] text-sky-300 bg-sky-950/60 px-2 py-0.5 rounded border border-sky-400/25">
+                                  {angel.quranRefs.join(', ')}
+                                </span>
+                              </div>
+
+                              <p className="text-xs text-ink-2 mb-2 font-medium">
+                                <strong className="text-ink">
+                                  {lang === 'ar' ? 'الوظيفة والتكليف: ' : 'Celestial Duty: '}
+                                </strong>
+                                {pick(angel.role)}
+                              </p>
+
+                              <div className="rounded-lg bg-white/[0.04] p-2.5 border border-white/5 text-[0.73rem] text-ink leading-relaxed">
+                                <strong className="text-amber-300 block mb-1">
+                                  {lang === 'ar'
+                                    ? 'المظهر والهيئة في القرآن والسنة (كيف يبدون):'
+                                    : 'Appearance in Qur’an & Sunnah (How They Look):'}
+                                </strong>
+                                {pick(angel.appearance)}
+                              </div>
+
+                              <div className="mt-2 text-[0.65rem] text-ink-3">
+                                <strong>{lang === 'ar' ? 'المصادر والحديث: ' : 'Sources: '}</strong>
+                                {angel.hadithRefs.join(' · ')}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
