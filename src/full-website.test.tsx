@@ -140,7 +140,7 @@ describe('Full Website Automated Test Suite', () => {
       ).toBeInTheDocument()
     })
 
-    it('opens the Pre-Adamic Realm modal when clicking Pre-Adamic entities', () => {
+    it('opens the Pre-Adamic Realm modal when clicking Pre-Adamic entities and displays the famous angels and their appearance', () => {
       renderAt('/tree')
 
       // Click the Pre-Adamic Realm banner via fireEvent for SVG synthetic event handling
@@ -152,16 +152,34 @@ describe('Full Website Automated Test Suite', () => {
         screen.getByText(/The Pre-Adamic Realm: Angels, Iblis, Jinn, Hinn, Binn & Nasnas/i),
       ).toBeInTheDocument()
       expect(screen.getByText(/Al-Jinn \(Pre-Adamic Inhabitants\)/i)).toBeInTheDocument()
+
+      // Click on Angels entity
+      const angelsCard = screen.getByText(/Al-Mala’ikah \(The Angels of Light\)/i)
+      fireEvent.click(angelsCard)
+
+      // Verifies Famous Angels and How They Look
+      expect(screen.getByText(/Great Archangels in the Qur’an & Sunnah & How They Look/i)).toBeInTheDocument()
+      expect(screen.getByText(/Jibril \/ Gabriel \(The Spirit of Truth\)/i)).toBeInTheDocument()
+      expect(screen.getByText(/Mikail \/ Michael \(Angel of Provision & Rain\)/i)).toBeInTheDocument()
+      expect(screen.getByText(/Israfil \(The Angel of the Trumpet\)/i)).toBeInTheDocument()
+      expect(screen.getByText(/Malak al-Mawt \(The Angel of Death\)/i)).toBeInTheDocument()
+      expect(screen.getAllByText(/Appearance in Qur’an & Sunnah \(How They Look\):/i).length).toBeGreaterThan(0)
+      expect(screen.getByText(/Endowed with 600 wings/i)).toBeInTheDocument()
     })
   })
 
   describe('3. Scientific Miracles & Research Papers (/science)', () => {
-    it('renders scientific facts with verified Quranic and peer-reviewed journal sources', () => {
+    it('renders scientific facts including the mosquito miracle and creatures atop it with verified research papers', () => {
       renderAt('/science')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Scientific Facts in Qur'an & Hadith/i)
 
       // Total facts count
-      expect(SCIENTIFIC_FACTS.length).toBeGreaterThanOrEqual(10)
+      expect(SCIENTIFIC_FACTS.length).toBeGreaterThanOrEqual(11)
+
+      // Verifies Mosquito scientific miracle (Surah 2:26)
+      expect(screen.getAllByText(/The Mosquito & The Creatures Upon It/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/Journal of Medical Entomology/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/Smith, B\. P\./i).length).toBeGreaterThan(0)
 
       // Verifies presence of peer-reviewed journals
       expect(screen.getAllByText(/PNAS/i).length).toBeGreaterThan(0)
@@ -169,6 +187,7 @@ describe('Full Website Automated Test Suite', () => {
 
       // Verifies category filters are present
       expect(screen.getByRole('button', { name: /All Scientific Facts/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /Biology & Microscopic Wonders/i })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /Geology & Mountains/i })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /Cosmology & Space/i })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /Oceanography & Seas/i })).toBeInTheDocument()
@@ -190,7 +209,7 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('4. Creatures, Flora & Prophetic Medicine (/nature)', () => {
-    it('renders Hoopoe (Upupa epops) and Rock Dove (Hamama) with full biological and Quranic details', () => {
+    it('renders Hoopoe (Upupa epops), Rock Dove (Hamama), and the Mosquito (Culicidae) with full biological and Quranic details', () => {
       renderAt('/nature')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Creatures, Flora & Prophetic Medicine/i)
 
@@ -201,6 +220,10 @@ describe('Full Website Automated Test Suite', () => {
       // Rock Dove / Pigeon (Hamama - Columba livia)
       expect(screen.getAllByText(/Dove & Pigeon/i).length).toBeGreaterThan(0)
       expect(screen.getAllByText(/Columba livia/i).length).toBeGreaterThan(0)
+
+      // The Mosquito & Micro-Organisms (Culicidae - 2:26)
+      expect(screen.getAllByText(/The Mosquito & Micro-Organisms/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/Culicidae/i).length).toBeGreaterThan(0)
     })
 
     it('switches between Creatures and Plants/Healing Foods tabs', async () => {

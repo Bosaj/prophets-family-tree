@@ -1746,10 +1746,10 @@ export function TopographyMap({ focus }: { focus?: string }) {
   return (
     <div className="relative h-full w-full overflow-hidden bg-night">
       {/* Map Target Container */}
-      <div ref={mapContainer} className="h-full w-full outline-none" tabIndex={0} />
+      <div ref={mapContainer} className="relative z-0 h-full w-full outline-none" tabIndex={0} />
 
       {/* Floating Header Controls */}
-      <div className="pointer-events-none absolute inset-x-3 top-3 z-10 flex flex-wrap items-center justify-between gap-2.5 sm:inset-x-6 sm:top-4">
+      <div className="pointer-events-none absolute inset-x-3 top-3 z-[1050] flex flex-wrap items-center justify-between gap-2.5 sm:inset-x-6 sm:top-4">
         {/* Style & Layer Toggles */}
         <div className="glass pointer-events-auto flex items-center gap-1 rounded-full p-1.5 shadow-xl">
           <button
@@ -1848,7 +1848,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
       </div>
 
       {/* Floating Filter Bars: Eras & Sacred Site Categories */}
-      <div className="pointer-events-none absolute inset-x-3 top-14 z-10 flex flex-col items-center gap-2 sm:inset-x-6 sm:top-16">
+      <div className="pointer-events-none absolute inset-x-3 top-14 z-[1050] flex flex-col items-center gap-2 sm:inset-x-6 sm:top-16">
         {/* Era Filter Bar */}
         <div className="glass pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-xl max-w-2xl">
           {ERAS.map((era) => (
@@ -1935,7 +1935,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
       {/* Prophetic Journeys Modal / Dropdown Picker */}
       {showRouteList && (
-        <div className="glass-strong absolute inset-x-4 top-28 z-30 mx-auto max-w-xl rounded-3xl border border-gold/40 p-4 shadow-2xl backdrop-blur-xl sm:top-32">
+        <div className="glass-strong absolute inset-x-4 top-28 z-[1100] mx-auto max-w-xl rounded-3xl border border-gold/40 p-4 shadow-2xl backdrop-blur-xl sm:top-32">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center gap-2">
               <Waypoints className="size-4 text-gold" />
@@ -1987,7 +1987,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
       )}
 
       {/* Floating Universal Search Widget */}
-      <div className="pointer-events-none absolute start-3 top-36 z-20 w-72 sm:start-6 sm:top-40">
+      <div className="pointer-events-none absolute start-3 top-36 z-[1050] w-72 sm:start-6 sm:top-40">
         <div className="glass pointer-events-auto relative rounded-2xl p-1.5 shadow-xl">
           <div className="relative flex items-center">
             <Search className="size-4 absolute start-3 text-ink-3" />
@@ -2078,7 +2078,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
       {/* Selected Route Drawer */}
       {selectedRoute && !selectedPerson && (
-        <aside className="glass-strong absolute inset-x-3 bottom-3 z-30 flex max-h-[82vh] flex-col overflow-hidden rounded-3xl border border-emerald-400/40 p-4 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:w-[420px]">
+        <aside className="glass-strong absolute inset-x-3 bottom-3 z-[1100] flex max-h-[82vh] flex-col overflow-hidden rounded-3xl border border-emerald-400/40 p-4 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:w-[420px]">
           <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
             <div>
               <div className="flex items-center gap-2">
@@ -2183,7 +2183,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
       {/* Selected Sacred Site Drawer */}
       {selectedSite && !selectedPerson && (
-        <aside className="glass-strong absolute inset-x-3 bottom-3 z-30 flex flex-col rounded-3xl border border-sky-400/30 p-5 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:w-[380px]">
+        <aside className="glass-strong absolute inset-x-3 bottom-3 z-[1100] flex flex-col rounded-3xl border border-sky-400/30 p-5 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:w-[380px]">
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="flex items-center gap-2">
@@ -2252,7 +2252,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
       {/* Selected Prophet Detail Drawer */}
       {selectedPerson && (
-        <aside className="glass-strong absolute inset-x-3 bottom-3 z-30 flex max-h-[82vh] flex-col overflow-hidden rounded-3xl border border-gold/40 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:w-[420px]">
+        <aside className="glass-strong absolute inset-x-3 bottom-3 z-[1100] flex max-h-[82vh] flex-col overflow-hidden rounded-3xl border border-gold/40 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:w-[420px]">
           {/* Header Image Scene */}
           <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden bg-night-2">
             <Scene image={selectedPerson.image} sizes="420px" className="h-full w-full object-cover" />

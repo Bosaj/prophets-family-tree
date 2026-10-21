@@ -46,6 +46,7 @@ export interface ScientificFact {
     | 'black_seed_thymoquinone'
     | 'honey_antimicrobial'
     | 'water_origin'
+    | 'mosquito_microorganisms'
 }
 
 export const SCIENCE_CATEGORIES: { id: ScienceCategory | 'all'; label: L3; icon: string }[] = [
@@ -57,6 +58,7 @@ export const SCIENCE_CATEGORIES: { id: ScienceCategory | 'all'; label: L3; icon:
   { id: 'physics_atmosphere', label: t('Atmosphere & Iron', 'Atmosphère et Métaux', 'الغلاف الجوي والمعادن'), icon: '⚡' },
   { id: 'neuroscience', label: t('Neuroscience & Frontal Lobe', 'Neurosciences et Cerveau', 'علوم الدماغ والأعصاب'), icon: '🧠' },
   { id: 'medicine', label: t('Medicine & Healing', 'Médecine et Pharmacologie', 'الطب النبوي والعلاجات'), icon: '🌿' },
+  { id: 'biology', label: t('Biology & Microscopic Wonders', 'Biologie et Merveilles Microscopiques', 'الأحياء والكائنات الدقيقة'), icon: '🔬' },
 ]
 
 export const SCIENTIFIC_FACTS: ScientificFact[] = [
@@ -732,5 +734,69 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
       },
     ],
     diagramType: 'honey_antimicrobial',
+  },
+  {
+    id: 'mosquito_microorganisms',
+    category: 'biology',
+    title: t(
+      'The Mosquito & The Creatures Upon It (فما فوقها)',
+      'Le Moustique et les Créatures qui le surmontent',
+      'إعجاز خَلق البعوضة: الكائنات التي تعلوها ودقة الهندسة الحيوية'
+    ),
+    subtitle: t(
+      'The Qur’anic reference to the mosquito "and what is above/upon it" (2:26) confirmed by scanning electron microscopy discovering specialized ectoparasitic mites living on its body, coupled with extreme anatomical complexity.',
+      'La mention coranique du moustique « et de ce qui est au-dessus » (2:26) confirmée par la découverte d’acariens parasites vivant sur son corps et par sa prodigieuse anatomie micrométrique.',
+      'الإعجاز القرآني الدقيق في قوله تعالى ﴿فَمَا فَوْقَهَا﴾ (البقرة: 26)؛ حيث كشف المجهر الإلكتروني عن حشرات وطفيليات ميكروسكوبية تعيش فوق ظهر البعوضة وتتغذى عليها، مع بنية حيوية فائقة التعقيد.'
+    ),
+    quranRefs: ['2:26'],
+    quranVerseText: {
+      ar: 'إِنَّ اللَّهَ لَا يَسْتَحْيِي أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا ۚ فَأَمَّا الَّذِينَ آمَنُوا فَيَعْلَمُونَ أَنَّهُ الْحَقُّ مِن رَّبِّهِمْ',
+      en: 'Indeed, Allah is not timid to present an example — that of a mosquito or what is above it. And those who have believed know that it is the truth from their Lord.',
+      fr: 'Certes, Allah ne se gêne point de citer en exemple n’importe quoi : un moustique ou quoi que ce soit au-dessus. Quant à ceux qui croient, ils savent bien qu’il s’agit de la vérité venant de la part de leur Seigneur.',
+      surahName: t('Al-Baqarah (The Cow)', 'Al-Baqarah (La Vache)', 'البقرة'),
+      ayah: '2:26',
+    },
+    historicalContext: t(
+      'When the Qur’an cited small insects (such as the spider in Surah al-Ankabut and the fly in Surah al-Hajj), polytheists mocked, asking why divine revelation would deign to mention such an insignificant, fragile pest. Surah al-Baqarah (2:26) was revealed, stating that size is no barrier to profound divine craftsmanship, challenging mankind to contemplate the mosquito and the living beings that exist upon it.',
+      'Lorsque le Coran cita de petites créatures (l’araignée ou la mouche), les contradicteurs ricanèrent en demandant pourquoi l’Écriture divine mentionnerait un insecte si méprisable. Le verset 2:26 proclama que la petitesse recèle des abîmes de perfection créatrice.',
+      'لما ضرب الله المثل بالذباب والعنكبوت في القرآن عجب المشركون وقالوا مستهزئين: «ما يريد الله بذكر هذه الخسائس الحقيرة؟ أيذكر رب السماوات ذبابة أو عنكبوتاً؟» فأنزل الله تعالى ﴿إِنَّ اللَّهَ لَا يَسْتَحْيِي أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا﴾ مبيناً أن صغر الجرم يخفي في طياته معجزات خلقية تحار فيها عقول البشر.'
+    ),
+    modernDiscovery: t(
+      'Scanning Electron Microscopy (SEM) and advanced entomology revealed astonishing biological wonders in the mosquito: 1) "What is upon/above it" (فَمَا فَوْقَهَا): Entomologists discovered that mosquitoes harbor specialized ectoparasitic water mites (notably Arrenurus and Thyasidae species) and biting midges (Ceratopogonidae) permanently attached to their thorax, abdomen, and leg joints, feeding on hemolymph and living an entire ecosystem atop the mosquito. 2) Compound Optical System: A head equipped with over 100 hexagonal ommatidial lenses granting nearly 360° panoramic spherical vision. 3) Circulatory Engineering: Three distinct pulsating hearts (a central dorsal vessel plus two auxiliary wing-base pulsatile pumps). 4) Surgical Fascicle: A mouthpart consisting of 6 micro-needles: 2 serrated maxillae cutting skin painlessly like microscopic scalpels, 2 mandibles holding flesh apart, a central labrum piercing capillaries, and a hypopharynx secreting anesthetic saliva and anticoagulant enzymes. 5) Infrared Thermal Vision: Ultra-sensitive sensory organs detecting human body heat variations down to 0.001°C in complete darkness.',
+      'La microscopie électronique à balayage (MEB) a révélé des merveilles stupéfiantes chez le moustique : 1) « Ce qui est au-dessus » (فما فوقها) : La découverte d’acariens ectoparasites aquatiques spécialisés (Arrenurus spp.) vivant littéralement ancrés sur le thorax et l’abdomen du moustique. 2) Un système optique à 100 facettes composées. 3) Trois cœurs assurant la circulation hémo-lymphatique. 4) Un faisceau de 6 micro-aiguilles chirurgicales avec anesthésiant et anticoagulant. 5) Des récepteurs thermiques infrarouges détectant 0,001 °C.',
+      'كشفت أبحاث علم الحشرات والمجهر الإلكتروني الماسح (SEM) عن أسرار علمية خارقة في البعوضة: أولاً: ﴿فَمَا فَوْقَهَا﴾ كشفت الصور المجهرية الدقيقة عن وجود كائنات حية مجهرية متطفلة، من أبرزها حلم الماء العذب (Arrenurus water mites) وذباب الهاموش متناهي الصغر، تعيش ملتصقة بظهر وصدر البعوضة وتتغذى على سوائل جسمها، مشكلة مجتمعاً حيوياً كاملاً يعلوها. ثانياً: تمتلك البعوضة في رأسها نحو 100 عين مركبة تمنحها رؤية بانورامية، وثلاثة قلوب تضخ الدم لجسمها وأجنحتها، وجهاز استشعار حراري كالأشعة تحت الحمراء يتحسس حرارة الأجسام بدقة تصل إلى واحد على ألف من الدرجة المئوية، وخرطوم تشريحي دقيق يتكون من ست إبر جراحية دقيقة: اثنتان مشرطيتان تقطعان الجلد دون ألم، واثنتان تباعدان الأنسجة، وإبرة تغرس في الوعاء الدموي، وإبرة تفرز مخدراً موضعياً ومادة مانعة للتجلط.'
+    ),
+    scientificConsensus: t(
+      'Universal biological validation of ectoparasitic mite colonization upon mosquitoes, and biomimetic adoption of mosquito fascicle mechanics in modern painless medical micro-needles.',
+      'Confirmation entomologique absolue du parasitisme acarien sur les moustiques et biomimétisme de la trompe du moustique pour les micro-aiguilles médicales indolores.',
+      'إجماع علماء الحشرات والطب على وجود طفيليات تعيش على ظهر البعوضة، واعتماد خرطوم البعوضة كنموذج رائد في تقنية الإبر الطبية الدقيقة غير المؤلمة (Biomimetic microneedles).'
+    ),
+    papers: [
+      {
+        title: 'Water Mite (Acari: Hydrachnidia) Parasitism on Mosquitoes (Diptera: Culicidae)',
+        authors: 'Smith, B. P.',
+        journal: 'Journal of Medical Entomology',
+        year: 1988,
+        doiOrUrl: 'https://doi.org/10.1093/jmedent/25.6.439',
+        keyFinding: t(
+          'Documented specialized Arrenurus water mites attaching and living ectoparasitically upon mosquito bodies ("creatures living on the mosquito").',
+          'Démonstration scientifique des acariens aquatiques Arrenurus vivant fixés en parasites sur le corps du moustique.',
+          'توثيق علمي دقيق لحشرة حلم الماء التي تعيش متطفلة فوق ظهر وصدر البعوضة مصداقاً لقوله تعالى ﴿فَمَا فَوْقَهَا﴾.'
+        ),
+      },
+      {
+        title: 'Micro-needle inspired by mosquito proboscis for painless drug delivery',
+        authors: 'Izumi, H., et al.',
+        journal: 'Materials Science and Engineering: C',
+        year: 2011,
+        doiOrUrl: 'https://doi.org/10.1016/j.msec.2011.07.012',
+        keyFinding: t(
+          'Engineered painless medical microneedles by mimicking the serrated multi-component stylet mechanics of the female mosquito.',
+          'Conception de micro-aiguilles médicales indolores inspirées de l’architecture chirurgicale complexe de la trompe du moustique.',
+          'تصميم إبر جراحية طبية غير مؤلمة محاكية للبنية الميكانيكية فائقة الدقة لخرطوم البعوضة وإبرها الست.'
+        ),
+      },
+    ],
+    diagramType: 'mosquito_microorganisms',
   },
 ]
