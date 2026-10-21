@@ -1751,14 +1751,14 @@ export function TopographyMap({ focus }: { focus?: string }) {
       {/* Floating Header Controls */}
       <div className="pointer-events-none absolute inset-x-3 top-3 z-[1050] flex flex-wrap items-center justify-between gap-2.5 sm:inset-x-6 sm:top-4">
         {/* Style & Layer Toggles */}
-        <div className="glass pointer-events-auto flex items-center gap-1 rounded-full p-1.5 shadow-xl">
+        <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex items-center gap-1 rounded-full p-1.5 shadow-2xl">
           <button
             type="button"
             onClick={() => setMapStyle('satellite')}
             className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all ${
               mapStyle === 'satellite'
                 ? 'bg-gold/30 text-gold-2 shadow-sm'
-                : 'text-ink-3 hover:text-ink'
+                : 'text-ink-2 hover:text-ink'
             }`}
           >
             <Compass className="size-3.5" />
@@ -1770,7 +1770,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all ${
               mapStyle === 'dark'
                 ? 'bg-gold/30 text-gold-2 shadow-sm'
-                : 'text-ink-3 hover:text-ink'
+                : 'text-ink-2 hover:text-ink'
             }`}
           >
             <Sparkles className="size-3.5" />
@@ -1782,7 +1782,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all ${
               mapStyle === 'terrain'
                 ? 'bg-gold/30 text-gold-2 shadow-sm'
-                : 'text-ink-3 hover:text-ink'
+                : 'text-ink-2 hover:text-ink'
             }`}
           >
             <Mountain className="size-3.5" />
@@ -1791,12 +1791,12 @@ export function TopographyMap({ focus }: { focus?: string }) {
         </div>
 
         {/* Feature Toggles (Sites, Routes, Route Picker) */}
-        <div className="glass pointer-events-auto flex items-center gap-1.5 rounded-full p-1.5 text-xs shadow-xl">
+        <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex items-center gap-1.5 rounded-full p-1.5 text-xs shadow-2xl">
           <button
             type="button"
             onClick={() => setShowSites((v) => !v)}
             className={`rounded-full px-3 py-1 font-medium transition-colors ${
-              showSites ? 'bg-sky-400/20 text-sky-200' : 'text-ink-3 hover:text-ink'
+              showSites ? 'bg-sky-400/20 text-sky-200' : 'text-ink-2 hover:text-ink'
             }`}
             title="Toggle Sacred Sites"
           >
@@ -1811,7 +1811,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             type="button"
             onClick={() => setShowRoutes((v) => !v)}
             className={`rounded-full px-3 py-1 font-medium transition-colors ${
-              showRoutes ? 'bg-emerald-400/20 text-emerald-200' : 'text-ink-3 hover:text-ink'
+              showRoutes ? 'bg-emerald-400/20 text-emerald-200' : 'text-ink-2 hover:text-ink'
             }`}
             title="Toggle Routes"
           >
@@ -1828,7 +1828,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             className={`rounded-full px-3 py-1 font-medium transition-colors ${
               showRouteList || selectedRouteId
                 ? 'bg-gold/30 text-gold-2 shadow-sm'
-                : 'text-ink-3 hover:text-ink'
+                : 'text-ink-2 hover:text-ink'
             }`}
             title="Browse Prophetic Journeys"
           >
@@ -1850,7 +1850,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
       {/* Floating Filter Bars: Eras & Sacred Site Categories */}
       <div className="pointer-events-none absolute inset-x-3 top-14 z-[1050] flex flex-col items-center gap-2 sm:inset-x-6 sm:top-16">
         {/* Era Filter Bar */}
-        <div className="glass pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-xl max-w-2xl">
+        <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-2xl max-w-2xl">
           {ERAS.map((era) => (
             <button
               key={era.id}
@@ -1858,8 +1858,8 @@ export function TopographyMap({ focus }: { focus?: string }) {
               onClick={() => setActiveEra(era.id)}
               className={`rounded-xl px-2.5 py-0.5 text-xs transition-colors ${
                 activeEra === era.id
-                  ? 'border border-gold/40 bg-gold/20 text-gold-2 font-medium shadow-sm'
-                  : 'text-ink-3 hover:text-ink hover:bg-white/5'
+                  ? 'border border-gold/40 bg-gold/25 text-gold-2 font-bold shadow-sm'
+                  : 'text-ink-2 hover:text-ink hover:bg-white/10'
               }`}
             >
               {era.label[lang]}
@@ -1869,14 +1869,14 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
         {/* Sacred Site Category Bar (When Sites Enabled) */}
         {showSites && (
-          <div className="glass pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-lg text-[0.7rem] max-w-xl">
+          <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-2xl text-[0.7rem] max-w-xl">
             <button
               type="button"
               onClick={() => setSiteCategory('all')}
               className={`rounded-lg px-2.5 py-0.5 transition-colors ${
                 siteCategory === 'all'
                   ? 'bg-white/20 text-ink font-semibold'
-                  : 'text-ink-3 hover:text-ink'
+                  : 'text-ink-2 hover:text-ink'
               }`}
             >
               {t('siteCategoryAll')} ({siteCounts.all})
@@ -1886,8 +1886,8 @@ export function TopographyMap({ focus }: { focus?: string }) {
               onClick={() => setSiteCategory('sanctuary')}
               className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
                 siteCategory === 'sanctuary'
-                  ? 'bg-amber-400/20 text-amber-200 font-semibold'
-                  : 'text-ink-3 hover:text-ink'
+                  ? 'bg-amber-400/25 text-amber-200 font-semibold'
+                  : 'text-ink-2 hover:text-ink'
               }`}
             >
               <Landmark className="size-3 text-amber-300" />
@@ -1898,8 +1898,8 @@ export function TopographyMap({ focus }: { focus?: string }) {
               onClick={() => setSiteCategory('mountain')}
               className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
                 siteCategory === 'mountain'
-                  ? 'bg-sky-400/20 text-sky-200 font-semibold'
-                  : 'text-ink-3 hover:text-ink'
+                  ? 'bg-sky-400/25 text-sky-200 font-semibold'
+                  : 'text-ink-2 hover:text-ink'
               }`}
             >
               <Mountain className="size-3 text-sky-300" />
@@ -1910,8 +1910,8 @@ export function TopographyMap({ focus }: { focus?: string }) {
               onClick={() => setSiteCategory('well')}
               className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
                 siteCategory === 'well'
-                  ? 'bg-emerald-400/20 text-emerald-200 font-semibold'
-                  : 'text-ink-3 hover:text-ink'
+                  ? 'bg-emerald-400/25 text-emerald-200 font-semibold'
+                  : 'text-ink-2 hover:text-ink'
               }`}
             >
               <Droplets className="size-3 text-emerald-300" />
@@ -1922,8 +1922,8 @@ export function TopographyMap({ focus }: { focus?: string }) {
               onClick={() => setSiteCategory('city')}
               className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
                 siteCategory === 'city'
-                  ? 'bg-pink-400/20 text-pink-200 font-semibold'
-                  : 'text-ink-3 hover:text-ink'
+                  ? 'bg-pink-400/25 text-pink-200 font-semibold'
+                  : 'text-ink-2 hover:text-ink'
               }`}
             >
               <Castle className="size-3 text-pink-300" />
@@ -1988,7 +1988,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
       {/* Floating Universal Search Widget */}
       <div className="pointer-events-none absolute start-3 top-36 z-[1050] w-72 sm:start-6 sm:top-40">
-        <div className="glass pointer-events-auto relative rounded-2xl p-1.5 shadow-xl">
+        <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto relative rounded-2xl p-1.5 shadow-2xl">
           <div className="relative flex items-center">
             <Search className="size-4 absolute start-3 text-ink-3" />
             <input
