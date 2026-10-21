@@ -38,8 +38,8 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
     zabur: `${import.meta.env.BASE_URL}scriptures/zabur.png`,
     injeel: `${import.meta.env.BASE_URL}scriptures/injeel.png`,
     suhuf_ibrahim: `${import.meta.env.BASE_URL}scriptures/suhuf_ibrahim.png`,
-    suhuf_idris: `${import.meta.env.BASE_URL}scriptures/suhuf_ibrahim.png`,
-    suhuf_shith: `${import.meta.env.BASE_URL}scriptures/suhuf_ibrahim.png`,
+    suhuf_idris: `${import.meta.env.BASE_URL}scriptures/suhuf_idris.png`,
+    suhuf_shith: `${import.meta.env.BASE_URL}scriptures/suhuf_shith.png`,
   }
 
   return (
@@ -66,8 +66,8 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
         </p>
       </div>
 
-      {/* Selector Pills */}
-      <div className="flex items-center justify-center gap-2 overflow-x-auto pb-2 scrollbar-thin">
+      {/* Selector Pills - wrapped cleanly, no scrollbar */}
+      <div className="flex flex-wrap items-center justify-center gap-2 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {SCRIPTURES.map((book) => {
           const isSelected = book.id === selectedId
           return (
@@ -78,7 +78,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 setSelectedId(book.id)
                 setSelectedVersionId(book.versions[0]?.id || null)
               }}
-              className={`flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-all ${
+              className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium transition-all ${
                 isSelected
                   ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold shadow-lg shadow-amber-500/25 ring-2 ring-amber-300/60'
                   : 'bg-black/40 text-amber-200/80 hover:bg-white/10 hover:text-amber-100 border border-white/10'
@@ -277,27 +277,26 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 key={ver.id}
                 type="button"
                 onClick={() => setSelectedVersionId(ver.id)}
-                className={`flex flex-col text-left p-4 rounded-2xl border transition-all ${
+                className={`flex flex-col text-start p-4 rounded-2xl border transition-all min-w-0 ${
                   isActive
                     ? 'bg-amber-500/20 border-amber-400/80 shadow-lg shadow-amber-500/20 ring-1 ring-amber-400'
                     : 'bg-black/40 border-white/10 hover:bg-white/5 hover:border-amber-400/30'
                 }`}
               >
-                <div className="flex items-start justify-between gap-1 w-full">
-                  <span className="font-bold text-amber-200 font-serif text-base line-clamp-1">
+                <div className="flex items-start justify-between gap-1.5 w-full">
+                  <span className="font-bold text-amber-200 font-serif text-base break-words">
                     {ver.name.ar}
                   </span>
                   {isActive && (
-                    <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0" />
+                    <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                   )}
                 </div>
-                <span className="text-xs text-amber-100/70 font-sans line-clamp-1 mt-0.5">
+                <span className="text-xs text-amber-100/70 font-sans break-words mt-1">
                   {pick(ver.name)}
                 </span>
-                <div className="mt-3 flex items-center gap-2 text-xs text-amber-300/80 font-mono">
-                  <span>{pick(ver.language)}</span>
-                  <span>•</span>
-                  <span>{pick(ver.period)}</span>
+                <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-amber-300/80 font-mono">
+                  <span className="rounded bg-black/40 px-2 py-0.5 border border-white/5">{pick(ver.language)}</span>
+                  <span className="rounded bg-black/40 px-2 py-0.5 border border-white/5">{pick(ver.period)}</span>
                 </div>
               </button>
             )
