@@ -93,6 +93,7 @@ export const people: Person[] = [
       father: f('hadith', t('Prophet Adam (peace be upon him)', 'Le prophète Adam (sur lui la paix)', 'أبو البشر نبي الله آدم عليه السلام'), 'bukhari:3326'),
       mother: f('tradition', t('Hawwa (Eve)', 'Hawwa (Ève)', 'أم البشر حواء عليها السلام'), 'book:qisas'),
     },
+    scripture: f('tradition', t('The Primordial Fifty Scrolls (Suhuf Shith).', 'Les Cinquante Feuillets Primordiaux (Suhuf Chith).', 'صحف شيث الخمسون المنزلة.'), 'book:qisas'),
     order: 1,
     story: t(
       'According to the historians, Shith was a son of Adam and the ancestor of the later generations, including Idris and Nuh.',
@@ -112,6 +113,7 @@ export const people: Person[] = [
     era: f('tradition', t('Before Nuh, according to most historians; some place him later.', 'Avant Nuh selon la plupart des historiens ; certains le placent plus tard.', 'قبل نوح عند أكثر المؤرخين، وقيل بعده.'), 'book:qisas'),
     mentions: 2,
     sentTo: f('tradition', t('The descendants of Adam of his time (place not certain).', 'Les descendants d’Adam de son époque (lieu incertain).', 'ذرية آدم في زمانه (والمكان غير مؤكد).')),
+    scripture: f('tradition', t('The Thirty Scrolls (Suhuf Idris).', 'Les Trente Feuillets (Suhuf Idris).', 'صحف إدريس الثلاثون المنزلة.'), 'book:qisas'),
     lifespan: f('tradition', UNKNOWN),
     signs: [f('quran', t('Raised to a high station.', 'Élevé à un rang sublime.', 'رفعه الله مكانًا عليًّا.'), '19:57')],
     notes: [

@@ -184,13 +184,29 @@ export function Person({ id }: { id: string }) {
                   <FactText fact={fact} />
                 </div>
                 {key === 'scripture' && scriptureBook && (
-                  <div className="mt-3 pt-3 border-t border-amber-500/20">
+                  <div className="mt-4 pt-3 border-t border-amber-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="relative size-12 shrink-0 rounded-xl overflow-hidden border border-amber-400/40 shadow-md bg-black/40">
+                        <img
+                          src={`${import.meta.env.BASE_URL}scriptures/${scriptureBook.id}.png`}
+                          alt={scriptureBook.transliteration}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-amber-200 font-serif">{scriptureBook.title.ar} · {pick(scriptureBook.title)}</p>
+                        <p className="text-[11px] text-amber-300/70 font-mono">
+                          {pick(scriptureBook.originalLanguage)} • {scriptureBook.id === 'quran' ? (lang === 'ar' ? 'نص موحد محفوظ' : '1 Preserved Text') : `${scriptureBook.versionsCount} ${lang === 'ar' ? 'روايات' : 'traditions'}`}
+                        </p>
+                      </div>
+                    </div>
                     <button
                       type="button"
                       onClick={() => setShowScriptureModal(true)}
-                      className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/40 hover:bg-amber-500/30 transition-all shadow-sm"
+                      className="inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold bg-gradient-to-r from-amber-500/30 to-amber-600/30 hover:from-amber-500/40 hover:to-amber-600/40 text-amber-200 border border-amber-400/50 transition-all shadow-sm cursor-pointer"
                     >
-                      <BookOpen className="size-3.5 text-amber-400" />
+                      <BookOpen className="size-3.5 text-amber-300" />
                       <span>
                         {lang === 'ar'
                           ? `استكشف تاريخ المخطوطات والروايات (${scriptureBook.id === 'quran' ? 'نص موحد' : `${scriptureBook.versionsCount} روايات`})`
