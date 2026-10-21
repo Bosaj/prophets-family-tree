@@ -1350,6 +1350,8 @@ export function TopographyMap({ focus }: { focus?: string }) {
     if (!mapContainer.current || mapInstance.current) return
 
     let isMounted = true
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null
+
     import('leaflet').then((leafletModule) => {
       if (!isMounted || !mapContainer.current) return
       const Leaflet = leafletModule.default || leafletModule
@@ -1371,10 +1373,31 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
       mapInstance.current = map
       setMapReady(true)
+
+      // Invalidate size once DOM layout is settled to ensure all tiles render
+      requestAnimationFrame(() => {
+        if (mapInstance.current) {
+          mapInstance.current.invalidateSize()
+        }
+      })
+      resizeTimer = setTimeout(() => {
+        if (mapInstance.current) {
+          mapInstance.current.invalidateSize()
+        }
+      }, 200)
     })
+
+    const handleResize = () => {
+      if (mapInstance.current) {
+        mapInstance.current.invalidateSize()
+      }
+    }
+    window.addEventListener('resize', handleResize)
 
     return () => {
       isMounted = false
+      window.removeEventListener('resize', handleResize)
+      if (resizeTimer) clearTimeout(resizeTimer)
       if (mapInstance.current) {
         mapInstance.current.remove()
         mapInstance.current = null
@@ -1396,6 +1419,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
       let tileUrl = ''
       let attribution = ''
+      let subdomains = 'abc'
 
       if (mapStyle === 'satellite') {
         tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
@@ -1403,19 +1427,22 @@ export function TopographyMap({ focus }: { focus?: string }) {
       } else if (mapStyle === 'terrain') {
         tileUrl = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'
         attribution = 'Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap'
+        subdomains = 'abc'
       } else {
         // Dark theme
         tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
         attribution = '&copy; OpenStreetMap contributors &copy; CARTO'
+        subdomains = 'abcd'
       }
 
       const tileLayer = Leaflet.tileLayer(tileUrl, {
         maxZoom: 18,
-        subdomains: 'abcd',
+        subdomains,
         attribution,
       }).addTo(map)
 
       layersRef.current.tileLayer = tileLayer
+      map.invalidateSize()
     })
   }, [mapStyle, mapReady])
 
