@@ -56,13 +56,13 @@ export default function App() {
         return <Home />
       case 'tree':
         return (
-          <div className="fixed inset-x-0 top-[6.5rem] bottom-0 sm:top-16">
+          <div className="fixed inset-x-0 top-[6.5rem] bottom-0 lg:top-16">
             <Tree key={route.focus ?? 'all'} focus={route.focus} />
           </div>
         )
       case 'map':
         return (
-          <div className="fixed inset-x-0 top-[6.5rem] bottom-0 sm:top-16">
+          <div className="fixed inset-x-0 top-[6.5rem] bottom-0 lg:top-16">
             <TopographyMap key={route.focus ?? 'all'} focus={route.focus} />
           </div>
         )
@@ -96,7 +96,7 @@ export default function App() {
       </a>
       <Starfield density={route.name === 'tree' || route.name === 'map' ? 0.7 : 1} />
       <Header route={route} onSearch={() => setSearching(true)} />
-      <main id="main" className={route.name !== 'home' && route.name !== 'tree' && route.name !== 'map' ? 'pt-28 sm:pt-20' : undefined}>
+      <main id="main" className={route.name !== 'home' && route.name !== 'tree' && route.name !== 'map' ? 'pt-28 lg:pt-20' : undefined}>
         {page}
       </main>
       {route.name !== 'tree' && route.name !== 'map' && (
