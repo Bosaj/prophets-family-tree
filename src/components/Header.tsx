@@ -16,6 +16,7 @@ const NAV = [
   { key: 'navStature', href: '/stature', route: 'stature' },
   { key: 'navStories', href: '/stories', route: 'stories' },
   { key: 'navNature', href: '/nature', route: 'nature' },
+  { key: 'navScriptures', href: '/scriptures', route: 'scriptures' },
   { key: 'navSources', href: '/sources', route: 'sources' },
 ] as const
 

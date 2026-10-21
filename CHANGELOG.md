@@ -2,6 +2,34 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/), versioning: [SemVer](https://semver.org/).
 
+## [2.4.0] — 2026-10-21
+### Fixed
+- **Mobile & Phone Display Tree Layout (`horizontal = false`)**:
+  - Fully resolved orientation issue where genealogical descent lines turned vertical on phones but spouse/marriage connector lines remained vertically oriented or caused overlapping collisions.
+  - Spouses are now arranged along the perpendicular HORIZONTAL axis on the exact same generational tier ($y = husband.y$), side-by-side with their prophet husbands.
+  - Hawwa is placed horizontally beside Adam, Hajar and Sarah are placed horizontally beside Ibrahim above their respective sons Ismail and Ishaq, and Safura is placed beside Musa.
+  - The wives of Prophet Muhammad ﷺ (Ummahat al-Mu'minin) are aligned along a continuous, elegant horizontal bar on the open flank of the tree, with straight horizontal marriage connector lines and clean vertical descent to the children.
+- **Author Attribution**:
+  - Author attribution strictly standardized to **"Oussama EL HADJI"** across English, French, and Arabic locales.
+
+### Added
+- **Divine Scriptures & Manuscript Traditions Catalog (`/scriptures` & Interactive Modals)**:
+  - Comprehensive encyclopedic dataset (`src/data/scriptures.ts`) documenting all revealed divine scriptures:
+    - *Al-Qur'an al-Karim* (1 Singular Preserved Text in Rasm Uthmani, the 10 Mutawatir Qira'at, and physical manuscripts from Birmingham, Sana'a, Topkapi, Samarkand, and Tübingen).
+    - *At-Tawrat & Tablets* (6 major textual traditions: Masoretic MT, Samaritan Pentateuch with ~6,000 variants, Septuagint LXX, Dead Sea Scrolls, Syriac Peshitta, Aramaic Targums).
+    - *Az-Zabur* (5 major textual traditions: Masoretic Tehillim 150 Psalms, Septuagint 151 Psalms, Qumran 11QPs^a, Syriac Peshitta 155 Psalms, Latin Vulgate recensions).
+    - *Al-Injeel* (8 major manuscript witnesses: 4 Canonical Gospels in Greek with >500,000 variants, Codex Sinaiticus, Vaticanus, Alexandrinus, Syriac Peshitta, Diatessaron Harmony, Gospel of Barnabas, and Nag Hammadi Gnostic Codices).
+    - *Suhuf Ibrahim* (4 historical traditions: Lost Divine Original, Testament of Abraham, Apocalypse of Abraham, and authentic Hadith records in Sahih Ibn Hibban).
+    - *Suhuf Idris* (30 scrolls) and *Suhuf Shith* (50 scrolls) attested in Sahih Hadith.
+  - **Scripture Book Medallions on the Tree**:
+    - Radiant glowing book badges `📖` on prophet tree nodes with pulse aura, tooltip, and version counter badge (`١` for Quran, `6` for Tawrat, `5` for Zabur, `8` for Injeel, etc.).
+    - Clicking the medallion directly opens the deep interactive `ScripturesModal`.
+  - **Dedicated Full-Page View (`/scriptures`) & Navigation**:
+    - Accessible via the top navigation bar, Tree toolbar, and individual prophet biography fact sheets.
+    - Includes photorealistic 16:9 still-life images of the holy scriptures adhering strictly to Islamic theological rules (no humans or faces).
+    - Islamic comparative analysis explaining the Divine preservation guarantee of the Qur'an vs. the textual pluriformity of earlier scriptures.
+
+
 ## [2.3.0] — 2026-10-20
 ### Added
 - **Interactive Constellation Tree & Chronological Timeline for Sahaba & Caliphs (`/sahaba`)**:
@@ -44,7 +72,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - **Topography & Prophetic Routes (`/map`)**: Interactive Leaflet 3D historical topography maps tracing the journeys, stations, and waypoints of the Prophets across the Arabian Peninsula, Levant, Egypt, and Mesopotamia.
 - **Interactive Lineage & Relational Highlighting**: Bidirectional highlighting and glow between canvas genealogical lines and the interactive legend, with specific categorization for direct lineage (parent, descendant), sacred marriages, and lateral bonds (sibling, cousin, guardian).
 - **GitHub Pages Automated CI/CD Deployment**: Dedicated deployment workflow (`.github/workflows/deploy.yml`) supporting subpath base routing (`/prophets-family-tree/`) and client-side SPA routing (`404.html`).
-- **Author Attribution & LinkedIn Profile Link**: Interactive footer attribution linking to Oussama Elhadji's professional profile.
+- **Author Attribution & LinkedIn Profile Link**: Interactive footer attribution linking to Oussama EL HADJI's professional profile.
 
 ### Fixed
 - **UI Overlapping in Tree Canvas**: Resolved collision between the bottom floating time-space epoch ruler, the interactive legend, and the trace hint.

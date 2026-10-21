@@ -15,7 +15,7 @@ The ongoing evolution of **Shajara** (`@Bosaj/prophets-family-tree`) is organize
 * [x] **Zero-Collision UI Layout:** Total resolution of overlapping between the legend card, epoch timeline ruler, and tree elements.
 * [x] **Dual-Layer Organism Image Display:** Full uncropped display on hover with ambient blurred backdrops.
 * [x] **GitHub Pages Automated CI/CD:** Dedicated GitHub Actions deployment workflow with subpath routing and SPA client fallback (`404.html`).
-* [x] **Author Attribution:** Active LinkedIn integration for Oussama Elhadji.
+* [x] **Author Attribution:** Active LinkedIn integration for Oussama EL HADJI.
 
 ---
 

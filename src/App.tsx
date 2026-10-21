@@ -15,6 +15,7 @@ import { SahabaTree } from './components/SahabaTree'
 import { ScienceView } from './components/ScienceView'
 import { Person } from './components/Person'
 import { REPO, Sources } from './components/Sources'
+import { ScripturesView } from './components/ScripturesView'
 import { NotFound } from './components/NotFound'
 import { SearchDialog } from './components/Search'
 import { VerseSheet } from './components/VerseSheet'
@@ -77,6 +78,8 @@ export default function App() {
         return <SahabaTree key={route.focus ?? 'all'} focus={route.focus} />
       case 'science':
         return <ScienceView />
+      case 'scriptures':
+        return <ScripturesView initialBookId={route.book} />
       case 'sources':
         return <Sources />
       case 'person':
@@ -124,7 +127,7 @@ export default function App() {
                       rel="noopener noreferrer"
                       className="text-gold hover:underline font-semibold transition-colors"
                     >
-                      Oussama Elhadji
+                      Oussama EL HADJI
                     </a>
                     .
                   </>
@@ -137,7 +140,7 @@ export default function App() {
                       rel="noopener noreferrer"
                       className="text-gold hover:underline font-semibold transition-colors"
                     >
-                      Oussama Elhadji
+                      Oussama EL HADJI
                     </a>
                     .
                   </>
