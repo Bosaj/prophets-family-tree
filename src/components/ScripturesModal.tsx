@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
   BookOpen,
   CheckCircle2,
@@ -49,15 +50,17 @@ export function ScripturesModal({
     suhuf_shith: `${import.meta.env.BASE_URL}scriptures/suhuf_shith.png`,
   }
 
-  return (
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/85 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-[2000] flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/85 backdrop-blur-md animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="glass-card relative flex flex-col w-full max-w-5xl max-h-[92vh] min-h-0 overflow-hidden rounded-2xl border border-amber-500/30 bg-[#0d0918]/95 shadow-[0_0_50px_rgba(245,158,11,0.2)] text-amber-50"
+        className="glass-card relative flex flex-col w-full max-w-5xl max-h-[90vh] sm:max-h-[88vh] min-h-0 overflow-hidden rounded-2xl border border-amber-500/30 bg-[#0d0918]/95 shadow-[0_0_50px_rgba(245,158,11,0.2)] text-amber-50 my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Bar */}
@@ -112,9 +115,11 @@ export function ScripturesModal({
                 }`}
               >
                 <span>{book.title.ar}</span>
-                <span className="opacity-75 text-[11px] font-sans">
-                  ({pick(book.title)})
-                </span>
+                {lang !== 'ar' && (
+                  <span className="opacity-75 text-[11px] font-sans">
+                    ({pick(book.title)})
+                  </span>
+                )}
                 <span
                   className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono ${
                     isSelected
@@ -176,9 +181,17 @@ export function ScripturesModal({
                     <h3 className="text-2xl sm:text-3xl font-bold font-serif text-amber-200 break-words">
                       {currentBook.title.ar}
                     </h3>
-                    <p className="text-sm sm:text-base font-medium text-amber-300/80 break-words">
-                      {pick(currentBook.title)} · {currentBook.transliteration}
-                    </p>
+                    {lang !== 'ar' ? (
+                      <p className="text-sm sm:text-base font-medium text-amber-300/80 break-words">
+                        {pick(currentBook.title)} · {currentBook.transliteration}
+                      </p>
+                    ) : (
+                      <p className="text-sm sm:text-base font-medium text-amber-300/80 break-words">
+                        {currentBook.preservationStatus === 'divinely_preserved'
+                          ? 'وحي الله المعجز المحفوظ بحفظ الله التام في الصدور والمصاحف'
+                          : `${currentBook.versionsCount} روايات وتقاليد نصية رئيسية`}
+                      </p>
+                    )}
                   </div>
                   {onSelectPerson && (
                     <button
@@ -289,9 +302,11 @@ export function ScripturesModal({
                     <p className="text-amber-200 font-serif text-sm leading-relaxed text-right">
                       {ref.arabicText}
                     </p>
-                    <p className="text-amber-100/70 italic text-[11px] leading-normal">
-                      {lang === 'fr' ? ref.translationFr : ref.translationEn}
-                    </p>
+                    {lang !== 'ar' && (
+                      <p className="text-amber-100/70 italic text-[11px] leading-normal">
+                        {lang === 'fr' ? ref.translationFr : ref.translationEn}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -339,9 +354,11 @@ export function ScripturesModal({
                         <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                       )}
                     </div>
-                    <span className="text-[11px] text-amber-100/70 font-sans break-words mt-0.5">
-                      {pick(ver.name)}
-                    </span>
+                    {lang !== 'ar' && (
+                      <span className="text-[11px] text-amber-100/70 font-sans break-words mt-0.5">
+                        {pick(ver.name)}
+                      </span>
+                    )}
                     <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-[10px] text-amber-300/80 font-mono">
                       <span className="rounded bg-black/40 px-1.5 py-0.5 border border-white/5">
                         {pick(ver.language)}
@@ -361,7 +378,7 @@ export function ScripturesModal({
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
                   <div className="min-w-0">
                     <h5 className="text-base sm:text-lg font-bold text-amber-200 font-serif break-words">
-                      {activeVersion.name.ar} · {pick(activeVersion.name)}
+                      {activeVersion.name.ar} {lang !== 'ar' && `· ${pick(activeVersion.name)}`}
                     </h5>
                     <p className="text-xs text-amber-300 font-sans break-words mt-0.5">
                       {pick(activeVersion.significance)}
@@ -448,6 +465,7 @@ export function ScripturesModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
