@@ -24,16 +24,18 @@ export function StatureView() {
   const formatHeight = (meters: number, cubits?: number) => {
     switch (unit) {
       case 'cubits':
-        return cubits ? `${cubits} ${lang === 'ar' ? 'ذراعاً' : 'cubits'}` : `${(meters / 0.5).toFixed(1)} ${lang === 'ar' ? 'ذراعاً' : 'cubits'}`
+        return cubits
+          ? `${cubits} ${lang === 'ar' ? 'ذراعاً' : lang === 'fr' ? 'coudées' : 'cubits'}`
+          : `${(meters / 0.5).toFixed(1)} ${lang === 'ar' ? 'ذراعاً' : lang === 'fr' ? 'coudées' : 'cubits'}`
       case 'imperial': {
         const totalInches = meters * 39.3701
         const feet = Math.floor(totalInches / 12)
         const inches = Math.round(totalInches % 12)
-        return `${feet}′ ${inches}″ (${(meters * 3.28084).toFixed(1)} ft)`
+        return `${feet}′ ${inches}″ (${(meters * 3.28084).toFixed(1)} ${lang === 'ar' ? 'قدم' : 'ft'})`
       }
       case 'metric':
       default:
-        return `${meters.toFixed(1)} m (${Math.round(meters * 100)} cm)`
+        return `${meters.toFixed(1)} ${lang === 'ar' ? 'م' : 'm'} (${Math.round(meters * 100)} ${lang === 'ar' ? 'سم' : 'cm'})`
     }
   }
 
@@ -162,7 +164,7 @@ export function StatureView() {
                     <g key={m} opacity="0.35">
                       <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
                       <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
-                        {m}m
+                        {m} {lang === 'ar' ? 'م' : 'm'}
                       </text>
                     </g>
                   )
@@ -178,7 +180,7 @@ export function StatureView() {
                     <g key={m} opacity="0.35">
                       <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
                       <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
-                        {m}m
+                        {m} {lang === 'ar' ? 'م' : 'm'}
                       </text>
                     </g>
                   )
@@ -194,7 +196,7 @@ export function StatureView() {
                     <g key={m} opacity="0.35">
                       <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
                       <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
-                        {m}m
+                        {m} {lang === 'ar' ? 'م' : 'm'}
                       </text>
                     </g>
                   )
@@ -473,7 +475,11 @@ export function StatureView() {
               {lang === 'ar' ? 'مخطط الارتفاع النسبي (نسبة إلى 30 متراً)' : 'Relative Height Chart (up to 30 meters)'}
             </span>
             <span className="text-xs font-mono text-gold-2">
-              Max: 30.0m / 60 cubits
+              {lang === 'ar'
+                ? 'الحد الأقصى: 30.0 م / 60 ذراعاً'
+                : lang === 'fr'
+                ? 'Max : 30,0 m / 60 coudées'
+                : 'Max: 30.0m / 60 cubits'}
             </span>
           </div>
 

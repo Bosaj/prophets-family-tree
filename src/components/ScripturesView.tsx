@@ -85,9 +85,11 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
               }`}
             >
               <span>{book.title.ar}</span>
-              <span className="opacity-75 text-[11px] font-sans">
-                ({pick(book.title)})
-              </span>
+              {lang !== 'ar' && (
+                <span className="opacity-75 text-[11px] font-sans">
+                  ({pick(book.title)})
+                </span>
+              )}
               <span
                 className={`rounded-full px-2 py-0.5 text-[10px] font-mono ${
                   isSelected
@@ -143,9 +145,17 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 <h2 className="text-3xl sm:text-4xl font-bold font-serif text-amber-200">
                   {currentBook.title.ar}
                 </h2>
-                <p className="text-base sm:text-lg font-medium text-amber-300/80">
-                  {pick(currentBook.title)} · {currentBook.transliteration}
-                </p>
+                {lang !== 'ar' ? (
+                  <p className="text-base sm:text-lg font-medium text-amber-300/80">
+                    {pick(currentBook.title)} · {currentBook.transliteration}
+                  </p>
+                ) : (
+                  <p className="text-base sm:text-lg font-medium text-amber-300/80">
+                    {currentBook.preservationStatus === 'divinely_preserved'
+                      ? 'وحي الله المعجز المحفوظ بحفظ الله التام في الصدور والمصاحف'
+                      : `${currentBook.versionsCount} روايات وتقاليد نصية رئيسية`}
+                  </p>
+                )}
               </div>
               <A
                 href={hrefOf({ name: 'person', id: currentBook.prophetId })}
@@ -244,9 +254,11 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 <p className="text-amber-200 font-serif text-base leading-relaxed text-right dir-rtl">
                   {ref.arabicText}
                 </p>
-                <p className="text-amber-100/75 italic text-xs leading-relaxed">
-                  {lang === 'fr' ? ref.translationFr : ref.translationEn}
-                </p>
+                {lang !== 'ar' && (
+                  <p className="text-amber-100/75 italic text-xs leading-relaxed">
+                    {lang === 'fr' ? ref.translationFr : ref.translationEn}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -291,9 +303,11 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                     <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                   )}
                 </div>
-                <span className="text-xs text-amber-100/70 font-sans break-words mt-1">
-                  {pick(ver.name)}
-                </span>
+                {lang !== 'ar' && (
+                  <span className="text-xs text-amber-100/70 font-sans break-words mt-1">
+                    {pick(ver.name)}
+                  </span>
+                )}
                 <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-amber-300/80 font-mono">
                   <span className="rounded bg-black/40 px-2 py-0.5 border border-white/5">{pick(ver.language)}</span>
                   <span className="rounded bg-black/40 px-2 py-0.5 border border-white/5">{pick(ver.period)}</span>
@@ -309,7 +323,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-amber-500/20 pb-4">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-amber-200 font-serif">
-                  {activeVersion.name.ar} · {pick(activeVersion.name)}
+                  {activeVersion.name.ar} {lang !== 'ar' && `· ${pick(activeVersion.name)}`}
                 </h3>
                 <p className="text-sm text-amber-300 font-sans mt-0.5">
                   {pick(activeVersion.significance)}
