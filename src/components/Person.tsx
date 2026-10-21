@@ -32,6 +32,8 @@ import { formatDate } from '../lib/dates'
 import { hrefOf } from '../lib/router'
 import { A, FactText, LevelChip, Refs, Scene, useOpenVerse } from './ui'
 import { NotFound } from './NotFound'
+import { SCRIPTURES_BY_PROPHET } from '../data/scriptures'
+import { ScripturesModal } from './ScripturesModal'
 
 const FACTS: { key: keyof P & ('role' | 'sentTo' | 'place' | 'scripture' | 'era' | 'lifespan' | 'marriage' | 'children'); label: Key }[] = [
   { key: 'role', label: 'role' },
@@ -51,7 +53,9 @@ export function Person({ id }: { id: string }) {
   const openVerse = useOpenVerse()
   const p = byId.get(id)
   const [copied, setCopied] = useState(false)
+  const [showScriptureModal, setShowScriptureModal] = useState(false)
   const relatives = useMemo(() => (p ? relativesOf(p.id) : []), [p])
+  const scriptureBook = p ? SCRIPTURES_BY_PROPHET.get(p.id) : null
 
   useEffect(() => {
     if (p) document.title = `${p.name.ar} · ${pick(p.name)} — ${t('brand')}`
@@ -174,9 +178,27 @@ export function Person({ id }: { id: string }) {
             const fact = p[key] as Fact | undefined
             if (!fact) return null
             return (
-              <div key={key} className="glass rounded-3xl p-5">
-                <h3 className="mb-2 text-xs tracking-wide text-ink-3 uppercase">{t(label)}</h3>
-                <FactText fact={fact} />
+              <div key={key} className="glass rounded-3xl p-5 flex flex-col justify-between">
+                <div>
+                  <h3 className="mb-2 text-xs tracking-wide text-ink-3 uppercase">{t(label)}</h3>
+                  <FactText fact={fact} />
+                </div>
+                {key === 'scripture' && scriptureBook && (
+                  <div className="mt-3 pt-3 border-t border-amber-500/20">
+                    <button
+                      type="button"
+                      onClick={() => setShowScriptureModal(true)}
+                      className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/40 hover:bg-amber-500/30 transition-all shadow-sm"
+                    >
+                      <BookOpen className="size-3.5 text-amber-400" />
+                      <span>
+                        {lang === 'ar'
+                          ? `استكشف تاريخ المخطوطات والروايات (${scriptureBook.id === 'quran' ? 'نص موحد' : `${scriptureBook.versionsCount} روايات`})`
+                          : `Explore Textual History & Manuscripts (${scriptureBook.id === 'quran' ? '1 Preserved Text' : `${scriptureBook.versionsCount} Traditions`})`}
+                      </span>
+                    </button>
+                  </div>
+                )}
               </div>
             )
           })}
@@ -607,6 +629,13 @@ export function Person({ id }: { id: string }) {
           )}
         </nav>
       </div>
+
+      {showScriptureModal && scriptureBook && (
+        <ScripturesModal
+          initialBookId={scriptureBook.id}
+          onClose={() => setShowScriptureModal(false)}
+        />
+      )}
     </article>
   )
 }

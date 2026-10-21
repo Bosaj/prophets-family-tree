@@ -313,4 +313,51 @@ describe('Full Website Automated Test Suite', () => {
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Arbre des Sahaba/i)
     })
   })
+
+  describe('11. Holy Scriptures & Manuscript Traditions (/scriptures)', () => {
+    it('renders the scriptures page with all divine books and version counts', () => {
+      renderAt('/scriptures')
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Manuscript Traditions & Texts of the Prophets/i)
+
+      // Must list the scriptures: Qur'an, Tawrat, Zabur, Injeel, Suhuf Ibrahim
+      expect(screen.getAllByText(/The Noble Qur’an/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/القرآن الكريم/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/التوراة/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/الزبور/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/الإنجيل/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/صُحُفُ إِبْرَاهِيمَ/i).length).toBeGreaterThan(0)
+
+      // Must show the divine preservation guarantee for the Quran
+      expect(screen.getAllByText(/Divinely Preserved/i).length).toBeGreaterThan(0)
+
+      // Must show textual traditions counts
+      expect(screen.getAllByText(/6 traditions/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/5 traditions/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/8 traditions/i).length).toBeGreaterThan(0)
+    })
+
+    it('switches between scriptures and shows manuscript details', async () => {
+      const user = userEvent.setup()
+      renderAt('/scriptures')
+
+      // Click on At-Tawrat pill
+      const tawratBtn = screen.getByRole('button', { name: /التوراة.*The Torah/i })
+      await user.click(tawratBtn)
+
+      // Must display the major versions: Masoretic, Samaritan, Septuagint, Dead Sea Scrolls
+      expect(screen.getAllByText(/Masoretic Text/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/Samaritan Pentateuch/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/Dead Sea Scrolls/i).length).toBeGreaterThan(0)
+    })
+  })
+
+  describe('12. Author Attribution (Oussama EL HADJI)', () => {
+    it('strictly attests Oussama EL HADJI across the footer attribution in English and French', () => {
+      renderAt('/timeline', 'en')
+      expect(screen.getByText(/Oussama EL HADJI/i)).toBeInTheDocument()
+
+      renderAt('/timeline', 'fr')
+      expect(screen.getByText(/Oussama EL HADJI/i)).toBeInTheDocument()
+    })
+  })
 })

@@ -121,14 +121,14 @@ export function buildLayout(
 
   // 2. Position visible spouses in a vertical line with their prophet husband
   const spousePositions = new Map<string, { x: number; y: number; depth: number }>()
-  const vGap = 85
 
-  // Hawwa vertically below Adam (with ample room for Adam's date pill)
+  // Hawwa: in horizontal mode, placed below Adam along the vertical line.
+  // In vertical mode (phones): Hawwa is placed HORIZONTALLY beside Adam on the same generation tier!
   if (visible('hawwa') && tempPos.has('adam')) {
     const a = tempPos.get('adam')!
     spousePositions.set('hawwa', {
-      x: horizontal ? a.x + 125 : a.x,
-      y: horizontal ? a.y : a.y + vGap,
+      x: horizontal ? a.x + 125 : a.x + (rtl ? -115 : 115),
+      y: a.y,
       depth: a.depth + 0.5,
     })
   }
@@ -136,6 +136,7 @@ export function buildLayout(
   // Sarah & Hajar vertically in-line with Ibrahim
   // In horizontal mode, placed below Ibrahim on the vertical line (Nuh's descendants are above Ibrahim,
   // so below Ibrahim is 100% empty space, completely avoiding Yafith, Yam, or Hud)
+  // In vertical mode (phones): placed horizontally beside Ibrahim in-line with their respective sons!
   if (tempPos.has('ibrahim')) {
     const ib = tempPos.get('ibrahim')!
     const ismailPos = tempPos.get('ismail')
@@ -143,26 +144,26 @@ export function buildLayout(
 
     if (visible('hajar')) {
       spousePositions.set('hajar', {
-        x: horizontal ? ib.x + 120 : (ismailPos ? ismailPos.x : ib.x - 85),
-        y: horizontal ? ib.y : ib.y + vGap,
+        x: horizontal ? ib.x + 120 : (ismailPos ? ismailPos.x : ib.x - 110),
+        y: ib.y,
         depth: ib.depth + 0.5,
       })
     }
     if (visible('sarah')) {
       spousePositions.set('sarah', {
-        x: horizontal ? ib.x + 240 : (ishaqPos ? ishaqPos.x : ib.x + 85),
-        y: horizontal ? ib.y : ib.y + vGap,
+        x: horizontal ? ib.x + 240 : (ishaqPos ? ishaqPos.x : ib.x + 110),
+        y: ib.y,
         depth: ib.depth + 0.5,
       })
     }
   }
 
-  // Safura vertically below Musa (Musa has 2.2 separation from Harun, so Safura fits perfectly)
+  // Safura vertically below Musa in horizontal mode, or horizontally beside Musa in vertical phone mode
   if (visible('safura') && tempPos.has('musa')) {
     const m = tempPos.get('musa')!
     spousePositions.set('safura', {
-      x: horizontal ? m.x + 115 : m.x,
-      y: horizontal ? m.y : m.y + vGap,
+      x: horizontal ? m.x + 115 : m.x + (rtl ? -110 : 110),
+      y: m.y,
       depth: m.depth + 0.5,
     })
   }
@@ -175,31 +176,32 @@ export function buildLayout(
     const lastKid = kKids[kKids.length - 1]
     const kCenterX = firstKid && lastKid && tempPos.has(firstKid) && tempPos.has(lastKid)
       ? (tempPos.get(firstKid)!.x + tempPos.get(lastKid)!.x) / 2
-      : mh.x + 95
-    const ibrahimX = tempPos.get('ibrahim_m')?.x ?? (mh.x - 95)
+      : mh.x + 115
+    const ibrahimX = tempPos.get('ibrahim_m')?.x ?? (mh.x - 115)
 
-    // Khadijah vertically below Muhammad with clear separation from Muhammad's date pill
+    // Khadijah: placed in line with her children or adjacent to Muhammad
     if (visible('khadijah')) {
+      const kX = !horizontal && Math.abs(kCenterX - mh.x) < 40 ? mh.x + 115 : kCenterX
       spousePositions.set('khadijah', {
-        x: horizontal ? mh.x + 125 : kCenterX,
-        y: horizontal ? mh.y : mh.y + vGap,
+        x: horizontal ? mh.x + 125 : kX,
+        y: mh.y,
         depth: mh.depth + 0.5,
       })
     }
 
-    // Mariyah vertically aligned with her son Ibrahim (or above Muhammad)
+    // Mariyah: aligned with her son Ibrahim or adjacent to Muhammad
     if (visible('mariyah')) {
+      const mX = !horizontal && Math.abs(ibrahimX - mh.x) < 40 ? mh.x - 115 : (tempPos.has('ibrahim_m') ? ibrahimX : mh.x - 115)
       spousePositions.set('mariyah', {
-        x: horizontal ? (tempPos.has('ibrahim_m') ? ibrahimX : mh.x - 105) : ibrahimX,
-        y: horizontal ? mh.y : mh.y + vGap,
+        x: horizontal ? (tempPos.has('ibrahim_m') ? ibrahimX : mh.x - 105) : mX,
+        y: mh.y,
         depth: mh.depth + 0.5,
       })
     }
 
     // The other 10 wives of the Prophet (Ummahat al-Mu'minin)
     // In horizontal mode: placed above Mariyah and Muhammad along the open vertical generation line
-    // In vertical mode: placed in two clean rows strictly to the left of Muhammad (where no prophets exist)
-    // This avoids colliding with Ayyub (who sits below/right of Muhammad) and ensures ZERO overlap
+    // In vertical mode (phones): placed along the single continuous HORIZONTAL line of wives on the open flank
     const upperWives = [
       'sawdah',
       'aisha',
@@ -227,14 +229,13 @@ export function buildLayout(
       const allKidsX = ['qasim', 'abdullah_m', 'ibrahim_m', 'zaynab_m', 'ruqayyah', 'umm_kulthum', 'fatimah']
         .map((id) => tempPos.get(id)?.x)
         .filter((v): v is number => typeof v === 'number')
-      const minChildX = Math.min(mh.x - 95, ibrahimX, ...allKidsX)
+      const mariyahPos = spousePositions.get('mariyah')?.x ?? (mh.x - 115)
+      const minChildX = Math.min(mh.x - 115, mariyahPos - 115, ...allKidsX)
 
       upperWives.forEach((wid, idx) => {
-        const col = Math.floor(idx / 2) + 1
-        const rowOffset = idx % 2 === 0 ? 45 : 135
         spousePositions.set(wid, {
-          x: minChildX - col * 95,
-          y: mh.y + rowOffset,
+          x: minChildX - (idx + 1) * 115,
+          y: mh.y,
           depth: mh.depth + 0.5,
         })
       })
@@ -302,10 +303,18 @@ export function buildLayout(
         d = `M ${h.x + 22 * dir},${h.y} C ${midX},${h.y} ${midX},${s.y} ${s.x - 20 * dir},${s.y}`
       }
     } else {
-      const midY = (h.y + s.y) / 2
-      d = Math.abs(h.x - s.x) < 2
-        ? `M ${h.x},${h.y + 22} L ${s.x},${s.y - 20}`
-        : `M ${h.x},${h.y + 22} C ${h.x},${midY} ${s.x},${midY} ${s.x},${s.y - 20}`
+      // VERTICAL MODE (phones / narrow screens):
+      // Spouses are horizontal to their husband on the same generational tier (y === h.y)
+      if (Math.abs(h.y - s.y) < 2) {
+        const startX = s.x > h.x ? h.x + 18 : h.x - 18
+        const endX = s.x > h.x ? s.x - 16 : s.x + 16
+        d = `M ${startX},${h.y} L ${endX},${s.y}`
+      } else {
+        const midX = (h.x + s.x) / 2
+        const startX = s.x > h.x ? h.x + 20 : h.x - 20
+        const endX = s.x > h.x ? s.x - 18 : s.x + 18
+        d = `M ${startX},${h.y} C ${midX},${h.y} ${midX},${s.y} ${endX},${s.y}`
+      }
     }
     edges.push({
       link: { from: husbandId, to: spouseId, type: 'spouse', l: 'hadith' },

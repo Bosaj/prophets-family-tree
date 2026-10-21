@@ -44,8 +44,17 @@ describe('layout', () => {
     const vert = buildLayout(true, false)
     expect(vert.nodes).toHaveLength(people.length)
     const getV = (id: string) => vert.nodes.find((n) => n.id === id)!
-    expect(getV('hawwa').x).toBe(getV('adam').x)
-    expect(getV('safura').x).toBe(getV('musa').x)
+    // In vertical layout (phones), spouses are horizontal to their prophet husband (exact same Y)
+    expect(getV('hawwa').y).toBe(getV('adam').y)
+    expect(getV('hawwa').x).not.toBe(getV('adam').x)
+    expect(getV('safura').y).toBe(getV('musa').y)
+    expect(getV('safura').x).not.toBe(getV('musa').x)
+    expect(getV('hajar').y).toBe(getV('ibrahim').y)
+    expect(getV('sarah').y).toBe(getV('ibrahim').y)
+
+    for (const wid of wivesOfMuhammad) {
+      expect(getV(wid).y).toBe(getV('muhammad').y)
+    }
 
     // Helper to find true visual overlaps in any layout
     const checkOverlaps = (layoutNodes: typeof rtl.nodes) => {

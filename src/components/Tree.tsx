@@ -29,6 +29,8 @@ import { hrefOf, navigate } from '../lib/router'
 import { A, FactText, LEVEL_STROKE, LevelChip, Refs, SubName, RefChip } from './ui'
 import { formatDate, formatBirthDeath } from '../lib/dates'
 import { PRE_ADAM_ENTITIES, type PreAdamEntity } from '../data/preAdam'
+import { SCRIPTURES_BY_PROPHET } from '../data/scriptures'
+import { ScripturesModal } from './ScripturesModal'
 
 interface View {
   k: number
@@ -117,6 +119,8 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const [showLegend, setShowLegend] = useState(false)
   const [showPreAdamModal, setShowPreAdamModal] = useState(false)
   const [selectedPreAdamEntity, setSelectedPreAdamEntity] = useState<string | null>(null)
+  const [showScripturesModal, setShowScripturesModal] = useState(false)
+  const [selectedBookId, setSelectedBookId] = useState<string>('quran')
 
   const activeKind: EdgeKind | null =
     activeLegendKind ??
@@ -832,6 +836,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   : dateLabelRaw
                 : null
               const pillW = dateLabel ? Math.max(88, Math.min(220, dateLabel.length * 7.5 + 24)) : 0
+              const scriptureBook = SCRIPTURES_BY_PROPHET.get(n.id)
               return (
                 <g
                   key={n.id}
@@ -882,6 +887,57 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       strokeDasharray="2 3"
                       className="orbit"
                     />
+                  )}
+                  {/* Holy Scripture Book Indicator Badge */}
+                  {scriptureBook && (
+                    <g
+                      transform={`translate(${lang === 'ar' ? -r - 12 : r + 12}, ${-r - 6})`}
+                      className="cursor-pointer group/scripture"
+                      onClick={(ev) => {
+                        ev.stopPropagation()
+                        setSelectedBookId(scriptureBook.id)
+                        setShowScripturesModal(true)
+                      }}
+                    >
+                      <title>{`${scriptureBook.title.ar} · ${pick(scriptureBook.title)} (${scriptureBook.id === 'quran' ? (lang === 'ar' ? 'نص موحد' : '1 Text') : `${scriptureBook.versionsCount} ${lang === 'ar' ? 'روايات' : 'versions'}`})`}</title>
+                      <circle
+                        r="14"
+                        fill="rgba(245, 158, 11, 0.25)"
+                        className="animate-pulse"
+                      />
+                      <circle
+                        r="10.5"
+                        fill="#1b122c"
+                        stroke="#f59e0b"
+                        strokeWidth="1.3"
+                      />
+                      <text
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        fontSize="9.5"
+                        y="0.5"
+                      >
+                        📖
+                      </text>
+                      <g transform="translate(6, 6)">
+                        <circle
+                          r="5.5"
+                          fill="#d97706"
+                          stroke="#ffffff"
+                          strokeWidth="0.8"
+                        />
+                        <text
+                          textAnchor="middle"
+                          dominantBaseline="central"
+                          fontSize="6.5"
+                          fontWeight="700"
+                          fill="#ffffff"
+                          fontFamily="sans-serif"
+                        >
+                          {scriptureBook.id === 'quran' ? '١' : scriptureBook.versionsCount}
+                        </text>
+                      </g>
+                    </g>
                   )}
                   <text
                     y={r + 24}
@@ -999,6 +1055,21 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
 
             {/* Zoom / Fit Controls & Map View Toggle */}
             <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedBookId('quran')
+                  setShowScripturesModal(true)
+                }}
+                className="glass flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold text-amber-300 border border-amber-500/40 hover:border-amber-400 hover:bg-amber-500/20 shadow-md transition-all"
+                title={lang === 'ar' ? 'الكتب السماوية وتاريخ المخطوطات' : 'Holy Scriptures & Manuscript History'}
+              >
+                <BookOpen className="size-3.5 text-amber-400" aria-hidden="true" />
+                <span className="hidden sm:inline">
+                  {lang === 'ar' ? 'الكتب السماوية' : lang === 'fr' ? 'Livres Célestes' : 'Holy Books'}
+                </span>
+              </button>
+
               <A
                 href="/map"
                 className="glass flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium text-gold hover:border-gold/50 hover:bg-gold/15 shadow-md transition-colors"
@@ -1537,6 +1608,15 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             setSelectedPreAdamEntity(null)
           }}
           initialEntityId={selectedPreAdamEntity}
+        />
+      )}
+      {showScripturesModal && (
+        <ScripturesModal
+          initialBookId={selectedBookId}
+          onClose={() => setShowScripturesModal(false)}
+          onSelectPerson={(pid) => {
+            select(pid)
+          }}
         />
       )}
     </div>

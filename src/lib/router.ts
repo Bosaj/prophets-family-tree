@@ -11,6 +11,7 @@ export type Route =
   | { name: 'sahaba'; focus?: string }
   | { name: 'science'; focus?: string }
   | { name: 'sources' }
+  | { name: 'scriptures'; book?: string }
   | { name: 'person'; id: string }
   | { name: 'notfound' }
 
@@ -55,6 +56,10 @@ export function parsePath(path: string, search = ''): Route {
     return focus ? { name: 'science', focus } : { name: 'science' }
   }
   if (p === '/sources') return { name: 'sources' }
+  if (p === '/scriptures') {
+    const book = new URLSearchParams(search).get('book') ?? undefined
+    return book ? { name: 'scriptures', book } : { name: 'scriptures' }
+  }
   const m = /^\/p\/([a-z0-9_]+)$/.exec(p)
   if (m) return { name: 'person', id: m[1]! }
   return { name: 'notfound' }
@@ -92,6 +97,9 @@ export const hrefOf = (r: Route): string => {
       break
     case 'sources':
       sub = '/sources'
+      break
+    case 'scriptures':
+      sub = r.book ? `/scriptures?book=${r.book}` : '/scriptures'
       break
     case 'person':
       sub = `/p/${r.id}`
