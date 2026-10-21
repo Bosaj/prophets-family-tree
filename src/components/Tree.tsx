@@ -110,6 +110,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const moved = useRef(false)
   const downNode = useRef<string | null>(null)
   const downEdge = useRef<string | null>(null)
+  const downScripture = useRef<string | null>(null)
   const [glide, setGlide] = useState(false)
 
   const [activeLegendKind, setActiveLegendKind] = useState<EdgeKind | null>(null)
@@ -205,6 +206,15 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   }, [mini])
 
   const onPointerDown = (e: React.PointerEvent) => {
+    const scriptureTarget = (e.target as Element).closest('[data-scripture-book]')?.getAttribute('data-scripture-book')
+    if (scriptureTarget) {
+      downScripture.current = scriptureTarget
+      downNode.current = null
+      downEdge.current = null
+      moved.current = false
+      return
+    }
+    downScripture.current = null
     downNode.current = (e.target as Element).closest('[data-node]')?.getAttribute('data-node') ?? null
     downEdge.current = (e.target as Element).closest('[data-edge-idx]')?.getAttribute('data-edge-idx') ?? null
     moved.current = false
@@ -253,6 +263,14 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
     pointers.current.delete(e.pointerId)
     if (pointers.current.size < 2) pinch.current = null
     if (e.type === 'pointerup' && !wasPan && !moved.current) {
+      if (downScripture.current) {
+        const bookId = downScripture.current
+        downScripture.current = null
+        downNode.current = null
+        setSelectedBookId(bookId)
+        setShowScripturesModal(true)
+        return
+      }
       if (downNode.current) {
         select(downNode.current)
         setSelectedEdge(null)
@@ -268,6 +286,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
         setSelectedEdge(null)
       }
     }
+    downScripture.current = null
     downNode.current = null
     downEdge.current = null
   }
@@ -891,40 +910,57 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   {/* Holy Scripture Book Indicator Badge */}
                   {scriptureBook && (
                     <g
-                      transform={`translate(${lang === 'ar' ? -r - 12 : r + 12}, ${-r - 6})`}
-                      className="cursor-pointer group/scripture"
+                      data-scripture-book={scriptureBook.id}
+                      transform={`translate(${lang === 'ar' ? -r - 14 : r + 14}, ${-r - 8})`}
+                      className="cursor-pointer group/scripture transition-transform duration-200 hover:scale-125"
+                      style={{ pointerEvents: 'all' }}
+                      onPointerDown={(ev) => {
+                        ev.stopPropagation()
+                        downScripture.current = scriptureBook.id
+                        downNode.current = null
+                      }}
+                      onPointerUp={(ev) => {
+                        ev.stopPropagation()
+                        downScripture.current = null
+                        downNode.current = null
+                        setSelectedBookId(scriptureBook.id)
+                        setShowScripturesModal(true)
+                      }}
                       onClick={(ev) => {
                         ev.stopPropagation()
                         setSelectedBookId(scriptureBook.id)
                         setShowScripturesModal(true)
                       }}
                     >
-                      <title>{`${scriptureBook.title.ar} · ${pick(scriptureBook.title)} (${scriptureBook.id === 'quran' ? (lang === 'ar' ? 'نص موحد' : '1 Text') : `${scriptureBook.versionsCount} ${lang === 'ar' ? 'روايات' : 'versions'}`})`}</title>
+                      <title>{`${scriptureBook.title.ar} · ${pick(scriptureBook.title)} (${scriptureBook.id === 'quran' ? (lang === 'ar' ? 'نص موحد محفوظ' : '1 Preserved Text') : `${scriptureBook.versionsCount} ${lang === 'ar' ? 'روايات ومخطوطات' : 'traditions'}`})`}</title>
+                      {/* Generous touch target */}
+                      <circle r="22" fill="transparent" />
                       <circle
                         r="14"
-                        fill="rgba(245, 158, 11, 0.25)"
+                        fill="rgba(245, 158, 11, 0.28)"
                         className="animate-pulse"
                       />
                       <circle
-                        r="10.5"
+                        r="11"
                         fill="#1b122c"
                         stroke="#f59e0b"
-                        strokeWidth="1.3"
+                        strokeWidth="1.4"
                       />
                       <text
                         textAnchor="middle"
                         dominantBaseline="central"
-                        fontSize="9.5"
+                        fontSize="10"
                         y="0.5"
+                        style={{ pointerEvents: 'none' }}
                       >
                         📖
                       </text>
-                      <g transform="translate(6, 6)">
+                      <g transform="translate(6, 6)" style={{ pointerEvents: 'none' }}>
                         <circle
-                          r="5.5"
+                          r="6"
                           fill="#d97706"
                           stroke="#ffffff"
-                          strokeWidth="0.8"
+                          strokeWidth="0.9"
                         />
                         <text
                           textAnchor="middle"
@@ -1449,6 +1485,58 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               </div>
 
               {sel.title && <FactText fact={sel.title} className="mt-4 text-sm" />}
+
+              {/* Revealed Holy Scripture Card */}
+              {(() => {
+                const scriptureBook = SCRIPTURES_BY_PROPHET.get(sel.id)
+                if (!scriptureBook) return null
+                return (
+                  <div className="mt-4 rounded-2xl border border-amber-500/35 bg-gradient-to-br from-amber-950/40 via-purple-950/20 to-black/60 p-3.5 shadow-xl text-xs">
+                    <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-amber-500/20">
+                      <div className="flex items-center gap-1.5 font-semibold text-amber-300 uppercase tracking-wider text-[11px]">
+                        <BookOpen className="size-3.5 text-amber-400" />
+                        <span>{lang === 'ar' ? 'الكتاب السماوي المنزل' : lang === 'fr' ? 'Livre Céleste Révélé' : 'Revealed Scripture'}</span>
+                      </div>
+                      <span className="rounded-full px-2 py-0.5 text-[10px] font-mono bg-amber-500/20 text-amber-200 border border-amber-500/30">
+                        {scriptureBook.id === 'quran'
+                          ? lang === 'ar' ? '١ نص موحد محفوظ' : '1 Preserved Text'
+                          : `${scriptureBook.versionsCount} ${lang === 'ar' ? 'روايات ومخطوطات' : 'traditions'}`}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="relative size-14 shrink-0 rounded-xl overflow-hidden border border-amber-400/40 shadow-md bg-black/40">
+                        <img
+                          src={`${import.meta.env.BASE_URL}scriptures/${scriptureBook.id}.png`}
+                          alt={scriptureBook.transliteration}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-amber-200 font-serif text-base truncate">{scriptureBook.title.ar}</h4>
+                        <p className="text-xs text-amber-300/80 font-sans truncate">{pick(scriptureBook.title)}</p>
+                        <div className="mt-1 flex items-center gap-2 text-[10px] text-amber-200/70 font-mono">
+                          <span>{pick(scriptureBook.originalLanguage)}</span>
+                          <span>•</span>
+                          <span>{pick(scriptureBook.revealedEra)}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedBookId(scriptureBook.id)
+                        setShowScripturesModal(true)
+                      }}
+                      className="mt-3 w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500/30 to-amber-600/30 hover:from-amber-500/40 hover:to-amber-600/40 border border-amber-400/50 py-2 px-3 text-xs font-semibold text-amber-200 hover:text-amber-100 transition-all shadow-sm cursor-pointer"
+                    >
+                      <BookOpen className="size-3.5 text-amber-300" />
+                      <span>{lang === 'ar' ? 'تصفح دراسة المخطوطات والنسخ' : lang === 'fr' ? 'Explorer les Manuscrits & Versions' : 'Explore Textual History & Manuscripts'}</span>
+                      <ArrowRight className="size-3 rtl:rotate-180" />
+                    </button>
+                  </div>
+                )
+              })()}
 
               {/* Parents (Father & Mother) */}
               {sel.parents && (
