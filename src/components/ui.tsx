@@ -4,6 +4,9 @@ import { navigate, withBase } from '../lib/router'
 import { useI18n } from '../i18n'
 import { LEVEL_TEXT } from '../i18n/strings'
 import { parseRef, refLabel, refUrl } from '../data/sources'
+
+/** Public asset prefix: '/' on Vercel, '/prophets-family-tree/' on GitHub Pages. */
+export const ASSET = import.meta.env.BASE_URL
 import type { Fact, Level, Person, Ref } from '../data/types'
 
 /** In-app link: plain <a> for crawlers and middle-click, client-side navigation otherwise. */
@@ -134,10 +137,10 @@ export function Scene({ image, className = '', alt = '', eager = false, sizes = 
   }
   return (
     <picture>
-      <source type="image/avif" srcSet={`/img/${image}-960.avif 960w, /img/${image}-2048.avif 2048w`} sizes={sizes} />
-      <source type="image/webp" srcSet={`/img/${image}-960.webp 960w, /img/${image}-2048.webp 2048w`} sizes={sizes} />
+      <source type="image/avif" srcSet={`${ASSET}img/${image}-960.avif 960w, ${ASSET}img/${image}-2048.avif 2048w`} sizes={sizes} />
+      <source type="image/webp" srcSet={`${ASSET}img/${image}-960.webp 960w, ${ASSET}img/${image}-2048.webp 2048w`} sizes={sizes} />
       <img
-        src={`/img/${image}-2048.webp`}
+        src={`${ASSET}img/${image}-2048.webp`}
         alt={alt}
         width={2048}
         height={1152}
