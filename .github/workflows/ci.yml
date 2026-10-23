@@ -35,3 +35,5 @@ jobs:
           node-version: 24
       - name: Verify every Qur'an and hadith reference against the texts
         run: node scripts/verify-sources.mjs
+      - name: Audit all datasets (nature, science, angels, stature, sahaba, scriptures) and DOIs
+        run: node scripts/audit-content.mjs

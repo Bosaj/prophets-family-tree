@@ -23,6 +23,8 @@ function preloadFonts(): Plugin {
 
 export default defineConfig({
   base: cleanBase,
+  // Public source maps: the project is open source, and they let browsers and Lighthouse map errors to code.
+  build: { sourcemap: true },
   plugins: [
     preloadFonts(),
     react(),
@@ -43,7 +45,7 @@ export default defineConfig({
         categories: ['education', 'books'],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,woff2}', 'img/*-960.webp'],
+        globPatterns: ['**/*.{js,css,html,svg,woff2}'],
         navigateFallback: `${cleanBase}index.html`,
         runtimeCaching: [
           {
@@ -52,7 +54,7 @@ export default defineConfig({
             options: { cacheName: 'quran-api', expiration: { maxEntries: 300 } },
           },
           {
-            urlPattern: ({ url }) => url.pathname.startsWith('/img/'),
+            urlPattern: ({ url }) => /\/(img|nature|scriptures)\//.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'scenes', expiration: { maxEntries: 80 } },
           },
