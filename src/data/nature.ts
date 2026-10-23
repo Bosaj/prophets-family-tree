@@ -267,10 +267,10 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
     hadithRefs: [
       {
         book: 'Bukhari',
-        number: '3379',
+        number: '3380',
         text: t(
-          'When the Prophet ﷺ passed by Al-Hijr (the dwellings of Thamud), he veiled his head and quickened his pace, saying: "Do not enter the dwellings of those who wronged themselves unless you are weeping, lest there befall you what befell them."',
-          'En passant près d’Al-Hijr (demeures de Thamûd), le Prophète ﷺ couvrit sa tête et hâta le pas en disant : « N’entrez dans ces demeures de ceux qui ont été injustes qu’en pleurant... »',
+          'When the Prophet ﷺ passed by Al-Hijr (the dwellings of Thamud), he said: "Do not enter the houses of those who were unjust to themselves unless you enter weeping, lest you suffer what they suffered." Then he covered his face with his sheet and hastened on.',
+          'En passant près d’Al-Hijr (demeures de Thamûd), le Prophète ﷺ dit : « N’entrez dans les demeures de ceux qui ont été injustes envers eux-mêmes qu’en pleurant, de peur de subir ce qu’ils ont subi. » Puis il se couvrit le visage et hâta le pas.',
           'لَمَّا مَرَّ النَّبِيُّ ﷺ بِالْحِجْرِ قَالَ: «لاَ تَدْخُلُوا عَلَى هَؤُلاَءِ الْقَوْمِ الْمُعَذَّبِينَ، إِلاَّ أَنْ تَكُونُوا بَاكِينَ، فَإِنْ لَمْ تَكُونُوا بَاكِينَ فَلاَ تَدْخُلُوا عَلَيْهِمْ، لاَ يُصِيبُكُمْ مَا أَصَابَهُمْ».'
         ),
       },
@@ -402,7 +402,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
     whatTheyDid: t(
       'A wealthy man among Bani Isra’il was murdered by his nephew for his inheritance, and the culprit threw the body at another clan’s door, almost inciting civil war. They asked Musa to petition Allah to identify the killer. Musa informed them: "Allah commands you to slaughter a cow." Instead of executing the command with simplicity, they questioned repeatedly: What is it? What color? What are its traits? With each question, Allah narrowed the specifications: not old, not young, bright golden yellow delighting all onlookers, unyoked to plow or water the fields, sound without blemish. When they finally found and purchased it at great expense, they slaughtered it, struck the corpse with part of it, and the dead man sat up alive, named his murderer, and passed away again.',
       'Un notable d’Israël fut assassiné pour son héritage par son neveu qui accusa une autre tribu. Ils supplièrent Moïse de solliciter Dieu. Moïse annonça l’ordre divin de sacrifier une vache. Par ergoteur orgueil, ils multiplièrent les questions tatillonnes : son âge, sa couleur, son labeur. Allah restreignit alors le choix : une génisse d’un jaune d’or étincelant, jamais attelée, sans défaut. Ils la sacrifièrent à grand prix, frappèrent le défunt d’un de ses morceaux : l’homme ressuscita instantanément, dénonça son meurtrier et retomba en poussière.',
-      'قُتل رجل ثري من بني إسرائيل ولم يُعرف قاتله، فكادت تقع فتنة عظيمة بين القبائل، فسألوا موسى عليه السلام، فقال: ﴿إِنَّ اللَّهَ يَأْمُرُكُمْ أَنْ تَذْبَحُوا بَقَرَةً﴾. فاستكبروا وسخروا وقالوا أتتخذنا هزواً؟ ثم شددوا على أنفسهم بالسؤال عن سنها ولونها وعملها، فشدد الله عليهم حتى حددها بصفات نادرة: ﴿صَفْرَاءُ فَاقِعٌ لَوْنُهَا تَسُرُّ النَّاظِرِينَ * لَا ذَلُولٌ تُثِيرُ الْأَرْضَ وَلَا تَسْقِي الْحَرْثَ مُسَلَّمَةٌ لَا شِيَةَ فِيهَا﴾. فاشتروها بملء جلدها ذهباً وذبحوها وضربوا الميت ببعضها فقام بإذن الله حياً وأشار إلى قاتله ثم مات.'
+      'قُتل رجل ثري من بني إسرائيل ولم يُعرف قاتله، فكادت تقع فتنة عظيمة بين القبائل، فسألوا موسى عليه السلام، فقال: ﴿إِنَّ اللَّهَ يَأْمُرُكُمْ أَنْ تَذْبَحُوا بَقَرَةً﴾. فاستكبروا وسخروا وقالوا أتتخذنا هزواً؟ ثم شددوا على أنفسهم بالسؤال عن سنها ولونها وعملها، فشدد الله عليهم حتى حددها بصفات نادرة: ﴿صَفْرَاءُ فَاقِعٌ لَوْنُهَا تَسُرُّ النَّاظِرِينَ﴾ (البقرة 69) و﴿لَا ذَلُولٌ تُثِيرُ الْأَرْضَ وَلَا تَسْقِي الْحَرْثَ مُسَلَّمَةٌ لَا شِيَةَ فِيهَا﴾ (البقرة 71). فاشتروها بملء جلدها ذهباً وذبحوها وضربوا الميت ببعضها فقام بإذن الله حياً وأشار إلى قاتله ثم مات.'
     ),
     physicalTraits: {
       size: t('Prime youthful bovine build, 500–600 kg', 'Génisse robuste et vigoureuse, 550 kg', 'بقرة يافعة مكتملة النمو بوزن يتجاوز 500 كجم'),
@@ -576,11 +576,11 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
     quranRefs: ['12:13', '12:14', '12:17'],
     hadithRefs: [
       {
-        book: 'Tirmidhi',
-        number: '2181',
+        book: 'Musnad Ahmad 11792 (graded sahih by al-Albani); a shorter account of a speaking wolf is in Sahih al-Bukhari',
+        number: '3471',
         text: t(
-          'A wolf seized a sheep, so the shepherd chased it and retrieved the sheep. The wolf sat upon its tail and spoke: "Do you take from me sustenance that Allah provided me?" The shepherd said: "How astonishing, a speaking wolf!" The wolf said: "Shall I tell you of something more astonishing? A Prophet in Yathrib telling people of past news!" The shepherd came to the Prophet ﷺ and embraced Islam.',
-          'Un loup ravit une brebis qu’un berger lui reprit. Le loup s’assit et parla : « Me prives-tu d’une subsistance qu’Allah m’a accordée ? » Le berger s’écria : « Un loup qui parle ! » Le loup lui dit : « T’informerai-je d’un prodige plus grand ? Un Prophète à Yathrib vous annonce les récits du passé ! »',
+          'A wolf seized a sheep, so the shepherd chased it and retrieved the sheep. The wolf sat upon its tail and spoke: "Do you take from me sustenance that Allah provided me?" The shepherd said: "How astonishing, a speaking wolf!" The wolf said: "Shall I tell you of something more astonishing? A Prophet in Yathrib telling people of past news!" The shepherd came to the Prophet ﷺ and embraced Islam. (Wording of Musnad Ahmad.)',
+          'Un loup ravit une brebis qu’un berger lui reprit. Le loup s’assit et parla : « Me prives-tu d’une subsistance qu’Allah m’a accordée ? » Le berger s’écria : « Un loup qui parle ! » Le loup lui dit : « T’informerai-je d’un prodige plus grand ? Un Prophète à Yathrib vous annonce les récits du passé ! » (Version du Musnad Ahmad.)',
           'عَدَا الذِّئْبُ عَلَى شَاةٍ فَأَخَذَهَا، فَطَلَبَهُ الرَّاعِي حَتَّى انْتَزَعَهَا مِنْهُ، فَقَعَدَ الذِّئْبُ عَلَى ذَنَبِهِ فَقَالَ: «أَلَا تَتَّقِي اللَّهَ، تَنْزِعُ مِنِّي رِزْقًا سَاقَهُ اللَّهُ إِلَيَّ؟» فَقَالَ الرَّاعِي: «يَا عَجَبِي! ذِئْبٌ مُقْعٍ عَلَى ذَنَبِهِ يُكَلِّمُنِي كَلَامَ الإِنْسِ!» فَقَالَ الذِّئْبُ: «أَلَا أُخْبِرُكَ بِأَعْجَبَ مِنْ ذَلِكَ؟ رَسُولُ اللَّهِ ﷺ بَيْنَ الحَرَّتَيْنِ يُخْبِرُ النَّاسَ بِأَنْبَاءِ مَا قَدْ سَبَقَ!» فَأَتَى الرَّاعِي النَّبِيَّ ﷺ فَأَسْلَمَ.'
         ),
       },
@@ -823,7 +823,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
     hadithRefs: [
       {
         book: 'Bukhari',
-        number: '2849',
+        number: '2849, 2852',
         text: t(
           'Goodness is tied to the forelocks of horses until the Day of Resurrection: reward and spoils.',
           'Le bien reste attaché au toupet des chevaux jusqu’au Jour de la Résurrection : la rétribution et le butin.',
@@ -1080,17 +1080,16 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
     id: 'hamama',
     name: t('Dove & Pigeon', 'Colombe et Pigeon', 'الحمامة واليمامة'),
     scientificName: 'Columba livia',
-    arabicCalligraphy: 'حَمَامُ الْغَارِ وَسَفِينَةِ نُوحٍ وَحَمَامُ الْحَرَمَيْنِ',
     category: 'birds',
-    source: 'quran_and_sunnah',
-    quranRefs: ['11:44'],
+    source: 'sunnah',
+    quranRefs: [],
     hadithRefs: [
       {
         book: 'Musnad Ahmad',
         number: '3251',
         text: t(
-          'During the Hijrah to Madinah, two wild doves nested and laid eggs at the mouth of Cave Thawr, and the spider spun its web, concealing the Prophet ﷺ and Abu Bakr from the Quraysh trackers.',
-          'Lors de l’Hégire, deux colombes sauvages nichèrent à l’entrée de la grotte de Thawr, dissimulant le Prophète ﷺ et Abou Bakr aux poursuivants de Quraych.',
+          'During the Hijrah, the Quraysh trackers reached Cave Thawr but saw a spider’s web over its mouth and turned back (Musnad Ahmad 3251; scholars differ on its grade). The report that two doves also nested there comes from weaker narrations and is not established.',
+          'Lors de l’Hégire, les poursuivants de Quraych arrivèrent à la grotte de Thawr mais virent une toile d’araignée à l’entrée et rebroussèrent chemin (Musnad Ahmad 3251 ; son degré est discuté). Le récit des deux colombes qui y auraient niché vient de narrations plus faibles et n’est pas établi.',
           'فَأَمَرَ اللَّهُ تَعَالَى شَجَرَةً فَنَبَتَتْ، وَأَمَرَ الْعَنْكَبُوتَ فَنَسَجَتْ، وَأَمَرَ حَمَامَتَيْنِ فَبَاضَتَا عَلَى فَمِ الْغَارِ، فَصَرَفَ اللَّهُ بِذَلِكَ أَعْيُنَ الْمُشْرِكِينَ عَنْهُمَا.'
         ),
       },
@@ -1107,22 +1106,22 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
         book: 'Abu Dawud',
         number: '2675',
         text: t(
-          'A companion took two chicks from a mother dove (Hummarah), causing her to flutter in deep distress. The Prophet ﷺ exclaimed: "Who has grieved this mother bird by taking her young? Return her chicks to her!"',
-          'Un homme prit les oisillons d’une colombe qui vint voleter d’angoisse. Le Prophète ﷺ dit : « Qui a affligé cette mère par ses petits ? Rendez-les-lui ! »',
+          'Companions took the two young of a small bird (ḥummarah — not a dove), and she fluttered over them in distress. The Prophet ﷺ said: "Who has distressed this bird by taking her young? Return her young to her." The lesson is mercy to all birds.',
+          'Des compagnons prirent les deux petits d’un petit oiseau (ḥummarah — pas une colombe) qui voletait de détresse. Le Prophète ﷺ dit : « Qui a affligé cet oiseau en prenant ses petits ? Rendez-les-lui. » La leçon : la miséricorde envers tous les oiseaux.',
           'مَنْ فَجَعَ هَذِهِ بِوَلَدِهَا؟ رُدُّوا وَلَدَهَا إِلَيْهَا.'
         ),
       },
     ],
-    relatedProphets: ['nuh', 'muhammad'],
+    relatedProphets: ['muhammad'],
     summary: t(
-      'The emblem of sanctuary, divine peace, and prophetic protection: from the dove of Noah’s Ark heralding the post-deluge dawn with an olive sprig, to the wild doves nesting at the mouth of Cave Thawr shielding the Messenger ﷺ during the Hijrah, to the sacred protected pigeons of Mecca and Medina.',
-      'Symbole de paix divine et de sanctuaire prophétique : de la colombe de l’Arche de Noé annonçant le salut par le rameau d’olivier, aux colombes de la grotte de Thawr lors de l’Hégire, jusqu’aux pigeons inviolables des deux Sanctuaires sacrés.',
-      'طائر السكينة والسلام الإلهي في تاريخ النبوات: من حمامة نوح التي بشرت بالنجاة وانحسار الطوفان بغصن الزيتون، إلى حمام غار ثور الذي عشش وباض على فم الغار حمايةً للمصطفى ﷺ وصاحبه الصديق، إلى حمام الحرمين الشريفين الآمن في كنف الله.'
+      'The dove is not named in the Qur’an. In the Sunnah, the game of the Sacred Mosque — including its pigeons — may not be chased or frightened. The dove of Noah’s Ark with an olive leaf comes from the Biblical account (Genesis 8), not from Islamic sources.',
+      'La colombe n’est pas nommée dans le Coran. Dans la Sunna, le gibier du territoire sacré de La Mecque — dont ses pigeons — ne doit être ni chassé ni effrayé. La colombe de l’Arche avec un rameau d’olivier vient du récit biblique (Genèse 8), non des sources islamiques.',
+      'لم تُذكر الحمامة في القرآن. وفي السنة أن صيد الحرم — ومنه حمامه — لا يُنفَّر ولا يُصاد. أما حمامة سفينة نوح وغصن الزيتون فمن الرواية التوراتية (سفر التكوين 8) لا من المصادر الإسلامية.',
     ),
     whatTheyDid: t(
-      'In classical accounts of the Ark, Noah released the dove which returned carrying an olive leaf in its beak, proving that vegetation and dry land had emerged from the receding waters. Centuries later, during the critical night of the Hijrah, Allah guided a pair of wild doves to nest and lay eggs directly across the opening of Cave Thawr; when Quraysh searchers arrived, seeing the unperturbed nesting birds and spider silk, they concluded no human could have entered and turned away. In the Sunnah, the sanctuary pigeons of the Haramain are granted perpetual legal immunity under Shariah, symbolizing absolute peace and safety in the House of Allah.',
-      'Dans les récits de l’Arche, Noé envoya la colombe qui revint avec un rameau d’olivier au bec, attestant du retrait des eaux. Lors de la nuit cruciale de l’Hégire, deux colombes nichèrent devant la grotte de Thawr, persuadant les Quraychites qu’aucun homme n’avait pu y pénétrer. En droit islamique, les pigeons du Haram bénéficient d’une immunité totale, incarnant la sécurité absolue dans l’enceinte sacrée.',
-      'في سفينة نوح عليه السلام أرسل الحمامة فرجعت وفي منقارها ورقة زيتون تدل على انحسار الطوفان وظهور الأرض الخضراء. وفي هجرة المصطفى ﷺ، كانت الحمام مع العنكبوت جنوداً لله تعالى، إذ باضت على فم الغار وظللت المكان بأمانها، فلما رأى كفار قريش عشها سالماً أيقنوا أن أحداً لم يدخل الغار فانصرفوا خائبين. وفي شريعة الإسلام حظي حمام الحرمين الشريفين بمكانة استثنائية يحرم معها إزعاجه أو صيده، تجسيداً لحرمة المكان وأمانه.'
+      'Pigeons of the Haram in Mecca live under the sanctity the Prophet ﷺ declared for the city: its game is not to be frightened. Popular stories add doves nesting at Cave Thawr during the Hijrah and Noah’s dove after the Flood; the first rests on weak narrations and the second on the Bible, so they are shown here only as tradition.',
+      'Les pigeons du Haram de La Mecque vivent sous l’inviolabilité que le Prophète ﷺ a déclarée pour la cité : on n’effraie pas son gibier. Des récits populaires ajoutent des colombes nichant à la grotte de Thawr et la colombe de Noé après le Déluge ; le premier repose sur des narrations faibles, le second sur la Bible : ils ne sont présentés ici que comme tradition.',
+      'حمام الحرم بمكة في حمى الحرمة التي أعلنها النبي ﷺ للبلد، فلا يُنفَّر صيده. وتضيف القصص الشائعة حمامتين عششتا على غار ثور، وحمامة نوح بعد الطوفان؛ والأولى روايات ضعيفة والثانية من التوراة، فتُذكران هنا على أنهما رواية لا أكثر.',
     ),
     physicalTraits: {
       size: t('32–37 cm length, 64–72 cm wingspan', '32–37 cm de long, 64–72 cm d’envergure', 'طولها 32-37 سم، وامتداد جناحيها 64-72 سم'),
@@ -1678,7 +1677,7 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
       modernScience: t(
         'Barley beta-glucans regulate gut-brain axis neurotransmitter synthesis; high magnesium and tryptophan significantly lower depressive rating scores in clinical trials.',
         'Les bêta-glucanes et le tryptophane de l’orge régulent l’axe intestin-cerveau et réduisent les scores d’anxiété.',
-        'أثبتت الدراسات العصبية أن الشعير يعزز إفراز السيروتونين والدوبامين في الدماغ، مما يفسر علمياً عبارة ﴿تَذْهَبُ بِبَعْضِ الْحُزْنِ﴾.'
+        'أثبتت الدراسات العصبية أن الشعير يعزز إفراز السيروتونين والدوبامين في الدماغ، مما يقرّب معنى قوله ﷺ: «تَذْهَبُ بِبَعْضِ الْحُزْنِ» (صحيح البخاري 5417).'
       ),
     },
   },

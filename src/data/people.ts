@@ -218,7 +218,7 @@ export const people: Person[] = [
       t(
         "For nine centuries and a half, his people answered his heartfelt appeals with mockery, plugging their ears and cloaking themselves in arrogance. Commanded by Divine Revelation to construct a massive timber vessel far inland, he endured ceaseless ridicule from passing chieftains, quietly constructing the salvation of believers and pairs of all living creatures.",
         "Pendant neuf cent cinquante années, les notables répondirent à ses appels par l’arrogance et les railleries. Sur ordre divin, il bâtit une immense arche en bois loin de toute mer, affrontant les moqueries continuelles pour préparer le salut des croyants et des espèces.",
-        "قابل قومه دعوته بالعناد والاستكبار ﴿وَجَعَلُوا أَصَابِعَهُمْ فِي آذَانِهِمْ وَاسْتَغْشَوْا ثِيَابَهُمْ﴾، فأمره الله بصنع الفلك بأعين الله ووحيه، فكان كلما مر عليه ملأ من قومه سخروا منه، وهو صابر محتسب.",
+        "قابل قومه دعوته بالعناد والاستكبار ﴿جَعَلُوا أَصَابِعَهُمْ فِي آذَانِهِمْ وَاسْتَغْشَوْا ثِيَابَهُمْ﴾ (نوح 7)، فأمره الله بصنع الفلك بأعين الله ووحيه، فكان كلما مر عليه ملأ من قومه سخروا منه، وهو صابر محتسب.",
       ),
       t(
         "When the terrestrial fountains erupted and torrential celestial rain poured, the Deluge consumed all disbelievers, including his rebellious son Yam who sought refuge upon a mountain. The Ark safely voyaged through mountainous waves until resting on Mount Judi, inaugurating a purified rebirth for human civilization.",
@@ -845,7 +845,7 @@ export const people: Person[] = [
       t(
         "Shu‘ayb stood fearlessly before their marketplaces, pleading for fair trade and honest scales: \"Give full measure and weight with justice, and do not deprive people of their due.\" Instead of heeding his moral warnings, the arrogant magnates threatened to stone him, sneering: \"Does your prayer command you that we should leave what our fathers worshiped?\"",
         "Shu‘ayb les conjura de réformer leur commerce : « Donnez la pleine mesure et le juste poids, et ne lésez pas les gens dans leurs biens ». Les notables hautains répondirent par la menace de lapidation, raillant sa dévotion : « Est-ce que tes prières t’ordonnent que nous délaissions ce qu’adoraient nos pères ? »",
-        "نصحهم شعيب بحكمة وعاطفة: ﴿أَوْفُوا الْكَيْلَ وَالْمِيزَانَ بِالْقِسْطِ وَلَا تَبْخَسُوا النَّاسَ أَشْيَاءَهُمْ﴾، فاستكبر طغاتهم وهددوه بالرجم والإخراج من قريتهم واستهزؤوا به: ﴿أَصَلَاتُكَ تَأْمُرُكَ أَن نَّتْرُكَ مَا يَعْبُدُ آبَاؤُنَا﴾.",
+        "نصحهم شعيب بحكمة وعاطفة: ﴿أَوْفُوا الْمِكْيَالَ وَالْمِيزَانَ بِالْقِسْطِ وَلَا تَبْخَسُوا النَّاسَ أَشْيَاءَهُمْ﴾ (هود 85)، فاستكبر طغاتهم وهددوه بالرجم والإخراج من قريتهم واستهزؤوا به: ﴿أَصَلَاتُكَ تَأْمُرُكَ أَن نَّتْرُكَ مَا يَعْبُدُ آبَاؤُنَا﴾.",
       ),
       t(
         "When Musa fled Egypt, he sought sanctuary in Midian, marrying Shu‘ayb’s pious daughter and tending his flocks for a decade. Meanwhile, the unrepentant people of Midian were struck down by an unbearable fiery cloud (*Yawm az-Zullah*), followed by a deafening seismic blast (*ar-rajfah*) that left them dead in their homes, while Shu‘ayb and the faithful were preserved.",

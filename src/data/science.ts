@@ -67,9 +67,9 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
     category: 'cosmology',
     title: t('The Expanding Universe', 'L’Univers en Expansion', 'اتساع السماء والكون المستمر'),
     subtitle: t(
-      'Scripture revealed the continuous expansion of space 14 centuries before modern astrophysics.',
-      'L’Écriture révéla l’expansion continue de l’espace 14 siècles avant l’astrophysique moderne.',
-      'إخبار القرآن الصريح بتمدد واتساع أرجاء السماء قبل اكتشاف هابل بأربعة عشر قرناً.'
+      'Commentators read “We are its expander” (51:47) alongside the expansion of space measured by modern astrophysics.',
+      'Les commentateurs lisent « Nous l’étendons » (51:47) à la lumière de l’expansion de l’espace mesurée par l’astrophysique moderne.',
+      'يقرأ بعض المفسرين ﴿وَإِنَّا لَمُوسِعُونَ﴾ (الذاريات 47) مع ما قاسه علم الفلك الحديث من تمدد الكون.'
     ),
     quranRefs: ['51:47'],
     quranVerseText: {
@@ -171,7 +171,7 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
         authors: 'Moore, Keith L.',
         journal: 'Journal of the Islamic Medical Association of North America',
         year: 1986,
-        doiOrUrl: 'https://doi.org/10.5915/18-1-5463',
+        doiOrUrl: 'https://doi.org/10.5915/18-1-8693',
         keyFinding: t(
           'Demonstrated the anatomical correlation between Quranic descriptive terms and human Carnegie stages.',
           'Démonstration de la corrélation anatomique entre les termes coraniques et les stades de Carnegie.',
@@ -183,7 +183,7 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
         authors: 'Moore, K. L., Persaud, T. V. N., & Torchia, M. G.',
         journal: 'Elsevier Health Sciences',
         year: 2019,
-        doiOrUrl: 'https://www.elsevier.com/books/the-developing-human/moore/978-0-323-61154-1',
+        doiOrUrl: 'https://openlibrary.org/isbn/9780323611541',
         keyFinding: t(
           'Standard global textbook detailing the precise timeline of human embryonic tissue development.',
           'Ouvrage de référence mondial détaillant la chronologie du développement embryonnaire.',
@@ -287,11 +287,11 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
     ),
     papers: [
       {
-        title: 'The flow of Mediterranean water through the Strait of Gibraltar',
-        authors: 'Armi, Laurence, & Farmer, David',
+        title: 'The flow of Atlantic water through the Strait of Gibraltar',
+        authors: 'Farmer, David M., & Armi, Laurence',
         journal: 'Progress in Oceanography',
         year: 1988,
-        doiOrUrl: 'https://doi.org/10.1016/0079-6611(88)90003-8',
+        doiOrUrl: 'https://doi.org/10.1016/0079-6611(88)90055-9',
         keyFinding: t(
           'High-resolution acoustics mapped the distinct two-layer exchange flow and interface boundary in the Strait.',
           'Cartographie acoustique de l’interface séparatrice entre les deux couches d’eau du détroit.',
@@ -303,7 +303,7 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
         authors: 'Uncles, R. J., & Mitchell, S. B.',
         journal: 'Cambridge University Press',
         year: 2017,
-        doiOrUrl: 'https://doi.org/10.1017/9781139046770',
+        doiOrUrl: 'https://doi.org/10.1017/9781139644426',
         keyFinding: t(
           'Documented the pycnocline barrier and partitioned salt-wedge dynamics in fresh-salt water junctions.',
           'Documentation de la pycnocline et de la dynamique du coin salé dans les estuaires.',
@@ -318,7 +318,7 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
     category: 'geology',
     title: t('Mountains as Pegs with Deep Crustal Roots', 'Les Montagnes comme Piquets Enracinés', 'الجبال أوتاداً وجذور القشرة الصخرية'),
     subtitle: t(
-      'Airy isostasy and seismological evidence proving mountain roots penetrate up to 70 km into the Earth’s mantle.',
+      'The Qur’an calls mountains “pegs” (78:7); geophysics finds that large mountain belts have deep crustal roots (Airy isostasy).',
       'La théorie de l’isostasie démontre que les montagnes possèdent des racines profondes ancrées dans le manteau lithosphérique.',
       'الجبال كأوتاد الخيمة تمتلك جذوراً عميقة في طبقة الوشاح تصل إلى أضعاف ارتفاعها الظاهر لتثبيت القشرة الأرضية.'
     ),
@@ -378,7 +378,7 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
     category: 'physics_atmosphere',
     title: t('Iron Sent Down from Cosmic Supernovae', 'Le Fer Envoyé des Supernovas Cosmiques', 'إنزال الحديد من المستعرات النجمية'),
     subtitle: t(
-      'The Qur\'an states iron was "sent down"; modern astrophysics proves terrestrial iron formed in dying giant stars.',
+      'The Qur\'an states iron was "sent down"; astrophysics shows that iron is forged in massive stars and supernovae.',
       'Le Coran emploie le terme précis « Nous avons fait descendre le fer »; l’astrophysique confirme que le fer terrestre est né d’explosions stellaires extraterrestres.',
       'التعبير القرآني الإعجازي ﴿وَأَنزَلْنَا الْحَدِيدَ﴾؛ والفيزياء الفلكية تثبت أن طاقة تكوين ذرة الحديد لا تتوفر إلا في نوى النجوم العملاقة المستعرة خارج المجموعة الشمسية.'
     ),
@@ -419,11 +419,11 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
         ),
       },
       {
-        title: 'Supernova Remnants and Presolar Grains: A Direct Window into the Origin of Elements',
-        authors: 'Clayton, Donald D.',
-        journal: 'Science',
-        year: 2003,
-        doiOrUrl: 'https://doi.org/10.1126/science.1084259',
+        title: 'Astrophysics with Presolar Stardust',
+        authors: 'Clayton, Donald D., & Nittler, Larry R.',
+        journal: 'Annual Review of Astronomy and Astrophysics',
+        year: 2004,
+        doiOrUrl: 'https://doi.org/10.1146/annurev.astro.42.053102.134022',
         keyFinding: t(
           'Demonstrated isotopic signatures of iron injected into the early Solar nebula from supernovae.',
           'Démonstration des signatures isotopiques du fer injecté dans la nébuleuse solaire par des supernovas.',
@@ -467,11 +467,11 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
     ),
     papers: [
       {
-        title: 'The molecular mechanism of heat and pain sensation in the skin',
-        authors: 'Julius, David',
-        journal: 'Nature Reviews Neuroscience',
+        title: 'Molecular mechanisms of nociception',
+        authors: 'Julius, David, & Basbaum, Allan I.',
+        journal: 'Nature',
         year: 2001,
-        doiOrUrl: 'https://doi.org/10.1038/35090019',
+        doiOrUrl: 'https://doi.org/10.1038/35093019',
         keyFinding: t(
           'Identified the capsaicin/heat receptor TRPV1 located in cutaneous sensory nerve endings.',
           'Identification du récepteur thermique et nociceptif TRPV1 localisé dans les terminaisons nerveuses cutanées.',
@@ -498,7 +498,7 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
     category: 'neuroscience',
     title: t('The Frontal Lobe (Nasiyah): Center of Decision & Lying', 'Le Lobe Frontal : Siège de la Décision et du Mensonge', 'الناصية ومركز التوجيه والقرار والكذب'),
     subtitle: t(
-      'The Qur\'an attributes lying and sin to the "forelock" (an-Nasiyah); fMRI proves the prefrontal cortex governs deception.',
+      'The Qur\'an attributes lying and sin to the "forelock" (an-Nasiyah); fMRI studies link the prefrontal cortex with deception.',
       'Le Coran désigne la « Nasiyah » (front) comme responsable du mensonge; l’IRMf démontre que le cortex préfrontal médial contrôle la tromperie.',
       'وصف القرآن الناصية بأنها ﴿نَاصِيَةٍ كَاذِبَةٍ خَاطِئَةٍ﴾؛ وتصوير الرنين المغناطيسي الوظيفي يثبت أن قشرة الفص الجبهي هي المسؤولة عن الكذب والتخطيط الأخلاقي.'
     ),
@@ -587,11 +587,11 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
     ),
     papers: [
       {
-        title: 'High-altitude medicine and physiology',
+        title: 'The Physiologic Basis of High-Altitude Diseases',
         authors: 'West, John B.',
-        journal: 'The Lancet',
+        journal: 'Annals of Internal Medicine',
         year: 2004,
-        doiOrUrl: 'https://doi.org/10.1016/S0140-6736(04)17482-3',
+        doiOrUrl: 'https://doi.org/10.7326/0003-4819-141-10-200411160-00010',
         keyFinding: t(
           'Documented the physiological mechanics of hypobaric hypoxia, alveolar gas drop, and acute dyspnea during high altitude ascent.',
           'Documentation de l’hypoxie hypobarique et de la dyspnée aiguë lors de l’ascension en altitude.',
@@ -744,9 +744,9 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
       'إعجاز خَلق البعوضة: الكائنات التي تعلوها ودقة الهندسة الحيوية'
     ),
     subtitle: t(
-      'The Qur’anic reference to the mosquito "and what is above/upon it" (2:26) confirmed by scanning electron microscopy discovering specialized ectoparasitic mites living on its body, coupled with extreme anatomical complexity.',
-      'La mention coranique du moustique « et de ce qui est au-dessus » (2:26) confirmée par la découverte d’acariens parasites vivant sur son corps et par sa prodigieuse anatomie micrométrique.',
-      'الإعجاز القرآني الدقيق في قوله تعالى ﴿فَمَا فَوْقَهَا﴾ (البقرة: 26)؛ حيث كشف المجهر الإلكتروني عن حشرات وطفيليات ميكروسكوبية تعيش فوق ظهر البعوضة وتتغذى عليها، مع بنية حيوية فائقة التعقيد.'
+      'Classical commentators read “a mosquito or what is above it” (2:26) as larger or smaller things; some modern writers connect “what is above it” with the mites that electron microscopy finds living on mosquitoes.',
+      'Les commentateurs classiques lisent « un moustique ou ce qui est au-dessus » (2:26) comme plus grand ou plus petit ; certains auteurs modernes y rapprochent les acariens que le microscope électronique trouve sur les moustiques.',
+      'فسّر المفسرون قوله تعالى ﴿فَمَا فَوْقَهَا﴾ (البقرة 26) بما هو أكبر منها أو أصغر، وربطه بعض المعاصرين بالطفيليات التي كشفها المجهر الإلكتروني على البعوضة، وهو اجتهاد لا قطع فيه.'
     ),
     quranRefs: ['2:26'],
     quranVerseText: {
@@ -773,11 +773,11 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
     ),
     papers: [
       {
-        title: 'Water Mite (Acari: Hydrachnidia) Parasitism on Mosquitoes (Diptera: Culicidae)',
-        authors: 'Smith, B. P.',
+        title: 'Parasitism of Mosquitoes by Water Mites',
+        authors: 'Jalil, M., & Mitchell, R.',
         journal: 'Journal of Medical Entomology',
-        year: 1988,
-        doiOrUrl: 'https://doi.org/10.1093/jmedent/25.6.439',
+        year: 1972,
+        doiOrUrl: 'https://doi.org/10.1093/jmedent/9.4.305',
         keyFinding: t(
           'Documented specialized Arrenurus water mites attaching and living ectoparasitically upon mosquito bodies ("creatures living on the mosquito").',
           'Démonstration scientifique des acariens aquatiques Arrenurus vivant fixés en parasites sur le corps du moustique.',
