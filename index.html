@@ -10,7 +10,7 @@
     <meta property="og:title" content="شجرة الأنبياء · Shajara — The Tree of the Prophets" />
     <meta property="og:description" content="The family tree and timeline of the Prophets named in the Qur'an. Every fact tagged with its source: Qur'an, hadith, tradition or disputed." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og.jpg" />
+    <meta property="og:image" content="https://shajara-prophets.vercel.app/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -27,11 +27,24 @@
       } catch (e) {}
     </script>
     <style>
-      html, body { background: #04050d; }
+      html, body { background: #04050d; margin: 0; }
+      /* Static first paint, replaced by the app as soon as it mounts. Fixed, so removing it shifts nothing. */
+      .shell { position: fixed; inset: 0; z-index: 100; display: grid; transition: opacity 0.35s ease; place-items: center; overflow: hidden; color: #f4efe4;
+        background: radial-gradient(70% 60% at 50% 45%, rgb(64 52 140 / 0.25), transparent 70%), #04050d; }
+      .shell img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; }
+      .shell h1 { position: relative; margin: 0; padding: 0 1rem; text-align: center; font-family: 'Reem Kufi Variable', serif; font-weight: 700;
+        font-size: clamp(3.6rem, 2rem + 8vw, 8.5rem); line-height: 1.2;
+        color: #f1d18e; text-shadow: 0 8px 40px rgb(233 198 123 / 0.25); }
+      .shell p { position: absolute; bottom: 12vh; width: 100%; text-align: center; letter-spacing: 0.3em; font: 300 0.9rem/1 system-ui, sans-serif; color: #c3bdd2; text-transform: uppercase; }
     </style>
   </head>
   <body>
     <div id="root"></div>
+    <div id="shell" class="shell" aria-hidden="true">
+      <img src="/img/hero-960.avif" alt="" width="960" height="540" fetchpriority="high" />
+      <h1>شجرة الأنبياء</h1>
+      <p>Shajara</p>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

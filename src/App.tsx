@@ -1,26 +1,48 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react'
 import { GithubMark } from './components/GithubMark'
 import { useI18n } from './i18n'
 import { useRoute } from './lib/router'
 import { Starfield } from './components/Starfield'
 import { Header } from './components/Header'
 import { Home } from './components/Home'
-import { Tree } from './components/Tree'
-import { TopographyMap } from './components/TopographyMap'
-import { Timeline } from './components/Timeline'
-import { StatureView } from './components/StatureView'
-import { SalihinView } from './components/SalihinView'
-import { NatureView } from './components/NatureView'
-import { SahabaTree } from './components/SahabaTree'
-import { ScienceView } from './components/ScienceView'
-import { Person } from './components/Person'
-import { REPO, Sources } from './components/Sources'
-import { ScripturesView } from './components/ScripturesView'
+import { REPO } from './components/Sources'
 import { NotFound } from './components/NotFound'
 import { SearchDialog } from './components/Search'
 import { VerseSheet } from './components/VerseSheet'
 import { VerseContext } from './components/ui'
 import { Logo } from './components/Logo'
+
+// Each page is its own chunk, so the home page only downloads what it shows.
+const Tree = lazy(() => import('./components/Tree').then((m) => ({ default: m.Tree })))
+const TopographyMap = lazy(() => import('./components/TopographyMap').then((m) => ({ default: m.TopographyMap })))
+const Timeline = lazy(() => import('./components/Timeline').then((m) => ({ default: m.Timeline })))
+const StatureView = lazy(() => import('./components/StatureView').then((m) => ({ default: m.StatureView })))
+const SalihinView = lazy(() => import('./components/SalihinView').then((m) => ({ default: m.SalihinView })))
+const NatureView = lazy(() => import('./components/NatureView').then((m) => ({ default: m.NatureView })))
+const SahabaTree = lazy(() => import('./components/SahabaTree').then((m) => ({ default: m.SahabaTree })))
+const ScienceView = lazy(() => import('./components/ScienceView').then((m) => ({ default: m.ScienceView })))
+const Person = lazy(() => import('./components/Person').then((m) => ({ default: m.Person })))
+const ScripturesView = lazy(() => import('./components/ScripturesView').then((m) => ({ default: m.ScripturesView })))
+const Sources = lazy(() => import('./components/Sources').then((m) => ({ default: m.Sources })))
+
+/** Fades out the static splash from index.html once the first page has painted. */
+function PageReady() {
+  useEffect(() => {
+    const shell = document.getElementById('shell')
+    if (!shell) return
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        shell.style.opacity = '0'
+        setTimeout(() => shell.remove(), 400)
+      }),
+    )
+  }, [])
+  return null
+}
+
+function PageLoading() {
+  return <div data-loading role="status" aria-live="polite" className="grid min-h-[100svh] place-items-center text-ink-3"><span className="size-8 animate-spin rounded-full border-2 border-gold/30 border-t-gold" /></div>
+}
 
 export default function App() {
   const route = useRoute()
@@ -96,8 +118,11 @@ export default function App() {
       </a>
       <Starfield density={route.name === 'tree' || route.name === 'map' ? 0.7 : 1} />
       <Header route={route} onSearch={() => setSearching(true)} />
+      {/* The footer waits with the page, so nothing below the page jumps when a lazy chunk arrives. */}
+      <Suspense fallback={<PageLoading />}>
       <main id="main" className={route.name !== 'home' && route.name !== 'tree' && route.name !== 'map' ? 'pt-28 lg:pt-20' : undefined}>
         {page}
+        <PageReady />
       </main>
       {route.name !== 'tree' && route.name !== 'map' && (
         <footer className="border-t border-white/5">
@@ -154,6 +179,7 @@ export default function App() {
           </div>
         </footer>
       )}
+      </Suspense>
       <VerseSheet refId={verse} onClose={() => setVerse(null)} />
       <SearchDialog open={searching} onClose={() => setSearching(false)} />
     </VerseContext.Provider>

@@ -1,12 +1,14 @@
 import { ArrowRight, BookOpen, ChevronDown, Compass, GitBranch, Hourglass, Leaf, Ruler, ShieldCheck } from 'lucide-react'
+import { Suspense, lazy } from 'react'
 import { useI18n } from '../i18n'
 import { LEVEL_TEXT } from '../i18n/strings'
 import { byId, heavens, people, prophets, ululAzm } from '../data/people'
 import { LEVELS } from '../data/sources'
 import { hrefOf } from '../lib/router'
 import { A, LevelChip, Refs, Scene, Section } from './ui'
-import { Tree } from './Tree'
 import { VERIFIED_REFS } from '../data/verified'
+
+const Tree = lazy(() => import('./Tree').then((m) => ({ default: m.Tree })))
 
 export function Home() {
   const { t, pick, lang } = useI18n()
@@ -99,7 +101,7 @@ export function Home() {
 
       {/* TREE TEASER */}
       <Section kicker={t('treeKicker')} title={t('treeTitle')} lead={t('treeLead')}>
-        <Tree mini />
+        <Suspense fallback={<div data-loading className="h-[440px] rounded-3xl border border-white/10 bg-night/40 sm:h-[520px]" />}><Tree mini /></Suspense>
         <div className="mt-6 text-center">
           <A href="/tree" className="btn btn-ghost">
             {t('treeOpen')} <ArrowRight className="size-4 rtl:rotate-180" aria-hidden="true" />

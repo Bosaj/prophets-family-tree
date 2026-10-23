@@ -1,4 +1,4 @@
-import { render, screen, cleanup, fireEvent } from '@testing-library/react'
+import { render, screen, waitFor, cleanup, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { I18nProvider } from './i18n'
 import App from './App'
@@ -6,14 +6,17 @@ import { navigate } from './lib/router'
 import { SAHABA_FIGURES } from './data/sahaba'
 import { SCIENTIFIC_FACTS } from './data/science'
 
-const renderAt = (path: string, lang: 'en' | 'fr' | 'ar' = 'en') => {
+const renderAt = async (path: string, lang: 'en' | 'fr' | 'ar' = 'en') => {
   cleanup()
   navigate(path, { replace: true })
-  return render(
+  const view = render(
     <I18nProvider lang={lang}>
       <App />
     </I18nProvider>,
   )
+  // Pages are lazy-loaded chunks: wait until every loading placeholder is gone.
+  await waitFor(() => expect(document.querySelector('[data-loading]')).toBeNull(), { timeout: 10000 })
+  return view
 }
 
 describe('Full Website Automated Test Suite', () => {
@@ -22,8 +25,8 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('1. Sahaba, Caliphs & Hadith Masters (/sahaba)', () => {
-    it('renders all 41 figures with accurate era filter chip counts', () => {
-      renderAt('/sahaba')
+    it('renders all 41 figures with accurate era filter chip counts', async () => {
+      await renderAt('/sahaba')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Tree of Sahaba, Caliphs/i)
 
       // Total count across entire dataset must equal 41
@@ -41,7 +44,7 @@ describe('Full Website Automated Test Suite', () => {
 
     it('filters correctly to Hadith Masters (Abu Hurairah, Al-Bukhari, Imam Muslim) in Cards view', async () => {
       const user = userEvent.setup()
-      renderAt('/sahaba')
+      await renderAt('/sahaba')
 
       // Switch to detailed cards view
       const cardsBtn = screen.getByRole('button', { name: /Detailed Cards/i })
@@ -63,7 +66,7 @@ describe('Full Website Automated Test Suite', () => {
 
     it('filters correctly in Timeline view', async () => {
       const user = userEvent.setup()
-      renderAt('/sahaba')
+      await renderAt('/sahaba')
 
       // Switch to Timeline view
       const timelineBtn = screen.getByRole('button', { name: /Chronological Timeline/i })
@@ -86,7 +89,7 @@ describe('Full Website Automated Test Suite', () => {
 
     it('searches by name or keyword dynamically', async () => {
       const user = userEvent.setup()
-      renderAt('/sahaba')
+      await renderAt('/sahaba')
 
       const cardsBtn = screen.getByRole('button', { name: /Detailed Cards/i })
       await user.click(cardsBtn)
@@ -100,7 +103,7 @@ describe('Full Website Automated Test Suite', () => {
 
     it('opens detailed biography modal when a figure is clicked', async () => {
       const user = userEvent.setup()
-      renderAt('/sahaba')
+      await renderAt('/sahaba')
 
       const cardsBtn = screen.getByRole('button', { name: /Detailed Cards/i })
       await user.click(cardsBtn)
@@ -121,8 +124,8 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('2. Tree of Prophets & Pre-Adamic Realm (/tree)', () => {
-    it('renders the Tree of Prophets and primordial separation barrier before Adam', () => {
-      renderAt('/tree')
+    it('renders the Tree of Prophets and primordial separation barrier before Adam', async () => {
+      await renderAt('/tree')
 
       // Check Pre-Adamic barrier threshold text
       expect(
@@ -131,7 +134,7 @@ describe('Full Website Automated Test Suite', () => {
 
       // Check the Hadith creation principle text
       expect(
-        screen.getByText(/«Angels from Light · Jinn & Iblis from Fire · Adam from Clay»/i),
+        screen.getByText(/«Angels from light · Jinn from fire · Adam from what you were told» \(Sahih Muslim 2996\)/i),
       ).toBeInTheDocument()
 
       // Check Pre-Adamic banner
@@ -140,8 +143,8 @@ describe('Full Website Automated Test Suite', () => {
       ).toBeInTheDocument()
     })
 
-    it('opens the Pre-Adamic Realm modal when clicking Pre-Adamic entities and displays the famous angels and their appearance', () => {
-      renderAt('/tree')
+    it('opens the Pre-Adamic Realm modal when clicking Pre-Adamic entities and displays the famous angels and their appearance', async () => {
+      await renderAt('/tree')
 
       // Click the Pre-Adamic Realm banner via fireEvent for SVG synthetic event handling
       const banner = screen.getByTestId('preadam-banner')
@@ -169,9 +172,9 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('3. Scientific Miracles & Research Papers (/science)', () => {
-    it('renders scientific facts including the mosquito miracle and creatures atop it with verified research papers', () => {
-      renderAt('/science')
-      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Scientific Facts in Qur'an & Hadith/i)
+    it('renders scientific facts including the mosquito miracle and creatures atop it with verified research papers', async () => {
+      await renderAt('/science')
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/The Qur’an, the Sunnah and Modern Science/i)
 
       // Total facts count
       expect(SCIENTIFIC_FACTS.length).toBeGreaterThanOrEqual(11)
@@ -179,7 +182,7 @@ describe('Full Website Automated Test Suite', () => {
       // Verifies Mosquito scientific miracle (Surah 2:26)
       expect(screen.getAllByText(/The Mosquito & The Creatures Upon It/i).length).toBeGreaterThan(0)
       expect(screen.getAllByText(/Journal of Medical Entomology/i).length).toBeGreaterThan(0)
-      expect(screen.getAllByText(/Smith, B\. P\./i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/Jalil, M\., & Mitchell, R\./i).length).toBeGreaterThan(0)
 
       // Verifies presence of peer-reviewed journals
       expect(screen.getAllByText(/PNAS/i).length).toBeGreaterThan(0)
@@ -195,7 +198,7 @@ describe('Full Website Automated Test Suite', () => {
 
     it('filters facts when a category chip is selected', async () => {
       const user = userEvent.setup()
-      renderAt('/science')
+      await renderAt('/science')
 
       const geologyBtn = screen.getByRole('button', { name: /Geology & Mountains/i })
       await user.click(geologyBtn)
@@ -209,8 +212,8 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('4. Creatures, Flora & Prophetic Medicine (/nature)', () => {
-    it('renders Hoopoe (Upupa epops), Rock Dove (Hamama), and the Mosquito (Culicidae) with full biological and Quranic details', () => {
-      renderAt('/nature')
+    it('renders Hoopoe (Upupa epops), Rock Dove (Hamama), and the Mosquito (Culicidae) with full biological and Quranic details', async () => {
+      await renderAt('/nature')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Creatures, Flora & Prophetic Medicine/i)
 
       // Hoopoe (Upupa epops)
@@ -228,7 +231,7 @@ describe('Full Website Automated Test Suite', () => {
 
     it('switches between Creatures and Plants/Healing Foods tabs', async () => {
       const user = userEvent.setup()
-      renderAt('/nature')
+      await renderAt('/nature')
 
       // Switch to Plants, Trees & Healing Foods
       const plantsBtn = screen.getByRole('button', { name: /Plants & Foods/i })
@@ -243,8 +246,8 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('5. Profiles: Prophets and Spouses', () => {
-    it('renders prophet profile with lineage, miracles, and Quranic references', () => {
-      renderAt('/p/ibrahim')
+    it('renders prophet profile with lineage, miracles, and Quranic references', async () => {
+      await renderAt('/p/ibrahim')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('إبراهيم')
       expect(screen.getAllByText(/Ibrahim/i).length).toBeGreaterThan(0)
       expect(screen.getByText('Signs and miracles')).toBeInTheDocument()
@@ -252,24 +255,24 @@ describe('Full Website Automated Test Suite', () => {
       expect(screen.getAllByText(/Hajar/i).length).toBeGreaterThan(0)
     })
 
-    it('renders spouse profile with marriage details and virtues', () => {
-      renderAt('/p/khadijah')
+    it('renders spouse profile with marriage details and virtues', async () => {
+      await renderAt('/p/khadijah')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('خديجة بنت خويلد')
       expect(screen.getAllByText(/Khadijah bint Khuwaylid/i).length).toBeGreaterThan(0)
     })
   })
 
   describe('6. Topography & Geographic Map (/map)', () => {
-    it('renders the topography real map interface', () => {
-      renderAt('/map')
+    it('renders the topography real map interface', async () => {
+      await renderAt('/map')
       expect(screen.getByText('Satellite')).toBeInTheDocument()
       expect(screen.getByText('Terrain')).toBeInTheDocument()
     })
   })
 
   describe('7. Physical Stature Scale Comparison (/stature)', () => {
-    it('renders physical stature from Adam 60 cubits down to modern humans', () => {
-      renderAt('/stature')
+    it('renders physical stature from Adam 60 cubits down to modern humans', async () => {
+      await renderAt('/stature')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Stature of the Prophets/i)
       expect(screen.getAllByText(/60 cubits/i).length).toBeGreaterThan(0)
       expect(screen.getAllByText(/~30 meters/i).length).toBeGreaterThan(0)
@@ -278,7 +281,7 @@ describe('Full Website Automated Test Suite', () => {
 
   describe('8. Stories of the Righteous (/stories)', () => {
     it('renders Quranic righteous stories and allows searching', async () => {
-      renderAt('/stories')
+      await renderAt('/stories')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/The Righteous & Great Stories/i)
       expect(screen.getAllByText(/Maryam/i).length).toBeGreaterThan(0)
       expect(screen.getAllByText(/Ashab al-Kahf/i).length).toBeGreaterThan(0)
@@ -287,8 +290,8 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('9. Timeline of the 25 Prophets (/timeline)', () => {
-    it('renders chronological ordering of the 25 prophets mentioned in the Quran', () => {
-      renderAt('/timeline')
+    it('renders chronological ordering of the 25 prophets mentioned in the Quran', async () => {
+      await renderAt('/timeline')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/The order of the Prophets/i)
       expect(screen.getAllByText(/Adam/i).length).toBeGreaterThan(0)
       expect(screen.getAllByText(/Nuh/i).length).toBeGreaterThan(0)
@@ -300,23 +303,23 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('10. Internationalization & RTL / LTR Document Orientation', () => {
-    it('configures document direction to RTL in Arabic and LTR in English and French', () => {
-      renderAt('/sahaba', 'ar')
+    it('configures document direction to RTL in Arabic and LTR in English and French', async () => {
+      await renderAt('/sahaba', 'ar')
       expect(document.documentElement.dir).toBe('rtl')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('شجرة الصحابة والخلفاء')
 
-      renderAt('/sahaba', 'en')
+      await renderAt('/sahaba', 'en')
       expect(document.documentElement.dir).toBe('ltr')
 
-      renderAt('/sahaba', 'fr')
+      await renderAt('/sahaba', 'fr')
       expect(document.documentElement.dir).toBe('ltr')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Arbre des Sahaba/i)
     })
   })
 
   describe('11. Holy Scriptures & Manuscript Traditions (/scriptures)', () => {
-    it('renders the scriptures page with all divine books and version counts', () => {
-      renderAt('/scriptures')
+    it('renders the scriptures page with all divine books and version counts', async () => {
+      await renderAt('/scriptures')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Manuscript Traditions & Texts of the Prophets/i)
 
       // Must list the scriptures: Qur'an, Tawrat, Zabur, Injeel, Suhuf Ibrahim
@@ -338,7 +341,7 @@ describe('Full Website Automated Test Suite', () => {
 
     it('switches between scriptures and shows manuscript details', async () => {
       const user = userEvent.setup()
-      renderAt('/scriptures')
+      await renderAt('/scriptures')
 
       // Click on At-Tawrat pill
       const tawratBtn = screen.getByRole('button', { name: /التوراة.*The Torah/i })
@@ -352,11 +355,11 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('12. Author Attribution (Oussama EL HADJI)', () => {
-    it('strictly attests Oussama EL HADJI across the footer attribution in English and French', () => {
-      renderAt('/timeline', 'en')
+    it('strictly attests Oussama EL HADJI across the footer attribution in English and French', async () => {
+      await renderAt('/timeline', 'en')
       expect(screen.getByText(/Oussama EL HADJI/i)).toBeInTheDocument()
 
-      renderAt('/timeline', 'fr')
+      await renderAt('/timeline', 'fr')
       expect(screen.getByText(/Oussama EL HADJI/i)).toBeInTheDocument()
     })
   })

@@ -132,7 +132,7 @@ function LanguageMenu() {
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-haspopup="listbox"
-        aria-label={t('language')}
+        aria-label={`${LANG_NAMES[lang]} — ${t('language')}`}
         className="flex h-9 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 min-[1280px]:px-3 text-xs min-[1280px]:text-sm text-ink-2 transition-all hover:border-gold/50 hover:bg-white/10 hover:text-ink focus:outline-none focus:ring-2 focus:ring-gold/40"
       >
         <Languages className="size-3.5 min-[1280px]:size-4 text-gold" aria-hidden="true" />

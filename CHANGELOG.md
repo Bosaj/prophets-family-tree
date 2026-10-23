@@ -2,6 +2,33 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/), versioning: [SemVer](https://semver.org/).
 
+## [2.4.1] — 2026-10-24
+### Fixed — accuracy
+- Wrong or mixed-up hadith numbers corrected after checking each one against its text: Thamud and al-Hijr (Bukhari 3380), the speaking wolf (Bukhari 3471 / Musnad Ahmad), Jibril’s 600 wings and true form (Bukhari 3232, 3234; Muslim 174, 177), Malak al-Mawt (Abu Dawud 4753), Malik the gatekeeper (Bukhari 3239, 3396), Musa’s and ‘Isa’s descriptions (Bukhari 3396, 3394, 3440), the Prophet’s ﷺ description (Bukhari 3551; Tirmidhi 3637–3638), Fatimah (Bukhari 3624), Abu Hurairah (Bukhari 3648), Paradise in Adam’s form (Bukhari 3327).
+- Weak reports are no longer presented as authentic: “city of knowledge”, carrying the Khaybar gate, “without Ali Umar would have perished”, doves at Cave Thawr, Mikail never laughing, pearls falling from Jibril’s wings, and the six-hour delay of the left-hand angel are now labelled with their real grade.
+- Qur’an quotations typed in the data are checked against the Mushaf: fixed 71:7 and 11:85, split 2:69 and 2:71, and moved two hadith sayings (Muslim 2996, Bukhari 5417) out of Qur’an brackets ﴿﴾.
+- The dove is no longer linked to Qur’an 11:44 (the Qur’an does not mention it; Noah’s dove comes from Genesis 8), and the ḥummarah of Abu Dawud 2675 is no longer called a dove.
+- Stature: heights for ‘Ad, Thamud and Musa are marked as illustrative (no text gives them), invented BCE dates removed, every portrait’s “height in metres” removed, portraits rewritten from the narrations only, and the unsourced “seven cubits wide” removed.
+- Pre-Adamic realm: every entity has a source level; al-Hinn, al-Binn and the Nasnas are labelled as disputed, with an explanation.
+- Science page: 7 research DOIs that did not exist replaced by the real papers (all 23 now resolve), and the page presents verse–science links as interpretation (tafsir ‘ilmi), not proof.
+
+### Fixed — media and rights
+- The Buraq folk painting (with a human face) replaced by a non-figurative night scene; prophets on the stature stage are drawn as height pillars, never as human figures.
+- 27 nature photos traced to their Wikimedia Commons files with author and licence, shown under each photo and listed on the Sources page; the two photos with no traceable source were replaced by generated images.
+
+### Fixed — GitHub Pages
+- Scene images and nature photos used absolute paths and returned 404 under `/prophets-family-tree/`; all assets now use the configured base.
+
+### Performance
+- Every page is its own chunk: the main bundle dropped from 1.69 MB (561 KB gzip) to 571 KB (189 KB gzip); Leaflet loads only on the map. The service-worker precache dropped from 6.1 MB to 2.3 MB.
+- A static splash paints the title instantly; the footer waits with the page so lazy chunks cause no layout shift (CLS 0).
+- Public source maps.
+
+### Added
+- `npm run audit:content` (runs in CI): checks every Qur’an reference, every ﴿﴾ quotation and typed Arabic verse against the Mushaf, every hadith number against its text, and every DOI.
+- `npm run credits:photos`: re-traces photo credits from Wikimedia Commons.
+- Tests for the new rules (illustrative heights, disputed entities, photo credits, DOI links).
+
 ## [2.4.0] — 2026-10-21
 ### Fixed
 - **Mobile & Phone Display Tree Layout (`horizontal = false`)**:
