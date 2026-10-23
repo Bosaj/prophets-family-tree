@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import { useI18n } from '../i18n'
 import { STATURE_SCALE_DATA, PROPHETIC_DESCRIPTIONS } from '../data/stature'
-import { A } from './ui'
+import { A, LevelChip } from './ui'
 
 export function StatureView() {
   const { pick, lang } = useI18n()
@@ -240,7 +240,7 @@ export function StatureView() {
                     x={530}
                     groundY={360}
                     active={selectedScaleId === 'people_of_ad'}
-                    label={lang === 'ar' ? 'عاد (7.5م)' : "‘Ad (7.5m)"}
+                    label={lang === 'ar' ? 'عاد (≈7.5م)' : "‘Ad (≈7.5m)"}
                   />
                 </g>
 
@@ -266,14 +266,14 @@ export function StatureView() {
                   />
                 </g>
 
-                {/* Thamud (4m) */}
+                {/* Thamud (≈4m) */}
                 <g onClick={() => setSelectedScaleId('thamud_ancient')}>
                   <HumanSilhouette
                     h={40}
                     x={830}
                     groundY={360}
                     active={selectedScaleId === 'thamud_ancient'}
-                    label={lang === 'ar' ? 'ثمود (4م)' : 'Thamud (4m)'}
+                    label={lang === 'ar' ? 'ثمود (≈4م)' : 'Thamud (≈4m)'}
                   />
                 </g>
 
@@ -288,14 +288,14 @@ export function StatureView() {
                   />
                 </g>
 
-                {/* Musa (2.1m) */}
+                {/* Musa (≈2.1m) */}
                 <g onClick={() => setSelectedScaleId('musa_era')}>
                   <HumanSilhouette
                     h={21}
                     x={955}
                     groundY={360}
                     active={selectedScaleId === 'musa_era'}
-                    label={lang === 'ar' ? 'موسى (2.1م)' : 'Musa (2.1m)'}
+                    label={lang === 'ar' ? 'موسى (≈2.1م)' : 'Musa (≈2.1m)'}
                   />
                 </g>
 
@@ -365,7 +365,7 @@ export function StatureView() {
                     x={740}
                     groundY={360}
                     active={selectedScaleId === 'thamud_ancient'}
-                    label={lang === 'ar' ? 'ثمود (4م / 8 أذرع)' : 'Thamud (4m)'}
+                    label={lang === 'ar' ? 'ثمود (4م / 8 أذرع)' : 'Thamud (≈4m)'}
                   />
                 </g>
 
@@ -387,7 +387,7 @@ export function StatureView() {
                     x={915}
                     groundY={360}
                     active={selectedScaleId === 'musa_era'}
-                    label={lang === 'ar' ? 'موسى (2.1م)' : 'Musa (2.1m)'}
+                    label={lang === 'ar' ? 'موسى (≈2.1م)' : 'Musa (≈2.1m)'}
                   />
                 </g>
 
@@ -446,7 +446,7 @@ export function StatureView() {
                     x={740}
                     groundY={360}
                     active={selectedScaleId === 'musa_era'}
-                    label={lang === 'ar' ? 'موسى عليه السلام (2.1م)' : 'Prophet Musa (2.1m)'}
+                    label={lang === 'ar' ? 'موسى عليه السلام (2.1م)' : 'Prophet Musa (≈2.1m)'}
                   />
                 </g>
 
@@ -501,15 +501,19 @@ export function StatureView() {
                       <span className={`size-2.5 rounded-full ${active ? 'bg-gold animate-pulse' : 'bg-white/20'}`} />
                       {pick(item.name)}
                     </span>
-                    <span className="font-mono text-xs font-bold text-gold-2">
-                      {formatHeight(item.heightMeters, item.heightCubits)}
+                    <span className="flex items-center gap-2">
+                      {item.level && <LevelChip level={item.level} />}
+                      <span className="font-mono text-xs font-bold text-gold-2">
+                        {item.heightStated ? '' : '≈ '}
+                        {formatHeight(item.heightMeters, item.heightCubits)}
+                      </span>
                     </span>
                   </div>
 
                   {/* Meter Bar */}
                   <div className="h-3 w-full rounded-full bg-night/80 overflow-hidden border border-white/10">
                     <div
-                      className={`h-full rounded-full transition-all duration-700 ${
+                      className={`h-full rounded-full transition-all duration-700 ${item.heightStated ? '' : 'opacity-60 [background-image:repeating-linear-gradient(90deg,transparent_0_6px,rgb(0_0_0/0.35)_6px_9px)]'} ${
                         active
                           ? 'bg-gradient-to-r from-gold-3 via-gold to-gold-2 shadow-[0_0_12px_rgba(233,198,123,0.8)]'
                           : 'bg-white/20 group-hover:bg-gold/40'
@@ -547,7 +551,9 @@ export function StatureView() {
 
             <div className="mt-6 rounded-2xl border border-gold/20 bg-gold/5 p-4 text-center">
               <span className="text-xs uppercase tracking-wider text-ink-3 block">
-                {lang === 'ar' ? 'الارتفاع الموثق' : 'Attested Height'}
+                {activeScale.heightStated
+                  ? lang === 'ar' ? 'الارتفاع المذكور' : lang === 'fr' ? 'Taille indiquée' : 'Stated height'
+                  : lang === 'ar' ? 'ارتفاع توضيحي — لم يذكره نص' : lang === 'fr' ? 'Taille illustrative — aucun texte ne la donne' : 'Illustrative height — no text gives it'}
               </span>
               <span className="mt-1 block text-3xl font-extrabold text-gold font-mono">
                 {formatHeight(activeScale.heightMeters, activeScale.heightCubits)}
@@ -577,7 +583,9 @@ export function StatureView() {
           </div>
 
           <div className="mt-6 pt-4 border-t border-white/10 text-xs text-ink-3 flex items-center justify-between">
-            <span>{lang === 'ar' ? 'مصدر معتمد في الصحيحين' : 'Sourced from Sahih Collections'}</span>
+            <span className="flex items-center gap-2">
+              {activeScale.level ? <LevelChip level={activeScale.level} /> : <span>{lang === 'ar' ? 'قياس علمي' : lang === 'fr' ? 'Mesure scientifique' : 'Scientific measurement'}</span>}
+            </span>
             {activeScale.textRef && <span className="font-mono text-gold-2">{activeScale.textRef}</span>}
           </div>
         </div>
@@ -750,7 +758,6 @@ export function StatureView() {
 }
 
 function HumanSilhouette({ h, x, groundY, active, label }: { h: number; x: number; groundY: number; active: boolean; label: string }) {
-  const s = h / 100
   const shadowRx = Math.max(7, h * 0.16)
   const shadowRy = Math.max(2.5, h * 0.04)
   return (
@@ -761,16 +768,23 @@ function HumanSilhouette({ h, x, groundY, active, label }: { h: number; x: numbe
       {active && (
         <ellipse cx={x} cy={groundY - h / 2} rx={Math.max(12, h * 0.2)} ry={h * 0.52} fill="rgba(233, 198, 123, 0.15)" />
       )}
-      {/* Body silhouette */}
-      <g transform={`translate(${x}, ${groundY - h}) scale(${s})`}>
-        <circle cx="0" cy="8.5" r="7.5" fill={active ? '#fbe6b0' : '#1e1b2e'} stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.2)'} strokeWidth="1.2" />
-        <path
-          d="M -2,17 C -6,18 -12,21 -13,31 L -12,54 C -12,57 -9,57 -9,54 L -8,36 L -8,56 L -10,98 C -10,100 -5,100 -5,98 L -3,60 L -1,60 L 1,60 L 3,60 L 5,98 C 5,100 10,100 10,98 L 8,56 L 8,36 L 9,54 C 9,57 12,57 12,54 L 13,31 C 12,21 6,18 2,17 Z"
-          fill={active ? '#fbe6b0' : '#1e1b2e'}
-          stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.2)'}
-          strokeWidth="1.2"
-        />
-      </g>
+      {/* Height pillar. No human figure is drawn: people, and above all the Prophets, are never depicted. */}
+      <rect
+        x={x - Math.max(5, h * 0.07)}
+        y={groundY - h}
+        width={Math.max(10, h * 0.14)}
+        height={h}
+        rx={Math.max(5, h * 0.07)}
+        fill={active ? 'url(#pillar-active)' : 'rgba(233,198,123,0.18)'}
+        stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.25)'}
+        strokeWidth="1.2"
+      />
+      <defs>
+        <linearGradient id="pillar-active" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fbe6b0" />
+          <stop offset="1" stopColor="#a8823c" />
+        </linearGradient>
+      </defs>
       {/* Label above */}
       <text
         x={x}
