@@ -255,6 +255,7 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                 <div className="my-3 rounded-xl bg-night-3/70 p-3 border border-white/5">
                   <p className="text-xs text-ink-2 leading-relaxed">
                     {pick(entity.summary)}
+                      {entity.caution && <span className="mt-2 block rounded-lg border border-lvl-disputed/40 bg-lvl-disputed/10 p-2 text-lvl-disputed">{pick(entity.caution)}</span>}
                   </p>
                 </div>
 
@@ -268,7 +269,8 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
 
               <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <Refs refs={entity.quranRefs} />
+                  <LevelChip level={entity.level} />
+                    <Refs refs={entity.quranRefs} />
                 </div>
                 <button
                   type="button"

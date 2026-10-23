@@ -103,31 +103,40 @@ export function ScienceView() {
               <Sparkles className="size-3.5 text-amber-400" />
               <span>
                 {lang === 'ar'
-                  ? 'الإعجاز العلمي والحقائق الكونية والطبية في القرآن والسنة'
-                  : 'Scientific Miracles in Qur\'an & Sunnah Confirmed by Modern Research'}
+                  ? 'آيات وأحاديث يقرؤها بعض المفسرين مع الاكتشافات الحديثة'
+                  : lang === 'fr'
+                  ? 'Versets et hadiths que certains commentateurs lisent à la lumière des découvertes modernes'
+                  : 'Verses and hadith that some commentators read alongside modern findings'}
               </span>
             </div>
             <h1 className="ar-name text-3xl sm:text-5xl font-extrabold tracking-tight text-ink mb-3 gold-text">
               {lang === 'ar'
-                ? 'حقائق القرآن والسنة المثبتة في الأبحاث العلمية المحكمة'
+                ? 'القرآن والسنة والعلم الحديث'
                 : lang === 'fr'
-                ? 'Faits Scientifiques du Coran & de la Sunna Établis par la Recherche'
-                : 'Scientific Facts in Qur\'an & Hadith Proven by Peer-Reviewed Science'}
+                ? 'Le Coran, la Sunna et la science moderne'
+                : 'The Qur’an, the Sunnah and Modern Science'}
             </h1>
             <p className="text-sm sm:text-base text-ink-2 leading-relaxed">
               {lang === 'ar'
-                ? 'موسوعة موثقة تربط بين آيات القرآن الكريم وأحاديث النبي ﷺ الصريحة، وبين الاكتشافات العلمية الحديثة المنشورة في أرقى المجلات العالمية المحكمة (مثل Nature و The Lancet و PNAS و Science) مع روابط المعرف الرقمي المباشر (DOI).'
+                ? 'كل بطاقة تضع الآية أو الحديث بجانب بحث علمي حقيقي منشور برابط DOI تم التحقق منه.'
                 : lang === 'fr'
-                ? 'Une encyclopédie rigoureuse reliant les versets coraniques et hadiths authentiques aux découvertes contemporaines publiées dans les revues majeures (Nature, The Lancet, PNAS, Science) avec liens DOI directs.'
-                : 'A rigorous catalog connecting explicit Qur\'anic verses and authentic Hadith to modern scientific breakthroughs published in peer-reviewed journals (Nature, The Lancet, PNAS, Science) with direct verified DOI links.'}
+                ? 'Chaque fiche place un verset ou un hadith à côté d’une recherche réellement publiée, avec un lien DOI vérifié.'
+                : 'Each card places a verse or hadith next to real published research, with a checked DOI link.'}
+            </p>
+            <p role="note" className="mt-4 rounded-2xl border border-amber-400/30 bg-amber-500/10 p-4 text-xs leading-relaxed text-amber-100/90 sm:text-sm">
+              {lang === 'ar'
+                ? 'تنبيه: ربط آية باكتشاف حديث تفسيرٌ علميٌّ اجتهاديٌّ (التفسير العلمي) وليس نصًّا قطعيًّا، وقد حذّر كثير من العلماء من حمل القرآن على نظريات قد تتغير. الآية صادقة في كل حال، والبحث العلمي يُقرأ على أنه سياق لا برهان.'
+                : lang === 'fr'
+                ? 'Attention : relier un verset à une découverte moderne est une interprétation (tafsir ‘ilmi), non un texte catégorique. Beaucoup de savants mettent en garde contre le fait de lier le Coran à des théories qui peuvent changer. Le verset reste vrai dans tous les cas ; la recherche est un contexte, pas une preuve.'
+                : 'Note: linking a verse to a modern discovery is an interpretation (tafsir ‘ilmi), not a definitive text. Many scholars warn against tying the Qur’an to theories that may change. The verse stays true either way; the research is context, not proof.'}
             </p>
           </div>
 
           {/* Peer-Reviewed Credibility Badge */}
           <div className="glass rounded-2xl p-5 border border-sky-500/20 text-center shrink-0">
-            <span className="block text-3xl font-bold font-mono text-sky-400">100%</span>
+            <span className="block text-3xl font-bold font-mono text-sky-400">{SCIENTIFIC_FACTS.reduce((n, f) => n + f.papers.length, 0)}</span>
             <span className="text-xs font-semibold text-ink-1 block mt-0.5">
-              {lang === 'ar' ? 'أبحاث محكمة رسمية' : 'Peer-Reviewed DOIs'}
+              {lang === 'ar' ? 'بحثًا منشورًا، روابطها مُتحقَّق منها' : lang === 'fr' ? 'publications, liens vérifiés' : 'publications, links checked'}
             </span>
             <span className="text-[0.68rem] text-ink-3 block mt-1">
               Nature · Lancet · PNAS

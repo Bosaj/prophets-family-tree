@@ -664,14 +664,14 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     y={isH ? py - 165 : py - 192}
                     textAnchor="middle"
                     fill="#e2b866"
-                    fontSize="9.5"
+                    fontSize="11"
                     fontWeight="600"
                     className="font-sans tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                   >
                     <tspan x={isH ? px + (sign * 145) : px} dy="0">
                       {lang === 'ar'
-                        ? '﴿خُلِقَتِ الْمَلَائِكَةُ مِنْ نُورٍ، وَخُلِقَ الْجَانُّ مِنْ نَارٍ، وَخُلِقَ آدَمُ مِنْ طِينٍ﴾'
-                        : '«Angels from Light · Jinn & Iblis from Fire · Adam from Clay»'}
+                        ? '«خُلِقَتِ الْمَلَائِكَةُ مِنْ نُورٍ، وَخُلِقَ الْجَانُّ مِنْ مَارِجٍ مِنْ نَارٍ، وَخُلِقَ آدَمُ مِمَّا وُصِفَ لَكُمْ» (صحيح مسلم 2996)'
+                        : '«Angels from light · Jinn from fire · Adam from what you were told» (Sahih Muslim 2996)'}
                     </tspan>
                     <tspan x={isH ? px + (sign * 145) : px} dy="14" fill="#a78bfa" fontSize="8.5" fontWeight="500">
                       {lang === 'ar'
@@ -1806,6 +1806,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                   <div className="my-3 rounded-xl bg-night-3/70 p-3 border border-white/5">
                     <p className="text-xs text-ink-2 leading-relaxed">
                       {pick(entity.summary)}
+                      {entity.caution && <span className="mt-2 block rounded-lg border border-lvl-disputed/40 bg-lvl-disputed/10 p-2 text-lvl-disputed">{pick(entity.caution)}</span>}
                     </p>
                   </div>
 
@@ -1819,6 +1820,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
 
                 <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
                   <div className="flex items-center gap-1.5 flex-wrap">
+                    <LevelChip level={entity.level} />
                     <Refs refs={entity.quranRefs} />
                   </div>
                   <button

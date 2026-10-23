@@ -132,3 +132,41 @@ describe('dataset', () => {
     }
   })
 })
+
+describe('extra datasets keep the source rules', () => {
+  it('never shows an invented height as a stated one', async () => {
+    const { STATURE_SCALE_DATA, PROPHETIC_DESCRIPTIONS } = await import('./stature')
+    for (const s of STATURE_SCALE_DATA) {
+      if (!s.heightStated) expect(s.level, s.id).toBeDefined()
+    }
+    for (const id of ['people_of_ad', 'thamud_ancient', 'musa_era']) {
+      expect(STATURE_SCALE_DATA.find((s) => s.id === id)?.heightStated, id).toBe(false)
+    }
+    // Portraits must not give a height in metres: the sources do not.
+    for (const d of PROPHETIC_DESCRIPTIONS) expect(d.heightEstimate.en, d.id).not.toMatch(/\d(\.\d+)?\s*m\b/)
+  })
+
+  it('labels weak pre-Adamic reports and explains why', async () => {
+    const { PRE_ADAM_ENTITIES } = await import('./preAdam')
+    for (const e of PRE_ADAM_ENTITIES) {
+      expect(e.level, e.id).toBeDefined()
+      if (e.level === 'disputed') expect(e.caution?.en, e.id).toBeTruthy()
+    }
+    expect(PRE_ADAM_ENTITIES.find((e) => e.id === 'nasnas')?.level).toBe('disputed')
+    expect(PRE_ADAM_ENTITIES.find((e) => e.id === 'hinn_binn')?.level).toBe('disputed')
+  })
+
+  it('has a Qur’an verse for every creature marked as from the Qur’an, and credits every photo', async () => {
+    const { QURAN_SUNNAH_ANIMALS, QURAN_SUNNAH_PLANTS } = await import('./nature')
+    const credits = (await import('./photoCredits.json')).default as Record<string, { license: string }>
+    for (const e of [...QURAN_SUNNAH_ANIMALS, ...QURAN_SUNNAH_PLANTS]) {
+      if (e.source !== 'sunnah') expect(e.quranRefs.length, e.id).toBeGreaterThan(0)
+      if (fs.existsSync(path.resolve('public/nature', `${e.id}.jpg`))) expect(credits[e.id]?.license, `credit for ${e.id}`).toBeTruthy()
+    }
+  })
+
+  it('links only DOIs, or a book page, for research papers', async () => {
+    const { SCIENTIFIC_FACTS } = await import('./science')
+    for (const f of SCIENTIFIC_FACTS) for (const p of f.papers) expect(p.doiOrUrl, f.id).toMatch(/^https:\/\/(doi\.org\/10\.|openlibrary\.org\/)/)
+  })
+})
