@@ -5,6 +5,7 @@ import { LEVEL_TEXT } from '../i18n/strings'
 import { BOOKS, LEVELS } from '../data/sources'
 import { LevelChip } from './ui'
 import { VERIFIED_REFS } from '../data/verified'
+import photoCredits from '../data/photoCredits.json'
 
 export const REPO = 'https://github.com/Bosaj/prophets-family-tree'
 
@@ -60,6 +61,30 @@ export function Sources() {
             · <a className="inline-flex items-center gap-1 text-gold hover:text-gold-2" href="https://sunnah.com" target="_blank" rel="noopener noreferrer">sunnah.com <ExternalLink className="size-3" aria-hidden="true" /></a>{' '}
             · <a className="inline-flex items-center gap-1 text-gold hover:text-gold-2" href="https://github.com/fawazahmed0/hadith-api" target="_blank" rel="noopener noreferrer">hadith-api <ExternalLink className="size-3" aria-hidden="true" /></a>
           </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="photos" className="mt-14">
+        <h2 id="photos" className="text-2xl font-semibold">{lang === 'ar' ? 'حقوق الصور' : lang === 'fr' ? 'Crédits photo' : 'Photo credits'}</h2>
+        <p className="mt-3 text-sm text-ink-2">
+          {lang === 'ar'
+            ? 'صور الكائنات من ويكيميديا كومنز بتراخيصها المذكورة؛ والمناظر الطبيعية مولّدة للمشروع ولا تصوّر أي نبي أو إنسان.'
+            : lang === 'fr'
+            ? 'Les photos d’animaux et de plantes viennent de Wikimedia Commons sous les licences indiquées ; les paysages sont générés pour le projet et ne représentent aucun prophète ni personne.'
+            : 'Animal and plant photos come from Wikimedia Commons under the licences listed; landscapes are generated for the project and depict no prophet or person.'}
+        </p>
+        <ul className="mt-4 grid gap-2 text-xs text-ink-3 sm:grid-cols-2">
+          {Object.entries(photoCredits as Record<string, { page?: string; author: string; license: string; generated?: boolean }>)
+            .filter(([, c]) => !c.generated)
+            .map(([id, c]) => (
+              <li key={id} className="glass rounded-xl px-3 py-2">
+                <span className="font-mono text-ink-2">{id}</span> ·{' '}
+                <a href={c.page} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-gold">
+                  {c.author}
+                </a>{' '}
+                · {c.license}
+              </li>
+            ))}
         </ul>
       </section>
 

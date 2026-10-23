@@ -16,6 +16,7 @@ import {
   Zap,
 } from 'lucide-react'
 import { useI18n } from '../i18n'
+import photoCredits from '../data/photoCredits.json'
 import {
   QURAN_SUNNAH_ANIMALS,
   QURAN_SUNNAH_PLANTS,
@@ -1808,14 +1809,16 @@ export function NatureView() {
               }`}
             >
               <img
-                src={`/nature/${currentActive.id}.jpg`}
+                src={`${import.meta.env.BASE_URL}nature/${currentActive.id}.jpg`}
                 alt={currentActive.scientificName}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
               <div className="absolute bottom-2 inset-x-2 text-center">
                 <span className="text-[0.7rem] font-bold text-gold drop-shadow-md bg-black/60 px-2 py-0.5 rounded-full border border-gold/30">
-                  {lang === 'ar' ? 'صورة فوتوغرافية حقيقية' : 'Authentic Photograph'}
+                  {(photoCredits as Record<string, Credit>)[currentActive.id]?.generated
+                    ? lang === 'ar' ? 'صورة مولّدة' : lang === 'fr' ? 'Image générée' : 'Generated image'
+                    : lang === 'ar' ? 'صورة فوتوغرافية' : lang === 'fr' ? 'Photographie' : 'Photograph'}
                 </span>
               </div>
             </div>
@@ -2005,7 +2008,7 @@ export function NatureView() {
                       <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 flex items-center justify-center bg-night-3/95 overflow-hidden">
                         {/* Ambient blurred backdrop to fill all proportions */}
                         <img
-                          src={`/nature/${animal.id}.jpg`}
+                          src={`${import.meta.env.BASE_URL}nature/${animal.id}.jpg`}
                           alt=""
                           aria-hidden="true"
                           className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
@@ -2013,7 +2016,7 @@ export function NatureView() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
                         {/* Sharp, uncropped full subject */}
                         <img
-                          src={`/nature/${animal.id}.jpg`}
+                          src={`${import.meta.env.BASE_URL}nature/${animal.id}.jpg`}
                           alt={animal.scientificName}
                           loading="lazy"
                           className="relative z-10 max-h-full max-w-full object-contain p-2 drop-shadow-2xl"
@@ -2100,7 +2103,7 @@ export function NatureView() {
                       <div className="absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 flex items-center justify-center bg-night-3/95 overflow-hidden">
                         {/* Ambient blurred backdrop to fill all proportions */}
                         <img
-                          src={`/nature/${plant.id}.jpg`}
+                          src={`${import.meta.env.BASE_URL}nature/${plant.id}.jpg`}
                           alt=""
                           aria-hidden="true"
                           className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-125"
@@ -2108,7 +2111,7 @@ export function NatureView() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
                         {/* Sharp, uncropped full subject */}
                         <img
-                          src={`/nature/${plant.id}.jpg`}
+                          src={`${import.meta.env.BASE_URL}nature/${plant.id}.jpg`}
                           alt={plant.scientificName}
                           loading="lazy"
                           className="relative z-10 max-h-full max-w-full object-contain p-2 drop-shadow-2xl"
@@ -2252,7 +2255,7 @@ export function NatureView() {
               {modalShowPhoto ? (
                 <div className="w-52 h-52 sm:w-60 sm:h-60 rounded-2xl overflow-hidden border-2 border-gold/40 shadow-[0_10px_25px_rgba(0,0,0,0.6)] relative my-2">
                   <img
-                    src={`/nature/${detailItem.id}.jpg`}
+                    src={`${import.meta.env.BASE_URL}nature/${detailItem.id}.jpg`}
                     alt={detailItem.scientificName}
                     className="w-full h-full object-cover"
                   />
@@ -2261,6 +2264,9 @@ export function NatureView() {
                     {detailItem.scientificName}
                   </span>
                 </div>
+              ) : null}
+              {modalShowPhoto ? (
+                <PhotoCredit id={detailItem.id} className="max-w-60 text-center" />
               ) : (
                 <>
                   <div className="w-36 h-36">
@@ -2374,5 +2380,27 @@ export function NatureView() {
         </div>
       )}
     </div>
+  )
+}
+
+type Credit = { file?: string; page?: string; author: string; license: string; generated?: boolean }
+
+/** Attribution line for a nature photo (Wikimedia Commons licences require it). */
+function PhotoCredit({ id, className = '' }: { id: string; className?: string }) {
+  const { lang } = useI18n()
+  const c = (photoCredits as Record<string, Credit>)[id]
+  if (!c) return null
+  const label = lang === 'ar' ? 'الصورة' : lang === 'fr' ? 'Photo' : 'Photo'
+  if (c.generated) {
+    return <p className={`text-[0.65rem] text-ink-3 ${className}`}>{lang === 'ar' ? 'صورة مولّدة للتوضيح' : lang === 'fr' ? 'Image générée pour illustrer' : 'Illustrative generated image'}</p>
+  }
+  return (
+    <p className={`text-[0.65rem] text-ink-3 ${className}`}>
+      {label}:{' '}
+      <a href={c.page} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-gold">
+        {c.author}
+      </a>{' '}
+      · {c.license} · Wikimedia Commons
+    </p>
   )
 }
