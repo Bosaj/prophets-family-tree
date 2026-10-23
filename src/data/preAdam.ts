@@ -1,4 +1,4 @@
-import type { L3 } from './types'
+import type { L3, Level } from './types'
 
 export interface AngelEntry {
   id: string
@@ -27,6 +27,10 @@ export interface PreAdamEntity {
   theologicalContext: L3
   scientificCorrelation?: L3
   famousAngels?: AngelEntry[]
+  /** Source level of the entity itself. */
+  level: Level
+  /** Shown prominently when the entity rests on weak reports or speculation. */
+  caution?: L3
 }
 
 export const FAMOUS_ANGELS: AngelEntry[] = [
@@ -44,11 +48,11 @@ export const FAMOUS_ANGELS: AngelEntry[] = [
       ar: 'أمين وحي السماء، وحامل رسالة التوحيد إلى جميع الأنبياء والرسل، وسيد الملائكة المقربين.',
     },
     quranRefs: ['2:97-98', '26:193-194', '53:5-18', '81:19-21', '66:4'],
-    hadithRefs: ['Sahih al-Bukhari 3232, 4856', 'Sahih Muslim 174, 8'],
+    hadithRefs: ['Sahih al-Bukhari 3232, 4856, 3234', 'Sahih Muslim 174, 177, 8', 'Musnad Ahmad (pearls and rubies)'],
     appearance: {
-      en: 'Endowed with 600 wings. The Prophet Muhammad ﷺ saw him twice in his true celestial form: his majestic body filled the entire horizon from east to west, blocking out the sky. Showers of rubies, pearls, and iridescent emerald gems scattered from his green wings (Sahih al-Bukhari 3232). In human form, he visited the companions looking like an extraordinarily handsome man with pitch-black hair and dazzling white clothing without travel dust (Hadith Jibril, Sahih Muslim 8), or resembling the noble companion Dihyah al-Kalbi.',
-      fr: 'Doté de 600 ailes. Le Prophète ﷺ l’a contemplé à deux reprises sous sa forme céleste originale : son corps colossal emplissait l’horizon d’est en ouest, voilant le ciel. Des perles, des rubis et des gemmes éclatantes tombaient de ses ailes (Sahih al-Bukhari 3232). Sous forme humaine, il apparaissait comme un homme d’une beauté sublime, aux cheveux d’un noir profond et aux vêtements d’une blancheur immaculée (Hadith de Jibril, Sahih Mouslim 8).',
-      ar: 'له ستمائة جناح. رآه النبي ﷺ على صورته الملكية الحقيقية مرتين: مرة بالأفق الأعلى وقد سدّ ما بين المشرق والمغرب يملأ عظم خلقه ما بين السماء والأرض، ويتناثر من ريش أجنحته الخضر الدر والياقوت واللؤلؤ المنثور (صحيح البخاري 3232). وعندما ينزل بالوحي بين الصحابة كان يتمثل في هيئة رجل شديد بياض الثياب، شديد سواد الشعر، لا يُرى عليه أثر السفر، وكان يشبه الصحابي الجليل دِحية الكلبي لحسن صورته وجماله (صحيح مسلم 8).',
+      en: 'Endowed with 600 wings (Sahih al-Bukhari 3232, 4856; Sahih Muslim 174). The Prophet ﷺ saw him twice in the form in which he was created, covering the whole horizon (Sahih al-Bukhari 3234; Sahih Muslim 177). A report in Musnad Ahmad adds that pearls and rubies fell from his wings; that detail is not in the Sahih collections. In human form he came as a man with very white clothes and very black hair, with no trace of travel (Hadith of Jibril, Sahih Muslim 8), and he sometimes took the likeness of the companion Dihyah al-Kalbi.',
+      fr: 'Doté de 600 ailes (Sahih al-Bukhari 3232, 4856 ; Sahih Muslim 174). Le Prophète ﷺ l’a vu deux fois sous la forme dans laquelle il fut créé, couvrant tout l’horizon (Sahih al-Bukhari 3234 ; Sahih Muslim 177). Un récit du Musnad Ahmad ajoute que des perles et des rubis tombaient de ses ailes ; ce détail n’est pas dans les recueils Sahih. Sous forme humaine, il vint comme un homme aux vêtements très blancs et aux cheveux très noirs, sans trace de voyage (Hadith de Jibril, Sahih Muslim 8), et prenait parfois l’apparence du compagnon Dihya al-Kalbi.',
+      ar: 'له ستمائة جناح (صحيح البخاري 3232، 4856؛ صحيح مسلم 174). ورآه النبي ﷺ على صورته التي خُلق عليها مرتين سادًّا الأفق (صحيح البخاري 3234؛ صحيح مسلم 177). وفي رواية عند أحمد أنه يتناثر من ريشه الدر والياقوت، وليست هذه الزيادة في الصحيحين. وكان يأتي في صورة رجل شديد بياض الثياب شديد سواد الشعر لا يُرى عليه أثر السفر (حديث جبريل، صحيح مسلم 8)، وكان يأتي أحيانًا في صورة الصحابي دحية الكلبي.',
     },
   },
   {
@@ -65,11 +69,11 @@ export const FAMOUS_ANGELS: AngelEntry[] = [
       ar: 'الملَك المقرب الموكل بإنزال الغيث والقطر، وتصريف السحاب، وإنبات الزروع، وأرزاق العباد في الأرض.',
     },
     quranRefs: ['2:98'],
-    hadithRefs: ['Musnad Ahmad 13343', 'Sunan at-Tirmidhi 3129'],
+    hadithRefs: ['Musnad Ahmad 13343 (grade disputed)'],
     appearance: {
-      en: 'A towering celestial archangel of profound reverence. The Prophet Muhammad ﷺ asked Jibril: "Why is it that I never see Mikail smile?" Jibril answered: "Mikail has never once smiled since the Hellfire was created" (Musnad Ahmad 13343). His presence embodies cosmic gravity, commanding storm clouds, river basins, and the nurturing precipitation of the globe.',
-      fr: 'Un archange immense d’une révérence solennelle. Le Prophète ﷺ demanda à Jibril : « Pourquoi ne vois-je jamais Mikail sourire ? » Jibril répondit : « Mikail n’a plus jamais souri depuis que l’Enfer a été créé » (Musnad Ahmad 13343). Il dirige les nuages et la pluie par décret divin.',
-      ar: 'مَلَك عظيم جليل القدر شديد الهيبة والوقار. سأل النبي ﷺ جبريل عليه السلام: «ما لي لا أرى ميكائيل ضاحكاً قط؟» فقال جبريل: «ما ضحك ميكائيل منذ خُلقت النار» (مسند أحمد 13343). وهو خلق عظيم مهيب يتصرف في السحاب والرياح والأمطار بإذن الله وأمره الكوني الحكيم.',
+      en: 'A great archangel entrusted with rain and provision. In a report in Musnad Ahmad 13343, the Prophet ﷺ asked Jibril why he never saw Mikail laugh, and Jibril said Mikail had not laughed since the Fire was created; scholars differ on the grade of this report.',
+      fr: 'Un grand archange chargé de la pluie et de la subsistance. Dans un récit du Musnad Ahmad 13343, le Prophète ﷺ demanda à Jibril pourquoi il ne voyait jamais Mikail rire ; Jibril répondit que Mikail n’avait pas ri depuis la création du Feu. Les savants divergent sur le degré de ce récit.',
+      ar: 'مَلَك عظيم موكَّل بالقطر والرزق. وفي رواية في مسند أحمد 13343 أن النبي ﷺ سأل جبريل: «ما لي لم أر ميكائيل ضاحكًا قط؟» فقال: «ما ضحك ميكائيل منذ خُلقت النار»، واختلف العلماء في درجة هذه الرواية.',
     },
   },
   {
@@ -107,7 +111,7 @@ export const FAMOUS_ANGELS: AngelEntry[] = [
       ar: 'الموكل بقبض أرواح جميع الخلائق والإنس والجن والحيوان عند انقضاء آجالها المحتومة في اللوح المحفوظ.',
     },
     quranRefs: ['32:11', '6:61', '79:1-2', '4:97'],
-    hadithRefs: ['Musnad Ahmad 18534 (Sahih)', 'Sunan Abi Dawud 3212'],
+    hadithRefs: ['Musnad Ahmad 18534 (Sahih)', 'Sunan Abi Dawud 4753'],
     appearance: {
       en: 'Possesses a dual visual appearance corresponding to the soul’s faith. To the righteous, he arrives alongside Angels of Mercy whose faces shine as bright as the sun, carrying silk shrouds and musk from Paradise. To the corrupt and rebellious, he arrives with Angels of Wrath whose faces are dark, grim, and terrifying, carrying coarse sackcloth and pulling out the soul with irresistible force (Musnad Ahmad 18534).',
       fr: 'Son apparence est double : pour le croyant vertueux, il descend avec des anges aux visages lumineux comme le soleil, vêtus de suaires parfumés du Paradis. Pour le transgresseur orgueilleux, il descend avec des anges aux visages ténébreux et effrayants, munis de toiles grossières (Musnad Ahmad 18534).',
@@ -149,11 +153,11 @@ export const FAMOUS_ANGELS: AngelEntry[] = [
       ar: 'خازن جهنم ورئيس خزنتها، ومعه تسعة عشر ملَكاً غلاظاً شداداً ﴿لَّا يَعْصُونَ اللَّهَ مَا أَمَرَهُمْ وَيَفْعَلُونَ مَا يُؤْمَرُونَ﴾.',
     },
     quranRefs: ['43:77', '74:29-31', '66:6', '96:18'],
-    hadithRefs: ['Sahih al-Bukhari 3239', 'Sahih Muslim'],
+    hadithRefs: ['Sahih al-Bukhari 3239, 3396'],
     appearance: {
-      en: 'Awe-inspiring and devoid of laughter. The Prophet ﷺ saw Malik during the Night Journey (Isra and Mi\'raj): a stern, unsmiling guardian who has never smiled since the day Hell was ignited (Sahih al-Bukhari 3239). The 19 Zabaniyah possess crushing power, eyes like piercing lightning flashes, and unbending severity.',
-      fr: 'D’une sévérité implacable. Le Prophète ﷺ a vu Malik lors de l’Ascension : un gardien farouche dont le visage n’a jamais souri depuis l’allumage du Feu (Sahih al-Bukhari 3239). Les 19 Zabaniyah sont d’une force cosmique écrasante.',
-      ar: 'خلق مهيب شديد الصرامة والغلظة، لا يعرف الضحك أو اللين. رآه النبي ﷺ ليلة الإسراء والمعراج: رجلاً كريه المرآة قاطب الجبين لم يضحك قط منذ خُلق النار (صحيح البخاري 3239). والزبانية التسعة عشر ملائكة غلاظ شداد أعينهم كالبرق الخاطف وأفواههم كالشهب، لا يعصون الله ما أمرهم.',
+      en: 'The Prophet ﷺ said that on the night of the Ascension he saw Malik, the gatekeeper of the Fire (Sahih al-Bukhari 3239, 3396). The Qur’an describes the angels over the Fire as stern and severe, never disobeying Allah, and numbers them as nineteen (66:6; 74:30).',
+      fr: 'Le Prophète ﷺ a dit avoir vu, la nuit de l’Ascension, Malik, le gardien du Feu (Sahih al-Bukhari 3239, 3396). Le Coran décrit les anges préposés au Feu comme rudes et sévères, ne désobéissant jamais à Allah, au nombre de dix-neuf (66:6 ; 74:30).',
+      ar: 'أخبر النبي ﷺ أنه رأى ليلة المعراج مالكًا خازن النار (صحيح البخاري 3239، 3396). ووصف القرآن ملائكة النار بأنهم غلاظ شداد لا يعصون الله ما أمرهم، وأن عليها تسعة عشر (التحريم 6؛ المدثر 30).',
     },
   },
   {
@@ -212,11 +216,11 @@ export const FAMOUS_ANGELS: AngelEntry[] = [
       ar: 'الملائكة الحفظة والكتبة الموكلون بإحصاء وكتابة أقوال العباد وأفعالهم، والمعقبات التي تحفظ الإنسان بأمر الله.',
     },
     quranRefs: ['50:17-18', '82:10-12', '13:11'],
-    hadithRefs: ['Sahih al-Bukhari 6491', 'Al-Mu\'jam al-Kabir (Sahih)'],
+    hadithRefs: ['Sahih al-Bukhari 6491', 'Al-Mu\'jam al-Kabir (hasan per al-Albani)'],
     appearance: {
-      en: 'Immaculate beings of light. The angel on the right records good deeds instantly, while the angel on the left waits six hours before logging a sin to allow time for sincere repentance and Istighfar. They remain unseen to human eyes, creating the faithful record that will be unrolled on Judgment Day.',
-      fr: 'Êtres purs de lumière : l’ange à droite inscrit les bonnes actions immédiatement, tandis que l’ange à gauche attend six heures pour permettre le repentir sincère avant de consigner un péché. Invisibles à l’œil nu, ils consignent les registres parfaits.',
-      ar: 'ملائكة نورانية نقية طاهرة لا تفارق الإنسان: ملَك اليمين يكتب الحسنات فوراً، وملَك الشمال يمهل العبد ست ساعات رجاء أن يستغفر ويتوب فلا يكتبها عليه. وهم كرام كاتبون يحفظون أعمال العباد في صحف لا تغادر صغيرة ولا كبيرة.',
+      en: 'Honourable scribes who record every deed (82:10-12; 50:17-18). Allah commanded that good and bad deeds be written, with a good intention counted even before it is done (Sahih al-Bukhari 6491). A report in al-Tabarani (graded hasan by al-Albani) says the angel on the left holds back for six hours so the person can repent.',
+      fr: 'De nobles scribes qui consignent chaque acte (82:10-12 ; 50:17-18). Allah a ordonné que les bonnes et mauvaises actions soient écrites, une bonne intention comptant avant même d’être accomplie (Sahih al-Bukhari 6491). Un récit d’al-Tabarani (jugé hasan par al-Albani) dit que l’ange de gauche attend six heures pour laisser le temps du repentir.',
+      ar: 'كرام كاتبون يحفظون الأعمال (الانفطار 10-12؛ ق 17-18). وقد أمر الله بكتابة الحسنات والسيئات، وتُكتب الحسنة بمجرد الهمّ بها (صحيح البخاري 6491). وفي رواية عند الطبراني حسّنها الألباني أن صاحب الشمال يمهل ست ساعات لعل العبد يستغفر.',
     },
   },
   {
@@ -245,6 +249,7 @@ export const FAMOUS_ANGELS: AngelEntry[] = [
 export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   {
     id: 'angels',
+    level: 'quran',
     name: {
       en: 'Al-Mala’ikah (The Angels of Light)',
       fr: 'Les Anges (Al-Malā’ikah, Créatures de Lumière)',
@@ -305,6 +310,7 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   },
   {
     id: 'jinn',
+    level: 'quran',
     name: {
       en: 'Al-Jinn (Pre-Adamic Inhabitants)',
       fr: 'Les Djinns (Habitants pré-adamiques)',
@@ -364,6 +370,7 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   },
   {
     id: 'iblis',
+    level: 'quran',
     name: {
       en: 'Iblis (Shaytan / Azazil)',
       fr: 'Iblîs (Satan / Azazîl)',
@@ -423,6 +430,12 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   },
   {
     id: 'hinn_binn',
+    level: 'disputed',
+    caution: {
+      en: 'The names al-Hinn and al-Binn come from late reports attributed to Ibn ‘Abbas and from Isra’iliyyat; they are not in the Qur’an or in authentic hadith. Scholars mention them only as narrations whose truth is not established.',
+      fr: 'Les noms al-Hinn et al-Binn viennent de récits tardifs attribués à Ibn ‘Abbas et des Isra’iliyyat ; ils ne figurent ni dans le Coran ni dans un hadith authentique. Les savants les citent comme des récits non établis.',
+      ar: 'اسما الحِنّ والبِنّ من روايات متأخرة منسوبة إلى ابن عباس ومن الإسرائيليات، وليسا في القرآن ولا في حديث صحيح، ويذكرهما العلماء على أنها أخبار لا تثبت.',
+    },
     name: {
       en: 'Al-Hinn & Al-Binn (Primordial Races)',
       fr: 'Al-Hinn & Al-Binn (Races primitives)',
@@ -482,6 +495,12 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   },
   {
     id: 'nasnas',
+    level: 'disputed',
+    caution: {
+      en: 'The Nasnas appear in lexicons and folklore, not in the Qur’an or authentic hadith. Linking them to fossil hominids is a modern speculation, not a finding of science or of Islamic scholarship.',
+      fr: 'Les Nasnas apparaissent dans des lexiques et le folklore, ni dans le Coran ni dans un hadith authentique. Les relier aux hominidés fossiles est une spéculation moderne, non un résultat de la science ni de la science islamique.',
+      ar: 'ورد النسناس في كتب اللغة والحكايات، لا في القرآن ولا في حديث صحيح، وربطه بالحفريات البشرية القديمة تخمين معاصر لا يقول به العلم ولا علماء الشريعة.',
+    },
     name: {
       en: 'Al-Nasnas (Pre-Human Hominids)',
       fr: 'Al-Nasnās (Hominidés pré-humains)',
@@ -546,6 +565,7 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   },
   {
     id: 'angels_dialogue',
+    level: 'quran',
     name: {
       en: 'The Celestial Dialogue: Why the Angels Inquired (2:30)',
       fr: 'Le Dialogue Céleste : L’interrogation des Anges (2:30)',
