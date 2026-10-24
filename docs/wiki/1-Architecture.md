@@ -78,3 +78,17 @@ flowchart TD
 
 ### 5. Client Routing & GitHub Pages Support (`src/lib/router.ts`)
 - Lightweight sync external store router equipped with `withBase()` and `stripBase()` to support seamless subpath deployments (`https://bosaj.github.io/prophets-family-tree/`) and root domains alike, backed by automated `404.html` SPA routing.
+
+### 6. Data, checks and delivery
+| Path | Role |
+|---|---|
+| `src/data/people.ts`, `links.ts` | Prophets, family and relationship edges, every fact with a source level |
+| `src/data/preAdam.ts`, `nature.ts`, `stature.ts`, `sahaba.ts`, `salihin.ts`, `scriptures.ts`, `science.ts` | Topic datasets, each fact with a source level |
+| `src/data/photoCredits.json` | Commons author and licence for every nature photo |
+| `scripts/verify-sources.mjs`, `scripts/audit-content.mjs` | Source checks that run in CI (see [[Accuracy & sources|5-Accuracy-and-Sources]]) |
+| `scripts/trace-photo-credits.mjs` | Matches each photo to its Commons file and writes the credits |
+
+**Performance.** Every page is a lazy-loaded chunk; a static splash in `index.html` paints at once and is removed after the first page renders, and the footer waits inside the same `Suspense`, so nothing shifts (CLS 0). The service worker precaches the app shell only; images are cached at runtime.
+
+**Fonts.** Reem Kufi, Amiri and Sora for the interface; the author's Arabic name in the footer uses Bouazzi Maghribi (Mohamed Gallah, MIT), subset to the letters of the name.
+

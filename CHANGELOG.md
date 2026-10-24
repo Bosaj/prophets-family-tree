@@ -3,8 +3,16 @@
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/), versioning: [SemVer](https://semver.org/).
 
 ## [Unreleased]
+
+## [2.4.2] — 2026-10-24
 ### Changed
 - The author's Arabic name in the footer (أسامة الحاجي) is set in the Maghribi typeface Bouazzi Maghribi by Mohamed Gallah (MIT). The font is subset to the letters of the name (5.6 KB woff2); licence in `src/assets/fonts/`.
+
+### Fixed
+- CI: the content audit retries its requests; only a real 404 counts as a missing reference, and an unreachable server is a warning, so a dropped connection no longer fails the build.
+
+### Docs
+- README and wiki updated: accuracy rules and audit numbers, new pages (stature, stories, scriptures, sources), versioning.
 
 ## [2.4.1] — 2026-10-24
 ### Fixed — accuracy

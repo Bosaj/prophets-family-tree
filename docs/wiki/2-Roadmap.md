@@ -1,36 +1,27 @@
-# Technical Roadmap & Milestones
+# Roadmap, versions & milestones
 
-The ongoing evolution of **Shajara** (`@Bosaj/prophets-family-tree`) is organized into sequential releases balancing scholarly rigor, visual excellence, and modern web capabilities:
+Shajara follows [Semantic Versioning](https://semver.org/): content corrections and fixes are **PATCH** releases, new pages or datasets are **MINOR**, breaking URL or data changes are **MAJOR**. Every version has a GitHub milestone, a `vX.Y.Z` tag and a release with notes from the [CHANGELOG](https://github.com/Bosaj/prophets-family-tree/blob/main/CHANGELOG.md).
 
----
+| Version | Date | Highlights |
+|---|---|---|
+| [v0.1.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v0.1.0) | 2026-10-17 | Sourced dataset of the 25 Prophets and the relationship graph |
+| [v1.0.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v1.0.0) | 2026-10-17 | Constellation tree, profiles, live Qur'an sheet, dual timeline, Arabic/English/French, PWA |
+| [v2.0.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.0.0) | 2026-10-20 | Pre-Adamic realm, nature view and celestial theater, topography map and routes, GitHub Pages |
+| [v2.2.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.2.0) | 2026-10-20 | Sahaba, Khulafa' and living lineages tree; the Qur'an, the Sunnah and modern science |
+| [v2.3.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.3.0) | 2026-10-20 | Sahaba constellation tree and timeline; biographies of the hadith masters |
+| [v2.4.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.4.0) | 2026-10-21 | Divine Scriptures catalog; phone tree layout; stature and stories pages |
+| [v2.4.1](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.4.1) | 2026-10-24 | Accuracy pass (hadith numbers, weak reports, DOIs, Mushaf quotes), content audit in CI, photo credits, code splitting and splash |
+| [v2.4.2](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.4.2) | 2026-10-24 | Footer name in Bouazzi Maghribi; resilient content audit; docs and wiki |
 
-## 🚀 Milestones
+There is no v2.1.0: work planned under that number shipped in v2.2.0.
 
-### Milestone v2.0.0 — Pre-Adamic Realm, Quranic Nature Theater & Topography (Completed)
-* [x] **Autonomous Pre-Adamic Realm & Iblis:** Dedicated celestial domain for earlier creations (Jinn, Iblis / Satan, Hinn, Binn, Nasnas) with classical scholarship and Qur'anic citations, completely disconnected from Adam's lineage.
-* [x] **Prophetic Nature, Flora & Fauna View (`/nature`):** 29 Qur'anic and Sunnah organisms with scriptural occurrences, botanical classifications, and healing benefits.
-* [x] **Celestial Atmospheric Theater:** Interactive solar altitude simulation, astronomical moon with craters, drifting atmospheric clouds, and wind-sculpted desert sand dunes.
-* [x] **Historical Topography Map & Routes (`/map`):** Interactive Leaflet 3D terrain maps with waypoints and prophetic migration paths.
-* [x] **Collapsible Interactive Legend & Bond Glow:** Floating toggle pill with bidirectional glowing between edges and legend categories (parent, descendant, marriage, sibling, cousin, guardian).
-* [x] **Zero-Collision UI Layout:** Total resolution of overlapping between the legend card, epoch timeline ruler, and tree elements.
-* [x] **Dual-Layer Organism Image Display:** Full uncropped display on hover with ambient blurred backdrops.
-* [x] **GitHub Pages Automated CI/CD:** Dedicated GitHub Actions deployment workflow with subpath routing and SPA client fallback (`404.html`).
-* [x] **Author Attribution:** Active LinkedIn integration for Oussama EL HADJI.
+## Next — v2.5.0
+- [ ] Printable high-resolution poster export of the tree and the map (SVG / PDF)
+- [ ] Split the people dataset so the profile and tree pages load less JavaScript
+- [ ] More archaeological coordinates for historical waypoints, each with its source level
 
----
+## Later
+- [ ] Audio narrations of the stories, with sources
+- [ ] More languages, each reviewed by a native speaker
 
-### Milestone v1.0.0 — Extended Kinship & Dual Timeline (Completed)
-* [x] **25 Quranic Prophets:** Canonical profiles with verified Quranic name counts and order.
-* [x] **Extended Kinship Network:** Inclusion of mothers, fathers, wives/spouses (Hawwa, Sarah, Hajar, Safura, Khadijah, Aisha), children (Qabil, Habil, Shith, Sam, Ham, Yafith, Yam, Ismail, Ishaq, Yaqub, Yusuf, Binyamin, Fatimah), and siblings.
-* [x] **Interactive Tree Filters:** Toggles to display or hide wives, all sons/daughters, and extended family members with dynamic re-layout.
-* [x] **Celestial Aesthetics & Animated Lineage:** SVG glowing orbs, animated lineage tracing flows (`lineage-flow`), glassmorphic drawers.
-* [x] **Dual Synchronized Timeline:** Parallel Hijri (BH/AH) and Gregorian (BCE/CE) chronology with 7 era filters and life event milestones.
-* [x] **Trilingual Parity:** Complete English, French, and Arabic translations across 100% of the UI, data points, and metadata.
-* [x] **Repository Governance & CI:** Continuous automated verification of 298 Quranic and Hadith citations against live sources.
-
----
-
-### Milestone v2.1.0 — High-Resolution Export & Audio Recitation Expansion (Upcoming)
-* [ ] **Vector & PDF Export:** Printable high-resolution poster export of the entire family tree and topography map for educational institutions.
-* [ ] **Audio Sira Narrations:** Integrated recitations and scholarly narrations for prophetic encounters.
-* [ ] **Expanded Archaeological Coordinates:** High-precision archaeological and topographic survey data for historical waypoints.
+Open work lives in the [issues](https://github.com/Bosaj/prophets-family-tree/issues) and [milestones](https://github.com/Bosaj/prophets-family-tree/milestones).
