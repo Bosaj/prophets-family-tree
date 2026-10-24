@@ -1,11 +1,22 @@
 @import 'tailwindcss';
 @import 'leaflet/dist/leaflet.css';
 
+/* Maghribi script for the author's Arabic name in the footer. Subset to the letters of أسامة الحاجي (5.6 KB).
+   Bouazzi Maghribi by Mohamed Gallah, MIT licence: src/assets/fonts/BouazziMaghribi-LICENSE.txt */
+@font-face {
+  font-family: 'Bouazzi Maghribi';
+  src: url('./assets/fonts/bouazzi-maghribi-name.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-sans: 'Sora Variable', 'Reem Kufi Variable', system-ui, sans-serif;
   --font-display: 'Reem Kufi Variable', 'Sora Variable', serif;
   --font-naskh: 'Amiri', 'Reem Kufi Variable', serif;
   --font-quran: 'Amiri Quran', 'Amiri', serif;
+  --font-maghribi: 'Bouazzi Maghribi', 'Amiri', serif;
 
   --color-night: #04050d;
   --color-night-2: #080b1c;

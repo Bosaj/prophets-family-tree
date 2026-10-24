@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/), versioning: [SemVer](https://semver.org/).
 
+## [Unreleased]
+### Changed
+- The author's Arabic name in the footer (أسامة الحاجي) is set in the Maghribi typeface Bouazzi Maghribi by Mohamed Gallah (MIT). The font is subset to the letters of the name (5.6 KB woff2); licence in `src/assets/fonts/`.
+
 ## [2.4.1] — 2026-10-24
 ### Fixed — accuracy
 - Wrong or mixed-up hadith numbers corrected after checking each one against its text: Thamud and al-Hijr (Bukhari 3380), the speaking wolf (Bukhari 3471 / Musnad Ahmad), Jibril’s 600 wings and true form (Bukhari 3232, 3234; Muslim 174, 177), Malak al-Mawt (Abu Dawud 4753), Malik the gatekeeper (Bukhari 3239, 3396), Musa’s and ‘Isa’s descriptions (Bukhari 3396, 3394, 3440), the Prophet’s ﷺ description (Bukhari 3551; Tirmidhi 3637–3638), Fatimah (Bukhari 3624), Abu Hurairah (Bukhari 3648), Paradise in Adam’s form (Bukhari 3327).
