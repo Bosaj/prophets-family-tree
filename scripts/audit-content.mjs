@@ -14,7 +14,23 @@ import { SAHABA_FIGURES } from '../src/data/sahaba.ts'
 import { SALIHIN_DATA, QURANIC_STORIES } from '../src/data/salihin.ts'
 import { SCRIPTURES } from '../src/data/scriptures.ts'
 
-const out = { quranMissing: [], arabicMismatch: [], hadithMissing: [], hadithMismatch: [], doiMissing: [], unverifiable: [] }
+const out = { quranMissing: [], arabicMismatch: [], hadithMissing: [], hadithMismatch: [], doiMissing: [], unverifiable: [], unreachable: [] }
+
+// GET JSON with retries. Returns null only for a real 404; throws if the server stays unreachable,
+// so a dropped connection is never reported as a missing reference.
+async function getJson(url, tries = 4) {
+  for (let i = 1; ; i++) {
+    try {
+      const r = await fetch(url)
+      if (r.status === 404) return null
+      if (r.ok) return await r.json()
+      if (i >= tries) throw new Error(`HTTP ${r.status}`)
+    } catch (e) {
+      if (i >= tries) throw e
+    }
+    await new Promise((res) => setTimeout(res, 500 * 2 ** i))
+  }
+}
 
 // ---------- collect ----------
 const quranRefs = [] // { where, ref }
@@ -99,7 +115,7 @@ for (const b of SCRIPTURES) for (const q of b.quranReferences ?? []) {
 }
 
 // ---------- Qur'an ----------
-const clean = (await (await fetch('https://api.alquran.cloud/v1/quran/quran-simple-clean')).json()).data.surahs
+const clean = (await getJson('https://api.alquran.cloud/v1/quran/quran-simple-clean')).data.surahs
 const parse = (ref) => {
   const m = /^(\d{1,3}):(\d{1,3})(?:\s*[-–]\s*(\d{1,3}))?$/.exec(ref.replace(/\s+/g, ''))
   return m ? { s: +m[1], a: +m[2], to: m[3] ? +m[3] : +m[2] } : null
@@ -141,7 +157,7 @@ for (const x of arabic) {
 }
 
 // ---------- hadith ----------
-const muslim = (await (await fetch('https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-muslim.min.json')).json()).hadiths
+const muslim = (await getJson('https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-muslim.min.json')).hadiths
 const cache = new Map()
 async function hadithText(book, n) {
   const key = `${book}:${n}`
@@ -150,11 +166,14 @@ async function hadithText(book, n) {
   if (book === 'muslim') text = muslim.filter((h) => Math.floor(Number(h.arabicnumber)) === n).map((h) => h.text).join(' ')
   else {
     try {
-      const j = await (await fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-${book}/${n}.json`)).json()
+      const j = (await getJson(`https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-${book}/${n}.json`)) ?? {}
       text = (j.hadiths ?? []).map((h) => h.text).join(' ')
       // Some English editions have the number but no translated text; the hadith still exists.
       if (!text.trim() && (j.hadiths ?? []).some((h) => Number(h.hadithnumber) === n)) text = ' (exists, no English text) '
-    } catch { text = '' }
+    } catch (e) {
+      text = null
+      out.unreachable.push({ ref: key, error: String(e.message ?? e) })
+    }
   }
   cache.set(key, text)
   return text
@@ -163,6 +182,7 @@ const STOP = new Set('which their there these those about after before would cou
 const words = (t) => [...new Set((t ?? '').toLowerCase().replace(/[^a-z\s]/g, ' ').split(/\s+/).filter((w) => w.length > 4 && !STOP.has(w)))]
 for (const h of hadith) {
   const text = await hadithText(h.book, h.n)
+  if (text === null) continue // not checked: the API did not answer (listed in out.unreachable)
   if (!text.trim()) { out.hadithMissing.push({ where: h.where, ref: `${h.book}:${h.n}` }); continue }
   if (h.claim && text.trim() !== '(exists, no English text)') {
     const w = words(h.claim)
@@ -178,7 +198,8 @@ const dois = SCIENTIFIC_FACTS.flatMap((f) => f.papers.map((p) => ({ where: `scie
 for (const d of dois) {
   const m = /doi\.org\/(.+)$/.exec(d.url)
   if (!m) continue
-  const j = await (await fetch(`https://doi.org/api/handles/${m[1]}`)).json().catch(() => ({}))
+  let j
+  try { j = (await getJson(`https://doi.org/api/handles/${m[1]}`)) ?? {} } catch (e) { out.unreachable.push({ ref: d.url, error: String(e.message ?? e) }); continue }
   if (j.responseCode !== 1) out.doiMissing.push(d)
 }
 
@@ -189,6 +210,7 @@ if (jsonAt > 0) fs.writeFileSync(process.argv[jsonAt + 1], JSON.stringify(out, n
 // Hard failures: a reference that does not exist, Qur'an text typed wrongly, or a DOI that does not resolve.
 // Text mismatches are a heuristic (paraphrases score low), so they are printed for review but do not fail.
 for (const m of out.hadithMismatch) console.log(`  review: ${m.where} ${m.ref} (score ${m.score})`)
+for (const u of out.unreachable) console.log(`  warning: not checked, server unreachable: ${u.ref} (${u.error})`)
 const hard = out.quranMissing.length + out.arabicMismatch.length + out.bracketMismatch.length + out.hadithMissing.length + out.doiMissing.length
 if (hard) console.log(JSON.stringify({ quranMissing: out.quranMissing, arabicMismatch: out.arabicMismatch, bracketMismatch: out.bracketMismatch, hadithMissing: out.hadithMissing, doiMissing: out.doiMissing }, null, 2))
 process.exit(hard ? 1 : 0)
