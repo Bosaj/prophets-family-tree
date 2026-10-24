@@ -79,6 +79,14 @@ describe('App', () => {
     expect(screen.getByText('Terrain')).toBeInTheDocument()
   })
 
+  it('leaving the map while Leaflet is still loading does not touch the removed map', async () => {
+    const view = await renderAt('/map')
+    view.unmount()
+    // The tile and marker effects load Leaflet asynchronously; they must ignore a map that is gone.
+    await new Promise((resolve) => setTimeout(resolve, 300))
+    expect(document.querySelector('.leaflet-container')).toBeNull()
+  })
+
   it('renders the creatures, flora and prophetic medicine page', async () => {
     await renderAt('/nature')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Creatures, Flora & Prophetic Medicine/i)

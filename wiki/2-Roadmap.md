@@ -12,6 +12,7 @@ Shajara follows [Semantic Versioning](https://semver.org/): content corrections 
 | [v2.4.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.4.0) | 2026-10-21 | Divine Scriptures catalog; phone tree layout; stature and stories pages |
 | [v2.4.1](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.4.1) | 2026-10-24 | Accuracy pass (hadith numbers, weak reports, DOIs, Mushaf quotes), content audit in CI, photo credits, code splitting and splash |
 | [v2.4.2](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.4.2) | 2026-10-24 | Footer name in Bouazzi Maghribi; resilient content audit; docs and wiki |
+| [v2.4.3](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.4.3) | 2026-10-24 | Map: no error when leaving `/map` while Leaflet loads |
 
 There is no v2.1.0: work planned under that number shipped in v2.2.0.
 
