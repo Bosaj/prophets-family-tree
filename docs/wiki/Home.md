@@ -3,7 +3,8 @@
 Welcome to the official documentation for **Shajara** (`@Bosaj/prophets-family-tree`), an open-source, interactive genealogical, geographic, and natural history visualization of the 25 Prophets named in the Holy Qur'an, their sacred lineages, migrations, and cosmic environments.
 
 **Live Deployment (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
-**Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)
+**Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
+**Current version:** v2.4.2 · [Releases](https://github.com/Bosaj/prophets-family-tree/releases) · [Changelog](https://github.com/Bosaj/prophets-family-tree/blob/main/CHANGELOG.md)
 
 ---
 
@@ -39,7 +40,13 @@ Welcome to the official documentation for **Shajara** (`@Bosaj/prophets-family-t
      - 🟣 **Disputed / Historians:** Comparative chronology and external estimates clearly noted.
    - Zero human depictions of any prophet: Respecting Islamic theology, representations strictly use celestial geometry, calligraphy, and atmospheric landscape scenes.
 
-7. **Trilingual Parity:**
+7. **Sahaba, Khulafa' & living lineages (`/sahaba`):** succession tree and timeline from the Prophet ﷺ and Ahl al-Bayt through the Rightly Guided Caliphs and the historic caliphates to today's Sharifi dynasties, plus biographies of the hadith masters.
+
+8. **The Qur'an, the Sunnah and modern science (`/science`):** verses and hadith placed next to peer-reviewed research, each paper with a checked DOI. Presented as interpretation, not proof.
+
+9. **Stature, stories, scriptures and sources (`/stature`, `/stories`, `/scriptures`, `/sources`):** heights the texts give (illustrative ones marked and drawn as pillars), the stories of the Qur'an and the righteous, the revealed books, and every reference with the photo credits.
+
+10. **Trilingual Parity:**
    - Full native support for Arabic (العربية), English, and French (Français) across every profile, event, kinship link, and citation.
 
 ---
@@ -50,12 +57,14 @@ Welcome to the official documentation for **Shajara** (`@Bosaj/prophets-family-t
 * **[Roadmap & Milestones](2-Roadmap)** — Evolution from initial dataset to full interactive genealogical engine and future phases.
 * **[Kinship & Household Model](3-Kinship-and-Lineage)** — Deep dive into the family graph, spouses, children, siblings, and theological rules.
 * **[Dual Timeline & Chronology](4-Dual-Timeline)** — Mathematical alignment of Hijri and BCE/CE timelines and Qur'anic chronological anchors.
+* **[Accuracy & Sources](5-Accuracy-and-Sources)** — Source levels, the rules, and the automated audits that run in CI.
 * **[Developer Setup & Contribution](Developer-Setup)** — Local environment setup, test execution, automated source verifications, and CI/CD pipelines.
 
 ---
 
 ## 🛡️ Governance & Principles
 
-- **Deterministic Verification:** Every Qur'an and Hadith reference is continuously checked against upstream API sources using automated CI scripts (`scripts/verify-sources.mjs`).
+- **Deterministic Verification:** Every Qur'an and Hadith reference, typed verse and research DOI is checked in CI (`scripts/verify-sources.mjs`, `scripts/audit-content.mjs`).
+- **Semantic Versioning:** fixes are PATCH, new pages or datasets MINOR, breaking changes MAJOR; tags, milestones and releases share the `vX.Y.Z` name.
 - **Scholarship First:** Content changes must cite authoritative sources. No unverified folkloric claims are merged into canonical profiles.
 - **Open Collaboration:** Maintained with excellence by [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/) ([@Bosaj](https://github.com/Bosaj)).
