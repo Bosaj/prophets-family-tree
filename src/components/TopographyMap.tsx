@@ -1409,8 +1409,11 @@ export function TopographyMap({ focus }: { focus?: string }) {
   useEffect(() => {
     const map = mapInstance.current
     if (!map) return
+    let cancelled = false
 
     import('leaflet').then((leafletModule) => {
+      // The page may have been left (and the map removed) while Leaflet was loading.
+      if (cancelled || mapInstance.current !== map) return
       const Leaflet = leafletModule.default || leafletModule
 
       if (layersRef.current.tileLayer) {
@@ -1444,14 +1447,19 @@ export function TopographyMap({ focus }: { focus?: string }) {
       layersRef.current.tileLayer = tileLayer
       map.invalidateSize()
     })
+    return () => {
+      cancelled = true
+    }
   }, [mapStyle, mapReady])
 
   // Update Prophet Markers, Sacred Sites & Prophetic Routes
   useEffect(() => {
     const map = mapInstance.current
     if (!map || !mapReady) return
+    let cancelled = false
 
     import('leaflet').then((leafletModule) => {
+      if (cancelled || mapInstance.current !== map) return
       const Leaflet = leafletModule.default || leafletModule
 
       // Remove existing marker layer groups
@@ -1673,6 +1681,9 @@ export function TopographyMap({ focus }: { focus?: string }) {
       layersRef.current.sitesGroup = sitesGroup
       layersRef.current.routesGroup = routesGroup
     })
+    return () => {
+      cancelled = true
+    }
   }, [activeProphetIds, selectedId, selectedSite, selectedRouteId, filteredSites, showSites, showRoutes, mapReady, lang, selectedRoute])
 
   // Center on initial focus if provided

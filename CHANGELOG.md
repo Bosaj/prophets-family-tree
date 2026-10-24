@@ -4,6 +4,10 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.4.3] — 2026-10-24
+### Fixed
+- Map: leaving `/map` while Leaflet was still loading made the tile and marker effects add layers to a map that had already been removed (`Cannot read properties of undefined (reading 'appendChild')`). Both effects now ignore a map that is gone. This also made the GitHub Pages deploy of 2.4.2 fail its test step. Regression test added.
+
 ## [2.4.2] — 2026-10-24
 ### Changed
 - The author's Arabic name in the footer (أسامة الحاجي) is set in the Maghribi typeface Bouazzi Maghribi by Mohamed Gallah (MIT). The font is subset to the letters of the name (5.6 KB woff2); licence in `src/assets/fonts/`.

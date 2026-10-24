@@ -4,7 +4,7 @@
 
 **Live Demo (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
 **Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
-**Status:** v2.4.2 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
+**Status:** v2.4.3 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
 
 [![CI](https://github.com/Bosaj/prophets-family-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/Bosaj/prophets-family-tree/actions/workflows/ci.yml)
 [![Pages](https://github.com/Bosaj/prophets-family-tree/actions/workflows/deploy.yml/badge.svg)](https://bosaj.github.io/prophets-family-tree/)
