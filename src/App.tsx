@@ -137,7 +137,8 @@ export default function App() {
                       href="https://www.linkedin.com/in/oussama-elhadji/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gold hover:underline font-semibold transition-colors"
+                      lang="ar"
+                      className="font-maghribi ms-0.5 align-middle text-xl leading-none text-gold [font-synthesis:none] transition-colors hover:underline"
                     >
                       أسامة الحاجي
                     </a>
