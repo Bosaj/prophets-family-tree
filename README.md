@@ -120,6 +120,7 @@ npm run build
 
 ---
 
-## License & Attribution
+## 📄 License
+**Proprietary Cultural & Non-Commercial Educational License** — All Rights Reserved © 2026 Oussama Elhadji (`@Bosaj`) <[oussousselhadji@gmail.com](mailto:oussousselhadji@gmail.com)>.
 
-Open-source educational project developed by [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/). Released under the MIT License.
+Free for personal learning and mosque worship. Commercial resale, monetization, and sublicensing are strictly prohibited. See [LICENSE](LICENSE) for full terms.
