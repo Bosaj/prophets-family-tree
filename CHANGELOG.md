@@ -4,6 +4,27 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.5.0] — 2026-11-06
+### Added
+- **Supplications of the Prophet ﷺ (`/duas`)**: what he said at moments of his life, from Makkah (‘Umar’s Islam, Ta’if) through the Hijra, Badr, the Trench and the conquest of Makkah to his last words, and what he said in hardship. Each Arabic text is copied from the hadith it cites.
+- **Prayer times and the day (`/times`)**: today’s times for 16 cities or the reader’s location (the `adhan` library, MIT). In Morocco the method follows the Ministry of Habous (Fajr 19°, ‘Isha 17°, Dhuhr +5 min, ‘Asr +1, Maghrib +5); it matches the Ministry’s Rabat table of 1–6 November 2026 to the minute, ‘Asr within one minute. A sun arc, the next prayer, the Hijri date, and a guide for each part of the day and night (the last third of the night, the adhan, Fajr to sunrise, Duha, the forbidden times, Dhuhr, ‘Asr, dusk, Maghrib, ‘Isha, before sleep, on waking, Friday) with the morning, evening and bedtime remembrances and a tap counter.
+- **What is Islam? (`/islam`)** for readers who are not Muslim: one God, the prophets, why we exist, no compulsion in religion, the five pillars (what and why), the six articles of faith, ihsan, and four common questions.
+- **Companions’ stories**: the Sahaba card has a “Read the story” button with the story of 18 Companions and members of the Prophet’s household, the trials they faced and what they gave up, each point sourced.
+- **Stories of the righteous, step by step**: Maryam, Asiya, Luqman, al-Khidr, Dhul-Qarnayn, Talut, the People of the Cave, the believer of Ya-Sin, the believer of Pharaoh’s family and Yusha‘ ibn Nun, each step with its verses or hadith.
+- **Why each animal is mentioned**: every animal’s sheet gives the lesson the Qur’an or the Sunnah draws from it, with its source and level.
+- **Spanish**: the interface, every page above, the source and level names, the Qur’an translation (Julio Cortés), and the names, titles, missions and stories of the prophets and their close family. Older long texts show in English until they are translated.
+- `npm run verify:duas` (also in CI): all 34 Arabic supplications are found in the hadith they cite, the grades of the Sunan are listed, and every Qur’an and hadith reference of the new pages exists.
+
+### Fixed — accuracy
+- Prophets’ tree: the Ibrahim–Lut line was drawn and highlighted as a parent line, so Lut looked like Ibrahim’s son. Lut is his nephew (Qur’an 29:26 and the tradition); the line now has its own kind, colour and legend entry, and every line names its relation (son, daughter, wife, nephew, descendant, brothers, maternal cousins, guardian, possibly his son).
+- Sahaba tree: every line names its relation in four languages, with the full relation in the figure’s card. The Ottomans were drawn as heirs of Mu‘awiyah; the line now says that the caliphate title passed to them from the Abbasids in 1517. Mohammed VI is Mohammed V’s grandson (son of Hassan II), not his successor “line”. Al-Mansur descends from the Prophet’s uncle al-‘Abbas, not from the Prophet. Al-Hasan’s cession of the caliphate to Mu‘awiyah (41 AH) is shown.
+- The well-known Ta’if supplication (“O Allah, to You I complain of my weakness…”) is shown with its weak chain (al-Albani, al-Silsila al-Da‘ifa 2933), next to the authentic Ta’if words in al-Bukhari 3231.
+
+### Changed
+- Nature: the animated sun-and-shadow stage and the moving animals are gone; cards are still and open the animal’s sheet.
+- Header: the main pages stay in the bar and the rest move to a “More” menu, so the bar fits at every width.
+- References can cite Sunan Abi Dawud, al-Nasa’i and Ibn Majah (sunnah.com numbering).
+
 ## [2.4.3] — 2026-10-24
 ### Fixed
 - Map: leaving `/map` while Leaflet was still loading made the tile and marker effects add layers to a map that had already been removed (`Cannot read properties of undefined (reading 'appendChild')`). Both effects now ignore a map that is gone. This also made the GitHub Pages deploy of 2.4.2 fail its test step. Regression test added.

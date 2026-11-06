@@ -1,10 +1,10 @@
 # Shajara · شجرة الأنبياء
 
-> An interactive, source-cited family tree, topography map, nature showcase, sahaba & caliphs succession tree, scientific facts explorer, and dual timeline of the Prophets named in the Qur'an and Sunnah — lineage, migrations, organisms, celestial theater, signs, and stories — in Arabic, English, and French.
+> An interactive, source-cited family tree of the Prophets named in the Qur'an, with the Companions and their stories, the Prophet's supplications, the prayer times and the Sunnah of each part of the day, an introduction to Islam for non-Muslims, a topography map, the animals and plants of the Qur'an, and a dual timeline — in Arabic, English, French and Spanish.
 
 **Live Demo (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
 **Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
-**Status:** v2.4.3 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
+**Status:** v2.5.0 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
 
 [![CI](https://github.com/Bosaj/prophets-family-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/Bosaj/prophets-family-tree/actions/workflows/ci.yml)
 [![Pages](https://github.com/Bosaj/prophets-family-tree/actions/workflows/deploy.yml/badge.svg)](https://bosaj.github.io/prophets-family-tree/)
@@ -17,21 +17,23 @@
 
 ## What it does
 
-- **Constellation Tree (`/tree`)** — the whole lineage from Adam to Muhammad ﷺ as an interactive, zoomable cosmic star map. Select a name to trace the direct lineage back to Adam. Sideways on wide screens (right-to-left in Arabic), top-down on mobile. Includes filters for wives (Ummahat al-Mu'minin), children, and extended family.
-- **Tree of Sahaba, Khulafa' & Continuous Lineages (`/sahaba`)** — comprehensive succession tree tracing from Prophet Muhammad ﷺ, Ahl al-Bayt, the 5 Rightly Guided Caliphs, the Ten Promised Paradise, historic Caliphates (Umayyads, Cordoba, Abbasids, Ottomans), down to unbroken Hasanid Sharifi lineages to the present day (Moroccan Alaouite Dynasty to King Mohammed VI, Jordanian Hashemite Dynasty to King Abdullah II).
+- **Constellation Tree (`/tree`)** — the whole lineage from Adam to Muhammad ﷺ as an interactive, zoomable cosmic star map. Every line names its relation (son, daughter, wife, nephew, descendant, brothers, cousins, guardian): Lut is Ibrahim's nephew, not his son. Select a name to trace the direct lineage back to Adam. Sideways on wide screens (right-to-left in Arabic), top-down on mobile. Includes filters for wives (Ummahat al-Mu'minin), children, and extended family.
+- **Tree of Sahaba, Khulafa' & Continuous Lineages (`/sahaba`)** — comprehensive succession tree tracing from Prophet Muhammad ﷺ, Ahl al-Bayt, the 5 Rightly Guided Caliphs, the Ten Promised Paradise, historic Caliphates (Umayyads, Cordoba, Abbasids, Ottomans), down to unbroken Hasanid Sharifi lineages to the present day (Moroccan Alaouite Dynasty to King Mohammed VI, Jordanian Hashemite Dynasty to King Abdullah II). Every line is named (daughter, cousin and son-in-law, first caliph, grandson…). Click a figure for a summary and their relations; 18 Companions have their story, the trials they faced and what they gave up, each point sourced.
 - **The Qur'an, the Sunnah and Modern Science (`/science`)** — verses and hadith placed next to peer-reviewed research in cosmology, embryology, oceanography, geology, neuroscience and pharmacology, with every paper's DOI checked. Linking a verse to a discovery is presented as an interpretation by scholars and researchers, not as proof.
 - **Pre-Adamic Realm & Iblis** — an autonomous floating celestial domain above the tree canvas documenting earlier earthly creations (Jinn, Iblis / Satan, Hinn, Binn, Nasnas) cited by classical scholars (Ibn Kathir, Al-Hasan al-Basri) and the Qur'an, completely decoupled from Adam's genealogy.
 - **Topography Map & Prophetic Routes (`/map`)** — interactive historical topography map tracing prophetic routes, waypoints, sanctuaries, and migration paths across Hijaz, the Levant, Egypt, and Mesopotamia with elevation layers.
-- **Prophetic Nature, Flora & Fauna (`/nature`)** — 30 animals, plants and foods mentioned in the Qur'an and Hadith (the hoopoe / *Upupa epops*, the whale, camel, bee, ant, olive, fig, date palm, pomegranate, black seed…), each with its source level, its benefits and a credited photo (Wikimedia Commons author and licence, traced by `npm run credits:photos`).
+- **Prophetic Nature, Flora & Fauna (`/nature`)** — 30 animals, plants and foods mentioned in the Qur'an and Hadith (the hoopoe / *Upupa epops*, the whale, camel, bee, ant, olive, fig, date palm, pomegranate, black seed…), each with why it is mentioned, its source level, its benefits and a credited photo (Wikimedia Commons author and licence, traced by `npm run credits:photos`).
 - **Stature, Stories and Scriptures (`/stature`, `/stories`, `/scriptures`)** — heights given in the texts (illustrative ones are marked as such and drawn as pillars, never as human figures), the stories of the Qur'an and the righteous, and the revealed books.
 - **Sources (`/sources`)** — every reference, the source-level rules and the photo credits in one place.
-- **Celestial Sun, Moon, Dunes & Cloud Physics Theater** — interactive atmospheric simulator with direct draggable sky physics, live celestial orbit simulation loop, multi-layered drifting volumetric clouds, and real-time shadow projection on desert sand dunes.
+- **Supplications of the Prophet ﷺ (`/duas`)** — what he said at each moment of his life, from Makkah to his last words, and in hardship. Every Arabic text is copied from the hadith it cites and checked against it; weak reports (such as the famous Ta'if supplication) are labelled weak.
+- **Prayer times and the day (`/times`)** — today's prayer times for a city or your location. In Morocco it follows the Ministry of Habous (Fajr 19°, 'Isha 17°) and matches its table to the minute. A guide for every part of the day and night, with the morning, evening and bedtime remembrances and a counter.
+- **What is Islam? (`/islam`)** — for readers who are not Muslim: one God, the prophets, the five pillars (what and why), the six articles of faith, and common questions, each with its verses.
 - **Dual Timeline (`/timeline`)** — the chronological sequence of the Prophets anchored on Qur'anic synchronisms with toggles for Hijri (BH / AH) and historical BCE/CE epochs.
 - **Interactive Relational Highlighting** — bidirectional focus between canvas relationship lines and the floating legend (parent, descendant, sacred marriage, sibling, cousin, legal guardianship).
 - **Profiles (`/p/:id`)** — comprehensive dossiers for each Prophet: mission, people, scripture, lifespan, family links, miracles, and key Qur'anic passages.
 - **Live Qur'an Sheet** — every verse reference opens the Uthmani text, translation (Saheeh International / Hamidullah / al-Tafsir al-Muyassar), and Mishary Alafasy's audio recitation streaming live from the Al Quran Cloud API. The few verses quoted inside the data are checked word for word against the Mushaf in CI.
 - **Al-Mi‘raj** — the stations of the seven heavens (Sahih al-Bukhari 3207) and the Ulul ‘Azm messengers of firm resolve.
-- **Multi-lingual & RTL** — full instant switching between Arabic, English, and French with bespoke typography (Reem Kufi, Amiri, Sora) and responsive layouts.
+- **Multi-lingual & RTL** — instant switching between Arabic, English, French and Spanish with bespoke typography (Reem Kufi, Amiri, Sora) and responsive layouts. Spanish covers the interface, every page added in 2.5.0 and the prophets' main texts; older long texts show in English until translated.
 - **Offline PWA** — installable Progressive Web App with offline caching for visited routes. Pages load as separate chunks behind a static splash, so the first screen paints fast with no layout shift.
 
 ---
@@ -54,9 +56,10 @@ Rules:
 4. Pre-Adamic creations are strictly autonomous and never connected genealogically to Adam.
 5. **No human depictions or images of the Prophets** — visual representations are limited to atmospheric landscapes, botanical/zoological photography and abstract shapes.
 
-Two checks run in CI on every push:
+Checks:
 - `npm run verify:sources` — the people and links datasets against the Qur'an and Hadith sources.
 - `npm run audit:content` — every dataset: 544 Qur'an references, 43 typed verses and 161 ﴿ ﴾ quotations compared with the Mushaf, 213 hadith numbers looked up in their collections, and 23 research DOIs resolved. Hard failures stop the build; paraphrases are listed for review.
+- `npm run verify:duas` — every supplication and remembrance: its Arabic words must appear in the hadith it cites (diacritics ignored), the grades of the Sunan are listed, and every reference of the 2.5.0 pages must exist.
 
 Found a mistake? [Open an accuracy issue](https://github.com/Bosaj/prophets-family-tree/issues/new?labels=accuracy) with a primary source citation.
 

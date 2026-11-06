@@ -37,3 +37,5 @@ jobs:
         run: node scripts/verify-sources.mjs
       - name: Audit all datasets (nature, science, angels, stature, sahaba, scriptures) and DOIs
         run: node scripts/audit-content.mjs
+      - name: Check every supplication against the hadith it cites
+        run: node scripts/verify-duas.mjs
