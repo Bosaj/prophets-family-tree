@@ -12,7 +12,11 @@ import {
   SALIHIN_DATA,
   QURANIC_STORIES,
 } from '../data/salihin'
-import { useOpenVerse } from './ui'
+import { LevelChip, RefChip, useOpenVerse } from './ui'
+import { SALIHIN_STEPS } from '../data/salihinDetail'
+import type { L4 } from '../data/types'
+
+const STEPS_TITLE: L4 = { en: 'The story, step by step', fr: 'L’histoire, pas à pas', ar: 'القصة خطوة خطوة', es: 'La historia, paso a paso' }
 
 export function SalihinView() {
   const { t, pick, lang } = useI18n()
@@ -250,6 +254,26 @@ export function SalihinView() {
                           {pick(fig.story)}
                         </p>
                       </div>
+
+                      {SALIHIN_STEPS[fig.id] && (
+                        <div className="rounded-2xl border border-gold/20 bg-gold/[0.04] p-4">
+                          <h4 className="text-xs font-semibold text-gold uppercase mb-3">{pick(STEPS_TITLE)}</h4>
+                          <ol className="space-y-3">
+                            {SALIHIN_STEPS[fig.id]!.map((step, i) => (
+                              <li key={i} className="flex gap-3">
+                                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-gold/15 text-[0.7rem] font-semibold text-gold tabular-nums">{i + 1}</span>
+                                <div>
+                                  <p className="text-sm leading-relaxed text-ink-2">{pick(step.text)}</p>
+                                  <div className="mt-1.5 flex flex-wrap gap-1.5">
+                                    <LevelChip level={step.l} />
+                                    {step.r.map((r) => <RefChip key={r} r={r} />)}
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ol>
+                        </div>
+                      )}
 
                       <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-4">
                         <h4 className="text-xs font-semibold text-gold uppercase mb-2 flex items-center gap-1.5">

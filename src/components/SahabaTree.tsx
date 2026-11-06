@@ -21,6 +21,8 @@ import {
 } from 'lucide-react'
 import { useI18n } from '../i18n'
 import { pathPoint } from '../lib/relations'
+import { SAHABA_STORIES, type StoryPoint } from '../data/sahabaStories'
+import { LevelChip, RefChip } from './ui'
 import type { L4, Lang } from '../data/types'
 import {
   SAHABA_FIGURES,
@@ -129,6 +131,13 @@ const UI = {
   viewMap: r('View on map', 'Voir sur la carte', 'عرض على الخريطة', 'Ver en el mapa'),
   close: r('Close', 'Fermer', 'إغلاق', 'Cerrar'),
   relations: r('Relations', 'Liens', 'صلاته في الشجرة', 'Relaciones'),
+  story: r('His story', 'Son histoire', 'قصته', 'Su historia'),
+  storyHer: r('Her story', 'Son histoire', 'قصتها', 'Su historia'),
+  challenges: r('Trials he faced', 'Les épreuves', 'المحن التي واجهها', 'Las pruebas'),
+  challengesHer: r('Trials she faced', 'Les épreuves', 'المحن التي واجهتها', 'Las pruebas'),
+  sacrifices: r('What he gave up', 'Ses sacrifices', 'ما ضحّى به', 'Sus sacrificios'),
+  sacrificesHer: r('What she gave up', 'Ses sacrifices', 'ما ضحّت به', 'Sus sacrificios'),
+  readStory: r('Read the story', 'Lire l’histoire', 'اقرأ القصة', 'Leer la historia'),
   zoomHint: r('Zoom in to read every relation', 'Zoomez pour lire chaque lien', 'كبّر الشجرة لقراءة كل الصلات', 'Acerca para leer cada relación'),
 }
 
@@ -1390,6 +1399,16 @@ export function SahabaTree({ focus }: { focus?: string }) {
             {/* Scrollable Body with Custom Gold Scrollbar */}
             <div className="overflow-y-auto px-6 sm:px-9 py-6 space-y-6 flex-1">
 
+            {SAHABA_STORIES[activeFigure.id] && (
+              <button
+                type="button"
+                onClick={() => document.getElementById('sahabi-story')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-sm font-medium text-gold transition-colors hover:bg-gold/20"
+              >
+                <BookOpen className="size-4" /> {pick(UI.readStory)}
+              </button>
+            )}
+
             {/* Noble Lineage Block */}
             <div className="mb-6 rounded-2xl border border-emerald-500/25 bg-emerald-950/20 p-4">
               <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 mb-1.5 uppercase tracking-wider">
@@ -1453,6 +1472,38 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 {pick(activeFigure.biography)}
               </p>
             </div>
+
+            {/* Story: the narrative, the trials and the sacrifices, each point with its source */}
+            {SAHABA_STORIES[activeFigure.id] && (() => {
+              const st = SAHABA_STORIES[activeFigure.id]!
+              const her = activeFigure.id === 'fatimah_az_zahra'
+              const list = (items: StoryPoint[], title: L4, tone: string) => (
+                <div className="mt-4">
+                  <h5 className={`text-xs font-bold uppercase tracking-wider ${tone}`}>{pick(title)}</h5>
+                  <ul className="mt-2 space-y-3">
+                    {items.map((p, i) => (
+                      <li key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+                        <p className="text-xs sm:text-sm leading-relaxed text-ink-2">{pick(p.text)}</p>
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          <LevelChip level={p.l} />
+                          {p.r.map((ref) => <RefChip key={ref} r={ref} />)}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+              return (
+                <section id="sahabi-story" className="mb-6 rounded-2xl border border-gold/25 bg-gold/[0.04] p-4 sm:p-5">
+                  <h4 className="flex items-center gap-2 text-sm font-bold text-gold">
+                    <BookOpen className="size-4" /> {pick(her ? UI.storyHer : UI.story)}
+                  </h4>
+                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-ink">{pick(st.story)}</p>
+                  {list(st.challenges, her ? UI.challengesHer : UI.challenges, 'text-lvl-disputed')}
+                  {list(st.sacrifices, her ? UI.sacrificesHer : UI.sacrifices, 'text-lvl-hadith')}
+                </section>
+              )
+            })()}
 
             {/* Authentic Hadith Praise / Scholarly Testimony */}
             {activeFigure.propheticPraise && (

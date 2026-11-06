@@ -87,8 +87,35 @@ const refsOnly = [
   ...PRAYERS.map((p) => ({ where: `prayer/${p.id}`, r: p.r ?? [] })),
 ]
 
+// Pages added in 2.5.0 that quote no Arabic but cite sources: every reference must exist.
+const { INTRO, PILLARS, QUESTIONS } = await import('../src/data/islam.ts')
+const { SAHABA_STORIES } = await import('../src/data/sahabaStories.ts')
+const { SALIHIN_STEPS } = await import('../src/data/salihinDetail.ts')
+const { WHY_MENTIONED } = await import('../src/data/natureWisdom.ts')
+refsOnly.push(
+  ...[...INTRO, ...PILLARS, ...QUESTIONS].map((p, i) => ({ where: `islam/${i}`, r: p.r })),
+  ...Object.entries(SAHABA_STORIES).flatMap(([id, s]) => [...s.challenges, ...s.sacrifices].map((p, i) => ({ where: `sahaba/${id}/${i}`, r: p.r }))),
+  ...Object.entries(SALIHIN_STEPS).flatMap(([id, steps]) => steps.map((p, i) => ({ where: `salihin/${id}/${i}`, r: p.r }))),
+  ...Object.entries(WHY_MENTIONED).map(([id, w]) => ({ where: `nature/${id}`, r: w.r })),
+)
+
+// Ayah counts per surah, to check that every Qur'an reference points at verses that exist.
+const meta = (await (await fetch('https://api.alquran.cloud/v1/meta')).json()).data.surahs.references
+const ayahs = Object.fromEntries(meta.map((s) => [s.number, s.numberOfAyahs]))
+
 const problems = []
 let checked = 0
+
+for (const it of [...items, ...refsOnly]) {
+  for (const raw of it.r ?? []) {
+    const p = parseRef(raw)
+    if (p.kind === 'quran' && !(ayahs[p.s] && p.to <= ayahs[p.s] && p.a >= 1 && p.a <= p.to)) problems.push(`${it.where}: Qur'an ${raw} does not exist`)
+  }
+  if (it.verse) {
+    const p = parseRef(it.verse)
+    if (p.kind === 'quran' && !(ayahs[p.s] && p.to <= ayahs[p.s])) problems.push(`${it.where}: verse ${it.verse} does not exist`)
+  }
+}
 
 for (const it of items) {
   for (const raw of it.r) {
