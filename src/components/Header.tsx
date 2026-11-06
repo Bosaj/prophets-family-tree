@@ -16,16 +16,16 @@ interface NavItem {
 }
 
 const NAV: readonly NavItem[] = [
-  { key: 'navTree', href: '/tree', route: 'tree', short: { en: 'Tree', fr: 'Arbre', ar: 'الشجرة' } },
-  { key: 'navSahaba', href: '/sahaba', route: 'sahaba', short: { en: 'Sahaba', fr: 'Sahaba', ar: 'الصحابة' } },
-  { key: 'navScience', href: '/science', route: 'science', short: { en: 'Miracles', fr: 'Miracles', ar: 'الإعجاز' } },
-  { key: 'mapView', href: '/map', route: 'map', short: { en: 'Map', fr: 'Carte', ar: 'الخريطة' } },
-  { key: 'navTimeline', href: '/timeline', route: 'timeline', short: { en: 'Timeline', fr: 'Chronologie', ar: 'التسلسل' } },
-  { key: 'navStature', href: '/stature', route: 'stature', short: { en: 'Stature', fr: 'Stature', ar: 'القامة' } },
-  { key: 'navStories', href: '/stories', route: 'stories', short: { en: 'Stories', fr: 'Récits', ar: 'القصص' } },
-  { key: 'navNature', href: '/nature', route: 'nature', short: { en: 'Nature', fr: 'Nature', ar: 'الكائنات' } },
-  { key: 'navScriptures', href: '/scriptures', route: 'scriptures', short: { en: 'Scriptures', fr: 'Livres', ar: 'الكتب' } },
-  { key: 'navSources', href: '/sources', route: 'sources', short: { en: 'Sources', fr: 'Sources', ar: 'المصادر' } },
+  { key: 'navTree', href: '/tree', route: 'tree', short: { en: 'Tree', fr: 'Arbre', ar: 'الشجرة', es: 'Árbol' } },
+  { key: 'navSahaba', href: '/sahaba', route: 'sahaba', short: { en: 'Sahaba', fr: 'Sahaba', ar: 'الصحابة', es: 'Sahaba' } },
+  { key: 'navScience', href: '/science', route: 'science', short: { en: 'Miracles', fr: 'Miracles', ar: 'الإعجاز', es: 'Milagros' } },
+  { key: 'mapView', href: '/map', route: 'map', short: { en: 'Map', fr: 'Carte', ar: 'الخريطة', es: 'Mapa' } },
+  { key: 'navTimeline', href: '/timeline', route: 'timeline', short: { en: 'Timeline', fr: 'Chronologie', ar: 'التسلسل', es: 'Cronología' } },
+  { key: 'navStature', href: '/stature', route: 'stature', short: { en: 'Stature', fr: 'Stature', ar: 'القامة', es: 'Estatura' } },
+  { key: 'navStories', href: '/stories', route: 'stories', short: { en: 'Stories', fr: 'Récits', ar: 'القصص', es: 'Relatos' } },
+  { key: 'navNature', href: '/nature', route: 'nature', short: { en: 'Nature', fr: 'Nature', ar: 'الكائنات', es: 'Naturaleza' } },
+  { key: 'navScriptures', href: '/scriptures', route: 'scriptures', short: { en: 'Scriptures', fr: 'Livres', ar: 'الكتب', es: 'Libros' } },
+  { key: 'navSources', href: '/sources', route: 'sources', short: { en: 'Sources', fr: 'Sources', ar: 'المصادر', es: 'Fuentes' } },
 ]
 
 export function Header({ route, onSearch }: { route: Route; onSearch: () => void }) {
@@ -149,7 +149,7 @@ function LanguageMenu() {
           aria-label={t('language')}
           className="absolute end-0 top-full mt-2 w-44 overflow-hidden rounded-2xl border border-gold/30 bg-night-surface/95 p-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-2xl z-50 animate-in fade-in zoom-in-95 duration-150"
         >
-          {(['ar', 'fr', 'en'] as Lang[]).map((l) => {
+          {(['ar', 'fr', 'en', 'es'] as Lang[]).map((l) => {
             const isSelected = l === lang
             return (
               <button

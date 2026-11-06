@@ -115,7 +115,7 @@ describe('Full Website Automated Test Suite', () => {
 
       // Modal should open with scholarly credentials
       expect(screen.getAllByText(/Sahih al-Bukhari/i).length).toBeGreaterThan(0)
-      expect(screen.getAllByText(/Eminent Teachers/i).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(/^Teachers$/i).length).toBeGreaterThan(0)
 
       // Close modal
       const closeBtns = screen.getAllByRole('button', { name: /Close|✕/i })

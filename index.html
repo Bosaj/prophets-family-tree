@@ -21,7 +21,7 @@
       try {
         // same rule as initialLang() in src/i18n, applied before the first paint so the page never flips direction
         var l = JSON.parse(localStorage.getItem('shajara:lang') || 'null')
-        if (l !== 'ar' && l !== 'fr' && l !== 'en') { var n = (navigator.language || '').toLowerCase(); l = n.indexOf('fr') === 0 ? 'fr' : n.indexOf('en') === 0 ? 'en' : 'ar' }
+        if (l !== 'ar' && l !== 'fr' && l !== 'en' && l !== 'es') { var n = (navigator.language || '').toLowerCase(); l = n.indexOf('fr') === 0 ? 'fr' : n.indexOf('es') === 0 ? 'es' : n.indexOf('en') === 0 ? 'en' : 'ar' }
         document.documentElement.lang = l
         document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'
       } catch (e) {}

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Calendar, ChevronDown, ChevronUp, Clock, Sparkles, Flame, BookOpen, Info } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { legacy, useI18n } from '../i18n'
 import { people } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'
@@ -121,7 +121,7 @@ export function Timeline() {
                   : 'border border-white/5 bg-white/[0.02] text-ink-3 hover:text-ink hover:border-white/20'
               }`}
             >
-              {era.title[lang]}
+              {era.title[legacy(lang)]}
             </button>
           ))}
         </div>
@@ -143,7 +143,7 @@ export function Timeline() {
                 {anchor && (
                   <div className="mb-8 flex md:justify-center relative z-20">
                     <div className="glass inline-flex max-w-lg flex-wrap items-center justify-center gap-2 rounded-2xl border border-gold/30 bg-night-surface/90 px-4 py-2 text-xs text-ink-2 shadow-lg backdrop-blur-md text-center">
-                      <span className="font-semibold text-gold-2">{anchor[lang]}</span>
+                      <span className="font-semibold text-gold-2">{anchor[legacy(lang)]}</span>
                       <Refs refs={[anchor.ref]} />
                     </div>
                   </div>

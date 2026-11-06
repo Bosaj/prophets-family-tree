@@ -2,7 +2,7 @@ import type { Lang } from '../data/types'
 import { parseRef } from '../data/sources'
 
 /** Translation shown under the Uthmani text, per site language (Arabic gets al-Tafsir al-Muyassar). */
-export const TRANSLATION: Record<Lang, string> = { en: 'en.sahih', fr: 'fr.hamidullah', ar: 'ar.muyassar' }
+export const TRANSLATION: Record<Lang, string> = { en: 'en.sahih', fr: 'fr.hamidullah', ar: 'ar.muyassar', es: 'es.cortes' }
 
 export interface Ayah {
   surah: number

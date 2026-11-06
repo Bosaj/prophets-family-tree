@@ -7,10 +7,16 @@
  */
 export type Level = 'quran' | 'hadith' | 'tradition' | 'disputed'
 
-export type Lang = 'en' | 'fr' | 'ar'
+export type Lang = 'en' | 'fr' | 'ar' | 'es'
 
-/** Text in the three site languages. */
-export type L3 = Record<Lang, string>
+/**
+ * Text in the site languages. Spanish arrived in 2.5.0: a text that has no Spanish yet is shown in
+ * English (see `pick` in src/i18n).
+ */
+export type L3 = { en: string; fr: string; ar: string; es?: string }
+
+/** Text written in all four languages (everything added since 2.5.0). */
+export type L4 = Required<L3>
 
 /**
  * A source reference.
