@@ -1719,7 +1719,7 @@ export function NatureView() {
               ) : (
                 <>
                   <div className="w-36 h-36">
-                    <RenderOrganismSilhouette id={detailItem.id} animated={true} />
+                    <RenderOrganismSilhouette id={detailItem.id} animated={false} />
                   </div>
                   <div className="w-28 h-3 bg-black/60 rounded-[100%] blur-[4px] -mt-1 animate-shadow-breathe" />
                 </>
