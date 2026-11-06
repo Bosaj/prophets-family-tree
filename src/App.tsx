@@ -11,6 +11,7 @@ import { SearchDialog } from './components/Search'
 import { VerseSheet } from './components/VerseSheet'
 import { VerseContext } from './components/ui'
 import { Logo } from './components/Logo'
+import './data/es/apply'
 
 // Each page is its own chunk, so the home page only downloads what it shows.
 const Tree = lazy(() => import('./components/Tree').then((m) => ({ default: m.Tree })))
