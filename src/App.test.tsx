@@ -101,6 +101,12 @@ describe('App', () => {
     expect(screen.getByText('The last third of the night')).toBeInTheDocument()
   })
 
+  it('shows the prophets’ stories in Spanish', async () => {
+    await renderAt('/p/musa', 'es')
+    expect(screen.getAllByText(/Moisés/).length).toBeGreaterThan(0)
+    expect(screen.getByText(/Allah abrió el mar para los creyentes/)).toBeInTheDocument()
+  })
+
   it('renders the introduction to Islam in Spanish', async () => {
     await renderAt('/islam', 'es')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('¿Qué es el islam?')

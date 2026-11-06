@@ -1,4 +1,5 @@
 import type { Fact, L3, Level, Person, Ref } from './types'
+import { applySpanish } from './es/people.es'
 
 const t = (en: string, fr: string, ar: string): L3 => ({ en, fr, ar })
 const f = (l: Level, text: L3, ...r: Ref[]): Fact => (r.length ? { l, t: text, r } : { l, t: text })
@@ -2320,6 +2321,8 @@ export const people: Person[] = [
     image: 'umm_kulthum',
   },
 ]
+
+applySpanish(people)
 
 export const byId = new Map(people.map((p) => [p.id, p]))
 export const prophets = people.filter((p) => p.kind === 'prophet')
