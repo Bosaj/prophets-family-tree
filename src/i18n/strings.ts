@@ -194,6 +194,9 @@ const en = {
   navStature: 'Stature & Appearance',
   navStories: 'Stories & Righteous',
   navNature: 'Creatures & Flora',
+  navDuas: 'Supplications of the Prophet ﷺ',
+  navTimes: 'Prayer times and the day',
+  navIslam: 'What is Islam?',
   navSahaba: 'Sahaba & Caliphs',
   navScience: 'Scientific Miracles',
   statureKicker: 'Physical Stature & Hadith Descriptions',
@@ -204,7 +207,7 @@ const en = {
   storiesLead: 'Explore the inspiring righteous believers and parables immortalized in the Holy Qur’an.',
   natureKicker: 'Creatures, Plants & Sacred Sustenance',
   natureTitle: 'Animals, Flora & Prophetic Medicine',
-  natureLead: 'Explore all animals, plants, fruits, and healing remedies mentioned in the Holy Qur’an and authentic Sunnah with interactive motions, shadows, and clinical benefits.',
+  natureLead: 'The animals, plants, fruits and remedies mentioned in the Qur’an and the authentic Sunnah, with why each is mentioned and what it teaches.',
 }
 
 
@@ -398,6 +401,9 @@ const fr: Record<Key, string> = {
   navStature: 'Stature & Apparence',
   navStories: 'Récits & Vertueux',
   navNature: 'Créatures & Flore',
+  navDuas: 'Invocations du Prophète ﷺ',
+  navTimes: 'Horaires de prière et du jour',
+  navIslam: 'Qu’est-ce que l’islam ?',
   navSahaba: 'Sahaba & Califes',
   navScience: 'Miracles Scientifiques',
   statureKicker: 'Stature physique et descriptions prophétiques',
@@ -408,7 +414,7 @@ const fr: Record<Key, string> = {
   storiesLead: 'Découvrez les figures vertueuses et les récits emblématiques immortalisés dans le Noble Coran.',
   natureKicker: 'Créatures, Plantes & Aliments Sacrés',
   natureTitle: 'Animaux, Flore & Médecine Prophétique',
-  natureLead: 'Découvrez tous les animaux, plantes, fruits et remèdes guérisseurs cités dans le Saint Coran et la Sunnah authentique avec mouvements interactifs, ombres portées et vertus médicales.',
+  natureLead: 'Les animaux, plantes, fruits et remèdes cités dans le Coran et la Sunna authentique, avec la raison de leur mention et ce qu’ils enseignent.',
 }
 
 
@@ -600,6 +606,9 @@ const ar: Record<Key, string> = {
   navStature: 'القامة والصفات',
   navStories: 'قصص القرآن والصالحين',
   navNature: 'الكائنات والنباتات',
+  navDuas: 'أدعية النبي ﷺ',
+  navTimes: 'مواقيت الصلاة وأوقات اليوم',
+  navIslam: 'ما هو الإسلام؟',
   navSahaba: 'الصحابة والخلفاء',
   navScience: 'الإعجاز العلمي',
   statureKicker: 'القامة الجسدية والشمائل النبوية',
@@ -610,7 +619,7 @@ const ar: Record<Key, string> = {
   storiesLead: 'استكشف سير الصالحين والصالحات وقصص الأمم والأمثال التي خلّدها القرآن الكريم.',
   natureKicker: 'حيوانات ونباتات وأطعمة الوحي',
   natureTitle: 'حيوانات ونباتات القرآن والطب النبوي',
-  natureLead: 'استكشف جميع الحيوانات والطيور والنباتات والأغذية المذكورة في القرآن الكريم والسنة النبوية بحركات تفاعلية وظلال واقعية وفوائد طبية وغذائية شاملة.',
+  natureLead: 'الحيوانات والنباتات والثمار والأدوية المذكورة في القرآن الكريم والسنة الصحيحة، مع حكمة ذكرها وما تعلّمه.',
 }
 
 
@@ -801,6 +810,9 @@ const es: Record<Key, string> = {
   navStature: 'Estatura y aspecto',
   navStories: 'Relatos y justos',
   navNature: 'Criaturas y plantas',
+  navDuas: 'Súplicas del Profeta ﷺ',
+  navTimes: 'Horarios de oración y del día',
+  navIslam: '¿Qué es el islam?',
   navSahaba: 'Sahaba y califas',
   navScience: 'Milagros científicos',
   statureKicker: 'Estatura y descripciones del hadiz',

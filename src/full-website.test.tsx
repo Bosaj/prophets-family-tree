@@ -214,7 +214,7 @@ describe('Full Website Automated Test Suite', () => {
   describe('4. Creatures, Flora & Prophetic Medicine (/nature)', () => {
     it('renders Hoopoe (Upupa epops), Rock Dove (Hamama), and the Mosquito (Culicidae) with full biological and Quranic details', async () => {
       await renderAt('/nature')
-      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Creatures, Flora & Prophetic Medicine/i)
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Animals, Flora & Prophetic Medicine/i)
 
       // Hoopoe (Upupa epops)
       expect(screen.getAllByText(/Hoopoe/i).length).toBeGreaterThan(0)

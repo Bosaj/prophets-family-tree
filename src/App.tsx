@@ -18,6 +18,9 @@ const TopographyMap = lazy(() => import('./components/TopographyMap').then((m) =
 const Timeline = lazy(() => import('./components/Timeline').then((m) => ({ default: m.Timeline })))
 const StatureView = lazy(() => import('./components/StatureView').then((m) => ({ default: m.StatureView })))
 const SalihinView = lazy(() => import('./components/SalihinView').then((m) => ({ default: m.SalihinView })))
+const DuasView = lazy(() => import('./components/DuasView').then((m) => ({ default: m.DuasView })))
+const AwqatView = lazy(() => import('./components/AwqatView').then((m) => ({ default: m.AwqatView })))
+const IslamView = lazy(() => import('./components/IslamView').then((m) => ({ default: m.IslamView })))
 const NatureView = lazy(() => import('./components/NatureView').then((m) => ({ default: m.NatureView })))
 const SahabaTree = lazy(() => import('./components/SahabaTree').then((m) => ({ default: m.SahabaTree })))
 const ScienceView = lazy(() => import('./components/ScienceView').then((m) => ({ default: m.ScienceView })))
@@ -96,6 +99,12 @@ export default function App() {
         return <SalihinView />
       case 'nature':
         return <NatureView />
+      case 'duas':
+        return <DuasView />
+      case 'times':
+        return <AwqatView />
+      case 'islam':
+        return <IslamView />
       case 'sahaba':
         return <SahabaTree key={route.focus ?? 'all'} focus={route.focus} />
       case 'science':
