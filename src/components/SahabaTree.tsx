@@ -1516,7 +1516,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                       : 'Prophetic Praise & Scholarly Testimony'}
                   </span>
                 </div>
-                <p className="ar-name text-sm sm:text-base font-medium text-amber-100 leading-relaxed mb-2 font-serif text-center sm:text-start">
+                <p lang="ar" dir="rtl" className="font-hadith text-base sm:text-lg text-amber-100 leading-loose mb-2 text-center sm:text-start">
                   {activeFigure.propheticPraise.ar}
                 </p>
                 {lang !== 'ar' && (

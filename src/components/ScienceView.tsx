@@ -243,7 +243,7 @@ export function ScienceView() {
                     </span>
                     <span>{fact.quranVerseText.ayah}</span>
                   </div>
-                  <p className="ar-name text-xl sm:text-2xl font-serif text-amber-100 leading-loose text-center sm:text-start mb-3 drop-shadow-sm font-semibold">
+                  <p lang="ar" dir="rtl" className="font-quran text-xl sm:text-2xl text-amber-100 leading-loose text-center sm:text-start mb-3 drop-shadow-sm">
                     ﴿ {fact.quranVerseText.ar} ﴾
                   </p>
                   {lang !== 'ar' && (

@@ -16,6 +16,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - `npm run verify:duas` (also in CI): all 34 Arabic supplications are found in the hadith they cite, the grades of the Sunan are listed, and every Qur’an and hadith reference of the new pages exists.
 
 ### Fixed
+- Nature: the mosquito (2:26) had no photo and fell back to the date-palm drawing. It now has its own drawing and a public-domain photo (CDC, James Gathany), and an organism without a drawing no longer borrows another one.
 - Dark map: CARTO’s dark tiles now require an API key and showed “API KEY REQUIRED” on every tile. The dark style uses Esri’s Dark Gray Canvas, which needs none. The map style buttons are translated.
 
 ### Fixed — accuracy
@@ -25,7 +26,7 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ### Changed
 - Stature: the height pillars are now a faceless pictogram, drawn like the figure on a road sign (round head, rounded body and limbs, no face or features), so a height reads as a human scale without portraying anyone.
-- One Arabic typeface across the site: Reem Kufi. Duas, hadith quotes and Arabic text set in serif, monospace or SVG labels fell back to Windows system fonts (Times, Courier, Segoe); every font stack now ends in Reem Kufi, and Amiri is no longer loaded. Only Qur’an verses (Amiri Quran) and the author’s name (Bouazzi Maghribi) keep their own fonts.
+- Arabic fonts: Arabic in serif, monospace and SVG labels fell back to Windows system fonts (Times, Courier, Segoe). Every font stack now ends in Reem Kufi, the site’s Arabic typeface. Qur’an verses keep Amiri Quran everywhere (also when quoted inside a sentence, between ﴿ ﴾), quoted hadith and the supplications keep Amiri, and the author’s name keeps Bouazzi Maghribi.
 - Nature: the animated sun-and-shadow stage and the moving animals are gone; cards are still and open the animal’s sheet.
 - Header: the main pages stay in the bar and the rest move to a “More” menu, so the bar fits at every width.
 - References can cite Sunan Abi Dawud, al-Nasa’i and Ibn Majah (sunnah.com numbering).

@@ -97,6 +97,27 @@ export function Refs({ refs }: { refs?: Ref[] }) {
   )
 }
 
+/**
+ * Text that may quote the Qur'an between ﴿ and ﴾: the quoted words are set in the Mushaf typeface
+ * (Amiri Quran), the rest in the page's own font.
+ */
+export function WithQuran({ text }: { text: string }) {
+  if (!text.includes('﴿')) return <>{text}</>
+  return (
+    <>
+      {text.split(/(﴿[^﴾]*﴾)/).map((part, i) =>
+        part.startsWith('﴿') ? (
+          <span key={i} lang="ar" className="font-quran text-[1.08em]">
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  )
+}
+
 /** A sourced statement: text, level chip, references. */
 export function FactText({ fact, className = '' }: { fact: Fact; className?: string }) {
   const { pick } = useI18n()

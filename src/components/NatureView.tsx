@@ -480,6 +480,31 @@ function ElephantSvg({ animated = true }: { animated?: boolean }) {
   )
 }
 
+function MosquitoSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className="w-full h-full drop-shadow-[0_10px_20px_rgba(148,163,184,0.35)]">
+      <defs>
+        <linearGradient id="mosquitoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#cbd5e1" />
+          <stop offset="100%" stopColor="#475569" />
+        </linearGradient>
+      </defs>
+      {/* wings */}
+      <ellipse cx="78" cy="48" rx="34" ry="9" transform="rotate(-18 78 48)" fill="rgba(224, 242, 254, 0.5)" stroke="#94a3b8" strokeWidth="1" />
+      <ellipse cx="86" cy="54" rx="30" ry="7" transform="rotate(-6 86 54)" fill="rgba(224, 242, 254, 0.4)" stroke="#94a3b8" strokeWidth="1" />
+      {/* long thin legs */}
+      <path d="M 92 74 L 70 92 L 52 120 M 98 75 L 92 98 L 86 126 M 104 74 L 118 96 L 132 122 M 96 72 L 74 80 L 44 84 M 102 72 L 124 82 L 150 86 M 106 70 L 128 64 L 156 70" stroke="#64748b" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+      {/* abdomen, thorax, head */}
+      <path d="M 40 66 C 52 60 74 64 92 70 C 80 76 56 78 40 72 Z" fill="url(#mosquitoGrad)" />
+      <ellipse cx="100" cy="70" rx="11" ry="8" fill="url(#mosquitoGrad)" />
+      <circle cx="115" cy="68" r="6" fill="#334155" />
+      {/* proboscis and antennae */}
+      <path d="M 120 70 L 150 80" stroke="#334155" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M 118 64 Q 128 54 136 52 M 117 63 Q 124 50 130 46" stroke="#64748b" strokeWidth="1.1" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function BeeSvg({ animated = true }: { animated?: boolean }) {
   return (
     <svg viewBox="0 0 180 140" className="w-full h-full drop-shadow-[0_10px_20px_rgba(234,179,8,0.45)]">
@@ -1207,8 +1232,11 @@ function RenderOrganismSilhouette({ id, animated = true }: { id: string; animate
       return <GingerSvg />
     case 'battikh':
       return <WatermelonSvg animated={animated} />
+    case 'ba_udah':
+      return <MosquitoSvg />
     default:
-      return <DatePalmSvg animated={animated} />
+      // An organism with no drawing yet shows its photo only; never another creature's drawing.
+      return null
   }
 }
 
@@ -1657,7 +1685,7 @@ export function NatureView() {
               {/* Calligraphy banner if available */}
               {'arabicCalligraphy' in detailItem && detailItem.arabicCalligraphy && (
                 <div className="rounded-2xl border border-gold/20 bg-gold/5 px-4 py-2.5 text-center">
-                  <p className="ar-name text-sm sm:text-base text-gold font-['Amiri_Quran',_serif] leading-relaxed">
+                  <p lang="ar" dir="rtl" className="font-quran text-base sm:text-lg text-gold leading-loose">
                     «{detailItem.arabicCalligraphy}»
                   </p>
                 </div>
@@ -1834,7 +1862,7 @@ export function NatureView() {
                       <BookOpen className="size-3.5" />
                       <span>{h.book} #{h.number}</span>
                     </div>
-                    <p className="text-xs text-ink-2 italic leading-relaxed">"{pick(h.text)}"</p>
+                    <p className={`text-ink-2 leading-relaxed ${lang === 'ar' ? 'font-hadith text-base' : 'text-xs italic'}`}>"{pick(h.text)}"</p>
                   </div>
                 ))}
               </div>

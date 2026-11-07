@@ -21,7 +21,7 @@ import { legacy, useI18n } from '../i18n'
 import { byId, prophets } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'
-import { A, FactText, Scene } from './ui'
+import { A, FactText, Scene, WithQuran } from './ui'
 
 type MapStyle = 'satellite' | 'dark' | 'terrain'
 type SiteCategory = 'all' | 'sanctuary' | 'mountain' | 'well' | 'city'
@@ -2330,7 +2330,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   {selectedPerson.topography.sacredSites.map((s, idx) => (
                     <li key={idx} className="rounded-xl border border-white/5 bg-white/[0.02] p-2.5">
                       <span className="font-semibold text-ink">{pick(s.name)}</span>
-                      {s.desc && <p className="text-ink-3 mt-0.5 leading-snug">{pick(s.desc)}</p>}
+                      {s.desc && <p className="text-ink-3 mt-0.5 leading-snug"><WithQuran text={pick(s.desc)} /></p>}
                     </li>
                   ))}
                 </ul>

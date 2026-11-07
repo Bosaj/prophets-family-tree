@@ -18,7 +18,7 @@ import {
   type ScriptureVersion,
 } from '../data/scriptures'
 import { hrefOf } from '../lib/router'
-import { A } from './ui'
+import { A, WithQuran } from './ui'
 
 export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: string }) {
   const { lang, pick } = useI18n()
@@ -383,11 +383,11 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
           </span>
         </h3>
         <p className="text-emerald-100/90 leading-relaxed font-sans text-sm sm:text-base">
-          {lang === 'ar'
+          <WithQuran text={lang === 'ar'
             ? 'استودع الله الأمم السابقة حفظ كتبها فقال ﴿بِمَا اسْتُحْفِظُوا مِن كِتَابِ اللَّهِ﴾، فدخلها النسيان والتبديل البشري وتعددت نسخها ومخطوطاتها المتناقضة. أما القرآن الكريم فقد تولى الله حفظه بنفسه ﴿إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ﴾، فظل نصاً إماماً واحداً ثابتاً في الصدور والمصاحف بحروفه ورسمه عبر أرجاء الأرض قاطبة.'
             : lang === 'fr'
             ? 'Allah avait confié la garde des livres antérieurs aux communautés humaines (« par ce qui leur était confié du Livre d’Allah »), ce qui a conduit à des altérations et à une multiplicité de manuscrits divergents. Pour le Coran, Allah a garanti Sa propre protection directe (« C’est Nous qui avons fait descendre le Rappel, et c’est Nous qui en sommes les gardiens »), assurant l’exactitude intégrale de chaque lettre à travers les âges.'
-            : 'Allah entrusted the custody of earlier scriptures to their respective communities ("by that which they were entrusted of the Scripture of Allah"), leading to human redactions, loss, and divergent textual traditions. In contrast, Allah Himself undertook the perpetual preservation of the Qur’an ("Indeed, it is We who sent down the Qur’an and indeed, We will be its guardian"), securing word-for-word identity across all continents and centuries.'}
+            : 'Allah entrusted the custody of earlier scriptures to their respective communities ("by that which they were entrusted of the Scripture of Allah"), leading to human redactions, loss, and divergent textual traditions. In contrast, Allah Himself undertook the perpetual preservation of the Qur’an ("Indeed, it is We who sent down the Qur’an and indeed, We will be its guardian"), securing word-for-word identity across all continents and centuries.'} />
         </p>
       </div>
     </div>

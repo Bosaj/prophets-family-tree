@@ -43,7 +43,7 @@ export function DuaCard({ d, compact = false }: { d: Supplication; compact?: boo
   return (
     <div className={`rounded-2xl border ${d.l === 'disputed' ? 'border-lvl-disputed/30 bg-lvl-disputed/[0.04]' : 'border-gold/20 bg-gold/[0.04]'} ${compact ? 'p-4' : 'p-5 sm:p-6'}`}>
       {d.ar && (
-        <p lang="ar" dir="rtl" className={`font-naskh leading-[2.1] text-gold-2 text-pretty ${compact ? 'text-xl' : 'text-2xl sm:text-[1.7rem]'}`}>
+        <p lang="ar" dir="rtl" className={`font-hadith leading-[2.1] text-gold-2 text-pretty ${compact ? 'text-xl' : 'text-2xl sm:text-[1.7rem]'}`}>
           {d.ar}
         </p>
       )}

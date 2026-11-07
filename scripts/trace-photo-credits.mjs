@@ -8,6 +8,7 @@ const CANDIDATES = {
   ankabut: ['Spider', 'Araneus diadematus', 'Spider web'],
   arak_siwak: ['Salvadora persica', 'Miswak'],
   asal: ['Honey'],
+  ba_udah: ['Anopheles stephensi', 'Mosquito'],
   battikh: ['Watermelon'],
   dhib_yusuf: ['Wolf', 'Arabian wolf', 'Golden jackal', 'African golden wolf'],
   fil: ['Elephant', 'African bush elephant', 'Asian elephant'],

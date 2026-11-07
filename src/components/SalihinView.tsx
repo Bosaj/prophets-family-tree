@@ -12,7 +12,7 @@ import {
   SALIHIN_DATA,
   QURANIC_STORIES,
 } from '../data/salihin'
-import { LevelChip, RefChip, useOpenVerse } from './ui'
+import { LevelChip, RefChip, WithQuran, useOpenVerse } from './ui'
 import { SALIHIN_STEPS } from '../data/salihinDetail'
 import type { L4 } from '../data/types'
 
@@ -93,11 +93,11 @@ export function SalihinView() {
           </span>
         </h1>
         <p className="mt-4 text-sm sm:text-base text-ink-3 leading-relaxed">
-          {lang === 'ar'
+          <WithQuran text={lang === 'ar'
             ? 'قال الله تعالى: ﴿لَقَدْ كَانَ فِي قَصَصِهِمْ عِبْرَةٌ لِّأُولِي الْأَلْبَابِ﴾. استكشف مواقف الإيمان الراسخ والحكمة الربانية والعبر التاريخية الخالدة.'
             : lang === 'fr'
             ? '« Il y a dans leurs récits une leçon pour les gens doués d’intelligence. » (Coran 12:111). Explorez les modèles de foi, de sagesse et de courage.'
-            : '"There was certainly in their stories a lesson for those of understanding." (Qur’an 12:111). Discover timeless models of faith, wisdom, and moral courage.'}
+            : '"There was certainly in their stories a lesson for those of understanding." (Qur’an 12:111). Discover timeless models of faith, wisdom, and moral courage.'} />
         </p>
       </div>
 

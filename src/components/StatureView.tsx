@@ -575,7 +575,7 @@ export function StatureView() {
                   <BookOpen className="size-3.5" />
                   <span>{lang === 'ar' ? 'النص والحديث الشريف' : 'Textual Citation'}</span>
                 </div>
-                <p className={`text-xs leading-relaxed text-ink-2 ${lang === 'ar' ? 'naskh text-sm' : 'italic'}`}>
+                <p className={`text-xs leading-relaxed text-ink-2 ${lang === 'ar' ? 'font-hadith text-base leading-loose' : 'italic'}`}>
                   {pick(activeScale.hadithText)}
                 </p>
               </div>
@@ -733,7 +733,7 @@ export function StatureView() {
                     <span className="font-semibold">{narration.source}</span>
                     {narration.hadithNumber && <span className="font-mono">#{narration.hadithNumber}</span>}
                   </div>
-                  <p className={`text-sm text-ink-2 leading-relaxed ${lang === 'ar' ? 'naskh text-base' : 'italic'}`}>
+                  <p className={`text-sm text-ink-2 leading-relaxed ${lang === 'ar' ? 'font-hadith text-lg leading-loose' : 'italic'}`}>
                     {pick(narration.text)}
                   </p>
                 </div>
