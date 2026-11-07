@@ -1432,14 +1432,14 @@ export function TopographyMap({ focus }: { focus?: string }) {
         attribution = 'Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap'
         subdomains = 'abc'
       } else {
-        // Dark theme
-        tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-        attribution = '&copy; OpenStreetMap contributors &copy; CARTO'
-        subdomains = 'abcd'
+        // Dark theme. CARTO's dark tiles now ask for an API key (they draw 'API KEY REQUIRED' on every tile),
+        // so the dark map uses Esri's Dark Gray Canvas, which needs none.
+        tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+        attribution = 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
       }
 
       const tileLayer = Leaflet.tileLayer(tileUrl, {
-        maxZoom: 18,
+        maxZoom: mapStyle === 'dark' ? 16 : 18,
         subdomains,
         attribution,
       }).addTo(map)
@@ -1527,7 +1527,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   background: #080b1c;
                   border: 2px solid ${selectedRoute.color};
                   color: #ffffff;
-                  font-family: ui-sans-serif, system-ui;
+                  font-family: 'Sora Variable', 'Reem Kufi Variable', ui-sans-serif, system-ui;
                   font-size: 11px;
                   font-weight: 800;
                   box-shadow: 0 0 14px ${selectedRoute.color};
@@ -1773,7 +1773,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             }`}
           >
             <Compass className="size-3.5" />
-            <span>Satellite</span>
+            <span>{({ en: 'Satellite', fr: 'Satellite', ar: 'قمر صناعي', es: 'Satélite' } as const)[lang]}</span>
           </button>
           <button
             type="button"
@@ -1785,7 +1785,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             }`}
           >
             <Sparkles className="size-3.5" />
-            <span>Dark</span>
+            <span>{({ en: 'Dark', fr: 'Sombre', ar: 'داكنة', es: 'Oscuro' } as const)[lang]}</span>
           </button>
           <button
             type="button"
@@ -1797,7 +1797,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             }`}
           >
             <Mountain className="size-3.5" />
-            <span>Terrain</span>
+            <span>{({ en: 'Terrain', fr: 'Relief', ar: 'تضاريس', es: 'Relieve' } as const)[lang]}</span>
           </button>
         </div>
 

@@ -23,7 +23,7 @@
 - **Pre-Adamic Realm & Iblis** — an autonomous floating celestial domain above the tree canvas documenting earlier earthly creations (Jinn, Iblis / Satan, Hinn, Binn, Nasnas) cited by classical scholars (Ibn Kathir, Al-Hasan al-Basri) and the Qur'an, completely decoupled from Adam's genealogy.
 - **Topography Map & Prophetic Routes (`/map`)** — interactive historical topography map tracing prophetic routes, waypoints, sanctuaries, and migration paths across Hijaz, the Levant, Egypt, and Mesopotamia with elevation layers.
 - **Prophetic Nature, Flora & Fauna (`/nature`)** — 30 animals, plants and foods mentioned in the Qur'an and Hadith (the hoopoe / *Upupa epops*, the whale, camel, bee, ant, olive, fig, date palm, pomegranate, black seed…), each with why it is mentioned, its source level, its benefits and a credited photo (Wikimedia Commons author and licence, traced by `npm run credits:photos`).
-- **Stature, Stories and Scriptures (`/stature`, `/stories`, `/scriptures`)** — heights given in the texts (illustrative ones are marked as such and drawn as pillars, never as human figures), the stories of the Qur'an and the righteous, and the revealed books.
+- **Stature, Stories and Scriptures (`/stature`, `/stories`, `/scriptures`)** — heights given in the texts (illustrative ones are marked as such), drawn as a faceless road-sign pictogram: a scale marker with no face or features, never a portrait, the stories of the Qur'an and the righteous, and the revealed books.
 - **Sources (`/sources`)** — every reference, the source-level rules and the photo credits in one place.
 - **Supplications of the Prophet ﷺ (`/duas`)** — what he said at each moment of his life, from Makkah to his last words, and in hardship. Every Arabic text is copied from the hadith it cites and checked against it; weak reports (such as the famous Ta'if supplication) are labelled weak.
 - **Prayer times and the day (`/times`)** — today's prayer times for a city or your location. In Morocco it follows the Ministry of Habous (Fajr 19°, 'Isha 17°) and matches its table to the minute. A guide for every part of the day and night, with the morning, evening and bedtime remembrances and a counter.
@@ -54,7 +54,7 @@ Rules:
 2. The Qur'an brackets ﴿ ﴾ are used only for text of the Mushaf; hadith wording uses « ».
 3. Qur'anic text in the sheet is always fetched live; any verse typed in the data must match the Mushaf exactly.
 4. Pre-Adamic creations are strictly autonomous and never connected genealogically to Adam.
-5. **No human depictions or images of the Prophets** — visual representations are limited to atmospheric landscapes, botanical/zoological photography and abstract shapes.
+5. **No portraits or images of the Prophets** — visuals are landscapes, botanical/zoological photography, abstract shapes, and on the stature scale a faceless road-sign pictogram with no features.
 
 Checks:
 - `npm run verify:sources` — the people and links datasets against the Qur'an and Hadith sources.

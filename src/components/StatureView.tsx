@@ -163,7 +163,7 @@ export function StatureView() {
                   return (
                     <g key={m} opacity="0.35">
                       <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
-                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
+                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="ui-monospace, Consolas, Reem Kufi Variable, monospace">
                         {m} {lang === 'ar' ? 'م' : 'm'}
                       </text>
                     </g>
@@ -179,7 +179,7 @@ export function StatureView() {
                   return (
                     <g key={m} opacity="0.35">
                       <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
-                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
+                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="ui-monospace, Consolas, Reem Kufi Variable, monospace">
                         {m} {lang === 'ar' ? 'م' : 'm'}
                       </text>
                     </g>
@@ -195,7 +195,7 @@ export function StatureView() {
                   return (
                     <g key={m} opacity="0.35">
                       <line x1="45" y1={y} x2="985" y2={y} stroke={m === 0 ? '#e9c67b' : '#64748b'} strokeDasharray={m === 0 ? undefined : '3 4'} strokeWidth={m === 0 ? 1.5 : 0.8} />
-                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="monospace">
+                      <text x="35" y={y + 3.5} textAnchor="end" fontSize="9.5" fill="#e9c67b" fontFamily="ui-monospace, Consolas, Reem Kufi Variable, monospace">
                         {m} {lang === 'ar' ? 'م' : 'm'}
                       </text>
                     </g>
@@ -758,7 +758,7 @@ export function StatureView() {
 }
 
 function HumanSilhouette({ h, x, groundY, active, label }: { h: number; x: number; groundY: number; active: boolean; label: string }) {
-  const shadowRx = Math.max(7, h * 0.16)
+  const shadowRx = Math.max(7, h * 0.22)
   const shadowRy = Math.max(2.5, h * 0.04)
   return (
     <g className="cursor-pointer transition-all duration-300">
@@ -768,19 +768,18 @@ function HumanSilhouette({ h, x, groundY, active, label }: { h: number; x: numbe
       {active && (
         <ellipse cx={x} cy={groundY - h / 2} rx={Math.max(12, h * 0.2)} ry={h * 0.52} fill="rgba(233, 198, 123, 0.15)" />
       )}
-      {/* Height pillar. No human figure is drawn: people, and above all the Prophets, are never depicted. */}
-      <rect
-        x={x - Math.max(5, h * 0.07)}
-        y={groundY - h}
-        width={Math.max(10, h * 0.14)}
-        height={h}
-        rx={Math.max(5, h * 0.07)}
-        fill={active ? 'url(#pillar-active)' : 'rgba(233,198,123,0.18)'}
-        stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.25)'}
-        strokeWidth="1.2"
-      />
+      {/* A faceless pictogram, drawn like the figure on a road sign: a scale marker, not a portrait. It has no face,
+          hands or features, and is the same for everyone, so no person, and no Prophet, is depicted. */}
+      <g transform={`translate(${x}, ${groundY - h}) scale(${h / 100})`} fill={active ? 'url(#figure-active)' : 'rgba(233,198,123,0.22)'} stroke={active ? '#e9c67b' : 'rgba(255,255,255,0.3)'} strokeWidth="1.2">
+        <circle cx="0" cy="8.5" r="8.5" vectorEffect="non-scaling-stroke" />
+        <rect x="-12" y="19.5" width="24" height="36" rx="6" vectorEffect="non-scaling-stroke" />
+        <rect x="-19.5" y="20.5" width="6" height="31" rx="3" vectorEffect="non-scaling-stroke" />
+        <rect x="13.5" y="20.5" width="6" height="31" rx="3" vectorEffect="non-scaling-stroke" />
+        <rect x="-11" y="52" width="10" height="48" rx="4.5" vectorEffect="non-scaling-stroke" />
+        <rect x="1" y="52" width="10" height="48" rx="4.5" vectorEffect="non-scaling-stroke" />
+      </g>
       <defs>
-        <linearGradient id="pillar-active" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="figure-active" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#fbe6b0" />
           <stop offset="1" stopColor="#a8823c" />
         </linearGradient>

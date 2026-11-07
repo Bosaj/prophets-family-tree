@@ -15,12 +15,17 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - **Spanish**: the interface, every page above, the source and level names, the Qur’an translation (Julio Cortés), and the names, titles, missions and stories of the prophets and their close family. Older long texts show in English until they are translated.
 - `npm run verify:duas` (also in CI): all 34 Arabic supplications are found in the hadith they cite, the grades of the Sunan are listed, and every Qur’an and hadith reference of the new pages exists.
 
+### Fixed
+- Dark map: CARTO’s dark tiles now require an API key and showed “API KEY REQUIRED” on every tile. The dark style uses Esri’s Dark Gray Canvas, which needs none. The map style buttons are translated.
+
 ### Fixed — accuracy
 - Prophets’ tree: the Ibrahim–Lut line was drawn and highlighted as a parent line, so Lut looked like Ibrahim’s son. Lut is his nephew (Qur’an 29:26 and the tradition); the line now has its own kind, colour and legend entry, and every line names its relation (son, daughter, wife, nephew, descendant, brothers, maternal cousins, guardian, possibly his son).
 - Sahaba tree: every line names its relation in four languages, with the full relation in the figure’s card. The Ottomans were drawn as heirs of Mu‘awiyah; the line now says that the caliphate title passed to them from the Abbasids in 1517. Mohammed VI is Mohammed V’s grandson (son of Hassan II), not his successor “line”. Al-Mansur descends from the Prophet’s uncle al-‘Abbas, not from the Prophet. Al-Hasan’s cession of the caliphate to Mu‘awiyah (41 AH) is shown.
 - The well-known Ta’if supplication (“O Allah, to You I complain of my weakness…”) is shown with its weak chain (al-Albani, al-Silsila al-Da‘ifa 2933), next to the authentic Ta’if words in al-Bukhari 3231.
 
 ### Changed
+- Stature: the height pillars are now a faceless pictogram, drawn like the figure on a road sign (round head, rounded body and limbs, no face or features), so a height reads as a human scale without portraying anyone.
+- One Arabic typeface across the site: Reem Kufi. Duas, hadith quotes and Arabic text set in serif, monospace or SVG labels fell back to Windows system fonts (Times, Courier, Segoe); every font stack now ends in Reem Kufi, and Amiri is no longer loaded. Only Qur’an verses (Amiri Quran) and the author’s name (Bouazzi Maghribi) keep their own fonts.
 - Nature: the animated sun-and-shadow stage and the moving animals are gone; cards are still and open the animal’s sheet.
 - Header: the main pages stay in the bar and the rest move to a “More” menu, so the bar fits at every width.
 - References can cite Sunan Abi Dawud, al-Nasa’i and Ibn Majah (sunnah.com numbering).

@@ -1027,7 +1027,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                       <text
                         y={r + 35}
                         textAnchor="middle"
-                        fontFamily="Sora Variable, sans-serif"
+                        fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                         fontSize={10.5}
                         fill="#cbd5e1"
                         fontWeight={500}
@@ -1055,7 +1055,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                           textAnchor="middle"
                           fontSize="8.5"
                           fill={isProphet ? '#fde047' : isHadithMaster ? '#7dd3fc' : '#94a3b8'}
-                          fontFamily="Sora Variable, sans-serif"
+                          fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                           fontWeight={600}
                         >
                           {dateText}
@@ -1086,7 +1086,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 return (
                   <g key={`label-${idx}`} transform={`translate(${p.x},${p.y}) scale(${s})`} className="pointer-events-none select-none">
                     <rect x={-w / 2} y={-9} width={w} height={18} rx={9} fill="rgba(6, 8, 20, 0.92)" stroke={touchesActive ? '#facc15' : 'rgba(255,255,255,0.18)'} strokeWidth={0.9} />
-                    <text y={3.6} textAnchor="middle" fontSize={fs} fontWeight={600} fill={touchesActive ? '#fde68a' : '#e2e8f0'} fontFamily={lang === 'ar' ? 'Reem Kufi Variable, serif' : 'Sora Variable, sans-serif'}>
+                    <text y={3.6} textAnchor="middle" fontSize={fs} fontWeight={600} fill={touchesActive ? '#fde68a' : '#e2e8f0'} fontFamily={lang === 'ar' ? 'Reem Kufi Variable, serif' : 'Sora Variable, Reem Kufi Variable, sans-serif'}>
                       {text}
                     </text>
                   </g>

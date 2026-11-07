@@ -1000,7 +1000,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                           fontSize="6.5"
                           fontWeight="700"
                           fill="#ffffff"
-                          fontFamily="sans-serif"
+                          fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                         >
                           {scriptureBook.id === 'quran' ? '١' : scriptureBook.versionsCount}
                         </text>
@@ -1022,7 +1022,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     <text
                       y={r + 44}
                       textAnchor="middle"
-                      fontFamily="Sora Variable, sans-serif"
+                      fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                       fontSize={12}
                       fill="#c3bdd2"
                       letterSpacing={0.4}
@@ -1048,7 +1048,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                         textAnchor="middle"
                         fontSize="9.5"
                         fill={prophet ? '#f6e3b4' : spouse ? '#ff85a1' : '#cbd5e1'}
-                        fontFamily="Sora Variable, sans-serif"
+                        fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                         fontWeight={500}
                         letterSpacing="0.2"
                       >

@@ -14,8 +14,12 @@
 @theme {
   --font-sans: 'Sora Variable', 'Reem Kufi Variable', system-ui, sans-serif;
   --font-display: 'Reem Kufi Variable', 'Sora Variable', serif;
-  --font-naskh: 'Amiri', 'Reem Kufi Variable', serif;
-  --font-quran: 'Amiri Quran', 'Amiri', serif;
+  /* One Arabic typeface for the whole site: Reem Kufi. Only Qur'an verses (Amiri Quran, the Mushaf style) and the
+     author's name (Bouazzi Maghribi) differ. Every stack ends in Reem Kufi so Arabic never falls back to a system font. */
+  --font-naskh: 'Reem Kufi Variable', serif;
+  --font-serif: ui-serif, Georgia, Cambria, 'Reem Kufi Variable', serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Reem Kufi Variable', monospace;
+  --font-quran: 'Amiri Quran', 'Reem Kufi Variable', serif;
   --font-maghribi: 'Bouazzi Maghribi', 'Amiri', serif;
 
   --color-night: #04050d;
