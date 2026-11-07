@@ -638,7 +638,7 @@ export function StatureView() {
         <div className="glass rounded-3xl p-6 sm:p-10 border-gold/30">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
             <div>
-              <span className="chip text-gold text-xs font-semibold">{pick(activeDesc.honorific)}</span>
+              <span className="chip text-gold text-xs font-semibold whitespace-normal max-w-full">{pick(activeDesc.honorific)}</span>
               <h3 className="mt-2 text-3xl sm:text-4xl font-bold text-ink">
                 <span className="ar-name gold-text me-3">{activeDesc.name.ar}</span>
                 {lang !== 'ar' && <span className="font-light text-ink-2">· {pick(activeDesc.name)}</span>}

@@ -480,6 +480,187 @@ function ElephantSvg({ animated = true }: { animated?: boolean }) {
   )
 }
 
+const STILL = 'w-full h-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.45)]'
+
+function CamelSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 40 70 C 46 50 62 48 70 60 C 78 44 96 42 104 58 C 112 60 120 62 124 70 L 132 52 C 136 44 146 42 150 48 L 156 50 L 150 56 L 140 58 L 132 78 C 130 84 124 86 118 84 L 116 120 L 110 120 L 110 88 L 66 88 L 64 120 L 58 120 L 58 86 C 48 84 40 80 40 70 Z" fill="#c2924e" stroke="#7c5a2a" strokeWidth="1.5" />
+      <path d="M 70 88 L 72 120 M 104 88 L 104 120" stroke="#7c5a2a" strokeWidth="4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function DonkeySvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 44 66 C 44 56 54 52 66 54 L 118 54 C 124 46 130 34 134 26 L 138 22 L 140 34 L 146 24 L 148 38 C 156 44 158 54 152 60 L 140 62 C 134 64 128 72 124 76 L 122 120 L 116 120 L 114 84 L 64 84 L 62 120 L 56 120 L 54 82 C 46 80 42 72 44 66 Z" fill="#8a8f98" stroke="#4b5563" strokeWidth="1.5" />
+      <path d="M 72 84 L 74 120 M 106 84 L 106 120" stroke="#4b5563" strokeWidth="4" strokeLinecap="round" />
+      <path d="M 44 66 C 36 70 34 80 36 88" stroke="#4b5563" strokeWidth="2" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function LocustSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 30 78 C 50 70 100 66 140 70 C 150 72 156 78 150 84 C 120 88 70 90 34 86 Z" fill="#b8a14a" stroke="#6b5d1e" strokeWidth="1.5" />
+      <path d="M 50 74 C 80 56 120 54 138 66" fill="rgba(234,220,160,0.55)" stroke="#8a7a2e" strokeWidth="1.2" />
+      <circle cx="146" cy="76" r="4" fill="#3f3a1a" />
+      <path d="M 96 86 L 80 104 L 66 112 M 110 86 L 100 110 M 120 84 L 132 102 M 150 72 Q 166 56 172 50" stroke="#6b5d1e" strokeWidth="2" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function FrogSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <ellipse cx="90" cy="88" rx="44" ry="26" fill="#4d7c3a" stroke="#2f4f23" strokeWidth="1.5" />
+      <circle cx="70" cy="62" r="11" fill="#5b8f45" stroke="#2f4f23" strokeWidth="1.5" />
+      <circle cx="110" cy="62" r="11" fill="#5b8f45" stroke="#2f4f23" strokeWidth="1.5" />
+      <circle cx="70" cy="61" r="4.5" fill="#111" />
+      <circle cx="110" cy="61" r="4.5" fill="#111" />
+      <path d="M 50 100 C 34 108 30 118 44 120 L 62 116 M 130 100 C 146 108 150 118 136 120 L 118 116" stroke="#2f4f23" strokeWidth="4" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function QuailSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <ellipse cx="88" cy="86" rx="40" ry="26" fill="#a47648" stroke="#5e4126" strokeWidth="1.5" />
+      <circle cx="128" cy="66" r="14" fill="#8b6239" stroke="#5e4126" strokeWidth="1.5" />
+      <path d="M 141 66 L 152 70 L 141 72 Z" fill="#3f2d1a" />
+      <circle cx="132" cy="62" r="2.5" fill="#111" />
+      <path d="M 60 80 C 76 72 96 74 110 84" stroke="#e8d3b0" strokeWidth="2" fill="none" />
+      <path d="M 84 112 L 82 122 M 96 112 L 98 122" stroke="#5e4126" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function FlySvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <ellipse cx="70" cy="50" rx="30" ry="12" transform="rotate(-20 70 50)" fill="rgba(224,242,254,0.5)" stroke="#94a3b8" strokeWidth="1" />
+      <ellipse cx="110" cy="50" rx="30" ry="12" transform="rotate(20 110 50)" fill="rgba(224,242,254,0.5)" stroke="#94a3b8" strokeWidth="1" />
+      <ellipse cx="90" cy="80" rx="16" ry="24" fill="#334155" stroke="#1e293b" strokeWidth="1.5" />
+      <circle cx="90" cy="54" r="11" fill="#1e293b" />
+      <circle cx="84" cy="52" r="4.5" fill="#7f1d1d" />
+      <circle cx="96" cy="52" r="4.5" fill="#7f1d1d" />
+      <path d="M 76 82 L 56 98 M 76 90 L 58 112 M 104 82 L 124 98 M 104 90 L 122 112" stroke="#1e293b" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function MothSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 90 70 C 70 40 30 36 26 58 C 22 80 60 88 90 78 Z" fill="#8a7a6a" stroke="#4a4036" strokeWidth="1.5" />
+      <path d="M 90 70 C 110 40 150 36 154 58 C 158 80 120 88 90 78 Z" fill="#8a7a6a" stroke="#4a4036" strokeWidth="1.5" />
+      <path d="M 90 78 C 72 92 50 104 46 92 C 44 84 66 80 90 78 Z M 90 78 C 108 92 130 104 134 92 C 136 84 114 80 90 78 Z" fill="#6f6254" stroke="#4a4036" strokeWidth="1.2" />
+      <ellipse cx="90" cy="76" rx="5" ry="18" fill="#3b332b" />
+      <path d="M 88 60 Q 80 46 72 42 M 92 60 Q 100 46 108 42" stroke="#3b332b" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function SheepSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 46 78 C 40 64 52 52 64 56 C 68 44 86 42 94 52 C 102 42 120 46 122 58 C 136 58 140 74 130 82 C 132 94 118 100 108 96 C 100 104 82 104 74 96 C 60 100 46 92 46 78 Z" fill="#ece7dc" stroke="#9c9486" strokeWidth="1.5" />
+      <ellipse cx="138" cy="70" rx="12" ry="10" fill="#3b3631" />
+      <path d="M 70 96 L 70 120 M 84 98 L 84 120 M 104 98 L 104 120 M 118 94 L 118 120" stroke="#3b3631" strokeWidth="4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function SnakeSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 20 104 C 40 84 60 124 80 104 C 100 84 120 124 140 100 C 150 88 158 82 166 84" stroke="#c9a46a" strokeWidth="11" fill="none" strokeLinecap="round" />
+      <path d="M 20 104 C 40 84 60 124 80 104 C 100 84 120 124 140 100 C 150 88 158 82 166 84" stroke="#8a6a3a" strokeWidth="2" strokeDasharray="3 6" fill="none" strokeLinecap="round" />
+      <circle cx="168" cy="83" r="2" fill="#111" />
+    </svg>
+  )
+}
+
+function GrapesSvg() {
+  const berries = [[80, 50], [96, 50], [112, 50], [72, 64], [88, 64], [104, 64], [120, 64], [80, 78], [96, 78], [112, 78], [88, 92], [104, 92], [96, 106]]
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 96 40 C 96 30 100 24 108 20" stroke="#6b4f2a" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M 104 30 C 120 18 140 22 142 34 C 128 38 116 36 104 30 Z" fill="#4d7c3a" />
+      {berries.map(([x, y], i) => <circle key={i} cx={x} cy={y} r="8.5" fill="#6d3a8a" stroke="#3f1f52" strokeWidth="1" />)}
+    </svg>
+  )
+}
+
+function MustardSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 90 124 L 90 40 M 90 80 L 70 60 M 90 70 L 112 50 M 90 100 L 114 84" stroke="#5f7d3a" strokeWidth="3" fill="none" strokeLinecap="round" />
+      {[[90, 36], [68, 56], [114, 46], [116, 80], [82, 30], [98, 30]].map(([x, y], i) => <circle key={i} cx={x} cy={y} r="6" fill="#e0c13a" />)}
+      <circle cx="140" cy="118" r="3" fill="#3a2a1a" />
+      <circle cx="148" cy="120" r="3" fill="#3a2a1a" />
+    </svg>
+  )
+}
+
+function WheatSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      {[70, 90, 110].map((x, k) => (
+        <g key={k}>
+          <path d={`M ${x} 128 L ${x} 46`} stroke="#b08a3a" strokeWidth="2.5" />
+          {[0, 1, 2, 3, 4].map((i) => (
+            <g key={i}>
+              <ellipse cx={x - 6} cy={52 + i * 12} rx="5" ry="8" transform={`rotate(-25 ${x - 6} ${52 + i * 12})`} fill="#d9b25a" />
+              <ellipse cx={x + 6} cy={52 + i * 12} rx="5" ry="8" transform={`rotate(25 ${x + 6} ${52 + i * 12})`} fill="#d9b25a" />
+            </g>
+          ))}
+          <path d={`M ${x} 46 L ${x} 26`} stroke="#c9a24a" strokeWidth="1" />
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+function VegetablesSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 52 112 C 30 112 26 84 44 72 C 50 66 52 58 52 50 C 54 58 56 66 62 72 C 80 84 74 112 52 112 Z" fill="#c9824a" stroke="#7a4a24" strokeWidth="1.5" />
+      <path d="M 52 50 L 50 38 M 52 50 L 58 40" stroke="#5f7d3a" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M 100 112 C 84 112 82 92 94 84 L 100 70 L 106 84 C 118 92 116 112 100 112 Z" fill="#efe6d2" stroke="#a89a7a" strokeWidth="1.5" />
+      <path d="M 120 86 C 130 74 150 76 158 84 C 160 100 150 108 136 104 C 126 102 118 96 120 86 Z" fill="#5f8a3a" stroke="#3a5a22" strokeWidth="1.5" />
+      {[[70, 120], [78, 122], [86, 120], [94, 122], [102, 120], [110, 122]].map(([x, y], i) => <ellipse key={i} cx={x} cy={y} rx="4" ry="2.6" fill="#b5652e" />)}
+    </svg>
+  )
+}
+
+function BasilSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 66 124 L 114 124 L 108 104 L 72 104 Z" fill="#b5652e" stroke="#7a4120" strokeWidth="1.5" />
+      <path d="M 90 104 L 90 50" stroke="#4d7c3a" strokeWidth="3" />
+      {[[74, 92, -35], [106, 88, 35], [76, 74, -30], [104, 70, 30], [80, 58, -25], [100, 54, 25], [90, 44, 0]].map(([x, y, r], i) => (
+        <ellipse key={i} cx={x} cy={y} rx="12" ry="7" transform={`rotate(${r} ${x} ${y})`} fill="#5f9a45" stroke="#3a6a28" strokeWidth="1" />
+      ))}
+    </svg>
+  )
+}
+
+function CamphorTreeSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className={STILL}>
+      <path d="M 86 124 L 88 84 L 80 70 M 88 84 L 98 68" stroke="#6b4f2a" strokeWidth="6" fill="none" strokeLinecap="round" />
+      <circle cx="90" cy="54" r="30" fill="#4d7c3a" />
+      <circle cx="64" cy="66" r="20" fill="#5b8f45" />
+      <circle cx="116" cy="64" r="22" fill="#5b8f45" />
+      <circle cx="90" cy="36" r="18" fill="#6aa04f" />
+    </svg>
+  )
+}
+
 function MosquitoSvg() {
   return (
     <svg viewBox="0 0 180 140" className="w-full h-full drop-shadow-[0_10px_20px_rgba(148,163,184,0.35)]">
@@ -1234,6 +1415,36 @@ function RenderOrganismSilhouette({ id, animated = true }: { id: string; animate
       return <WatermelonSvg animated={animated} />
     case 'ba_udah':
       return <MosquitoSvg />
+    case 'ibil':
+      return <CamelSvg />
+    case 'himar':
+      return <DonkeySvg />
+    case 'jarad':
+      return <LocustSvg />
+    case 'dafda':
+      return <FrogSvg />
+    case 'salwa':
+      return <QuailSvg />
+    case 'dhubab':
+      return <FlySvg />
+    case 'farash':
+      return <MothSvg />
+    case 'ghanam':
+      return <SheepSvg />
+    case 'hayyah':
+      return <SnakeSvg />
+    case 'inab':
+      return <GrapesSvg />
+    case 'khardal':
+      return <MustardSvg />
+    case 'sunbulah':
+      return <WheatSvg />
+    case 'baql':
+      return <VegetablesSvg />
+    case 'rayhan':
+      return <BasilSvg />
+    case 'kafur':
+      return <CamphorTreeSvg />
     default:
       // An organism with no drawing yet shows its photo only; never another creature's drawing.
       return null
@@ -1262,6 +1473,7 @@ export function NatureView() {
     { id: 'mammals', label: { en: 'Mammals & Beasts', fr: 'Mammifères & Bêtes', ar: 'الثدييات والأنعام' } },
     { id: 'insects', label: { en: 'Insects & Micro', fr: 'Insectes & Minuscules', ar: 'الحشرات والخلائق الدقيقة' } },
     { id: 'marine', label: { en: 'Marine & Sea', fr: 'Monde Marin & Océans', ar: 'الكائنات البحرية' } },
+    { id: 'reptiles', label: { en: 'Reptiles & Amphibians', fr: 'Reptiles & Amphibiens', ar: 'الزواحف والبرمائيات', es: 'Reptiles y anfibios' } },
   ]
 
   const PLANT_CATEGORIES: { id: PlantCategory | 'all'; label: Record<string, string> }[] = [
@@ -1275,7 +1487,7 @@ export function NatureView() {
 
   const filteredAnimals = useMemo(() => {
     return QURAN_SUNNAH_ANIMALS.filter((a) => {
-      if (animalCategory !== 'all' && a.category !== animalCategory) return false
+      if (animalCategory !== 'all' && a.category !== animalCategory && !(animalCategory === 'reptiles' && a.category === 'amphibians')) return false
       if (sourceFilter !== 'all' && a.source !== sourceFilter) return false
       if (!query.trim()) return true
       const q = query.toLowerCase()
@@ -1329,11 +1541,11 @@ export function NatureView() {
 
       {/* Primary Tab Switcher: Animals vs Plants */}
       <div className="flex justify-center mb-8">
-        <div className="inline-flex items-center rounded-2xl border border-white/10 bg-white/5 p-1.5 shadow-xl backdrop-blur-xl">
+        <div className="inline-flex max-w-full items-center rounded-2xl border border-white/10 bg-white/5 p-1.5 shadow-xl backdrop-blur-xl">
           <button
             type="button"
             onClick={() => setActiveTab('animals')}
-            className={`flex items-center gap-2.5 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all cursor-pointer ${
+            className={`flex min-w-0 items-center gap-2 rounded-xl px-3 py-2.5 text-xs sm:gap-2.5 sm:px-5 sm:text-sm font-semibold text-start transition-all cursor-pointer ${
               activeTab === 'animals'
                 ? 'bg-gold text-night shadow-[0_0_15px_rgba(233,198,123,0.4)]'
                 : 'text-ink-2 hover:text-ink'
@@ -1349,7 +1561,7 @@ export function NatureView() {
           <button
             type="button"
             onClick={() => setActiveTab('plants')}
-            className={`flex items-center gap-2.5 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all cursor-pointer ${
+            className={`flex min-w-0 items-center gap-2 rounded-xl px-3 py-2.5 text-xs sm:gap-2.5 sm:px-5 sm:text-sm font-semibold text-start transition-all cursor-pointer ${
               activeTab === 'plants'
                 ? 'bg-gold text-night shadow-[0_0_15px_rgba(233,198,123,0.4)]'
                 : 'text-ink-2 hover:text-ink'
@@ -1366,9 +1578,9 @@ export function NatureView() {
 
       {/* Filter and Search Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
           {/* Category Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+          <div className="flex min-w-0 max-w-full items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
             {activeTab === 'animals'
               ? ANIMAL_CATEGORIES.map((cat) => (
                   <button
@@ -1469,7 +1681,7 @@ export function NatureView() {
                         <p className="text-xs font-mono text-ink-3 italic">{animal.scientificName}</p>
                       </div>
                       {lang !== 'ar' && (
-                        <span className="ar-name gold-text text-lg font-bold shrink-0">{animal.name.ar}</span>
+                        <span className="ar-name gold-text text-lg font-bold min-w-0 text-end">{animal.name.ar}</span>
                       )}
                     </div>
 
@@ -1564,7 +1776,7 @@ export function NatureView() {
                         <p className="text-xs font-mono text-ink-3 italic">{plant.scientificName}</p>
                       </div>
                       {lang !== 'ar' && (
-                        <span className="ar-name gold-text text-lg font-bold shrink-0">{plant.name.ar}</span>
+                        <span className="ar-name gold-text text-lg font-bold min-w-0 text-end">{plant.name.ar}</span>
                       )}
                     </div>
 

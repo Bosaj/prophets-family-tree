@@ -624,7 +624,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
       {/* View Switcher & Search Bar */}
       <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         {/* View Mode Tabs */}
-        <div className="inline-flex rounded-2xl border border-white/10 bg-night-2 p-1 text-xs font-semibold shadow-inner">
+        <div className="inline-flex max-w-full overflow-x-auto no-scrollbar rounded-2xl border border-white/10 bg-night-2 p-1 text-xs font-semibold shadow-inner">
           <button
             type="button"
             onClick={() => setViewMode('tree')}

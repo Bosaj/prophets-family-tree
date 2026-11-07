@@ -103,14 +103,14 @@ export function SalihinView() {
 
       {/* Main Tab Switcher */}
       <div className="flex justify-center mb-10">
-        <div className="glass flex items-center p-1.5 rounded-full border border-gold/30 shadow-lg">
+        <div className="glass flex max-w-full items-center p-1.5 rounded-3xl sm:rounded-full border border-gold/30 shadow-lg">
           <button
             type="button"
             onClick={() => {
               setActiveTab('salihin')
               setQuery('')
             }}
-            className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
+            className={`flex min-w-0 items-center gap-2 rounded-full px-3 py-2.5 text-xs sm:px-5 sm:text-sm text-start font-semibold transition-all ${
               activeTab === 'salihin'
                 ? 'bg-gold text-night shadow-[0_0_15px_rgba(233,198,123,0.5)]'
                 : 'text-ink-2 hover:text-ink'
@@ -126,7 +126,7 @@ export function SalihinView() {
               setActiveTab('stories')
               setQuery('')
             }}
-            className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
+            className={`flex min-w-0 items-center gap-2 rounded-full px-3 py-2.5 text-xs sm:px-5 sm:text-sm text-start font-semibold transition-all ${
               activeTab === 'stories'
                 ? 'bg-gold text-night shadow-[0_0_15px_rgba(233,198,123,0.5)]'
                 : 'text-ink-2 hover:text-ink'
@@ -201,7 +201,7 @@ export function SalihinView() {
               >
                 {/* Header: Key Virtue chip & Era badge */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="chip text-gold text-xs leading-normal">{pick(fig.keyVirtue)}</span>
+                  <span className="chip text-gold text-xs leading-normal whitespace-normal text-start max-w-full">{pick(fig.keyVirtue)}</span>
                   <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono shrink-0">
                     {pick(fig.era)}
                   </span>
@@ -312,7 +312,7 @@ export function SalihinView() {
               >
                 {/* Header: Surah chip & Setting badge */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="chip text-gold text-xs leading-normal">{pick(story.surahName)}</span>
+                  <span className="chip text-gold text-xs leading-normal whitespace-normal text-start max-w-full">{pick(story.surahName)}</span>
                   <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono shrink-0">
                     {pick(story.historicalSetting)}
                   </span>

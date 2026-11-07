@@ -251,7 +251,7 @@ function DayPartCard({ id, active }: { id: DayPartId; active: boolean }) {
   const { pick } = useI18n()
   const d = DAY_PARTS.find((x) => x.id === id)!
   return (
-    <li id={`part-${id}`} className={`rounded-3xl border p-5 transition-colors sm:p-6 ${active ? 'border-gold/60 bg-gold/[0.07] shadow-[0_0_30px_rgba(233,198,123,0.12)]' : 'border-white/10 bg-white/[0.02]'}`}>
+    <li id={`part-${id}`} className={`min-w-0 rounded-3xl border p-5 transition-colors sm:p-6 ${active ? 'border-gold/60 bg-gold/[0.07] shadow-[0_0_30px_rgba(233,198,123,0.12)]' : 'border-white/10 bg-white/[0.02]'}`}>
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h3 className="text-lg font-semibold text-ink sm:text-xl">{pick(d.title)}</h3>
         {active && <span className="chip text-gold">{pick(UI.now)}</span>}
@@ -277,7 +277,7 @@ function DayPartCard({ id, active }: { id: DayPartId; active: boolean }) {
             const a = ADHKAR[k]
             if (!a) return null
             return (
-              <div key={k}>
+              <div key={k} className="min-w-0">
                 <p className="mb-1.5 text-sm font-medium text-gold">{pick(a.title)}</p>
                 <DuaCard d={a} compact />
                 {a.count && a.count > 1 && <Counter target={a.count} />}
