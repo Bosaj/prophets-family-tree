@@ -17,11 +17,11 @@ import {
   Footprints,
 } from 'lucide-react'
 import type L from 'leaflet'
-import { useI18n } from '../i18n'
+import { legacy, useI18n } from '../i18n'
 import { byId, prophets } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'
-import { A, FactText, Scene } from './ui'
+import { A, FactText, Scene, WithQuran } from './ui'
 
 type MapStyle = 'satellite' | 'dark' | 'terrain'
 type SiteCategory = 'all' | 'sanctuary' | 'mountain' | 'well' | 'city'
@@ -1432,14 +1432,14 @@ export function TopographyMap({ focus }: { focus?: string }) {
         attribution = 'Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap'
         subdomains = 'abc'
       } else {
-        // Dark theme
-        tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-        attribution = '&copy; OpenStreetMap contributors &copy; CARTO'
-        subdomains = 'abcd'
+        // Dark theme. CARTO's dark tiles now ask for an API key (they draw 'API KEY REQUIRED' on every tile),
+        // so the dark map uses Esri's Dark Gray Canvas, which needs none.
+        tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+        attribution = 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
       }
 
       const tileLayer = Leaflet.tileLayer(tileUrl, {
-        maxZoom: 18,
+        maxZoom: mapStyle === 'dark' ? 16 : 18,
         subdomains,
         attribution,
       }).addTo(map)
@@ -1501,7 +1501,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
           })
 
           polyline.bindTooltip(
-            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px; color: ${r.color};">${r.name[lang]}</div>`,
+            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px; color: ${r.color};">${r.name[legacy(lang)]}</div>`,
             { sticky: true, className: 'leaflet-tooltip-dark' }
           )
 
@@ -1527,7 +1527,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   background: #080b1c;
                   border: 2px solid ${selectedRoute.color};
                   color: #ffffff;
-                  font-family: ui-sans-serif, system-ui;
+                  font-family: 'Sora Variable', 'Reem Kufi Variable', ui-sans-serif, system-ui;
                   font-size: 11px;
                   font-weight: 800;
                   box-shadow: 0 0 14px ${selectedRoute.color};
@@ -1543,7 +1543,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
             const marker = Leaflet.marker([stop.lat, stop.lng], { icon: stopIcon })
             marker.bindTooltip(
-              `<div style="font-family: inherit; font-size: 11px; font-weight: 700; padding: 3px 6px;">${index + 1}. ${stop.name[lang]}</div>`,
+              `<div style="font-family: inherit; font-size: 11px; font-weight: 700; padding: 3px 6px;">${index + 1}. ${stop.name[legacy(lang)]}</div>`,
               { direction: 'top', offset: [0, -12] }
             )
             marker.on('click', () => {
@@ -1603,7 +1603,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             map.flyTo([site.lat, site.lng], Math.max(map.getZoom(), 8), { duration: 1 })
           })
           marker.bindTooltip(
-            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px;">${site.name[lang]}</div>`,
+            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px;">${site.name[legacy(lang)]}</div>`,
             { direction: 'top', offset: [0, -10] },
           )
           marker.addTo(sitesGroup)
@@ -1773,7 +1773,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             }`}
           >
             <Compass className="size-3.5" />
-            <span>Satellite</span>
+            <span>{({ en: 'Satellite', fr: 'Satellite', ar: 'قمر صناعي', es: 'Satélite' } as const)[lang]}</span>
           </button>
           <button
             type="button"
@@ -1785,7 +1785,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             }`}
           >
             <Sparkles className="size-3.5" />
-            <span>Dark</span>
+            <span>{({ en: 'Dark', fr: 'Sombre', ar: 'داكنة', es: 'Oscuro' } as const)[lang]}</span>
           </button>
           <button
             type="button"
@@ -1797,7 +1797,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             }`}
           >
             <Mountain className="size-3.5" />
-            <span>Terrain</span>
+            <span>{({ en: 'Terrain', fr: 'Relief', ar: 'تضاريس', es: 'Relieve' } as const)[lang]}</span>
           </button>
         </div>
 
@@ -1873,7 +1873,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   : 'text-ink-2 hover:text-ink hover:bg-white/10'
               }`}
             >
-              {era.label[lang]}
+              {era.label[legacy(lang)]}
             </button>
           ))}
         </div>
@@ -1978,16 +1978,16 @@ export function TopographyMap({ focus }: { focus?: string }) {
                       className="size-3 shrink-0 rounded-full"
                       style={{ backgroundColor: r.color, boxShadow: `0 0 8px ${r.color}` }}
                     />
-                    <span className="text-xs font-bold text-ink">{r.name[lang]}</span>
+                    <span className="text-xs font-bold text-ink">{r.name[legacy(lang)]}</span>
                   </div>
                   <span className="ar-name text-sm text-gold">{r.name.ar}</span>
                 </div>
                 <p className="mt-1.5 text-[0.7rem] leading-relaxed text-ink-3 line-clamp-2">
-                  {r.desc[lang]}
+                  {r.desc[legacy(lang)]}
                 </p>
                 <div className="mt-2 flex items-center justify-between w-full text-[0.65rem] text-ink-3">
                   <span className="rounded-full bg-white/5 px-2 py-0.5 text-gold-2">
-                    {r.period[lang]}
+                    {r.period[legacy(lang)]}
                   </span>
                   <span>{r.stops.length} waypoints</span>
                 </div>
@@ -2056,7 +2056,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                       onClick={() => flyToSite(s)}
                       className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-start text-xs text-ink hover:bg-sky-400/15 transition-colors"
                     >
-                      <span className="font-semibold text-sky-200">{s.name[lang]}</span>
+                      <span className="font-semibold text-sky-200">{s.name[legacy(lang)]}</span>
                       <span className="text-[0.65rem] uppercase text-ink-3">{s.type}</span>
                     </button>
                   ))}
@@ -2076,7 +2076,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                       onClick={() => handleSelectRoute(r)}
                       className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-start text-xs text-ink hover:bg-emerald-400/15 transition-colors"
                     >
-                      <span className="font-semibold text-emerald-200">{r.name[lang]}</span>
+                      <span className="font-semibold text-emerald-200">{r.name[legacy(lang)]}</span>
                       <span className="ar-name text-xs text-gold">{r.name.ar}</span>
                     </button>
                   ))}
@@ -2098,10 +2098,10 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   style={{ backgroundColor: selectedRoute.color, boxShadow: `0 0 8px ${selectedRoute.color}` }}
                 />
                 <span className="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-300">
-                  {selectedRoute.period[lang]}
+                  {selectedRoute.period[legacy(lang)]}
                 </span>
               </div>
-              <h3 className="mt-1 text-base font-bold text-ink sm:text-lg">{selectedRoute.name[lang]}</h3>
+              <h3 className="mt-1 text-base font-bold text-ink sm:text-lg">{selectedRoute.name[legacy(lang)]}</h3>
               <p className="ar-name text-xl font-bold text-gold">{selectedRoute.name.ar}</p>
             </div>
             <button
@@ -2114,7 +2114,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
           </div>
 
           <p className="mt-3 text-xs leading-relaxed text-ink-2">
-            {selectedRoute.desc[lang]}
+            {selectedRoute.desc[legacy(lang)]}
           </p>
 
           {/* Associated Prophet Jump Button */}
@@ -2160,13 +2160,13 @@ export function TopographyMap({ focus }: { focus?: string }) {
                     <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-400/20 text-[0.65rem] font-extrabold text-emerald-300">
                       {idx + 1}
                     </span>
-                    <span className="text-xs font-bold text-ink">{stop.name[lang]}</span>
+                    <span className="text-xs font-bold text-ink">{stop.name[legacy(lang)]}</span>
                   </div>
                   <span className="ar-name text-xs text-gold">{stop.name.ar}</span>
                 </div>
 
                 <p className="mt-1.5 ps-7 text-[0.7rem] leading-relaxed text-ink-3">
-                  {stop.desc[lang]}
+                  {stop.desc[legacy(lang)]}
                 </p>
 
                 <div className="mt-2 flex items-center justify-between ps-7 text-[0.65rem]">
@@ -2207,7 +2207,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   </span>
                 )}
               </div>
-              <h3 className="mt-1.5 text-lg font-bold text-ink sm:text-xl">{selectedSite.name[lang]}</h3>
+              <h3 className="mt-1.5 text-lg font-bold text-ink sm:text-xl">{selectedSite.name[legacy(lang)]}</h3>
               <p className="ar-name text-2xl font-bold text-gold">{selectedSite.name.ar}</p>
             </div>
             <button
@@ -2219,7 +2219,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             </button>
           </div>
 
-          <p className="mt-4 text-xs leading-relaxed text-ink-2">{selectedSite.desc[lang]}</p>
+          <p className="mt-4 text-xs leading-relaxed text-ink-2">{selectedSite.desc[legacy(lang)]}</p>
 
           {/* Associated Prophet link if present */}
           {selectedSite.prophetId && byId.get(selectedSite.prophetId) && (
@@ -2330,7 +2330,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   {selectedPerson.topography.sacredSites.map((s, idx) => (
                     <li key={idx} className="rounded-xl border border-white/5 bg-white/[0.02] p-2.5">
                       <span className="font-semibold text-ink">{pick(s.name)}</span>
-                      {s.desc && <p className="text-ink-3 mt-0.5 leading-snug">{pick(s.desc)}</p>}
+                      {s.desc && <p className="text-ink-3 mt-0.5 leading-snug"><WithQuran text={pick(s.desc)} /></p>}
                     </li>
                   ))}
                 </ul>

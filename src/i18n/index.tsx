@@ -8,13 +8,16 @@ const STORE = 'shajara:lang'
 export function initialLang(): Lang {
   try {
     const saved = JSON.parse(localStorage.getItem(STORE) ?? 'null') as Lang | null
-    if (saved === 'ar' || saved === 'fr' || saved === 'en') return saved
+    if (saved === 'ar' || saved === 'fr' || saved === 'en' || saved === 'es') return saved
   } catch {
     /* storage blocked */
   }
   const n = (typeof navigator !== 'undefined' ? navigator.language : '').toLowerCase()
-  return n.startsWith('fr') ? 'fr' : n.startsWith('en') ? 'en' : 'ar'
+  return n.startsWith('fr') ? 'fr' : n.startsWith('es') ? 'es' : n.startsWith('en') ? 'en' : 'ar'
 }
+
+/** Older inline texts carry only en/fr/ar; Spanish readers get the English one. */
+export const legacy = (l: Lang): 'en' | 'fr' | 'ar' => (l === 'es' ? 'en' : l)
 
 interface Ctx {
   lang: Lang
@@ -48,7 +51,7 @@ export function I18nProvider({ children, lang: forced }: { children: ReactNode; 
       lang,
       setLang,
       dir: lang === 'ar' ? 'rtl' : 'ltr',
-      pick: (v) => v[lang],
+      pick: (v) => v[lang] ?? v.en,
       t: (k, vars) => {
         let s = STRINGS[lang][k]
         if (vars) for (const [name, val] of Object.entries(vars)) s = s.replace(`{${name}}`, String(val))

@@ -4,7 +4,7 @@ import { I18nProvider } from './i18n'
 import App from './App'
 import { navigate } from './lib/router'
 
-const renderAt = async (path: string, lang: 'en' | 'fr' | 'ar' = 'en') => {
+const renderAt = async (path: string, lang: 'en' | 'fr' | 'ar' | 'es' = 'en') => {
   navigate(path, { replace: true })
   const view = render(
     <I18nProvider lang={lang}>
@@ -87,9 +87,35 @@ describe('App', () => {
     expect(document.querySelector('.leaflet-container')).toBeNull()
   })
 
+  it('renders the Prophet’s supplications, quoting each text with its source', async () => {
+    await renderAt('/duas')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('What he said at each moment of his life')
+    expect(screen.getByText('اللَّهُمَّ الرَّفِيقَ الأَعْلَى')).toBeInTheDocument()
+    expect(screen.getAllByText(/Weak chain/).length).toBeGreaterThan(0)
+  })
+
+  it('renders today’s prayer times and the day guide', async () => {
+    await renderAt('/times')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('The times of prayer and of the day')
+    expect(screen.getByText('Next prayer')).toBeInTheDocument()
+    expect(screen.getByText('The last third of the night')).toBeInTheDocument()
+  })
+
+  it('shows the prophets’ stories in Spanish', async () => {
+    await renderAt('/p/musa', 'es')
+    expect(screen.getAllByText(/Moisés/).length).toBeGreaterThan(0)
+    expect(screen.getByText(/Allah abrió el mar para los creyentes/)).toBeInTheDocument()
+  })
+
+  it('renders the introduction to Islam in Spanish', async () => {
+    await renderAt('/islam', 'es')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('¿Qué es el islam?')
+    expect(screen.getByText('Los cinco pilares')).toBeInTheDocument()
+  })
+
   it('renders the creatures, flora and prophetic medicine page', async () => {
     await renderAt('/nature')
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Creatures, Flora & Prophetic Medicine/i)
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Animals, Flora & Prophetic Medicine/i)
     expect(screen.getAllByText(/Hoopoe/i).length).toBeGreaterThan(0)
     // Check that Upupa epops is explicitly explained so users understand the biological name
     expect(screen.getAllByText(/Upupa epops/i).length).toBeGreaterThan(0)

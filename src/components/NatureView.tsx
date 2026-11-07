@@ -1,16 +1,12 @@
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import {
   BookOpen,
   Compass,
   Eye,
   Heart,
   Leaf,
-  Moon,
-  Pause,
-  Play,
   Search,
   Sparkles,
-  Sun,
   Volume2,
   X,
   Zap,
@@ -26,8 +22,11 @@ import {
   type AnimalEntry,
   type PlantFoodEntry,
 } from '../data/nature'
-import { RefChip } from './ui'
-import { audioUrl, loadPassage } from '../lib/quran'
+import { LevelChip, RefChip } from './ui'
+import { WHY_MENTIONED } from '../data/natureWisdom'
+import type { L4 } from '../data/types'
+
+const WHY_TITLE: L4 = { en: 'Why is it mentioned?', fr: 'Pourquoi est-il mentionné ?', ar: 'لماذا ذُكر؟', es: '¿Por qué se menciona?' }
 
 // --- Audio Synthesizer & Speech Engine ---
 
@@ -477,6 +476,31 @@ function ElephantSvg({ animated = true }: { animated?: boolean }) {
       </g>
       <path d="M 52 102 C 45 118 48 140 46 155" stroke="#334155" strokeWidth="2.5" fill="none" />
       <ellipse cx="46" cy="157" rx="3" ry="5" fill="#1e293b" />
+    </svg>
+  )
+}
+
+function MosquitoSvg() {
+  return (
+    <svg viewBox="0 0 180 140" className="w-full h-full drop-shadow-[0_10px_20px_rgba(148,163,184,0.35)]">
+      <defs>
+        <linearGradient id="mosquitoGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#cbd5e1" />
+          <stop offset="100%" stopColor="#475569" />
+        </linearGradient>
+      </defs>
+      {/* wings */}
+      <ellipse cx="78" cy="48" rx="34" ry="9" transform="rotate(-18 78 48)" fill="rgba(224, 242, 254, 0.5)" stroke="#94a3b8" strokeWidth="1" />
+      <ellipse cx="86" cy="54" rx="30" ry="7" transform="rotate(-6 86 54)" fill="rgba(224, 242, 254, 0.4)" stroke="#94a3b8" strokeWidth="1" />
+      {/* long thin legs */}
+      <path d="M 92 74 L 70 92 L 52 120 M 98 75 L 92 98 L 86 126 M 104 74 L 118 96 L 132 122 M 96 72 L 74 80 L 44 84 M 102 72 L 124 82 L 150 86 M 106 70 L 128 64 L 156 70" stroke="#64748b" strokeWidth="1.4" fill="none" strokeLinecap="round" />
+      {/* abdomen, thorax, head */}
+      <path d="M 40 66 C 52 60 74 64 92 70 C 80 76 56 78 40 72 Z" fill="url(#mosquitoGrad)" />
+      <ellipse cx="100" cy="70" rx="11" ry="8" fill="url(#mosquitoGrad)" />
+      <circle cx="115" cy="68" r="6" fill="#334155" />
+      {/* proboscis and antennae */}
+      <path d="M 120 70 L 150 80" stroke="#334155" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M 118 64 Q 128 54 136 52 M 117 63 Q 124 50 130 46" stroke="#64748b" strokeWidth="1.1" fill="none" strokeLinecap="round" />
     </svg>
   )
 }
@@ -1208,15 +1232,18 @@ function RenderOrganismSilhouette({ id, animated = true }: { id: string; animate
       return <GingerSvg />
     case 'battikh':
       return <WatermelonSvg animated={animated} />
+    case 'ba_udah':
+      return <MosquitoSvg />
     default:
-      return <DatePalmSvg animated={animated} />
+      // An organism with no drawing yet shows its photo only; never another creature's drawing.
+      return null
   }
 }
 
 // --- Main Interactive View Component ---
 
 export function NatureView() {
-  const { lang, pick } = useI18n()
+  const { lang, pick, t } = useI18n()
 
   const [activeTab, setActiveTab] = useState<'animals' | 'plants'>('animals')
   const [animalCategory, setAnimalCategory] = useState<AnimalCategory | 'all'>('all')
@@ -1225,43 +1252,9 @@ export function NatureView() {
   const [query, setQuery] = useState('')
 
   // Interactive Stage Controls
-  const [selectedAnimalId, setSelectedAnimalId] = useState<string>('hudhud')
-  const [selectedPlantId, setSelectedPlantId] = useState<string>('nakhl_tamr')
-  const [isMotionActive, setIsMotionActive] = useState<boolean>(true)
-  const [showRealPhoto, setShowRealPhoto] = useState<boolean>(false)
-  const [sunAngle, setSunAngle] = useState<number>(65) // 15 to 165 degrees
-  const [shadowIntensity, setShadowIntensity] = useState<number>(65) // 20 to 100%
-  const [isOrbiting, setIsOrbiting] = useState<boolean>(false)
-  const [isDraggingSky, setIsDraggingSky] = useState<boolean>(false)
-
-  // Live celestial orbit physics simulation
-  useEffect(() => {
-    if (!isOrbiting) return
-    let animId: number
-    let lastTime = performance.now()
-    const orbitSpeed = 12 // degrees per second
-
-    const step = (now: number) => {
-      const dt = (now - lastTime) / 1000
-      lastTime = now
-      setSunAngle((prev) => {
-        const next = prev + orbitSpeed * dt
-        return next > 165 ? 15 : next
-      })
-      animId = requestAnimationFrame(step)
-    }
-
-    animId = requestAnimationFrame(step)
-    return () => cancelAnimationFrame(animId)
-  }, [isOrbiting])
-
   // Detail Modal / Sheet
   const [detailItem, setDetailItem] = useState<AnimalEntry | PlantFoodEntry | null>(null)
   const [modalShowPhoto, setModalShowPhoto] = useState<boolean>(false)
-
-  // Qur'an Audio State
-  const [isPlayingAyah, setIsPlayingAyah] = useState<boolean>(false)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const ANIMAL_CATEGORIES: { id: AnimalCategory | 'all'; label: Record<string, string> }[] = [
     { id: 'all', label: { en: 'All Animals', fr: 'Tous les animaux', ar: 'جميع الكائنات' } },
@@ -1314,79 +1307,6 @@ export function NatureView() {
     })
   }, [plantCategory, sourceFilter, query])
 
-  const activeAnimal = QURAN_SUNNAH_ANIMALS.find((a) => a.id === selectedAnimalId) ?? QURAN_SUNNAH_ANIMALS[0]!
-  const activePlant = QURAN_SUNNAH_PLANTS.find((p) => p.id === selectedPlantId) ?? QURAN_SUNNAH_PLANTS[0]!
-  const currentActive = activeTab === 'animals' ? activeAnimal : activePlant
-
-  // --- Real Astronomical Physics Coordinates ---
-  // Sun travels from Left (Dawn/East, 15°) to Zenith (Noon, 90°) to Right (Sunset/West, 165°)
-  const sunXPercent = (sunAngle / 180) * 100
-  // Arc altitude: High at noon (16% top), low at dawn/dusk (66% top)
-  const sunYPercent = 70 - Math.sin((sunAngle * Math.PI) / 180) * 54
-
-  // Luminous Celestial Moon opposite the Sun in the sky
-  const moonXPercent = 100 - (sunAngle / 180) * 100
-  const moonYPercent = 74 - Math.sin(((180 - sunAngle) * Math.PI) / 180) * 48
-  const moonOpacity = sunAngle <= 55 ? 0.9 : sunAngle >= 125 ? 0.9 : 0.28
-
-  // Ground shadow casts in the OPPOSITE direction of the sun
-  // If sun is on left (sunAngle < 90), shadow points to the right!
-  const shadowSkew = (90 - sunAngle) * 0.95
-  const shadowTranslateX = (90 - sunAngle) * 0.65
-  const shadowStretch = 1 + Math.abs(sunAngle - 90) / 48
-  const shadowBlur = 4 + Math.abs(sunAngle - 90) / 18
-  const shadowOpacity = (shadowIntensity / 100) * (0.85 - Math.abs(sunAngle - 90) / 380)
-
-  // Solar Time Period Label
-  const timePeriodLabel = useMemo(() => {
-    if (sunAngle <= 38) {
-      return { en: 'Dawn / Sunrise', fr: 'Aube / Lever', ar: 'الفجر / الشروق' }
-    } else if (sunAngle <= 75) {
-      return { en: 'Morning Sun (Duha)', fr: 'Matinée (Douha)', ar: 'الضحى والصباح' }
-    } else if (sunAngle <= 105) {
-      return { en: 'Solar Noon (Zahirah)', fr: 'Zénith / Midi', ar: 'الظهيرة والزوال' }
-    } else if (sunAngle <= 142) {
-      return { en: 'Afternoon (Asr)', fr: 'Après-midi (Asr)', ar: 'العصر والظلال' }
-    } else {
-      return { en: 'Sunset (Maghrib)', fr: 'Crépuscule / Coucher', ar: 'الغروب والشفق' }
-    }
-  }, [sunAngle])
-
-  // Stop Ayah audio when switching item
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current = null
-      setIsPlayingAyah(false)
-    }
-  }, [selectedAnimalId, selectedPlantId, activeTab])
-
-  // Handle Play Qur'an Ayah
-  const togglePlayAyah = async (refStr?: string) => {
-    if (isPlayingAyah && audioRef.current) {
-      audioRef.current.pause()
-      setIsPlayingAyah(false)
-      return
-    }
-    const targetRef = refStr ?? currentActive.quranRefs[0]
-    if (!targetRef) return
-    try {
-      const passage = await loadPassage(targetRef, lang)
-      if (passage.ayahs.length > 0) {
-        const firstAyah = passage.ayahs[0]!
-        const url = audioUrl(firstAyah.number)
-        const a = new Audio(url)
-        audioRef.current = a
-        a.onended = () => setIsPlayingAyah(false)
-        a.onerror = () => setIsPlayingAyah(false)
-        await a.play()
-        setIsPlayingAyah(true)
-      }
-    } catch {
-      setIsPlayingAyah(false)
-    }
-  }
-
   return (
     <div className="mx-auto max-w-7xl px-4 pt-4 pb-16 sm:px-6">
       {/* Top Banner / Hero Title */}
@@ -1402,16 +1322,8 @@ export function NatureView() {
           </span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink">
-          <span className="ar-name gold-text block mb-1">
-            {lang === 'ar' ? 'حيوانات ونباتات القرآن الكريم والطب النبوي' : 'Creatures, Flora & Prophetic Medicine'}
-          </span>
-          <span className="text-base sm:text-xl font-light text-ink-2">
-            {lang === 'ar'
-              ? 'سجل وثائقي شامل لجميع الكائنات المذكورة، قصصها، حركتها، وظلالها، والفوائد الطبية والغذائية'
-              : lang === 'fr'
-              ? 'Encyclopédie visuelle : rôles historiques, mouvements, ombres portées et vertus médicales'
-              : 'Complete documentary compendium: scripture narratives, motions, shadow projections, and medicinal benefits'}
-          </span>
+          <span className="ar-name gold-text block mb-1">{t('natureTitle')}</span>
+          <span className="text-base sm:text-xl font-light text-ink-2">{t('natureLead')}</span>
         </h1>
       </div>
 
@@ -1449,441 +1361,6 @@ export function NatureView() {
               {QURAN_SUNNAH_PLANTS.length}
             </span>
           </button>
-        </div>
-      </div>
-
-      {/* Interactive Astronomical Sun & Shadow Theater Stage */}
-      <div className="glass rounded-3xl p-6 sm:p-8 mb-10 border border-gold/30 shadow-2xl relative overflow-hidden">
-        {/* Stage Header Info & Controls */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
-          <div>
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
-              <Sun className="size-4" />
-              <span>
-                {lang === 'ar'
-                  ? 'مسرح الظلال والشمس الفلكي التفاعلي'
-                  : lang === 'fr'
-                  ? 'Théâtre astronomique du soleil et des ombres'
-                  : 'Interactive Celestial Sun & Shadow Stage'}
-              </span>
-            </div>
-            {/* Title with Arabic deduplication */}
-            <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1 flex items-center gap-3">
-              <span>{pick(currentActive.name)}</span>
-              {lang !== 'ar' && (
-                <span className="ar-name text-gold text-lg font-normal">
-                  {currentActive.name.ar}
-                </span>
-              )}
-            </h2>
-          </div>
-
-          {/* Interactive Controls Bar */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            {/* Audio Voice: Pronounce Arabic Name */}
-            <button
-              type="button"
-              onClick={() => speakArabic(currentActive.name.ar)}
-              title={lang === 'ar' ? 'نطق الاسم بالعربية' : 'Pronounce Arabic Name'}
-              className="flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs font-medium text-gold hover:bg-gold/20 transition-colors cursor-pointer"
-            >
-              <Volume2 className="size-3.5" />
-              <span>{lang === 'ar' ? 'نطق الاسم' : 'Pronounce'}</span>
-            </button>
-
-            {/* Audio Soundscape Call / Atmosphere */}
-            <button
-              type="button"
-              onClick={() => soundEngine.playFor(currentActive.id)}
-              title={lang === 'ar' ? 'صوت الكائن أو الطبيعة' : 'Natural Sound / Call'}
-              className="flex items-center gap-1.5 rounded-full border border-sky-400/30 bg-sky-400/10 px-3 py-1.5 text-xs font-medium text-sky-300 hover:bg-sky-400/20 transition-colors cursor-pointer"
-            >
-              <Zap className="size-3.5" />
-              <span>{lang === 'ar' ? 'صوت الطبيعة' : 'Sound Call'}</span>
-            </button>
-
-            {/* Recite Qur'an Ayah Audio Button */}
-            {currentActive.quranRefs.length > 0 && (
-              <button
-                type="button"
-                onClick={() => togglePlayAyah()}
-                title={lang === 'ar' ? 'استمع لتلاوة الآية الكريمة بصوت العفاسي' : 'Listen to Qur’an Ayah recitation'}
-                className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
-                  isPlayingAyah
-                    ? 'border-emerald-400/50 bg-emerald-500/20 text-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.5)]'
-                    : 'border-white/15 bg-white/5 text-ink-2 hover:border-gold/40 hover:text-ink'
-                }`}
-              >
-                {isPlayingAyah ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
-                <span>
-                  {isPlayingAyah
-                    ? (lang === 'ar' ? 'إيقاف التلاوة' : 'Pause Recitation')
-                    : (lang === 'ar' ? 'تلاوة الآية' : 'Recite Ayah')}
-                </span>
-              </button>
-            )}
-
-            {/* Motion Toggle */}
-            <button
-              type="button"
-              onClick={() => setIsMotionActive((m) => !m)}
-              className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
-                isMotionActive ? 'border-gold/40 bg-gold/15 text-gold' : 'border-white/15 bg-white/5 text-ink-3'
-              }`}
-            >
-              {isMotionActive ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
-              <span>{isMotionActive ? (lang === 'ar' ? 'حركة الكائن' : 'Motion') : (lang === 'ar' ? 'سكون' : 'Paused')}</span>
-            </button>
-
-            {/* Real Photo / Silhouette Switch */}
-            <button
-              type="button"
-              onClick={() => setShowRealPhoto((v) => !v)}
-              className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
-                showRealPhoto
-                  ? 'border-gold/50 bg-gold/20 text-gold-2 shadow-[0_0_15px_rgba(233,198,123,0.3)]'
-                  : 'border-white/15 bg-white/5 text-ink-3 hover:text-ink hover:border-white/30'
-              }`}
-              title={lang === 'ar' ? 'عرض الصورة الحقيقية للكائن' : 'Toggle Real Photograph'}
-            >
-              <Sparkles className="size-3.5 text-gold" />
-              <span>{showRealPhoto ? (lang === 'ar' ? 'صورة حقيقية' : 'Real Photo') : (lang === 'ar' ? 'رسم ظلي' : 'Silhouette')}</span>
-            </button>
-
-            {/* Sun Angle Slider & Time Period Badge (Physically consistent LTR) */}
-            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs" dir="ltr">
-              <Sun className="size-3.5 text-gold animate-spin-slow shrink-0" />
-              <input
-                type="range"
-                min="15"
-                max="165"
-                value={sunAngle}
-                onChange={(e) => setSunAngle(Number(e.target.value))}
-                className="w-24 sm:w-28 accent-gold cursor-pointer"
-                dir="ltr"
-                aria-label="Sun Angle"
-              />
-              <span className="font-mono text-gold-2 w-9 text-center shrink-0">{sunAngle}°</span>
-              <span className="text-[0.68rem] text-ink-3 border-s border-white/10 ps-2 hidden sm:inline whitespace-nowrap">
-                {pick(timePeriodLabel)}
-              </span>
-            </div>
-
-            {/* Shadow Depth Slider with Value Display */}
-            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs" dir="ltr">
-              <Moon className="size-3.5 text-gold shrink-0" />
-              <span className="text-[0.68rem] text-ink-3 hidden xs:inline">{lang === 'ar' ? 'الظل' : 'Shadow'}</span>
-              <input
-                type="range"
-                min="20"
-                max="100"
-                value={shadowIntensity}
-                onChange={(e) => setShadowIntensity(Number(e.target.value))}
-                className="w-16 sm:w-20 accent-gold cursor-pointer"
-                dir="ltr"
-                aria-label="Shadow Depth"
-              />
-              <span className="font-mono text-gold-2 w-8 text-center shrink-0">{shadowIntensity}%</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Upupa epops / Hoopoe Clarity Note for User */}
-        {currentActive.id === 'hudhud' && (
-          <div className="mb-3 rounded-xl border border-amber-400/40 bg-gradient-to-r from-amber-500/15 via-amber-400/10 to-transparent p-3 text-xs leading-relaxed text-amber-200 flex items-start gap-3 shadow-sm">
-            <span className="text-xl shrink-0">🪶</span>
-            <div>
-              <div className="font-bold text-amber-300 text-sm mb-0.5">
-                {lang === 'ar'
-                  ? 'طائر الهُدْهُد (Upupa epops) · طائر نبي الله سليمان عليه السلام'
-                  : lang === 'fr'
-                  ? 'La Huppe fasciée (Upupa epops) · L’oiseau du Prophète Salomon'
-                  : 'The Hoopoe (Upupa epops) · Prophet Solomon’s Bird'}
-              </div>
-              <p className="text-ink-2 text-xs">
-                {lang === 'ar'
-                  ? '«Upupa epops» هو الاسم العلمي اللاتيني المصنّف عالمياً لطائر الهُدْهُد، وهو الطائر الحكيم والمستكشف الصادق الذي تفقّده نبي الله سليمان وحمل رسالة التوحيد إلى ملكة سبأ بلقيس (سورة النمل، الآيات 20-28).'
-                  : lang === 'fr'
-                  ? '« Upupa epops » est le nom scientifique international de la Huppe fasciée (الهدهد), l’oiseau messager du Prophète Salomon qui porta la lettre de foi à la Reine de Saba (Sourate An-Naml 27:20-28).'
-                  : '« Upupa epops » is the recognized scientific binomial name for the Hoopoe (الهدهد), the wise scout bird of Prophet Sulayman (Solomon) who carried the message of monotheism to the Queen of Sheba (Surah An-Naml 27:20-28).'}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Solar Prayer Time Presets & Live Orbit Physics */}
-        <div className="flex flex-wrap items-center gap-1.5 mb-2 px-1">
-          <span className="text-[0.7rem] text-ink-3 font-medium me-1">
-            {lang === 'ar' ? 'مواقيت الشمس:' : 'Sun Orbit:'}
-          </span>
-          {[
-            { angle: 20, en: 'Fajr / Dawn', ar: 'الفجر والصبح', icon: '🌅' },
-            { angle: 55, en: 'Duha / Forenoon', ar: 'الضحى', icon: '☀️' },
-            { angle: 90, en: 'Zhuhr / Midday', ar: 'الظهيرة', icon: '🌞' },
-            { angle: 125, en: 'Asr / Afternoon', ar: 'العصر', icon: '🌤️' },
-            { angle: 165, en: 'Maghrib / Sunset', ar: 'الغروب والشفق', icon: '🌇' },
-          ].map((p) => (
-            <button
-              key={p.angle}
-              type="button"
-              onClick={() => {
-                setIsOrbiting(false)
-                setSunAngle(p.angle)
-              }}
-              className={`rounded-full px-2.5 py-1 text-[0.7rem] transition-colors cursor-pointer flex items-center gap-1 ${
-                Math.abs(sunAngle - p.angle) <= 18
-                  ? 'border border-gold/50 bg-gold/20 text-gold-2 font-semibold shadow-[0_0_10px_rgba(233,198,123,0.2)]'
-                  : 'border border-white/10 bg-white/5 text-ink-3 hover:text-ink hover:border-white/20'
-              }`}
-            >
-              <span>{p.icon}</span>
-              <span>{lang === 'ar' ? p.ar : p.en}</span>
-            </button>
-          ))}
-
-          {/* Live Orbit Physics Loop Toggle */}
-          <button
-            type="button"
-            onClick={() => setIsOrbiting((o) => !o)}
-            className={`rounded-full px-3 py-1 text-[0.7rem] transition-colors cursor-pointer flex items-center gap-1.5 ms-auto ${
-              isOrbiting
-                ? 'border border-amber-400/80 bg-amber-500/25 text-amber-300 font-bold shadow-[0_0_12px_rgba(245,158,11,0.5)] animate-pulse'
-                : 'border border-white/15 bg-white/5 text-ink-2 hover:text-ink hover:border-white/30'
-            }`}
-            title={lang === 'ar' ? 'محاكاة الحركة الفلكية الحية للشمس والأجرام' : 'Live celestial orbit physics loop'}
-          >
-            <span>{isOrbiting ? '⏸️' : '▶️'}</span>
-            <span>{lang === 'ar' ? 'دوران الفلك الحي' : 'Live Orbit Physics'}</span>
-          </button>
-        </div>
-
-        {/* Visual Stage Canvas with Realistic Celestial Sun & Horizon */}
-        <div
-          className={`relative h-72 sm:h-84 w-full rounded-2xl border border-white/10 overflow-hidden flex flex-col justify-end items-center px-4 pb-4 select-none transition-colors duration-500 touch-none group/stage ${
-            isDraggingSky ? 'cursor-grabbing' : 'cursor-grab'
-          }`}
-          onPointerDown={(e) => {
-            setIsDraggingSky(true)
-            setIsOrbiting(false)
-            e.currentTarget.setPointerCapture(e.pointerId)
-            const rect = e.currentTarget.getBoundingClientRect()
-            const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
-            setSunAngle(Math.round(15 + ratio * 150))
-          }}
-          onPointerMove={(e) => {
-            if (!isDraggingSky) return
-            const rect = e.currentTarget.getBoundingClientRect()
-            const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
-            setSunAngle(Math.round(15 + ratio * 150))
-          }}
-          onPointerUp={(e) => {
-            if (isDraggingSky) {
-              setIsDraggingSky(false)
-              try {
-                e.currentTarget.releasePointerCapture(e.pointerId)
-              } catch {
-                // ignore
-              }
-            }
-          }}
-          onPointerCancel={(e) => {
-            if (isDraggingSky) {
-              setIsDraggingSky(false)
-              try {
-                e.currentTarget.releasePointerCapture(e.pointerId)
-              } catch {
-                // ignore
-              }
-            }
-          }}
-          style={{
-            background:
-              sunAngle <= 45
-                ? 'linear-gradient(180deg, #1e1b4b 0%, #311042 35%, #7c2d12 70%, #ca8a04 100%)'
-                : sunAngle >= 135
-                ? 'linear-gradient(180deg, #09090b 0%, #2e1065 40%, #831843 75%, #c2410c 100%)'
-                : 'linear-gradient(180deg, #080b1c 0%, #0f172a 40%, #1e293b 80%, #292524 100%)',
-          }}
-        >
-          {/* Dynamic Celestial Radiant Sunlight Rays */}
-          <div
-            className="absolute inset-0 pointer-events-none transition-all duration-200"
-            style={{
-              background: `radial-gradient(circle at ${sunXPercent}% ${sunYPercent}%, rgba(254, 240, 138, 0.28) 0%, rgba(234, 179, 8, 0.12) 35%, transparent 70%)`,
-            }}
-          />
-
-          {/* Drifting Celestial Clouds Layer (Multi-tiered Volumetric Clouds) */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-            {/* High Altitude Cirrus Cloud */}
-            <div
-              className="absolute top-4 w-96 h-12 rounded-full animate-cloud-slow opacity-75"
-              style={{
-                filter: 'blur(10px)',
-                background:
-                  sunAngle <= 45
-                    ? 'radial-gradient(ellipse, rgba(251,191,36,0.45) 0%, rgba(244,114,182,0.2) 60%, transparent 100%)'
-                    : sunAngle >= 135
-                    ? 'radial-gradient(ellipse, rgba(249,115,22,0.45) 0%, rgba(168,85,247,0.2) 60%, transparent 100%)'
-                    : 'radial-gradient(ellipse, rgba(255,255,255,0.4) 0%, rgba(203,213,225,0.15) 60%, transparent 100%)',
-              }}
-            />
-            {/* Mid Altitude Cumulus Cloud */}
-            <div
-              className="absolute top-12 w-80 h-16 rounded-full animate-cloud-mid opacity-60"
-              style={{
-                filter: 'blur(14px)',
-                background:
-                  sunAngle <= 45
-                    ? 'radial-gradient(ellipse, rgba(245,158,11,0.35) 0%, rgba(147,51,234,0.15) 60%, transparent 100%)'
-                    : sunAngle >= 135
-                    ? 'radial-gradient(ellipse, rgba(234,88,12,0.35) 0%, rgba(126,34,206,0.15) 60%, transparent 100%)'
-                    : 'radial-gradient(ellipse, rgba(255,255,255,0.3) 0%, rgba(148,163,184,0.1) 60%, transparent 100%)',
-              }}
-            />
-            {/* Low Ambient Fluffy Cloud Puff */}
-            <div
-              className="absolute top-20 w-64 h-14 rounded-full animate-cloud-fast opacity-50"
-              style={{
-                filter: 'blur(12px)',
-                background:
-                  sunAngle <= 45
-                    ? 'radial-gradient(ellipse, rgba(253,224,71,0.3) 0%, rgba(244,63,94,0.12) 60%, transparent 100%)'
-                    : sunAngle >= 135
-                    ? 'radial-gradient(ellipse, rgba(251,146,60,0.3) 0%, rgba(192,132,252,0.12) 60%, transparent 100%)'
-                    : 'radial-gradient(ellipse, rgba(255,255,255,0.25) 0%, rgba(226,232,240,0.08) 60%, transparent 100%)',
-              }}
-            />
-          </div>
-
-          {/* Luminous Celestial Moon */}
-          <div
-            className="absolute z-15 pointer-events-none flex items-center justify-center transition-all duration-500 -translate-x-1/2 -translate-y-1/2"
-            style={{
-              left: `${moonXPercent}%`,
-              top: `${moonYPercent}%`,
-              opacity: moonOpacity,
-            }}
-          >
-            {/* Lunar Glow */}
-            <div className="absolute size-24 rounded-full bg-sky-200/20 blur-xl animate-pulse" />
-            <div className="size-8 rounded-full bg-gradient-to-br from-slate-100 via-sky-100 to-slate-300 shadow-[0_0_20px_rgba(224,242,254,0.7)] border border-white/60 relative overflow-hidden">
-              <div className="absolute top-1.5 start-1.5 size-2 rounded-full bg-slate-400/30" />
-              <div className="absolute bottom-2 end-2 size-2.5 rounded-full bg-slate-400/25" />
-            </div>
-          </div>
-
-          {/* Actual Luminous Celestial Sun Body in the Sky */}
-          <div
-            className="absolute z-20 transition-all duration-150 pointer-events-none flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
-            style={{
-              left: `${sunXPercent}%`,
-              top: `${sunYPercent}%`,
-            }}
-          >
-            {/* Solar Outer Corona Flare */}
-            <div className="absolute size-28 rounded-full bg-amber-400/25 blur-xl animate-pulse" />
-            <div className="absolute size-16 rounded-full bg-yellow-300/40 blur-md" />
-            {/* Core Sun Disc */}
-            <div className="size-10 rounded-full bg-gradient-to-br from-white via-amber-200 to-yellow-500 shadow-[0_0_25px_rgba(251,191,36,0.9),0_0_50px_rgba(245,158,11,0.6)] border border-white/80" />
-          </div>
-
-          {/* Organism Display in Stage Show (Hover disabled here per user request; toggles on button click) */}
-          <div
-            className="relative z-10 w-48 sm:w-60 h-48 sm:h-60 flex items-center justify-center"
-            title={lang === 'ar' ? 'مسرح الظل والحركة' : 'Shadow Theater Stage'}
-          >
-            {/* Silhouette View */}
-            <div
-              className={`w-full h-full flex items-center justify-center transition-opacity duration-500 ${
-                showRealPhoto ? 'opacity-0 pointer-events-none absolute' : 'opacity-100'
-              }`}
-            >
-              <RenderOrganismSilhouette id={currentActive.id} animated={isMotionActive} />
-            </div>
-
-            {/* Real Photograph View (Toggled exclusively via Button) */}
-            <div
-              className={`w-44 sm:w-52 h-44 sm:h-52 rounded-2xl overflow-hidden border-2 border-gold/60 shadow-[0_10px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(233,198,123,0.4)] transition-all duration-500 relative flex items-center justify-center bg-night-2 ${
-                showRealPhoto ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none absolute'
-              }`}
-            >
-              <img
-                src={`${import.meta.env.BASE_URL}nature/${currentActive.id}.jpg`}
-                alt={currentActive.scientificName}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
-              <div className="absolute bottom-2 inset-x-2 text-center">
-                <span className="text-[0.7rem] font-bold text-gold drop-shadow-md bg-black/60 px-2 py-0.5 rounded-full border border-gold/30">
-                  {(photoCredits as Record<string, Credit>)[currentActive.id]?.generated
-                    ? lang === 'ar' ? 'صورة مولّدة' : lang === 'fr' ? 'Image générée' : 'Generated image'
-                    : lang === 'ar' ? 'صورة فوتوغرافية' : lang === 'fr' ? 'Photographie' : 'Photograph'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Scientifically Accurate Ground Projected Shadow */}
-          <div
-            className="relative z-0 h-4 rounded-[100%] transition-transform duration-100"
-            style={{
-              width: `${135 * shadowStretch}px`,
-              backgroundColor: `rgba(0, 0, 0, ${shadowOpacity})`,
-              filter: `blur(${shadowBlur}px)`,
-              transform: `skewX(${shadowSkew}deg) translateX(${shadowTranslateX}px) translateY(4px)`,
-              opacity: isMotionActive ? undefined : 0.85,
-            }}
-          />
-
-          {/* Realistic Desert Sand Dunes & Sculpted Ground */}
-          <div className="w-full relative mt-2 pointer-events-none">
-            <svg viewBox="0 0 1200 65" preserveAspectRatio="none" className="w-full h-12 sm:h-14 block">
-              <defs>
-                <linearGradient id="sandDuneBack" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#78350f" stopOpacity="0.85" />
-                  <stop offset="50%" stopColor="#92400e" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#451a03" stopOpacity="0.95" />
-                </linearGradient>
-                <linearGradient id="sandDuneFront" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#d97706" stopOpacity="0.95" />
-                  <stop offset="35%" stopColor="#f59e0b" stopOpacity="0.92" />
-                  <stop offset="70%" stopColor="#b45309" stopOpacity="0.95" />
-                  <stop offset="100%" stopColor="#78350f" stopOpacity="1" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M 0 35 Q 300 15 600 30 T 1200 20 L 1200 65 L 0 65 Z"
-                fill="url(#sandDuneBack)"
-              />
-              <path
-                d="M 0 45 Q 220 22 520 38 T 1000 28 Q 1120 34 1200 40 L 1200 65 L 0 65 Z"
-                fill="url(#sandDuneFront)"
-              />
-              <path
-                d="M 0 45 Q 220 22 520 38 T 1000 28 Q 1120 34 1200 40"
-                fill="none"
-                stroke="rgba(254,240,138,0.45)"
-                strokeWidth="1.5"
-              />
-            </svg>
-          </div>
-
-          <div className="w-full flex justify-between text-[0.65rem] font-mono text-ink-3 pt-1">
-            <span>
-              {'physicalTraits' in currentActive
-                ? pick(currentActive.physicalTraits.size)
-                : pick(currentActive.botanicalTraits.growthForm)}
-            </span>
-            <span className="text-gold font-bold text-center px-2">
-              {pick(currentActive.name)} · {currentActive.scientificName} {currentActive.id === 'hudhud' ? (lang === 'ar' ? '· طائر نبي الله سليمان' : '· Prophet Solomon’s Bird') : ''}
-            </span>
-            <span>
-              {'physicalTraits' in currentActive
-                ? pick(currentActive.physicalTraits.habitat)
-                : pick(currentActive.botanicalTraits.habitat)}
-            </span>
-          </div>
         </div>
       </div>
 
@@ -1972,11 +1449,11 @@ export function NatureView() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {activeTab === 'animals'
           ? filteredAnimals.map((animal) => {
-              const isSelected = selectedAnimalId === animal.id
+              const isSelected = detailItem?.id === animal.id
               return (
                 <div
                   key={animal.id}
-                  onClick={() => setSelectedAnimalId(animal.id)}
+                  onClick={() => setDetailItem(animal)}
                   className={`glass group relative rounded-2xl p-5 border transition-all duration-300 flex flex-col justify-between cursor-pointer ${
                     isSelected
                       ? 'border-gold shadow-[0_0_20px_rgba(233,198,123,0.3)] bg-gold/[0.04]'
@@ -2000,7 +1477,7 @@ export function NatureView() {
                     <div className="relative my-4 h-44 sm:h-48 w-full rounded-2xl bg-night-2/80 border border-white/5 flex flex-col items-center justify-center overflow-hidden group/theater">
                       {/* Handcrafted Silhouette View */}
                       <div className="w-24 h-24 relative z-10 transition-all duration-300 group-hover:opacity-0 group-hover:scale-90 flex flex-col items-center justify-center">
-                        <RenderOrganismSilhouette id={animal.id} animated={true} />
+                        <RenderOrganismSilhouette id={animal.id} animated={false} />
                         <div className="w-20 h-2 bg-black/60 rounded-[100%] blur-[3px] -mt-1 animate-shadow-breathe" />
                       </div>
 
@@ -2067,11 +1544,11 @@ export function NatureView() {
               )
             })
           : filteredPlants.map((plant) => {
-              const isSelected = selectedPlantId === plant.id
+              const isSelected = detailItem?.id === plant.id
               return (
                 <div
                   key={plant.id}
-                  onClick={() => setSelectedPlantId(plant.id)}
+                  onClick={() => setDetailItem(plant)}
                   className={`glass group relative rounded-2xl p-5 border transition-all duration-300 flex flex-col justify-between cursor-pointer ${
                     isSelected
                       ? 'border-gold shadow-[0_0_20px_rgba(233,198,123,0.3)] bg-gold/[0.04]'
@@ -2208,7 +1685,7 @@ export function NatureView() {
               {/* Calligraphy banner if available */}
               {'arabicCalligraphy' in detailItem && detailItem.arabicCalligraphy && (
                 <div className="rounded-2xl border border-gold/20 bg-gold/5 px-4 py-2.5 text-center">
-                  <p className="ar-name text-sm sm:text-base text-gold font-['Amiri_Quran',_serif] leading-relaxed">
+                  <p lang="ar" dir="rtl" className="font-quran text-base sm:text-lg text-gold leading-loose">
                     «{detailItem.arabicCalligraphy}»
                   </p>
                 </div>
@@ -2270,12 +1747,27 @@ export function NatureView() {
               ) : (
                 <>
                   <div className="w-36 h-36">
-                    <RenderOrganismSilhouette id={detailItem.id} animated={true} />
+                    <RenderOrganismSilhouette id={detailItem.id} animated={false} />
                   </div>
                   <div className="w-28 h-3 bg-black/60 rounded-[100%] blur-[4px] -mt-1 animate-shadow-breathe" />
                 </>
               )}
             </div>
+
+            {/* Why it is mentioned: the lesson the Qur'an or the Sunnah draws from it */}
+            {WHY_MENTIONED[detailItem.id] && (
+              <div className="mb-6 rounded-2xl border border-gold/30 bg-gold/[0.06] p-4 sm:p-5">
+                <h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-gold mb-2">
+                  <Sparkles className="size-4" />
+                  <span>{pick(WHY_TITLE)}</span>
+                </h3>
+                <p className="text-sm sm:text-base text-ink leading-relaxed">{pick(WHY_MENTIONED[detailItem.id]!.text)}</p>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  <LevelChip level={WHY_MENTIONED[detailItem.id]!.l} />
+                  {WHY_MENTIONED[detailItem.id]!.r.map((r) => <RefChip key={r} r={r} />)}
+                </div>
+              </div>
+            )}
 
             {/* Scripture Context: What They Did */}
             <div className="mb-6 rounded-2xl bg-white/[0.02] border border-white/5 p-4">
@@ -2370,7 +1862,7 @@ export function NatureView() {
                       <BookOpen className="size-3.5" />
                       <span>{h.book} #{h.number}</span>
                     </div>
-                    <p className="text-xs text-ink-2 italic leading-relaxed">"{pick(h.text)}"</p>
+                    <p className={`text-ink-2 leading-relaxed ${lang === 'ar' ? 'font-hadith text-base' : 'text-xs italic'}`}>"{pick(h.text)}"</p>
                   </div>
                 ))}
               </div>

@@ -1,19 +1,4 @@
 {
-  "buraq": {
-    "generated": true,
-    "author": "Generated for Shajara (Higgsfield z_image)",
-    "license": "Project asset (MIT)"
-  },
-  "baqarah": {
-    "generated": true,
-    "author": "Generated for Shajara (Higgsfield z_image)",
-    "license": "Project asset (MIT)"
-  },
-  "hamama": {
-    "generated": true,
-    "author": "Generated for Shajara (Higgsfield z_image)",
-    "license": "Project asset (MIT)"
-  },
   "ankabut": {
     "file": "A_classic_circular_form_spider's_web.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:A_classic_circular_form_spider%27s_web.jpg",
@@ -35,12 +20,29 @@
     "license": "Public domain",
     "licenseUrl": null
   },
+  "ba_udah": {
+    "file": "Anopheles_stephensi.jpeg",
+    "page": "https://commons.wikimedia.org/wiki/File:Anopheles_stephensi.jpeg",
+    "author": "James Gathany, CDC",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Anopheles_stephensi.jpeg"
+  },
+  "baqarah": {
+    "generated": true,
+    "author": "Generated for Shajara (Higgsfield z_image)",
+    "license": "Project asset (MIT)"
+  },
   "battikh": {
     "file": "Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg",
     "page": "https://commons.wikimedia.org/wiki/File:Taiwan_2009_Tainan_City_Organic_Farm_Watermelon_FRD_7962.jpg",
     "author": "Fred Hsu (Wikipedia:User:Fred Hsu on en.wikipedia)",
     "license": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "buraq": {
+    "generated": true,
+    "author": "Generated for Shajara (Higgsfield z_image)",
+    "license": "Project asset (MIT)"
   },
   "dhib_yusuf": {
     "file": "Arabian_wolf_in_Jordan.jpg",
@@ -69,6 +71,11 @@
     "author": "AndreHolz at English Wikipedia",
     "license": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "hamama": {
+    "generated": true,
+    "author": "Generated for Shajara (Higgsfield z_image)",
+    "license": "Project asset (MIT)"
   },
   "hudhud": {
     "file": "Israel._Eurasian_Hoopoe_(6497645007).jpg",

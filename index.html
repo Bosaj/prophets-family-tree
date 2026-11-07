@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>شجرة الأنبياء · Shajara — The Tree of the Prophets</title>
-    <meta name="description" content="An interactive, source-cited family tree and timeline of the 25 Prophets named in the Qur'an — lineage, peoples, signs, families and stories, in Arabic, French and English." />
+    <meta name="description" content="An interactive, source-cited family tree and timeline of the 25 Prophets named in the Qur'an — lineage, Companions, the Prophet's supplications and prayer times, in Arabic, French, English and Spanish." />
     <meta name="theme-color" content="#04050d" />
     <meta name="color-scheme" content="dark" />
     <meta property="og:title" content="شجرة الأنبياء · Shajara — The Tree of the Prophets" />
@@ -21,7 +21,7 @@
       try {
         // same rule as initialLang() in src/i18n, applied before the first paint so the page never flips direction
         var l = JSON.parse(localStorage.getItem('shajara:lang') || 'null')
-        if (l !== 'ar' && l !== 'fr' && l !== 'en') { var n = (navigator.language || '').toLowerCase(); l = n.indexOf('fr') === 0 ? 'fr' : n.indexOf('en') === 0 ? 'en' : 'ar' }
+        if (l !== 'ar' && l !== 'fr' && l !== 'en' && l !== 'es') { var n = (navigator.language || '').toLowerCase(); l = n.indexOf('fr') === 0 ? 'fr' : n.indexOf('es') === 0 ? 'es' : n.indexOf('en') === 0 ? 'en' : 'ar' }
         document.documentElement.lang = l
         document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'
       } catch (e) {}

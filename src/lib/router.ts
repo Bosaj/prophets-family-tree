@@ -8,6 +8,9 @@ export type Route =
   | { name: 'stature' }
   | { name: 'stories' }
   | { name: 'nature' }
+  | { name: 'duas' }
+  | { name: 'times' }
+  | { name: 'islam' }
   | { name: 'sahaba'; focus?: string }
   | { name: 'science'; focus?: string }
   | { name: 'sources' }
@@ -47,6 +50,9 @@ export function parsePath(path: string, search = ''): Route {
   if (p === '/stature') return { name: 'stature' }
   if (p === '/stories') return { name: 'stories' }
   if (p === '/nature') return { name: 'nature' }
+  if (p === '/duas') return { name: 'duas' }
+  if (p === '/times') return { name: 'times' }
+  if (p === '/islam') return { name: 'islam' }
   if (p === '/sahaba') {
     const focus = new URLSearchParams(search).get('focus') ?? undefined
     return focus ? { name: 'sahaba', focus } : { name: 'sahaba' }
@@ -88,6 +94,15 @@ export const hrefOf = (r: Route): string => {
       break
     case 'nature':
       sub = '/nature'
+      break
+    case 'duas':
+      sub = '/duas'
+      break
+    case 'times':
+      sub = '/times'
+      break
+    case 'islam':
+      sub = '/islam'
       break
     case 'sahaba':
       sub = r.focus ? `/sahaba?focus=${r.focus}` : '/sahaba'

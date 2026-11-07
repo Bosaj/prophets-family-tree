@@ -29,9 +29,12 @@ export const BOOKS: Record<string, L3> = {
 }
 
 const HADITH_BOOK: Record<string, L3> = {
-  bukhari: { en: 'Sahih al-Bukhari', fr: 'Sahih al-Bukhari', ar: 'صحيح البخاري' },
-  muslim: { en: 'Sahih Muslim', fr: 'Sahih Muslim', ar: 'صحيح مسلم' },
-  tirmidhi: { en: 'Jami‘ al-Tirmidhi', fr: 'Jami‘ at-Tirmidhi', ar: 'جامع الترمذي' },
+  bukhari: { en: 'Sahih al-Bukhari', fr: 'Sahih al-Bukhari', ar: 'صحيح البخاري', es: 'Sahih al-Bujari' },
+  muslim: { en: 'Sahih Muslim', fr: 'Sahih Muslim', ar: 'صحيح مسلم', es: 'Sahih Muslim' },
+  tirmidhi: { en: 'Jami‘ al-Tirmidhi', fr: 'Jami‘ at-Tirmidhi', ar: 'جامع الترمذي', es: 'Yami‘ at-Tirmidi' },
+  abudawud: { en: 'Sunan Abi Dawud', fr: 'Sunan Abi Dawud', ar: 'سنن أبي داود', es: 'Sunan Abi Dawud' },
+  nasai: { en: 'Sunan al-Nasa’i', fr: 'Sunan an-Nasa’i', ar: 'سنن النسائي', es: 'Sunan an-Nasa’i' },
+  ibnmajah: { en: 'Sunan Ibn Majah', fr: 'Sunan Ibn Majah', ar: 'سنن ابن ماجه', es: 'Sunan Ibn Mayah' },
 }
 
 export type ParsedRef =
@@ -45,7 +48,7 @@ export function parseRef(raw: Ref): ParsedRef {
     const a = Number(q[2])
     return { kind: 'quran', s: Number(q[1]), a, to: q[3] ? Number(q[3]) : a, raw }
   }
-  const h = /^(bukhari|muslim|tirmidhi):(\d+)$/.exec(raw)
+  const h = /^(bukhari|muslim|tirmidhi|abudawud|nasai|ibnmajah):(\d+)$/.exec(raw)
   if (h) return { kind: 'hadith', book: h[1]!, n: Number(h[2]), raw }
   const b = /^book:([a-z]+)$/.exec(raw)
   if (b && BOOKS[b[1]!]) return { kind: 'book', key: b[1]!, raw }
@@ -57,10 +60,10 @@ export function refLabel(raw: Ref, lang: keyof L3): string {
   if (p.kind === 'quran') {
     // Isolate the numbers left-to-right so "20:9–98" never flips inside Arabic text.
     const span = `⁦${p.to > p.a ? `${p.s}:${p.a}–${p.to}` : `${p.s}:${p.a}`}⁩`
-    return lang === 'ar' ? `القرآن ${span}` : lang === 'fr' ? `Coran ${span}` : `Qur’an ${span}`
+    return lang === 'ar' ? `القرآن ${span}` : lang === 'fr' ? `Coran ${span}` : lang === 'es' ? `Corán ${span}` : `Qur’an ${span}`
   }
-  if (p.kind === 'hadith') return `${HADITH_BOOK[p.book]![lang]} ⁦${p.n}⁩`
-  return BOOKS[p.key]![lang]
+  if (p.kind === 'hadith') return `${HADITH_BOOK[p.book]![lang] ?? HADITH_BOOK[p.book]!.en} ⁦${p.n}⁩`
+  return BOOKS[p.key]![lang] ?? BOOKS[p.key]!.en
 }
 
 export function refUrl(raw: Ref): string | null {

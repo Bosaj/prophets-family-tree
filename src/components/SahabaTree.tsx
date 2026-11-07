@@ -20,7 +20,10 @@ import {
   RotateCcw,
 } from 'lucide-react'
 import { useI18n } from '../i18n'
-import type { Lang } from '../data/types'
+import { pathPoint } from '../lib/relations'
+import { SAHABA_STORIES, type StoryPoint } from '../data/sahabaStories'
+import { LevelChip, RefChip } from './ui'
+import type { L4, Lang } from '../data/types'
 import {
   SAHABA_FIGURES,
   SAHABA_ERAS,
@@ -31,8 +34,11 @@ import {
 interface TreeLink {
   from: string
   to: string
-  label?: string
-  type: 'lineage' | 'succession' | 'hadith' | 'mentorship'
+  /** Short name of the relation, shown on the line. */
+  label: L4
+  /** The full relation, shown in the figure's card. */
+  note?: L4
+  type: 'lineage' | 'succession' | 'hadith' | 'mentorship' | 'era'
 }
 
 interface View {
@@ -105,69 +111,175 @@ const SAHABA_NODE_COORDS: Record<string, { x: number; y: number }> = {
   abdulhamid_ii: { x: 1950, y: 1720 },
 }
 
+const r = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
+
+/** Labels of the figure card, in the four site languages. */
+const UI = {
+  reign: r('Reign: ', 'Règne : ', 'الخلافة: ', 'Reinado: '),
+  passed: r('Passed: ', 'Décès : ', 'الوفاة: ', 'Falleció: '),
+  hadiths: r('Hadiths', 'hadiths', 'حديثاً مسنداً', 'hadices'),
+  lineage: r('Lineage', 'Lignée', 'النسب الشريف والأصل', 'Linaje'),
+  mother: r('Mother: ', 'Mère : ', 'الأم الكريمة: ', 'Madre: '),
+  biography: r('Summary', 'Résumé', 'نبذة عن حياته', 'Resumen'),
+  works: r('Works', 'Œuvres', 'المصنفات والمؤلفات الخالدة', 'Obras'),
+  teachers: r('Teachers', 'Maîtres', 'كبار الشيوخ والأساتذة', 'Maestros'),
+  students: r('Students and narrators', 'Élèves et transmetteurs', 'كبار التلاميذ والرواة', 'Alumnos y transmisores'),
+  quotes: r('Sayings', 'Paroles', 'من درر أقوالهم ووصاياهم', 'Dichos'),
+  milestones: r('Milestones', 'Étapes de sa vie', 'محطات تاريخية فارقة في حياته', 'Etapas de su vida'),
+  achievements: r('Achievements', 'Réalisations', 'المآثر والإنجازات الكبرى', 'Logros'),
+  burial: r('Burial place:', 'Lieu de sépulture :', 'المرقد الشريف:', 'Lugar de sepultura:'),
+  viewMap: r('View on map', 'Voir sur la carte', 'عرض على الخريطة', 'Ver en el mapa'),
+  close: r('Close', 'Fermer', 'إغلاق', 'Cerrar'),
+  relations: r('Relations', 'Liens', 'صلاته في الشجرة', 'Relaciones'),
+  story: r('His story', 'Son histoire', 'قصته', 'Su historia'),
+  storyHer: r('Her story', 'Son histoire', 'قصتها', 'Su historia'),
+  challenges: r('Trials he faced', 'Les épreuves', 'المحن التي واجهها', 'Las pruebas'),
+  challengesHer: r('Trials she faced', 'Les épreuves', 'المحن التي واجهتها', 'Las pruebas'),
+  sacrifices: r('What he gave up', 'Ses sacrifices', 'ما ضحّى به', 'Sus sacrificios'),
+  sacrificesHer: r('What she gave up', 'Ses sacrifices', 'ما ضحّت به', 'Sus sacrificios'),
+  readStory: r('Read the story', 'Lire l’histoire', 'اقرأ القصة', 'Leer la historia'),
+  zoomHint: r('Zoom in to read every relation', 'Zoomez pour lire chaque lien', 'كبّر الشجرة لقراءة كل الصلات', 'Acerca para leer cada relación'),
+}
+
+/**
+ * Lines of the tree, each with the name of the relation, read from `from` to `to`.
+ * - lineage: blood or marriage, stated in the hadith collections or the standard genealogies
+ * - succession: who held the caliphate after whom (not a blood link unless the label says so)
+ * - hadith / mentorship: teaching, companionship and transmission
+ * - era: two dynasties joined by a handover of the caliphate title, not by blood
+ */
 const TREE_LINKS: TreeLink[] = [
-  // Prophetic Household (Lineage)
-  { from: 'prophet_muhammad', to: 'fatimah_az_zahra', type: 'lineage', label: 'ابنة' },
-  { from: 'prophet_muhammad', to: 'ali_ibn_abi_talib', type: 'lineage', label: 'ابن عم وصهر' },
-  { from: 'fatimah_az_zahra', to: 'hasan_ibn_ali', type: 'lineage', label: 'ابن' },
-  { from: 'fatimah_az_zahra', to: 'husayn_ibn_ali', type: 'lineage', label: 'ابن' },
-  { from: 'ali_ibn_abi_talib', to: 'hasan_ibn_ali', type: 'lineage', label: 'ابن' },
-  { from: 'ali_ibn_abi_talib', to: 'husayn_ibn_ali', type: 'lineage', label: 'ابن' },
+  // The Prophet's ﷺ household
+  { from: 'prophet_muhammad', to: 'fatimah_az_zahra', type: 'lineage', label: r('Daughter', 'Fille', 'ابنته', 'Hija') },
+  { from: 'prophet_muhammad', to: 'ali_ibn_abi_talib', type: 'lineage', label: r('Cousin & son-in-law', 'Cousin et gendre', 'ابن عمه وصهره', 'Primo y yerno') },
+  { from: 'fatimah_az_zahra', to: 'hasan_ibn_ali', type: 'lineage', label: r('Son', 'Fils', 'ابنها', 'Hijo') },
+  { from: 'fatimah_az_zahra', to: 'husayn_ibn_ali', type: 'lineage', label: r('Son', 'Fils', 'ابنها', 'Hijo') },
+  {
+    from: 'ali_ibn_abi_talib', to: 'hasan_ibn_ali', type: 'lineage', label: r('Son · caliph after him', 'Fils · calife après lui', 'ابنه وخليفته', 'Hijo · califa tras él'),
+    note: r('Son · caliph after him (about 6 months)', 'Fils · calife après lui (environ 6 mois)', 'ابنه · خليفته نحو ستة أشهر', 'Hijo · califa tras él (unos 6 meses)'),
+  },
+  { from: 'ali_ibn_abi_talib', to: 'husayn_ibn_ali', type: 'lineage', label: r('Son', 'Fils', 'ابنه', 'Hijo') },
 
-  // Rashidun Succession
-  { from: 'prophet_muhammad', to: 'abu_bakr', type: 'succession', label: 'الخليفة الأول' },
-  { from: 'abu_bakr', to: 'umar_ibn_khattab', type: 'succession', label: 'الخليفة الثاني' },
-  { from: 'umar_ibn_khattab', to: 'uthman_ibn_affan', type: 'succession', label: 'الخليفة الثالث' },
-  { from: 'uthman_ibn_affan', to: 'ali_ibn_abi_talib', type: 'succession', label: 'الخليفة الرابع' },
-  { from: 'ali_ibn_abi_talib', to: 'hasan_ibn_ali', type: 'succession', label: 'الخليفة الخامس' },
+  // The Rightly Guided Caliphs
+  {
+    from: 'prophet_muhammad', to: 'abu_bakr', type: 'succession', label: r('1st caliph', '1er calife', 'الخليفة الأول', '1.er califa'),
+    note: r('Closest companion, father-in-law, first caliph', 'Compagnon intime, beau-père, premier calife', 'صاحبه وصهره، والخليفة الأول', 'Compañero íntimo, suegro, primer califa'),
+  },
+  {
+    from: 'abu_bakr', to: 'umar_ibn_khattab', type: 'succession', label: r('2nd caliph', '2e calife', 'الخليفة الثاني', '2.º califa'),
+    note: r('Second caliph, named by Abu Bakr', 'Deuxième calife, désigné par Abou Bakr', 'الخليفة الثاني باستخلاف أبي بكر', 'Segundo califa, designado por Abu Bakr'),
+  },
+  {
+    from: 'umar_ibn_khattab', to: 'uthman_ibn_affan', type: 'succession', label: r('3rd caliph', '3e calife', 'الخليفة الثالث', '3.er califa'),
+    note: r('Third caliph, chosen by the council of six', 'Troisième calife, choisi par le conseil des six', 'الخليفة الثالث باختيار أهل الشورى الستة', 'Tercer califa, elegido por el consejo de los seis'),
+  },
+  { from: 'uthman_ibn_affan', to: 'ali_ibn_abi_talib', type: 'succession', label: r('4th caliph', '4e calife', 'الخليفة الرابع', '4.º califa') },
 
-  // Hadith Transmission Chain (Abu Hurairah -> Bukhari -> Muslim)
-  { from: 'prophet_muhammad', to: 'abu_hurairah', type: 'hadith', label: 'رواية السنة' },
-  { from: 'abu_hurairah', to: 'imam_bukhari', type: 'hadith', label: 'أسانيد الصحيح' },
-  { from: 'imam_bukhari', to: 'imam_muslim', type: 'mentorship', label: 'أستاذ وتلميذ' },
+  // Hadith: the companion who narrated most, and the two great compilers
+  {
+    from: 'prophet_muhammad', to: 'abu_hurairah', type: 'hadith', label: r('Companion · narrator', 'Compagnon · rapporteur', 'صحابي وراوية', 'Compañero · transmisor'),
+    note: r('Companion who narrated the most hadith', 'Compagnon qui a rapporté le plus de hadiths', 'صحابي، أكثر الصحابة رواية للحديث', 'Compañero que más hadices transmitió'),
+  },
+  {
+    from: 'abu_hurairah', to: 'imam_bukhari', type: 'hadith', label: r('Chains of narration', 'Chaînes de transmission', 'بالأسانيد', 'Cadenas de transmisión'),
+    note: r('His narrations reached al-Bukhari by chains of narrators', 'Ses récits parvinrent à al-Bukhari par des chaînes de transmetteurs', 'وصلت مروياته إلى البخاري بالأسانيد', 'Sus relatos llegaron a al-Bujari por cadenas de transmisores'),
+  },
+  {
+    from: 'imam_bukhari', to: 'imam_muslim', type: 'mentorship', label: r('Teacher', 'Maître', 'شيخه', 'Maestro'),
+    note: r('Teacher of Imam Muslim', 'Maître de l’imam Muslim', 'شيخ الإمام مسلم', 'Maestro del imam Muslim'),
+  },
 
-  // Continuous Prophetic Dynasties to Today
-  // Hasanid -> Idrisids
-  { from: 'hasan_ibn_ali', to: 'idris_i', type: 'lineage', label: 'حفيد' },
-  // Hasanid -> Alaouites of Morocco
-  { from: 'hasan_ibn_ali', to: 'moulay_ali_cherif', type: 'lineage', label: 'سلالة حسنية' },
-  { from: 'moulay_ali_cherif', to: 'mohammed_v_morocco', type: 'lineage', label: 'سلاطين علويون' },
-  { from: 'mohammed_v_morocco', to: 'king_mohammed_vi', type: 'lineage', label: 'ملك المغرب الحالي' },
-  // Hasanid -> Hashemites of Jordan
-  { from: 'hasan_ibn_ali', to: 'sharif_hussein_hejaz', type: 'lineage', label: 'شرفاء مكة' },
-  { from: 'sharif_hussein_hejaz', to: 'king_hussein_jordan', type: 'lineage', label: 'ملوك الأردن' },
-  { from: 'king_hussein_jordan', to: 'king_abdullah_ii', type: 'lineage', label: 'ملك الأردن الحالي' },
+  // Hasanid lines that still rule today
+  { from: 'hasan_ibn_ali', to: 'idris_i', type: 'lineage', label: r('Great-grandson', 'Arrière-petit-fils', 'ابن حفيده', 'Bisnieto') },
+  {
+    from: 'hasan_ibn_ali', to: 'moulay_ali_cherif', type: 'lineage', label: r('Descendant', 'Descendant', 'من ذريته', 'Descendiente'),
+    note: r('Descendant (Hasanid sharifs of Tafilalt)', 'Descendant (chérifs hassanides du Tafilalet)', 'من ذريته (الشرفاء الحسنيون بتافيلالت)', 'Descendiente (jerifes hasaníes de Tafilalt)'),
+  },
+  {
+    from: 'moulay_ali_cherif', to: 'mohammed_v_morocco', type: 'lineage', label: r('Descendant', 'Descendant', 'من ذريته', 'Descendiente'),
+    note: r('Descendant (Alaouite sultans)', 'Descendant (sultans alaouites)', 'من ذريته (السلاطين العلويون)', 'Descendiente (sultanes alauíes)'),
+  },
+  {
+    from: 'mohammed_v_morocco', to: 'king_mohammed_vi', type: 'lineage', label: r('Grandson', 'Petit-fils', 'حفيده', 'Nieto'),
+    note: r('Grandson (son of Hassan II)', 'Petit-fils (fils de Hassan II)', 'حفيده (ابن الحسن الثاني)', 'Nieto (hijo de Hasán II)'),
+  },
+  {
+    from: 'hasan_ibn_ali', to: 'sharif_hussein_hejaz', type: 'lineage', label: r('Descendant', 'Descendant', 'من ذريته', 'Descendiente'),
+    note: r('Descendant (sharifs of Makkah)', 'Descendant (chérifs de La Mecque)', 'من ذريته (أشراف مكة)', 'Descendiente (jerifes de La Meca)'),
+  },
+  { from: 'sharif_hussein_hejaz', to: 'king_hussein_jordan', type: 'lineage', label: r('Great-grandson', 'Arrière-petit-fils', 'ابن حفيده', 'Bisnieto') },
+  { from: 'king_hussein_jordan', to: 'king_abdullah_ii', type: 'lineage', label: r('Son', 'Fils', 'ابنه', 'Hijo') },
 
-  // Umayyads & Cordoba
-  { from: 'uthman_ibn_affan', to: 'muawiyah_i', type: 'succession', label: 'بنو أمية' },
-  { from: 'muawiyah_i', to: 'abdalmalik_marwan', type: 'succession' },
-  { from: 'abdalmalik_marwan', to: 'umar_ibn_abd_al_aziz', type: 'succession' },
-  { from: 'abdalmalik_marwan', to: 'abdalrahman_i_cordoba', type: 'lineage', label: 'صقر قريش بالأندلس' },
-  { from: 'abdalrahman_i_cordoba', to: 'abdalrahman_iii_cordoba', type: 'succession', label: 'خلافة قرطبة' },
+  // Umayyads, in Damascus then in Cordoba
+  {
+    from: 'hasan_ibn_ali', to: 'muawiyah_i', type: 'succession', label: r('Ceded the caliphate', 'Cession du califat', 'تنازل له عن الخلافة', 'Cesión del califato'),
+    note: r('Al-Hasan gave up the caliphate to him (41 AH)', 'Al-Hasan lui céda le califat (41 H)', 'تنازل له الحسن عن الخلافة (41 هـ)', 'Al-Hasan le cedió el califato (41 H)'),
+  },
+  {
+    from: 'uthman_ibn_affan', to: 'muawiyah_i', type: 'lineage', label: r('Kinsman', 'Parent', 'من قرابته', 'Pariente'),
+    note: r('Kinsman (Banu Umayyah)', 'Parent (Banou Omeyya)', 'من قرابته (بنو أمية)', 'Pariente (Banu Umayya)'),
+  },
+  {
+    from: 'muawiyah_i', to: 'abdalmalik_marwan', type: 'succession', label: r('Umayyad caliphs', 'Califes omeyyades', 'خلفاء بني أمية', 'Califas omeyas'),
+    note: r('Umayyad caliphate (Marwanid branch)', 'Califat omeyyade (branche marwanide)', 'الخلافة الأموية (الفرع المرواني)', 'Califato omeya (rama marwaní)'),
+  },
+  { from: 'abdalmalik_marwan', to: 'umar_ibn_abd_al_aziz', type: 'lineage', label: r('Nephew & son-in-law', 'Neveu et gendre', 'ابن أخيه وصهره', 'Sobrino y yerno') },
+  { from: 'abdalmalik_marwan', to: 'abdalrahman_i_cordoba', type: 'lineage', label: r('Great-grandson', 'Arrière-petit-fils', 'ابن حفيده', 'Bisnieto') },
+  {
+    from: 'abdalrahman_i_cordoba', to: 'abdalrahman_iii_cordoba', type: 'lineage', label: r('Descendant', 'Descendant', 'من ذريته', 'Descendiente'),
+    note: r('Descendant · caliph of Cordoba (316 AH)', 'Descendant · calife de Cordoue (316 H)', 'من ذريته · خليفة قرطبة (316 هـ)', 'Descendiente · califa de Córdoba (316 H)'),
+  },
 
   // Abbasids
-  { from: 'prophet_muhammad', to: 'abu_jafar_mansur', type: 'lineage', label: 'بنو العباس' },
-  { from: 'abu_jafar_mansur', to: 'harun_al_rashid', type: 'succession', label: 'العصر الذهبي' },
-  { from: 'harun_al_rashid', to: 'al_mamun', type: 'succession', label: 'بيت الحكمة' },
+  { from: 'prophet_muhammad', to: 'abu_jafar_mansur', type: 'lineage', label: r('From his uncle al-‘Abbas', 'Par son oncle al-‘Abbas', 'من ذرية عمه العباس', 'Por su tío al-‘Abbas') },
+  { from: 'abu_jafar_mansur', to: 'harun_al_rashid', type: 'lineage', label: r('Grandson', 'Petit-fils', 'حفيده', 'Nieto') },
+  { from: 'harun_al_rashid', to: 'al_mamun', type: 'lineage', label: r('Son', 'Fils', 'ابنه', 'Hijo') },
 
-  // Ottomans
-  { from: 'muawiyah_i', to: 'osman_i', type: 'succession', label: 'انتقال السيادة' },
-  { from: 'osman_i', to: 'mehmed_ii_fatih', type: 'succession', label: 'فتح القسطنطينية' },
-  { from: 'mehmed_ii_fatih', to: 'selim_i_yavuz', type: 'succession', label: 'أول خليفة عثماني' },
-  { from: 'selim_i_yavuz', to: 'suleiman_the_magnificent', type: 'succession', label: 'القانوني' },
-  { from: 'suleiman_the_magnificent', to: 'abdulhamid_ii', type: 'succession', label: 'حامي القدس' },
+  // Ottomans: a separate family. The caliphate title passed to them from the Abbasids of Cairo in 1517.
+  {
+    from: 'al_mamun', to: 'selim_i_yavuz', type: 'era', label: r('Caliphate title, 1517', 'Titre de calife, 1517', 'لقب الخلافة 1517م', 'Título de califa, 1517'),
+    note: r('Caliphate title passed from the Abbasids to the Ottomans (923 AH / 1517)', 'Le titre de calife passa des Abbassides aux Ottomans (923 H / 1517)', 'انتقل لقب الخلافة من العباسيين إلى العثمانيين (923 هـ / 1517 م)', 'El título de califa pasó de los abasíes a los otomanos (923 H / 1517)'),
+  },
+  { from: 'osman_i', to: 'mehmed_ii_fatih', type: 'lineage', label: r('Descendant', 'Descendant', 'من ذريته', 'Descendiente') },
+  { from: 'mehmed_ii_fatih', to: 'selim_i_yavuz', type: 'lineage', label: r('Grandson', 'Petit-fils', 'حفيده', 'Nieto') },
+  { from: 'selim_i_yavuz', to: 'suleiman_the_magnificent', type: 'lineage', label: r('Son', 'Fils', 'ابنه', 'Hijo') },
+  { from: 'suleiman_the_magnificent', to: 'abdulhamid_ii', type: 'lineage', label: r('Descendant', 'Descendant', 'من ذريته', 'Descendiente') },
 
-  // Companions & Luminaries
-  { from: 'prophet_muhammad', to: 'hamzah_ibn_abd_muttalib', type: 'lineage', label: 'عم وأخ رضاعة' },
-  { from: 'prophet_muhammad', to: 'talhah_ibn_ubaydillah', type: 'mentorship' },
-  { from: 'prophet_muhammad', to: 'zubayr_ibn_awwam', type: 'mentorship' },
-  { from: 'prophet_muhammad', to: 'abdurrahman_ibn_awf', type: 'mentorship' },
-  { from: 'prophet_muhammad', to: 'sad_ibn_abi_waqqas', type: 'mentorship' },
-  { from: 'prophet_muhammad', to: 'said_ibn_zayd', type: 'mentorship' },
-  { from: 'prophet_muhammad', to: 'abu_ubaydah_jarrah', type: 'mentorship' },
-  { from: 'prophet_muhammad', to: 'khalid_ibn_walid', type: 'mentorship' },
-  { from: 'prophet_muhammad', to: 'bilal_ibn_rabah', type: 'mentorship' },
-  { from: 'prophet_muhammad', to: 'salman_al_farsi', type: 'mentorship' },
+  // Companions
+  { from: 'prophet_muhammad', to: 'hamzah_ibn_abd_muttalib', type: 'lineage', label: r('Uncle & milk-brother', 'Oncle et frère de lait', 'عمه وأخوه من الرضاعة', 'Tío y hermano de leche') },
+  {
+    from: 'prophet_muhammad', to: 'zubayr_ibn_awwam', type: 'lineage', label: r('Aunt’s son · disciple', 'Fils de sa tante · disciple', 'ابن عمته وحواريّه', 'Hijo de su tía · discípulo'),
+    note: r('Son of his aunt Safiyyah · his disciple (hawari)', 'Fils de sa tante Safiyya · son disciple (hawari)', 'ابن عمته صفية · حواريّه', 'Hijo de su tía Safiyya · su discípulo (hawari)'),
+  },
+  {
+    from: 'prophet_muhammad', to: 'sad_ibn_abi_waqqas', type: 'mentorship', label: r('Maternal kin', 'Parent maternel', 'من أخواله', 'Pariente materno'),
+    note: r('His maternal kin (Banu Zuhrah) · one of the Ten', 'Parent maternel (Banou Zouhra) · l’un des Dix', 'من أخواله (بنو زهرة) · أحد العشرة', 'Pariente materno (Banu Zuhra) · uno de los Diez'),
+  },
+  {
+    from: 'prophet_muhammad', to: 'talhah_ibn_ubaydillah', type: 'mentorship', label: r('One of the Ten', 'L’un des Dix', 'أحد العشرة', 'Uno de los Diez'),
+    note: r('Companion · one of the Ten', 'Compagnon · l’un des Dix', 'صحابي · أحد العشرة', 'Compañero · uno de los Diez'),
+  },
+  {
+    from: 'prophet_muhammad', to: 'abdurrahman_ibn_awf', type: 'mentorship', label: r('One of the Ten', 'L’un des Dix', 'أحد العشرة', 'Uno de los Diez'),
+    note: r('Companion · one of the Ten', 'Compagnon · l’un des Dix', 'صحابي · أحد العشرة', 'Compañero · uno de los Diez'),
+  },
+  {
+    from: 'prophet_muhammad', to: 'said_ibn_zayd', type: 'mentorship', label: r('One of the Ten', 'L’un des Dix', 'أحد العشرة', 'Uno de los Diez'),
+    note: r('Companion · one of the Ten', 'Compagnon · l’un des Dix', 'صحابي · أحد العشرة', 'Compañero · uno de los Diez'),
+  },
+  {
+    from: 'prophet_muhammad', to: 'abu_ubaydah_jarrah', type: 'mentorship', label: r('Trustee of the nation', 'Homme de confiance', 'أمين الأمة', 'Hombre de confianza'),
+    note: r('“The trustee of this nation” · one of the Ten', '« L’homme de confiance de cette nation » · l’un des Dix', 'أمين هذه الأمة · أحد العشرة', '«El hombre de confianza de esta nación» · uno de los Diez'),
+  },
+  {
+    from: 'prophet_muhammad', to: 'khalid_ibn_walid', type: 'mentorship', label: r('Sword of Allah', 'Épée d’Allah', 'سيف الله', 'Espada de Allah'),
+    note: r('Companion · “a sword of Allah”', 'Compagnon · « une épée d’Allah »', 'صحابي · سيف من سيوف الله', 'Compañero · «una espada de Allah»'),
+  },
+  {
+    from: 'prophet_muhammad', to: 'bilal_ibn_rabah', type: 'mentorship', label: r('His muezzin', 'Son muezzin', 'مؤذنه', 'Su almuédano'),
+    note: r('Companion · his muezzin', 'Compagnon · son muezzin', 'صحابي · مؤذنه', 'Compañero · su almuédano'),
+  },
+  { from: 'prophet_muhammad', to: 'salman_al_farsi', type: 'mentorship', label: r('Companion', 'Compagnon', 'صحابي', 'Compañero') },
 ]
 
 // Date localization & BiDi protection helpers
@@ -649,6 +761,11 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <RotateCcw className="size-4" />
             </button>
           </div>
+          {view.k < 0.5 && (
+            <p className="pointer-events-none absolute top-16 end-4 z-20 rounded-full bg-night-2/90 px-3 py-1 text-[0.7rem] text-ink-3">
+              {pick(UI.zoomHint)}
+            </p>
+          )}
 
           {/* Active Era Filter Banner or Interactive Legend Pill */}
           {selectedEra !== 'all' ? (
@@ -768,6 +885,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 if (isGlowing) stroke = '#facc15'
                 else if (link.type === 'hadith' || link.type === 'mentorship') stroke = '#38bdf8'
                 else if (link.type === 'lineage') stroke = '#fbbf24'
+                else if (link.type === 'era') stroke = '#94a3b8'
                 else stroke = '#34d399'
 
                 return (
@@ -777,7 +895,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     fill="none"
                     stroke={stroke}
                     strokeWidth={isGlowing ? 3.6 : 1.7}
-                    strokeDasharray={link.type === 'mentorship' ? '5 5' : undefined}
+                    strokeDasharray={link.type === 'mentorship' ? '5 5' : link.type === 'era' ? '2 7' : undefined}
                     opacity={isGlowing ? 1 : lineMatchesEra ? 0.85 : 0.12}
                     className={isGlowing ? 'drop-shadow-[0_0_10px_rgba(250,204,21,0.9)]' : ''}
                   />
@@ -909,7 +1027,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                       <text
                         y={r + 35}
                         textAnchor="middle"
-                        fontFamily="Sora Variable, sans-serif"
+                        fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                         fontSize={10.5}
                         fill="#cbd5e1"
                         fontWeight={500}
@@ -937,13 +1055,40 @@ export function SahabaTree({ focus }: { focus?: string }) {
                           textAnchor="middle"
                           fontSize="8.5"
                           fill={isProphet ? '#fde047' : isHadithMaster ? '#7dd3fc' : '#94a3b8'}
-                          fontFamily="Sora Variable, sans-serif"
+                          fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                           fontWeight={600}
                         >
                           {dateText}
                         </text>
                       </g>
                     )}
+                  </g>
+                )
+              })}
+
+              {/* Relationship names, drawn above the nodes. The text keeps the same size on screen at any zoom, so
+                  every label is shown once zoomed in, and only the selected figure's labels when zoomed out. */}
+              {TREE_LINKS.map((link, idx) => {
+                const from = SAHABA_NODE_COORDS[link.from]
+                const to = SAHABA_NODE_COORDS[link.to]
+                if (!from || !to) return null
+                const touchesActive = activeFigure?.id === link.from || activeFigure?.id === link.to
+                if (view.k < 0.5 && !touchesActive) return null
+                const fromFig = SAHABA_FIGURES.find((f) => f.id === link.from)
+                const toFig = SAHABA_FIGURES.find((f) => f.id === link.to)
+                if (selectedEra !== 'all' && fromFig?.era !== selectedEra && toFig?.era !== selectedEra && !touchesActive) return null
+                const midY = (from.y + to.y) / 2
+                const p = pathPoint(`M ${from.x} ${from.y} C ${from.x} ${midY} ${to.x} ${midY} ${to.x} ${to.y}`, 0.5)
+                const text = pick(link.label)
+                const s = 1 / Math.max(view.k, 0.35)
+                const fs = 10.5
+                const w = text.length * (lang === 'ar' ? 5.4 : 5.6) + 14
+                return (
+                  <g key={`label-${idx}`} transform={`translate(${p.x},${p.y}) scale(${s})`} className="pointer-events-none select-none">
+                    <rect x={-w / 2} y={-9} width={w} height={18} rx={9} fill="rgba(6, 8, 20, 0.92)" stroke={touchesActive ? '#facc15' : 'rgba(255,255,255,0.18)'} strokeWidth={0.9} />
+                    <text y={3.6} textAnchor="middle" fontSize={fs} fontWeight={600} fill={touchesActive ? '#fde68a' : '#e2e8f0'} fontFamily={lang === 'ar' ? 'Reem Kufi Variable, serif' : 'Sora Variable, Reem Kufi Variable, sans-serif'}>
+                      {text}
+                    </text>
                   </g>
                 )
               })}
@@ -1219,20 +1364,20 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs text-ink-3 font-mono">
                     {activeFigure.reignDates && (
                       <span className="text-amber-400 font-semibold inline-flex items-center gap-1">
-                        <span>{lang === 'ar' ? 'الخلافة: ' : 'Reign: '}</span>
+                        <span>{pick(UI.reign)}</span>
                         <span dir="ltr">{formatReignDate(activeFigure.reignDates, lang)}</span>
                       </span>
                     )}
                     {activeFigure.reignDates && <span>·</span>}
                     <span className="inline-flex items-center gap-1">
-                      <span>{lang === 'ar' ? 'الوفاة: ' : 'Passed: '}</span>
+                      <span>{pick(UI.passed)}</span>
                       <span dir="ltr">{formatDeathDate(activeFigure.lifeDates.death, lang)}</span>
                     </span>
                     {activeFigure.hadithsNarrated && (
                       <>
                         <span>·</span>
                         <span className="text-cyan-300 font-bold font-mono">
-                          {activeFigure.hadithsNarrated.toLocaleString()} {lang === 'ar' ? 'حديثاً مسنداً' : 'Hadiths'}
+                          {activeFigure.hadithsNarrated.toLocaleString()} {pick(UI.hadiths)}
                         </span>
                       </>
                     )}
@@ -1254,32 +1399,111 @@ export function SahabaTree({ focus }: { focus?: string }) {
             {/* Scrollable Body with Custom Gold Scrollbar */}
             <div className="overflow-y-auto px-6 sm:px-9 py-6 space-y-6 flex-1">
 
+            {SAHABA_STORIES[activeFigure.id] && (
+              <button
+                type="button"
+                onClick={() => document.getElementById('sahabi-story')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-sm font-medium text-gold transition-colors hover:bg-gold/20"
+              >
+                <BookOpen className="size-4" /> {pick(UI.readStory)}
+              </button>
+            )}
+
             {/* Noble Lineage Block */}
             <div className="mb-6 rounded-2xl border border-emerald-500/25 bg-emerald-950/20 p-4">
               <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 mb-1.5 uppercase tracking-wider">
                 <GitCommit className="size-3.5" />
-                <span>{lang === 'ar' ? 'النسب الشريف والأصل' : 'Noble Ancestry & Lineage'}</span>
+                <span>{pick(UI.lineage)}</span>
               </div>
               <p className="text-xs sm:text-sm text-ink-1 leading-relaxed font-serif">
                 {pick(activeFigure.lineage)}
               </p>
               {activeFigure.mother && (
                 <p className="text-xs text-ink-3 mt-2 border-t border-emerald-500/10 pt-2">
-                  <strong className="text-ink-2">{lang === 'ar' ? 'الأم الكريمة: ' : 'Mother: '}</strong>
+                  <strong className="text-ink-2">{pick(UI.mother)}</strong>
                   {pick(activeFigure.mother)}
                 </p>
               )}
             </div>
 
+            {/* Relations: every line of the tree that touches this figure, with its full name */}
+            {(() => {
+              const rels = TREE_LINKS.filter((l) => l.from === activeFigure.id || l.to === activeFigure.id)
+              if (rels.length === 0) return null
+              return (
+                <div className="mb-6">
+                  <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2 flex items-center gap-2">
+                    <Users className="size-3.5" /> {pick(UI.relations)}
+                  </h4>
+                  <ul className="grid gap-2 sm:grid-cols-2">
+                    {rels.map((l) => {
+                      const otherId = l.from === activeFigure.id ? l.to : l.from
+                      const other = SAHABA_FIGURES.find((f) => f.id === otherId)
+                      if (!other) return null
+                      const outgoing = l.from === activeFigure.id
+                      return (
+                        <li key={`${l.from}-${l.to}`}>
+                          <button
+                            type="button"
+                            onClick={() => setActiveFigure(other)}
+                            className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-start transition-colors hover:border-gold/40 hover:bg-gold/5 cursor-pointer"
+                          >
+                            <span className="block text-sm font-semibold text-ink">{pick(other.name)}</span>
+                            <span className="block text-xs text-ink-3">
+                              {outgoing ? `${pick(activeFigure.name)} → ${pick(other.name)}` : `${pick(other.name)} → ${pick(activeFigure.name)}`}
+                              {' · '}
+                              <span className="text-gold-2">{pick(l.note ?? l.label)}</span>
+                            </span>
+                          </button>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )
+            })()}
+
             {/* Biography */}
             <div className="mb-6">
               <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2">
-                {lang === 'ar' ? 'السيرة والتاريخ والجهاد' : 'Biography & Life Mission'}
+                {pick(UI.biography)}
               </h4>
               <p className="text-xs sm:text-sm text-ink-2 leading-relaxed">
                 {pick(activeFigure.biography)}
               </p>
             </div>
+
+            {/* Story: the narrative, the trials and the sacrifices, each point with its source */}
+            {SAHABA_STORIES[activeFigure.id] && (() => {
+              const st = SAHABA_STORIES[activeFigure.id]!
+              const her = activeFigure.id === 'fatimah_az_zahra'
+              const list = (items: StoryPoint[], title: L4, tone: string) => (
+                <div className="mt-4">
+                  <h5 className={`text-xs font-bold uppercase tracking-wider ${tone}`}>{pick(title)}</h5>
+                  <ul className="mt-2 space-y-3">
+                    {items.map((p, i) => (
+                      <li key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+                        <p className="text-xs sm:text-sm leading-relaxed text-ink-2">{pick(p.text)}</p>
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          <LevelChip level={p.l} />
+                          {p.r.map((ref) => <RefChip key={ref} r={ref} />)}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+              return (
+                <section id="sahabi-story" className="mb-6 rounded-2xl border border-gold/25 bg-gold/[0.04] p-4 sm:p-5">
+                  <h4 className="flex items-center gap-2 text-sm font-bold text-gold">
+                    <BookOpen className="size-4" /> {pick(her ? UI.storyHer : UI.story)}
+                  </h4>
+                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-ink">{pick(st.story)}</p>
+                  {list(st.challenges, her ? UI.challengesHer : UI.challenges, 'text-lvl-disputed')}
+                  {list(st.sacrifices, her ? UI.sacrificesHer : UI.sacrifices, 'text-lvl-hadith')}
+                </section>
+              )
+            })()}
 
             {/* Authentic Hadith Praise / Scholarly Testimony */}
             {activeFigure.propheticPraise && (
@@ -1292,7 +1516,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                       : 'Prophetic Praise & Scholarly Testimony'}
                   </span>
                 </div>
-                <p className="ar-name text-sm sm:text-base font-medium text-amber-100 leading-relaxed mb-2 font-serif text-center sm:text-start">
+                <p lang="ar" dir="rtl" className="font-hadith text-base sm:text-lg text-amber-100 leading-loose mb-2 text-center sm:text-start">
                   {activeFigure.propheticPraise.ar}
                 </p>
                 {lang !== 'ar' && (
@@ -1311,7 +1535,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="mb-6">
                 <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <BookOpen className="size-3.5 text-cyan-400" />
-                  <span>{lang === 'ar' ? 'المصنفات والمؤلفات الخالدة' : 'Authored Works & Masterpieces'}</span>
+                  <span>{pick(UI.works)}</span>
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {activeFigure.works.map((w, idx) => (
@@ -1334,7 +1558,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-xs">
                     <span className="flex items-center gap-1.5 font-bold text-ink-3 uppercase tracking-wider mb-2">
                       <Users className="size-3.5 text-amber-400" />
-                      <span>{lang === 'ar' ? 'كبار الشيوخ والأساتذة' : 'Eminent Teachers'}</span>
+                      <span>{pick(UI.teachers)}</span>
                     </span>
                     <ul className="space-y-1.5 text-ink-2">
                       {activeFigure.teachers.map((t, i) => (
@@ -1350,7 +1574,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-xs">
                     <span className="flex items-center gap-1.5 font-bold text-ink-3 uppercase tracking-wider mb-2">
                       <Users className="size-3.5 text-cyan-400" />
-                      <span>{lang === 'ar' ? 'كبار التلاميذ والرواة' : 'Prominent Disciples & Transmitters'}</span>
+                      <span>{pick(UI.students)}</span>
                     </span>
                     <ul className="space-y-1.5 text-ink-2">
                       {activeFigure.students.map((s, i) => (
@@ -1370,7 +1594,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                 <div className="flex items-center gap-2 text-xs font-bold text-gold mb-2">
                   <Quote className="size-3.5" />
-                  <span>{lang === 'ar' ? 'من درر أقوالهم ووصاياهم' : 'Golden Maxims & Quotes'}</span>
+                  <span>{pick(UI.quotes)}</span>
                 </div>
                 {activeFigure.famousQuotes.map((q, idx) => (
                   <div key={idx} className="space-y-1 text-xs">
@@ -1392,7 +1616,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="mb-6">
                 <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Milestone className="size-3.5 text-emerald-400" />
-                  <span>{lang === 'ar' ? 'محطات تاريخية فارقة في حياته' : 'Historical Life Milestones'}</span>
+                  <span>{pick(UI.milestones)}</span>
                 </h4>
                 <div className="space-y-2">
                   {activeFigure.milestones.map((m, idx) => (
@@ -1417,7 +1641,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <div className="mb-6">
               <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <Award className="size-3.5 text-emerald-400" />
-                <span>{lang === 'ar' ? 'المآثر والإنجازات الكبرى' : 'Major Achievements'}</span>
+                <span>{pick(UI.achievements)}</span>
               </h4>
               <ul className="space-y-2">
                 {activeFigure.achievements.map((ach, i) => (
@@ -1436,7 +1660,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <div className="border-t border-white/10 pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-ink-3">
               <span className="flex items-center gap-1.5">
                 <MapPin className="size-3.5 text-emerald-400 shrink-0" />
-                <span>{lang === 'ar' ? 'المرقد الشريف:' : 'Burial Location:'}</span>
+                <span>{pick(UI.burial)}</span>
                 <strong className="text-ink-2 font-medium">{pick(activeFigure.burialPlace)}</strong>
               </span>
               <div className="flex items-center gap-2 self-end sm:self-auto">
@@ -1445,14 +1669,14 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition-colors flex items-center gap-1"
                 >
                   <MapPin className="size-3" />
-                  <span>{lang === 'ar' ? 'عرض على الخريطة' : 'View on Map'}</span>
+                  <span>{pick(UI.viewMap)}</span>
                 </a>
                 <button
                   type="button"
                   onClick={() => setActiveFigure(null)}
                   className="rounded-full bg-emerald-500 px-4 py-1.5 text-xs font-bold text-night hover:bg-emerald-400 transition-colors cursor-pointer"
                 >
-                  {lang === 'ar' ? 'إغلاق' : 'Close'}
+                  {pick(UI.close)}
                 </button>
               </div>
             </div>

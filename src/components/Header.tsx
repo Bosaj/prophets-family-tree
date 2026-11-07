@@ -13,20 +13,27 @@ interface NavItem {
   href: string
   route: Route['name']
   short: Record<Lang, string>
+  /** Shown in the desktop bar; the others are in the "More" menu. Phones scroll through all of them. */
+  main?: boolean
 }
 
 const NAV: readonly NavItem[] = [
-  { key: 'navTree', href: '/tree', route: 'tree', short: { en: 'Tree', fr: 'Arbre', ar: 'الشجرة' } },
-  { key: 'navSahaba', href: '/sahaba', route: 'sahaba', short: { en: 'Sahaba', fr: 'Sahaba', ar: 'الصحابة' } },
-  { key: 'navScience', href: '/science', route: 'science', short: { en: 'Miracles', fr: 'Miracles', ar: 'الإعجاز' } },
-  { key: 'mapView', href: '/map', route: 'map', short: { en: 'Map', fr: 'Carte', ar: 'الخريطة' } },
-  { key: 'navTimeline', href: '/timeline', route: 'timeline', short: { en: 'Timeline', fr: 'Chronologie', ar: 'التسلسل' } },
-  { key: 'navStature', href: '/stature', route: 'stature', short: { en: 'Stature', fr: 'Stature', ar: 'القامة' } },
-  { key: 'navStories', href: '/stories', route: 'stories', short: { en: 'Stories', fr: 'Récits', ar: 'القصص' } },
-  { key: 'navNature', href: '/nature', route: 'nature', short: { en: 'Nature', fr: 'Nature', ar: 'الكائنات' } },
-  { key: 'navScriptures', href: '/scriptures', route: 'scriptures', short: { en: 'Scriptures', fr: 'Livres', ar: 'الكتب' } },
-  { key: 'navSources', href: '/sources', route: 'sources', short: { en: 'Sources', fr: 'Sources', ar: 'المصادر' } },
+  { key: 'navTree', href: '/tree', route: 'tree', main: true, short: { en: 'Tree', fr: 'Arbre', ar: 'الشجرة', es: 'Árbol' } },
+  { key: 'navSahaba', href: '/sahaba', route: 'sahaba', main: true, short: { en: 'Sahaba', fr: 'Sahaba', ar: 'الصحابة', es: 'Sahaba' } },
+  { key: 'navDuas', href: '/duas', route: 'duas', main: true, short: { en: 'Duas', fr: 'Invocations', ar: 'الأدعية', es: 'Súplicas' } },
+  { key: 'navTimes', href: '/times', route: 'times', main: true, short: { en: 'Times', fr: 'Horaires', ar: 'المواقيت', es: 'Horarios' } },
+  { key: 'navIslam', href: '/islam', route: 'islam', main: true, short: { en: 'Islam', fr: 'L’islam', ar: 'الإسلام', es: 'El islam' } },
+  { key: 'navStories', href: '/stories', route: 'stories', main: true, short: { en: 'Stories', fr: 'Récits', ar: 'القصص', es: 'Relatos' } },
+  { key: 'navNature', href: '/nature', route: 'nature', main: true, short: { en: 'Nature', fr: 'Nature', ar: 'الكائنات', es: 'Naturaleza' } },
+  { key: 'mapView', href: '/map', route: 'map', main: true, short: { en: 'Map', fr: 'Carte', ar: 'الخريطة', es: 'Mapa' } },
+  { key: 'navTimeline', href: '/timeline', route: 'timeline', short: { en: 'Timeline', fr: 'Chronologie', ar: 'التسلسل', es: 'Cronología' } },
+  { key: 'navScience', href: '/science', route: 'science', short: { en: 'Miracles', fr: 'Miracles', ar: 'الإعجاز', es: 'Milagros' } },
+  { key: 'navStature', href: '/stature', route: 'stature', short: { en: 'Stature', fr: 'Stature', ar: 'القامة', es: 'Estatura' } },
+  { key: 'navScriptures', href: '/scriptures', route: 'scriptures', short: { en: 'Scriptures', fr: 'Livres', ar: 'الكتب', es: 'Libros' } },
+  { key: 'navSources', href: '/sources', route: 'sources', short: { en: 'Sources', fr: 'Sources', ar: 'المصادر', es: 'Fuentes' } },
 ]
+
+const MORE: Record<Lang, string> = { en: 'More', fr: 'Plus', ar: 'المزيد', es: 'Más' }
 
 export function Header({ route, onSearch }: { route: Route; onSearch: () => void }) {
   const { t, lang } = useI18n()
@@ -51,7 +58,7 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
         </A>
 
         <nav aria-label="Main" className="hidden lg:flex items-center justify-center gap-0.5 xl:gap-1 2xl:gap-1.5 min-w-0">
-          {NAV.map((n) => (
+          {NAV.filter((n) => n.main).map((n) => (
             <A
               key={n.href}
               href={n.href}
@@ -67,6 +74,7 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
               {n.short[lang] ?? t(n.key)}
             </A>
           ))}
+          <MoreMenu route={route} />
         </nav>
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-1.5 xl:gap-2">
@@ -98,6 +106,65 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
         ))}
       </nav>
     </header>
+  )
+}
+
+/** The pages that do not fit in the desktop bar. */
+function MoreMenu({ route }: { route: Route }) {
+  const { lang, t } = useI18n()
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const items = NAV.filter((n) => !n.main)
+  const active = items.some((n) => n.route === route.name)
+
+  useEffect(() => {
+    if (!open) return
+    const onDoc = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('mousedown', onDoc)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDoc)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+
+  useEffect(() => setOpen(false), [route.name])
+
+  return (
+    <div ref={ref} className="relative shrink-0">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] xl:px-2.5 xl:text-xs 2xl:px-3 2xl:text-[13px] transition-colors ${
+          active ? 'bg-white/10 text-gold-2 font-semibold ring-1 ring-gold/25' : 'text-ink-2 hover:text-ink hover:bg-white/5'
+        }`}
+      >
+        {MORE[lang]}
+        <ChevronDown aria-hidden="true" className={`size-3 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <div role="menu" className="absolute end-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-gold/30 bg-night-surface/95 p-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-2xl">
+          {items.map((n) => (
+            <A
+              key={n.href}
+              href={n.href}
+              role="menuitem"
+              aria-current={route.name === n.route ? 'page' : undefined}
+              className={`block rounded-xl px-3 py-2 text-sm transition-colors ${route.name === n.route ? 'bg-gold/15 text-gold font-semibold' : 'text-ink-2 hover:bg-white/10 hover:text-ink'}`}
+            >
+              {t(n.key)}
+            </A>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -149,7 +216,7 @@ function LanguageMenu() {
           aria-label={t('language')}
           className="absolute end-0 top-full mt-2 w-44 overflow-hidden rounded-2xl border border-gold/30 bg-night-surface/95 p-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-2xl z-50 animate-in fade-in zoom-in-95 duration-150"
         >
-          {(['ar', 'fr', 'en'] as Lang[]).map((l) => {
+          {(['ar', 'fr', 'en', 'es'] as Lang[]).map((l) => {
             const isSelected = l === lang
             return (
               <button

@@ -1,9 +1,9 @@
 {
   "name": "prophets-family-tree",
   "private": true,
-  "version": "2.4.3",
+  "version": "2.5.0",
   "type": "module",
-  "description": "Shajara — an interactive, source-cited family tree and timeline of the Prophets named in the Qur'an (ar/fr/en).",
+  "description": "Shajara — an interactive, source-cited family tree and timeline of the Prophets named in the Qur’an, with the Companions, the Prophet’s supplications and the prayer times (ar/fr/en/es).",
   "author": "Oussama EL HADJI",
   "license": "MIT",
   "scripts": {
@@ -15,7 +15,8 @@
     "verify:sources": "node scripts/verify-sources.mjs",
     "audit:content": "node scripts/audit-content.mjs",
     "credits:photos": "node scripts/trace-photo-credits.mjs",
-    "images": "node scripts/images.mjs"
+    "images": "node scripts/images.mjs",
+    "verify:duas": "node scripts/verify-duas.mjs"
   },
   "dependencies": {
     "@fontsource-variable/reem-kufi": "5.3.0",
@@ -23,6 +24,7 @@
     "@fontsource/amiri": "5.3.0",
     "@fontsource/amiri-quran": "5.3.0",
     "@types/leaflet": "^1.9.22",
+    "adhan": "4.4.6",
     "d3-hierarchy": "3.1.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.54.0",

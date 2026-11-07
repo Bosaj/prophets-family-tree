@@ -22,6 +22,7 @@ import {
 import { useI18n } from '../i18n'
 import type { Key } from '../i18n/strings'
 import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions, type TreeEdge } from '../lib/layout'
+import { pathPoint, relationLabel } from '../lib/relations'
 import { treeParent } from '../data/links'
 import { byId } from '../data/people'
 import type { Kind, Lang } from '../data/types'
@@ -38,7 +39,7 @@ interface View {
   y: number
 }
 
-export type EdgeKind = 'parent' | 'descendant' | 'spouse' | 'sibling' | 'cousin' | 'guardian'
+export type EdgeKind = 'parent' | 'descendant' | 'spouse' | 'sibling' | 'cousin' | 'guardian' | 'nephew' | 'possible'
 
 export function getEdgeKind(e: TreeEdge): EdgeKind {
   if (e.isMarriage) return 'spouse'
@@ -46,6 +47,8 @@ export function getEdgeKind(e: TreeEdge): EdgeKind {
   if (e.link.type === 'cousin') return 'cousin'
   if (e.link.type === 'guardian') return 'guardian'
   if (e.link.type === 'descendant') return 'descendant'
+  if (e.link.type === 'nephew') return 'nephew'
+  if (e.link.type === 'maybe-parent') return 'possible'
   return 'parent'
 }
 
@@ -56,6 +59,8 @@ const KIND_STRING_KEY: Record<EdgeKind, Key> = {
   sibling: 'linkSibling',
   cousin: 'linkCousin',
   guardian: 'linkGuardian',
+  nephew: 'linkNephew',
+  possible: 'linkPossible',
 }
 
 const EDGE_KIND_COLOR: Record<EdgeKind, string> = {
@@ -65,6 +70,8 @@ const EDGE_KIND_COLOR: Record<EdgeKind, string> = {
   sibling: '#38bdf8',
   cousin: '#c084fc',
   guardian: '#34d399',
+  nephew: '#fb923c',
+  possible: '#94a3b8',
 }
 
 const MIN_K = 0.25
@@ -76,14 +83,14 @@ const TREE_EPOCHS: Array<{
   label: Record<Lang, string>
   dates: Record<Lang, string>
 }> = [
-  { id: 'pre_adam', target: 'pre_adam', label: { en: 'Before Adam', fr: 'Avant Adam', ar: 'ما قبل آدم' }, dates: { en: 'Primordial', fr: 'Primordial', ar: 'أزلي' } },
-  { id: 'primordial', target: 'adam', label: { en: 'Primordial', fr: 'Primordial', ar: 'عهد البدء' }, dates: { en: '~4000+ BCE', fr: '~4000+ av. J.-C.', ar: '~4000+ ق.م' } },
-  { id: 'deluge', target: 'nuh', label: { en: 'The Deluge', fr: 'Le Déluge', ar: 'الطوفان' }, dates: { en: '~3000 BCE', fr: '~3000 av. J.-C.', ar: '~3000 ق.م' } },
-  { id: 'patriarchs', target: 'ibrahim', label: { en: 'Patriarchs', fr: 'Patriarches', ar: 'الخليل والآباء' }, dates: { en: '~1900 BCE', fr: '~1900 av. J.-C.', ar: '~1900 ق.م' } },
-  { id: 'mosaic', target: 'musa', label: { en: 'Mosaic Era', fr: 'Ère Mosaïque', ar: 'الكليم والخروج' }, dates: { en: '~1300 BCE', fr: '~1300 av. J.-C.', ar: '~1300 ق.م' } },
-  { id: 'kings', target: 'dawud', label: { en: 'Kingdoms', fr: 'Royaumes', ar: 'الملك والحكمة' }, dates: { en: '~1000 BCE', fr: '~1000 av. J.-C.', ar: '~1000 ق.م' } },
-  { id: 'messianic', target: 'isa', label: { en: 'Messianic', fr: 'Messianique', ar: 'المسيح والآيات' }, dates: { en: '~1–33 CE', fr: '~1–33 ap. J.-C.', ar: '~1–33 م' } },
-  { id: 'final', target: 'muhammad', label: { en: 'Final Seal', fr: 'Sceau Final', ar: 'الرسالة الخاتمة' }, dates: { en: '570–632 CE', fr: '570–632 ap. J.-C.', ar: '570–632 م' } },
+  { id: 'pre_adam', target: 'pre_adam', label: { en: 'Before Adam', fr: 'Avant Adam', ar: 'ما قبل آدم', es: 'Antes de Adán' }, dates: { en: 'Primordial', fr: 'Primordial', ar: 'أزلي', es: 'Primordial' } },
+  { id: 'primordial', target: 'adam', label: { en: 'Primordial', fr: 'Primordial', ar: 'عهد البدء', es: 'Primordial' }, dates: { en: '~4000+ BCE', fr: '~4000+ av. J.-C.', ar: '~4000+ ق.م', es: '~4000+ a. C.' } },
+  { id: 'deluge', target: 'nuh', label: { en: 'The Deluge', fr: 'Le Déluge', ar: 'الطوفان', es: 'El Diluvio' }, dates: { en: '~3000 BCE', fr: '~3000 av. J.-C.', ar: '~3000 ق.م', es: '~3000 a. C.' } },
+  { id: 'patriarchs', target: 'ibrahim', label: { en: 'Patriarchs', fr: 'Patriarches', ar: 'الخليل والآباء', es: 'Patriarcas' }, dates: { en: '~1900 BCE', fr: '~1900 av. J.-C.', ar: '~1900 ق.م', es: '~1900 a. C.' } },
+  { id: 'mosaic', target: 'musa', label: { en: 'Mosaic Era', fr: 'Ère Mosaïque', ar: 'الكليم والخروج', es: 'Era mosaica' }, dates: { en: '~1300 BCE', fr: '~1300 av. J.-C.', ar: '~1300 ق.م', es: '~1300 a. C.' } },
+  { id: 'kings', target: 'dawud', label: { en: 'Kingdoms', fr: 'Royaumes', ar: 'الملك والحكمة', es: 'Reinos' }, dates: { en: '~1000 BCE', fr: '~1000 av. J.-C.', ar: '~1000 ق.م', es: '~1000 a. C.' } },
+  { id: 'messianic', target: 'isa', label: { en: 'Messianic', fr: 'Messianique', ar: 'المسيح والآيات', es: 'Mesiánica' }, dates: { en: '~1–33 CE', fr: '~1–33 ap. J.-C.', ar: '~1–33 م', es: '~1–33 d. C.' } },
+  { id: 'final', target: 'muhammad', label: { en: 'Final Seal', fr: 'Sceau Final', ar: 'الرسالة الخاتمة', es: 'Sello final' }, dates: { en: '570–632 CE', fr: '570–632 ap. J.-C.', ar: '570–632 م', es: '570–632 d. C.' } },
 ]
 
 export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }) {
@@ -464,6 +471,8 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               const isSibling = kind === 'sibling'
               const isCousin = kind === 'cousin'
               const isGuardian = kind === 'guardian'
+              const isNephew = kind === 'nephew'
+              const isPossible = kind === 'possible'
 
               const isKindHighlighted = activeKind === kind
               const isDirectlyActive = selectedEdge?.edge === e || hoveredEdge?.edge === e
@@ -481,7 +490,11 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     ? '#c084fc'
                     : isGuardian
                       ? '#34d399'
-                      : LEVEL_STROKE[e.link.l]
+                      : isNephew
+                        ? '#fb923c'
+                        : isPossible
+                          ? '#94a3b8'
+                          : LEVEL_STROKE[e.link.l]
 
               const strokeDash = isMarriage
                 ? '3 3'
@@ -491,7 +504,11 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     ? '2 4'
                     : isGuardian
                       ? '7 3 2 3'
-                      : e.link.type === 'descendant'
+                      : isNephew
+                        ? '9 4'
+                        : isPossible
+                          ? '2 6'
+                          : e.link.type === 'descendant'
                         ? '6 7'
                         : undefined
 
@@ -592,6 +609,21 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       strokeLinecap="round"
                     />
                   )}
+
+                  {/* Relationship name, so a line reads "son", "wife" or "nephew" without opening anything */}
+                  {(view.k >= 0.55 || isHighlighted || (selected !== null && (e.link.from === selected || e.link.to === selected))) && !dim && (() => {
+                    const mid = pathPoint(e.d)
+                    const text = pick(relationLabel(e.link))
+                    const w = Math.max(30, text.length * (lang === 'ar' ? 5.6 : 5.2) + 12)
+                    return (
+                      <g transform={`translate(${mid.x},${mid.y})`} className="pointer-events-none select-none" aria-hidden="true">
+                        <rect x={-w / 2} y={-8} width={w} height={16} rx={8} fill="rgba(10, 8, 24, 0.88)" stroke={strokeColor} strokeOpacity={0.55} strokeWidth={0.8} />
+                        <text y={3.5} textAnchor="middle" fontSize={lang === 'ar' ? 10 : 9} fontWeight={600} fill={isHighlighted ? '#ffffff' : '#e9dfc6'} fontFamily={lang === 'ar' ? 'Reem Kufi Variable, serif' : undefined}>
+                          {text}
+                        </text>
+                      </g>
+                    )
+                  })()}
 
                   {/* Wide transparent hit target for effortless hover/click */}
                   <path
@@ -968,7 +1000,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                           fontSize="6.5"
                           fontWeight="700"
                           fill="#ffffff"
-                          fontFamily="sans-serif"
+                          fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                         >
                           {scriptureBook.id === 'quran' ? '١' : scriptureBook.versionsCount}
                         </text>
@@ -990,7 +1022,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     <text
                       y={r + 44}
                       textAnchor="middle"
-                      fontFamily="Sora Variable, sans-serif"
+                      fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                       fontSize={12}
                       fill="#c3bdd2"
                       letterSpacing={0.4}
@@ -1016,7 +1048,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                         textAnchor="middle"
                         fontSize="9.5"
                         fill={prophet ? '#f6e3b4' : spouse ? '#ff85a1' : '#cbd5e1'}
-                        fontFamily="Sora Variable, sans-serif"
+                        fontFamily="Sora Variable, Reem Kufi Variable, sans-serif"
                         fontWeight={500}
                         letterSpacing="0.2"
                       >
@@ -1432,6 +1464,29 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 </div>
                 {activeKind === 'guardian' && <Sparkles className="size-3 text-emerald-400 shrink-0 animate-pulse" />}
               </button>
+
+              {/* Nephew (Ibrahim and Lut) and possible relations (Ayyub and Dhul-Kifl) */}
+              {(['nephew', 'possible'] as const).map((k) => (
+                <button
+                  key={k}
+                  type="button"
+                  onClick={() => setActiveLegendKind((cur) => (cur === k ? null : k))}
+                  onPointerEnter={() => setHoveredLegendKind(k)}
+                  onPointerLeave={() => setHoveredLegendKind(null)}
+                  className={`w-full flex items-center justify-between gap-2 px-2 py-1 rounded-xl transition-all text-start cursor-pointer ${
+                    activeKind === k ? 'bg-white/10 ring-1 ring-white/40 text-ink' : 'hover:bg-white/5 text-ink-2'
+                  }`}
+                  title={t('legendHighlightTip')}
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <svg width="30" height="6" aria-hidden="true" className="shrink-0">
+                      <line x1="0" y1="3" x2="30" y2="3" stroke={EDGE_KIND_COLOR[k]} strokeWidth="2" strokeDasharray={k === 'nephew' ? '9 4' : '2 6'} />
+                    </svg>
+                    <span className="text-[0.7rem] font-medium truncate" style={{ color: EDGE_KIND_COLOR[k] }}>{t(KIND_STRING_KEY[k])}</span>
+                  </div>
+                  {activeKind === k && <Sparkles className="size-3 shrink-0 animate-pulse" style={{ color: EDGE_KIND_COLOR[k] }} />}
+                </button>
+              ))}
             </div>
 
             {/* Tip */}
