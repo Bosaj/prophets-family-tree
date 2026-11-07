@@ -181,4 +181,155 @@ export const WHY_MENTIONED: Record<string, Wisdom> = {
     l: 'hadith',
     r: ['bukhari:1833', '3:97'],
   },
+  // ---- Added in 2.6.0 ----
+  ibil: {
+    text: t(
+      'The Qur’an names the camel first among the signs people see every day, before the sky, the mountains and the earth (88:17-20): a creature made for the desert that carried people where they could not go. Looking with reflection at ordinary things leads to their Creator.',
+      'Le Coran cite le chameau en premier parmi les signes vus chaque jour, avant le ciel, les montagnes et la terre (88:17-20) : une créature faite pour le désert, qui portait les gens là où ils ne pouvaient aller. Regarder avec réflexion les choses ordinaires mène à leur Créateur.',
+      'بدأ القرآن بالإبل قبل السماء والجبال والأرض (88:17-20): مخلوق صُنع للصحراء يحمل الناس إلى حيث لا يبلغون، والتأمل في المألوف يدل على الخالق.',
+      'El Corán nombra al camello primero entre los signos que se ven cada día, antes del cielo, las montañas y la tierra (88:17-20): una criatura hecha para el desierto que llevaba a la gente adonde no podía llegar. Mirar con reflexión lo ordinario lleva a su Creador.',
+    ),
+    l: 'quran',
+    r: ['88:17-20', '16:7'],
+  },
+  himar: {
+    text: t(
+      'Three lessons: Allah revives the dead, as the man of 2:259 watched his donkey brought back to life; knowledge must be lived, not carried like books on a donkey’s back (62:5); and good manners lower the voice (31:19).',
+      'Trois leçons : Allah ressuscite les morts, comme l’homme de 2:259 vit son âne revenir à la vie ; le savoir doit être vécu, non porté comme des livres sur le dos d’un âne (62:5) ; et la bonne éducation baisse la voix (31:19).',
+      'ثلاثة دروس: الله يحيي الموتى كما رأى صاحب القرية حماره يُحيا (2:259)، والعلم للعمل لا للحمل كالحمار يحمل أسفارًا (62:5)، والأدب خفض الصوت (31:19).',
+      'Tres lecciones: Allah resucita a los muertos, como el hombre de 2:259 vio volver a la vida a su asno; el saber debe vivirse, no cargarse como libros sobre un asno (62:5); y la buena educación baja la voz (31:19).',
+    ),
+    l: 'quran',
+    r: ['2:259', '62:5', '31:19'],
+  },
+  jarad: {
+    text: t(
+      'Locusts were one of the signs sent to Pharaoh’s people, who promised to believe each time a plague lifted and then broke their word (7:133-135). The Qur’an also likens people rising from their graves to scattered locusts (54:7): countless, confused, hurrying to the call.',
+      'Les sauterelles furent l’un des signes envoyés au peuple de Pharaon, qui promettait de croire chaque fois qu’un fléau cessait puis rompait sa parole (7:133-135). Le Coran compare aussi les gens sortant des tombes à des sauterelles éparpillées (54:7) : innombrables, désemparés, pressés vers l’appel.',
+      'كان الجراد من الآيات على قوم فرعون، يعدون بالإيمان كلما رُفع البلاء ثم ينكثون (7:133-135)، وشبّه القرآن الخارجين من القبور بالجراد المنتشر (54:7): كثرة وحيرة وإسراعًا إلى الداعي.',
+      'Las langostas fueron uno de los signos enviados al pueblo de Faraón, que prometía creer cada vez que cesaba una plaga y luego rompía su palabra (7:133-135). El Corán compara también a quienes salen de las tumbas con langostas dispersas (54:7): incontables, confusos, apresurándose a la llamada.',
+    ),
+    l: 'quran',
+    r: ['7:133-135', '54:7'],
+  },
+  dafda: {
+    text: t(
+      'Frogs filled the homes of Pharaoh’s people as one of the signs (7:133): the weakest creature can humble the strongest king. The Sunnah forbids killing them without need.',
+      'Les grenouilles envahirent les maisons du peuple de Pharaon comme l’un des signes (7:133) : la plus faible créature peut humilier le roi le plus fort. La Sunna interdit de les tuer sans nécessité.',
+      'ملأت الضفادع بيوت قوم فرعون آيةً (7:133): أضعف المخلوقات يذل أقوى الملوك، وقد نهت السنة عن قتلها بلا حاجة.',
+      'Las ranas llenaron las casas del pueblo de Faraón como uno de los signos (7:133): la criatura más débil puede humillar al rey más fuerte. La Sunna prohíbe matarlas sin necesidad.',
+    ),
+    l: 'quran',
+    r: ['7:133', 'abudawud:5269'],
+  },
+  salwa: {
+    text: t(
+      'Quails were provision sent down in the wilderness (2:57). The story then shows ingratitude: some asked for onions and lentils instead, and Musa asked: “Would you exchange what is better for what is lesser?” (2:61).',
+      'Les cailles furent une subsistance envoyée dans le désert (2:57). L’histoire montre ensuite l’ingratitude : certains demandèrent des oignons et des lentilles, et Musa demanda : « Voulez-vous échanger le meilleur contre le moins bon ? » (2:61).',
+      'كان السلوى رزقًا أُنزل في التيه (2:57)، ثم ظهر كفران النعمة حين طلبوا البصل والعدس، فقال موسى: «أتستبدلون الذي هو أدنى بالذي هو خير» (2:61).',
+      'Las codornices fueron sustento enviado en el desierto (2:57). La historia muestra luego la ingratitud: algunos pidieron cebollas y lentejas, y Musa preguntó: «¿Queréis cambiar lo mejor por lo inferior?» (2:61).',
+    ),
+    l: 'quran',
+    r: ['2:57', '2:61'],
+  },
+  dhubab: {
+    text: t(
+      'The fly is the Qur’an’s measure of power: all false gods together could not create one, nor recover what it takes from them (22:73). Something that small shows the gap between the Creator and anything worshipped besides Him.',
+      'La mouche est la mesure coranique de la puissance : tous les faux dieux réunis ne pourraient en créer une, ni reprendre ce qu’elle leur enlève (22:73). Une chose si petite montre l’écart entre le Créateur et tout ce qu’on adore en dehors de Lui.',
+      'الذباب مقياس القرآن للقدرة: لو اجتمعت الآلهة الباطلة لم تخلقه ولم تستنقذ ما يسلبها (22:73)، فهذا المخلوق الصغير يبين الفرق بين الخالق وما يُعبد من دونه.',
+      'La mosca es la medida coránica del poder: todos los falsos dioses juntos no podrían crear una, ni recuperar lo que les quita (22:73). Algo tan pequeño muestra la distancia entre el Creador y todo lo que se adora fuera de Él.',
+    ),
+    l: 'quran',
+    r: ['22:73'],
+  },
+  farash: {
+    text: t(
+      'The Qur’an compares people on the Day of Judgement to scattered moths (101:4), weak and confused. The Prophet ﷺ compared himself to a man holding people back from a fire into which moths throw themselves (Bukhari 6483).',
+      'Le Coran compare les gens au Jour du Jugement à des papillons éparpillés (101:4), faibles et désemparés. Le Prophète ﷺ s’est comparé à un homme qui retient les gens loin d’un feu où se jettent les papillons (Bukhari 6483).',
+      'شبّه القرآن الناس يوم القيامة بالفراش المبثوث (101:4) ضعفًا وحيرة، وشبّه النبي ﷺ نفسه برجل يذبّ الفراش عن النار ويأخذ بحُجَز الناس عنها (البخاري 6483).',
+      'El Corán compara a la gente en el Día del Juicio con polillas dispersas (101:4), débiles y confusas. El Profeta ﷺ se comparó con un hombre que aparta a la gente de un fuego en el que se arrojan las polillas (Bujari 6483).',
+    ),
+    l: 'quran',
+    r: ['101:4', 'bukhari:6483'],
+  },
+  ghanam: {
+    text: t(
+      'Every prophet herded sheep (Bukhari 2262): guiding a flock teaches patience, gentleness and responsibility for the weak, the qualities of one who guides people. In the case of the flock that ate a field, Allah gave Sulayman understanding (21:79).',
+      'Tous les prophètes ont gardé des moutons (Bukhari 2262) : guider un troupeau forme à la patience, à la douceur et à la responsabilité envers les faibles, qualités de celui qui guide les hommes. Dans l’affaire du troupeau qui mangea un champ, Allah donna la compréhension à Sulayman (21:79).',
+      'ما من نبي إلا رعى الغنم (البخاري 2262)، فرعيها يربي الصبر والرفق والمسؤولية عن الضعيف، وهي صفات من يقود الناس، وفي قضية الغنم التي نفشت في الحرث فهّمها الله سليمان (21:79).',
+      'Todos los profetas pastorearon ovejas (Bujari 2262): guiar un rebaño enseña paciencia, dulzura y responsabilidad por el débil, cualidades de quien guía a la gente. En el caso del rebaño que se comió un campo, Allah dio a Sulayman la comprensión (21:79).',
+    ),
+    l: 'hadith',
+    r: ['bukhari:2262', '21:78-79'],
+  },
+  hayyah: {
+    text: t(
+      'The snake was the first sign Musa was shown, and he fled from it until Allah said “do not fear” (20:21). Before Pharaoh the same sign exposed the magicians’ tricks, and they bowed down in faith (7:117-122).',
+      'Le serpent fut le premier signe montré à Musa, qui s’enfuit jusqu’à ce qu’Allah lui dise « n’aie pas peur » (20:21). Devant Pharaon, le même signe démasqua les tours des magiciens, qui se prosternèrent en croyants (7:117-122).',
+      'كانت الحية أول آية أُريها موسى فولّى حتى قيل له «ولا تخف» (20:21)، وأمام فرعون كشفت الآية سحر السحرة فخرّوا ساجدين مؤمنين (7:117-122).',
+      'La serpiente fue el primer signo mostrado a Musa, que huyó hasta que Allah le dijo «no temas» (20:21). Ante Faraón el mismo signo desenmascaró los trucos de los magos, que se postraron creyendo (7:117-122).',
+    ),
+    l: 'quran',
+    r: ['20:17-21', '7:117-122'],
+  },
+  inab: {
+    text: t(
+      'Grapes appear among Allah’s provisions that differ in taste though watered by one water, “signs for people who understand” (13:4). Their mention with intoxicants before wine was forbidden (16:67, 5:90) also shows how the law came step by step.',
+      'Le raisin figure parmi les dons d’Allah qui diffèrent au goût bien qu’arrosés d’une même eau, « des signes pour des gens qui comprennent » (13:4). Sa mention avec la boisson enivrante avant l’interdiction du vin (16:67, 5:90) montre aussi la progression de la Loi.',
+      'العنب من الرزق الذي يُسقى بماء واحد ويختلف طعمه، «إن في ذلك لآيات لقوم يعقلون» (13:4)، وذكره مع السكر قبل تحريم الخمر (16:67، 5:90) يبين تدرج التشريع.',
+      'La uva está entre los dones de Allah que difieren en sabor aunque se rieguen con una misma agua, «signos para gente que entiende» (13:4). Su mención con la bebida embriagante antes de prohibirse el vino (16:67, 5:90) muestra también la progresión de la Ley.',
+    ),
+    l: 'quran',
+    r: ['13:4', '16:67', '5:90'],
+  },
+  khardal: {
+    text: t(
+      'The mustard seed is the Qur’an’s unit for the smallest deed: hidden in a rock, the heavens or the earth, Allah will bring it out (31:16), and it will be weighed on the Day of Judgement (21:47). No good deed is too small to do, and no sin too small to avoid.',
+      'La graine de moutarde est l’unité coranique de la plus petite action : cachée dans un rocher, les cieux ou la terre, Allah la fera venir (31:16), et elle sera pesée au Jour du Jugement (21:47). Aucune bonne action n’est trop petite pour être faite, aucun péché trop petit pour être évité.',
+      'حبة الخردل وحدة القرآن لأصغر عمل، يأتي بها الله ولو في صخرة أو في السماوات أو في الأرض (31:16)، وتوزن يوم القيامة (21:47)، فلا يُحقر خير ولا يُستهان بذنب.',
+      'El grano de mostaza es la unidad coránica de la obra más pequeña: oculta en una roca, los cielos o la tierra, Allah la traerá (31:16), y se pesará en el Día del Juicio (21:47). Ninguna buena obra es demasiado pequeña, ningún pecado demasiado pequeño para evitarlo.',
+    ),
+    l: 'quran',
+    r: ['31:16', '21:47'],
+  },
+  sunbulah: {
+    text: t(
+      'A grain that becomes seven ears of a hundred grains is the Qur’an’s picture of charity: what is given in Allah’s way grows, and He multiplies for whom He wills (2:261). In Yusuf’s story, ears of grain teach planning in years of plenty for years of need (12:47-48).',
+      'Un grain qui devient sept épis de cent grains est l’image coranique de l’aumône : ce qui est donné pour Allah fructifie, et Il multiplie pour qui Il veut (2:261). Dans l’histoire de Yusuf, les épis enseignent à prévoir dans l’abondance pour les années de besoin (12:47-48).',
+      'الحبة التي تصير سبع سنابل في كل سنبلة مائة حبة مثل الصدقة، يربو ما يُنفق في سبيل الله ويضاعف الله لمن يشاء (2:261)، وفي قصة يوسف تعلّم السنابل التدبير في الرخاء لسنين الشدة (12:47-48).',
+      'Un grano que se vuelve siete espigas de cien granos es la imagen coránica de la caridad: lo que se da por Allah crece, y Él multiplica para quien quiere (2:261). En la historia de Yusuf, las espigas enseñan a prever en la abundancia para los años de necesidad (12:47-48).',
+    ),
+    l: 'quran',
+    r: ['2:261', '12:47-48'],
+  },
+  baql: {
+    text: t(
+      'These vegetables are named in a story of ingratitude: offered manna and quails, some asked for what the earth grows in Egypt, and Musa asked: “Would you exchange what is better for what is lesser?” (2:61). The lesson is gratitude for what Allah gives.',
+      'Ces légumes sont cités dans un récit d’ingratitude : alors qu’ils recevaient la manne et les cailles, certains demandèrent ce que la terre produit en Égypte, et Musa demanda : « Voulez-vous échanger le meilleur contre le moins bon ? » (2:61). La leçon est la gratitude pour ce qu’Allah donne.',
+      'ذُكرت هذه البقول في قصة كفران النعمة: رُزقوا المن والسلوى فطلبوا ما تنبت الأرض بمصر، فقال موسى: «أتستبدلون الذي هو أدنى بالذي هو خير» (2:61)، والعبرة شكر ما يرزق الله.',
+      'Estas hortalizas se nombran en un relato de ingratitud: recibiendo maná y codornices, algunos pidieron lo que da la tierra en Egipto, y Musa preguntó: «¿Queréis cambiar lo mejor por lo inferior?» (2:61). La lección es la gratitud por lo que Allah da.',
+    ),
+    l: 'quran',
+    r: ['2:61'],
+  },
+  rayhan: {
+    text: t(
+      'Fragrant plants are named among the favours of the earth in Surah al-Rahman, each followed by “Which of your Lord’s favours will you deny?” (55:12-13), and as the reward of those brought near at death (56:89). Even a pleasant scent is a blessing to thank Allah for.',
+      'Les plantes odorantes sont citées parmi les bienfaits de la terre dans la sourate ar-Rahman, suivies de « Lequel des bienfaits de votre Seigneur nierez-vous ? » (55:12-13), et comme récompense des rapprochés à la mort (56:89). Même un parfum agréable est un bienfait dont il faut remercier Allah.',
+      'عُدّ الريحان من نعم الأرض في سورة الرحمن، يتبعه «فبأي آلاء ربكما تكذبان» (55:12-13)، وجعله الله للمقربين عند الموت (56:89)؛ فالرائحة الطيبة نعمة تُشكر.',
+      'Las plantas aromáticas se nombran entre los favores de la tierra en la sura ar-Rahman, seguidas de «¿Cuál de los favores de vuestro Señor negaréis?» (55:12-13), y como recompensa de los cercanos al morir (56:89). Incluso un buen aroma es un favor que agradecer a Allah.',
+    ),
+    l: 'quran',
+    r: ['55:12-13', '56:88-89'],
+  },
+  kafur: {
+    text: t(
+      'Kafur describes the drink of the righteous in Paradise (76:5-6), named with something people knew as pure and cooling while being far beyond it. In this world it is used in the last washing of the dead (Bukhari 1253): a reminder of the meeting it leads to.',
+      'Le kafur décrit la boisson des vertueux au Paradis (76:5-6), nommée par une chose que les gens connaissaient comme pure et rafraîchissante tout en la dépassant de loin. Ici-bas, il sert au dernier lavage des morts (Bukhari 1253) : un rappel de la rencontre vers laquelle on va.',
+      'وُصف شراب الأبرار في الجنة بالكافور (76:5-6) بما عرفه الناس طيبًا باردًا وهو فوق ذلك، وفي الدنيا يُجعل في غسل الميت (البخاري 1253) تذكيرًا بلقاء الله.',
+      'El kafur describe la bebida de los justos en el Paraíso (76:5-6), nombrada con algo que la gente conocía como puro y refrescante, aunque muy por encima. En este mundo se usa en el último lavado de los difuntos (Bujari 1253): un recordatorio del encuentro al que conduce.',
+    ),
+    l: 'quran',
+    r: ['76:5-6', 'bukhari:1253'],
+  },
 }

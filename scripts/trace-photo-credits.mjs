@@ -33,13 +33,36 @@ const CANDIDATES = {
   yaqtin_dubba: ['Calabash', 'Lagenaria siceraria'],
   zanjabil: ['Ginger'],
   zaytun_zayt: ['Olive'],
+  // added in 2.6.0
+  ibil: ['Camel'],
+  himar: ['Donkey'],
+  jarad: ['Desert locust'],
+  dafda: ['Pelophylax saharicus'],
+  salwa: ['Common quail'],
+  dhubab: ['Housefly'],
+  farash: ['Autographa gamma'],
+  ghanam: ['Sheep'],
+  hayyah: ['Cerastes cerastes'],
+  inab: ['Table grape'],
+  khardal: ['Brassica nigra'],
+  sunbulah: ['Common wheat'],
+  rayhan: ['Basil'],
+  kafur: ['Cinnamomum camphora'],
 }
+
+// Photos converted after download (so they no longer match byte for byte), with their Commons source.
+const MANUAL = {
+  baql: { file: '3_types_of_lentil.png', page: 'https://commons.wikimedia.org/wiki/File:3_types_of_lentil.png', author: 'User:Justinc', license: 'CC BY-SA 2.5', licenseUrl: 'https://creativecommons.org/licenses/by-sa/2.5' },
+}
+// Authors missing from the Commons metadata, read from the file page.
+const AUTHOR = { kafur: '139 (Japanese Wikipedia)' }
 
 const md5 = (b) => crypto.createHash('md5').update(b).digest('hex')
 const UA = { 'user-agent': 'Shajara-credits/1.0 (https://github.com/Bosaj/prophets-family-tree)' }
 // Images generated for this project (no third-party licence).
 const GENERATED = ['buraq', 'baqarah', 'hamama']
 const credits = Object.fromEntries(GENERATED.map((id) => [id, { generated: true, author: 'Generated for Shajara (Higgsfield z_image)', license: 'Project asset (MIT)' }]))
+Object.assign(credits, MANUAL)
 const strip = (h) => (h ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 
 for (const [id, titles] of Object.entries(CANDIDATES)) {
@@ -67,7 +90,7 @@ for (const [id, titles] of Object.entries(CANDIDATES)) {
   credits[id] = {
     file,
     page: page?.imageinfo?.[0]?.descriptionurl ?? `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file)}`,
-    author: strip(meta.Artist?.value) || 'Unknown',
+    author: strip(meta.Artist?.value) || AUTHOR[id] || 'Unknown',
     license: strip(meta.LicenseShortName?.value) || 'Unknown',
     licenseUrl: meta.LicenseUrl?.value ?? null,
   }

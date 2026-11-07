@@ -64,7 +64,7 @@ export function Timeline() {
 
         {/* Dual Mode & Display Controls */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <div className="glass inline-flex items-center rounded-full p-1 text-xs">
+          <div className="glass inline-flex max-w-full flex-wrap items-center justify-center rounded-3xl p-1 text-xs">
             <button
               type="button"
               onClick={() => setMode('dual')}

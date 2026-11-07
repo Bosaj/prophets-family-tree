@@ -4,6 +4,16 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.6.0] — 2026-11-07
+### Added
+- **Nine more animals of the Qur’an**: camels (88:17), the donkey (2:259, 62:5, 31:19), locusts and frogs (7:133), quails (2:57), the fly (22:73), moths (101:4), sheep (21:78, and every prophet herded them, Bukhari 2262) and the snake of Musa’s staff (20:20).
+- **Six more plants**: grapes (13:4), the mustard seed (31:16, 21:47), ears of grain (2:261, 12:47), the vegetables of 2:61 (herbs, cucumbers, garlic or wheat, lentils, onions), fragrant plants (55:12) and camphor (76:5).
+- Each one has its verses, any hadith checked against its text (Bukhari 1253, 2262, 2731, 3303, 3320, 5495, 6483, 855; Muslim 2253; Abu Dawud 5269, sahih), a drawing, a credited Wikimedia Commons photo, and why it is mentioned, in four languages.
+- A “Reptiles & Amphibians” filter.
+
+### Fixed
+- Phones: several pages were wider than a phone screen and could be pushed sideways: the Nature category and tab bars, the Sahaba view switcher, the Stories tabs and virtue chips, the Timeline switcher, a Stature title chip, and the remembrance cards on the Times page. All 15 pages now fit a 340 px screen in all four languages.
+
 ## [2.5.0] — 2026-11-06
 ### Added
 - **Supplications of the Prophet ﷺ (`/duas`)**: what he said at moments of his life, from Makkah (‘Umar’s Islam, Ta’if) through the Hijra, Badr, the Trench and the conquest of Makkah to his last words, and what he said in hardship. Each Arabic text is copied from the hadith it cites.

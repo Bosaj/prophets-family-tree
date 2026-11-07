@@ -4,7 +4,7 @@
 
 **Live Demo (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
 **Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
-**Status:** v2.5.0 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
+**Status:** v2.6.0 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
 
 [![CI](https://github.com/Bosaj/prophets-family-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/Bosaj/prophets-family-tree/actions/workflows/ci.yml)
 [![Pages](https://github.com/Bosaj/prophets-family-tree/actions/workflows/deploy.yml/badge.svg)](https://bosaj.github.io/prophets-family-tree/)
@@ -22,7 +22,7 @@
 - **The Qur'an, the Sunnah and Modern Science (`/science`)** — verses and hadith placed next to peer-reviewed research in cosmology, embryology, oceanography, geology, neuroscience and pharmacology, with every paper's DOI checked. Linking a verse to a discovery is presented as an interpretation by scholars and researchers, not as proof.
 - **Pre-Adamic Realm & Iblis** — an autonomous floating celestial domain above the tree canvas documenting earlier earthly creations (Jinn, Iblis / Satan, Hinn, Binn, Nasnas) cited by classical scholars (Ibn Kathir, Al-Hasan al-Basri) and the Qur'an, completely decoupled from Adam's genealogy.
 - **Topography Map & Prophetic Routes (`/map`)** — interactive historical topography map tracing prophetic routes, waypoints, sanctuaries, and migration paths across Hijaz, the Levant, Egypt, and Mesopotamia with elevation layers.
-- **Prophetic Nature, Flora & Fauna (`/nature`)** — 30 animals, plants and foods mentioned in the Qur'an and Hadith (the hoopoe / *Upupa epops*, the whale, camel, bee, ant, olive, fig, date palm, pomegranate, black seed…), each with why it is mentioned, its source level, its benefits and a credited photo (Wikimedia Commons author and licence, traced by `npm run credits:photos`).
+- **Prophetic Nature, Flora & Fauna (`/nature`)** — 46 animals, plants and foods mentioned in the Qur'an and Hadith (the hoopoe / *Upupa epops*, the whale, camel, bee, ant, olive, fig, date palm, pomegranate, black seed…), each with why it is mentioned, its source level, its benefits and a credited photo (Wikimedia Commons author and licence, traced by `npm run credits:photos`).
 - **Stature, Stories and Scriptures (`/stature`, `/stories`, `/scriptures`)** — heights given in the texts (illustrative ones are marked as such), drawn as a faceless road-sign pictogram: a scale marker with no face or features, never a portrait, the stories of the Qur'an and the righteous, and the revealed books.
 - **Sources (`/sources`)** — every reference, the source-level rules and the photo credits in one place.
 - **Supplications of the Prophet ﷺ (`/duas`)** — what he said at each moment of his life, from Makkah to his last words, and in hardship. Every Arabic text is copied from the hadith it cites and checked against it; weak reports (such as the famous Ta'if supplication) are labelled weak.
