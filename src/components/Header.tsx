@@ -26,6 +26,7 @@ const NAV: readonly NavItem[] = [
   { key: 'navStories', href: '/stories', route: 'stories', main: true, short: { en: 'Stories', fr: 'Récits', ar: 'القصص', es: 'Relatos' } },
   { key: 'navNature', href: '/nature', route: 'nature', main: true, short: { en: 'Nature', fr: 'Nature', ar: 'الكائنات', es: 'Naturaleza' } },
   { key: 'mapView', href: '/map', route: 'map', main: true, short: { en: 'Map', fr: 'Carte', ar: 'الخريطة', es: 'Mapa' } },
+  { key: 'navHour', href: '/hour', route: 'hour', short: { en: 'The Hour', fr: 'L’Heure', ar: 'الساعة', es: 'La Hora' } },
   { key: 'navTimeline', href: '/timeline', route: 'timeline', short: { en: 'Timeline', fr: 'Chronologie', ar: 'التسلسل', es: 'Cronología' } },
   { key: 'navScience', href: '/science', route: 'science', short: { en: 'Miracles', fr: 'Miracles', ar: 'الإعجاز', es: 'Milagros' } },
   { key: 'navStature', href: '/stature', route: 'stature', short: { en: 'Stature', fr: 'Stature', ar: 'القامة', es: 'Estatura' } },

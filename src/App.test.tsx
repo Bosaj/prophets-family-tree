@@ -107,6 +107,19 @@ describe('App', () => {
     expect(screen.getByText(/Allah abrió el mar para los creyentes/)).toBeInTheDocument()
   })
 
+  it('tells the beginning of creation, the signs of the Hour and the end', async () => {
+    await renderAt('/hour')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('The beginning and the end')
+    expect(screen.getByRole('heading', { name: 'The ten great signs' })).toBeInTheDocument()
+    expect(document.querySelector('a[href="https://sunnah.com/bukhari:3192"]')).not.toBeNull()
+  })
+
+  it('shows the Hour page in Arabic', async () => {
+    await renderAt('/hour', 'ar')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('البداية والنهاية')
+    expect(screen.getByRole('heading', { level: 2, name: 'أشراط الساعة الكبرى' })).toBeInTheDocument()
+  })
+
   it('renders the introduction to Islam in Spanish', async () => {
     await renderAt('/islam', 'es')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('¿Qué es el islam?')

@@ -22,6 +22,7 @@ const SalihinView = lazy(() => import('./components/SalihinView').then((m) => ({
 const DuasView = lazy(() => import('./components/DuasView').then((m) => ({ default: m.DuasView })))
 const AwqatView = lazy(() => import('./components/AwqatView').then((m) => ({ default: m.AwqatView })))
 const IslamView = lazy(() => import('./components/IslamView').then((m) => ({ default: m.IslamView })))
+const HourView = lazy(() => import('./components/HourView').then((m) => ({ default: m.HourView })))
 const NatureView = lazy(() => import('./components/NatureView').then((m) => ({ default: m.NatureView })))
 const SahabaTree = lazy(() => import('./components/SahabaTree').then((m) => ({ default: m.SahabaTree })))
 const ScienceView = lazy(() => import('./components/ScienceView').then((m) => ({ default: m.ScienceView })))
@@ -106,6 +107,8 @@ export default function App() {
         return <AwqatView />
       case 'islam':
         return <IslamView />
+      case 'hour':
+        return <HourView />
       case 'sahaba':
         return <SahabaTree key={route.focus ?? 'all'} focus={route.focus} />
       case 'science':

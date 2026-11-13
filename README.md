@@ -4,7 +4,7 @@
 
 **Live Demo (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
 **Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
-**Status:** v2.6.1 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
+**Status:** v2.7.0 · **Author:** [Oussama EL HADJI](https://www.linkedin.com/in/oussama-elhadji/)
 
 [![CI](https://github.com/Bosaj/prophets-family-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/Bosaj/prophets-family-tree/actions/workflows/ci.yml)
 [![Pages](https://github.com/Bosaj/prophets-family-tree/actions/workflows/deploy.yml/badge.svg)](https://bosaj.github.io/prophets-family-tree/)
@@ -28,6 +28,7 @@
 - **Supplications of the Prophet ﷺ (`/duas`)** — what he said at each moment of his life, from Makkah to his last words, and in hardship. Every Arabic text is copied from the hadith it cites and checked against it; weak reports (such as the famous Ta'if supplication) are labelled weak.
 - **Prayer times and the day (`/times`)** — today's prayer times for a city or your location. In Morocco it follows the Ministry of Habous (Fajr 19°, 'Isha 17°) and matches its table to the minute. A guide for every part of the day and night, with the morning, evening and bedtime remembrances and a counter.
 - **What is Islam? (`/islam`)** — for readers who are not Muslim: one God, the prophets, the five pillars (what and why), the six articles of faith, and common questions, each with its verses.
+- **The beginning and the end (`/hour`)** — the beginning of creation, the signs of the Hour (each marked as past, seen today, or still to come, as the scholars read them), the ten great signs, and the end of the world and what follows. Every Arabic hadith is copied from its source and checked; where scholars differ, the page says so.
 - **Dual Timeline (`/timeline`)** — the chronological sequence of the Prophets anchored on Qur'anic synchronisms with toggles for Hijri (BH / AH) and historical BCE/CE epochs.
 - **Interactive Relational Highlighting** — bidirectional focus between canvas relationship lines and the floating legend (parent, descendant, sacred marriage, sibling, cousin, legal guardianship).
 - **Profiles (`/p/:id`)** — comprehensive dossiers for each Prophet: mission, people, scripture, lifespan, family links, miracles, and key Qur'anic passages.

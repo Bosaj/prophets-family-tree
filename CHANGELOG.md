@@ -4,6 +4,16 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.7.0] — 2026-11-13
+### Added
+- **The beginning and the end (`/hour`)**, in four languages, in the menu and linked from the Islam page:
+  - **The beginning of creation:** Allah before everything and His Throne over the water (Bukhari 3191), the decrees written fifty thousand years before the heavens and the earth (Muslim 2653) and the Pen (Abu Dawud 4700, sahih), the six days (21:30, 41:9-12), angels, jinn and Adam (Muslim 2996), Adam created on a Friday (Muslim 854, Bukhari 3326), the covenant (7:172) and the descent to earth.
+  - **The signs of the Hour:** no one knows when (Muslim 8, 7:187), then ten signs, each marked as already happened, seen by many scholars today, or still to come. Among them his own coming (Bukhari 6504), the moon split (Bukhari 3636), the six of Bukhari 3176, the fire of the Hijaz (Bukhari 7118), shepherds competing in tall buildings (Muslim 8), trust lost (Bukhari 59), knowledge lifted (Bukhari 80), earthquakes and killing (Bukhari 1036), and the gold of the Euphrates (Bukhari 7119).
+  - **The ten great signs** of Muslim 2901, each with its details: the Mahdi (Abu Dawud 4282, hasan sahih), the Dajjal (Bukhari 7131, Muslim 2937, Bukhari 1881) and the protection from him (Muslim 809, 588), the descent of ‘Isa (Bukhari 3448, Muslim 2937, 156), Gog and Magog, the smoke, the sun rising from the west (Bukhari 4635, Muslim 2703), the beast (Muslim 2941), the collapses and the last fire.
+  - **The end of the world and what follows:** the wind that takes the believers (Muslim 2937, 148), the Hour coming suddenly on a Friday (Bukhari 6506), the Trumpet (Bukhari 4935), the world undone (Bukhari 4812), resurrection (Bukhari 4935), the gathering (Bukhari 6527, Muslim 2864, Bukhari 660), the intercession (Bukhari 4712), the pool (Bukhari 6579) and eternity (Bukhari 4730). It closes with “What have you prepared for it?” (Bukhari 3688).
+- Where scholars differ, the page says so: whether the Throne or the Pen came first, the report of seven days of creation (Muslim 2789, which al-Bukhari and others traced to Ka‘b al-Ahbar), the order of the great signs, the smoke, the Mahdi and the reading of 43:61.
+- `npm run verify:duas` now also checks this page: all 45 Arabic quotes (50 texts with their fragments) are found in the hadith they cite, and every Qur’an and hadith reference exists. 84 texts are checked in all.
+
 ## [2.6.1] — 2026-11-13
 ### Fixed
 - **Relation names no longer cover the trees.** On both trees, each name is moved along its own line, or just beside it, until it covers no node (orb, Arabic name, Latin name, date pill) and no other name. A name with no free place stays hidden until you zoom in; the names of the selected person's lines are always shown. Checked in the browser at every zoom step: 0 names over a node, 0 names over another name.
