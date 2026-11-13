@@ -48,6 +48,9 @@ interface View {
   y: number
 }
 
+/** Lowest zoom: low enough for the whole 2400-unit tree to fit a phone. */
+const MIN_SAHABA_K = 0.12
+
 const nodeRadius = (fig: SahabaFigure) =>
   fig.roleCategory === 'prophet' ? 22 : fig.roleCategory === 'rashidun_caliph' ? 18 : fig.roleCategory === 'hadith_master' ? 17 : 14
 
@@ -385,9 +388,10 @@ export function SahabaTree({ focus }: { focus?: string }) {
       return
     }
 
-    const k = Math.min(1.0, Math.min(cw / layoutW, ch / layoutH) * 0.94)
+    // the clamped zoom is also the one used to center, so the whole tree is centered on every screen
+    const k = Math.max(MIN_SAHABA_K, Math.min(1.0, Math.min(cw / layoutW, ch / layoutH) * 0.94))
     setView({
-      k: Math.max(0.3, k),
+      k,
       x: (cw - layoutW * k) / 2,
       y: Math.max(20, (ch - layoutH * k) / 2),
     })
@@ -441,6 +445,16 @@ export function SahabaTree({ focus }: { focus?: string }) {
     return () => window.removeEventListener('resize', handleResize)
   }, [fit])
 
+  // The figure card closes with Escape, like the site's other dialogs.
+  useEffect(() => {
+    if (!activeFigure) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveFigure(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [activeFigure])
+
   // Gestures for SVG tree: Pan, multi-touch pinch-to-zoom, and wheel zoom
   const handlePointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
     // Only primary button (left click) or touch should initiate drag
@@ -493,7 +507,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
         const p2 = pList[1]!
         const d = Math.hypot(p2.x - p1.x, p2.y - p1.y)
         const ratio = d / pinch.current.d
-        const newK = Math.max(0.2, Math.min(2.0, pinch.current.k * ratio))
+        const newK = Math.max(MIN_SAHABA_K, Math.min(2.0, pinch.current.k * ratio))
         setView((v) => ({ ...v, k: newK }))
       }
     }
@@ -517,8 +531,16 @@ export function SahabaTree({ focus }: { focus?: string }) {
     downNode.current = null
   }
 
+  // React wheel listeners are passive, so the page scroll is stopped by a native listener instead.
+  useEffect(() => {
+    const el = svgRef.current
+    if (!el) return
+    const stop = (e: WheelEvent) => e.preventDefault()
+    el.addEventListener('wheel', stop, { passive: false })
+    return () => el.removeEventListener('wheel', stop)
+  }, [viewMode])
+
   const handleWheel = (e: React.WheelEvent<SVGSVGElement>) => {
-    e.preventDefault()
     const factor = e.deltaY < 0 ? 1.08 : 0.92
     const el = box.current
     if (!el) return
@@ -526,7 +548,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
     const mx = e.clientX - rect.left
     const my = e.clientY - rect.top
     setView((v) => {
-      const nextK = Math.max(0.2, Math.min(2.2, v.k * factor))
+      const nextK = Math.max(MIN_SAHABA_K, Math.min(2.2, v.k * factor))
       const scale = nextK / v.k
       return {
         k: nextK,
@@ -799,7 +821,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <span className="font-mono text-xs text-gold px-1">{Math.round(view.k * 100)}%</span>
             <button
               type="button"
-              onClick={() => setView((v) => ({ ...v, k: Math.max(0.2, v.k * 0.85) }))}
+              onClick={() => setView((v) => ({ ...v, k: Math.max(MIN_SAHABA_K, v.k * 0.85) }))}
               className="p-1 text-ink-3 hover:text-ink transition-colors cursor-pointer"
               title={t('zoomOut')}
               aria-label={t('zoomOut')}
@@ -1362,11 +1384,14 @@ export function SahabaTree({ focus }: { focus?: string }) {
       {/* EXPANSIVE PROPHET-LIKE FULL DOSSIER DRAWER / MODAL */}
       {activeFigure && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in"
+          role="dialog"
+          aria-modal="true"
+          aria-label={pick(activeFigure.name)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-night/85 backdrop-blur-md animate-fade-in"
           onClick={() => setActiveFigure(null)}
         >
           <div
-            className="relative flex flex-col w-full max-w-3xl max-h-[92vh] rounded-3xl border border-emerald-500/30 bg-night-1 shadow-2xl text-ink overflow-hidden"
+            className="glass-strong relative flex flex-col w-full max-w-3xl max-h-[92vh] rounded-3xl border border-gold/40 bg-night-2/95 shadow-2xl text-ink overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Pinned Sticky Header */}
@@ -1395,7 +1420,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <h2 className="ar-name text-2xl sm:text-3xl font-bold text-ink gold-text flex items-center gap-2">
                     <span>{pick(activeFigure.name)}</span>
                     {activeFigure.honorific && (
-                      <span className="text-sm font-normal text-emerald-400">
+                      <span className="text-sm font-normal text-gold/80">
                         {activeFigure.honorific}
                       </span>
                     )}
@@ -1452,8 +1477,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
             )}
 
             {/* Noble Lineage Block */}
-            <div className="mb-6 rounded-2xl border border-emerald-500/25 bg-emerald-950/20 p-4">
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 mb-1.5 uppercase tracking-wider">
+            <div className="mb-6 rounded-2xl border border-gold/20 bg-gold/[0.04] p-4">
+              <div className="flex items-center gap-2 text-xs font-bold text-gold mb-1.5 uppercase tracking-wider">
                 <GitCommit className="size-3.5" />
                 <span>{pick(UI.lineage)}</span>
               </div>
@@ -1461,7 +1486,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 {pick(activeFigure.lineage)}
               </p>
               {activeFigure.mother && (
-                <p className="text-xs text-ink-3 mt-2 border-t border-emerald-500/10 pt-2">
+                <p className="text-xs text-ink-3 mt-2 border-t border-gold/10 pt-2">
                   <strong className="text-ink-2">{pick(UI.mother)}</strong>
                   {pick(activeFigure.mother)}
                 </p>

@@ -81,7 +81,8 @@ const EDGE_KIND_COLOR: Record<EdgeKind, string> = {
   possible: '#94a3b8',
 }
 
-const MIN_K = 0.25
+/** Lowest zoom: low enough for "fit" to show the whole tree on a phone. */
+const MIN_K = 0.085
 const MAX_K = 2.6
 
 const TREE_EPOCHS: Array<{
@@ -1808,6 +1809,13 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
   const [selectedEntity, setSelectedEntity] = useState<PreAdamEntity | null>(() =>
     initialEntityId ? PRE_ADAM_ENTITIES.find((e) => e.id === initialEntityId) ?? null : null
   )
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
 
   if (typeof document === 'undefined') return null
 

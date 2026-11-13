@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import {
   BookOpen,
   Compass,
@@ -1465,6 +1465,15 @@ export function NatureView() {
   // Interactive Stage Controls
   // Detail Modal / Sheet
   const [detailItem, setDetailItem] = useState<AnimalEntry | PlantFoodEntry | null>(null)
+  // The detail card closes with Escape.
+  useEffect(() => {
+    if (!detailItem) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setDetailItem(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [detailItem])
   const [modalShowPhoto, setModalShowPhoto] = useState<boolean>(false)
 
   const ANIMAL_CATEGORIES: { id: AnimalCategory | 'all'; label: Record<string, string> }[] = [

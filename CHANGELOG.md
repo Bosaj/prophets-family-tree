@@ -14,6 +14,19 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 - Where scholars differ, the page says so: whether the Throne or the Pen came first, the report of seven days of creation (Muslim 2789, which al-Bukhari and others traced to Ka‘b al-Ahbar), the order of the great signs, the smoke, the Mahdi and the reading of 43:61.
 - `npm run verify:duas` now also checks this page: all 45 Arabic quotes (50 texts with their fragments) are found in the hadith they cite, and every Qur’an and hadith reference exists. 84 texts are checked in all.
 
+### Fixed
+- **Every interface text in four languages.** About 250 inline texts (Stature, Nature, both trees, the Sahaba page, Stories, Science, Scriptures, Timeline, Sources, the person page) showed English to Spanish readers, and about 140 of them to French readers too. They now have French and Spanish. Close buttons, map toggles and navigation labels are translated, and the footer has Spanish. The author’s name and its Maghribi font are unchanged.
+- **Supplications and hadith shown in full, never cut with “…”**: the Ta’if supplication (still labelled weak), the six signs of Bukhari 3176, the question about trust (Bukhari 59), and the slaughter of death (Bukhari 4730). The morning wording of the evening remembrance is written out.
+- **Before Adam, honestly.** The Tree’s pre-Adam text said, in Arabic, that the Qur’an and sahih Sunnah document Hinn, Binn and Nasnas, and the Nasnas card said they “correlate with” fossil hominids. Both now say what the sources support: the jinn were created before Adam (15:27); the Hinn, Binn and Nasnas are reports from chronicles, lexicons and the Isra’iliyyat, not established. The “paleontological link” line is gone.
+- **Panels that rendered see-through.** Three colours used across the site (`night-1`, `night-surface`, `ink-1`) were never defined, so the header menus, the person page cards, the modal headers and the Sahaba card had no background. They are now defined in the theme.
+- **Both trees fit every screen.**
+  - The Sahaba tree raised its zoom to a minimum but centred with the zoom before that, so on a phone it opened shifted to one side, with only 20 of 41 figures in view.
+  - The prophets tree stopped zooming out before the whole tree fitted a phone.
+  - "Fit" now shows every figure on phone (375 and 414 px), tablet (768) and laptop (1280): 41/41 and 59/59.
+- **Mouse-wheel zoom on the Sahaba tree** no longer scrolls the page behind it. It called `preventDefault` inside a passive listener, which the browser ignores and reports as an error.
+- **Phone, tablet and laptop check:** 8 pages × 3 widths × Arabic and Spanish (48 loads) with no sideways scroll, no control off-screen and no error.
+- **One style for every dialog.** The Sahaba card uses the site’s gold-edged glass panel like the other dialogs. It is announced as a dialog, and it closes with Escape, as do the Nature card and the pre-Adam window.
+
 ## [2.6.1] — 2026-11-13
 ### Fixed
 - **Relation names no longer cover the trees.** On both trees, each name is moved along its own line, or just beside it, until it covers no node (orb, Arabic name, Latin name, date pill) and no other name. A name with no free place stays hidden until you zoom in; the names of the selected person's lines are always shown. Checked in the browser at every zoom step: 0 names over a node, 0 names over another name.
