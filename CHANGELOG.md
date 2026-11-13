@@ -4,6 +4,36 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.8.0] — 2026-11-13
+### Added
+- **The Hijri calendar (`/hijri`)**, in four languages, in the menu and linked from the Hijri date on the Times page:
+  - **Today, live, where you are.** The Hijri date for the chosen city and its Gregorian date. The page shows when the Hijri day changes: the night comes before its day, so tonight’s Maghrib (computed for the city) begins the next date.
+  - **Today, by country.**
+    - Saudi Arabia uses the Umm al-Qura calendar, its official one.
+    - Morocco is counted from the Ministry of Habous announcements: 1 Jumada al-Akhirah 1448 = 11 November 2026, and Bulletin officiel 7556 for Jumada al-Ula. Day 30 is shown as awaiting the announcement.
+    - Turkey uses the Diyanet calendar, read from the public Aladhan API. When offline, the page shows the astronomical estimate and says so.
+    - The same day is also shown by method: Umm al-Qura, astronomical and tabular.
+    - A table gives who decides the month in eleven other countries, and how.
+  - **How the calendar works:**
+    - twelve lunar months (9:36, 2:189, 10:5);
+    - year one is the Hijra (Bukhari 3934);
+    - a month starts with the crescent, after 29 or 30 days (Bukhari 1909, 1913);
+    - the day begins at sunset (Bukhari 1907);
+    - the year is 11 days shorter than the solar year;
+    - countries differ by a day (Muslim 1087, Kurayb’s hadith), with the scholars’ positions.
+  - **The twelve months:** the Arabic names, their meaning according to the lexicographers, and the four sacred months (Bukhari 3197). It shows what the Sunnah says month by month: Muharram and ‘Ashura, “no Safar”, his birth on a Monday, Rajab without invented rites, Sha‘ban, Laylat al-Qadr, six days of Shawwal, his ‘Umrahs in Dhu al-Qa‘dah, and the ten days, ‘Arafah and Tashriq. The current month is highlighted.
+  - **Coming up:** the New Year, ‘Ashura, 12 Rabi‘ al-Awwal (with the scholars’ difference on celebrating it), Ramadan, the 27th night, Eid al-Fitr, ‘Arafah and Eid al-Adha, each with its date and a countdown. The dates come from Umm al-Qura, and the page says that each country’s announcement decides.
+  - **The two Eids:**
+    - what replaced the two days of play (Abu Dawud 1134, sahih);
+    - Zakat al-Fitr before the prayer, and dates before going out (Bukhari 1509, 953);
+    - the sacrifice (Bukhari 5558, 22:37);
+    - changing the road back, and no fasting on Eid (Bukhari 986, 1990).
+  - **Three hundred years, and nine more (18:25):**
+    - Ibn Kathir’s explanation: 300 solar years are 309 lunar years. A calculator lets you turn any number of solar years into lunar years.
+    - Qatada’s other reading, cited by al-Qurtubi and al-Tabari, that the verse reports the People of the Book’s words. The interpretation is labelled as the commentators’ reading, not the verse’s own words.
+- All 23 new Arabic hadith quotes were copied from the hadith API and are checked by `verify:duas` (106 texts in all). The date engine (`src/lib/hijri.ts`) has its own tests, including Morocco’s two official dates.
+- The Content Security Policy allows `https://api.aladhan.com` for the Diyanet date.
+
 ## [2.7.0] — 2026-11-13
 ### Added
 - **The beginning and the end (`/hour`)**, in four languages, in the menu and linked from the Islam page:
