@@ -311,15 +311,20 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
   {
     id: 'jinn',
     level: 'quran',
+    caution: {
+      en: "Only their creation from fire before man is in the Qur’an. The “two thousand years” and the angels driving them away come from reports, not from the Qur’an or authentic hadith.",
+      fr: "Seule leur création de feu avant l’homme est dans le Coran. Les « deux mille ans » et les anges qui les chassèrent viennent de récits, non du Coran ni d’un hadith authentique.",
+      ar: "الثابت في القرآن خلقهم من نار قبل الإنسان فقط، أما «ألفا عام» وطرد الملائكة لهم فمن الأخبار، لا من القرآن ولا من حديث صحيح.",
+    },
     name: {
       en: 'Al-Jinn (Pre-Adamic Inhabitants)',
       fr: 'Les Djinns (Habitants pré-adamiques)',
       ar: 'الجن (سكان الأرض الأوائل)',
     },
     subTitle: {
-      en: 'Created from scorching smokeless fire 2,000 years before humankind',
-      fr: 'Créés d’un feu sans fumée 2 000 ans avant l’humanité',
-      ar: 'خُلقوا من نار السموم قبل استخلاف بني آدم بألفي عام',
+      en: "Created from smokeless fire, before humankind",
+      fr: "Créés d’un feu sans fumée, avant l’humanité",
+      ar: "خُلقوا من نار السموم قبل البشر",
     },
     nature: {
       en: 'Created from a smokeless flame of scorching fire (Mārij min Nār / Nār as-Samūm)',
@@ -327,9 +332,9 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
       ar: 'مِن مَّارِجٍ مِّن نَّارٍ، ومِن نَّارِ السَّمُومِ',
     },
     era: {
-      en: 'c. 2,000 yrs Pre-Adam',
-      fr: 'env. 2 000 ans avant Adam',
-      ar: 'نحو 2000 سنة قبل آدم',
+      en: "Before Adam (15:27)",
+      fr: "Avant Adam (15:27)",
+      ar: "قبل آدم (15:27)",
     },
     quranRefs: ['15:27', '55:15', '2:30'],
     scholarlySources: [
@@ -353,9 +358,9 @@ export const PRE_ADAM_ENTITIES: PreAdamEntity[] = [
       },
     ],
     summary: {
-      en: 'The Jinn inhabited the primordial earth long before the creation of Adam (pbuh). Endowed with free will, they established civilizations but eventually succumbed to warfare and bloodshed, leading to angelic intervention.',
-      fr: 'Les Djinns peuplèrent la Terre bien avant la création d’Adam (psl). Dotés de libre arbitre, ils bâtirent des civilisations mais finirent par succomber aux guerres fratricides et au sang versé, provoquant l’intervention des armées célestes.',
-      ar: 'أمة مكلّفة سكنت الأرض قبل بني آدم بألفي عام، وكان لهم فيها عمارة وحضارات، حتى فشا فيهم البغي وسفك الدماء، فأرسل الله الملائكة لطردهم إلى أقاصي البحار والقفار.',
+      en: "The Qur’an says the jinn were created before humankind, from fire (15:27). That they lived on earth before Adam, built a society and fell into bloodshed is a report from Ibn ‘Abbas and early historians, not a text of the Qur’an or authentic hadith.",
+      fr: "Le Coran dit que les djinns furent créés avant l’humanité, de feu (15:27). Qu’ils aient vécu sur terre avant Adam, bâti une société et sombré dans le sang versé est un récit d’Ibn ‘Abbas et d’historiens anciens, non un texte du Coran ni d’un hadith authentique.",
+      ar: "في القرآن أن الجان خُلق قبل البشر من نار (15:27). أما سكناهم الأرض قبل آدم وعمرانهم وسفكهم الدماء فخبر مروي عن ابن عباس وبعض المؤرخين، لا نص من القرآن ولا من حديث صحيح.",
     },
     detailedDescription: {
       en: 'According to authenticated Qur’anic text (Surah Al-Hijr 15:27 and Ar-Rahman 55:15), the Jinn were created prior to humankind from a smokeless blaze of intense heat. Classical Islamic historiography (Ibn Kathir, Al-Tabari) records that their society degenerated into chaotic warfare. Allah dispatched angels who subdued their rebellious factions, clearing the earth for the honored arrival of humanity’s father, Adam (pbuh).',

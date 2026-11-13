@@ -2,5 +2,7 @@
 // Node scripts in scripts/ can import the datasets without resolving this module.
 import { people } from '../people'
 import { applySpanish } from './people.es'
+import { applySpanishNames } from './names.es'
 
 applySpanish(people)
+applySpanishNames()

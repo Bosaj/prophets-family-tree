@@ -30,19 +30,19 @@ export function SalihinView() {
   const [selectedStoryId, setSelectedStoryId] = useState<string | null>(null)
 
   const CATEGORIES: { id: string; label: Record<string, string> }[] = [
-    { id: 'all', label: { en: 'All Righteous', fr: 'Tous les vertueux', ar: 'جميع الصالحين' } },
-    { id: 'women_of_faith', label: { en: 'Women of Faith', fr: 'Femmes de foi', ar: 'نساء مؤمنات' } },
-    { id: 'sages_and_rulers', label: { en: 'Sages & Just Kings', fr: 'Sages et Rois justes', ar: 'حكماء وملوك عادلون' } },
-    { id: 'believers_under_trials', label: { en: 'Heroes under Trials', fr: 'Éprouvés héroïques', ar: 'أبطال الثبات على الدين' } },
-    { id: 'companions', label: { en: 'Righteous Companions', fr: 'Compagnons dévoués', ar: 'أصحاب وتلاميذ' } },
+    { id: 'all', label: { en: 'All Righteous', fr: 'Tous les vertueux', ar: 'جميع الصالحين', es: 'Todos los justos' } },
+    { id: 'women_of_faith', label: { en: 'Women of Faith', fr: 'Femmes de foi', ar: 'نساء مؤمنات', es: 'Mujeres de fe' } },
+    { id: 'sages_and_rulers', label: { en: 'Sages & Just Kings', fr: 'Sages et Rois justes', ar: 'حكماء وملوك عادلون', es: 'Sabios y reyes justos' } },
+    { id: 'believers_under_trials', label: { en: 'Heroes under Trials', fr: 'Éprouvés héroïques', ar: 'أبطال الثبات على الدين', es: 'Firmes en la prueba' } },
+    { id: 'companions', label: { en: 'Righteous Companions', fr: 'Compagnons dévoués', ar: 'أصحاب وتلاميذ', es: 'Compañeros justos' } },
   ]
 
   const THEMES: { id: string; label: Record<string, string> }[] = [
-    { id: 'all', label: { en: 'All Stories', fr: 'Tous les récits', ar: 'جميع القصص' } },
-    { id: 'faith_vs_tyranny', label: { en: 'Faith vs Tyranny', fr: 'Foi contre tyrannie', ar: 'الإيمان في وجه الطغيان' } },
-    { id: 'wisdom_and_counsel', label: { en: 'Wisdom & Counsel', fr: 'Sagesse et conseil', ar: 'الحكمة والموعظة' } },
-    { id: 'warnings_and_retribution', label: { en: 'Warnings & Lessons', fr: 'Avertissements et leçons', ar: 'العبر والوعيد' } },
-    { id: 'covenants', label: { en: 'Divine Covenants', fr: 'Alliances divines', ar: 'العهود والمواثيق' } },
+    { id: 'all', label: { en: 'All Stories', fr: 'Tous les récits', ar: 'جميع القصص', es: 'Todos los relatos' } },
+    { id: 'faith_vs_tyranny', label: { en: 'Faith vs Tyranny', fr: 'Foi contre tyrannie', ar: 'الإيمان في وجه الطغيان', es: 'La fe frente a la tiranía' } },
+    { id: 'wisdom_and_counsel', label: { en: 'Wisdom & Counsel', fr: 'Sagesse et conseil', ar: 'الحكمة والموعظة', es: 'Sabiduría y consejo' } },
+    { id: 'warnings_and_retribution', label: { en: 'Warnings & Lessons', fr: 'Avertissements et leçons', ar: 'العبر والوعيد', es: 'Advertencias y lecciones' } },
+    { id: 'covenants', label: { en: 'Divine Covenants', fr: 'Alliances divines', ar: 'العهود والمواثيق', es: 'Pactos divinos' } },
   ]
 
   const filteredSalihin = useMemo(() => {

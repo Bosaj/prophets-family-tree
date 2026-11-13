@@ -1477,21 +1477,21 @@ export function NatureView() {
   const [modalShowPhoto, setModalShowPhoto] = useState<boolean>(false)
 
   const ANIMAL_CATEGORIES: { id: AnimalCategory | 'all'; label: Record<string, string> }[] = [
-    { id: 'all', label: { en: 'All Animals', fr: 'Tous les animaux', ar: 'جميع الكائنات' } },
-    { id: 'birds', label: { en: 'Birds & Winged', fr: 'Oiseaux & Ailés', ar: 'الطيور والجوارح' } },
-    { id: 'mammals', label: { en: 'Mammals & Beasts', fr: 'Mammifères & Bêtes', ar: 'الثدييات والأنعام' } },
-    { id: 'insects', label: { en: 'Insects & Micro', fr: 'Insectes & Minuscules', ar: 'الحشرات والخلائق الدقيقة' } },
-    { id: 'marine', label: { en: 'Marine & Sea', fr: 'Monde Marin & Océans', ar: 'الكائنات البحرية' } },
+    { id: 'all', label: { en: 'All Animals', fr: 'Tous les animaux', ar: 'جميع الكائنات', es: 'Todos los animales' } },
+    { id: 'birds', label: { en: 'Birds & Winged', fr: 'Oiseaux & Ailés', ar: 'الطيور والجوارح', es: 'Aves' } },
+    { id: 'mammals', label: { en: 'Mammals & Beasts', fr: 'Mammifères & Bêtes', ar: 'الثدييات والأنعام', es: 'Mamíferos' } },
+    { id: 'insects', label: { en: 'Insects & Micro', fr: 'Insectes & Minuscules', ar: 'الحشرات والخلائق الدقيقة', es: 'Insectos y seres diminutos' } },
+    { id: 'marine', label: { en: 'Marine & Sea', fr: 'Monde Marin & Océans', ar: 'الكائنات البحرية', es: 'Animales marinos' } },
     { id: 'reptiles', label: { en: 'Reptiles & Amphibians', fr: 'Reptiles & Amphibiens', ar: 'الزواحف والبرمائيات', es: 'Reptiles y anfibios' } },
   ]
 
   const PLANT_CATEGORIES: { id: PlantCategory | 'all'; label: Record<string, string> }[] = [
-    { id: 'all', label: { en: 'All Plants & Foods', fr: 'Toutes les plantes', ar: 'جميع النباتات والأطعمة' } },
-    { id: 'fruits', label: { en: 'Blessed Fruits', fr: 'Fruits Bénis', ar: 'الفواكه والأشجار المباركة' } },
-    { id: 'herbs_medicinal', label: { en: 'Medicinal Herbs', fr: 'Herbes & Remèdes', ar: 'الأعشاب والطب النبوي' } },
-    { id: 'grains_vegetables', label: { en: 'Vegetables & Grains', fr: 'Légumes & Céréales', ar: 'الحبوب والخضروات' } },
-    { id: 'drinks_sustenance', label: { en: 'Sustenance & Drinks', fr: 'Boissons & Aliments', ar: 'الأشربة والأغذية الكريمة' } },
-    { id: 'heavenly', label: { en: 'Heavenly Flora', fr: 'Flore du Paradis', ar: 'نباتات ورياحين الجنة' } },
+    { id: 'all', label: { en: 'All Plants & Foods', fr: 'Toutes les plantes', ar: 'جميع النباتات والأطعمة', es: 'Todas las plantas y alimentos' } },
+    { id: 'fruits', label: { en: 'Blessed Fruits', fr: 'Fruits Bénis', ar: 'الفواكه والأشجار المباركة', es: 'Frutos benditos' } },
+    { id: 'herbs_medicinal', label: { en: 'Medicinal Herbs', fr: 'Herbes & Remèdes', ar: 'الأعشاب والطب النبوي', es: 'Hierbas medicinales' } },
+    { id: 'grains_vegetables', label: { en: 'Vegetables & Grains', fr: 'Légumes & Céréales', ar: 'الحبوب والخضروات', es: 'Verduras y cereales' } },
+    { id: 'drinks_sustenance', label: { en: 'Sustenance & Drinks', fr: 'Boissons & Aliments', ar: 'الأشربة والأغذية الكريمة', es: 'Alimentos y bebidas' } },
+    { id: 'heavenly', label: { en: 'Heavenly Flora', fr: 'Flore du Paradis', ar: 'نباتات ورياحين الجنة', es: 'Plantas del Paraíso' } },
   ]
 
   const filteredAnimals = useMemo(() => {
