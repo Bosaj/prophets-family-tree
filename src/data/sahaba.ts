@@ -53,6 +53,8 @@ export interface SahabaFigure {
     en: string
     fr: string
     hadithSource: string
+    /** Set when hadith critics disagree on the chain or grade it weak: the card says so. */
+    grade?: 'disputed' | 'weak'
   }
   symbolColor: string
   tags: string[]
@@ -244,7 +246,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     roleCategory: 'ahlulbayt_imam',
     lifeDates: {
       birth: { ah: '18 BH', ce: '605 CE' },
-      death: { ah: '11 AH (3 Jumada al-Thani)', ce: '632 CE' },
+      death: { ah: '11 AH (Ramadan)', ce: '632 CE' },
     },
     lineage: t(
       'Daughter of Prophet Muhammad ﷺ and Sayyidah Khadijah bint Khuwaylid; wife of Ali ibn Abi Talib; mother of Al-Hasan, Al-Husayn, and Zaynab.',
@@ -324,7 +326,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     },
     lifeDates: {
       birth: { ah: '3 AH (Mid-Ramadan)', ce: '625 CE' },
-      death: { ah: '50 AH (Rabi al-Awwal)', ce: '670 CE' },
+      death: { ah: '49 or 50 AH', ce: '669 or 670 CE' },
     },
     lineage: t(
       'Al-Hasan ibn Ali ibn Abi Talib and Fatimah az-Zahra bint Muhammad ﷺ. Eldest grandson of the Prophet ﷺ.',
@@ -507,7 +509,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
       ar: '«أَلَا أَسْتَحِي مِنْ رَجُلٍ تَسْتَحِي مِنْهُ الْمَلَائِكَةُ؟» وقال: «مَا ضَرَّ عُثْمَانَ مَا عَمِلَ بَعْدَ الْيَوْمِ»',
       en: '"Should I not feel shy before a man whom the angels feel shy before?" And: "Nothing Uthman does after today can harm him."',
       fr: '« Ne devrais-je pas être pudique devant un homme devant qui les anges sont pudiques ? » Et : « Rien de ce que fera Othman après ce jour ne pourra lui nuire. »',
-      hadithSource: 'Sahih Muslim (2401), Sunan at-Tirmidhi (3700)',
+      hadithSource: 'Sahih Muslim (2401), Sunan at-Tirmidhi (3701)',
     },
     symbolColor: '#10b981',
     tags: ['Rashidun', 'Mubasharun', 'Third Caliph', 'Mushaf Uthmani'],
@@ -597,10 +599,10 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
       t('Massive philanthropic endowments supporting Badr veterans and Prophet\'s widows', 'Grandes donations pour les veuves et vétérans de Badr', 'وقف أربعمائة دينار لكل من بقي من أهل بدر وتكفل بنفقات أمهات المؤمنين'),
     ],
     propheticPraise: {
-      ar: 'صلى رسول الله ﷺ خلفه ركعة في غزوة تبوك، وقال: «مَا قُبِضَ نَبِيٌّ قَطُّ حَتَّى يُصَلِّيَ خَلْفَ رَجُلٍ صَالِحٍ مِنْ أُمَّتِهِ»',
-      en: 'Prophet Muhammad ﷺ prayed one Rak\'ah behind him during Tabuk expedition and said: "No prophet is taken until he has prayed behind a righteous man from his nation."',
-      fr: 'Le Prophète ﷺ pria derrière lui lors de l’expédition de Tabouk.',
-      hadithSource: 'Sahih Muslim (274), Musnad Ahmad (18151)',
+      ar: '«وَعَبْدُ الرَّحْمَنِ بْنُ عَوْفٍ فِي الْجَنَّةِ». وفي غزوة تبوك صلى النبي ﷺ خلفه ركعة، فلما قضى صلاته أقبل على الناس فقال: «أَحْسَنْتُمْ»',
+      en: '"And Abd al-Rahman ibn Awf is in Paradise." During the Tabuk expedition the Prophet ﷺ prayed one rak\'ah behind him, then turned to the people and said: "You did well."',
+      fr: '« Et Abd ar-Rahman ibn Awf est au Paradis. » Lors de l’expédition de Tabouk, le Prophète ﷺ pria une rak‘a derrière lui, puis dit aux gens : « Vous avez bien fait. »',
+      hadithSource: 'Sunan at-Tirmidhi (3747), Sahih Muslim (274)',
     },
     symbolColor: '#38bdf8',
     tags: ['Mubasharun', 'Shura Council Leader'],
@@ -613,7 +615,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     era: 'mubasharun',
     roleCategory: 'mubashar',
     lifeDates: {
-      birth: { ah: '23 BH', ce: '600 CE' },
+      birth: { ah: 'c. 27 BH', ce: 'c. 595 CE' },
       death: { ah: '55 AH', ce: '674 CE' },
     },
     lineage: t('Sa\'d ibn Abi Waqqas (Malik) az-Zuhri al-Qurashi. Maternal uncle (by clan) of the Prophet ﷺ.', 'Saad az-Zouhri al-Qourachi.', 'سعد بن أبي وقاص (مالك) بن أهيب بن عبد مناف بن زهرة القرشي الزهري، خال النبي ﷺ من بني زهرة.'),
@@ -628,9 +630,9 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
       t('Founded the garrison city of Kufa in Iraq by order of Caliph Umar', 'Fondation de la ville de Koufa', 'تخطيط وبناء مدينة الكوفة لتكون معسكراً ومركزاً حضارياً جديداً'),
     ],
     propheticPraise: {
-      ar: '«ارْمِ فِدَاكَ أَبِي وَأُمِّي»، وقال: «اللَّهُمَّ سَدِّدْ رَمْيَتَهُ، وَأَجِبْ دَعْوَتَهُ»',
-      en: '"Shoot, Sa\'d, may my father and mother be sacrificed for you!" And: "O Allah, direct his aim and answer his supplication."',
-      fr: '« Tire, Sa’d, que mon père et ma mère te soient donnés en rançon ! » Et : « Ô Allah, assure son tir et exauce ses invocations. »',
+      ar: '«ارْمِ فِدَاكَ أَبِي وَأُمِّي»، وقال: «اللَّهُمَّ اسْتَجِبْ لِسَعْدٍ إِذَا دَعَاكَ»',
+      en: '"Shoot, may my father and mother be your ransom!" And: "O Allah, answer Sa\'d when he calls upon You."',
+      fr: '« Tire, que mon père et ma mère te soient donnés en rançon ! » Et : « Ô Allah, exauce Sa’d lorsqu’il T’invoque. »',
       hadithSource: 'Sahih al-Bukhari (2905, 4055), Sunan at-Tirmidhi (3751)',
     },
     symbolColor: '#38bdf8',
@@ -644,7 +646,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     era: 'mubasharun',
     roleCategory: 'mubashar',
     lifeDates: {
-      birth: { ah: '22 BH', ce: '593 CE' },
+      birth: { ah: 'c. 22 BH', ce: 'c. 600 CE' },
       death: { ah: '51 AH', ce: '671 CE' },
     },
     lineage: t('Sa\'id ibn Zayd ibn Amr ibn Nufayl al-Adawi al-Qurashi. Cousin and brother-in-law of Umar ibn al-Khattab.', 'Saïd al-Adawi al-Qourachi.', 'سعيد بن زيد بن عمرو بن نفيل العدوي القرشي، ابن عم عمر بن الخطاب وزوج أخته فاطمة بنت الخطاب.'),
@@ -710,7 +712,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     era: 'sahaba_luminaries',
     roleCategory: 'sahabi_leader',
     lifeDates: {
-      birth: { ah: '54 BH', ce: '570 CE' },
+      birth: { ah: 'c. 56 BH', ce: 'c. 568 CE' },
       death: { ah: '3 AH (Battle of Uhud)', ce: '625 CE' },
     },
     lineage: t('Hamzah ibn Abd al-Muttalib ibn Hashim. Paternal uncle and foster brother of Prophet Muhammad ﷺ.', 'Hamza ibn Abd al-Mouttalib. Oncle du Prophète ﷺ.', 'حمزة بن عبد المطلب بن هاشم الهاشمي القرشي، عم رسول الله ﷺ وأخوه من الرضاعة.'),
@@ -725,9 +727,9 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
       t('Decisive heroics in duels and melee at the Battle of Badr', 'Héros des duels de la bataille de Badr', 'المبارزة الحاسمة يوم بدر وقتال شيبة بن ربيعة وصناديد قريش'),
     ],
     propheticPraise: {
-      ar: '«سَيِّدُ الشُّهَدَاءِ عِنْدَ اللَّهِ تَعَالَى يَوْمَ الْقِيَامَةِ حَمْزَةُ بْنُ عَبْدِ الْمُطَّلِبِ»',
-      en: '"The master of the martyrs before Allah on the Day of Resurrection is Hamzah ibn Abd al-Muttalib."',
-      fr: '« Le maître des martyrs auprès d’Allah au Jour de la Résurrection est Hamza ibn Abd al-Mouttalib. »',
+      ar: '«سَيِّدُ الشُّهَدَاءِ حَمْزَةُ بْنُ عَبْدِ الْمُطَّلِبِ»',
+      en: '"The master of the martyrs is Hamzah ibn Abd al-Muttalib."',
+      fr: '« Le maître des martyrs est Hamza ibn Abd al-Mouttalib. »',
       hadithSource: 'Al-Mustadrak \'ala as-Sahihayn (4884), Sahih al-Jami\' (3675)',
     },
     symbolColor: '#a855f7',
@@ -803,7 +805,6 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     era: 'sahaba_luminaries',
     roleCategory: 'sahabi_leader',
     lifeDates: {
-      birth: { ah: '55 BH', ce: '568 CE' },
       death: { ah: '35 AH', ce: '656 CE' },
     },
     lineage: t('Salman al-Farsi (born Ruzbeh in Isfahan, Persia). Traveled through Syria and Arabia in search of the prophesied final prophet.', 'Salman le Persan.', 'سلمان الفارسي (روزبَه بن خشنودان) من أصفهان بفارس، الباحث المخلص عن النبوة.'),
@@ -818,10 +819,10 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
       t('Governor of Al-Mada\'in who wove palm leaves to earn his own bread despite his high office', 'Gouverneur exemplaire vivant du travail de ses mains', 'ولاية المدائن بنزاهة وزهد أسطوري، حيث كان يأكل من كسب يده بحياكة الخوص'),
     ],
     propheticPraise: {
-      ar: '«سَلْمَانُ مِنَّا أَهْلَ الْبَيْتِ»',
-      en: '"Salman is of us, the Ahl al-Bayt (Noble Household)."',
-      fr: '« Salman fait partie de nous, les gens de la Maison (Ahl al-Bayt). »',
-      hadithSource: 'Al-Mustadrak \'ala as-Sahihayn (6539), Tabarani (Kabir 6040)',
+      ar: 'وضع النبي ﷺ يده على سلمان ثم قال: «لَوْ كَانَ الْإِيمَانُ عِنْدَ الثُّرَيَّا لَنَالَهُ رِجَالٌ - أَوْ رَجُلٌ - مِنْ هَؤُلَاءِ»',
+      en: 'The Prophet ﷺ placed his hand on Salman and said: "Even if faith were at the Pleiades, men (or a man) from these people would reach it." (The often-quoted "Salman is of us, the Household" has a weak chain.)',
+      fr: 'Le Prophète ﷺ posa la main sur Salman et dit : « Même si la foi était auprès des Pléiades, des hommes (ou un homme) parmi ceux-ci l’atteindraient. » (La parole souvent citée « Salman fait partie de nous, les gens de la Maison » a une chaîne faible.)',
+      hadithSource: 'Sahih al-Bukhari (4897), Sahih Muslim (2546)',
     },
     symbolColor: '#a855f7',
     tags: ['Ahl al-Bayt Honor', 'Trench Strategist', 'Seeker of Truth'],
@@ -980,7 +981,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     roleCategory: 'hadith_master',
     mentorId: 'imam_bukhari',
     lifeDates: {
-      birth: { ah: '204 AH', ce: '820 CE' },
+      birth: { ah: '204 or 206 AH', ce: 'c. 820 CE' },
       death: { ah: '261 AH (25 Rajab)', ce: '875 CE (6 May)' },
     },
     lineage: t(
@@ -1038,7 +1039,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
       },
     ],
     milestones: [
-      { yearAH: '204 AH', yearCE: '820 CE', title: t('Birth in Nishapur', 'Naissance à Nishapour', 'مولده في نيسابور بخراسان'), desc: t('Born into the noble Arab clan of Qushayr.', 'Naissance au sein de la tribu arabe de Qouchayr.', 'نشأ في بيت علم وفضل بمدينة نيسابور عاصمة العلم بخراسان.') },
+      { yearAH: '204 or 206 AH', yearCE: 'c. 820 CE', title: t('Birth in Nishapur', 'Naissance à Nishapour', 'مولده في نيسابور بخراسان'), desc: t('Born into the noble Arab clan of Qushayr.', 'Naissance au sein de la tribu arabe de Qouchayr.', 'نشأ في بيت علم وفضل بمدينة نيسابور عاصمة العلم بخراسان.') },
       { yearAH: '218 AH', yearCE: '833 CE', title: t('Began Hadith Studies at 14', 'Début des études à 14 ans', 'الشروع في سماع الحديث وهو ابن أربع عشرة سنة'), desc: t('Undertook foundational study in Nishapur and early travels.', 'Premières études et voyages en Orient.', 'بدء طلب العلم والرحلة إلى مراكز العلم الكبرى.') },
       { yearAH: '250 AH', yearCE: '864 CE', title: t('Meeting Al-Bukhari in Nishapur', 'Rencontre avec Al-Boukhari', 'ملازمة الإمام البخاري في نيسابور'), desc: t('Formed an unbreakable bond of loyalty with Imam al-Bukhari.', 'Alliance intellectuelle et dévotion avec Al-Boukhari.', 'الملازمة التاريخية للإمام البخاري والدفاع عنه في نيسابور.') },
       { yearAH: '261 AH', yearCE: '875 CE', title: t('Passing in Nishapur', 'Décès à Nishapour', 'وفاته بنصراباد في نيسابور'), desc: t('Passed away at age 57 and buried in Nasrabad cemetery in Nishapur.', 'Décès à 57 ans à Nishapour.', 'وفاته في شهر رجب ودفنه بمقبرة نصراباد بنيسابور تاركاً أصح كتاب مركب للأمة.') },
@@ -1119,7 +1120,7 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
       ce: '717–720 CE',
     },
     lifeDates: {
-      birth: { ah: '61 AH', ce: '681 CE' },
+      birth: { ah: '61 or 63 AH', ce: '681 or 682 CE' },
       death: { ah: '101 AH (20 Rajab)', ce: '720 CE' },
     },
     lineage: t(
@@ -1355,7 +1356,8 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
       ar: '«لَتُفْتَحَنَّ الْقُسْطَنْطِينِيَّةُ، فَلَنِعْمَ الْأَمِيرُ أَمِيرُهَا، وَلَنِعْمَ الْجَيْشُ ذَلِكَ الْجَيْشُ»',
       en: '"Verily, Constantinople shall be conquered: what a wonderful commander is its commander, and what a wonderful army is that army!"',
       fr: '« Certes, Constantinople sera conquise : quel excellent prince que son prince, et quelle excellente armée que cette armée ! »',
-      hadithSource: 'Musnad Ahmad (18977), Al-Mustadrak \'ala as-Sahihayn (8300)',
+      hadithSource: 'Musnad Ahmad (18957), al-Hakim, al-Mustadrak',
+      grade: 'disputed',
     },
     symbolColor: '#ec4899',
     tags: ['Conqueror of Constantinople', 'Fatih', 'Prophetic Glad Tidings'],
@@ -1456,12 +1458,12 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     era: 'idrisid',
     roleCategory: 'caliph_dynasty',
     reignDates: {
-      ah: '172–177 AH',
-      ce: '788–793 CE',
+      ah: '172–175/177 AH',
+      ce: '788–791/793 CE',
     },
     lifeDates: {
       birth: { ah: '127 AH', ce: '745 CE' },
-      death: { ah: '177 AH', ce: '793 CE' },
+      death: { ah: '175 or 177 AH', ce: '791 or 793 CE' },
     },
     lineage: t(
       'Idris ibn Abdallah al-Kamil ibn al-Hasan al-Muthanna ibn al-Hasan ibn Ali ibn Abi Talib and Fatimah az-Zahra. Great-grandson of Sayyiduna Al-Hasan.',

@@ -22,7 +22,9 @@ import {
 import { useI18n } from '../i18n'
 import type { Key } from '../i18n/strings'
 import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions, type TreeEdge } from '../lib/layout'
-import { pathPoint, relationLabel } from '../lib/relations'
+import { relationLabel } from '../lib/relations'
+import { labelScale, nodeBoxes, placeLabels, textWidth, type LabelRequest } from '../lib/labelLayout'
+import { EdgeLabel } from './EdgeLabel'
 import { treeParent } from '../data/links'
 import { byId } from '../data/people'
 import type { Kind, Lang } from '../data/types'
@@ -37,6 +39,11 @@ interface View {
   k: number
   x: number
   y: number
+}
+
+const nodeRadius = (n: TreeNode) => {
+  const kind = n.person.kind
+  return kind === 'prophet' ? (n.person.ululAzm ? 17 : 13) : kind === 'spouse' ? 11 : kind === 'child' ? 10 : 9
 }
 
 export type EdgeKind = 'parent' | 'descendant' | 'spouse' | 'sibling' | 'cousin' | 'guardian' | 'nephew' | 'possible'
@@ -379,6 +386,45 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
     }
   }
 
+  const dateLabelOf = (n: TreeNode): string | null => {
+    let raw: string | null = null
+    if (n.person.era) raw = pick(n.person.era.t)
+    else if (n.person.dates) {
+      const d = n.person.dates
+      if (d.hijriBorn && d.hijriDied) raw = `${formatDate(d.hijriBorn, lang)} – ${formatDate(d.hijriDied, lang)}`
+      else if (d.gregorianBorn && d.gregorianDied) raw = `${formatDate(d.gregorianBorn, lang)} – ${formatDate(d.gregorianDied, lang)}`
+      else if (d.born?.t) raw = pick(d.born.t)
+    }
+    if (!raw) return null
+    return raw.length > 28 ? (raw.includes('،') ? raw.split('،')[0]! : raw.slice(0, 26) + '…') : raw
+  }
+  const pillWidth = (date: string) => Math.max(88, Math.min(220, date.length * 7.5 + 24))
+
+  // Space taken by every node (orb, scripture badge, names, date pill), so relation names never cover them.
+  const nodeObstacles = useMemo(
+    () =>
+      layout.nodes.flatMap((n) => {
+        const r = nodeRadius(n)
+        const size = n.person.kind === 'prophet' ? 22 : 16
+        const rows = [{ y: r + 24, size, w: textWidth(n.person.name.ar, `600 ${size}px "Reem Kufi Variable", serif`) }]
+        if (lang !== 'ar') {
+          const latin = pick(n.person.name)
+          rows.push({ y: r + 44, size: 12, w: textWidth(latin, '400 12px "Sora Variable", sans-serif') + latin.length * 0.4 })
+        }
+        const date = dateLabelOf(n)
+        if (date) rows.push({ y: r + (lang !== 'ar' ? 62 : 46) + 9, size: 18, w: pillWidth(date) })
+        const bx = lang === 'ar' ? -r - 14 : r + 14
+        const badge = SCRIPTURES_BY_PROPHET.has(n.id) ? [{ x0: bx - 14, y0: -r - 22, x1: bx + 14, y1: -r + 6 }] : []
+        return nodeBoxes(n.x, n.y, r, rows, badge)
+      }),
+    // dateLabelOf only reads pick and lang
+    [layout, lang, pick],
+  )
+
+  // Relation names are collected while the lines are drawn, then placed off the nodes and drawn above them.
+  const labelK = labelScale(view.k)
+  const edgeLabels: (LabelRequest & { accent: string; active: boolean })[] = []
+
   return (
     <div className={`relative overflow-hidden ${mini ? 'h-[440px] rounded-3xl border border-white/10 bg-night/40 sm:h-[520px]' : 'h-full'}`}>
       <div
@@ -610,19 +656,20 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     />
                   )}
 
-                  {/* Relationship name, so a line reads "son", "wife" or "nephew" without opening anything */}
-                  {(view.k >= 0.55 || isHighlighted || (selected !== null && (e.link.from === selected || e.link.to === selected))) && !dim && (() => {
-                    const mid = pathPoint(e.d)
-                    const text = pick(relationLabel(e.link))
-                    const w = Math.max(30, text.length * (lang === 'ar' ? 5.6 : 5.2) + 12)
-                    return (
-                      <g transform={`translate(${mid.x},${mid.y})`} className="pointer-events-none select-none" aria-hidden="true">
-                        <rect x={-w / 2} y={-8} width={w} height={16} rx={8} fill="rgba(10, 8, 24, 0.88)" stroke={strokeColor} strokeOpacity={0.55} strokeWidth={0.8} />
-                        <text y={3.5} textAnchor="middle" fontSize={lang === 'ar' ? 10 : 9} fontWeight={600} fill={isHighlighted ? '#ffffff' : '#e9dfc6'} fontFamily={lang === 'ar' ? 'Reem Kufi Variable, serif' : undefined}>
-                          {text}
-                        </text>
-                      </g>
-                    )
+                  {/* Relationship name ("son", "wife", "nephew"), drawn in the label layer above the nodes */}
+                  {(() => {
+                    const touchesSelected = selected !== null && (e.link.from === selected || e.link.to === selected)
+                    if ((view.k >= 0.55 || isHighlighted || touchesSelected) && !dim) {
+                      edgeLabels.push({
+                        key: String(i),
+                        text: pick(relationLabel(e.link)),
+                        d: e.d,
+                        force: isHighlighted || touchesSelected,
+                        accent: strokeColor,
+                        active: isHighlighted || touchesSelected,
+                      })
+                    }
+                    return null
                   })()}
 
                   {/* Wide transparent hit target for effortless hover/click */}
@@ -870,23 +917,9 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               const active = selected === n.id
               const onPath = path.has(n.id)
               const dim = selected && !onPath
-              const r = prophet ? (n.person.ululAzm ? 17 : 13) : spouse ? 11 : child ? 10 : 9
-              const dateLabelRaw = (() => {
-                if (n.person.era) return pick(n.person.era.t)
-                if (n.person.dates) {
-                  const d = n.person.dates
-                  if (d.hijriBorn && d.hijriDied) return `${formatDate(d.hijriBorn, lang)} – ${formatDate(d.hijriDied, lang)}`
-                  if (d.gregorianBorn && d.gregorianDied) return `${formatDate(d.gregorianBorn, lang)} – ${formatDate(d.gregorianDied, lang)}`
-                  if (d.born?.t) return pick(d.born.t)
-                }
-                return null
-              })()
-              const dateLabel = dateLabelRaw
-                ? dateLabelRaw.length > 28
-                  ? (dateLabelRaw.includes('،') ? dateLabelRaw.split('،')[0] : dateLabelRaw.slice(0, 26) + '…')
-                  : dateLabelRaw
-                : null
-              const pillW = dateLabel ? Math.max(88, Math.min(220, dateLabel.length * 7.5 + 24)) : 0
+              const r = nodeRadius(n)
+              const dateLabel = dateLabelOf(n)
+              const pillW = dateLabel ? pillWidth(dateLabel) : 0
               const scriptureBook = SCRIPTURES_BY_PROPHET.get(n.id)
               return (
                 <g
@@ -1059,6 +1092,16 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 </g>
               )
             })}
+
+            {/* Relation names, placed where they cover no node and no other name */}
+            {(() => {
+              const placed = placeLabels(edgeLabels, nodeObstacles, labelK, lang)
+              return edgeLabels.map((l) => {
+                const p = placed.get(l.key)
+                if (!p) return null
+                return <EdgeLabel key={`label-${l.key}`} x={p.x} y={p.y} scale={labelK} text={l.text} lang={lang} accent={l.accent} active={l.active} />
+              })
+            })()}
           </g>
         </svg>
       </div>
