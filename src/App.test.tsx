@@ -114,6 +114,14 @@ describe('App', () => {
     expect(document.querySelector('a[href="https://sunnah.com/bukhari:3192"]')).not.toBeNull()
   })
 
+  it('shows the Hijri calendar with its months, Eids and the Cave', async () => {
+    await renderAt('/hijri')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('The Hijri calendar')
+    expect(screen.getByRole('heading', { name: 'The twelve months' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'The two Eids' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Three hundred years, and nine more' })).toBeInTheDocument()
+  })
+
   it('shows the Hour page in Arabic', async () => {
     await renderAt('/hour', 'ar')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('البداية والنهاية')

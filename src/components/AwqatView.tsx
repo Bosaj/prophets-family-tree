@@ -5,7 +5,7 @@ import type { L4, Lang } from '../data/types'
 import { ADHKAR, DAY_PARTS, FRIDAY, PRAYERS, type DayPartId } from '../data/awqat'
 import { PLACES, currentPart, dayTimes, guessMethod, nextPrayer, type DayTimes, type MethodId, type Place, type PrayerKey } from '../lib/prayerTimes'
 import { DuaCard } from './DuasView'
-import { LevelChip, RefChip } from './ui'
+import { A, LevelChip, RefChip } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
 
@@ -197,7 +197,11 @@ export function AwqatView() {
       <section className="glass-strong mb-12 overflow-hidden rounded-3xl p-5 sm:p-8" aria-labelledby="today">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
           <h2 id="today" className="text-lg font-semibold text-ink first-letter:uppercase">{dateFmt.format(now)}</h2>
-          {hijri && <p className="text-sm text-gold" title={pick(UI.hijriNote)}>{hijri}</p>}
+          {hijri && (
+            <A href="/hijri" className="text-sm text-gold hover:underline" title={pick(UI.hijriNote)}>
+              {hijri}
+            </A>
+          )}
         </div>
         <div className="mt-6 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <SunArc today={today} now={now} fmt={fmt} lang={lang} name={(k) => pick(PRAYERS.find((p) => p.id === k)!.name).split(' (')[0]!} />
