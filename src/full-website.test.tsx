@@ -139,7 +139,7 @@ describe('Full Website Automated Test Suite', () => {
 
       // Check Pre-Adamic banner
       expect(
-        screen.getByText(/Pre-Adamic Realm \(Jinn, Hinn & Nasnas\)/i),
+        screen.getByText(/Before Adam \(jinn, and reports of Hinn & Nasnas\)/i),
       ).toBeInTheDocument()
     })
 
@@ -152,7 +152,7 @@ describe('Full Website Automated Test Suite', () => {
 
       // Modal opens
       expect(
-        screen.getByText(/The Pre-Adamic Realm: Angels, Iblis, Jinn, Hinn, Binn & Nasnas/i),
+        screen.getByText(/Before Adam: angels, Iblis, jinn, and the reports of Hinn, Binn & Nasnas/i),
       ).toBeInTheDocument()
       expect(screen.getByText(/Al-Jinn \(Pre-Adamic Inhabitants\)/i)).toBeInTheDocument()
 

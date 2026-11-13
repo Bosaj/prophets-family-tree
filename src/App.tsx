@@ -170,6 +170,19 @@ export default function App() {
                     </a>
                     .
                   </>
+                ) : lang === 'es' ? (
+                  <>
+                    Un proyecto de código abierto de{' '}
+                    <a
+                      href="https://www.linkedin.com/in/oussama-elhadji/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gold hover:underline font-semibold transition-colors"
+                    >
+                      Oussama EL HADJI
+                    </a>
+                    .
+                  </>
                 ) : (
                   <>
                     An open-source work by{' '}

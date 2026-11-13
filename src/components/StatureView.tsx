@@ -7,7 +7,7 @@ import {
   Ruler,
   Sparkles,
 } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import { STATURE_SCALE_DATA, PROPHETIC_DESCRIPTIONS } from '../data/stature'
 import { A, LevelChip } from './ui'
 
@@ -25,13 +25,13 @@ export function StatureView() {
     switch (unit) {
       case 'cubits':
         return cubits
-          ? `${cubits} ${lang === 'ar' ? 'ذراعاً' : lang === 'fr' ? 'coudées' : 'cubits'}`
-          : `${(meters / 0.5).toFixed(1)} ${lang === 'ar' ? 'ذراعاً' : lang === 'fr' ? 'coudées' : 'cubits'}`
+          ? `${cubits} ${tx(lang, 'cubits', 'coudées', 'ذراعاً', 'codos')}`
+          : `${(meters / 0.5).toFixed(1)} ${tx(lang, 'cubits', 'coudées', 'ذراعاً', 'codos')}`
       case 'imperial': {
         const totalInches = meters * 39.3701
         const feet = Math.floor(totalInches / 12)
         const inches = Math.round(totalInches % 12)
-        return `${feet}′ ${inches}″ (${(meters * 3.28084).toFixed(1)} ${lang === 'ar' ? 'قدم' : 'ft'})`
+        return `${feet}′ ${inches}″ (${(meters * 3.28084).toFixed(1)} ${tx(lang, 'ft', 'pi', 'قدم', 'pies')})`
       }
       case 'metric':
       default:
@@ -45,24 +45,16 @@ export function StatureView() {
       <div className="reveal text-center max-w-3xl mx-auto mb-14">
         <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3.5 py-1 text-xs font-semibold text-gold">
           <Ruler className="size-3.5" />
-          <span>{lang === 'ar' ? 'المقاييس النبوية والهيئة' : lang === 'fr' ? 'Dimensions & Apparence' : 'Prophetic Stature & Form'}</span>
+          <span>{tx(lang, 'Prophetic Stature & Form', 'Dimensions & Apparence', 'المقاييس النبوية والهيئة', 'Estatura y aspecto de los profetas')}</span>
         </div>
         <h1 className="mt-4 text-3xl sm:text-5xl font-bold tracking-tight text-ink">
-          <span className="ar-name gold-text block mb-2">{lang === 'ar' ? 'هيئة الأنبياء ومقاييس الأجساد عبر العصور' : 'Stature of the Prophets Across History'}</span>
+          <span className="ar-name gold-text block mb-2">{tx(lang, 'Stature of the Prophets Across History', 'La stature des prophètes à travers l’histoire', 'هيئة الأنبياء ومقاييس الأجساد عبر العصور', 'La estatura de los profetas a lo largo de la historia')}</span>
           <span className="text-xl sm:text-2xl font-light text-ink-2">
-            {lang === 'ar'
-              ? 'دراسة وثائقية مقارنة مستندة إلى صحيح الأحاديث والآيات القرآنية'
-              : lang === 'fr'
-              ? 'Une étude documentaire et comparative basée sur les textes authentiques'
-              : 'Authentic textual descriptions and historical body scale compared to humanity today'}
+            {tx(lang, 'Authentic textual descriptions and historical body scale compared to humanity today', 'Une étude documentaire et comparative basée sur les textes authentiques', 'دراسة وثائقية مقارنة مستندة إلى صحيح الأحاديث والآيات القرآنية', 'Descripciones de los textos auténticos y escala corporal comparada con la humanidad actual')}
           </span>
         </h1>
         <p className="mt-4 text-sm sm:text-base text-ink-3 leading-relaxed">
-          {lang === 'ar'
-            ? 'خلق الله آدم عليه السلام طوله ستون ذراعاً، ولم يزل الخلق ينقص بعده عبر الأجيال حتى استقر على ما هو عليه اليوم، وسيعود أهل الجنة إلى هيئة آدم وكماله.'
-            : lang === 'fr'
-            ? 'Allah créa Adam d’une stature de 60 coudées (~30 mètres). La taille des hommes a décru au fil des millénaires pour se stabiliser à l’époque prophétique, avant d’être restaurée au Paradis.'
-            : 'Allah created Adam sixty cubits tall (~30 meters). The stature of humankind gradually decreased over ancient epochs until reaching the modern baseline, to be gloriously restored in Paradise.'}
+          {tx(lang, 'Allah created Adam sixty cubits tall (~30 meters). The stature of humankind gradually decreased over ancient epochs until reaching the modern baseline, to be gloriously restored in Paradise.', 'Allah créa Adam d’une stature de 60 coudées (~30 mètres). La taille des hommes a décru au fil des millénaires pour se stabiliser à l’époque prophétique, avant d’être restaurée au Paradis.', 'خلق الله آدم عليه السلام طوله ستون ذراعاً، ولم يزل الخلق ينقص بعده عبر الأجيال حتى استقر على ما هو عليه اليوم، وسيعود أهل الجنة إلى هيئة آدم وكماله.', 'Allah creó a Adán de sesenta codos de alto (unos 30 metros). La estatura humana fue disminuyendo con las épocas hasta la actual, y será restaurada en el Paraíso.')}
         </p>
       </div>
 
@@ -70,7 +62,7 @@ export function StatureView() {
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <h2 className="flex items-center gap-2 text-xl font-bold text-ink">
           <ArrowDownUp className="size-5 text-gold" />
-          <span>{lang === 'ar' ? 'مقارنة الطول والقامة' : lang === 'fr' ? 'Échelle comparative de taille' : 'Human Stature Scale Comparison'}</span>
+          <span>{tx(lang, 'Human Stature Scale Comparison', 'Échelle comparative de taille', 'مقارنة الطول والقامة', 'Comparación de estaturas')}</span>
         </h2>
         <div className="flex items-center rounded-full border border-white/10 bg-white/5 p-1 text-xs">
           <button
@@ -78,21 +70,21 @@ export function StatureView() {
             onClick={() => setUnit('metric')}
             className={`rounded-full px-3 py-1 font-medium transition-colors ${unit === 'metric' ? 'bg-gold text-night font-bold' : 'text-ink-2 hover:text-ink'}`}
           >
-            {lang === 'ar' ? 'متري (م)' : 'Metric (m)'}
+            {tx(lang, 'Metric (m)', 'Métrique (m)', 'متري (م)', 'Métrico (m)')}
           </button>
           <button
             type="button"
             onClick={() => setUnit('imperial')}
             className={`rounded-full px-3 py-1 font-medium transition-colors ${unit === 'imperial' ? 'bg-gold text-night font-bold' : 'text-ink-2 hover:text-ink'}`}
           >
-            {lang === 'ar' ? 'إمبراطوري (قدم)' : 'Imperial (ft)'}
+            {tx(lang, 'Imperial (ft)', 'Impérial (ft)', 'إمبراطوري (قدم)', 'Imperial (ft)')}
           </button>
           <button
             type="button"
             onClick={() => setUnit('cubits')}
             className={`rounded-full px-3 py-1 font-medium transition-colors ${unit === 'cubits' ? 'bg-gold text-night font-bold' : 'text-ink-2 hover:text-ink'}`}
           >
-            {lang === 'ar' ? 'الأذرع (ذراع)' : 'Cubits (ذراع)'}
+            {tx(lang, 'Cubits (ذراع)', 'Coudées (ذراع)', 'الأذرع (ذراع)', 'Codos (ذراع)')}
           </button>
         </div>
       </div>
@@ -103,12 +95,10 @@ export function StatureView() {
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
               <Layers className="size-4" />
-              <span>{lang === 'ar' ? 'مسرح مقارنة الظلال والقامة الحقيقية مع الكائنات والديناصورات' : 'Interactive Silhouette & Prehistoric Scale Stage'}</span>
+              <span>{tx(lang, 'Interactive Silhouette & Prehistoric Scale Stage', 'Silhouettes à l’échelle', 'مسرح مقارنة الظلال والقامة الحقيقية مع الكائنات والديناصورات', 'Siluetas a escala')}</span>
             </div>
             <p className="mt-1 text-xs sm:text-sm text-ink-3">
-              {lang === 'ar'
-                ? 'قارن طول قامة آدم عليه السلام (30 متراً) وقوم عاد وثمود وموسى عليه السلام جنباً إلى جنب مع كائنات الأرض والديناصورات المنقرضة على أرضية واحدة وبظلال واقعية'
-                : 'Direct standing scale comparison between Adam (30m), ancient giants, prophets, dinosaurs (Sauropod & T-Rex), and megafauna.'}
+              {tx(lang, 'Direct standing scale comparison between Adam (30m), ancient giants, prophets, dinosaurs (Sauropod & T-Rex), and megafauna.', 'Comparaison à l’échelle entre Adam (30 m), les peuples anciens, les prophètes, des dinosaures (sauropode et T-Rex) et de grands animaux.', 'قارن طول قامة آدم عليه السلام (30 متراً) وقوم عاد وثمود وموسى عليه السلام جنباً إلى جنب مع كائنات الأرض والديناصورات المنقرضة على أرضية واحدة وبظلال واقعية', 'Comparación a escala entre Adán (30 m), los pueblos antiguos, los profetas, dinosaurios (saurópodo y T-Rex) y grandes animales.')}
             </p>
           </div>
 
@@ -121,7 +111,7 @@ export function StatureView() {
                 stageZoom === 'full' ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]' : 'text-ink-2 hover:text-ink'
               }`}
             >
-              {lang === 'ar' ? 'الكل (30م)' : '0–30m Full'}
+              {tx(lang, '0–30m Full', '0–30 m complet', 'الكل (30م)', '0–30 m completo')}
             </button>
             <button
               type="button"
@@ -130,7 +120,7 @@ export function StatureView() {
                 stageZoom === 'megafauna' ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]' : 'text-ink-2 hover:text-ink'
               }`}
             >
-              {lang === 'ar' ? 'العمالقة والديناصورات (12م)' : '0–12m Megafauna'}
+              {tx(lang, '0–12m Megafauna', '0–12 m mégafaune', 'العمالقة والديناصورات (12م)', '0–12 m megafauna')}
             </button>
             <button
               type="button"
@@ -139,14 +129,14 @@ export function StatureView() {
                 stageZoom === 'humanoid' ? 'bg-gold text-night font-bold shadow-[0_0_12px_rgba(233,198,123,0.5)]' : 'text-ink-2 hover:text-ink'
               }`}
             >
-              {lang === 'ar' ? 'تقريب بشري (4.5م)' : '0–4.5m Humanoid'}
+              {tx(lang, '0–4.5m Humanoid', '0–4,5 m humain', 'تقريب بشري (4.5م)', '0–4,5 m humano')}
             </button>
           </div>
         </div>
 
         {/* SVG Silhouette Stage */}
         <div className="w-full overflow-x-auto rounded-2xl border border-white/10 bg-gradient-to-b from-night-surface/90 via-night/95 to-black p-2 sm:p-4">
-          <svg viewBox="0 0 1000 420" className="w-full min-w-[720px] select-none" role="img" aria-label="Scale Stage">
+          <svg viewBox="0 0 1000 420" className="w-full min-w-[720px] select-none" role="img" aria-label={tx(lang, 'Height scale', 'Échelle des tailles', 'مقياس الأطوال', 'Escala de alturas')}>
             <defs>
               <linearGradient id="ground-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="rgba(233, 198, 123, 0.45)" />
@@ -218,7 +208,7 @@ export function StatureView() {
                     x={130}
                     groundY={360}
                     active={selectedScaleId === 'adam_primordial'}
-                    label={lang === 'ar' ? 'آدم (30م / 60 ذراعاً)' : 'Adam (30m / 60 cubits)'}
+                    label={tx(lang, 'Adam (30m / 60 cubits)', 'Adam (30 m / 60 coudées)', 'آدم (30م / 60 ذراعاً)', 'Adán (30 m / 60 codos)')}
                   />
                 </g>
 
@@ -229,7 +219,7 @@ export function StatureView() {
                     x={350}
                     groundY={360}
                     active={selectedScaleId === 'sauropod_diplodocus'}
-                    label={lang === 'ar' ? 'سوروبود (12م)' : 'Sauropod (12m)'}
+                    label={tx(lang, 'Sauropod (12m)', 'Sauropode (12 m)', 'سوروبود (12م)', 'Saurópodo (12 m)')}
                   />
                 </g>
 
@@ -240,7 +230,7 @@ export function StatureView() {
                     x={530}
                     groundY={360}
                     active={selectedScaleId === 'people_of_ad'}
-                    label={lang === 'ar' ? 'عاد (≈7.5م)' : "‘Ad (≈7.5m)"}
+                    label={tx(lang, '‘Ad (≈7.5m)', '‘Ad (≈7,5 m)', 'عاد (≈7.5م)', '‘Ad (≈7,5 m)')}
                   />
                 </g>
 
@@ -251,7 +241,7 @@ export function StatureView() {
                     x={635}
                     groundY={360}
                     active={selectedScaleId === 'tall_giraffe'}
-                    label={lang === 'ar' ? 'زرافة (5.5م)' : 'Giraffe (5.5m)'}
+                    label={tx(lang, 'Giraffe (5.5m)', 'Girafe (5,5 m)', 'زرافة (5.5م)', 'Jirafa (5,5 m)')}
                   />
                 </g>
 
@@ -262,7 +252,7 @@ export function StatureView() {
                     x={735}
                     groundY={360}
                     active={selectedScaleId === 'trex_apex'}
-                    label={lang === 'ar' ? 'تي-ريكس (4.5م)' : 'T-Rex (4.5m)'}
+                    label={tx(lang, 'T-Rex (4.5m)', 'T-Rex (4,5 m)', 'تي-ريكس (4.5م)', 'T-Rex (4,5 m)')}
                   />
                 </g>
 
@@ -273,7 +263,7 @@ export function StatureView() {
                     x={830}
                     groundY={360}
                     active={selectedScaleId === 'thamud_ancient'}
-                    label={lang === 'ar' ? 'ثمود (≈4م)' : 'Thamud (≈4m)'}
+                    label={tx(lang, 'Thamud (≈4m)', 'Thamud (≈4 m)', 'ثمود (≈4م)', 'Zamud (≈4 m)')}
                   />
                 </g>
 
@@ -284,7 +274,7 @@ export function StatureView() {
                     x={905}
                     groundY={360}
                     active={selectedScaleId === 'african_elephant'}
-                    label={lang === 'ar' ? 'فيل (3.5م)' : 'Elephant (3.5m)'}
+                    label={tx(lang, 'Elephant (3.5m)', 'Éléphant (3,5 m)', 'فيل (3.5م)', 'Elefante (3,5 m)')}
                   />
                 </g>
 
@@ -295,7 +285,7 @@ export function StatureView() {
                     x={955}
                     groundY={360}
                     active={selectedScaleId === 'musa_era'}
-                    label={lang === 'ar' ? 'موسى (≈2.1م)' : 'Musa (≈2.1m)'}
+                    label={tx(lang, 'Musa (≈2.1m)', 'Moussa (≈2,1 m)', 'موسى (≈2.1م)', 'Musa (≈2,1 m)')}
                   />
                 </g>
 
@@ -306,7 +296,7 @@ export function StatureView() {
                     x={985}
                     groundY={360}
                     active={selectedScaleId === 'modern_human'}
-                    label={lang === 'ar' ? 'المعاصر (1.75م)' : 'Modern (1.75m)'}
+                    label={tx(lang, 'Modern (1.75m)', 'Aujourd’hui (1,75 m)', 'المعاصر (1.75م)', 'Hoy (1,75 m)')}
                   />
                 </g>
               </>
@@ -321,7 +311,7 @@ export function StatureView() {
                     x={180}
                     groundY={360}
                     active={selectedScaleId === 'sauropod_diplodocus'}
-                    label={lang === 'ar' ? 'سوروبود العملاق (12م / 24 ذراعاً)' : 'Giant Sauropod (12m)'}
+                    label={tx(lang, 'Giant Sauropod (12m)', 'Grand sauropode (12 m)', 'سوروبود العملاق (12م / 24 ذراعاً)', 'Gran saurópodo (12 m)')}
                   />
                 </g>
 
@@ -332,7 +322,7 @@ export function StatureView() {
                     x={390}
                     groundY={360}
                     active={selectedScaleId === 'people_of_ad'}
-                    label={lang === 'ar' ? 'قوم عاد (7.5م / 15 ذراعاً)' : "People of ‘Ad (7.5m)"}
+                    label={tx(lang, 'People of ‘Ad (7.5m)', 'Peuple de ‘Ad (7,5 m)', 'قوم عاد (7.5م / 15 ذراعاً)', 'Pueblo de ‘Ad (7,5 m)')}
                   />
                 </g>
 
@@ -343,7 +333,7 @@ export function StatureView() {
                     x={510}
                     groundY={360}
                     active={selectedScaleId === 'tall_giraffe'}
-                    label={lang === 'ar' ? 'الزرافة (5.5م)' : 'Giraffe (5.5m)'}
+                    label={tx(lang, 'Giraffe (5.5m)', 'Girafe (5,5 m)', 'الزرافة (5.5م)', 'Jirafa (5,5 m)')}
                   />
                 </g>
 
@@ -354,7 +344,7 @@ export function StatureView() {
                     x={630}
                     groundY={360}
                     active={selectedScaleId === 'trex_apex'}
-                    label={lang === 'ar' ? 'تي-ريكس (4.5م)' : 'T-Rex (4.5m)'}
+                    label={tx(lang, 'T-Rex (4.5m)', 'T-Rex (4,5 m)', 'تي-ريكس (4.5م)', 'T-Rex (4,5 m)')}
                   />
                 </g>
 
@@ -365,7 +355,7 @@ export function StatureView() {
                     x={740}
                     groundY={360}
                     active={selectedScaleId === 'thamud_ancient'}
-                    label={lang === 'ar' ? 'ثمود (4م / 8 أذرع)' : 'Thamud (≈4m)'}
+                    label={tx(lang, 'Thamud (≈4m)', 'Thamud (≈4 m)', 'ثمود (4م / 8 أذرع)', 'Zamud (≈4 m)')}
                   />
                 </g>
 
@@ -376,7 +366,7 @@ export function StatureView() {
                     x={830}
                     groundY={360}
                     active={selectedScaleId === 'african_elephant'}
-                    label={lang === 'ar' ? 'فيل إفريقي (3.5م)' : 'Elephant (3.5m)'}
+                    label={tx(lang, 'Elephant (3.5m)', 'Éléphant (3,5 m)', 'فيل إفريقي (3.5م)', 'Elefante (3,5 m)')}
                   />
                 </g>
 
@@ -387,7 +377,7 @@ export function StatureView() {
                     x={915}
                     groundY={360}
                     active={selectedScaleId === 'musa_era'}
-                    label={lang === 'ar' ? 'موسى (≈2.1م)' : 'Musa (≈2.1m)'}
+                    label={tx(lang, 'Musa (≈2.1m)', 'Moussa (≈2,1 m)', 'موسى (≈2.1م)', 'Musa (≈2,1 m)')}
                   />
                 </g>
 
@@ -398,7 +388,7 @@ export function StatureView() {
                     x={970}
                     groundY={360}
                     active={selectedScaleId === 'modern_human'}
-                    label={lang === 'ar' ? 'المعاصر (1.75م)' : 'Modern (1.75m)'}
+                    label={tx(lang, 'Modern (1.75m)', 'Aujourd’hui (1,75 m)', 'المعاصر (1.75م)', 'Hoy (1,75 m)')}
                   />
                 </g>
               </>
@@ -413,7 +403,7 @@ export function StatureView() {
                     x={170}
                     groundY={360}
                     active={selectedScaleId === 'trex_apex'}
-                    label={lang === 'ar' ? 'تي-ريكس المفترس (4.5م)' : 'T-Rex Apex (4.5m)'}
+                    label={tx(lang, 'T-Rex Apex (4.5m)', 'T-Rex (4,5 m)', 'تي-ريكس المفترس (4.5م)', 'T-Rex (4,5 m)')}
                   />
                 </g>
 
@@ -424,7 +414,7 @@ export function StatureView() {
                     x={360}
                     groundY={360}
                     active={selectedScaleId === 'thamud_ancient'}
-                    label={lang === 'ar' ? 'قوم ثمود (4م / 8 أذرع)' : 'Thamud Giant (4m)'}
+                    label={tx(lang, 'Thamud Giant (4m)', 'Thamud (4 m)', 'قوم ثمود (4م / 8 أذرع)', 'Zamud (4 m)')}
                   />
                 </g>
 
@@ -435,7 +425,7 @@ export function StatureView() {
                     x={540}
                     groundY={360}
                     active={selectedScaleId === 'african_elephant'}
-                    label={lang === 'ar' ? 'الفيل الإفريقي (3.5م)' : 'African Elephant (3.5m)'}
+                    label={tx(lang, 'African Elephant (3.5m)', 'Éléphant d’Afrique (3,5 m)', 'الفيل الإفريقي (3.5م)', 'Elefante africano (3,5 m)')}
                   />
                 </g>
 
@@ -446,7 +436,7 @@ export function StatureView() {
                     x={740}
                     groundY={360}
                     active={selectedScaleId === 'musa_era'}
-                    label={lang === 'ar' ? 'موسى عليه السلام (2.1م)' : 'Prophet Musa (≈2.1m)'}
+                    label={tx(lang, 'Prophet Musa (≈2.1m)', 'Le prophète Moussa (≈2,1 m)', 'موسى عليه السلام (2.1م)', 'El profeta Musa (≈2,1 m)')}
                   />
                 </g>
 
@@ -457,7 +447,7 @@ export function StatureView() {
                     x={890}
                     groundY={360}
                     active={selectedScaleId === 'modern_human'}
-                    label={lang === 'ar' ? 'الإنسان المعاصر (1.75م)' : 'Modern Human (1.75m)'}
+                    label={tx(lang, 'Modern Human (1.75m)', 'Humain actuel (1,75 m)', 'الإنسان المعاصر (1.75م)', 'Humano actual (1,75 m)')}
                   />
                 </g>
               </>
@@ -472,14 +462,10 @@ export function StatureView() {
         <div className="glass rounded-3xl p-6 lg:col-span-7 flex flex-col justify-between">
           <div className="mb-6 flex items-center justify-between border-b border-white/5 pb-4">
             <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">
-              {lang === 'ar' ? 'مخطط الارتفاع النسبي (نسبة إلى 30 متراً)' : 'Relative Height Chart (up to 30 meters)'}
+              {tx(lang, 'Relative Height Chart (up to 30 meters)', 'Tailles comparées (jusqu’à 30 mètres)', 'مخطط الارتفاع النسبي (نسبة إلى 30 متراً)', 'Alturas comparadas (hasta 30 metros)')}
             </span>
             <span className="text-xs font-mono text-gold-2">
-              {lang === 'ar'
-                ? 'الحد الأقصى: 30.0 م / 60 ذراعاً'
-                : lang === 'fr'
-                ? 'Max : 30,0 m / 60 coudées'
-                : 'Max: 30.0m / 60 cubits'}
+              {tx(lang, 'Max: 30.0m / 60 cubits', 'Max : 30,0 m / 60 coudées', 'الحد الأقصى: 30.0 م / 60 ذراعاً', 'Máx.: 30,0 m / 60 codos')}
             </span>
           </div>
 
@@ -525,8 +511,8 @@ export function StatureView() {
                     <span>{pick(item.era)}</span>
                     <span>
                       {item.scaleRatio === 1
-                        ? (lang === 'ar' ? 'المقياس الأساسي المعاصر' : 'Modern Baseline')
-                        : `${item.scaleRatio.toFixed(1)}x ${lang === 'ar' ? 'ضعف الإنسان الحالي' : 'modern human'}`}
+                        ? (tx(lang, 'Modern Baseline', 'Référence actuelle', 'المقياس الأساسي المعاصر', 'Referencia actual'))
+                        : `${item.scaleRatio.toFixed(1)}x ${tx(lang, 'modern human', 'humain actuel', 'ضعف الإنسان الحالي', 'humano actual')}`}
                     </span>
                   </div>
                 </div>
@@ -540,7 +526,7 @@ export function StatureView() {
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
               <Sparkles className="size-4" />
-              <span>{lang === 'ar' ? 'التفاصيل التوثيقية للمقياس' : 'Documentary Scale Details'}</span>
+              <span>{tx(lang, 'Documentary Scale Details', 'Détails de l’échelle', 'التفاصيل التوثيقية للمقياس', 'Detalles de la escala')}</span>
             </div>
             <h3 className="mt-3 text-2xl font-bold text-ink">
               {pick(activeScale.name)}
@@ -552,15 +538,15 @@ export function StatureView() {
             <div className="mt-6 rounded-2xl border border-gold/20 bg-gold/5 p-4 text-center">
               <span className="text-xs uppercase tracking-wider text-ink-3 block">
                 {activeScale.heightStated
-                  ? lang === 'ar' ? 'الارتفاع المذكور' : lang === 'fr' ? 'Taille indiquée' : 'Stated height'
-                  : lang === 'ar' ? 'ارتفاع توضيحي — لم يذكره نص' : lang === 'fr' ? 'Taille illustrative — aucun texte ne la donne' : 'Illustrative height — no text gives it'}
+                  ? tx(lang, 'Stated height', 'Taille indiquée', 'الارتفاع المذكور', 'Altura indicada en los textos')
+                  : tx(lang, 'Illustrative height — no text gives it', 'Taille illustrative — aucun texte ne la donne', 'ارتفاع توضيحي — لم يذكره نص', 'Altura ilustrativa: ningún texto la da')}
               </span>
               <span className="mt-1 block text-3xl font-extrabold text-gold font-mono">
                 {formatHeight(activeScale.heightMeters, activeScale.heightCubits)}
               </span>
               {activeScale.heightCubits && (
                 <span className="text-xs text-ink-2 block mt-1">
-                  ({activeScale.heightCubits} {lang === 'ar' ? 'ذراعاً شرعياً' : 'prophetic cubits'}) · {activeScale.scaleRatio}x {lang === 'ar' ? 'طول اليوم' : 'modern height'}
+                  ({activeScale.heightCubits} {tx(lang, 'cubits', 'coudées', 'ذراعاً شرعياً', 'codos')}) · {activeScale.scaleRatio}x {tx(lang, 'today’s height', 'la taille actuelle', 'طول اليوم', 'la estatura actual')}
                 </span>
               )}
             </div>
@@ -573,7 +559,7 @@ export function StatureView() {
               <div className="mt-6 rounded-2xl border border-white/10 bg-night/80 p-4">
                 <div className="flex items-center gap-1.5 text-xs text-gold font-semibold mb-2">
                   <BookOpen className="size-3.5" />
-                  <span>{lang === 'ar' ? 'النص والحديث الشريف' : 'Textual Citation'}</span>
+                  <span>{tx(lang, 'Textual Citation', 'Texte cité', 'النص والحديث الشريف', 'Texto citado')}</span>
                 </div>
                 <p className={`text-xs leading-relaxed text-ink-2 ${lang === 'ar' ? 'font-hadith text-base leading-loose' : 'italic'}`}>
                   {pick(activeScale.hadithText)}
@@ -584,7 +570,7 @@ export function StatureView() {
 
           <div className="mt-6 pt-4 border-t border-white/10 text-xs text-ink-3 flex items-center justify-between">
             <span className="flex items-center gap-2">
-              {activeScale.level ? <LevelChip level={activeScale.level} /> : <span>{lang === 'ar' ? 'قياس علمي' : lang === 'fr' ? 'Mesure scientifique' : 'Scientific measurement'}</span>}
+              {activeScale.level ? <LevelChip level={activeScale.level} /> : <span>{tx(lang, 'Scientific measurement', 'Mesure scientifique', 'قياس علمي', 'Medida científica')}</span>}
             </span>
             {activeScale.textRef && <span className="font-mono text-gold-2">{activeScale.textRef}</span>}
           </div>
@@ -595,7 +581,7 @@ export function StatureView() {
       <div className="relative my-16 text-center">
         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
         <span className="relative glass px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider text-gold uppercase">
-          {lang === 'ar' ? 'الشمائل النبوية والأوصاف الخلقية' : 'The Prophetic Portraits & Physical Traits'}
+          {tx(lang, 'The Prophetic Portraits & Physical Traits', 'Le portrait des prophètes et leurs traits physiques', 'الشمائل النبوية والأوصاف الخلقية', 'El retrato de los profetas y sus rasgos físicos')}
         </span>
       </div>
 
@@ -604,12 +590,10 @@ export function StatureView() {
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-ink">
-              {lang === 'ar' ? 'أوصاف الأنبياء كما رآهم النبي ﷺ وميزتهم النصوص' : 'Physical Appearance of the Prophets in Authentic Hadith'}
+              {tx(lang, 'Physical Appearance of the Prophets in Authentic Hadith', 'L’apparence des prophètes dans les hadiths authentiques', 'أوصاف الأنبياء كما رآهم النبي ﷺ وميزتهم النصوص', 'El aspecto de los profetas en los hadices auténticos')}
             </h2>
             <p className="mt-1 text-sm text-ink-3">
-              {lang === 'ar'
-                ? 'كيف كان يبدو الأنبياء؟ اللون، القامة، الوجه، والشعر مقارنة بالبشر اليوم'
-                : 'Complexion, build, hair, and facial traits compared to modern humans'}
+              {tx(lang, 'Complexion, build, hair, and facial traits compared to modern humans', 'Teint, carrure, cheveux et traits du visage, comparés aux hommes d’aujourd’hui', 'كيف كان يبدو الأنبياء؟ اللون، القامة، الوجه، والشعر مقارنة بالبشر اليوم', 'Tez, complexión, cabello y rasgos del rostro, comparados con las personas de hoy')}
             </p>
           </div>
 
@@ -646,7 +630,7 @@ export function StatureView() {
             </div>
             <div className="text-end">
               <span className="text-xs uppercase tracking-wider text-ink-3 block">
-                {lang === 'ar' ? 'القامة والهيئة' : 'Stature Category'}
+                {tx(lang, 'Stature Category', 'Catégorie de stature', 'القامة والهيئة', 'Categoría de estatura')}
               </span>
               <span className="font-medium text-gold-2 text-base">
                 {pick(activeDesc.statureCategory)}
@@ -662,7 +646,7 @@ export function StatureView() {
             {/* Complexion */}
             <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-5">
               <span className="text-xs font-semibold tracking-wider text-gold uppercase block mb-2">
-                {lang === 'ar' ? 'اللون والبشرة' : 'Complexion & Skin'}
+                {tx(lang, 'Complexion & Skin', 'Teint et peau', 'اللون والبشرة', 'Tez y piel')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
                 {pick(activeDesc.complexion)}
@@ -672,7 +656,7 @@ export function StatureView() {
             {/* Hair and Beard */}
             <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-5">
               <span className="text-xs font-semibold tracking-wider text-gold uppercase block mb-2">
-                {lang === 'ar' ? 'الشعر واللحية' : 'Hair & Beard'}
+                {tx(lang, 'Hair & Beard', 'Cheveux et barbe', 'الشعر واللحية', 'Cabello y barba')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
                 {pick(activeDesc.hairAndBeard)}
@@ -682,7 +666,7 @@ export function StatureView() {
             {/* Physique and Build */}
             <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-5">
               <span className="text-xs font-semibold tracking-wider text-gold uppercase block mb-2">
-                {lang === 'ar' ? 'البنية والمنكبان' : 'Physique & Build'}
+                {tx(lang, 'Physique & Build', 'Carrure', 'البنية والمنكبان', 'Complexión')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
                 {pick(activeDesc.physiqueAndBuild)}
@@ -692,7 +676,7 @@ export function StatureView() {
             {/* Facial Features */}
             <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-5">
               <span className="text-xs font-semibold tracking-wider text-gold uppercase block mb-2">
-                {lang === 'ar' ? 'ملامح الوجه والعينين' : 'Facial Features & Eyes'}
+                {tx(lang, 'Facial Features & Eyes', 'Visage et yeux', 'ملامح الوجه والعينين', 'Rostro y ojos')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
                 {pick(activeDesc.facialFeatures)}
@@ -702,7 +686,7 @@ export function StatureView() {
             {/* Demeanor & Presence */}
             <div className="rounded-2xl border border-white/5 bg-night-surface/60 p-5">
               <span className="text-xs font-semibold tracking-wider text-gold uppercase block mb-2">
-                {lang === 'ar' ? 'الهيبة والمشية والخلق' : 'Demeanor & Aura'}
+                {tx(lang, 'Demeanor & Aura', 'Allure et prestance', 'الهيبة والمشية والخلق', 'Porte y presencia')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
                 {pick(activeDesc.demeanorAndPresence)}
@@ -712,7 +696,7 @@ export function StatureView() {
             {/* Comparison with Modern Human */}
             <div className="rounded-2xl border border-gold/30 bg-gold/5 p-5">
               <span className="text-xs font-semibold tracking-wider text-gold uppercase block mb-2">
-                {lang === 'ar' ? 'المقارنة مع الإنسان المعاصر' : 'Compared to Humans Today'}
+                {tx(lang, 'Compared to Humans Today', 'Comparé aux hommes d’aujourd’hui', 'المقارنة مع الإنسان المعاصر', 'Comparado con las personas de hoy')}
               </span>
               <p className={`text-sm text-ink-2 leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
                 {pick(activeDesc.comparisonWithModern)}
@@ -724,7 +708,7 @@ export function StatureView() {
           <div className="rounded-2xl border border-white/10 bg-night/80 p-6">
             <h4 className="text-xs font-semibold tracking-wider text-gold uppercase mb-4 flex items-center gap-2">
               <BookOpen className="size-4" />
-              <span>{lang === 'ar' ? 'نصوص الأحاديث النبوية المعتمدة' : 'Authentic Hadith Records'}</span>
+              <span>{tx(lang, 'Authentic Hadith Records', 'Hadiths authentiques', 'نصوص الأحاديث النبوية المعتمدة', 'Hadices auténticos')}</span>
             </h4>
             <div className="space-y-4">
               {activeDesc.authenticNarrations.map((narration, nIdx) => (
@@ -747,7 +731,7 @@ export function StatureView() {
               href={`/p/${activeDesc.prophetId}`}
               className="btn btn-ghost text-xs border border-gold/40 hover:bg-gold/15 flex items-center gap-2"
             >
-              <span>{lang === 'ar' ? 'فتح السيرة الكاملة' : 'View Full Prophet Profile'}</span>
+              <span>{tx(lang, 'View Full Prophet Profile', 'Voir la fiche complète du prophète', 'فتح السيرة الكاملة', 'Ver la ficha completa del profeta')}</span>
               <ExternalLink className="size-3.5" />
             </A>
           </div>

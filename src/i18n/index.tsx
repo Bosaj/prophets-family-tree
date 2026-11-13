@@ -19,6 +19,10 @@ export function initialLang(): Lang {
 /** Older inline texts carry only en/fr/ar; Spanish readers get the English one. */
 export const legacy = (l: Lang): 'en' | 'fr' | 'ar' => (l === 'es' ? 'en' : l)
 
+/** An inline interface text in the four languages, in the order en, fr, ar, es. */
+export const tx = (l: Lang, en: string, fr: string, ar: string, es: string): string =>
+  l === 'ar' ? ar : l === 'fr' ? fr : l === 'es' ? es : en
+
 interface Ctx {
   lang: Lang
   setLang: (l: Lang) => void

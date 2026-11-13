@@ -17,7 +17,7 @@ import {
   Footprints,
 } from 'lucide-react'
 import type L from 'leaflet'
-import { legacy, useI18n } from '../i18n'
+import { legacy, tx, useI18n } from '../i18n'
 import { byId, prophets } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'
@@ -1809,7 +1809,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             className={`rounded-full px-3 py-1 font-medium transition-colors ${
               showSites ? 'bg-sky-400/20 text-sky-200' : 'text-ink-2 hover:text-ink'
             }`}
-            title="Toggle Sacred Sites"
+            title={tx(lang, 'Show or hide sacred sites', 'Afficher ou masquer les lieux saints', 'إظهار المواقع المقدسة أو إخفاؤها', 'Mostrar u ocultar los lugares sagrados')}
           >
             <MapPin className="me-1 inline size-3" />
             <span>{t('sacredSites')}</span>
@@ -1824,7 +1824,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             className={`rounded-full px-3 py-1 font-medium transition-colors ${
               showRoutes ? 'bg-emerald-400/20 text-emerald-200' : 'text-ink-2 hover:text-ink'
             }`}
-            title="Toggle Routes"
+            title={tx(lang, 'Show or hide routes', 'Afficher ou masquer les itinéraires', 'إظهار المسارات أو إخفاؤها', 'Mostrar u ocultar las rutas')}
           >
             <Navigation className="me-1 inline size-3" />
             <span>{t('missionRoute')}</span>
@@ -1841,7 +1841,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                 ? 'bg-gold/30 text-gold-2 shadow-sm'
                 : 'text-ink-2 hover:text-ink'
             }`}
-            title="Browse Prophetic Journeys"
+            title={tx(lang, 'Browse the prophets’ journeys', 'Parcourir les voyages des prophètes', 'تصفح رحلات الأنبياء', 'Explorar los viajes de los profetas')}
           >
             <Waypoints className="me-1 inline size-3" />
             <span>{t('routesTitle')}</span>

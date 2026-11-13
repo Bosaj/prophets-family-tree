@@ -1,6 +1,6 @@
 import { ExternalLink } from 'lucide-react'
 import { GithubMark } from './GithubMark'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import { LEVEL_TEXT } from '../i18n/strings'
 import { BOOKS, LEVELS } from '../data/sources'
 import { LevelChip } from './ui'
@@ -65,13 +65,9 @@ export function Sources() {
       </section>
 
       <section aria-labelledby="photos" className="mt-14">
-        <h2 id="photos" className="text-2xl font-semibold">{lang === 'ar' ? 'حقوق الصور' : lang === 'fr' ? 'Crédits photo' : 'Photo credits'}</h2>
+        <h2 id="photos" className="text-2xl font-semibold">{tx(lang, 'Photo credits', 'Crédits photo', 'حقوق الصور', 'Créditos de las fotos')}</h2>
         <p className="mt-3 text-sm text-ink-2">
-          {lang === 'ar'
-            ? 'صور الكائنات من ويكيميديا كومنز بتراخيصها المذكورة؛ والمناظر الطبيعية مولّدة للمشروع ولا تصوّر أي نبي أو إنسان.'
-            : lang === 'fr'
-            ? 'Les photos d’animaux et de plantes viennent de Wikimedia Commons sous les licences indiquées ; les paysages sont générés pour le projet et ne représentent aucun prophète ni personne.'
-            : 'Animal and plant photos come from Wikimedia Commons under the licences listed; landscapes are generated for the project and depict no prophet or person.'}
+          {tx(lang, 'Animal and plant photos come from Wikimedia Commons under the licences listed; landscapes are generated for the project and depict no prophet or person.', 'Les photos d’animaux et de plantes viennent de Wikimedia Commons sous les licences indiquées ; les paysages sont générés pour le projet et ne représentent aucun prophète ni personne.', 'صور الكائنات من ويكيميديا كومنز بتراخيصها المذكورة؛ والمناظر الطبيعية مولّدة للمشروع ولا تصوّر أي نبي أو إنسان.', 'Las fotos de animales y plantas vienen de Wikimedia Commons con las licencias indicadas; los paisajes se generan para el proyecto y no representan a ningún profeta ni persona.')}
         </p>
         <ul className="mt-4 grid gap-2 text-xs text-ink-3 sm:grid-cols-2">
           {Object.entries(photoCredits as Record<string, { page?: string; author: string; license: string; generated?: boolean }>)

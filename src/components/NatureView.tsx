@@ -11,7 +11,7 @@ import {
   X,
   Zap,
 } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import photoCredits from '../data/photoCredits.json'
 import {
   QURAN_SUNNAH_ANIMALS,
@@ -1526,11 +1526,7 @@ export function NatureView() {
         <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1 text-xs font-semibold text-gold mb-3">
           <Leaf className="size-3.5" />
           <span>
-            {lang === 'ar'
-              ? 'الكائنات الحية والغطاء النباتي في القرآن والسنة'
-              : lang === 'fr'
-              ? 'Faune, Flore & Aliments sacrés du Coran et de la Sunnah'
-              : 'Fauna, Flora & Sacred Foods of the Qur’an and Sunnah'}
+            {tx(lang, 'Fauna, Flora & Sacred Foods of the Qur’an and Sunnah', 'Faune, Flore & Aliments sacrés du Coran et de la Sunnah', 'الكائنات الحية والغطاء النباتي في القرآن والسنة', 'Fauna, flora y alimentos del Corán y la Sunna')}
           </span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink">
@@ -1552,7 +1548,7 @@ export function NatureView() {
             }`}
           >
             <Compass className="size-4" />
-            <span>{lang === 'ar' ? 'حيوانات القرآن والسنة' : lang === 'fr' ? 'Animaux du Coran & Sunnah' : 'Animals of Qur’an & Sunnah'}</span>
+            <span>{tx(lang, 'Animals of Qur’an & Sunnah', 'Animaux du Coran & Sunnah', 'حيوانات القرآن والسنة', 'Animales del Corán y la Sunna')}</span>
             <span className={`text-[0.65rem] px-1.5 py-0.5 rounded-full ${activeTab === 'animals' ? 'bg-night/20 text-night font-bold' : 'bg-white/10 text-gold'}`}>
               {QURAN_SUNNAH_ANIMALS.length}
             </span>
@@ -1568,7 +1564,7 @@ export function NatureView() {
             }`}
           >
             <Leaf className="size-4" />
-            <span>{lang === 'ar' ? 'نباتات وأطعمة القرآن والطب النبوي' : lang === 'fr' ? 'Plantes & Aliments Prophétiques' : 'Plants & Foods of Qur’an & Sunnah'}</span>
+            <span>{tx(lang, 'Plants & Foods of Qur’an & Sunnah', 'Plantes & Aliments Prophétiques', 'نباتات وأطعمة القرآن والطب النبوي', 'Plantas y alimentos del Corán y la Sunna')}</span>
             <span className={`text-[0.65rem] px-1.5 py-0.5 rounded-full ${activeTab === 'plants' ? 'bg-night/20 text-night font-bold' : 'bg-white/10 text-gold'}`}>
               {QURAN_SUNNAH_PLANTS.length}
             </span>
@@ -1620,10 +1616,10 @@ export function NatureView() {
                 }`}
               >
                 {s === 'all'
-                  ? (lang === 'ar' ? 'الكل' : 'All')
+                  ? (tx(lang, 'All', 'Tous', 'الكل', 'Todos'))
                   : s === 'quran'
-                  ? (lang === 'ar' ? 'قرآن' : 'Qur’an')
-                  : (lang === 'ar' ? 'سنة' : 'Sunnah')}
+                  ? (tx(lang, 'Qur’an', 'Coran', 'قرآن', 'Corán'))
+                  : (tx(lang, 'Sunnah', 'Sunna', 'سنة', 'Sunna'))}
               </button>
             ))}
           </div>
@@ -1637,11 +1633,7 @@ export function NatureView() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={
-              lang === 'ar'
-                ? 'ابحث بالاسم أو السورة أو الفائدة...'
-                : lang === 'fr'
-                ? 'Rechercher par nom, verset ou bienfait...'
-                : 'Search by name, verse, benefit...'
+              tx(lang, 'Search by name, verse, benefit...', 'Rechercher par nom, verset ou bienfait...', 'ابحث بالاسم أو السورة أو الفائدة...', 'Buscar por nombre, versículo, beneficio…')
             }
             className="w-full rounded-full border border-white/10 bg-white/5 py-1.5 ps-9 pe-4 text-xs text-ink placeholder:text-ink-3 focus:border-gold/40 focus:outline-none focus:ring-1 focus:ring-gold/30"
           />
@@ -1712,7 +1704,7 @@ export function NatureView() {
                         />
                         <span className="absolute bottom-2 start-2 text-[0.68rem] font-medium text-gold bg-black/75 px-2.5 py-0.5 rounded-full border border-gold/30 flex items-center gap-1 backdrop-blur-sm z-20">
                           <Sparkles className="size-2.5 text-gold" />
-                          <span>{lang === 'ar' ? 'صورة حقيقية كاملة' : 'Full Photo'}</span>
+                          <span>{tx(lang, 'Full Photo', 'Photo entière', 'صورة حقيقية كاملة', 'Foto completa')}</span>
                         </span>
                       </div>
                     </div>
@@ -1748,7 +1740,7 @@ export function NatureView() {
                         className="btn-ghost flex items-center gap-1 rounded-full px-2.5 py-1 text-xs text-gold hover:bg-gold/10 cursor-pointer"
                       >
                         <Eye className="size-3.5" />
-                        <span>{lang === 'ar' ? 'التفاصيل والفوائد' : 'Details'}</span>
+                        <span>{tx(lang, 'Details', 'Détails', 'التفاصيل والفوائد', 'Detalles')}</span>
                       </button>
                     </div>
                   </div>
@@ -1807,7 +1799,7 @@ export function NatureView() {
                         />
                         <span className="absolute bottom-2 start-2 text-[0.68rem] font-medium text-gold bg-black/75 px-2.5 py-0.5 rounded-full border border-gold/30 flex items-center gap-1 backdrop-blur-sm z-20">
                           <Sparkles className="size-2.5 text-gold" />
-                          <span>{lang === 'ar' ? 'صورة حقيقية كاملة' : 'Full Photo'}</span>
+                          <span>{tx(lang, 'Full Photo', 'Photo entière', 'صورة حقيقية كاملة', 'Foto completa')}</span>
                         </span>
                       </div>
                     </div>
@@ -1843,7 +1835,7 @@ export function NatureView() {
                         className="btn-ghost flex items-center gap-1 rounded-full px-2.5 py-1 text-xs text-gold hover:bg-gold/10 cursor-pointer"
                       >
                         <Eye className="size-3.5" />
-                        <span>{lang === 'ar' ? 'الفوائد والطب النبوي' : 'Benefits'}</span>
+                        <span>{tx(lang, 'Benefits', 'Bienfaits', 'الفوائد والطب النبوي', 'Beneficios')}</span>
                       </button>
                     </div>
                   </div>
@@ -1868,8 +1860,8 @@ export function NatureView() {
                 <div className="flex flex-wrap items-center gap-2 mb-1">
                   <span className="rounded-full bg-gold/15 px-3 py-0.5 text-xs font-semibold text-gold border border-gold/25">
                     {'whatTheyDid' in detailItem
-                      ? (lang === 'ar' ? 'كائن في القرآن والسنة' : 'Animal in Qur’an & Sunnah')
-                      : (lang === 'ar' ? 'نبات وغذاء في القرآن والطب النبوي' : 'Plant & Food in Qur’an & Sunnah')}
+                      ? (tx(lang, 'Animal in Qur’an & Sunnah', 'Animal du Coran et de la Sunna', 'كائن في القرآن والسنة', 'Animal del Corán y la Sunna'))
+                      : (tx(lang, 'Plant & Food in Qur’an & Sunnah', 'Plante et aliment du Coran et de la Sunna', 'نبات وغذاء في القرآن والطب النبوي', 'Planta y alimento del Corán y la Sunna'))}
                   </span>
                   <span className="text-xs font-mono text-ink-3 italic">{detailItem.scientificName}</span>
                 </div>
@@ -1886,7 +1878,7 @@ export function NatureView() {
                 type="button"
                 onClick={() => setDetailItem(null)}
                 className="rounded-full border border-white/15 bg-white/5 p-2 text-ink-2 hover:bg-white/15 hover:text-ink cursor-pointer shrink-0 transition-colors"
-                aria-label="Close"
+                aria-label={tx(lang, 'Close', 'Fermer', 'إغلاق', 'Cerrar')}
               >
                 <X className="size-5" />
               </button>
@@ -1917,7 +1909,7 @@ export function NatureView() {
                   }`}
                 >
                   <Sparkles className="size-3 text-gold" />
-                  <span>{modalShowPhoto ? (lang === 'ar' ? 'صورة حقيقية' : 'Real Photo') : (lang === 'ar' ? 'رسم ظلي' : 'Silhouette')}</span>
+                  <span>{modalShowPhoto ? (tx(lang, 'Real Photo', 'Photo réelle', 'صورة حقيقية', 'Foto real')) : (tx(lang, 'Silhouette', 'Silhouette', 'رسم ظلي', 'Silueta'))}</span>
                 </button>
               </div>
 
@@ -1927,7 +1919,7 @@ export function NatureView() {
                   type="button"
                   onClick={() => speakArabic(detailItem.name.ar)}
                   className="rounded-full bg-white/10 p-2 text-gold hover:bg-gold/20 transition-colors cursor-pointer"
-                  title={lang === 'ar' ? 'نطق الاسم' : 'Pronounce Arabic'}
+                  title={tx(lang, 'Pronounce Arabic', 'Prononcer en arabe', 'نطق الاسم', 'Pronunciar en árabe')}
                 >
                   <Volume2 className="size-4" />
                 </button>
@@ -1935,7 +1927,7 @@ export function NatureView() {
                   type="button"
                   onClick={() => soundEngine.playFor(detailItem.id)}
                   className="rounded-full bg-white/10 p-2 text-sky-300 hover:bg-sky-400/20 transition-colors cursor-pointer"
-                  title={lang === 'ar' ? 'صوت الطبيعة' : 'Play Sound'}
+                  title={tx(lang, 'Play Sound', 'Écouter le son', 'صوت الطبيعة', 'Escuchar el sonido')}
                 >
                   <Zap className="size-4" />
                 </button>
@@ -1987,8 +1979,8 @@ export function NatureView() {
                 <BookOpen className="size-4" />
                 <span>
                   {'whatTheyDid' in detailItem
-                    ? (lang === 'ar' ? 'ماذا فعلت في القرآن والسنة (القصة والدور النبيل)' : 'What They Did & Scripture Narrative')
-                    : (lang === 'ar' ? 'السياق القرآني والنبوي لذكر هذا النبات والغذاء' : 'Scripture Context & Prophetic Guidance')}
+                    ? (tx(lang, 'What They Did & Scripture Narrative', 'Leur rôle et le récit des textes', 'ماذا فعلت في القرآن والسنة (القصة والدور النبيل)', 'Su papel y el relato de los textos'))
+                    : (tx(lang, 'Scripture Context & Prophetic Guidance', 'Contexte des textes et enseignement prophétique', 'السياق القرآني والنبوي لذكر هذا النبات والغذاء', 'Contexto de los textos y guía profética'))}
                 </span>
               </h3>
               <p className="text-xs sm:text-sm text-ink-2 leading-relaxed whitespace-pre-line">
@@ -2004,8 +1996,8 @@ export function NatureView() {
                   <Leaf className="size-4" />
                   <span>
                     {'benefits' in detailItem
-                      ? (lang === 'ar' ? 'القيمة الغذائية والتركيب الحيوي' : 'Nutritional & Bioactive Profile')
-                      : (lang === 'ar' ? 'السمات الحيوية والبيئية' : 'Biological & Ecological Traits')}
+                      ? (tx(lang, 'Nutritional & Bioactive Profile', 'Profil nutritionnel et bioactif', 'القيمة الغذائية والتركيب الحيوي', 'Perfil nutricional y bioactivo'))
+                      : (tx(lang, 'Biological & Ecological Traits', 'Traits biologiques et écologiques', 'السمات الحيوية والبيئية', 'Rasgos biológicos y ecológicos'))}
                   </span>
                 </h4>
                 <p className="text-xs text-ink-3 leading-relaxed">
@@ -2021,8 +2013,8 @@ export function NatureView() {
                   <Heart className="size-4" />
                   <span>
                     {'benefits' in detailItem
-                      ? (lang === 'ar' ? 'الطب النبوي والعلاج الإكلينيكي' : 'Prophetic Medicine & Healing')
-                      : (lang === 'ar' ? 'هدي السنة والرحمة بالحيوان' : 'Sunnah Guidance & Animal Ethics')}
+                      ? (tx(lang, 'Prophetic Medicine & Healing', 'Médecine prophétique et guérison', 'الطب النبوي والعلاج الإكلينيكي', 'Medicina profética y curación'))
+                      : (tx(lang, 'Sunnah Guidance & Animal Ethics', 'Enseignement de la Sunna et éthique animale', 'هدي السنة والرحمة بالحيوان', 'Guía de la Sunna y ética animal'))}
                   </span>
                 </h4>
                 <p className="text-xs text-ink-3 leading-relaxed">
@@ -2036,7 +2028,7 @@ export function NatureView() {
               <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4">
                 <h4 className="flex items-center gap-2 text-xs font-bold uppercase text-gold mb-2">
                   <Sparkles className="size-4" />
-                  <span>{lang === 'ar' ? 'الحكمة الإيمانية والعبرة' : 'Spiritual Lessons & Quranic Wisdom'}</span>
+                  <span>{tx(lang, 'Spiritual Lessons & Quranic Wisdom', 'Leçons spirituelles et sagesse coranique', 'الحكمة الإيمانية والعبرة', 'Lecciones espirituales y sabiduría coránica')}</span>
                 </h4>
                 <p className="text-xs text-ink-3 leading-relaxed">
                   {'benefits' in detailItem
@@ -2049,7 +2041,7 @@ export function NatureView() {
               <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4">
                 <h4 className="flex items-center gap-2 text-xs font-bold uppercase text-sky-400 mb-2">
                   <Zap className="size-4" />
-                  <span>{lang === 'ar' ? 'أبحاث العلم الحديث والتطبيقات' : 'Modern Science & Practical Benefits'}</span>
+                  <span>{tx(lang, 'Modern Science & Practical Benefits', 'Science moderne et bienfaits pratiques', 'أبحاث العلم الحديث والتطبيقات', 'Ciencia moderna y beneficios prácticos')}</span>
                 </h4>
                 <p className="text-xs text-ink-3 leading-relaxed">
                   {'benefits' in detailItem
@@ -2062,7 +2054,7 @@ export function NatureView() {
             {/* Scripture References */}
             <div className="border-t border-white/10 pt-4">
               <h4 className="text-xs font-semibold text-ink-3 uppercase mb-2">
-                {lang === 'ar' ? 'المراجع القرآنية والأحاديث الصحيحة:' : 'Scriptural References:'}
+                {tx(lang, 'Scriptural References:', 'Références des textes :', 'المراجع القرآنية والأحاديث الصحيحة:', 'Referencias de los textos:')}
               </h4>
               <div className="flex flex-wrap gap-2">
                 {detailItem.quranRefs.map((r) => (
@@ -2094,9 +2086,9 @@ function PhotoCredit({ id, className = '' }: { id: string; className?: string })
   const { lang } = useI18n()
   const c = (photoCredits as Record<string, Credit>)[id]
   if (!c) return null
-  const label = lang === 'ar' ? 'الصورة' : lang === 'fr' ? 'Photo' : 'Photo'
+  const label = tx(lang, 'Photo', 'Photo', 'الصورة', 'Foto')
   if (c.generated) {
-    return <p className={`text-[0.65rem] text-ink-3 ${className}`}>{lang === 'ar' ? 'صورة مولّدة للتوضيح' : lang === 'fr' ? 'Image générée pour illustrer' : 'Illustrative generated image'}</p>
+    return <p className={`text-[0.65rem] text-ink-3 ${className}`}>{tx(lang, 'Illustrative generated image', 'Image générée pour illustrer', 'صورة مولّدة للتوضيح', 'Imagen ilustrativa generada')}</p>
   }
   return (
     <p className={`text-[0.65rem] text-ink-3 ${className}`}>

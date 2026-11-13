@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import {
   SCRIPTURES,
   type ProphetBook,
@@ -49,20 +49,14 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
         <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-semibold text-amber-300">
           <BookOpen className="h-4 w-4 text-amber-400" />
           <span>
-            {lang === 'ar'
-              ? 'الكتب والصحف السماوية المنزلة'
-              : 'Divine Scriptures & Manuscript Histories'}
+            {tx(lang, 'Divine Scriptures & Manuscript Histories', 'Les Livres révélés et l’histoire de leurs manuscrits', 'الكتب والصحف السماوية المنزلة', 'Las Escrituras reveladas y la historia de sus manuscritos')}
           </span>
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-amber-200">
-          {lang === 'ar'
-            ? 'تاريخ المخطوطات والكتب المنزلة على الأنبياء'
-            : 'Manuscript Traditions & Texts of the Prophets'}
+          {tx(lang, 'Manuscript Traditions & Texts of the Prophets', 'Traditions manuscrites et textes des prophètes', 'تاريخ المخطوطات والكتب المنزلة على الأنبياء', 'Tradiciones manuscritas y textos de los profetas')}
         </h1>
         <p className="mx-auto max-w-3xl text-sm sm:text-base text-amber-200/80 leading-relaxed font-sans">
-          {lang === 'ar'
-            ? 'دراسة وثائقية شاملة تقارن بين حفظ القرآن الكريم المعجز ورسمه العثماني الموحد، وبين التقاليد النصية والمخطوطات التاريخية للتوراة والزبور والإنجيل وصحف الأنبياء الأوائل وعدد رواياتها.'
-            : 'A comprehensive documentary investigation comparing the miraculous preservation of the singular Noble Qur’an with the evolving manuscript traditions and textual recensions of the Torah, Psalms, Gospel, and ancient prophetic scrolls.'}
+          {tx(lang, 'A comprehensive documentary investigation comparing the miraculous preservation of the singular Noble Qur’an with the evolving manuscript traditions and textual recensions of the Torah, Psalms, Gospel, and ancient prophetic scrolls.', 'Une étude documentaire qui compare la préservation du Coran, texte unique, avec l’évolution des manuscrits et des recensions de la Torah, des Psaumes, de l’Évangile et des anciennes Feuilles des prophètes.', 'دراسة وثائقية شاملة تقارن بين حفظ القرآن الكريم المعجز ورسمه العثماني الموحد، وبين التقاليد النصية والمخطوطات التاريخية للتوراة والزبور والإنجيل وصحف الأنبياء الأوائل وعدد رواياتها.', 'Un estudio documental que compara la preservación del Corán, texto único, con la evolución de los manuscritos y las recensiones de la Torá, los Salmos, el Evangelio y las antiguas Hojas de los profetas.')}
         </p>
       </div>
 
@@ -98,15 +92,9 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 }`}
               >
                 {book.id === 'quran'
-                  ? lang === 'ar'
-                    ? '١ نص موحد'
-                    : '1 Text'
+                  ? tx(lang, '1 Text', '1 texte', '١ نص موحد', '1 texto')
                   : `${book.versionsCount} ${
-                      lang === 'ar'
-                        ? 'روايات'
-                        : lang === 'fr'
-                        ? 'versions'
-                        : 'traditions'
+                      tx(lang, 'traditions', 'versions', 'روايات', 'versiones')
                     }`}
               </span>
             </button>
@@ -128,9 +116,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             <div className="absolute bottom-3 inset-x-3 text-center">
               <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold bg-amber-500 text-slate-950 shadow-md">
                 {currentBook.preservationStatus === 'divinely_preserved'
-                  ? lang === 'ar'
-                    ? 'محفوظ بحفظ الله التام'
-                    : 'Divinely Preserved · 100%'
+                  ? tx(lang, 'Divinely Preserved · 100%', 'Préservé par Allah · 100 %', 'محفوظ بحفظ الله التام', 'Preservado por Allah · 100 %')
                   : lang === 'ar'
                   ? `${currentBook.versionsCount} تقاليد نصية رئيسية`
                   : `${currentBook.versionsCount} Major Textual Traditions`}
@@ -171,7 +157,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 <Globe className="h-5 w-5 text-amber-400 shrink-0" />
                 <div>
                   <span className="text-amber-200/60 block text-xs">
-                    {lang === 'ar' ? 'اللغة الأصلية للوحي' : 'Original Language'}
+                    {tx(lang, 'Original Language', 'Langue d’origine', 'اللغة الأصلية للوحي', 'Lengua original')}
                   </span>
                   <span className="font-semibold text-amber-100">
                     {pick(currentBook.originalLanguage)}
@@ -183,7 +169,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 <History className="h-5 w-5 text-amber-400 shrink-0" />
                 <div>
                   <span className="text-amber-200/60 block text-xs">
-                    {lang === 'ar' ? 'العصر التاريخي' : 'Revealed Era'}
+                    {tx(lang, 'Revealed Era', 'Époque de la révélation', 'العصر التاريخي', 'Época de la revelación')}
                   </span>
                   <span className="font-semibold text-amber-100">
                     {pick(currentBook.revealedEra)}
@@ -195,7 +181,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 <Library className="h-5 w-5 text-amber-400 shrink-0" />
                 <div>
                   <span className="text-amber-200/60 block text-xs">
-                    {lang === 'ar' ? 'مكان التنزيل النبوي' : 'Revealed Location'}
+                    {tx(lang, 'Revealed Location', 'Lieu de la révélation', 'مكان التنزيل النبوي', 'Lugar de la revelación')}
                   </span>
                   <span className="font-semibold text-amber-100">
                     {pick(currentBook.revealedLocation)}
@@ -207,19 +193,13 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 <Layers className="h-5 w-5 text-amber-400 shrink-0" />
                 <div>
                   <span className="text-amber-200/60 block text-xs">
-                    {lang === 'ar'
-                      ? 'كم عدد النسخ والروايات؟'
-                      : 'How Many Versions Exist?'}
+                    {tx(lang, 'How Many Versions Exist?', 'Combien de versions existent ?', 'كم عدد النسخ والروايات؟', '¿Cuántas versiones existen?')}
                   </span>
                   <span className="font-semibold text-amber-300">
                     {currentBook.id === 'quran'
-                      ? lang === 'ar'
-                        ? 'نص إمام واحد (١٠ قراءات متواترة)'
-                        : '1 Singular Consonantal Text (10 Qira’at)'
+                      ? tx(lang, '1 Singular Consonantal Text (10 Qira’at)', 'Un seul texte consonantique (10 lectures)', 'نص إمام واحد (١٠ قراءات متواترة)', 'Un único texto consonántico (10 lecturas)')
                       : `${currentBook.versionsCount} ${
-                          lang === 'ar'
-                            ? 'تقاليد ومخطوطات كبرى'
-                            : 'Major Textual Traditions'
+                          tx(lang, 'Major Textual Traditions', 'Grandes traditions textuelles', 'تقاليد ومخطوطات كبرى', 'Grandes tradiciones textuales')
                         }`}
                   </span>
                 </div>
@@ -237,9 +217,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
           <h3 className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-amber-400" />
             <span>
-              {lang === 'ar'
-                ? 'الآيات القرآنية الشريفة في ذكر هذا الكتاب'
-                : 'Noble Qur’anic Verses Referencing This Scripture'}
+              {tx(lang, 'Noble Qur’anic Verses Referencing This Scripture', 'Versets du Coran qui citent ce Livre', 'الآيات القرآنية الشريفة في ذكر هذا الكتاب', 'Versículos del Corán que mencionan este Libro')}
             </span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -249,7 +227,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 className="rounded-xl bg-black/50 p-4 border border-amber-500/15 space-y-1.5"
               >
                 <div className="text-amber-400 font-mono text-xs">
-                  {lang === 'ar' ? 'سورة' : 'Surah'} {ref.surah} : {ref.ayah}
+                  {tx(lang, 'Surah', 'Sourate', 'سورة', 'Sura')} {ref.surah} : {ref.ayah}
                 </div>
                 <p className="text-amber-200 font-serif text-base leading-relaxed text-right dir-rtl">
                   {ref.arabicText}
@@ -341,7 +319,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 text-xs sm:text-sm">
               <div className="rounded-xl bg-black/50 p-3.5 border border-white/5 space-y-1">
                 <span className="text-amber-200/60 block font-semibold text-xs">
-                  {lang === 'ar' ? 'المخطوطات الباقية' : 'Extant Manuscripts'}
+                  {tx(lang, 'Extant Manuscripts', 'Manuscrits conservés', 'المخطوطات الباقية', 'Manuscritos conservados')}
                 </span>
                 <span className="text-amber-100 font-mono text-xs">
                   {pick(activeVersion.extantManuscripts)}
@@ -350,7 +328,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
 
               <div className="rounded-xl bg-black/50 p-3.5 border border-white/5 space-y-1">
                 <span className="text-amber-200/60 block font-semibold text-xs">
-                  {lang === 'ar' ? 'عدد الفروق وحالة النص' : 'Variants / Status'}
+                  {tx(lang, 'Variants / Status', 'Variantes / état', 'عدد الفروق وحالة النص', 'Variantes / estado')}
                 </span>
                 <span className="text-amber-300 font-mono text-xs">
                   {pick(activeVersion.variantCountOrStatus)}
@@ -359,9 +337,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
 
               <div className="rounded-xl bg-black/50 p-3.5 border border-white/5 space-y-1">
                 <span className="text-amber-200/60 block font-semibold text-xs">
-                  {lang === 'ar'
-                    ? 'المنظور العلمي والعقدي'
-                    : 'Theological Perspective'}
+                  {tx(lang, 'Theological Perspective', 'Point de vue théologique', 'المنظور العلمي والعقدي', 'Perspectiva teológica')}
                 </span>
                 <span className="text-amber-200/90 text-xs">
                   {pick(activeVersion.theologicalPerspective)}
@@ -377,17 +353,11 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
         <h3 className="font-bold font-serif text-emerald-300 text-base sm:text-lg flex items-center gap-2">
           <ShieldCheck className="h-5 w-5 text-emerald-400" />
           <span>
-            {lang === 'ar'
-              ? 'القاعدة الإسلامية: حفظ القرآن الكريم المهيمن وسر اختلاف نسخ الكتب السابقة'
-              : 'Islamic Doctrine: Preservation of the Qur’an vs. Textual Fluidity of Earlier Scriptures'}
+            {tx(lang, 'Islamic Doctrine: Preservation of the Qur’an vs. Textual Fluidity of Earlier Scriptures', 'Doctrine islamique : la préservation du Coran et l’évolution textuelle des Livres antérieurs', 'القاعدة الإسلامية: حفظ القرآن الكريم المهيمن وسر اختلاف نسخ الكتب السابقة', 'Doctrina islámica: la preservación del Corán y la evolución textual de las Escrituras anteriores')}
           </span>
         </h3>
         <p className="text-emerald-100/90 leading-relaxed font-sans text-sm sm:text-base">
-          <WithQuran text={lang === 'ar'
-            ? 'استودع الله الأمم السابقة حفظ كتبها فقال ﴿بِمَا اسْتُحْفِظُوا مِن كِتَابِ اللَّهِ﴾، فدخلها النسيان والتبديل البشري وتعددت نسخها ومخطوطاتها المتناقضة. أما القرآن الكريم فقد تولى الله حفظه بنفسه ﴿إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ﴾، فظل نصاً إماماً واحداً ثابتاً في الصدور والمصاحف بحروفه ورسمه عبر أرجاء الأرض قاطبة.'
-            : lang === 'fr'
-            ? 'Allah avait confié la garde des livres antérieurs aux communautés humaines (« par ce qui leur était confié du Livre d’Allah »), ce qui a conduit à des altérations et à une multiplicité de manuscrits divergents. Pour le Coran, Allah a garanti Sa propre protection directe (« C’est Nous qui avons fait descendre le Rappel, et c’est Nous qui en sommes les gardiens »), assurant l’exactitude intégrale de chaque lettre à travers les âges.'
-            : 'Allah entrusted the custody of earlier scriptures to their respective communities ("by that which they were entrusted of the Scripture of Allah"), leading to human redactions, loss, and divergent textual traditions. In contrast, Allah Himself undertook the perpetual preservation of the Qur’an ("Indeed, it is We who sent down the Qur’an and indeed, We will be its guardian"), securing word-for-word identity across all continents and centuries.'} />
+          <WithQuran text={tx(lang, 'Allah entrusted the custody of earlier scriptures to their respective communities ("by that which they were entrusted of the Scripture of Allah"), leading to human redactions, loss, and divergent textual traditions. In contrast, Allah Himself undertook the perpetual preservation of the Qur’an ("Indeed, it is We who sent down the Qur’an and indeed, We will be its guardian"), securing word-for-word identity across all continents and centuries.', 'Allah avait confié la garde des livres antérieurs aux communautés humaines (« par ce qui leur était confié du Livre d’Allah »), ce qui a conduit à des altérations et à une multiplicité de manuscrits divergents. Pour le Coran, Allah a garanti Sa propre protection directe (« C’est Nous qui avons fait descendre le Rappel, et c’est Nous qui en sommes les gardiens »), assurant l’exactitude intégrale de chaque lettre à travers les âges.', 'استودع الله الأمم السابقة حفظ كتبها فقال ﴿بِمَا اسْتُحْفِظُوا مِن كِتَابِ اللَّهِ﴾، فدخلها النسيان والتبديل البشري وتعددت نسخها ومخطوطاتها المتناقضة. أما القرآن الكريم فقد تولى الله حفظه بنفسه ﴿إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ﴾، فظل نصاً إماماً واحداً ثابتاً في الصدور والمصاحف بحروفه ورسمه عبر أرجاء الأرض قاطبة.', 'Allah confió la custodia de las Escrituras anteriores a sus comunidades («por lo que se les había confiado del Libro de Allah»), lo que llevó a redacciones humanas, pérdidas y tradiciones textuales divergentes. En cambio, Allah mismo asumió la preservación perpetua del Corán («Somos Nosotros quienes hicimos descender el Recuerdo y somos Nosotros sus custodios»), asegurando que sea idéntico palabra por palabra en todos los continentes y siglos.')} />
         </p>
       </div>
     </div>

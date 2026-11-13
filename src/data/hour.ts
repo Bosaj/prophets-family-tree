@@ -322,12 +322,12 @@ export const HOUR_PARTS: HourPart[] = [
         quotes: [
           q(
             'six',
-            'اعْدُدْ سِتًّا بَيْنَ يَدَىِ السَّاعَةِ، مَوْتِي، ثُمَّ فَتْحُ بَيْتِ الْمَقْدِسِ، ثُمَّ مُوتَانٌ يَأْخُذُ فِيكُمْ كَقُعَاصِ الْغَنَمِ، ثُمَّ اسْتِفَاضَةُ الْمَالِ حَتَّى يُعْطَى الرَّجُلُ مِائَةَ دِينَارٍ فَيَظَلُّ سَاخِطًا، ثُمَّ فِتْنَةٌ لاَ يَبْقَى بَيْتٌ مِنَ الْعَرَبِ إِلاَّ دَخَلَتْهُ',
+            'اعْدُدْ سِتًّا بَيْنَ يَدَىِ السَّاعَةِ، مَوْتِي، ثُمَّ فَتْحُ بَيْتِ الْمَقْدِسِ، ثُمَّ مُوتَانٌ يَأْخُذُ فِيكُمْ كَقُعَاصِ الْغَنَمِ، ثُمَّ اسْتِفَاضَةُ الْمَالِ حَتَّى يُعْطَى الرَّجُلُ مِائَةَ دِينَارٍ فَيَظَلُّ سَاخِطًا، ثُمَّ فِتْنَةٌ لاَ يَبْقَى بَيْتٌ مِنَ الْعَرَبِ إِلاَّ دَخَلَتْهُ، ثُمَّ هُدْنَةٌ تَكُونُ بَيْنَكُمْ وَبَيْنَ بَنِي الأَصْفَرِ فَيَغْدِرُونَ، فَيَأْتُونَكُمْ تَحْتَ ثَمَانِينَ غَايَةً، تَحْتَ كُلِّ غَايَةٍ اثْنَا عَشَرَ أَلْفًا',
             t(
-              'Count six before the Hour: my death; then the conquest of Jerusalem; then a death that will take you like the disease of sheep; then wealth so abundant that a man given a hundred dinars stays displeased; then a trial that leaves no Arab house unentered…',
-              'Compte six avant l’Heure : ma mort ; puis la conquête de Jérusalem ; puis une mortalité qui vous emportera comme la maladie des moutons ; puis une telle abondance de richesse qu’un homme recevant cent dinars restera mécontent ; puis une épreuve qui n’épargnera aucune maison arabe…',
-              'قاله في غزوة تبوك لعوف بن مالك، والسادسة هدنة مع بني الأصفر.',
-              'Cuenta seis antes de la Hora: mi muerte; luego la conquista de Jerusalén; luego una mortandad que os llevará como la enfermedad de las ovejas; luego tanta riqueza que un hombre al que se den cien dinares seguirá descontento; luego una prueba que no dejará casa árabe sin entrar…',
+              'Count six before the Hour: my death; then the conquest of Jerusalem; then a death that will take you like the disease of sheep; then wealth so abundant that a man given a hundred dinars stays displeased; then a trial that leaves no Arab house unentered; then a truce between you and the Banu al-Asfar (the Byzantines), who will betray it and come against you under eighty banners, under each banner twelve thousand.',
+              'Compte six avant l’Heure : ma mort ; puis la conquête de Jérusalem ; puis une mortalité qui vous emportera comme la maladie des moutons ; puis une telle abondance de richesse qu’un homme recevant cent dinars restera mécontent ; puis une épreuve qui n’épargnera aucune maison arabe ; puis une trêve entre vous et les Banu al-Asfar (les Byzantins), qui la trahiront et marcheront contre vous sous quatre-vingts bannières, sous chaque bannière douze mille hommes.',
+              'قاله لعوف بن مالك في غزوة تبوك. بنو الأصفر: الروم، والغاية: الراية.',
+              'Cuenta seis antes de la Hora: mi muerte; luego la conquista de Jerusalén; luego una mortandad que os llevará como la enfermedad de las ovejas; luego tanta riqueza que un hombre al que se den cien dinares seguirá descontento; luego una prueba que no dejará casa árabe sin entrar; luego una tregua entre vosotros y los Banu al-Asfar (los bizantinos), que la traicionarán y vendrán contra vosotros bajo ochenta estandartes, bajo cada estandarte doce mil.',
             ),
             ['bukhari:3176'],
           ),
@@ -427,15 +427,14 @@ export const HOUR_PARTS: HourPart[] = [
         quotes: [
           q(
             'trust',
-            'فَإِذَا ضُيِّعَتِ الأَمَانَةُ فَانْتَظِرِ السَّاعَةَ … إِذَا وُسِّدَ الأَمْرُ إِلَى غَيْرِ أَهْلِهِ فَانْتَظِرِ السَّاعَةَ',
+            'فَإِذَا ضُيِّعَتِ الأَمَانَةُ فَانْتَظِرِ السَّاعَةَ. قَالَ: كَيْفَ إِضَاعَتُهَا؟ قَالَ: إِذَا وُسِّدَ الأَمْرُ إِلَى غَيْرِ أَهْلِهِ فَانْتَظِرِ السَّاعَةَ',
             t(
-              'When trust is lost, wait for the Hour… When authority is given to those not fit for it, wait for the Hour.',
-              'Quand la confiance est perdue, attends l’Heure… Quand l’autorité est confiée à qui n’en est pas digne, attends l’Heure.',
-              'سئل: كيف إضاعتها؟ فأجاب بالجملة الثانية.',
-              'Cuando se pierda la confianza, espera la Hora… Cuando la autoridad se dé a quien no es apto, espera la Hora.',
+              '“When trust is lost, wait for the Hour.” He was asked: How is it lost? He said: “When authority is given to those not fit for it, wait for the Hour.”',
+              '« Quand la confiance est perdue, attends l’Heure. » On lui demanda : Comment est-elle perdue ? Il dit : « Quand l’autorité est confiée à qui n’en est pas digne, attends l’Heure. »',
+              'قاله لأعرابي سأله: متى الساعة؟',
+              '«Cuando se pierda la confianza, espera la Hora». Le preguntaron: ¿Cómo se pierde? Dijo: «Cuando la autoridad se dé a quien no es apto, espera la Hora».',
             ),
             ['bukhari:59'],
-            { src: ['فَإِذَا ضُيِّعَتِ الأَمَانَةُ فَانْتَظِرِ السَّاعَةَ', 'إِذَا وُسِّدَ الأَمْرُ إِلَى غَيْرِ أَهْلِهِ فَانْتَظِرِ السَّاعَةَ'] },
           ),
         ],
       },
@@ -1001,7 +1000,17 @@ export const HOUR_PARTS: HourPart[] = [
         l: 'hadith',
         r: ['19:39', '39:73-74'],
         quotes: [
-          q('death2', 'يَا أَهْلَ الْجَنَّةِ، خُلُودٌ فَلاَ مَوْتَ', t('O people of Paradise: eternity, and no death.', 'Ô gens du Paradis : éternité, et plus de mort.', 'ثم يقال لأهل النار مثل ذلك، وتلا الآية 19:39.', 'Oh gente del Paraíso: eternidad, y no hay muerte.'), ['bukhari:4730']),
+          q(
+            'death',
+            'يُؤْتَى بِالْمَوْتِ كَهَيْئَةِ كَبْشٍ أَمْلَحَ، فَيُنَادِي مُنَادٍ: يَا أَهْلَ الْجَنَّةِ، فَيَشْرَئِبُّونَ وَيَنْظُرُونَ، فَيَقُولُ: هَلْ تَعْرِفُونَ هَذَا؟ فَيَقُولُونَ: نَعَمْ، هَذَا الْمَوْتُ، وَكُلُّهُمْ قَدْ رَآهُ، ثُمَّ يُنَادِي: يَا أَهْلَ النَّارِ، فَيَشْرَئِبُّونَ وَيَنْظُرُونَ، فَيَقُولُ: هَلْ تَعْرِفُونَ هَذَا؟ فَيَقُولُونَ: نَعَمْ، هَذَا الْمَوْتُ، وَكُلُّهُمْ قَدْ رَآهُ، فَيُذْبَحُ، ثُمَّ يَقُولُ: يَا أَهْلَ الْجَنَّةِ، خُلُودٌ فَلاَ مَوْتَ، وَيَا أَهْلَ النَّارِ، خُلُودٌ فَلاَ مَوْتَ',
+            t(
+              'Death is brought in the form of a black-and-white ram. A caller calls: O people of Paradise! They stretch their necks and look. He says: Do you know this? They say: Yes, this is death, and all of them have seen it. Then he calls: O people of the Fire! They stretch their necks and look. He says: Do you know this? They say: Yes, this is death, and all of them have seen it. It is slaughtered, then he says: O people of Paradise, eternity and no death; O people of the Fire, eternity and no death.',
+              'La mort est amenée sous la forme d’un bélier blanc tacheté de noir. Un héraut appelle : Ô gens du Paradis ! Ils tendent le cou et regardent. Il dit : Connaissez-vous ceci ? Ils disent : Oui, c’est la mort, et tous l’ont vue. Puis il appelle : Ô gens du Feu ! Ils tendent le cou et regardent. Il dit : Connaissez-vous ceci ? Ils disent : Oui, c’est la mort, et tous l’ont vue. Elle est égorgée, puis il dit : Ô gens du Paradis, éternité et plus de mort ; ô gens du Feu, éternité et plus de mort.',
+              'رواه أبو سعيد الخدري، ثم قرأ النبي ﷺ الآية 19:39.',
+              'La muerte es traída en forma de un carnero blanco y negro. Un pregonero llama: ¡Oh gente del Paraíso! Estiran el cuello y miran. Dice: ¿Conocéis esto? Dicen: Sí, es la muerte, y todos la han visto. Luego llama: ¡Oh gente del Fuego! Estiran el cuello y miran. Dice: ¿Conocéis esto? Dicen: Sí, es la muerte, y todos la han visto. Es degollada, y luego dice: Oh gente del Paraíso, eternidad y no hay muerte; oh gente del Fuego, eternidad y no hay muerte.',
+            ),
+            ['bukhari:4730'],
+          ),
         ],
       },
     ],

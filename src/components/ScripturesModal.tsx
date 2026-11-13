@@ -13,7 +13,7 @@ import {
   Sparkles,
   X,
 } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import { WithQuran } from './ui'
 import {
   SCRIPTURES,
@@ -72,18 +72,10 @@ export function ScripturesModal({
             </div>
             <div>
               <h2 className="text-lg sm:text-xl font-bold font-serif tracking-wide text-amber-200">
-                {lang === 'ar'
-                  ? 'الكتب والصحف السماوية وتاريخ المخطوطات'
-                  : lang === 'fr'
-                  ? 'Les Livres Célestes et l’Histoire des Manuscrits'
-                  : 'The Divine Scriptures & Textual Manuscript History'}
+                {tx(lang, 'The Divine Scriptures & Textual Manuscript History', 'Les Livres Célestes et l’Histoire des Manuscrits', 'الكتب والصحف السماوية وتاريخ المخطوطات', 'Las Escrituras reveladas y la historia de sus manuscritos')}
               </h2>
               <p className="text-xs text-amber-200/70 font-sans">
-                {lang === 'ar'
-                  ? 'دراسة وثائقية مقارنة لحفظ القرآن الكريم والمخطوطات التاريخية لرسالات الأنبياء'
-                  : lang === 'fr'
-                  ? 'Étude comparative documentaire : Préservation du Coran et manuscrits historiques'
-                  : 'Documentary comparison: Preservation of the Qur’an & historical manuscript traditions'}
+                {tx(lang, 'Documentary comparison: Preservation of the Qur’an & historical manuscript traditions', 'Étude comparative documentaire : Préservation du Coran et manuscrits historiques', 'دراسة وثائقية مقارنة لحفظ القرآن الكريم والمخطوطات التاريخية لرسالات الأنبياء', 'Comparación documental: la preservación del Corán y las tradiciones manuscritas')}
               </p>
             </div>
           </div>
@@ -91,7 +83,7 @@ export function ScripturesModal({
             type="button"
             onClick={onClose}
             className="shrink-0 rounded-lg p-2 text-amber-300/70 hover:bg-amber-500/20 hover:text-amber-100 transition-colors"
-            aria-label="Close"
+            aria-label={tx(lang, 'Close', 'Fermer', 'إغلاق', 'Cerrar')}
           >
             <X className="h-5 w-5" />
           </button>
@@ -129,15 +121,9 @@ export function ScripturesModal({
                   }`}
                 >
                   {book.id === 'quran'
-                    ? lang === 'ar'
-                      ? '١ نص موحد'
-                      : '1 Text'
+                    ? tx(lang, '1 Text', '1 texte', '١ نص موحد', '1 texto')
                     : `${book.versionsCount} ${
-                        lang === 'ar'
-                          ? 'روايات'
-                          : lang === 'fr'
-                          ? 'versions'
-                          : 'traditions'
+                        tx(lang, 'traditions', 'versions', 'روايات', 'versiones')
                       }`}
                 </span>
               </button>
@@ -165,9 +151,7 @@ export function ScripturesModal({
                 <div className="absolute bottom-2 inset-x-2 text-center">
                   <span className="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold bg-amber-500/90 text-slate-950 shadow-sm">
                     {currentBook.preservationStatus === 'divinely_preserved'
-                      ? lang === 'ar'
-                        ? 'محفوظ بحفظ الله التام'
-                        : 'Divinely Preserved · 100%'
+                      ? tx(lang, 'Divinely Preserved · 100%', 'Préservé par Allah · 100 %', 'محفوظ بحفظ الله التام', 'Preservado por Allah · 100 %')
                       : lang === 'ar'
                       ? `${currentBook.versionsCount} تقاليد نصية رئيسية`
                       : `${currentBook.versionsCount} Major Textual Traditions`}
@@ -214,9 +198,7 @@ export function ScripturesModal({
                     <Globe className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                     <div className="min-w-0">
                       <span className="text-amber-200/60 block text-[11px]">
-                        {lang === 'ar'
-                          ? 'اللغة الأصلية للوحي'
-                          : 'Original Revelation Language'}
+                        {tx(lang, 'Original Revelation Language', 'Langue de la révélation', 'اللغة الأصلية للوحي', 'Lengua de la revelación')}
                       </span>
                       <span className="font-semibold text-amber-100 break-words leading-tight block">
                         {pick(currentBook.originalLanguage)}
@@ -228,7 +210,7 @@ export function ScripturesModal({
                     <History className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                     <div className="min-w-0">
                       <span className="text-amber-200/60 block text-[11px]">
-                        {lang === 'ar' ? 'العصر التاريخي' : 'Revealed Era'}
+                        {tx(lang, 'Revealed Era', 'Époque de la révélation', 'العصر التاريخي', 'Época de la revelación')}
                       </span>
                       <span className="font-semibold text-amber-100 break-words leading-tight block">
                         {pick(currentBook.revealedEra)}
@@ -240,9 +222,7 @@ export function ScripturesModal({
                     <Library className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                     <div className="min-w-0">
                       <span className="text-amber-200/60 block text-[11px]">
-                        {lang === 'ar'
-                          ? 'مكان التنزيل النبوي'
-                          : 'Revealed Location'}
+                        {tx(lang, 'Revealed Location', 'Lieu de la révélation', 'مكان التنزيل النبوي', 'Lugar de la revelación')}
                       </span>
                       <span className="font-semibold text-amber-100 break-words leading-tight block">
                         {pick(currentBook.revealedLocation)}
@@ -254,19 +234,13 @@ export function ScripturesModal({
                     <Layers className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                     <div className="min-w-0">
                       <span className="text-amber-200/60 block text-[11px]">
-                        {lang === 'ar'
-                          ? 'كم عدد النسخ والروايات؟'
-                          : 'How Many Versions Exist?'}
+                        {tx(lang, 'How Many Versions Exist?', 'Combien de versions existent ?', 'كم عدد النسخ والروايات؟', '¿Cuántas versiones existen?')}
                       </span>
                       <span className="font-semibold text-amber-300 break-words leading-tight block">
                         {currentBook.id === 'quran'
-                          ? lang === 'ar'
-                            ? 'نص إمام واحد (١٠ قراءات متواترة)'
-                            : '1 Singular Consonantal Text (10 Qira’at)'
+                          ? tx(lang, '1 Singular Consonantal Text (10 Qira’at)', 'Un seul texte consonantique (10 lectures)', 'نص إمام واحد (١٠ قراءات متواترة)', 'Un único texto consonántico (10 lecturas)')
                           : `${currentBook.versionsCount} ${
-                              lang === 'ar'
-                                ? 'تقاليد ومخطوطات كبرى'
-                                : 'Major Textual Traditions'
+                              tx(lang, 'Major Textual Traditions', 'Grandes traditions textuelles', 'تقاليد ومخطوطات كبرى', 'Grandes tradiciones textuales')
                             }`}
                       </span>
                     </div>
@@ -284,9 +258,7 @@ export function ScripturesModal({
               <h4 className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
                 <Sparkles className="h-3.5 w-3.5 text-amber-400 shrink-0" />
                 <span>
-                  {lang === 'ar'
-                    ? 'الآيات القرآنية الشريفة في ذكر هذا الكتاب'
-                    : 'Noble Qur’anic Verses Referencing This Scripture'}
+                  {tx(lang, 'Noble Qur’anic Verses Referencing This Scripture', 'Versets du Coran qui citent ce Livre', 'الآيات القرآنية الشريفة في ذكر هذا الكتاب', 'Versículos del Corán que mencionan este Libro')}
                 </span>
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
@@ -297,7 +269,7 @@ export function ScripturesModal({
                   >
                     <div className="flex items-center justify-between text-amber-400 font-mono text-[10px]">
                       <span>
-                        {lang === 'ar' ? 'سورة' : 'Surah'} {ref.surah} : {ref.ayah}
+                        {tx(lang, 'Surah', 'Sourate', 'سورة', 'Sura')} {ref.surah} : {ref.ayah}
                       </span>
                     </div>
                     <p className="text-amber-200 font-serif text-sm leading-relaxed text-right">
@@ -397,7 +369,7 @@ export function ScripturesModal({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs">
                   <div className="rounded-lg bg-black/50 p-3 border border-white/5 min-w-0">
                     <span className="text-amber-200/60 block font-semibold mb-1 text-[11px]">
-                      {lang === 'ar' ? 'المخطوطات الباقية' : 'Extant Manuscripts'}
+                      {tx(lang, 'Extant Manuscripts', 'Manuscrits conservés', 'المخطوطات الباقية', 'Manuscritos conservados')}
                     </span>
                     <span className="text-amber-100 font-mono text-[11px] break-words block leading-relaxed">
                       {pick(activeVersion.extantManuscripts)}
@@ -406,9 +378,7 @@ export function ScripturesModal({
 
                   <div className="rounded-lg bg-black/50 p-3 border border-white/5 min-w-0">
                     <span className="text-amber-200/60 block font-semibold mb-1 text-[11px]">
-                      {lang === 'ar'
-                        ? 'عدد الفروق وحالة النص'
-                        : 'Variants / Status'}
+                      {tx(lang, 'Variants / Status', 'Variantes / état', 'عدد الفروق وحالة النص', 'Variantes / estado')}
                     </span>
                     <span className="text-amber-300 font-mono text-[11px] break-words block leading-relaxed">
                       {pick(activeVersion.variantCountOrStatus)}
@@ -417,9 +387,7 @@ export function ScripturesModal({
 
                   <div className="rounded-lg bg-black/50 p-3 border border-white/5 min-w-0">
                     <span className="text-amber-200/60 block font-semibold mb-1 text-[11px]">
-                      {lang === 'ar'
-                        ? 'المنظور العلمي والعقدي'
-                        : 'Theological Perspective'}
+                      {tx(lang, 'Theological Perspective', 'Point de vue théologique', 'المنظور العلمي والعقدي', 'Perspectiva teológica')}
                     </span>
                     <span className="text-amber-200/90 text-[11px] break-words block leading-relaxed">
                       {pick(activeVersion.theologicalPerspective)}
@@ -435,17 +403,11 @@ export function ScripturesModal({
             <h4 className="font-bold font-serif text-emerald-300 text-sm sm:text-base flex items-center gap-2">
               <ShieldCheck className="h-5 w-5 text-emerald-400 shrink-0" />
               <span>
-                {lang === 'ar'
-                  ? 'القاعدة الإسلامية: حفظ القرآن الكريم المهيمن وسر اختلاف نسخ الكتب السابقة'
-                  : 'Islamic Doctrine: Preservation of the Qur’an vs. Textual Fluidity of Earlier Scriptures'}
+                {tx(lang, 'Islamic Doctrine: Preservation of the Qur’an vs. Textual Fluidity of Earlier Scriptures', 'Doctrine islamique : la préservation du Coran et l’évolution textuelle des Livres antérieurs', 'القاعدة الإسلامية: حفظ القرآن الكريم المهيمن وسر اختلاف نسخ الكتب السابقة', 'Doctrina islámica: la preservación del Corán y la evolución textual de las Escrituras anteriores')}
               </span>
             </h4>
             <p className="text-emerald-100/90 leading-relaxed font-sans">
-              <WithQuran text={lang === 'ar'
-                ? 'استودع الله الأمم السابقة حفظ كتبها فقال ﴿بِمَا اسْتُحْفِظُوا مِن كِتَابِ اللَّهِ﴾، فدخلها النسيان والتبديل البشري وتعددت نسخها ومخطوطاتها المتناقضة. أما القرآن الكريم فقد تولى الله حفظه بنفسه ﴿إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ﴾، فظل نصاً إماماً واحداً ثابتاً في الصدور والمصاحف بحروفه ورسمه عبر أرجاء الأرض قاطبة.'
-                : lang === 'fr'
-                ? 'Allah avait confié la garde des livres antérieurs aux communautés humaines (« par ce qui leur était confié du Livre d’Allah »), ce qui a conduit à des altérations et à une multiplicité de manuscrits divergents. Pour le Coran, Allah a garanti Sa propre protection directe (« C’est Nous qui avons fait descendre le Rappel, et c’est Nous qui en sommes les gardiens »), assurant l’exactitude intégrale de chaque lettre à travers les âges.'
-                : 'Allah entrusted the custody of earlier scriptures to their respective communities ("by that which they were entrusted of the Scripture of Allah"), leading to human redactions, loss, and divergent textual traditions. In contrast, Allah Himself undertook the perpetual preservation of the Qur’an ("Indeed, it is We who sent down the Qur’an and indeed, We will be its guardian"), securing word-for-word identity across all continents and centuries.'} />
+              <WithQuran text={tx(lang, 'Allah entrusted the custody of earlier scriptures to their respective communities ("by that which they were entrusted of the Scripture of Allah"), leading to human redactions, loss, and divergent textual traditions. In contrast, Allah Himself undertook the perpetual preservation of the Qur’an ("Indeed, it is We who sent down the Qur’an and indeed, We will be its guardian"), securing word-for-word identity across all continents and centuries.', 'Allah avait confié la garde des livres antérieurs aux communautés humaines (« par ce qui leur était confié du Livre d’Allah »), ce qui a conduit à des altérations et à une multiplicité de manuscrits divergents. Pour le Coran, Allah a garanti Sa propre protection directe (« C’est Nous qui avons fait descendre le Rappel, et c’est Nous qui en sommes les gardiens »), assurant l’exactitude intégrale de chaque lettre à travers les âges.', 'استودع الله الأمم السابقة حفظ كتبها فقال ﴿بِمَا اسْتُحْفِظُوا مِن كِتَابِ اللَّهِ﴾، فدخلها النسيان والتبديل البشري وتعددت نسخها ومخطوطاتها المتناقضة. أما القرآن الكريم فقد تولى الله حفظه بنفسه ﴿إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ﴾، فظل نصاً إماماً واحداً ثابتاً في الصدور والمصاحف بحروفه ورسمه عبر أرجاء الأرض قاطبة.', 'Allah confió la custodia de las Escrituras anteriores a sus comunidades («por lo que se les había confiado del Libro de Allah»), lo que llevó a redacciones humanas, pérdidas y tradiciones textuales divergentes. En cambio, Allah mismo asumió la preservación perpetua del Corán («Somos Nosotros quienes hicimos descender el Recuerdo y somos Nosotros sus custodios»), asegurando que sea idéntico palabra por palabra en todos los continentes y siglos.')} />
             </p>
           </div>
         </div>
@@ -453,16 +415,14 @@ export function ScripturesModal({
         {/* Footer */}
         <div className="shrink-0 border-t border-amber-500/20 px-4 py-3 sm:px-6 flex items-center justify-between bg-black/80 backdrop-blur-sm text-xs text-amber-200/70">
           <span>
-            {lang === 'ar'
-              ? 'مشروع شجرة الأنبياء · أسامة الحاجي'
-              : 'Prophets Family Tree · Oussama EL HADJI'}
+            {tx(lang, 'Prophets Family Tree · Oussama EL HADJI', 'Arbre des prophètes · Oussama EL HADJI', 'مشروع شجرة الأنبياء · أسامة الحاجي', 'Árbol de los profetas · Oussama EL HADJI')}
           </span>
           <button
             type="button"
             onClick={onClose}
             className="rounded-lg px-4 py-1.5 font-medium bg-amber-500 text-slate-950 font-bold hover:bg-amber-400 transition-colors"
           >
-            {lang === 'ar' ? 'إغلاق' : lang === 'fr' ? 'Fermer' : 'Close'}
+            {tx(lang, 'Close', 'Fermer', 'إغلاق', 'Cerrar')}
           </button>
         </div>
       </div>

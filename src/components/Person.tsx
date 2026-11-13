@@ -22,7 +22,7 @@ import {
   Users,
   Waves,
 } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import type { Key } from '../i18n/strings'
 import { byId, people } from '../data/people'
 import type { Fact, Person as P } from '../data/types'
@@ -197,7 +197,7 @@ export function Person({ id }: { id: string }) {
                       <div>
                         <p className="text-xs font-bold text-amber-200 font-serif">{scriptureBook.title.ar} · {pick(scriptureBook.title)}</p>
                         <p className="text-[11px] text-amber-300/70 font-mono">
-                          {pick(scriptureBook.originalLanguage)} • {scriptureBook.id === 'quran' ? (lang === 'ar' ? 'نص موحد محفوظ' : '1 Preserved Text') : `${scriptureBook.versionsCount} ${lang === 'ar' ? 'روايات' : 'traditions'}`}
+                          {pick(scriptureBook.originalLanguage)} • {scriptureBook.id === 'quran' ? (tx(lang, '1 Preserved Text', '1 texte préservé', 'نص موحد محفوظ', '1 texto preservado')) : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات', 'tradiciones')}`}
                         </p>
                       </div>
                     </div>
