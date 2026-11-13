@@ -4,6 +4,14 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.6.1] — 2026-11-13
+### Fixed
+- **Relation names no longer cover the trees.** On both trees, each name is moved along its own line, or just beside it, until it covers no node (orb, Arabic name, Latin name, date pill) and no other name. A name with no free place stays hidden until you zoom in; the names of the selected person's lines are always shown. Checked in the browser at every zoom step: 0 names over a node, 0 names over another name.
+- **One look for both trees.** The Prophets tree and the Sahaba tree draw relation names with the same component: same pill, font and size on screen, edged with the line's colour and gold for the selected person.
+- **Dates checked again.** Fatimah died in Ramadan 11 AH, six months after the Prophet ﷺ (Bukhari), not on 3 Jumada al-Akhirah. Al-Hasan died in 49 or 50 AH. Sa'd ibn Abi Waqqas was born c. 27 BH (he became Muslim at 17), Sa'id ibn Zayd c. 22 BH, Hamzah c. 56 BH (two to four years before the Prophet ﷺ). Salman's year of birth is unknown and is no longer shown. Imam Muslim was born in 204 or 206 AH, Umar ibn Abd al-Aziz in 61 or 63 AH, and Idris I died in 175 or 177 AH. Arabic dates read right to left, and 'or', 'c.' and Ramadan are translated in Arabic, French and Spanish.
+- **Prophetic praise, graded.** Salman's card quoted «Salman is of us, the Household», which has a weak chain; it now quotes Bukhari 4897 and Muslim 2546 («Even if faith were at the Pleiades...») and says the other one is weak. Abd al-Rahman ibn Awf's card quoted a saying whose source (Musnad Ahmad 18151) could not be checked; it now quotes Tirmidhi 3747 and Muslim 274. Sa'd's second sentence is now Tirmidhi 3751's own wording, Uthman's second hadith points to Tirmidhi 3701 (hasan), not 3700 (weak), and Hamzah's hadith keeps only the words al-Albani graded hasan. The Constantinople hadith on Mehmed II's card now says its chain is disputed (al-Hakim and adh-Dhahabi: sound; al-Albani: weak).
+- The praise heading and the Sahaba tree's zoom buttons are translated in all four languages.
+
 ## [2.6.0] — 2026-11-07
 ### Added
 - **Nine more animals of the Qur’an**: camels (88:17), the donkey (2:259, 62:5, 31:19), locusts and frogs (7:133), quails (2:57), the fly (22:73), moths (101:4), sheep (21:78, and every prophet herded them, Bukhari 2262) and the snake of Musa’s staff (20:20).

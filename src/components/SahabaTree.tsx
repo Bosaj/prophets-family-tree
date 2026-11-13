@@ -20,7 +20,8 @@ import {
   RotateCcw,
 } from 'lucide-react'
 import { useI18n } from '../i18n'
-import { pathPoint } from '../lib/relations'
+import { labelScale, nodeBoxes, placeLabels, textWidth, type LabelRequest } from '../lib/labelLayout'
+import { EdgeLabel } from './EdgeLabel'
 import { SAHABA_STORIES, type StoryPoint } from '../data/sahabaStories'
 import { LevelChip, RefChip } from './ui'
 import type { L4, Lang } from '../data/types'
@@ -46,6 +47,12 @@ interface View {
   x: number
   y: number
 }
+
+const nodeRadius = (fig: SahabaFigure) =>
+  fig.roleCategory === 'prophet' ? 22 : fig.roleCategory === 'rashidun_caliph' ? 18 : fig.roleCategory === 'hadith_master' ? 17 : 14
+
+const linkColor = (type: TreeLink['type']) =>
+  type === 'hadith' || type === 'mentorship' ? '#38bdf8' : type === 'lineage' ? '#fbbf24' : type === 'era' ? '#94a3b8' : '#34d399'
 
 // Celestial Node Coordinates in a balanced, wide 2D SVG canvas (Layout: width 2400, height 1850)
 const SAHABA_NODE_COORDS: Record<string, { x: number; y: number }> = {
@@ -139,6 +146,30 @@ const UI = {
   sacrificesHer: r('What she gave up', 'Ses sacrifices', 'ما ضحّت به', 'Sus sacrificios'),
   readStory: r('Read the story', 'Lire l’histoire', 'اقرأ القصة', 'Leer la historia'),
   zoomHint: r('Zoom in to read every relation', 'Zoomez pour lire chaque lien', 'كبّر الشجرة لقراءة كل الصلات', 'Acerca para leer cada relación'),
+  praise: r('Prophetic praise & scholarly testimony', 'Éloge prophétique et témoignage des savants', 'الثناء النبوي الشريف وشهادة أئمة الإسلام', 'Elogio profético y testimonio de los sabios'),
+  gradeDisputed: r(
+    'Chain disputed: al-Hakim and adh-Dhahabi called it sound; al-Albani graded it weak (one narrator is unknown). Quoted for its fame, not as established.',
+    'Chaîne discutée : al-Hakim et adh-Dhahabi l’ont jugée saine ; al-Albani l’a jugée faible (un transmetteur est inconnu). Citée pour sa célébrité, pas comme établie.',
+    'إسناده مختلف فيه: صححه الحاكم ووافقه الذهبي، وضعّفه الألباني لجهالة أحد رواته. يُذكر لشهرته لا على أنه ثابت.',
+    'Cadena discutida: al-Hakim y adh-Dhahabi la consideraron sólida; al-Albani la calificó de débil (un transmisor es desconocido). Se cita por su fama, no como establecida.',
+  ),
+  gradeWeak: r('Weak chain: quoted for its fame, not as established.', 'Chaîne faible : citée pour sa célébrité, pas comme établie.', 'إسناده ضعيف: يُذكر لشهرته لا على أنه ثابت.', 'Cadena débil: se cita por su fama, no como establecida.'),
+}
+
+/** Turn the English date strings of the data into the reader's language (numbers stay as written). */
+function localizeDate(s: string, lang: Lang): string {
+  if (lang === 'ar') {
+    return s
+      .replace(/\bc\.\s*/g, 'نحو ')
+      .replace(/\bor\b/g, 'أو')
+      .replace(/\bAH\b/g, 'هـ')
+      .replace(/\bBH\b/g, 'ق.هـ')
+      .replace(/\bCE\b/g, 'م')
+      .replace(/\bRamadan\b/g, 'رمضان')
+  }
+  if (lang === 'fr') return s.replace(/\bc\.\s*/g, 'v. ').replace(/\bor\b/g, 'ou').replace(/\bAH\b/g, 'H').replace(/\bBH\b/g, 'av. H').replace(/\bCE\b/g, 'apr. J.-C.').replace(/\bto\b/g, 'à')
+  if (lang === 'es') return s.replace(/\bc\.\s*/g, 'h. ').replace(/\bor\b/g, 'o').replace(/\bAH\b/g, 'H').replace(/\bBH\b/g, 'a. H.').replace(/\bCE\b/g, 'd. C.').replace(/\bto\b/g, 'a')
+  return s
 }
 
 /**
@@ -308,25 +339,17 @@ function formatDeathDate(death: { ah: string; ce: string }, lang: Lang): string 
       .replace(/\b25 Rajab\b/gi, '25 رجب')
       .replace(/\b20 Rajab\b/gi, '20 رجب')
       .replace(/\b10 Ramadan\b/gi, '10 رمضان')
-  } else if (lang === 'fr') {
-    s = s.replace(/\bAH\b/g, 'H')
   }
-  return s
+  return localizeDate(s, lang)
 }
 
 function formatReignDate(reign: { ah?: string; ce?: string } | undefined, lang: Lang): string {
   if (!reign?.ah) return ''
-  let s = reign.ah
-  if (lang === 'ar') {
-    s = s.replace(/\bAH\b/g, 'هـ').replace(/\bto\b/g, 'إلى')
-  } else if (lang === 'fr') {
-    s = s.replace(/\bAH\b/g, 'H').replace(/\bto\b/g, 'à')
-  }
-  return s
+  return localizeDate(lang === 'ar' ? reign.ah.replace(/\bto\b/g, 'إلى') : reign.ah, lang)
 }
 
 export function SahabaTree({ focus }: { focus?: string }) {
-  const { lang, pick } = useI18n()
+  const { lang, pick, t } = useI18n()
   const [selectedEra, setSelectedEra] = useState<SahabaEra | 'all'>('all')
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = useState<'tree' | 'timeline' | 'cards'>('tree')
@@ -556,19 +579,61 @@ export function SahabaTree({ focus }: { focus?: string }) {
   const chronologicalFigures = useMemo(() => {
     return [...filteredFigures].sort((a, b) => {
       const getYear = (fig: SahabaFigure) => {
-        const b = fig.lifeDates.birth?.ah
-        if (b) {
-          if (b.includes('BH')) return -(parseInt(b, 10) || 50)
-          return parseInt(b, 10) || 2000
+        // first number in strings like "c. 27 BH" or "204 or 206 AH"
+        const year = (s: string, fallback: number) => {
+          const n = Number(s.match(/\d+/)?.[0] ?? NaN)
+          if (!Number.isFinite(n)) return fallback
+          return s.includes('BH') ? -n : n
         }
+        const b = fig.lifeDates.birth?.ah
+        if (b) return year(b, 2000)
         const d = fig.lifeDates.death.ah
         if (d === 'Living' || d === 'Current') return 2000
-        if (d.includes('BH')) return -(parseInt(d, 10) || 50)
-        return parseInt(d, 10) || 100
+        return year(d, 100)
       }
       return getYear(a) - getYear(b)
     })
   }, [filteredFigures])
+
+  // Space taken by every node (orb, Arabic name, Latin name, date pill), so relation names never cover them.
+  const nodeObstacles = useMemo(
+    () =>
+      SAHABA_FIGURES.flatMap((fig) => {
+        const c = SAHABA_NODE_COORDS[fig.id]
+        if (!c) return []
+        const r = nodeRadius(fig)
+        const big = fig.roleCategory === 'prophet'
+        const date = formatDeathDate(fig.lifeDates.death, lang)
+        const rows = [{ y: r + 20, size: big ? 20 : 15, w: textWidth(fig.name.ar, `700 ${big ? 20 : 15}px "Reem Kufi Variable", serif`) }]
+        if (lang !== 'ar') rows.push({ y: r + 35, size: 10.5, w: textWidth(pick(fig.name), '500 10.5px "Sora Variable", sans-serif') })
+        if (date) rows.push({ y: r + (lang !== 'ar' ? 48 : 34) + 7.5, size: 15, w: Math.max(68, date.length * 6.5 + 16) })
+        return nodeBoxes(c.x, c.y, r, rows)
+      }),
+    [lang, pick],
+  )
+
+  const labelK = labelScale(view.k)
+  const placedLabels = useMemo(() => {
+    const requests: LabelRequest[] = []
+    TREE_LINKS.forEach((link, idx) => {
+      const from = SAHABA_NODE_COORDS[link.from]
+      const to = SAHABA_NODE_COORDS[link.to]
+      if (!from || !to) return
+      const touchesActive = activeFigure?.id === link.from || activeFigure?.id === link.to
+      if (view.k < 0.5 && !touchesActive) return
+      const fromFig = SAHABA_FIGURES.find((f) => f.id === link.from)
+      const toFig = SAHABA_FIGURES.find((f) => f.id === link.to)
+      if (selectedEra !== 'all' && fromFig?.era !== selectedEra && toFig?.era !== selectedEra && !touchesActive) return
+      const midY = (from.y + to.y) / 2
+      requests.push({
+        key: String(idx),
+        text: pick(link.label),
+        d: `M ${from.x} ${from.y} C ${from.x} ${midY} ${to.x} ${midY} ${to.x} ${to.y}`,
+        force: touchesActive,
+      })
+    })
+    return placeLabels(requests, nodeObstacles, labelK, lang)
+  }, [view.k, labelK, activeFigure, selectedEra, pick, lang, nodeObstacles])
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
@@ -738,7 +803,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
               type="button"
               onClick={() => setView((v) => ({ ...v, k: Math.min(2.0, v.k * 1.15) }))}
               className="p-1 text-ink-3 hover:text-ink transition-colors cursor-pointer"
-              title="Zoom In"
+              title={t('zoomIn')}
+              aria-label={t('zoomIn')}
             >
               <Plus className="size-4" />
             </button>
@@ -747,7 +813,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
               type="button"
               onClick={() => setView((v) => ({ ...v, k: Math.max(0.2, v.k * 0.85) }))}
               className="p-1 text-ink-3 hover:text-ink transition-colors cursor-pointer"
-              title="Zoom Out"
+              title={t('zoomOut')}
+              aria-label={t('zoomOut')}
             >
               <Minus className="size-4" />
             </button>
@@ -756,12 +823,13 @@ export function SahabaTree({ focus }: { focus?: string }) {
               type="button"
               onClick={() => fit()}
               className="p-1 text-ink-3 hover:text-ink transition-colors cursor-pointer"
-              title="Center & Fit Tree"
+              title={t('fit')}
+              aria-label={t('fit')}
             >
               <RotateCcw className="size-4" />
             </button>
           </div>
-          {view.k < 0.5 && (
+          {(view.k < 0.5 || [...placedLabels.values()].includes(null)) && (
             <p className="pointer-events-none absolute top-16 end-4 z-20 rounded-full bg-night-2/90 px-3 py-1 text-[0.7rem] text-ink-3">
               {pick(UI.zoomHint)}
             </p>
@@ -881,12 +949,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 const midY = (from.y + to.y) / 2
                 const d = `M ${from.x} ${from.y} C ${from.x} ${midY}, ${to.x} ${midY}, ${to.x} ${to.y}`
 
-                let stroke = 'rgba(255, 255, 255, 0.16)'
-                if (isGlowing) stroke = '#facc15'
-                else if (link.type === 'hadith' || link.type === 'mentorship') stroke = '#38bdf8'
-                else if (link.type === 'lineage') stroke = '#fbbf24'
-                else if (link.type === 'era') stroke = '#94a3b8'
-                else stroke = '#34d399'
+                const stroke = isGlowing ? '#facc15' : linkColor(link.type)
 
                 return (
                   <path
@@ -921,7 +984,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 const isHighlighted = isMatchEra && isSearchMatch
                 const isDimmed = !isHighlighted || (activeFigure && !isConnected && !isActive)
 
-                const r = isProphet ? 22 : isRashidun ? 18 : isHadithMaster ? 17 : 14
+                const r = nodeRadius(fig)
                 const haloFill = isProphet
                   ? 'url(#haloProphet)'
                   : isRashidun
@@ -1069,27 +1132,20 @@ export function SahabaTree({ focus }: { focus?: string }) {
               {/* Relationship names, drawn above the nodes. The text keeps the same size on screen at any zoom, so
                   every label is shown once zoomed in, and only the selected figure's labels when zoomed out. */}
               {TREE_LINKS.map((link, idx) => {
-                const from = SAHABA_NODE_COORDS[link.from]
-                const to = SAHABA_NODE_COORDS[link.to]
-                if (!from || !to) return null
+                const p = placedLabels.get(String(idx))
+                if (!p) return null
                 const touchesActive = activeFigure?.id === link.from || activeFigure?.id === link.to
-                if (view.k < 0.5 && !touchesActive) return null
-                const fromFig = SAHABA_FIGURES.find((f) => f.id === link.from)
-                const toFig = SAHABA_FIGURES.find((f) => f.id === link.to)
-                if (selectedEra !== 'all' && fromFig?.era !== selectedEra && toFig?.era !== selectedEra && !touchesActive) return null
-                const midY = (from.y + to.y) / 2
-                const p = pathPoint(`M ${from.x} ${from.y} C ${from.x} ${midY} ${to.x} ${midY} ${to.x} ${to.y}`, 0.5)
-                const text = pick(link.label)
-                const s = 1 / Math.max(view.k, 0.35)
-                const fs = 10.5
-                const w = text.length * (lang === 'ar' ? 5.4 : 5.6) + 14
                 return (
-                  <g key={`label-${idx}`} transform={`translate(${p.x},${p.y}) scale(${s})`} className="pointer-events-none select-none">
-                    <rect x={-w / 2} y={-9} width={w} height={18} rx={9} fill="rgba(6, 8, 20, 0.92)" stroke={touchesActive ? '#facc15' : 'rgba(255,255,255,0.18)'} strokeWidth={0.9} />
-                    <text y={3.6} textAnchor="middle" fontSize={fs} fontWeight={600} fill={touchesActive ? '#fde68a' : '#e2e8f0'} fontFamily={lang === 'ar' ? 'Reem Kufi Variable, serif' : 'Sora Variable, Reem Kufi Variable, sans-serif'}>
-                      {text}
-                    </text>
-                  </g>
+                  <EdgeLabel
+                    key={`label-${idx}`}
+                    x={p.x}
+                    y={p.y}
+                    scale={labelK}
+                    text={pick(link.label)}
+                    lang={lang}
+                    accent={linkColor(link.type)}
+                    active={touchesActive}
+                  />
                 )
               })}
             </g>
@@ -1100,31 +1156,31 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <span className="text-gold font-bold shrink-0">{lang === 'ar' ? 'الحقب التاريخية:' : 'Epochs:'}</span>
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
               <span className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir="ltr" className="font-mono font-bold">{lang === 'ar' ? '1 – 11 هـ' : lang === 'fr' ? '1 – 11 H' : '1–11 AH'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '1 – 11 هـ' : lang === 'fr' ? '1 – 11 H' : '1–11 AH'}</span>
                 <span>{lang === 'ar' ? '(عصر النبوة)' : lang === 'fr' ? '(Prophétie)' : '(Prophethood)'}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir="ltr" className="font-mono font-bold">{lang === 'ar' ? '11 – 41 هـ' : lang === 'fr' ? '11 – 41 H' : '11–41 AH'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '11 – 41 هـ' : lang === 'fr' ? '11 – 41 H' : '11–41 AH'}</span>
                 <span>{lang === 'ar' ? '(الخلفاء الراشدون)' : lang === 'fr' ? '(Califes bien guidés)' : '(Rashidun)'}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir="ltr" className="font-mono font-bold">{lang === 'ar' ? '59 – 261 هـ' : lang === 'fr' ? '59 – 261 H' : '59–261 AH'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '59 – 261 هـ' : lang === 'fr' ? '59 – 261 H' : '59–261 AH'}</span>
                 <span>{lang === 'ar' ? '(أئمة الحديث والسنة)' : lang === 'fr' ? '(Maîtres du Hadith)' : '(Hadith Masters)'}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir="ltr" className="font-mono font-bold">{lang === 'ar' ? '41 – 132 هـ' : lang === 'fr' ? '41 – 132 H' : '41–132 AH'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '41 – 132 هـ' : lang === 'fr' ? '41 – 132 H' : '41–132 AH'}</span>
                 <span>{lang === 'ar' ? '(الدولة الأموية)' : lang === 'fr' ? '(Omeyyades)' : '(Umayyads)'}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir="ltr" className="font-mono font-bold">{lang === 'ar' ? '132 – 656 هـ' : lang === 'fr' ? '132 – 656 H' : '132–656 AH'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '132 – 656 هـ' : lang === 'fr' ? '132 – 656 H' : '132–656 AH'}</span>
                 <span>{lang === 'ar' ? '(الدولة العباسية)' : lang === 'fr' ? '(Abbassides)' : '(Abbasids)'}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-pink-500/10 border border-pink-500/20 text-pink-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir="ltr" className="font-mono font-bold">{lang === 'ar' ? '699 – 1342 هـ' : lang === 'fr' ? '699 – 1342 H' : '699–1342 AH'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '699 – 1342 هـ' : lang === 'fr' ? '699 – 1342 H' : '699–1342 AH'}</span>
                 <span>{lang === 'ar' ? '(الخلافة العثمانية)' : lang === 'fr' ? '(Ottomans)' : '(Ottomans)'}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir="ltr" className="font-mono font-bold">{lang === 'ar' ? '1041 هـ – اليوم' : lang === 'fr' ? '1041 H – Présent' : '1041 AH – Present'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '1041 هـ – اليوم' : lang === 'fr' ? '1041 H – Présent' : '1041 AH – Present'}</span>
                 <span>{lang === 'ar' ? '(السلالات الشريفة الحية)' : lang === 'fr' ? '(Dynasties Chérifiennes)' : '(Living Dynasties)'}</span>
               </span>
             </div>
@@ -1180,11 +1236,11 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     </div>
                     <div className="flex items-center gap-2 font-mono text-xs">
                       {fig.reignDates && (
-                        <span dir="ltr" className="text-amber-300 rounded-full bg-amber-500/10 px-2.5 py-0.5 border border-amber-500/20">
+                        <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="text-amber-300 rounded-full bg-amber-500/10 px-2.5 py-0.5 border border-amber-500/20">
                           {formatReignDate(fig.reignDates, lang)}
                         </span>
                       )}
-                      <span dir="ltr" className="text-ink-3 rounded-full bg-white/5 px-2.5 py-0.5 border border-white/10">
+                      <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="text-ink-3 rounded-full bg-white/5 px-2.5 py-0.5 border border-white/10">
                         {formatDeathDate(fig.lifeDates.death, lang)}
                       </span>
                     </div>
@@ -1282,7 +1338,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 {/* Dates & Narrations Meta */}
                 <div className="flex flex-wrap items-center gap-2 mb-3 text-[0.7rem] font-mono text-ink-3">
                   {fig.reignDates && (
-                    <span dir="ltr" className="rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2.5 py-0.5 text-emerald-300 flex items-center gap-1">
+                    <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2.5 py-0.5 text-emerald-300 flex items-center gap-1">
                       <Crown className="size-3 text-amber-400" />
                       <span>{formatReignDate(fig.reignDates, lang)}</span>
                     </span>
@@ -1292,7 +1348,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                       {fig.hadithsNarrated.toLocaleString()} {lang === 'ar' ? 'حديث' : 'Hadiths'}
                     </span>
                   )}
-                  <span dir="ltr" className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-ink-3">
+                  <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-ink-3">
                     {formatDeathDate(fig.lifeDates.death, lang)}
                   </span>
                 </div>
@@ -1365,13 +1421,13 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     {activeFigure.reignDates && (
                       <span className="text-amber-400 font-semibold inline-flex items-center gap-1">
                         <span>{pick(UI.reign)}</span>
-                        <span dir="ltr">{formatReignDate(activeFigure.reignDates, lang)}</span>
+                        <span dir={lang === 'ar' ? 'rtl' : 'ltr'}>{formatReignDate(activeFigure.reignDates, lang)}</span>
                       </span>
                     )}
                     {activeFigure.reignDates && <span>·</span>}
                     <span className="inline-flex items-center gap-1">
                       <span>{pick(UI.passed)}</span>
-                      <span dir="ltr">{formatDeathDate(activeFigure.lifeDates.death, lang)}</span>
+                      <span dir={lang === 'ar' ? 'rtl' : 'ltr'}>{formatDeathDate(activeFigure.lifeDates.death, lang)}</span>
                     </span>
                     {activeFigure.hadithsNarrated && (
                       <>
@@ -1510,11 +1566,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="mb-6 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-amber-500/5 p-4.5">
                 <div className="flex items-center gap-2 text-xs font-bold text-amber-300 mb-2">
                   <Sparkles className="size-3.5 text-amber-400" />
-                  <span>
-                    {lang === 'ar'
-                      ? 'الثناء النبوي الشريف وشهادة أئمة الإسلام'
-                      : 'Prophetic Praise & Scholarly Testimony'}
-                  </span>
+                  <span>{pick(UI.praise)}</span>
                 </div>
                 <p lang="ar" dir="rtl" className="font-hadith text-base sm:text-lg text-amber-100 leading-loose mb-2 text-center sm:text-start">
                   {activeFigure.propheticPraise.ar}
@@ -1522,6 +1574,11 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 {lang !== 'ar' && (
                   <p className="text-xs text-ink-2 italic mb-2">
                     "{lang === 'fr' ? activeFigure.propheticPraise.fr : activeFigure.propheticPraise.en}"
+                  </p>
+                )}
+                {activeFigure.propheticPraise.grade && (
+                  <p className="mb-2 rounded-lg border border-lvl-disputed/40 bg-lvl-disputed/10 px-3 py-2 text-xs leading-relaxed text-lvl-disputed" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+                    {pick(activeFigure.propheticPraise.grade === 'weak' ? UI.gradeWeak : UI.gradeDisputed)}
                   </p>
                 )}
                 <div className="text-[0.7rem] text-amber-400/80 font-mono text-end">
