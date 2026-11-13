@@ -27,6 +27,10 @@
   --color-night: #04050d;
   --color-night-2: #080b1c;
   --color-night-3: #0e1330;
+  /* Used by panels, menus and modal headers: they were missing, so those surfaces rendered see-through. */
+  --color-night-1: #06081a;
+  --color-night-surface: #0b0f26;
+  --color-ink-1: #f4efe4;
   --color-ink: #f4efe4;
   --color-ink-2: #c3bdd2;
   --color-ink-3: #8e89a8;

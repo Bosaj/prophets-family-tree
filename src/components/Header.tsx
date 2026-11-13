@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, ChevronDown, Languages, Search } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { tx, useI18n } from '../i18n'
 import { LANG_NAMES } from '../i18n/strings'
 import type { Route } from '../lib/router'
 import type { Lang } from '../data/types'
@@ -26,6 +26,7 @@ const NAV: readonly NavItem[] = [
   { key: 'navStories', href: '/stories', route: 'stories', main: true, short: { en: 'Stories', fr: 'Récits', ar: 'القصص', es: 'Relatos' } },
   { key: 'navNature', href: '/nature', route: 'nature', main: true, short: { en: 'Nature', fr: 'Nature', ar: 'الكائنات', es: 'Naturaleza' } },
   { key: 'mapView', href: '/map', route: 'map', main: true, short: { en: 'Map', fr: 'Carte', ar: 'الخريطة', es: 'Mapa' } },
+  { key: 'navHour', href: '/hour', route: 'hour', short: { en: 'The Hour', fr: 'L’Heure', ar: 'الساعة', es: 'La Hora' } },
   { key: 'navTimeline', href: '/timeline', route: 'timeline', short: { en: 'Timeline', fr: 'Chronologie', ar: 'التسلسل', es: 'Cronología' } },
   { key: 'navScience', href: '/science', route: 'science', short: { en: 'Miracles', fr: 'Miracles', ar: 'الإعجاز', es: 'Milagros' } },
   { key: 'navStature', href: '/stature', route: 'stature', short: { en: 'Stature', fr: 'Stature', ar: 'القامة', es: 'Estatura' } },
@@ -57,7 +58,7 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
           </span>
         </A>
 
-        <nav aria-label="Main" className="hidden lg:flex items-center justify-center gap-0.5 xl:gap-1 2xl:gap-1.5 min-w-0">
+        <nav aria-label={tx(lang, 'Main', 'Principal', 'القائمة الرئيسية', 'Principal')} className="hidden lg:flex items-center justify-center gap-0.5 xl:gap-1 2xl:gap-1.5 min-w-0">
           {NAV.filter((n) => n.main).map((n) => (
             <A
               key={n.href}
@@ -92,7 +93,7 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
           <LanguageMenu />
         </div>
       </div>
-      <nav aria-label="Main mobile" className="flex items-center gap-1 overflow-x-auto border-t border-white/5 px-3 py-1.5 whitespace-nowrap lg:hidden no-scrollbar">
+      <nav aria-label={tx(lang, 'Main', 'Principal', 'القائمة الرئيسية', 'Principal')} className="flex items-center gap-1 overflow-x-auto border-t border-white/5 px-3 py-1.5 whitespace-nowrap lg:hidden no-scrollbar">
         {NAV.map((n) => (
           <A
             key={n.href}

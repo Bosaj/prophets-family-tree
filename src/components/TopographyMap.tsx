@@ -17,7 +17,7 @@ import {
   Footprints,
 } from 'lucide-react'
 import type L from 'leaflet'
-import { legacy, useI18n } from '../i18n'
+import { legacy, tx, useI18n } from '../i18n'
 import { byId, prophets } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'
@@ -28,7 +28,7 @@ type SiteCategory = 'all' | 'sanctuary' | 'mountain' | 'well' | 'city'
 
 export interface SacredSitePin {
   id: string
-  name: { en: string; fr: string; ar: string }
+  name: { en: string; fr: string; ar: string; es?: string }
   type: 'mountain' | 'sanctuary' | 'well' | 'city'
   lat: number
   lng: number
@@ -38,7 +38,7 @@ export interface SacredSitePin {
 }
 
 export interface RouteWaypoint {
-  name: { en: string; fr: string; ar: string }
+  name: { en: string; fr: string; ar: string; es?: string }
   lat: number
   lng: number
   desc: { en: string; fr: string; ar: string }
@@ -47,7 +47,7 @@ export interface RouteWaypoint {
 
 export interface PropheticRoute {
   id: string
-  name: { en: string; fr: string; ar: string }
+  name: { en: string; fr: string; ar: string; es?: string }
   color: string
   prophetId: string
   period: { en: string; fr: string; ar: string }
@@ -59,7 +59,7 @@ export interface PropheticRoute {
 export const SACRED_SITES: SacredSitePin[] = [
   {
     id: 'kaaba',
-    name: { en: 'Al-Ka‘bah & The Sacred Sanctuary', fr: 'La Ka‘bah et le Sanctuaire Sacré', ar: 'الكعبة المشرفة والمسجد الحرام' },
+    name: { en: 'Al-Ka‘bah & The Sacred Sanctuary', fr: 'La Ka‘bah et le Sanctuaire Sacré', ar: 'الكعبة المشرفة والمسجد الحرام', es: 'La Ka‘ba y el Santuario Sagrado' },
     type: 'sanctuary',
     lat: 21.4225,
     lng: 39.8262,
@@ -69,7 +69,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'madinah_rawdah',
-    name: { en: 'The Prophet’s Mosque & Rawdah', fr: 'La Mosquée du Prophète et la Rawdah', ar: 'المسجد النبوي الشريف والروضة' },
+    name: { en: 'The Prophet’s Mosque & Rawdah', fr: 'La Mosquée du Prophète et la Rawdah', ar: 'المسجد النبوي الشريف والروضة', es: 'La Mezquita del Profeta y la Rawda' },
     type: 'sanctuary',
     lat: 24.4686,
     lng: 39.6108,
@@ -79,7 +79,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'aqsa',
-    name: { en: 'Al-Masjid al-Aqsa (Jerusalem)', fr: 'Al-Masjid al-Aqsa (Jérusalem)', ar: 'المسجد الأقصى المبارك (القدس)' },
+    name: { en: 'Al-Masjid al-Aqsa (Jerusalem)', fr: 'Al-Masjid al-Aqsa (Jérusalem)', ar: 'المسجد الأقصى المبارك (القدس)', es: 'Al-Masyid al-Aqsa (Jerusalén)' },
     type: 'sanctuary',
     lat: 31.7761,
     lng: 35.2358,
@@ -89,7 +89,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'sinai',
-    name: { en: 'Mount Sinai (Jabal Musa / At-Tur)', fr: 'Mont Sinaï (Jabal Moussa / At-Tour)', ar: 'طور سيناء (جبل موسى)' },
+    name: { en: 'Mount Sinai (Jabal Musa / At-Tur)', fr: 'Mont Sinaï (Jabal Moussa / At-Tour)', ar: 'طور سيناء (جبل موسى)', es: 'El monte Sinaí (Yabal Musa / at-Tur)' },
     type: 'mountain',
     lat: 28.5394,
     lng: 33.9753,
@@ -99,7 +99,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'tuwa',
-    name: { en: 'The Sacred Valley of Tuwa', fr: 'La Vallée Sacrée de Touwa', ar: 'الوادي المقدس طُوى' },
+    name: { en: 'The Sacred Valley of Tuwa', fr: 'La Vallée Sacrée de Touwa', ar: 'الوادي المقدس طُوى', es: 'El valle sagrado de Tuwa' },
     type: 'sanctuary',
     lat: 28.5560,
     lng: 33.9740,
@@ -109,7 +109,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'judy',
-    name: { en: 'Mount Judy (Jabal Judi)', fr: 'Mont Djoudi', ar: 'جبل الجودي' },
+    name: { en: 'Mount Judy (Jabal Judi)', fr: 'Mont Djoudi', ar: 'جبل الجودي', es: 'El monte Yudi (Yabal al-Yudi)' },
     type: 'mountain',
     lat: 37.3800,
     lng: 42.4500,
@@ -119,7 +119,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'hira',
-    name: { en: 'Cave of Hira (Jabal an-Nur)', fr: 'Grotte de Hira (Mont de la Lumière)', ar: 'غار حراء (جبل النور)' },
+    name: { en: 'Cave of Hira (Jabal an-Nur)', fr: 'Grotte de Hira (Mont de la Lumière)', ar: 'غار حراء (جبل النور)', es: 'La cueva de Hira (Yabal an-Nur)' },
     type: 'mountain',
     lat: 21.4583,
     lng: 39.8583,
@@ -129,7 +129,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'thawr',
-    name: { en: 'Cave of Thawr (Jabal Thawr)', fr: 'Grotte de Thawr', ar: 'غار ثور' },
+    name: { en: 'Cave of Thawr (Jabal Thawr)', fr: 'Grotte de Thawr', ar: 'غار ثور', es: 'La cueva de Zawr (Yabal Zawr)' },
     type: 'mountain',
     lat: 21.3786,
     lng: 39.8497,
@@ -139,7 +139,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'zamzam',
-    name: { en: 'The Spring of Zamzam', fr: 'Le Puits de Zamzam', ar: 'بئر زمزم المبارك' },
+    name: { en: 'The Spring of Zamzam', fr: 'Le Puits de Zamzam', ar: 'بئر زمزم المبارك', es: 'El pozo de Zamzam' },
     type: 'well',
     lat: 21.4226,
     lng: 39.8264,
@@ -149,7 +149,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'arafat',
-    name: { en: 'Mount Arafat & Jabal ar-Rahmah', fr: 'Mont Arafat & Jabal ar-Rahmah', ar: 'جبل عرفات وجبل الرحمة' },
+    name: { en: 'Mount Arafat & Jabal ar-Rahmah', fr: 'Mont Arafat & Jabal ar-Rahmah', ar: 'جبل عرفات وجبل الرحمة', es: 'El monte ‘Arafat y Yabal ar-Rahma' },
     type: 'mountain',
     lat: 21.3549,
     lng: 39.9841,
@@ -159,7 +159,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'quba',
-    name: { en: 'Masjid Quba', fr: 'Mosquée de Quba', ar: 'مسجد قباء' },
+    name: { en: 'Masjid Quba', fr: 'Mosquée de Quba', ar: 'مسجد قباء', es: 'Mezquita de Quba' },
     type: 'sanctuary',
     lat: 24.4392,
     lng: 39.6172,
@@ -169,7 +169,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'badr',
-    name: { en: 'The Plain of Badr (Yawm al-Furqan)', fr: 'La Plaine de Badr', ar: 'بدر (يوم الفرقان)' },
+    name: { en: 'The Plain of Badr (Yawm al-Furqan)', fr: 'La Plaine de Badr', ar: 'بدر (يوم الفرقان)', es: 'La llanura de Badr (Yawm al-Furqan)' },
     type: 'city',
     lat: 23.7822,
     lng: 38.7903,
@@ -179,7 +179,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'uhud',
-    name: { en: 'Mount Uhud', fr: 'Mont Ouhoud', ar: 'جبل أحد' },
+    name: { en: 'Mount Uhud', fr: 'Mont Ouhoud', ar: 'جبل أحد', es: 'El monte Uhud' },
     type: 'mountain',
     lat: 24.5034,
     lng: 39.6120,
@@ -189,7 +189,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'hebron',
-    name: { en: 'Cave of the Patriarchs (Al-Khalil)', fr: 'Tombeau des Patriarches (Hébron)', ar: 'الحرم الإبراهيمي الشريف (الخليل)' },
+    name: { en: 'Cave of the Patriarchs (Al-Khalil)', fr: 'Tombeau des Patriarches (Hébron)', ar: 'الحرم الإبراهيمي الشريف (الخليل)', es: 'La cueva de los Patriarcas (al-Jalil)' },
     type: 'city',
     lat: 31.5247,
     lng: 35.1107,
@@ -199,7 +199,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'ur_chaldees',
-    name: { en: 'Ur of the Chaldees (Mesopotamia)', fr: 'Our des Chaldéens (Mésopotamie)', ar: 'أور الكلدانيين (العراق)' },
+    name: { en: 'Ur of the Chaldees (Mesopotamia)', fr: 'Our des Chaldéens (Mésopotamie)', ar: 'أور الكلدانيين (العراق)', es: 'Ur de los caldeos (Mesopotamia)' },
     type: 'city',
     lat: 30.9628,
     lng: 46.1030,
@@ -209,7 +209,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'madyan_well',
-    name: { en: 'The Well of Midian (Al-Bad‘)', fr: 'Le Puits de Madyan (Al-Bad‘)', ar: 'ماء مدين وبئرها (البدع)' },
+    name: { en: 'The Well of Midian (Al-Bad‘)', fr: 'Le Puits de Madyan (Al-Bad‘)', ar: 'ماء مدين وبئرها (البدع)', es: 'El pozo de Madián (al-Bad‘)' },
     type: 'well',
     lat: 28.4833,
     lng: 35.0167,
@@ -219,7 +219,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'al_hijr',
-    name: { en: 'Al-Hijr / Mada’in Salih (AlUla)', fr: 'Al-Hijr / Mada’in Salih (AlUla)', ar: 'الحِجر ومدائن صالح (العلا)' },
+    name: { en: 'Al-Hijr / Mada’in Salih (AlUla)', fr: 'Al-Hijr / Mada’in Salih (AlUla)', ar: 'الحِجر ومدائن صالح (العلا)', es: 'Al-Hiyr / Mada’in Salih (AlUla)' },
     type: 'city',
     lat: 26.8044,
     lng: 37.9547,
@@ -229,7 +229,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'ahqaf_iram',
-    name: { en: 'Al-Ahqaf & Iram of the Pillars', fr: 'Al-Ahqaf & Iram aux colonnes', ar: 'الأحقاف وإرم ذات العماد' },
+    name: { en: 'Al-Ahqaf & Iram of the Pillars', fr: 'Al-Ahqaf & Iram aux colonnes', ar: 'الأحقاف وإرم ذات العماد', es: 'Al-Ahqaf e Iram la de las columnas' },
     type: 'city',
     lat: 18.2547,
     lng: 53.6489,
@@ -239,7 +239,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'qabr_hud',
-    name: { en: 'Shrine of Prophet Hud (Wadi Hadramawt)', fr: 'Mausolée du Prophète Houd (Hadramaout)', ar: 'شعب ومقام نبي الله هود (حضرموت)' },
+    name: { en: 'Shrine of Prophet Hud (Wadi Hadramawt)', fr: 'Mausolée du Prophète Houd (Hadramaout)', ar: 'شعب ومقام نبي الله هود (حضرموت)', es: 'Santuario del profeta Hud (Wadi Hadramawt)' },
     type: 'sanctuary',
     lat: 16.0333,
     lng: 49.5333,
@@ -249,7 +249,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'dead_sea',
-    name: { en: 'The Inverted Lands (Dead Sea / Bahr Lut)', fr: 'Les Cités Renversées (Mer Morte / Bahr Lout)', ar: 'المؤتفكات وبحر لوط (البحر الميت)' },
+    name: { en: 'The Inverted Lands (Dead Sea / Bahr Lut)', fr: 'Les Cités Renversées (Mer Morte / Bahr Lout)', ar: 'المؤتفكات وبحر لوط (البحر الميت)', es: 'Las tierras volcadas (mar Muerto / Bahr Lut)' },
     type: 'city',
     lat: 31.3322,
     lng: 35.5000,
@@ -259,7 +259,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'red_sea_crossing',
-    name: { en: 'Red Sea Parting & Crossing Site', fr: 'Le Passage de la Mer Rouge', ar: 'موضع فلق البحر الأحمر' },
+    name: { en: 'Red Sea Parting & Crossing Site', fr: 'Le Passage de la Mer Rouge', ar: 'موضع فلق البحر الأحمر', es: 'Lugar de la apertura y el cruce del mar Rojo' },
     type: 'sanctuary',
     lat: 29.0000,
     lng: 34.6667,
@@ -269,7 +269,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'jabal_harun',
-    name: { en: 'Mount Hor (Jabal Harun, Petra)', fr: 'Mont Hor (Jabal Haroun, Pétra)', ar: 'جبل هارون (البتراء)' },
+    name: { en: 'Mount Hor (Jabal Harun, Petra)', fr: 'Mont Hor (Jabal Haroun, Pétra)', ar: 'جبل هارون (البتراء)', es: 'El monte Hor (Yabal Harun, Petra)' },
     type: 'mountain',
     lat: 30.3167,
     lng: 35.4056,
@@ -279,7 +279,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'ayn_ayyub',
-    name: { en: 'Ayn Ayyub (The Healing Spring)', fr: 'Ayn Ayyub (La Source de Guérison)', ar: 'عين أيوب (المغتسل البارد)' },
+    name: { en: 'Ayn Ayyub (The Healing Spring)', fr: 'Ayn Ayyub (La Source de Guérison)', ar: 'عين أيوب (المغتسل البارد)', es: 'Ayn Ayyub (el manantial de la curación)' },
     type: 'well',
     lat: 32.8333,
     lng: 36.0333,
@@ -289,7 +289,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'jubb_yusuf',
-    name: { en: 'Jubb Yusuf (The Well / Pit of Joseph)', fr: 'Joub Youssouf (Le Puits de Joseph)', ar: 'جُبّ يوسف عليه السلام' },
+    name: { en: 'Jubb Yusuf (The Well / Pit of Joseph)', fr: 'Joub Youssouf (Le Puits de Joseph)', ar: 'جُبّ يوسف عليه السلام', es: 'Yubb Yusuf (el pozo de José)' },
     type: 'well',
     lat: 32.9667,
     lng: 35.5333,
@@ -299,7 +299,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'memphis_yusuf',
-    name: { en: 'Memphis & The Royal Granaries of Egypt', fr: 'Memphis et les Greniers d’Égypte', ar: 'منف وخزائن مصر العزيز' },
+    name: { en: 'Memphis & The Royal Granaries of Egypt', fr: 'Memphis et les Greniers d’Égypte', ar: 'منف وخزائن مصر العزيز', es: 'Menfis y los graneros reales de Egipto' },
     type: 'city',
     lat: 29.8499,
     lng: 31.2544,
@@ -309,7 +309,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'nineveh',
-    name: { en: 'Nineveh & Tell Nabi Yunus (Mosul)', fr: 'Ninive & Tell Nabi Younous (Mossoul)', ar: 'نينوى وتل النبي يونس (الموصل)' },
+    name: { en: 'Nineveh & Tell Nabi Yunus (Mosul)', fr: 'Ninive & Tell Nabi Younous (Mossoul)', ar: 'نينوى وتل النبي يونس (الموصل)', es: 'Nínive y Tell Nabi Yunus (Mosul)' },
     type: 'city',
     lat: 36.3587,
     lng: 43.1528,
@@ -319,7 +319,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'yaqtin_shore',
-    name: { en: 'Shore of Deliverance & The Gourd Tree', fr: 'Rivage de la Délivrance & Le Gourde', ar: 'شاطئ النجاة وشجرة اليقطين' },
+    name: { en: 'Shore of Deliverance & The Gourd Tree', fr: 'Rivage de la Délivrance & Le Gourde', ar: 'شاطئ النجاة وشجرة اليقطين', es: 'La orilla de la salvación y la calabacera' },
     type: 'sanctuary',
     lat: 32.0536,
     lng: 34.7567,
@@ -329,7 +329,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'mount_carmel',
-    name: { en: 'Mount Carmel (Jabal Mar Ilyas)', fr: 'Mont Carmel (Jabal Mar Ilyas)', ar: 'جبل الكرمل (مار إلياس)' },
+    name: { en: 'Mount Carmel (Jabal Mar Ilyas)', fr: 'Mont Carmel (Jabal Mar Ilyas)', ar: 'جبل الكرمل (مار إلياس)', es: 'El monte Carmelo (Yabal Mar Ilyas)' },
     type: 'mountain',
     lat: 32.8167,
     lng: 34.9833,
@@ -339,7 +339,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'bethlehem',
-    name: { en: 'Bethlehem (Bayt Lahm)', fr: 'Bethléem (Bayt Lahm)', ar: 'بيت لحم (مولد المسيح عيسى)' },
+    name: { en: 'Bethlehem (Bayt Lahm)', fr: 'Bethléem (Bayt Lahm)', ar: 'بيت لحم (مولد المسيح عيسى)', es: 'Belén (Bayt Lahm)' },
     type: 'city',
     lat: 31.7049,
     lng: 35.2078,
@@ -349,7 +349,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'mount_olives',
-    name: { en: 'Mount of Olives (Jabal az-Zaytun)', fr: 'Mont des Oliviers', ar: 'جبل الزيتون (الطور بالقدس)' },
+    name: { en: 'Mount of Olives (Jabal az-Zaytun)', fr: 'Mont des Oliviers', ar: 'جبل الزيتون (الطور بالقدس)', es: 'El monte de los Olivos (Yabal az-Zaytun)' },
     type: 'mountain',
     lat: 31.7781,
     lng: 35.2444,
@@ -359,7 +359,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'yahya_shrine',
-    name: { en: 'Shrine of Yahya (Umayyad Sanctuary, Damascus)', fr: 'Mausolée de Yahya (Damas)', ar: 'مقام ورأس النبي يحيى (الجامع الأموي بدمشق)' },
+    name: { en: 'Shrine of Yahya (Umayyad Sanctuary, Damascus)', fr: 'Mausolée de Yahya (Damas)', ar: 'مقام ورأس النبي يحيى (الجامع الأموي بدمشق)', es: 'Santuario de Yahya (Mezquita Omeya, Damasco)' },
     type: 'sanctuary',
     lat: 33.5119,
     lng: 36.3067,
@@ -369,7 +369,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'mihrab_dawud',
-    name: { en: 'Mihrab of Dawud (Citadel of Jerusalem)', fr: 'Mihrab de Daoud (Jérusalem)', ar: 'محراب داود عليه السلام (القدس)' },
+    name: { en: 'Mihrab of Dawud (Citadel of Jerusalem)', fr: 'Mihrab de Daoud (Jérusalem)', ar: 'محراب داود عليه السلام (القدس)', es: 'El mihrab de Dawud (ciudadela de Jerusalén)' },
     type: 'sanctuary',
     lat: 31.7765,
     lng: 35.2285,
@@ -379,7 +379,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'baqi_madinah',
-    name: { en: 'Jannat al-Baqi‘ Cemetery (Madinah)', fr: 'Cimetière d’al-Baqi‘ (Médine)', ar: 'جنة البقيع (المدينة المنورة)' },
+    name: { en: 'Jannat al-Baqi‘ Cemetery (Madinah)', fr: 'Cimetière d’al-Baqi‘ (Médine)', ar: 'جنة البقيع (المدينة المنورة)', es: 'Cementerio de Yannat al-Baqi‘ (Medina)' },
     type: 'sanctuary',
     lat: 24.4672,
     lng: 39.6158,
@@ -389,7 +389,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'yarmouk_battle',
-    name: { en: 'Yarmouk Valley (Decisive Victory of the Sahaba)', fr: 'Vallée du Yarmouk (Bataille décisive)', ar: 'وادي اليرموك (معركة اليرمouk الكبرى)' },
+    name: { en: 'Yarmouk Valley (Decisive Victory of the Sahaba)', fr: 'Vallée du Yarmouk (Bataille décisive)', ar: 'وادي اليرموك (معركة اليرمouk الكبرى)', es: 'El valle del Yarmuk (la victoria decisiva de los Compañeros)' },
     type: 'sanctuary',
     lat: 32.7483,
     lng: 35.8690,
@@ -399,7 +399,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'kufa_grand_mosque',
-    name: { en: 'Great Mosque of Kufa (Capital of Ali ibn Abi Talib)', fr: 'Grande Mosquée de Koufa', ar: 'مسجد الكوفة المعظم' },
+    name: { en: 'Great Mosque of Kufa (Capital of Ali ibn Abi Talib)', fr: 'Grande Mosquée de Koufa', ar: 'مسجد الكوفة المعظم', es: 'Gran Mezquita de Kufa (capital de ‘Ali ibn Abi Talib)' },
     type: 'sanctuary',
     lat: 32.0294,
     lng: 44.4008,
@@ -409,7 +409,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'amr_mosque_fustat',
-    name: { en: 'Mosque of ‘Amr ibn al-‘Aas (Fustat / Cairo)', fr: 'Mosquée d’Amr ibn al-Aas (Le Caire)', ar: 'جامع عمرو بن العاص (الفسطاط - القاهرة)' },
+    name: { en: 'Mosque of ‘Amr ibn al-‘Aas (Fustat / Cairo)', fr: 'Mosquée d’Amr ibn al-Aas (Le Caire)', ar: 'جامع عمرو بن العاص (الفسطاط - القاهرة)', es: 'Mezquita de ‘Amr ibn al-‘As (Fustat / El Cairo)' },
     type: 'sanctuary',
     lat: 30.0101,
     lng: 31.2331,
@@ -419,7 +419,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'damascus_umayyad',
-    name: { en: 'Great Umayyad Mosque of Damascus', fr: 'Grande Mosquée des Omeyyades de Damas', ar: 'الجامع الأموي الكبير بدمشق' },
+    name: { en: 'Great Umayyad Mosque of Damascus', fr: 'Grande Mosquée des Omeyyades de Damas', ar: 'الجامع الأموي الكبير بدمشق', es: 'Gran Mezquita Omeya de Damasco' },
     type: 'sanctuary',
     lat: 33.5119,
     lng: 36.3067,
@@ -429,7 +429,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'cordoba_mezquita',
-    name: { en: 'Mezquita-Cathedral of Cordoba (Al-Andalus)', fr: 'Grande Mosquée de Cordoue (Al-Andalus)', ar: 'جامع قرطبة الكبير (الأندلس)' },
+    name: { en: 'Mezquita-Cathedral of Cordoba (Al-Andalus)', fr: 'Grande Mosquée de Cordoue (Al-Andalus)', ar: 'جامع قرطبة الكبير (الأندلس)', es: 'Mezquita de Córdoba (al-Ándalus)' },
     type: 'sanctuary',
     lat: 37.8790,
     lng: -4.7794,
@@ -439,7 +439,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'baghdad_house_of_wisdom',
-    name: { en: 'Bayt al-Hikmah / House of Wisdom (Baghdad)', fr: 'Maison de la Sagesse (Bagdad)', ar: 'بيت الحكمة بدار السلام (بغداد)' },
+    name: { en: 'Bayt al-Hikmah / House of Wisdom (Baghdad)', fr: 'Maison de la Sagesse (Bagdad)', ar: 'بيت الحكمة بدار السلام (بغداد)', es: 'Bayt al-Hikma, la Casa de la Sabiduría (Bagdad)' },
     type: 'sanctuary',
     lat: 33.3406,
     lng: 44.4010,
@@ -449,7 +449,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'samarkand_bukhari',
-    name: { en: 'Mausoleum of Imam al-Bukhari (Samarkand)', fr: 'Mausolée de l’Imam al-Bukhari (Samarcande)', ar: 'مزار ومجمع الإمام البخاري (سمرقند - خرتنك)' },
+    name: { en: 'Mausoleum of Imam al-Bukhari (Samarkand)', fr: 'Mausolée de l’Imam al-Bukhari (Samarcande)', ar: 'مزار ومجمع الإمام البخاري (سمرقند - خرتنك)', es: 'Mausoleo del imam al-Bujari (Samarcanda)' },
     type: 'sanctuary',
     lat: 39.7972,
     lng: 66.9022,
@@ -459,7 +459,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'nishapur_muslim',
-    name: { en: 'Sanctuary of Imam Muslim ibn al-Hajjaj (Nishapur)', fr: 'Sanctuaire de l’Imam Muslim (Nichapour)', ar: 'مرقد الإمام مسلم بن الحجاج (نيسابور)' },
+    name: { en: 'Sanctuary of Imam Muslim ibn al-Hajjaj (Nishapur)', fr: 'Sanctuaire de l’Imam Muslim (Nichapour)', ar: 'مرقد الإمام مسلم بن الحجاج (نيسابور)', es: 'Santuario del imam Muslim ibn al-Hayyay (Nishapur)' },
     type: 'sanctuary',
     lat: 36.2133,
     lng: 58.7958,
@@ -469,7 +469,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'fez_qarawiyyin',
-    name: { en: 'University & Mosque of al-Qarawiyyin (Fez, Morocco)', fr: 'Université et Mosquée al-Qarawiyyin (Fès)', ar: 'جامع وجامعة القرويين (فاس - المغرب)' },
+    name: { en: 'University & Mosque of al-Qarawiyyin (Fez, Morocco)', fr: 'Université et Mosquée al-Qarawiyyin (Fès)', ar: 'جامع وجامعة القرويين (فاس - المغرب)', es: 'Universidad y mezquita de al-Qarawiyyin (Fez, Marruecos)' },
     type: 'sanctuary',
     lat: 34.0649,
     lng: -4.9734,
@@ -479,7 +479,7 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
   {
     id: 'istanbul_eyup_hagia',
-    name: { en: 'Sanctuary of Abu Ayyub al-Ansari & Hagia Sophia (Istanbul)', fr: 'Sanctuaire d’Abou Ayyoub al-Ansari et Sainte-Sophie (Istanbul)', ar: 'مرقد الصحابي أبي أيوب الأنصاري وآيا صوفيا (إسطنبول)' },
+    name: { en: 'Sanctuary of Abu Ayyub al-Ansari & Hagia Sophia (Istanbul)', fr: 'Sanctuaire d’Abou Ayyoub al-Ansari et Sainte-Sophie (Istanbul)', ar: 'مرقد الصحابي أبي أيوب الأنصاري وآيا صوفيا (إسطنبول)', es: 'Santuario de Abu Ayyub al-Ansari y Santa Sofía (Estambul)' },
     type: 'sanctuary',
     lat: 41.0478,
     lng: 28.9342,
@@ -492,7 +492,7 @@ export const SACRED_SITES: SacredSitePin[] = [
 export const ROUTES: PropheticRoute[] = [
   {
     id: 'ibrahim_path',
-    name: { en: 'Migration Path of Ibrahim عليه السلام', fr: 'Itinéraire d’Ibrahim عليه السلام', ar: 'مسار هجرة إبراهيم الخليل عليه السلام' },
+    name: { en: 'Migration Path of Ibrahim عليه السلام', fr: 'Itinéraire d’Ibrahim عليه السلام', ar: 'مسار هجرة إبراهيم الخليل عليه السلام', es: 'La migración de Ibrahim عليه السلام' },
     color: '#e9c67b',
     prophetId: 'ibrahim',
     period: { en: 'c. 1900–1800 BCE', fr: 'env. 1900–1800 av. J.-C.', ar: 'حوالي 1900–1800 ق.م' },
@@ -512,49 +512,49 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Ur of the Chaldees', fr: 'Our des Chaldéens', ar: 'أور الكلدانيين' },
+        name: { en: 'Ur of the Chaldees', fr: 'Our des Chaldéens', ar: 'أور الكلدانيين', es: 'Ur de los caldeos' },
         lat: 30.9628,
         lng: 46.1030,
         desc: { en: 'Birthplace of Ibrahim and confrontation with idolaters; delivered from the blazing fire.', fr: 'Lieu de naissance d’Ibrahim et sauvetage de la fournaise.', ar: 'موطن مولده ومحاجته لقومه ونجاته من النار العظيمة.' },
         quranRef: 'Al-Anbiya 21:69',
       },
       {
-        name: { en: 'Babylon', fr: 'Babylone', ar: 'بابل' },
+        name: { en: 'Babylon', fr: 'Babylone', ar: 'بابل', es: 'Babilonia' },
         lat: 32.5422,
         lng: 44.4210,
         desc: { en: 'Shattering the idols and philosophical dispute with King Nimrud on life and death.', fr: 'Destruction des idoles et débat avec le roi Nemrod.', ar: 'تكسير الأصنام ومحاججة الملك نمرود في الإحياء والإماتة.' },
         quranRef: 'Al-Baqarah 2:258',
       },
       {
-        name: { en: 'Haran (Upper Mesopotamia)', fr: 'Haran', ar: 'حرّان' },
+        name: { en: 'Haran (Upper Mesopotamia)', fr: 'Haran', ar: 'حرّان', es: 'Harán (Alta Mesopotamia)' },
         lat: 36.8667,
         lng: 39.0333,
         desc: { en: 'Dawah to heavenly body worshippers (sun, moon, stars).', fr: 'Prédication auprès des adorateurs des astres.', ar: 'دعوة قومه المنشغلين بعبادة الكواكب والشمس والقمر.' },
         quranRef: 'Al-An‘am 6:76-79',
       },
       {
-        name: { en: 'Damascus (Sham)', fr: 'Damas', ar: 'دمشق' },
+        name: { en: 'Damascus (Sham)', fr: 'Damas', ar: 'دمشق', es: 'Damasco (Sham)' },
         lat: 33.5138,
         lng: 36.2765,
         desc: { en: 'Gateway of migration into the blessed Levant.', fr: 'Porte d’entrée vers les terres bénies du Levant.', ar: 'محطة العبور نحو الأرض المباركة في بلاد الشام.' },
         quranRef: 'Al-Anbiya 21:71',
       },
       {
-        name: { en: 'Hebron (Al-Khalil)', fr: 'Hébron (Al-Khalil)', ar: 'الخليل (كنعان)' },
+        name: { en: 'Hebron (Al-Khalil)', fr: 'Hébron (Al-Khalil)', ar: 'الخليل (كنعان)', es: 'Hebrón (al-Jalil)' },
         lat: 31.5247,
         lng: 35.1107,
         desc: { en: 'Settlement in the land of Canaan and announcement of the birth of Ishaq.', fr: 'Établissement en terre de Canaan et annonce d’Ishaq.', ar: 'الاستقرار في أرض كنعان وبشارة الملائكة بإسحاق.' },
         quranRef: 'Hud 11:69-71',
       },
       {
-        name: { en: 'Nile Delta (Egypt)', fr: 'Delta du Nil (Égypte)', ar: 'مصر ووادي النيل' },
+        name: { en: 'Nile Delta (Egypt)', fr: 'Delta du Nil (Égypte)', ar: 'مصر ووادي النيل', es: 'Delta del Nilo (Egipto)' },
         lat: 30.0444,
         lng: 31.2357,
         desc: { en: 'Journey during famine where Sarah and Hajar joined the prophetic household.', fr: 'Voyage durant la famine ; Hajar rejoint le foyer prophétique.', ar: 'الرحيل أثناء القحط ومجيء هاجر أم إسماعيل.' },
         quranRef: 'Sahih al-Bukhari 3358',
       },
       {
-        name: { en: 'Valley of Bakkah (Makkah)', fr: 'Vallée de Bakkah (La Mecque)', ar: 'وادي مكة المكرمة' },
+        name: { en: 'Valley of Bakkah (Makkah)', fr: 'Vallée de Bakkah (La Mecque)', ar: 'وادي مكة المكرمة', es: 'El valle de Bakka (La Meca)' },
         lat: 21.4225,
         lng: 39.8262,
         desc: { en: 'Leaving Hajar and Ismail in the uncultivated valley, raising the foundations of the Ka‘bah.', fr: 'Installation de Hajar et Ismail, élévation de la Ka‘bah.', ar: 'إسكان هاجر وإسماعيل بوادٍ غير ذي زرع ورفع قواعد البيت العتيق.' },
@@ -564,7 +564,7 @@ export const ROUTES: PropheticRoute[] = [
   },
   {
     id: 'musa_exodus',
-    name: { en: 'The Exodus & Wandering of Musa عليه السلام', fr: 'L’Exode de Musa عليه السلام', ar: 'مسار الخروج لموسى وبني إسرائيل' },
+    name: { en: 'The Exodus & Wandering of Musa عليه السلام', fr: 'L’Exode de Musa عليه السلام', ar: 'مسار الخروج لموسى وبني إسرائيل', es: 'El Éxodo y la travesía de Musa عليه السلام' },
     color: '#38bdf8',
     prophetId: 'musa',
     period: { en: 'c. 13th Century BCE', fr: 'env. XIIIe siècle av. J.-C.', ar: 'حوالي القرن 13 ق.م' },
@@ -582,35 +582,35 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Goshen / Nile Delta', fr: 'Goshên / Delta du Nil', ar: 'أرض جاسان (دلتا مصر)' },
+        name: { en: 'Goshen / Nile Delta', fr: 'Goshên / Delta du Nil', ar: 'أرض جاسان (دلتا مصر)', es: 'Gosén / delta del Nilo' },
         lat: 30.5852,
         lng: 31.5035,
         desc: { en: 'Cast as an infant into the Nile, raised in Pharaoh’s court.', fr: 'Recueilli des flots du Nil et élevé au palais de Pharaon.', ar: 'إلقاؤه في التابوت في اليم ونشأته في قصر فرعون.' },
         quranRef: 'Al-Qasas 28:7-9',
       },
       {
-        name: { en: 'Midian (Al-Bad‘)', fr: 'Madyan (Al-Bad‘)', ar: 'مدين (البدع)' },
+        name: { en: 'Midian (Al-Bad‘)', fr: 'Madyan (Al-Bad‘)', ar: 'مدين (البدع)', es: 'Madián (al-Bad‘)' },
         lat: 28.4833,
         lng: 35.0167,
         desc: { en: 'Ten years refuge, watering flocks for the daughters of the righteous elder.', fr: 'Dix années d’exil et mariage avec la fille du sage.', ar: 'عشر سنوات من الرعاية والخدمة ومصاهرة الشيخ الصالح.' },
         quranRef: 'Al-Qasas 28:22-28',
       },
       {
-        name: { en: 'Mount Sinai & Valley of Tuwa', fr: 'Mont Sinaï & Vallée de Touwa', ar: 'طور سيناء والوادي المقدس' },
+        name: { en: 'Mount Sinai & Valley of Tuwa', fr: 'Mont Sinaï & Vallée de Touwa', ar: 'طور سيناء والوادي المقدس', es: 'El monte Sinaí y el valle de Tuwa' },
         lat: 28.5394,
         lng: 33.9753,
         desc: { en: 'Direct speech with Allah at the burning bush and reception of the Tablets.', fr: 'Parole divine directe et don des Tables de la Loi.', ar: 'تكليم الله له بالأمر بالرسالة ونزول ألواح التوراة.' },
         quranRef: 'Taha 20:10-14',
       },
       {
-        name: { en: 'Red Sea Crossing', fr: 'Passage de la Mer Rouge', ar: 'موضع فلق البحر' },
+        name: { en: 'Red Sea Crossing', fr: 'Passage de la Mer Rouge', ar: 'موضع فلق البحر', es: 'El cruce del mar Rojo' },
         lat: 29.9668,
         lng: 32.5498,
         desc: { en: 'Parting of the sea with his staff; salvation of the believers and drowning of Pharaoh.', fr: 'Ouverture miraculeuse des eaux et noyade de Pharaon.', ar: 'انفلاق البحر بعصا موسى وغرق فرعون وجنوده.' },
         quranRef: 'Ash-Shu‘ara 26:63-66',
       },
       {
-        name: { en: 'Mount Nebo & Jordan Valley', fr: 'Mont Nébo & Vallée du Jourdain', ar: 'جبل نيبو وغور الأردن' },
+        name: { en: 'Mount Nebo & Jordan Valley', fr: 'Mont Nébo & Vallée du Jourdain', ar: 'جبل نيبو وغور الأردن', es: 'El monte Nebo y el valle del Jordán' },
         lat: 31.7683,
         lng: 35.7253,
         desc: { en: 'Overlooking the Holy Land after forty years in the wilderness.', fr: 'Regard sur la Terre Sainte au terme des quarante années d’errance.', ar: 'الإشراف على الأرض المقدسة بعد أربعين سنة من التيه.' },
@@ -620,7 +620,7 @@ export const ROUTES: PropheticRoute[] = [
   },
   {
     id: 'muhammad_hijrah',
-    name: { en: 'The Blessed Hijrah of Muhammad ﷺ', fr: 'La sainte Hégire vers Médine', ar: 'طريق الهجرة النبوية الشريفة' },
+    name: { en: 'The Blessed Hijrah of Muhammad ﷺ', fr: 'La sainte Hégire vers Médine', ar: 'طريق الهجرة النبوية الشريفة', es: 'La Hégira bendita de Muhammad ﷺ' },
     color: '#4ade80',
     prophetId: 'muhammad',
     period: { en: '622 CE / 1 AH', fr: '622 ap. J.-C. / 1 H', ar: '622 م / 1 هـ' },
@@ -639,42 +639,42 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Dar al-Arqam (Makkah)', fr: 'Dar al-Arqam (La Mecque)', ar: 'دار الأرقم (مكة)' },
+        name: { en: 'Dar al-Arqam (Makkah)', fr: 'Dar al-Arqam (La Mecque)', ar: 'دار الأرقم (مكة)', es: 'Dar al-Arqam (La Meca)' },
         lat: 21.4225,
         lng: 39.8262,
         desc: { en: 'Secret departure under the cover of night while Ali lay in the Prophet’s bed.', fr: 'Départ secret de nuit pendant qu’Ali occupait son lit.', ar: 'الخروج الحذر في جنح الظلام ومبيت علي بن أبي طالب في فراشه الشريف.' },
         quranRef: 'Al-Anfal 8:30',
       },
       {
-        name: { en: 'Cave of Thawr', fr: 'Grotte de Thawr', ar: 'غار ثور' },
+        name: { en: 'Cave of Thawr', fr: 'Grotte de Thawr', ar: 'غار ثور', es: 'La cueva de Zawr' },
         lat: 21.3786,
         lng: 39.8497,
         desc: { en: 'Three days refuge with Abu Bakr while Quraysh searchers stood outside.', fr: 'Trois nuits de halte avec Abou Bakr protégé par la providence divine.', ar: 'المقام ثلاث ليالٍ مع الصديق أبي بكر ﴿لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا﴾.' },
         quranRef: 'At-Tawbah 9:40',
       },
       {
-        name: { en: 'Tent of Umm Ma‘bad (Qudayd)', fr: 'Tente d’Oumm Ma‘bad', ar: 'خيمة أم معبد (قديد)' },
+        name: { en: 'Tent of Umm Ma‘bad (Qudayd)', fr: 'Tente d’Oumm Ma‘bad', ar: 'خيمة أم معبد (قديد)', es: 'La tienda de Umm Ma‘bad (Qudayd)' },
         lat: 21.9167,
         lng: 39.3167,
         desc: { en: 'Miracle of the dry ewe overflowing with milk for the travelers.', fr: 'Miracle de la brebis tarie qui donna du lait en abondance.', ar: 'معجزة الشاة الهزيلة التي درّت اللبن وسقيا الركب المهاجر.' },
         quranRef: 'Zad al-Ma‘ad',
       },
       {
-        name: { en: 'Coastal Track (Rabigh)', fr: 'Piste côtière de Rabigh', ar: 'طريق الساحل (رابغ)' },
+        name: { en: 'Coastal Track (Rabigh)', fr: 'Piste côtière de Rabigh', ar: 'طريق الساحل (رابغ)', es: 'Ruta costera (Rabigh)' },
         lat: 22.8000,
         lng: 39.0000,
         desc: { en: 'Navigating untracked desert paths guided by expert tracker Abdullah ibn Urayqit.', fr: 'Navigation dans les sables côtiers guidée par Ibn Ourayqit.', ar: 'سلوك مسالك وعرة غير مألوفة بقيادة الدليل عبد الله بن أريقط.' },
         quranRef: 'Sirat Ibn Hisham',
       },
       {
-        name: { en: 'Quba Oasis', fr: 'Oasis de Quba', ar: 'واحة قباء' },
+        name: { en: 'Quba Oasis', fr: 'Oasis de Quba', ar: 'واحة قباء', es: 'El oasis de Quba' },
         lat: 24.4392,
         lng: 39.6172,
         desc: { en: 'Joyous reception by the early emigrants and erection of the first mosque in Islam.', fr: 'Accueil triomphal et édification de la première mosquée de l’Islam.', ar: 'نزوله ﷺ بقباء وتأسيس أول مسجد أُسس على التقوى.' },
         quranRef: 'At-Tawbah 9:108',
       },
       {
-        name: { en: 'Al-Masjid an-Nabawi (Madinah)', fr: 'Médine l’Illuminée', ar: 'المسجد النبوي (طيبة)' },
+        name: { en: 'Al-Masjid an-Nabawi (Madinah)', fr: 'Médine l’Illuminée', ar: 'المسجد النبوي (طيبة)', es: 'Al-Masyid an-Nabawi (Medina)' },
         lat: 24.4686,
         lng: 39.6108,
         desc: { en: 'Halting of the camel Qaswa, welcomed by the Ansar singing Tala‘a al-Badru ‘Alayna.', fr: 'Arrivée triomphale à Médine et arrêt de la chamelle Qaswa.', ar: 'بروك ناقته القصواء وبناء المسجد النبوي الشريف والمؤاخاة بين المهاجرين والأنصار.' },
@@ -684,7 +684,7 @@ export const ROUTES: PropheticRoute[] = [
   },
   {
     id: 'isra_miraj',
-    name: { en: 'Al-Isra: The Miraculous Night Journey', fr: 'Al-Isra : Le Voyage nocturne', ar: 'رحلة الإسراء الأرضية المباركة' },
+    name: { en: 'Al-Isra: The Miraculous Night Journey', fr: 'Al-Isra : Le Voyage nocturne', ar: 'رحلة الإسراء الأرضية المباركة', es: 'Al-Isra: el Viaje Nocturno' },
     color: '#c084fc',
     prophetId: 'muhammad',
     period: { en: 'c. 621 CE (Pre-Hijrah)', fr: 'env. 621 ap. J.-C.', ar: 'حوالي 621 م / قبل الهجرة' },
@@ -702,35 +702,35 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Al-Masjid al-Haram (Makkah)', fr: 'Al-Masjid al-Haram (La Mecque)', ar: 'المسجد الحرام (مكة)' },
+        name: { en: 'Al-Masjid al-Haram (Makkah)', fr: 'Al-Masjid al-Haram (La Mecque)', ar: 'المسجد الحرام (مكة)', es: 'Al-Masyid al-Haram (La Meca)' },
         lat: 21.4225,
         lng: 39.8262,
         desc: { en: 'Starting point of the nocturnal journey from the Hijr Ismail aboard Al-Buraq.', fr: 'Point de départ sur Al-Bouraq depuis le Hijr d’Ismail.', ar: 'انطلاق الرحلة من الحِجر عند الكعبة المشرفة بصحبة جبريل على البراق.' },
         quranRef: 'Al-Isra 17:1',
       },
       {
-        name: { en: 'Taybah (Madinah)', fr: 'Taybah (Médine)', ar: 'طيبة (المدينة المنورة)' },
+        name: { en: 'Taybah (Madinah)', fr: 'Taybah (Médine)', ar: 'طيبة (المدينة المنورة)', es: 'Tayba (Medina)' },
         lat: 24.4686,
         lng: 39.6108,
         desc: { en: 'First prayer station at the future land of migration.', fr: 'Première halte de prière sur la terre de la future émigration.', ar: 'الهبوط والصلاة بأمر جبريل بأرض النخيل وطيبة موضع الهجرة.' },
         quranRef: 'Sunan an-Nasa’i 450',
       },
       {
-        name: { en: 'Mount Sinai (Tur Sina)', fr: 'Mont Sinaï (Tour Sina)', ar: 'طور سيناء' },
+        name: { en: 'Mount Sinai (Tur Sina)', fr: 'Mont Sinaï (Tour Sina)', ar: 'طور سيناء', es: 'El monte Sinaí (Tur Sina)' },
         lat: 28.5394,
         lng: 33.9753,
         desc: { en: 'Halting to pray where Allah spoke directly to Prophet Musa.', fr: 'Prière à l’endroit où Allah s’adressa à Musa.', ar: 'الصلاة عند الجبل الأشم حيث كلّم الله موسى تكليمًا.' },
         quranRef: 'Sunan an-Nasa’i 450',
       },
       {
-        name: { en: 'Bayt Lahm (Bethlehem)', fr: 'Bayt Lahm (Bethléem)', ar: 'بيت لحم' },
+        name: { en: 'Bayt Lahm (Bethlehem)', fr: 'Bayt Lahm (Bethléem)', ar: 'بيت لحم', es: 'Bayt Lahm (Belén)' },
         lat: 31.7049,
         lng: 35.2078,
         desc: { en: 'Halting to pray where Isa ibn Maryam was born under the palm tree.', fr: 'Prière au lieu de naissance béni d’Isa.', ar: 'الصلاة في موضع ولادة المسيح عيسى بن مريم عليه السلام.' },
         quranRef: 'Sunan an-Nasa’i 450',
       },
       {
-        name: { en: 'Al-Masjid al-Aqsa (Jerusalem)', fr: 'Al-Masjid al-Aqsa (Jérusalem)', ar: 'المسجد الأقصى المبارك' },
+        name: { en: 'Al-Masjid al-Aqsa (Jerusalem)', fr: 'Al-Masjid al-Aqsa (Jérusalem)', ar: 'المسجد الأقصى المبارك', es: 'Al-Masyid al-Aqsa (Jerusalén)' },
         lat: 31.7761,
         lng: 35.2358,
         desc: { en: 'Leading all Prophets in congregation in prayer, followed by the ascension (Al-Mi‘raj).', fr: 'Prière collective guidée devant tous les prophètes, suivie du Mi‘raj.', ar: 'إمامة الأنبياء والمرسلين جميعًا في الصلاة ثم العروج إلى السماوات السبع.' },
@@ -740,7 +740,7 @@ export const ROUTES: PropheticRoute[] = [
   },
   {
     id: 'yusuf_journey',
-    name: { en: 'The Odyssey of Yusuf عليه السلام', fr: 'L’Épopée de Yusuf عليه السلام', ar: 'مسار رحلة يوسف الصديق عليه السلام' },
+    name: { en: 'The Odyssey of Yusuf عليه السلام', fr: 'L’Épopée de Yusuf عليه السلام', ar: 'مسار رحلة يوسف الصديق عليه السلام', es: 'El viaje de Yusuf عليه السلام' },
     color: '#fbbf24',
     prophetId: 'yusuf',
     period: { en: 'c. 17th Century BCE', fr: 'env. XVIIe siècle av. J.-C.', ar: 'حوالي القرن 17 ق.م' },
@@ -758,35 +758,35 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Canaan (Hebron)', fr: 'Canaan (Hébron)', ar: 'أرض كنعان (الخليل)' },
+        name: { en: 'Canaan (Hebron)', fr: 'Canaan (Hébron)', ar: 'أرض كنعان (الخليل)', es: 'Canaán (Hebrón)' },
         lat: 31.5247,
         lng: 35.1107,
         desc: { en: 'Childhood home of Yusuf and his eleven brothers, and his vision of the eleven stars.', fr: 'Foyer d’enfance et vision prophétique des onze étoiles.', ar: 'موطن صباه وحلم سجود الأحد عشر كوكبًا والشمس والقمر له.' },
         quranRef: 'Yusuf 12:4',
       },
       {
-        name: { en: 'Well of Dothan (Jubb Yusuf)', fr: 'Puits de Dothan (Joub Youssouf)', ar: 'جُبّ يوسف (دوثان)' },
+        name: { en: 'Well of Dothan (Jubb Yusuf)', fr: 'Puits de Dothan (Joub Youssouf)', ar: 'جُبّ يوسف (دوثان)', es: 'El pozo de Dotán (Yubb Yusuf)' },
         lat: 32.9667,
         lng: 35.5333,
         desc: { en: 'Cast down the dark cistern by envious brothers and sold to a passing caravan for dirhams.', fr: 'Jeté au fond du puits puis vendu à une caravane pour quelques pièces.', ar: 'إلقاؤه في قعر الجب حسدًا وبيعه لقافلة تجار بثمن بخس دراهم معدودة.' },
         quranRef: 'Yusuf 12:15-20',
       },
       {
-        name: { en: 'Beersheba (Negev Caravan Highway)', fr: 'Beer-Sheva (Piste du Néguev)', ar: 'بئر السبع (طريق القوافل)' },
+        name: { en: 'Beersheba (Negev Caravan Highway)', fr: 'Beer-Sheva (Piste du Néguev)', ar: 'بئر السبع (طريق القوافل)', es: 'Beerseba (ruta de caravanas del Néguev)' },
         lat: 31.2589,
         lng: 34.7997,
         desc: { en: 'Caravan junction crossing southward towards the borders of Egypt.', fr: 'Croisée caravanière menant vers le sud et la frontière égyptienne.', ar: 'محطة مسير القافلة التجارية باتجاه صحراء سيناء ووادي النيل.' },
         quranRef: 'Yusuf 12:19',
       },
       {
-        name: { en: 'Northern Sinai Desert Track', fr: 'Piste du Nord-Sinaï', ar: 'درب شمال سيناء' },
+        name: { en: 'Northern Sinai Desert Track', fr: 'Piste du Nord-Sinaï', ar: 'درب شمال سيناء', es: 'Ruta del desierto del norte del Sinaí' },
         lat: 31.0500,
         lng: 33.8000,
         desc: { en: 'The grueling trade highway across the sands between the Levant and Egypt.', fr: 'La route aride du commerce reliant le Levant aux portes du Nil.', ar: 'طريق التجارة القديم عبر رمال سيناء الفاصلة بين الشام ومصر.' },
         quranRef: 'Yusuf 12:21',
       },
       {
-        name: { en: 'Memphis & Egyptian Royal Court', fr: 'Memphis et Palais Royal', ar: 'منف وقصر العزيز بمصر' },
+        name: { en: 'Memphis & Egyptian Royal Court', fr: 'Memphis et Palais Royal', ar: 'منف وقصر العزيز بمصر', es: 'Menfis y la corte real de Egipto' },
         lat: 29.8499,
         lng: 31.2544,
         desc: { en: 'From the mansion of Al-Aziz and prison to stewardship of all Egyptian granaries.', fr: 'De la demeure d’Al-Aziz et la prison jusqu’à l’intendance des greniers.', ar: 'التمكين في الأرض بعد محنة السجن، وحفظ خزائن مصر، وجمع شمل أهله.' },
@@ -796,7 +796,7 @@ export const ROUTES: PropheticRoute[] = [
   },
   {
     id: 'yunus_mission',
-    name: { en: 'Mission, Ordeal & Return of Yunus عليه السلام', fr: 'Mission et Épreuve de Yunus عليه السلام', ar: 'مسار دعوة ومحنة يونس عليه السلام' },
+    name: { en: 'Mission, Ordeal & Return of Yunus عليه السلام', fr: 'Mission et Épreuve de Yunus عليه السلام', ar: 'مسار دعوة ومحنة يونس عليه السلام', es: 'Misión, prueba y regreso de Yunus عليه السلام' },
     color: '#2dd4bf',
     prophetId: 'yunus',
     period: { en: 'c. 8th Century BCE', fr: 'env. VIIIe siècle av. J.-C.', ar: 'حوالي القرن 8 ق.م' },
@@ -815,42 +815,42 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Nineveh (Mosul)', fr: 'Ninive (Mossoul)', ar: 'نينوى (الموصل)' },
+        name: { en: 'Nineveh (Mosul)', fr: 'Ninive (Mossoul)', ar: 'نينوى (الموصل)', es: 'Nínive (Mosul)' },
         lat: 36.3587,
         lng: 43.1528,
         desc: { en: 'Calling 100,000+ souls to monotheism before leaving in grievance.', fr: 'Prédication auprès de plus de 100 000 habitants.', ar: 'دعوة قومه البالغين مائة ألف أو يزيدون ثم خروجه مغاضبًا.' },
         quranRef: 'Al-Anbiya 21:87, Yunus 10:98',
       },
       {
-        name: { en: 'Syrian Desert Trail (Tadmur)', fr: 'Piste du Désert de Syrie', ar: 'بادية الشام (طريق تدمر)' },
+        name: { en: 'Syrian Desert Trail (Tadmur)', fr: 'Piste du Désert de Syrie', ar: 'بادية الشام (طريق تدمر)', es: 'Ruta del desierto sirio (Tadmur)' },
         lat: 34.8021,
         lng: 38.9968,
         desc: { en: 'Journeying westward towards Mediterranean maritime ports.', fr: 'Traversée vers les ports marchands de la Méditerranée.', ar: 'المسير غربًا نحو الموانئ البحرية على الساحل الشامي.' },
         quranRef: 'As-Saffat 37:139-140',
       },
       {
-        name: { en: 'Jaffa Port (Levant Coast)', fr: 'Port de Jaffa', ar: 'ميناء يافا القديم' },
+        name: { en: 'Jaffa Port (Levant Coast)', fr: 'Port de Jaffa', ar: 'ميناء يافا القديم', es: 'Puerto de Jaffa (costa del Levante)' },
         lat: 32.0536,
         lng: 34.7567,
         desc: { en: 'Boarding the fully-laden vessel into open tempestuous waters.', fr: 'Embarquement à bord du navire surchargé.', ar: 'ركوب السفينة المشحونة في البحر الهائج ﴿إِذْ أَبَقَ إِلَى الْفُلْكِ الْمَشْحُونِ﴾.' },
         quranRef: 'As-Saffat 37:140',
       },
       {
-        name: { en: 'Deep Mediterranean Waters', fr: 'Abysses de la Méditerranée', ar: 'لجج البحر الأبيض المتوسط' },
+        name: { en: 'Deep Mediterranean Waters', fr: 'Abysses de la Méditerranée', ar: 'لجج البحر الأبيض المتوسط', es: 'Aguas profundas del Mediterráneo' },
         lat: 32.5000,
         lng: 33.5000,
         desc: { en: 'Drawing lots and swallowed by the whale in the three depths of darkness: "La ilaha illa Anta subhanaka".', fr: 'Tirage au sort et engloutissement dans les trois ténèbres.', ar: 'المساهمة والتقام الحوت له وهو مليم ونداؤه في الظلمات: ﴿لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ﴾.' },
         quranRef: 'Al-Anbiya 21:87, As-Saffat 37:141-144',
       },
       {
-        name: { en: 'Shore of Deliverance', fr: 'Rivage de la Délivrance', ar: 'ساحل النجاة واليقطين' },
+        name: { en: 'Shore of Deliverance', fr: 'Rivage de la Délivrance', ar: 'ساحل النجاة واليقطين', es: 'La orilla de la salvación' },
         lat: 32.1000,
         lng: 34.8000,
         desc: { en: 'Cast onto the open strand; sheltered by the miraculously growing gourd tree.', fr: 'Rejeté sur la rive et protégé par le plant de courge.', ar: 'طرحه بالعراء وهو سقيم وإنبات شجرة اليقطين ظلالًا وغذاءً له.' },
         quranRef: 'As-Saffat 37:145-146',
       },
       {
-        name: { en: 'Return to Nineveh', fr: 'Retour à Ninive', ar: 'الرجوع إلى نينوى' },
+        name: { en: 'Return to Nineveh', fr: 'Retour à Ninive', ar: 'الرجوع إلى نينوى', es: 'Regreso a Nínive' },
         lat: 36.3587,
         lng: 43.1528,
         desc: { en: 'Returning to find all one hundred thousand had repented and were granted mercy.', fr: 'Retour triomphal auprès de son peuple entièrement croyant.', ar: 'العودة لقومه فوجدهم قد أنابوا وآمنوا فمتعهم الله إلى حين.' },
@@ -860,7 +860,7 @@ export const ROUTES: PropheticRoute[] = [
   },
   {
     id: 'nuh_deluge',
-    name: { en: 'The Great Deluge & Ark of Nuh عليه السلام', fr: 'Le Déluge et l’Arche de Nuh عليه السلام', ar: 'طوفان نوح ومسار الفلك إلى الجودي' },
+    name: { en: 'The Great Deluge & Ark of Nuh عليه السلام', fr: 'Le Déluge et l’Arche de Nuh عليه السلام', ar: 'طوفان نوح ومسار الفلك إلى الجودي', es: 'El gran diluvio y el arca de Nuh عليه السلام' },
     color: '#818cf8',
     prophetId: 'nuh',
     period: { en: 'Primordial Era', fr: 'Ère primordiale', ar: 'العصر الأول' },
@@ -878,35 +878,35 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Plains of Mesopotamia (Kufa)', fr: 'Plaines de Mésopotamie (Koufa)', ar: 'أرض الكوفة وسهل السواد' },
+        name: { en: 'Plains of Mesopotamia (Kufa)', fr: 'Plaines de Mésopotamie (Koufa)', ar: 'أرض الكوفة وسهل السواد', es: 'Llanuras de Mesopotamia (Kufa)' },
         lat: 32.0300,
         lng: 44.4000,
         desc: { en: 'Centuries of preaching and construction of the immense timber Ark by divine guidance.', fr: 'Siècles de prédication et construction de l’Arche colossale.', ar: 'صناعة الفلك بأعين الله ووحيه وتحمل سخرية الملأ من قومه.' },
         quranRef: 'Hud 11:37-38',
       },
       {
-        name: { en: 'Eruption of the Oven (Tannur)', fr: 'Fureur du Tannour', ar: 'فوران التنور وتفجر الأرض' },
+        name: { en: 'Eruption of the Oven (Tannur)', fr: 'Fureur du Tannour', ar: 'فوران التنور وتفجر الأرض', es: 'El horno que brotó (at-Tannur)' },
         lat: 31.0000,
         lng: 47.4000,
         desc: { en: 'The opening of heaven’s gates with pouring rain and bursting of earth’s springs.', fr: 'Ouverture des vannes célestes et jaillissement des sources terrestres.', ar: '﴿حَتَّىٰ إِذَا جَاءَ أَمْرُنَا وَفَارَ التَّنُّورُ قُلْنَا احْمِلْ فِيهَا مِن كُلٍّ زَوْجَيْنِ اثْنَيْنِ﴾.' },
         quranRef: 'Hud 11:40, Al-Qamar 54:11-12',
       },
       {
-        name: { en: 'Waves Like Mountains', fr: 'Flots comme des montagnes', ar: 'موج كالجبال ومصير الكافرين' },
+        name: { en: 'Waves Like Mountains', fr: 'Flots comme des montagnes', ar: 'موج كالجبال ومصير الكافرين', es: 'Olas como montañas' },
         lat: 34.5000,
         lng: 44.0000,
         desc: { en: 'The vessel sailing on boundless waters; plea of Nuh to his drowning son Yam.', fr: 'L’Arche fendant les vagues géantes et noyade du fils rebelle.', ar: 'جريان السفينة في موج كالجبال ونداء نوح لابنه: ﴿يَا بُنَيَّ ارْكَب مَّعَنَا وَلَا تَكُن مَّعَ الْكَافِرِينَ﴾.' },
         quranRef: 'Hud 11:42-43',
       },
       {
-        name: { en: 'Upper Tigris Mountain Gorges', fr: 'Gorges du Haut-Tigre', ar: 'مضائق جبال أعالي دجلة' },
+        name: { en: 'Upper Tigris Mountain Gorges', fr: 'Gorges du Haut-Tigre', ar: 'مضائق جبال أعالي دجلة', es: 'Gargantas del alto Tigris' },
         lat: 36.5000,
         lng: 42.8000,
         desc: { en: 'Waters commanded to recede: "O Earth swallow your water, and O Sky withhold!".', fr: 'Ordre divin intimé aux cieux et à la terre d’apaiser les flots.', ar: 'الأمر الإلهي: ﴿وَقِيلَ يَا أَرْضُ ابْلَعِي مَاءَكِ وَيَا سَمَاءُ أَقْلِعِي وَغِيضَ الْمَاءُ﴾.' },
         quranRef: 'Hud 11:44',
       },
       {
-        name: { en: 'Mount Judy (Cizre / Şırnak)', fr: 'Mont Djoudi', ar: 'جبل الجودي' },
+        name: { en: 'Mount Judy (Cizre / Şırnak)', fr: 'Mont Djoudi', ar: 'جبل الجودي', es: 'El monte Yudi (Cizre / Şırnak)' },
         lat: 37.3800,
         lng: 42.4500,
         desc: { en: 'Resting in peace upon Mount Judy; descent with blessings upon the believing survivors.', fr: 'L’Arche s’arrête en paix au sommet du mont Djoudi.', ar: '﴿وَاسْتَوَتْ عَلَى الْجُودِيِّ وَقِيلَ بُعْدًا لِّلْقَوْمِ الظَّالِمِينَ﴾ ونزول نوح والمؤمنين بسلام وبركات.' },
@@ -942,35 +942,35 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Madinah al-Munawwarah', fr: 'Médine l’Illuminée', ar: 'المدينة المنورة (دار الهجرة)' },
+        name: { en: 'Madinah al-Munawwarah', fr: 'Médine l’Illuminée', ar: 'المدينة المنورة (دار الهجرة)', es: 'Medina al-Munawwara' },
         lat: 24.4686,
         lng: 39.6108,
         desc: { en: 'The beacon of light where the Constitution of Madinah was enacted, bonding the Muhajirun and Ansar in fraternal unity.', fr: 'Sanctuaire d’accueil où fut rédigée la Constitution de Médine unissant émigrés et partisans.', ar: 'مهاجر النبي ومقر إقامة دولته النبوية المباركة وصياغة وثيقة المدينة الخالدة.' },
         quranRef: 'At-Tawbah 9:100',
       },
       {
-        name: { en: 'Badr al-Kubra (Day of Criterion)', fr: 'Badr (Jour du Discernement)', ar: 'بدر الكبرى (يوم الفرقان)' },
+        name: { en: 'Badr al-Kubra (Day of Criterion)', fr: 'Badr (Jour du Discernement)', ar: 'بدر الكبرى (يوم الفرقان)', es: 'Badr al-Kubra (el Día del Criterio)' },
         lat: 23.7833,
         lng: 38.7833,
         desc: { en: 'The momentous turning point in 2 AH where truth prevailed over idolatry with divine assistance.', fr: 'Le tournant décisif de l’an 2 de l’Hégire où la vérité triompha avec le secours divin.', ar: 'المعركة الفاصلة في 17 رمضان 2 هـ: ﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾.' },
         quranRef: 'Ali Imran 3:123',
       },
       {
-        name: { en: 'Conquest of Makkah (Fath Makkah)', fr: 'Ouverture de La Mecque', ar: 'فتح مكة الأعظم (إنا فتحنا لك فتحا مبينا)' },
+        name: { en: 'Conquest of Makkah (Fath Makkah)', fr: 'Ouverture de La Mecque', ar: 'فتح مكة الأعظم (إنا فتحنا لك فتحا مبينا)', es: 'La conquista de La Meca (Fath Makka)' },
         lat: 21.4225,
         lng: 39.8262,
         desc: { en: 'Peaceful return in 8 AH: cleansing the Ka‘bah of 360 idols and announcing universal pardon: "Go, for you are free".', fr: 'Entrée triomphale et pacifique en l’an 8 H, purification de la Ka‘bah et amnistie générale.', ar: 'دخول مكة في 8 هـ دون إراقة دماء، وتطهير البيت الحرام وإعلان العفو العام: اذهبوا فأنتم الطلقاء.' },
         quranRef: 'Al-Fath 48:1',
       },
       {
-        name: { en: 'Expedition of Tabuk', fr: 'Expédition de Tabouk', ar: 'غزوة تبوك (جيش العسرة)' },
+        name: { en: 'Expedition of Tabuk', fr: 'Expédition de Tabouk', ar: 'غزوة تبوك (جيش العسرة)', es: 'La expedición de Tabuk' },
         lat: 28.3835,
         lng: 36.5662,
         desc: { en: 'The grand march to the northern Byzantine frontier in 9 AH, cementing the sovereignty of the Islamic state.', fr: 'La grande marche vers la frontière byzantine au nord en 9 H, consolidant la souveraineté islamique.', ar: 'غزوة العسرة الكبرى سنة 9 هـ لردع الروم وحماية الثغور الشمالية لجزيرة العرب.' },
         quranRef: 'At-Tawbah 9:117',
       },
       {
-        name: { en: 'Sana‘a & Peaceful Entry of Yemen', fr: 'Sanaa et adhésion du Yémen', ar: 'صنعاء ودخول أهل اليمن أفواجا' },
+        name: { en: 'Sana‘a & Peaceful Entry of Yemen', fr: 'Sanaa et adhésion du Yémen', ar: 'صنعاء ودخول أهل اليمن أفواجا', es: 'Saná y la entrada pacífica del Yemen' },
         lat: 15.3694,
         lng: 44.1910,
         desc: { en: 'The Yemenite tribes accepted Islam peacefully under the envoys Ali ibn Abi Talib and Mu‘adh ibn Jabal.', fr: 'Les tribus yéménites embrassent l’Islam pacifiquement sous la guidance de Mu‘adh et Ali.', ar: 'إسلام قبائل اليمن طواعية في يوم واحد على يد علي بن أبي طالب ومعاذ بن جبل: ﴿وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا﴾.' },
@@ -1007,35 +1007,35 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Battle of the Yarmouk Valley (15 AH)', fr: 'Bataille du Yarmouk (15 H)', ar: 'معركة اليرموك الخالدة (15 هـ)' },
+        name: { en: 'Battle of the Yarmouk Valley (15 AH)', fr: 'Bataille du Yarmouk (15 H)', ar: 'معركة اليرموك الخالدة (15 هـ)', es: 'Batalla del valle del Yarmuk (15 H)' },
         lat: 32.7483,
         lng: 35.8690,
         desc: { en: 'Khalid ibn al-Walid and Abu Ubaydah vanquished the massive imperial Byzantine army, liberating Syria.', fr: 'Khalid ibn al-Walid triomphe de la grande armée byzantine, scellant le destin de la Syrie.', ar: 'ملحمة سيف الله خالد بن الوليد وأبي عبيدة التي حطمت أركان الهيمنة البيزنطية بالشام.' },
         quranRef: 'Tarikh at-Tabari',
       },
       {
-        name: { en: 'Opening of Jerusalem & The Umariyya Covenant (16 AH)', fr: 'Ouverture de Jérusalem et Pacte d’Umar', ar: 'فتح بيت المقدس والعهدة العمرية (16 هـ)' },
+        name: { en: 'Opening of Jerusalem & The Umariyya Covenant (16 AH)', fr: 'Ouverture de Jérusalem et Pacte d’Umar', ar: 'فتح بيت المقدس والعهدة العمرية (16 هـ)', es: 'Apertura de Jerusalén y el Pacto de ‘Umar (16 H)' },
         lat: 31.7767,
         lng: 35.2345,
         desc: { en: 'Caliph Umar personally entered Jerusalem and granted Patriarch Sophronius total protection for Christian shrines, lives, and freedom of worship.', fr: 'Le calife Omar garantit la protection sacrée des églises, des personnes et de la foi des chrétiens.', ar: 'دخول أمير المؤمنين عمر بن الخطاب متواضعا لكنيسة القيامة وكتابة العهدة العمرية التي حمت كنائس النصارى وأموالهم.' },
         quranRef: 'Al-Bidayah wan-Nihayah',
       },
       {
-        name: { en: 'Battle of al-Qadisiyyah & Al-Mada’in (15–16 AH)', fr: 'Bataille d’al-Qadisiyyah et Ctésiphon', ar: 'القادسية وفتح المدائن عاصمة الأكاسرة' },
+        name: { en: 'Battle of al-Qadisiyyah & Al-Mada’in (15–16 AH)', fr: 'Bataille d’al-Qadisiyyah et Ctésiphon', ar: 'القادسية وفتح المدائن عاصمة الأكاسرة', es: 'Batalla de al-Qadisiyya y al-Mada’in (15–16 H)' },
         lat: 31.9833,
         lng: 44.5333,
         desc: { en: 'Sa‘d ibn Abi Waqqas broke the core Persian military, liberating Iraq and entering the White Palace of Ctesiphon.', fr: 'Sa‘d ibn Abi Waqqas défait l’armée sassanide et libère l’Irak.', ar: 'قيادة سعد بن أبي وقاص لدحر جيش رستم وتحرير العراق ودخول إيوان كسرى مصداقا لبشارة النبي ﷺ.' },
         quranRef: 'Sahih Muslim 2918',
       },
       {
-        name: { en: 'Nahavand: The Victory of Victories (21 AH)', fr: 'Nahavand : Victoire des Victoires', ar: 'معركة نهاوند (فتح الفتوح 21 هـ)' },
+        name: { en: 'Nahavand: The Victory of Victories (21 AH)', fr: 'Nahavand : Victoire des Victoires', ar: 'معركة نهاوند (فتح الفتوح 21 هـ)', es: 'Nahavand: la victoria de las victorias (21 H)' },
         lat: 34.1886,
         lng: 48.3769,
         desc: { en: 'The decisive victory in the Zagros mountains ending Sasanian imperial cohesion and opening Persia to Islam.', fr: 'Victoire décisive mettant fin à l’empire perse et ouvrant la Perse à l’Islam.', ar: 'فتح الفتوح في جبال زاغروس التي سقطت بها دولة الأكاسرة ومهدت لدخول بلاد فارس في دين الله.' },
         quranRef: 'Siyar A‘lam an-Nubala',
       },
       {
-        name: { en: 'Liberation of Egypt & Foundation of Fustat (20–21 AH)', fr: 'Libération de l’Égypte et Fustat', ar: 'فتح مصر وبناء الفسطاط (20–21 هـ)' },
+        name: { en: 'Liberation of Egypt & Foundation of Fustat (20–21 AH)', fr: 'Libération de l’Égypte et Fustat', ar: 'فتح مصر وبناء الفسطاط (20–21 هـ)', es: 'Apertura de Egipto y fundación de Fustat (20–21 H)' },
         lat: 30.0101,
         lng: 31.2331,
         desc: { en: '‘Amr ibn al-‘Aas liberated the native Coptic Christians from Byzantine religious tyranny, building the first mosque in Africa.', fr: '‘Amr ibn al-‘Aas libère les coptes d’Égypte de l’oppression byzantine et fonde la première mosquée d’Afrique.', ar: 'تحرير عمرو بن العاص لأهل مصر وقباطها من ظلم الرومان وتأسيس الفسطاط وأول مسجد بقارة إفريقيا.' },
@@ -1074,42 +1074,42 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Damascus (Imperial Umayyad Capital)', fr: 'Damas (Capitale Omeyyade)', ar: 'دمشق (حاضرة الخلافة الأموية)' },
+        name: { en: 'Damascus (Imperial Umayyad Capital)', fr: 'Damas (Capitale Omeyyade)', ar: 'دمشق (حاضرة الخلافة الأموية)', es: 'Damasco (capital omeya)' },
         lat: 33.5138,
         lng: 36.2765,
         desc: { en: 'Political and cultural epicenter of the world, adorned with the legendary Great Umayyad Mosque.', fr: 'Capitale politique et culturelle d’un empire mondial, parée de la Grande Mosquée des Omeyyades.', ar: 'عاصمة الخلافة التي أدارت أكبر إمبراطورية في العالم الوسيط وشيدت تحفة الجامع الأموي.' },
         quranRef: 'Tarikh Dimashq',
       },
       {
-        name: { en: 'Qayrawan (Spiritual Vanguard of the Maghreb, 50 AH)', fr: 'Kairouan (Phare du Maghreb)', ar: 'القيروان (معسكر عقبة بن نافع 50 هـ)' },
+        name: { en: 'Qayrawan (Spiritual Vanguard of the Maghreb, 50 AH)', fr: 'Kairouan (Phare du Maghreb)', ar: 'القيروان (معسكر عقبة بن نافع 50 هـ)', es: 'Cairuán (vanguardia espiritual del Magreb, 50 H)' },
         lat: 35.6781,
         lng: 10.0963,
         desc: { en: 'Founded by Uqba ibn Nafi as the radiant fortress of Islamic faith, learning, and governance in North Africa.', fr: 'Fondée par Oqba ibn Nafi comme forteresse de la foi et du savoir en Afrique du Nord.', ar: 'أسسها الفاتح عقبة بن نافع لتكون منارة التوحيد والجهاد ومركز انطلاق الإسلام لربوع إفريقيا.' },
         quranRef: 'Riyad an-Nufus',
       },
       {
-        name: { en: 'Jabal Tariq (Gibraltar) & Opening of Al-Andalus (92 AH)', fr: 'Gibraltar et Ouverture d’Al-Andalus', ar: 'جبل طارق وفتح الأندلس (92 هـ)' },
+        name: { en: 'Jabal Tariq (Gibraltar) & Opening of Al-Andalus (92 AH)', fr: 'Gibraltar et Ouverture d’Al-Andalus', ar: 'جبل طارق وفتح الأندلس (92 هـ)', es: 'Yabal Tariq (Gibraltar) y la apertura de al-Ándalus (92 H)' },
         lat: 36.1408,
         lng: -5.3536,
         desc: { en: 'Tariq ibn Ziyad crossed the strait, defeating King Roderick and initiating eight centuries of brilliant civilization in Spain.', fr: 'Tariq ibn Ziyad traverse le détroit, fondant huit siècles de brillante civilisation andalouse.', ar: 'عبور طارق بن زياد وموسى بن نصير لفتح شبه الجزيرة الإيبيرية وبدء عصر الحضارة الأندلسية البهيج.' },
         quranRef: 'Nafh at-Tib',
       },
       {
-        name: { en: 'Cordoba (The Jewel of the World)', fr: 'Cordoue (Parure du Monde)', ar: 'قرطبة (عروس الأندلس وقبلة العلماء)' },
+        name: { en: 'Cordoba (The Jewel of the World)', fr: 'Cordoue (Parure du Monde)', ar: 'قرطبة (عروس الأندلس وقبلة العلماء)', es: 'Córdoba (la joya del mundo)' },
         lat: 37.8790,
         lng: -4.7794,
         desc: { en: 'The most cultivated city in medieval Europe with 70 libraries, paved streets, and harmonious scientific scholarship.', fr: 'La cité la plus lettrée de l’Europe médiévale avec ses bibliothèques et ses universités.', ar: 'قاعدة الأندلس الفكرية والعلمية التي أضاءت ظلام أوروبا بمكتباتها السبعين وجامعها المعظم.' },
         quranRef: 'Al-Hulal al-Mawshiyyah',
       },
       {
-        name: { en: 'Bukhara & Samarkand (Transoxiana, 86–94 AH)', fr: 'Boukhara et Samarcande', ar: 'بخارى وسمرقند (ما وراء النهر)' },
+        name: { en: 'Bukhara & Samarkand (Transoxiana, 86–94 AH)', fr: 'Boukhara et Samarcande', ar: 'بخارى وسمرقند (ما وراء النهر)', es: 'Bujará y Samarcanda (Transoxiana, 86–94 H)' },
         lat: 39.6542,
         lng: 66.9597,
         desc: { en: 'Qutayba ibn Muslim carried Islam across the Oxus, establishing the twin fountains of future Islamic science and Hadith.', fr: 'Qoutayba ibn Mouslim ouvre la Transoxiane, futur berceau des plus grands savants du Hadith.', ar: 'فتح قتيبة بن مسلم الباهلي لبلاد ما وراء النهر مهبط كبار علماء الإسلام كالبخاري والترمذي والبيروني.' },
         quranRef: 'Tarikh at-Tabari',
       },
       {
-        name: { en: 'Debal & Multan (Indus River Valley, 93 AH)', fr: 'Debal et Multan (Vallée de l’Indus)', ar: 'الديبل وملتان (بلاد السند وحوض الهند)' },
+        name: { en: 'Debal & Multan (Indus River Valley, 93 AH)', fr: 'Debal et Multan (Vallée de l’Indus)', ar: 'الديبل وملتان (بلاد السند وحوض الهند)', es: 'Debal y Multán (valle del Indo, 93 H)' },
         lat: 24.7500,
         lng: 67.5500,
         desc: { en: 'Muhammad ibn al-Qasim introduced Islam to the Indian subcontinent, instituting full protection for temples and local religions.', fr: 'Muhammad ibn al-Qasim introduit l’Islam dans le sous-continent indien dans la tolérance des cultes.', ar: 'فتح محمد بن القاسم الثقفي للسند وحوض نهر السند وإرساء مبادئ التسامح وحماية المعابد.' },
@@ -1145,35 +1145,35 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Baghdad (Dar al-Salam & House of Wisdom)', fr: 'Bagdad (Cité de la Paix)', ar: 'بغداد (دار السلام وبيت الحكمة)' },
+        name: { en: 'Baghdad (Dar al-Salam & House of Wisdom)', fr: 'Bagdad (Cité de la Paix)', ar: 'بغداد (دار السلام وبيت الحكمة)', es: 'Bagdad (Dar as-Salam y la Casa de la Sabiduría)' },
         lat: 33.3406,
         lng: 44.4010,
         desc: { en: 'Cosmopolitan world capital of astronomy, medicine, philosophy, and mathematics under Harun al-Rashid and al-Ma’mun.', fr: 'Capitale mondiale des sciences, de la médecine et de l’astronomie sous Haroun al-Rachid.', ar: 'عاصمة الدنيا ومستقر بيت الحكمة حيث التقى علماء الأمم لترجمة العلوم وتطوير الطب والفلك والجبر.' },
         quranRef: 'Tarikh Baghdad',
       },
       {
-        name: { en: 'Swahili Coast: Mogadishu & Zanzibar', fr: 'Côte Swahilie : Mogadiscio et Zanzibar', ar: 'سواحل الزنج: مقديشو وزنجبار' },
+        name: { en: 'Swahili Coast: Mogadishu & Zanzibar', fr: 'Côte Swahilie : Mogadiscio et Zanzibar', ar: 'سواحل الزنج: مقديشو وزنجبار', es: 'Costa suajili: Mogadiscio y Zanzíbar' },
         lat: -6.1659,
         lng: 39.2026,
         desc: { en: 'Thriving Indian Ocean sultanates founded on trade, giving birth to the Swahili language (fusing Arabic and Bantu).', fr: 'Sultanats prospères de l’océan Indien donnant naissance à la culture et la langue swahilies.', ar: 'مراكز التجارة البحرية والتعايش السلمي التي ولدت منها الحضارة السواحيلية الخالدة.' },
         quranRef: 'Rihlat Ibn Battuta',
       },
       {
-        name: { en: 'Malabar Coast: Cheraman Juma Mosque (Kerala, India)', fr: 'Côte de Malabar : Kerala', ar: 'ساحل المليبار وكيرلا (مسجد شيرامان)' },
+        name: { en: 'Malabar Coast: Cheraman Juma Mosque (Kerala, India)', fr: 'Côte de Malabar : Kerala', ar: 'ساحل المليبار وكيرلا (مسجد شيرامان)', es: 'Costa de Malabar: mezquita Cheraman Juma (Kerala, India)' },
         lat: 11.2588,
         lng: 75.7804,
         desc: { en: 'Legendary arrival of Muslim merchants during the Prophet’s era; King Cheraman Perumal embraced Islam and built India’s oldest mosque.', fr: 'Les marchands musulmans introduisent l’Islam pacifiquement en Inde dès le VIIe siècle.', ar: 'دخول الإسلام سلميا بالهند عبر تجار البهار، وإسلام الملك الهندي شيرامان وبناء أقدم مساجد الهند.' },
         quranRef: 'Tuhfat al-Mujahidin',
       },
       {
-        name: { en: 'Samudera Pasai & Malacca (Malay Archipelago)', fr: 'Samudera Pasai et Malacca (Insulinde)', ar: 'سلطنة باساي ومضيق ملاكا (إندونيسيا وماليزيا)' },
+        name: { en: 'Samudera Pasai & Malacca (Malay Archipelago)', fr: 'Samudera Pasai et Malacca (Insulinde)', ar: 'سلطنة باساي ومضيق ملاكا (إندونيسيا وماليزيا)', es: 'Samudera Pasai y Malaca (archipiélago malayo)' },
         lat: 2.1896,
         lng: 102.2501,
         desc: { en: 'Trade guilds and Sufi teachers introduced Islam to Indonesia and Malaysia with no military force, creating the world’s largest Muslim population.', fr: 'L’Islam se répand en Indonésie et en Malaisie uniquement par l’exemplarité des marchands et des maîtres soufis.', ar: 'انتشار الإسلام السلمي بالقدوة الحسنة في إندونيسيا وماليزيا، لتشكل اليوم أكبر كتلة سكانية للمسلمين.' },
         quranRef: 'Hikayat Raja-raja Pasai',
       },
       {
-        name: { en: 'Huaisheng Mosque (Canton / Guangzhou, China)', fr: 'Mosquée Huaisheng (Canton, Chine)', ar: 'جامع怀圣 (مسجد الذكرى بكانتون - الصين)' },
+        name: { en: 'Huaisheng Mosque (Canton / Guangzhou, China)', fr: 'Mosquée Huaisheng (Canton, Chine)', ar: 'جامع怀圣 (مسجد الذكرى بكانتون - الصين)', es: 'Mezquita Huaisheng (Cantón, China)' },
         lat: 23.1291,
         lng: 113.2644,
         desc: { en: 'One of the oldest mosques in the world, founded by early Sahaba along the maritime Silk Road during the Tang Dynasty (627 CE).', fr: 'L’une des plus anciennes mosquées au monde, fondée par les premiers compagnons sous la dynastie Tang.', ar: 'من أقدم مساجد العالم، أسسه صحابة رسول الله الذين ركبوا بحار طريق الحرير في عهد أسرة تانغ.' },
@@ -1209,35 +1209,35 @@ export const ROUTES: PropheticRoute[] = [
     ],
     stops: [
       {
-        name: { en: 'Bursa & Edirne (Imperial Roots)', fr: 'Bourse et Andrinople', ar: 'بورصة وأدرنة (عواصم التأسيس الأولى)' },
+        name: { en: 'Bursa & Edirne (Imperial Roots)', fr: 'Bourse et Andrinople', ar: 'بورصة وأدرنة (عواصم التأسيس الأولى)', es: 'Bursa y Edirne (las raíces del imperio)' },
         lat: 41.6772,
         lng: 26.5557,
         desc: { en: 'The initial capitals where early Ottoman statehood, guild solidarity (Ahi), and imperial architecture were forged.', fr: 'Les premières capitales où se forgèrent les institutions et l’architecture monumentale ottomane.', ar: 'عواصم الدولة الأولى التي انطلقت منها الفتوحات ورُسخت فيها أخلاق الفتوة ونظام الأخيّة.' },
         quranRef: 'Devlet-i Aliyye',
       },
       {
-        name: { en: 'Opening of Istanbul / Constantinople (857 AH / 1453 CE)', fr: 'Ouverture d’Istanbul (857 H / 1453)', ar: 'فتح القسطنطينية (857 هـ / 1453 م)' },
+        name: { en: 'Opening of Istanbul / Constantinople (857 AH / 1453 CE)', fr: 'Ouverture d’Istanbul (857 H / 1453)', ar: 'فتح القسطنطينية (857 هـ / 1453 م)', es: 'Apertura de Estambul / Constantinopla (857 H / 1453)' },
         lat: 41.0082,
         lng: 28.9784,
         desc: { en: 'Sultan Mehmed the Conqueror fulfilled the prophetic glad tidings, transforming the city into the glorious capital of Islam.', fr: 'Le sultan Mehmed le Conquérant accomplit la prophétie, faisant d’Istanbul la capitale du califat.', ar: 'تحقق البشارة النبوية على يد السلطان محمد الفاتح: "لتفتحن القسطنطينية، فلنعم الأمير أميرها ولنعم الجيش ذلك الجيش".' },
         quranRef: 'Musnad Ahmad 18977',
       },
       {
-        name: { en: 'Sarajevo & Mostar (Heart of the Balkans)', fr: 'Sarajevo et Mostar (Cœur des Balkans)', ar: 'سراييفو وموستار (جوهرة البلقان الإسلامي)' },
+        name: { en: 'Sarajevo & Mostar (Heart of the Balkans)', fr: 'Sarajevo et Mostar (Cœur des Balkans)', ar: 'سراييفو وموستار (جوهرة البلقان الإسلامي)', es: 'Sarajevo y Mostar (corazón de los Balcanes)' },
         lat: 43.8563,
         lng: 18.4131,
         desc: { en: 'The jewel of the Western Balkans where mosques, stone bridges, and multi-faith coexistence flourished.', fr: 'Le joyau des Balkans où fleurirent les ponts de pierre, les madrasas et le vivre-ensemble.', ar: 'مدينة المساجد والجسور المعلقة والتعايش السلمي الخلاق في قلب جبال البوسنة والهرسك.' },
         quranRef: 'Seyahatname',
       },
       {
-        name: { en: 'Belgrade Fortress on the Danube (927 AH / 1521 CE)', fr: 'Forteresse de Belgrade sur le Danube', ar: 'قلعة بلغراد على نهر الدانوب (927 هـ)' },
+        name: { en: 'Belgrade Fortress on the Danube (927 AH / 1521 CE)', fr: 'Forteresse de Belgrade sur le Danube', ar: 'قلعة بلغراد على نهر الدانوب (927 هـ)', es: 'Fortaleza de Belgrado sobre el Danubio (927 H / 1521)' },
         lat: 44.7866,
         lng: 20.4489,
         desc: { en: 'Sultan Suleiman the Magnificent secured the strategic Danubian corridor uniting Central Europe with the Mediterranean.', fr: 'Soliman le Magnifique ouvre la voie stratégique du Danube vers l’Europe centrale.', ar: 'فتح السلطان سليمان القانوني للقلعة الإستراتيجية وربط تجارة أوروبا الوسطى بحوض المتوسط.' },
         quranRef: 'Zubdetu’l-Tevarih',
       },
       {
-        name: { en: 'Gates of Vienna (935 AH / 1529 CE)', fr: 'Aux Portes de Vienne (935 H / 1529)', ar: 'أسوار فيينا (أقصى امتداد في أوروبا الوسطى)' },
+        name: { en: 'Gates of Vienna (935 AH / 1529 CE)', fr: 'Aux Portes de Vienne (935 H / 1529)', ar: 'أسوار فيينا (أقصى امتداد في أوروبا الوسطى)', es: 'Las puertas de Viena (935 H / 1529)' },
         lat: 48.2082,
         lng: 16.3738,
         desc: { en: 'The northern frontier where Ottoman diplomacy, trade, and culture met Central Europe at the zenith of the empire.', fr: 'La frontière septentrionale où la diplomatie et la culture ottomanes côtoyèrent l’Europe centrale.', ar: 'الحد الشمالي الذي بلغه المسلمون في قلب القارة الأوروبية في عهد القانوني.' },
@@ -1248,13 +1248,13 @@ export const ROUTES: PropheticRoute[] = [
 ]
 
 const ERAS = [
-  { id: 'all', label: { en: 'All Eras', fr: 'Toutes époques', ar: 'جميع العصور' } },
-  { id: 'primordial', label: { en: 'Primordial', fr: 'Origines', ar: 'البدايات الأولى' }, ids: ['adam', 'idris', 'nuh'] },
-  { id: 'arabia', label: { en: 'Ancient Arabia', fr: 'Arabie antique', ar: 'العرب القدماء' }, ids: ['hud', 'salih'] },
-  { id: 'abrahamic', label: { en: 'Abrahamic', fr: 'Abrahamique', ar: 'العهد الإبراهيمي' }, ids: ['ibrahim', 'lut', 'ismail', 'ishaq', 'yaqub', 'yusuf'] },
-  { id: 'israelite', label: { en: 'Mosaic & Israelite', fr: 'Mosaïque et Rois', ar: 'موسى وملوك إسرائيل' }, ids: ['ayyub', 'shuayb', 'musa', 'harun', 'dhulkifl', 'dawud', 'sulayman', 'ilyas', 'alyasa', 'yunus'] },
-  { id: 'prophetic', label: { en: 'Messianic & Seal', fr: 'Messianique et Sceau', ar: 'المسيح وخاتم النبيين' }, ids: ['zakariya', 'yahya', 'isa', 'muhammad'] },
-  { id: 'islamic_spread', label: { en: 'Spread of Islam', fr: 'Expansion de l’Islam', ar: 'انتشار الإسلام في العالم' }, ids: ['muhammad'] },
+  { id: 'all', label: { en: 'All Eras', fr: 'Toutes époques', ar: 'جميع العصور', es: 'Todas las épocas' } },
+  { id: 'primordial', label: { en: 'Primordial', fr: 'Origines', ar: 'البدايات الأولى', es: 'Los orígenes' }, ids: ['adam', 'idris', 'nuh'] },
+  { id: 'arabia', label: { en: 'Ancient Arabia', fr: 'Arabie antique', ar: 'العرب القدماء', es: 'Arabia antigua' }, ids: ['hud', 'salih'] },
+  { id: 'abrahamic', label: { en: 'Abrahamic', fr: 'Abrahamique', ar: 'العهد الإبراهيمي', es: 'Abrahámica' }, ids: ['ibrahim', 'lut', 'ismail', 'ishaq', 'yaqub', 'yusuf'] },
+  { id: 'israelite', label: { en: 'Mosaic & Israelite', fr: 'Mosaïque et Rois', ar: 'موسى وملوك إسرائيل', es: 'Musa y los profetas de Israel' }, ids: ['ayyub', 'shuayb', 'musa', 'harun', 'dhulkifl', 'dawud', 'sulayman', 'ilyas', 'alyasa', 'yunus'] },
+  { id: 'prophetic', label: { en: 'Messianic & Seal', fr: 'Messianique et Sceau', ar: 'المسيح وخاتم النبيين', es: '‘Isa y el sello de la profecía' }, ids: ['zakariya', 'yahya', 'isa', 'muhammad'] },
+  { id: 'islamic_spread', label: { en: 'Spread of Islam', fr: 'Expansion de l’Islam', ar: 'انتشار الإسلام في العالم', es: 'La expansión del islam' }, ids: ['muhammad'] },
 ]
 
 export function TopographyMap({ focus }: { focus?: string }) {
@@ -1501,7 +1501,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
           })
 
           polyline.bindTooltip(
-            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px; color: ${r.color};">${r.name[legacy(lang)]}</div>`,
+            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px; color: ${r.color};">${(r.name[lang] ?? r.name.en)}</div>`,
             { sticky: true, className: 'leaflet-tooltip-dark' }
           )
 
@@ -1543,7 +1543,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
 
             const marker = Leaflet.marker([stop.lat, stop.lng], { icon: stopIcon })
             marker.bindTooltip(
-              `<div style="font-family: inherit; font-size: 11px; font-weight: 700; padding: 3px 6px;">${index + 1}. ${stop.name[legacy(lang)]}</div>`,
+              `<div style="font-family: inherit; font-size: 11px; font-weight: 700; padding: 3px 6px;">${index + 1}. ${(stop.name[lang] ?? stop.name.en)}</div>`,
               { direction: 'top', offset: [0, -12] }
             )
             marker.on('click', () => {
@@ -1603,7 +1603,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             map.flyTo([site.lat, site.lng], Math.max(map.getZoom(), 8), { duration: 1 })
           })
           marker.bindTooltip(
-            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px;">${site.name[legacy(lang)]}</div>`,
+            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px;">${(site.name[lang] ?? site.name.en)}</div>`,
             { direction: 'top', offset: [0, -10] },
           )
           marker.addTo(sitesGroup)
@@ -1809,7 +1809,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             className={`rounded-full px-3 py-1 font-medium transition-colors ${
               showSites ? 'bg-sky-400/20 text-sky-200' : 'text-ink-2 hover:text-ink'
             }`}
-            title="Toggle Sacred Sites"
+            title={tx(lang, 'Show or hide sacred sites', 'Afficher ou masquer les lieux saints', 'إظهار المواقع المقدسة أو إخفاؤها', 'Mostrar u ocultar los lugares sagrados')}
           >
             <MapPin className="me-1 inline size-3" />
             <span>{t('sacredSites')}</span>
@@ -1824,7 +1824,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             className={`rounded-full px-3 py-1 font-medium transition-colors ${
               showRoutes ? 'bg-emerald-400/20 text-emerald-200' : 'text-ink-2 hover:text-ink'
             }`}
-            title="Toggle Routes"
+            title={tx(lang, 'Show or hide routes', 'Afficher ou masquer les itinéraires', 'إظهار المسارات أو إخفاؤها', 'Mostrar u ocultar las rutas')}
           >
             <Navigation className="me-1 inline size-3" />
             <span>{t('missionRoute')}</span>
@@ -1841,7 +1841,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                 ? 'bg-gold/30 text-gold-2 shadow-sm'
                 : 'text-ink-2 hover:text-ink'
             }`}
-            title="Browse Prophetic Journeys"
+            title={tx(lang, 'Browse the prophets’ journeys', 'Parcourir les voyages des prophètes', 'تصفح رحلات الأنبياء', 'Explorar los viajes de los profetas')}
           >
             <Waypoints className="me-1 inline size-3" />
             <span>{t('routesTitle')}</span>
@@ -1873,7 +1873,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   : 'text-ink-2 hover:text-ink hover:bg-white/10'
               }`}
             >
-              {era.label[legacy(lang)]}
+              {(era.label[lang] ?? era.label.en)}
             </button>
           ))}
         </div>
@@ -1978,7 +1978,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                       className="size-3 shrink-0 rounded-full"
                       style={{ backgroundColor: r.color, boxShadow: `0 0 8px ${r.color}` }}
                     />
-                    <span className="text-xs font-bold text-ink">{r.name[legacy(lang)]}</span>
+                    <span className="text-xs font-bold text-ink">{(r.name[lang] ?? r.name.en)}</span>
                   </div>
                   <span className="ar-name text-sm text-gold">{r.name.ar}</span>
                 </div>
@@ -2056,7 +2056,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                       onClick={() => flyToSite(s)}
                       className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-start text-xs text-ink hover:bg-sky-400/15 transition-colors"
                     >
-                      <span className="font-semibold text-sky-200">{s.name[legacy(lang)]}</span>
+                      <span className="font-semibold text-sky-200">{(s.name[lang] ?? s.name.en)}</span>
                       <span className="text-[0.65rem] uppercase text-ink-3">{s.type}</span>
                     </button>
                   ))}
@@ -2076,7 +2076,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                       onClick={() => handleSelectRoute(r)}
                       className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-start text-xs text-ink hover:bg-emerald-400/15 transition-colors"
                     >
-                      <span className="font-semibold text-emerald-200">{r.name[legacy(lang)]}</span>
+                      <span className="font-semibold text-emerald-200">{(r.name[lang] ?? r.name.en)}</span>
                       <span className="ar-name text-xs text-gold">{r.name.ar}</span>
                     </button>
                   ))}
@@ -2101,7 +2101,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   {selectedRoute.period[legacy(lang)]}
                 </span>
               </div>
-              <h3 className="mt-1 text-base font-bold text-ink sm:text-lg">{selectedRoute.name[legacy(lang)]}</h3>
+              <h3 className="mt-1 text-base font-bold text-ink sm:text-lg">{(selectedRoute.name[lang] ?? selectedRoute.name.en)}</h3>
               <p className="ar-name text-xl font-bold text-gold">{selectedRoute.name.ar}</p>
             </div>
             <button
@@ -2160,7 +2160,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                     <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-400/20 text-[0.65rem] font-extrabold text-emerald-300">
                       {idx + 1}
                     </span>
-                    <span className="text-xs font-bold text-ink">{stop.name[legacy(lang)]}</span>
+                    <span className="text-xs font-bold text-ink">{(stop.name[lang] ?? stop.name.en)}</span>
                   </div>
                   <span className="ar-name text-xs text-gold">{stop.name.ar}</span>
                 </div>
@@ -2207,7 +2207,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   </span>
                 )}
               </div>
-              <h3 className="mt-1.5 text-lg font-bold text-ink sm:text-xl">{selectedSite.name[legacy(lang)]}</h3>
+              <h3 className="mt-1.5 text-lg font-bold text-ink sm:text-xl">{(selectedSite.name[lang] ?? selectedSite.name.en)}</h3>
               <p className="ar-name text-2xl font-bold text-gold">{selectedSite.name.ar}</p>
             </div>
             <button

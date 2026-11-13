@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Calendar, ChevronDown, ChevronUp, Clock, Sparkles, Flame, BookOpen, Info } from 'lucide-react'
-import { legacy, useI18n } from '../i18n'
+import { legacy, useI18n, tx } from '../i18n'
 import { people } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'
@@ -22,20 +22,20 @@ type TimelineMode = 'dual' | 'hijri' | 'gregorian'
 
 interface EraGroup {
   id: string
-  title: { en: string; fr: string; ar: string }
+  title: { en: string; fr: string; ar: string; es: string }
   range: [number, number]
 }
 
 const ERAS: EraGroup[] = [
-  { id: 'all', title: { en: 'All Eras', fr: 'Toutes les époques', ar: 'جميع العصور' }, range: [1, 19] },
-  { id: 'pre_adam', title: { en: 'Before Adam (Jinn & Pre-Humans)', fr: 'Avant Adam (Djinns & Hinn)', ar: 'عالم ما قبل آدم (الجن، الحن، والبن)' }, range: [0, 0] },
-  { id: 'dawn', title: { en: 'Dawn of Humankind', fr: 'L’aube de l’humanité', ar: 'فجر البشرية والطوفان' }, range: [1, 3] },
-  { id: 'arab', title: { en: 'Ancient Arab Prophets', fr: 'Prophètes arabes anciens', ar: 'الأنبياء العرب القدماء' }, range: [4, 5] },
-  { id: 'patriarchs', title: { en: 'The Patriarchal Era', fr: 'L’époque patriarcale', ar: 'عصر الخليل إبراهيم والآباء' }, range: [6, 10] },
-  { id: 'mosaic', title: { en: 'Exodus & Prophethood', fr: 'L’Exode et l’Alliance', ar: 'عصر موسى والخروج' }, range: [11, 11] },
-  { id: 'kingdom', title: { en: 'Kingdom of Israel', fr: 'Le Royaume d’Israël', ar: 'عصر الملوك وأنبياء بني إسرائيل' }, range: [12, 16] },
-  { id: 'messianic', title: { en: 'The Messianic Dawn', fr: 'L’aube messianique', ar: 'عصر زكريا ويحيى وعيسى' }, range: [17, 18] },
-  { id: 'final', title: { en: 'The Seal of Prophecy', fr: 'Le Sceau de la prophétie', ar: 'عصر الرسالة المحمدية الخاتمة' }, range: [19, 19] },
+  { id: 'all', title: { en: 'All Eras', fr: 'Toutes les époques', ar: 'جميع العصور', es: 'Todas las épocas' }, range: [1, 19] },
+  { id: 'pre_adam', title: { en: 'Before Adam (Jinn & Pre-Humans)', fr: 'Avant Adam (Djinns & Hinn)', ar: 'عالم ما قبل آدم (الجن، الحن، والبن)', es: 'Antes de Adán (los genios y los relatos)' }, range: [0, 0] },
+  { id: 'dawn', title: { en: 'Dawn of Humankind', fr: 'L’aube de l’humanité', ar: 'فجر البشرية والطوفان', es: 'El comienzo de la humanidad' }, range: [1, 3] },
+  { id: 'arab', title: { en: 'Ancient Arab Prophets', fr: 'Prophètes arabes anciens', ar: 'الأنبياء العرب القدماء', es: 'Antiguos profetas árabes' }, range: [4, 5] },
+  { id: 'patriarchs', title: { en: 'The Patriarchal Era', fr: 'L’époque patriarcale', ar: 'عصر الخليل إبراهيم والآباء', es: 'La época de los patriarcas' }, range: [6, 10] },
+  { id: 'mosaic', title: { en: 'Exodus & Prophethood', fr: 'L’Exode et l’Alliance', ar: 'عصر موسى والخروج', es: 'El Éxodo y la Alianza' }, range: [11, 11] },
+  { id: 'kingdom', title: { en: 'Kingdom of Israel', fr: 'Le Royaume d’Israël', ar: 'عصر الملوك وأنبياء بني إسرائيل', es: 'El reino de Israel' }, range: [12, 16] },
+  { id: 'messianic', title: { en: 'The Messianic Dawn', fr: 'L’aube messianique', ar: 'عصر زكريا ويحيى وعيسى', es: 'La época de ‘Isa' }, range: [17, 18] },
+  { id: 'final', title: { en: 'The Seal of Prophecy', fr: 'Le Sceau de la prophétie', ar: 'عصر الرسالة المحمدية الخاتمة', es: 'El sello de la profecía' }, range: [19, 19] },
 ]
 
 export function Timeline() {
@@ -121,7 +121,7 @@ export function Timeline() {
                   : 'border border-white/5 bg-white/[0.02] text-ink-3 hover:text-ink hover:border-white/20'
               }`}
             >
-              {era.title[legacy(lang)]}
+              {era.title[lang]}
             </button>
           ))}
         </div>
@@ -192,23 +192,21 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-full border border-gold/25">
-                {lang === 'ar' ? 'فصل تمهيدي • تاريخ الأرض الأول' : 'Prologue • Primordial Earth'}
+                {tx(lang, 'Prologue • Primordial Earth', 'Prologue • La Terre avant Adam', 'فصل تمهيدي • تاريخ الأرض الأول', 'Prólogo • La Tierra antes de Adán')}
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1">
-              {lang === 'ar' ? 'ما قبل آدم عليه السلام وإبليس: الجن، الحن، والبن، والنسناس' : 'Before Adam & Iblis: The Jinn, Hinn, Binn & Nasnas'}
+              {tx(lang, 'Before Adam & Iblis: the jinn, and the reports of Hinn, Binn & Nasnas', 'Avant Adam et Iblis : les djinns, et les récits sur les Hinn, Binn et Nasnas', 'ما قبل آدم عليه السلام وإبليس: الجن، وأخبار الحن والبن والنسناس', 'Antes de Adán e Iblis: los genios, y los relatos sobre los Hinn, Binn y Nasnas')}
             </h2>
             <p className="text-xs sm:text-sm text-ink-2 mt-1 leading-relaxed max-w-2xl">
-              {lang === 'ar'
-                ? 'آدم عليه السلام هو أبو البشر خُلق من طين مستقلاً دون نسب في الأرض. وثّقت كتب التاريخ الإسلامي المعتمدة (تاريخ الطبري، والبداية والنهاية لابن كثير) أن الأرض سكنتها قبل بني آدم أُمم مادية ومكلّفة؛ كالجن وإبليس الذين خُلقوا من نار السموم، والحن والبن والنسناس الذين أفسدوا وسفكوا الدماء.'
-                : 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Classical Islamic historiography (Ibn Kathir, Al-Tabari) documents that prior to humankind, Earth was inhabited by the Jinn and Iblis (created from smokeless flame) and ancient terrestrial creations (Al-Hinn, Al-Binn, and the upright hominids Al-Nasnas).'}
+              {tx(lang, 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. The Qur’an says the jinn were created before him, from smokeless fire (15:27). Early historians (al-Tabari, Ibn Kathir) also relay reports, neither Qur’anic nor authentic, about creatures called Hinn, Binn and Nasnas: they are not established.', 'Le prophète Adam (paix sur lui) est le père de l’humanité, créé directement d’argile. Le Coran dit que les djinns furent créés avant lui, d’un feu sans fumée (15:27). Des historiens anciens (at-Tabari, Ibn Kathir) rapportent en outre des récits, ni coraniques ni authentiques, sur des créatures appelées Hinn, Binn et Nasnas : ils restent non établis.', 'آدم عليه السلام أبو البشر، خُلق من طين. وفي القرآن أن الجان خُلق قبله من نار السموم (15:27). وأورد بعض المؤرخين كالطبري وابن كثير أخبارًا عن الحن والبن والنسناس، ليست في القرآن ولا في حديث صحيح، فهي لا تثبت.', 'El profeta Adán (la paz sea con él) es el padre de la humanidad, creado directamente de arcilla. El Corán dice que los genios fueron creados antes que él, de fuego sin humo (15:27). Historiadores antiguos (at-Tabari, Ibn Kazir) recogen además relatos, ni coránicos ni auténticos, sobre criaturas llamadas Hinn, Binn y Nasnas: no están establecidos.')}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           <span className="rounded-full bg-gold/15 px-3 py-1 text-xs font-mono text-gold border border-gold/30">
-            c. 2,000+ yrs Pre-Adam
+            {tx(lang, 'Before Adam', 'Avant Adam', 'قبل آدم', 'Antes de Adán')}
           </span>
         </div>
       </div>
@@ -237,10 +235,10 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                     </span>
                     <span className="text-[0.65rem] font-mono text-ink-3">
                       {entity.id === 'iblis'
-                        ? (lang === 'ar' ? 'عزازيل / إبليس' : 'Azazil / Satan')
+                        ? (tx(lang, 'Azazil / Satan', 'Azazil / Satan', 'عزازيل / إبليس', 'Azazil / Satanás'))
                         : entity.id === 'jinn'
-                        ? (lang === 'ar' ? 'خلق من نار' : 'Smokeless Fire')
-                        : (lang === 'ar' ? 'أمم سابقة' : 'Ancient Race')}
+                        ? (tx(lang, 'Smokeless Fire', 'Feu sans fumée', 'خلق من نار', 'Fuego sin humo'))
+                        : (tx(lang, 'Ancient Race', 'Peuple ancien', 'أمم سابقة', 'Pueblo antiguo'))}
                     </span>
                   </div>
 
@@ -260,9 +258,9 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                 </div>
 
                 <div className="text-[0.72rem] text-ink-3 space-y-1">
-                  <p><strong className="text-gold/90">{lang === 'ar' ? 'طبيعة الخلق:' : 'Nature:'}</strong> {pick(entity.nature)}</p>
+                  <p><strong className="text-gold/90">{tx(lang, 'Nature:', 'Nature :', 'طبيعة الخلق:', 'Naturaleza:')}</strong> {pick(entity.nature)}</p>
                   {entity.scientificCorrelation && (
-                    <p><strong className="text-sky-300">{lang === 'ar' ? 'الربط العلمي والإحاثي:' : 'Paleontological link:'}</strong> {pick(entity.scientificCorrelation)}</p>
+                    <p><strong className="text-sky-300">{tx(lang, 'Modern comparison (speculative):', 'Rapprochement moderne (spéculatif) :', 'ربط معاصر (تخمين لا يثبت):', 'Vínculo moderno (especulativo):')}</strong> {pick(entity.scientificCorrelation)}</p>
                   )}
                 </div>
               </div>
@@ -277,7 +275,7 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                   className="inline-flex items-center gap-1 text-xs font-medium text-gold hover:text-gold-2 transition-colors cursor-pointer"
                 >
                   <BookOpen className="size-3.5" />
-                  <span>{isSelected ? (lang === 'ar' ? 'إغلاق الأدلة' : 'Collapse') : (lang === 'ar' ? 'أقوال العلماء والمصادر' : 'Scholarly Sources')}</span>
+                  <span>{isSelected ? (tx(lang, 'Collapse', 'Replier', 'إغلاق الأدلة', 'Plegar')) : (tx(lang, 'Scholarly Sources', 'Sources savantes', 'أقوال العلماء والمصادر', 'Fuentes académicas'))}</span>
                 </button>
               </div>
 
@@ -287,7 +285,7 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                   <div className="rounded-xl bg-black/40 p-3.5 border border-gold/20">
                     <h4 className="text-xs font-bold text-gold uppercase tracking-wider mb-2 flex items-center gap-1.5">
                       <Info className="size-3.5" />
-                      <span>{lang === 'ar' ? 'التفصيل العقدي والتاريخي:' : 'Theological & Historical Detail:'}</span>
+                      <span>{tx(lang, 'Theological & Historical Detail:', 'Détail théologique et historique :', 'التفصيل العقدي والتاريخي:', 'Detalle teológico e histórico:')}</span>
                     </h4>
                     <p className="text-xs text-ink leading-relaxed">
                       {pick(entity.detailedDescription)}
@@ -307,7 +305,7 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                   ))}
 
                   <div className="rounded-xl bg-amber-500/10 p-3 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed">
-                    <strong className="text-gold block mb-1">{lang === 'ar' ? 'الخلاصة الإيمانية:' : 'Creed & Theological Note:'}</strong>
+                    <strong className="text-gold block mb-1">{tx(lang, 'Creed & Theological Note:', 'Note de croyance :', 'الخلاصة الإيمانية:', 'Nota de creencia:')}</strong>
                     {pick(entity.theologicalContext)}
                   </div>
 
@@ -318,15 +316,11 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                         <h4 className="text-xs font-bold text-sky-200 uppercase tracking-wider flex items-center gap-1.5 mb-1">
                           <Sparkles className="size-3.5 text-gold" />
                           <span>
-                            {lang === 'ar'
-                              ? 'أشهر الملائكة في القرآن والسنة ومظهرهم المهيب (كيف يبدون)'
-                              : 'Great Archangels in the Qur’an & Sunnah & How They Look'}
+                            {tx(lang, 'Great Archangels in the Qur’an & Sunnah & How They Look', 'Les grands anges dans le Coran et la Sunna, et leur description', 'أشهر الملائكة في القرآن والسنة ومظهرهم المهيب (كيف يبدون)', 'Los grandes ángeles en el Corán y la Sunna, y su descripción')}
                           </span>
                         </h4>
                         <p className="text-[0.72rem] text-ink-2">
-                          {lang === 'ar'
-                            ? 'بيان وظائفهم الكونية وأوصاف خلقهم العظيم وهيئاتهم الثابتة في النصوص النبوية الشريفة'
-                            : 'Their celestial duties and authentic descriptions in Prophetic traditions.'}
+                          {tx(lang, 'Their celestial duties and authentic descriptions in Prophetic traditions.', 'Leurs fonctions et leurs descriptions authentiques dans la tradition prophétique.', 'بيان وظائفهم الكونية وأوصاف خلقهم العظيم وهيئاتهم الثابتة في النصوص النبوية الشريفة', 'Sus funciones y sus descripciones auténticas en la tradición profética.')}
                         </p>
                       </div>
 
@@ -352,22 +346,20 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
 
                             <p className="text-xs text-ink-2 mb-2 font-medium">
                               <strong className="text-ink">
-                                {lang === 'ar' ? 'الوظيفة والتكليف: ' : 'Celestial Duty: '}
+                                {tx(lang, 'Celestial Duty: ', 'Fonction : ', 'الوظيفة والتكليف: ', 'Función: ')}
                               </strong>
                               {pick(angel.role)}
                             </p>
 
                             <div className="rounded-lg bg-white/[0.04] p-2.5 border border-white/5 text-[0.73rem] text-ink leading-relaxed">
                               <strong className="text-amber-300 block mb-1">
-                                {lang === 'ar'
-                                  ? 'المظهر والهيئة في القرآن والسنة (كيف يبدون):'
-                                  : 'Appearance in Qur’an & Sunnah (How They Look):'}
+                                {tx(lang, 'Appearance in Qur’an & Sunnah (How They Look):', 'Description dans le Coran et la Sunna :', 'المظهر والهيئة في القرآن والسنة (كيف يبدون):', 'Descripción en el Corán y la Sunna:')}
                               </strong>
                               {pick(angel.appearance)}
                             </div>
 
                             <div className="mt-2 text-[0.65rem] text-ink-3">
-                              <strong>{lang === 'ar' ? 'المصادر والحديث: ' : 'Sources: '}</strong>
+                              <strong>{tx(lang, 'Sources: ', 'Sources : ', 'المصادر والحديث: ', 'Fuentes: ')}</strong>
                               {angel.hadithRefs.join(' · ')}
                             </div>
                           </div>

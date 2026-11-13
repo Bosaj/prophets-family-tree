@@ -10,7 +10,7 @@ import {
   Play,
   Pause,
 } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import {
   SCIENTIFIC_FACTS,
   SCIENCE_CATEGORIES,
@@ -102,33 +102,17 @@ export function ScienceView() {
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-500/10 px-3.5 py-1 text-xs font-semibold text-sky-300 mb-3 shadow-sm">
               <Sparkles className="size-3.5 text-amber-400" />
               <span>
-                {lang === 'ar'
-                  ? 'آيات وأحاديث يقرؤها بعض المفسرين مع الاكتشافات الحديثة'
-                  : lang === 'fr'
-                  ? 'Versets et hadiths que certains commentateurs lisent à la lumière des découvertes modernes'
-                  : 'Verses and hadith that some commentators read alongside modern findings'}
+                {tx(lang, 'Verses and hadith that some commentators read alongside modern findings', 'Versets et hadiths que certains commentateurs lisent à la lumière des découvertes modernes', 'آيات وأحاديث يقرؤها بعض المفسرين مع الاكتشافات الحديثة', 'Versículos y hadices que algunos comentaristas leen junto a hallazgos modernos')}
               </span>
             </div>
             <h1 className="ar-name text-3xl sm:text-5xl font-extrabold tracking-tight text-ink mb-3 gold-text">
-              {lang === 'ar'
-                ? 'القرآن والسنة والعلم الحديث'
-                : lang === 'fr'
-                ? 'Le Coran, la Sunna et la science moderne'
-                : 'The Qur’an, the Sunnah and Modern Science'}
+              {tx(lang, 'The Qur’an, the Sunnah and Modern Science', 'Le Coran, la Sunna et la science moderne', 'القرآن والسنة والعلم الحديث', 'El Corán, la Sunna y la ciencia moderna')}
             </h1>
             <p className="text-sm sm:text-base text-ink-2 leading-relaxed">
-              {lang === 'ar'
-                ? 'كل بطاقة تضع الآية أو الحديث بجانب بحث علمي حقيقي منشور برابط DOI تم التحقق منه.'
-                : lang === 'fr'
-                ? 'Chaque fiche place un verset ou un hadith à côté d’une recherche réellement publiée, avec un lien DOI vérifié.'
-                : 'Each card places a verse or hadith next to real published research, with a checked DOI link.'}
+              {tx(lang, 'Each card places a verse or hadith next to real published research, with a checked DOI link.', 'Chaque fiche place un verset ou un hadith à côté d’une recherche réellement publiée, avec un lien DOI vérifié.', 'كل بطاقة تضع الآية أو الحديث بجانب بحث علمي حقيقي منشور برابط DOI تم التحقق منه.', 'Cada ficha pone un versículo o un hadiz junto a una investigación publicada real, con un enlace DOI comprobado.')}
             </p>
             <p role="note" className="mt-4 rounded-2xl border border-amber-400/30 bg-amber-500/10 p-4 text-xs leading-relaxed text-amber-100/90 sm:text-sm">
-              {lang === 'ar'
-                ? 'تنبيه: ربط آية باكتشاف حديث تفسيرٌ علميٌّ اجتهاديٌّ (التفسير العلمي) وليس نصًّا قطعيًّا، وقد حذّر كثير من العلماء من حمل القرآن على نظريات قد تتغير. الآية صادقة في كل حال، والبحث العلمي يُقرأ على أنه سياق لا برهان.'
-                : lang === 'fr'
-                ? 'Attention : relier un verset à une découverte moderne est une interprétation (tafsir ‘ilmi), non un texte catégorique. Beaucoup de savants mettent en garde contre le fait de lier le Coran à des théories qui peuvent changer. Le verset reste vrai dans tous les cas ; la recherche est un contexte, pas une preuve.'
-                : 'Note: linking a verse to a modern discovery is an interpretation (tafsir ‘ilmi), not a definitive text. Many scholars warn against tying the Qur’an to theories that may change. The verse stays true either way; the research is context, not proof.'}
+              {tx(lang, 'Note: linking a verse to a modern discovery is an interpretation (tafsir ‘ilmi), not a definitive text. Many scholars warn against tying the Qur’an to theories that may change. The verse stays true either way; the research is context, not proof.', 'Attention : relier un verset à une découverte moderne est une interprétation (tafsir ‘ilmi), non un texte catégorique. Beaucoup de savants mettent en garde contre le fait de lier le Coran à des théories qui peuvent changer. Le verset reste vrai dans tous les cas ; la recherche est un contexte, pas une preuve.', 'تنبيه: ربط آية باكتشاف حديث تفسيرٌ علميٌّ اجتهاديٌّ (التفسير العلمي) وليس نصًّا قطعيًّا، وقد حذّر كثير من العلماء من حمل القرآن على نظريات قد تتغير. الآية صادقة في كل حال، والبحث العلمي يُقرأ على أنه سياق لا برهان.', 'Nota: vincular un versículo a un descubrimiento moderno es una interpretación (tafsir ‘ilmi), no un texto definitivo. Muchos sabios advierten contra atar el Corán a teorías que pueden cambiar. El versículo sigue siendo verdadero en cualquier caso; la investigación es contexto, no prueba.')}
             </p>
           </div>
 
@@ -136,7 +120,7 @@ export function ScienceView() {
           <div className="glass rounded-2xl p-5 border border-sky-500/20 text-center shrink-0">
             <span className="block text-3xl font-bold font-mono text-sky-400">{SCIENTIFIC_FACTS.reduce((n, f) => n + f.papers.length, 0)}</span>
             <span className="text-xs font-semibold text-ink-1 block mt-0.5">
-              {lang === 'ar' ? 'بحثًا منشورًا، روابطها مُتحقَّق منها' : lang === 'fr' ? 'publications, liens vérifiés' : 'publications, links checked'}
+              {tx(lang, 'publications, links checked', 'publications, liens vérifiés', 'بحثًا منشورًا، روابطها مُتحقَّق منها', 'publicaciones, enlaces comprobados')}
             </span>
             <span className="text-[0.68rem] text-ink-3 block mt-1">
               Nature · Lancet · PNAS
@@ -177,9 +161,7 @@ export function ScienceView() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={
-              lang === 'ar'
-                ? 'ابحث بالآية، السورة، التخصص، الباحث أو المجلة العلمية...'
-                : 'Search by verse, topic, scientist, or journal...'
+              tx(lang, 'Search by verse, topic, scientist, or journal...', 'Rechercher par verset, thème, scientifique ou revue…', 'ابحث بالآية، السورة، التخصص، الباحث أو المجلة العلمية...', 'Buscar por versículo, tema, científico o revista…')
             }
             className="w-full rounded-full border border-white/10 bg-white/5 py-2 pe-4 ps-10 text-xs sm:text-sm text-ink placeholder-ink-3 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
           />
@@ -206,7 +188,7 @@ export function ScienceView() {
                   </span>
                   {fact.quranRefs && (
                     <span className="font-mono text-xs text-amber-400/90 rounded-full bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5">
-                      {lang === 'ar' ? 'سورة ' : 'Surah '}
+                      {tx(lang, 'Surah ', 'Sourate ', 'سورة ', 'Sura ')}
                       {fact.quranVerseText ? pick(fact.quranVerseText.surahName) : ''} [{fact.quranRefs.join(', ')}]
                     </span>
                   )}
@@ -223,7 +205,7 @@ export function ScienceView() {
                     }`}
                   >
                     {isReciting ? <Pause className="size-3.5" /> : <Play className="size-3.5" />}
-                    <span>{isReciting ? (lang === 'ar' ? 'إيقاف التلاوة' : 'Pause Recitation') : (lang === 'ar' ? 'استماع للآية' : 'Recite Ayah')}</span>
+                    <span>{isReciting ? (tx(lang, 'Pause Recitation', 'Mettre la récitation en pause', 'إيقاف التلاوة', 'Pausar la recitación')) : (tx(lang, 'Recite Ayah', 'Réciter le verset', 'استماع للآية', 'Recitar el versículo'))}</span>
                   </button>
                 )}
               </div>
@@ -239,7 +221,7 @@ export function ScienceView() {
                   <div className="flex items-center justify-between text-xs text-amber-300/80 mb-2 font-mono">
                     <span className="flex items-center gap-1">
                       <BookOpen className="size-3.5 text-amber-400" />
-                      <span>{lang === 'ar' ? 'النص القرآني الشريف' : 'Holy Qur\'an Verse'}</span>
+                      <span>{tx(lang, 'Holy Qur\'an Verse', 'Verset du Coran', 'النص القرآني الشريف', 'Versículo del Corán')}</span>
                     </span>
                     <span>{fact.quranVerseText.ayah}</span>
                   </div>
@@ -259,7 +241,7 @@ export function ScienceView() {
                 <div className="mb-6 rounded-2xl border border-emerald-500/25 bg-emerald-950/20 p-4.5">
                   <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 mb-2">
                     <Sparkles className="size-3.5" />
-                    <span>{lang === 'ar' ? 'الحديث النبوي الصحيح' : 'Authentic Prophetic Hadith'}</span>
+                    <span>{tx(lang, 'Authentic Prophetic Hadith', 'Hadith prophétique authentique', 'الحديث النبوي الصحيح', 'Hadiz profético auténtico')}</span>
                   </div>
                   {fact.hadithRefs.map((h, idx) => (
                     <div key={idx} className="space-y-1.5 text-xs">
@@ -284,7 +266,7 @@ export function ScienceView() {
                 <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 text-xs">
                   <span className="flex items-center gap-1.5 font-bold text-ink-3 uppercase tracking-wider mb-2">
                     <Clock className="size-3.5 text-amber-400" />
-                    <span>{lang === 'ar' ? 'المعتقدات السائدة في عصر الرسالة (القرن 7م)' : '7th-Century Historical Beliefs'}</span>
+                    <span>{tx(lang, '7th-Century Historical Beliefs', 'Croyances du VIIe siècle', 'المعتقدات السائدة في عصر الرسالة (القرن 7م)', 'Creencias del siglo VII')}</span>
                   </span>
                   <p className="text-ink-2 leading-relaxed">
                     {pick(fact.historicalContext)}
@@ -294,7 +276,7 @@ export function ScienceView() {
                 <div className="rounded-2xl border border-sky-500/20 bg-sky-950/20 p-4 text-xs">
                   <span className="flex items-center gap-1.5 font-bold text-sky-400 uppercase tracking-wider mb-2">
                     <CheckCircle className="size-3.5 text-sky-400" />
-                    <span>{lang === 'ar' ? 'الاكتشاف العلمي الحديث وتطبيقاته' : 'Modern Scientific Discovery'}</span>
+                    <span>{tx(lang, 'Modern Scientific Discovery', 'Découverte scientifique moderne', 'الاكتشاف العلمي الحديث وتطبيقاته', 'Descubrimiento científico moderno')}</span>
                   </span>
                   <p className="text-ink-1 leading-relaxed">
                     {pick(fact.modernDiscovery)}
@@ -308,9 +290,7 @@ export function ScienceView() {
                   <div className="flex items-center gap-2 text-xs font-bold text-ink-2">
                     <FileText className="size-3.5 text-sky-400" />
                     <span>
-                      {lang === 'ar'
-                        ? 'الأبحاث العلمية المحكمة والمصادر الدولية المعتمدة'
-                        : 'Peer-Reviewed Scientific Papers & Official DOIs'}
+                      {tx(lang, 'Peer-Reviewed Scientific Papers & Official DOIs', 'Articles scientifiques évalués par les pairs et DOI officiels', 'الأبحاث العلمية المحكمة والمصادر الدولية المعتمدة', 'Artículos científicos revisados por pares y DOI oficiales')}
                     </span>
                   </div>
                   <span className="text-[0.68rem] font-mono text-ink-3">
@@ -346,7 +326,7 @@ export function ScienceView() {
 
                       <p className="text-xs text-ink-2 leading-relaxed bg-black/20 rounded-xl p-2.5 border border-white/5">
                         <strong className="text-sky-400 font-medium">
-                          {lang === 'ar' ? 'الخلاصة العلمية المعتمدة: ' : 'Key Finding: '}
+                          {tx(lang, 'Key Finding: ', 'Résultat clé : ', 'الخلاصة العلمية المعتمدة: ', 'Hallazgo clave: ')}
                         </strong>
                         {pick(paper.keyFinding)}
                       </p>

@@ -19,7 +19,7 @@ import {
   Minus,
   RotateCcw,
 } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import { labelScale, nodeBoxes, placeLabels, textWidth, type LabelRequest } from '../lib/labelLayout'
 import { EdgeLabel } from './EdgeLabel'
 import { SAHABA_STORIES, type StoryPoint } from '../data/sahabaStories'
@@ -47,6 +47,9 @@ interface View {
   x: number
   y: number
 }
+
+/** Lowest zoom: low enough for the whole 2400-unit tree to fit a phone. */
+const MIN_SAHABA_K = 0.12
 
 const nodeRadius = (fig: SahabaFigure) =>
   fig.roleCategory === 'prophet' ? 22 : fig.roleCategory === 'rashidun_caliph' ? 18 : fig.roleCategory === 'hadith_master' ? 17 : 14
@@ -316,7 +319,7 @@ const TREE_LINKS: TreeLink[] = [
 // Date localization & BiDi protection helpers
 function formatDeathDate(death: { ah: string; ce: string }, lang: Lang): string {
   if (death.ah === 'Living' || death.ce === 'Current') {
-    return lang === 'ar' ? 'معاصر' : lang === 'fr' ? 'Actuel' : 'Living'
+    return tx(lang, 'Living', 'Actuel', 'معاصر', 'Vivo')
   }
   let s = death.ah
   if (lang === 'ar') {
@@ -385,9 +388,10 @@ export function SahabaTree({ focus }: { focus?: string }) {
       return
     }
 
-    const k = Math.min(1.0, Math.min(cw / layoutW, ch / layoutH) * 0.94)
+    // the clamped zoom is also the one used to center, so the whole tree is centered on every screen
+    const k = Math.max(MIN_SAHABA_K, Math.min(1.0, Math.min(cw / layoutW, ch / layoutH) * 0.94))
     setView({
-      k: Math.max(0.3, k),
+      k,
       x: (cw - layoutW * k) / 2,
       y: Math.max(20, (ch - layoutH * k) / 2),
     })
@@ -441,6 +445,16 @@ export function SahabaTree({ focus }: { focus?: string }) {
     return () => window.removeEventListener('resize', handleResize)
   }, [fit])
 
+  // The figure card closes with Escape, like the site's other dialogs.
+  useEffect(() => {
+    if (!activeFigure) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveFigure(null)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [activeFigure])
+
   // Gestures for SVG tree: Pan, multi-touch pinch-to-zoom, and wheel zoom
   const handlePointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
     // Only primary button (left click) or touch should initiate drag
@@ -493,7 +507,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
         const p2 = pList[1]!
         const d = Math.hypot(p2.x - p1.x, p2.y - p1.y)
         const ratio = d / pinch.current.d
-        const newK = Math.max(0.2, Math.min(2.0, pinch.current.k * ratio))
+        const newK = Math.max(MIN_SAHABA_K, Math.min(2.0, pinch.current.k * ratio))
         setView((v) => ({ ...v, k: newK }))
       }
     }
@@ -517,8 +531,16 @@ export function SahabaTree({ focus }: { focus?: string }) {
     downNode.current = null
   }
 
+  // React wheel listeners are passive, so the page scroll is stopped by a native listener instead.
+  useEffect(() => {
+    const el = svgRef.current
+    if (!el) return
+    const stop = (e: WheelEvent) => e.preventDefault()
+    el.addEventListener('wheel', stop, { passive: false })
+    return () => el.removeEventListener('wheel', stop)
+  }, [viewMode])
+
   const handleWheel = (e: React.WheelEvent<SVGSVGElement>) => {
-    e.preventDefault()
     const factor = e.deltaY < 0 ? 1.08 : 0.92
     const el = box.current
     if (!el) return
@@ -526,7 +548,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
     const mx = e.clientX - rect.left
     const my = e.clientY - rect.top
     setView((v) => {
-      const nextK = Math.max(0.2, Math.min(2.2, v.k * factor))
+      const nextK = Math.max(MIN_SAHABA_K, Math.min(2.2, v.k * factor))
       const scale = nextK / v.k
       return {
         k: nextK,
@@ -647,24 +669,14 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-300 mb-3 shadow-sm">
               <Crown className="size-3.5 text-amber-400" />
               <span>
-                {lang === 'ar'
-                  ? 'شجرة الصحابة والخلافة وحفظة الحديث والسلالات النبوية إلى اليوم'
-                  : 'Tree of Companions, Caliphs, Hadith Masters & Living Prophetic Dynasties'}
+                {tx(lang, 'Tree of Companions, Caliphs, Hadith Masters & Living Prophetic Dynasties', 'Arbre des Compagnons, des califes, des maîtres du hadith et des dynasties prophétiques actuelles', 'شجرة الصحابة والخلافة وحفظة الحديث والسلالات النبوية إلى اليوم', 'Árbol de los Compañeros, los califas, los maestros del hadiz y las dinastías proféticas actuales')}
               </span>
             </div>
             <h1 className="ar-name text-3xl sm:text-5xl font-extrabold tracking-tight text-ink mb-3 gold-text">
-              {lang === 'ar'
-                ? 'شجرة الصحابة والخلفاء وأئمة الحديث وسلالات النبي ﷺ'
-                : lang === 'fr'
-                ? 'Arbre des Sahaba, Califes, Maîtres du Hadith & Descendance Prophétique'
-                : 'Tree of Sahaba, Caliphs, Hadith Masters & Prophetic Lineage to Present'}
+              {tx(lang, 'Tree of Sahaba, Caliphs, Hadith Masters & Prophetic Lineage to Present', 'Arbre des Sahaba, Califes, Maîtres du Hadith & Descendance Prophétique', 'شجرة الصحابة والخلفاء وأئمة الحديث وسلالات النبي ﷺ', 'Árbol de los Sahaba, califas, maestros del hadiz y linaje profético hasta hoy')}
             </h1>
             <p className="text-sm sm:text-base text-ink-2 leading-relaxed">
-              {lang === 'ar'
-                ? 'شجرة تفاعلية جامعة لنسب وسيرة رسول الله ﷺ، والخلفاء الراشدين، والعشرة المبشرين بالجنة، وأكابر حفظة السُنّة وأئمة الحديث (أبو هريرة، البخاري، ومسلم)، والدول الإسلامية الكبرى، مع سلالات آل البيت المستمرة حتى ملك المغرب محمد السادس وملك الأردن عبد الله الثاني.'
-                : lang === 'fr'
-                ? 'Arbre généalogique interactif reliant le Prophète ﷺ, les 5 Califes bien guidés, les Dix Promis au Paradis, les maîtres du Hadith (Abou Hourayra, Al-Boukhari, Muslim) et les dynasties chérifiennes régnantes.'
-                : 'Interactive genealogical and succession star tree spanning from Prophet Muhammad ﷺ, the Rightly Guided Caliphs, the Hadith Masters (Abu Hurairah, Al-Bukhari, Muslim), historic empires, down to living Hasanid monarchs in Morocco and Jordan.'}
+              {tx(lang, 'Interactive genealogical and succession star tree spanning from Prophet Muhammad ﷺ, the Rightly Guided Caliphs, the Hadith Masters (Abu Hurairah, Al-Bukhari, Muslim), historic empires, down to living Hasanid monarchs in Morocco and Jordan.', 'Arbre généalogique interactif reliant le Prophète ﷺ, les 5 Califes bien guidés, les Dix Promis au Paradis, les maîtres du Hadith (Abou Hourayra, Al-Boukhari, Muslim) et les dynasties chérifiennes régnantes.', 'شجرة تفاعلية جامعة لنسب وسيرة رسول الله ﷺ، والخلفاء الراشدين، والعشرة المبشرين بالجنة، وأكابر حفظة السُنّة وأئمة الحديث (أبو هريرة، البخاري، ومسلم)، والدول الإسلامية الكبرى، مع سلالات آل البيت المستمرة حتى ملك المغرب محمد السادس وملك الأردن عبد الله الثاني.', 'Árbol genealógico y de sucesión interactivo que va del Profeta Muhammad ﷺ, los califas bien guiados y los maestros del hadiz (Abu Hurayra, al-Bujari, Muslim), pasando por los imperios históricos, hasta las monarquías hachemíes y alauíes de Jordania y Marruecos.')}
             </p>
           </div>
 
@@ -673,13 +685,13 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-center">
               <div className="text-xl font-extrabold text-gold font-mono">1,446+</div>
               <div className="text-[0.68rem] text-ink-3">
-                {lang === 'ar' ? 'سنة من التاريخ المتصل' : 'Years of Lineage'}
+                {tx(lang, 'Years of Lineage', 'Années de lignée', 'سنة من التاريخ المتصل', 'Años de linaje')}
               </div>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-center">
               <div className="text-xl font-extrabold text-cyan-400 font-mono">41+</div>
               <div className="text-[0.68rem] text-ink-3">
-                {lang === 'ar' ? 'شخصية موثقة ومعتمدة' : 'Documented Figures'}
+                {tx(lang, 'Documented Figures', 'Personnages documentés', 'شخصية موثقة ومعتمدة', 'Personajes documentados')}
               </div>
             </div>
           </div>
@@ -700,7 +712,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             }`}
           >
             <Layers className="size-4" />
-            <span>{lang === 'ar' ? 'الشجرة النجمية التفاعلية' : 'Interactive Tree'}</span>
+            <span>{tx(lang, 'Interactive Tree', 'Arbre interactif', 'الشجرة النجمية التفاعلية', 'Árbol interactivo')}</span>
           </button>
           <button
             type="button"
@@ -712,7 +724,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             }`}
           >
             <Clock className="size-4" />
-            <span>{lang === 'ar' ? 'الخط الزمني المتسلسل' : 'Chronological Timeline'}</span>
+            <span>{tx(lang, 'Chronological Timeline', 'Chronologie', 'الخط الزمني المتسلسل', 'Cronología')}</span>
           </button>
           <button
             type="button"
@@ -724,7 +736,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             }`}
           >
             <Users className="size-4" />
-            <span>{lang === 'ar' ? 'بطاقات السِّيَر المفصلة' : 'Detailed Cards'}</span>
+            <span>{tx(lang, 'Detailed Cards', 'Fiches détaillées', 'بطاقات السِّيَر المفصلة', 'Fichas detalladas')}</span>
           </button>
         </div>
 
@@ -736,9 +748,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={
-              lang === 'ar'
-                ? 'ابحث بالاسم، اللقب، النسب، أو الحقبة...'
-                : 'Search by name, title, lineage, or era...'
+              tx(lang, 'Search by name, title, lineage, or era...', 'Rechercher par nom, titre, lignée ou époque…', 'ابحث بالاسم، اللقب، النسب، أو الحقبة...', 'Buscar por nombre, título, linaje o época…')
             }
             className="w-full rounded-2xl border border-white/10 bg-night-2 ps-10 pe-4 py-2.5 text-xs text-ink placeholder:text-ink-3 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
           />
@@ -811,7 +821,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <span className="font-mono text-xs text-gold px-1">{Math.round(view.k * 100)}%</span>
             <button
               type="button"
-              onClick={() => setView((v) => ({ ...v, k: Math.max(0.2, v.k * 0.85) }))}
+              onClick={() => setView((v) => ({ ...v, k: Math.max(MIN_SAHABA_K, v.k * 0.85) }))}
               className="p-1 text-ink-3 hover:text-ink transition-colors cursor-pointer"
               title={t('zoomOut')}
               aria-label={t('zoomOut')}
@@ -846,7 +856,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 }}
               />
               <span className="font-bold text-emerald-300">
-                {lang === 'ar' ? 'تصفية محددة:' : 'Active Filter:'}{' '}
+                {tx(lang, 'Active Filter:', 'Filtre actif :', 'تصفية محددة:', 'Filtro activo:')}{' '}
                 {pick(SAHABA_ERAS.find((e) => e.id === selectedEra)?.label ?? { en: '', fr: '', ar: '' })} (
                 {SAHABA_FIGURES.filter((f) => f.era === selectedEra).length})
               </span>
@@ -858,30 +868,30 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 }}
                 className="ms-2 text-[0.7rem] bg-white/10 hover:bg-emerald-500 hover:text-night text-ink-2 px-2.5 py-0.5 rounded-full transition-colors cursor-pointer font-medium"
               >
-                {lang === 'ar' ? 'إلغاء التصفية وعرض الكل ✕' : 'Clear & Show All ✕'}
+                {tx(lang, 'Clear & Show All ✕', 'Effacer et tout afficher ✕', 'إلغاء التصفية وعرض الكل ✕', 'Quitar y mostrar todo ✕')}
               </button>
             </div>
           ) : (
             <div className="absolute top-4 start-4 z-20 hidden md:flex items-center gap-3 rounded-full border border-white/10 bg-night-2/95 backdrop-blur-md px-4 py-1.5 text-xs text-ink-2 shadow-xl">
               <span className="inline-flex items-center gap-1.5">
                 <span className="size-2.5 rounded-full bg-emerald-400" />
-                <span>{lang === 'ar' ? 'الخلفاء الراشدون' : 'Rashidun'}</span>
+                <span>{tx(lang, 'Rashidun', 'Califes bien guidés', 'الخلفاء الراشدون', 'Califas bien guiados')}</span>
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="size-2.5 rounded-full bg-cyan-400" />
-                <span>{lang === 'ar' ? 'أئمة الحديث' : 'Hadith Masters'}</span>
+                <span>{tx(lang, 'Hadith Masters', 'Maîtres du hadith', 'أئمة الحديث', 'Maestros del hadiz')}</span>
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="size-2.5 rounded-full bg-amber-400" />
-                <span>{lang === 'ar' ? 'آل البيت والنسب الشريف' : 'Prophetic Lineage'}</span>
+                <span>{tx(lang, 'Prophetic Lineage', 'Lignée prophétique', 'آل البيت والنسب الشريف', 'Linaje profético')}</span>
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="size-2.5 rounded-full bg-purple-400" />
-                <span>{lang === 'ar' ? 'المبشرون وكبار الصحابة' : 'Promised Paradise'}</span>
+                <span>{tx(lang, 'Promised Paradise', 'Promis au Paradis', 'المبشرون وكبار الصحابة', 'Prometidos al Paraíso')}</span>
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className="size-2.5 rounded-full bg-indigo-400" />
-                <span>{lang === 'ar' ? 'الخلافات الإسلامية' : 'Caliphates'}</span>
+                <span>{tx(lang, 'Caliphates', 'Califats', 'الخلافات الإسلامية', 'Califatos')}</span>
               </span>
             </div>
           )}
@@ -1153,35 +1163,35 @@ export function SahabaTree({ focus }: { focus?: string }) {
 
           {/* Bottom Historical Epoch Ruler (BiDi & RTL Protected) */}
           <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/10 bg-night-2/95 backdrop-blur-md px-4 py-2.5 flex items-center justify-between gap-2 overflow-x-auto no-scrollbar text-xs">
-            <span className="text-gold font-bold shrink-0">{lang === 'ar' ? 'الحقب التاريخية:' : 'Epochs:'}</span>
+            <span className="text-gold font-bold shrink-0">{tx(lang, 'Epochs:', 'Époques :', 'الحقب التاريخية:', 'Épocas:')}</span>
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
               <span className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '1 – 11 هـ' : lang === 'fr' ? '1 – 11 H' : '1–11 AH'}</span>
-                <span>{lang === 'ar' ? '(عصر النبوة)' : lang === 'fr' ? '(Prophétie)' : '(Prophethood)'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{tx(lang, '1–11 AH', '1 – 11 H', '1 – 11 هـ', '1–11 H')}</span>
+                <span>{tx(lang, '(Prophethood)', '(Prophétie)', '(عصر النبوة)', '(Profecía)')}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '11 – 41 هـ' : lang === 'fr' ? '11 – 41 H' : '11–41 AH'}</span>
-                <span>{lang === 'ar' ? '(الخلفاء الراشدون)' : lang === 'fr' ? '(Califes bien guidés)' : '(Rashidun)'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{tx(lang, '11–41 AH', '11 – 41 H', '11 – 41 هـ', '11–41 H')}</span>
+                <span>{tx(lang, '(Rashidun)', '(Califes bien guidés)', '(الخلفاء الراشدون)', '(Califas bien guiados)')}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '59 – 261 هـ' : lang === 'fr' ? '59 – 261 H' : '59–261 AH'}</span>
-                <span>{lang === 'ar' ? '(أئمة الحديث والسنة)' : lang === 'fr' ? '(Maîtres du Hadith)' : '(Hadith Masters)'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{tx(lang, '59–261 AH', '59 – 261 H', '59 – 261 هـ', '59–261 H')}</span>
+                <span>{tx(lang, '(Hadith Masters)', '(Maîtres du Hadith)', '(أئمة الحديث والسنة)', '(Maestros del hadiz)')}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '41 – 132 هـ' : lang === 'fr' ? '41 – 132 H' : '41–132 AH'}</span>
-                <span>{lang === 'ar' ? '(الدولة الأموية)' : lang === 'fr' ? '(Omeyyades)' : '(Umayyads)'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{tx(lang, '41–132 AH', '41 – 132 H', '41 – 132 هـ', '41–132 H')}</span>
+                <span>{tx(lang, '(Umayyads)', '(Omeyyades)', '(الدولة الأموية)', '(Omeyas)')}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '132 – 656 هـ' : lang === 'fr' ? '132 – 656 H' : '132–656 AH'}</span>
-                <span>{lang === 'ar' ? '(الدولة العباسية)' : lang === 'fr' ? '(Abbassides)' : '(Abbasids)'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{tx(lang, '132–656 AH', '132 – 656 H', '132 – 656 هـ', '132–656 H')}</span>
+                <span>{tx(lang, '(Abbasids)', '(Abbassides)', '(الدولة العباسية)', '(Abasíes)')}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-pink-500/10 border border-pink-500/20 text-pink-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '699 – 1342 هـ' : lang === 'fr' ? '699 – 1342 H' : '699–1342 AH'}</span>
-                <span>{lang === 'ar' ? '(الخلافة العثمانية)' : lang === 'fr' ? '(Ottomans)' : '(Ottomans)'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{tx(lang, '699–1342 AH', '699 – 1342 H', '699 – 1342 هـ', '699–1342 H')}</span>
+                <span>{tx(lang, '(Ottomans)', '(Ottomans)', '(الخلافة العثمانية)', '(Otomanos)')}</span>
               </span>
               <span className="px-2.5 py-1 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-300 inline-flex items-center gap-1.5 whitespace-nowrap">
-                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{lang === 'ar' ? '1041 هـ – اليوم' : lang === 'fr' ? '1041 H – Présent' : '1041 AH – Present'}</span>
-                <span>{lang === 'ar' ? '(السلالات الشريفة الحية)' : lang === 'fr' ? '(Dynasties Chérifiennes)' : '(Living Dynasties)'}</span>
+                <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="font-mono font-bold">{tx(lang, '1041 AH – Present', '1041 H – Présent', '1041 هـ – اليوم', '1041 H – hoy')}</span>
+                <span>{tx(lang, '(Living Dynasties)', '(Dynasties Chérifiennes)', '(السلالات الشريفة الحية)', '(Dinastías actuales)')}</span>
               </span>
             </div>
           </div>
@@ -1193,12 +1203,10 @@ export function SahabaTree({ focus }: { focus?: string }) {
         <div data-testid="sahaba-timeline" className="relative rounded-3xl border border-white/10 bg-night-2 p-6 sm:p-10 shadow-2xl">
           <div className="mb-8 pb-4 border-b border-white/10">
             <h2 className="ar-name text-2xl font-bold text-ink gold-text mb-1">
-              {lang === 'ar' ? 'الخط الزمني الموثق للصحابة والخلفاء وأئمة الحديث' : 'Chronological Timeline of Companions, Caliphs & Hadith Masters'}
+              {tx(lang, 'Chronological Timeline of Companions, Caliphs & Hadith Masters', 'Chronologie des Compagnons, des califes et des maîtres du hadith', 'الخط الزمني الموثق للصحابة والخلفاء وأئمة الحديث', 'Cronología de los Compañeros, los califas y los maestros del hadiz')}
             </h2>
             <p className="text-xs text-ink-3">
-              {lang === 'ar'
-                ? 'تسلسل زمني دقيق يبين ولادة ووفاة وأهم أحداث وسير قادة الأمة وحفظة الحديث'
-                : 'Exact chronological milestones across 14 centuries of Islamic history'}
+              {tx(lang, 'Exact chronological milestones across 14 centuries of Islamic history', 'Les grandes dates de quatorze siècles d’histoire islamique', 'تسلسل زمني دقيق يبين ولادة ووفاة وأهم أحداث وسير قادة الأمة وحفظة الحديث', 'Las grandes fechas de catorce siglos de historia islámica')}
             </p>
           </div>
 
@@ -1259,7 +1267,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     {fig.hadithsNarrated && (
                       <span className="text-cyan-300 font-semibold flex items-center gap-1 font-mono">
                         <BookOpen className="size-3" />
-                        <span>{fig.hadithsNarrated.toLocaleString()} {lang === 'ar' ? 'حديثاً مروياً ومسنداً' : 'Hadiths'}</span>
+                        <span>{fig.hadithsNarrated.toLocaleString()} {tx(lang, 'Hadiths', 'hadiths', 'حديثاً مروياً ومسنداً', 'hadices')}</span>
                       </span>
                     )}
                     <span className="flex items-center gap-1">
@@ -1267,7 +1275,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                       <span>{pick(fig.burialPlace)}</span>
                     </span>
                     <span className="text-cyan-400 font-semibold group-hover:underline ms-auto">
-                      {lang === 'ar' ? 'الملف الكامل ←' : 'Full Dossier →'}
+                      {tx(lang, 'Full Dossier →', 'Fiche complète →', 'الملف الكامل ←', 'Ficha completa →')}
                     </span>
                   </div>
                 </div>
@@ -1345,7 +1353,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   )}
                   {fig.hadithsNarrated && (
                     <span className="rounded-full bg-cyan-500/10 border border-cyan-500/25 px-2.5 py-0.5 text-cyan-300 font-bold">
-                      {fig.hadithsNarrated.toLocaleString()} {lang === 'ar' ? 'حديث' : 'Hadiths'}
+                      {fig.hadithsNarrated.toLocaleString()} {tx(lang, 'Hadiths', 'hadiths', 'حديث', 'hadices')}
                     </span>
                   )}
                   <span dir={lang === 'ar' ? 'rtl' : 'ltr'} className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-ink-3">
@@ -1365,7 +1373,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <span className="truncate">{pick(fig.burialPlace)}</span>
                 </span>
                 <span className="text-emerald-400 font-semibold group-hover:underline">
-                  {lang === 'ar' ? 'الملف والسيرة الكاملة ←' : 'Full Dossier →'}
+                  {tx(lang, 'Full Dossier →', 'Fiche complète →', 'الملف والسيرة الكاملة ←', 'Ficha completa →')}
                 </span>
               </div>
             </div>
@@ -1376,11 +1384,14 @@ export function SahabaTree({ focus }: { focus?: string }) {
       {/* EXPANSIVE PROPHET-LIKE FULL DOSSIER DRAWER / MODAL */}
       {activeFigure && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in"
+          role="dialog"
+          aria-modal="true"
+          aria-label={pick(activeFigure.name)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-night/85 backdrop-blur-md animate-fade-in"
           onClick={() => setActiveFigure(null)}
         >
           <div
-            className="relative flex flex-col w-full max-w-3xl max-h-[92vh] rounded-3xl border border-emerald-500/30 bg-night-1 shadow-2xl text-ink overflow-hidden"
+            className="glass-strong relative flex flex-col w-full max-w-3xl max-h-[92vh] rounded-3xl border border-gold/40 bg-night-2/95 shadow-2xl text-ink overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Pinned Sticky Header */}
@@ -1409,7 +1420,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <h2 className="ar-name text-2xl sm:text-3xl font-bold text-ink gold-text flex items-center gap-2">
                     <span>{pick(activeFigure.name)}</span>
                     {activeFigure.honorific && (
-                      <span className="text-sm font-normal text-emerald-400">
+                      <span className="text-sm font-normal text-gold/80">
                         {activeFigure.honorific}
                       </span>
                     )}
@@ -1446,7 +1457,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 type="button"
                 onClick={() => setActiveFigure(null)}
                 className="rounded-full border border-white/10 bg-white/5 p-2 text-ink-3 hover:text-ink hover:border-white/30 transition-colors cursor-pointer shrink-0"
-                aria-label="Close"
+                aria-label={tx(lang, 'Close', 'Fermer', 'إغلاق', 'Cerrar')}
               >
                 <X className="size-4" />
               </button>
@@ -1466,8 +1477,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
             )}
 
             {/* Noble Lineage Block */}
-            <div className="mb-6 rounded-2xl border border-emerald-500/25 bg-emerald-950/20 p-4">
-              <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 mb-1.5 uppercase tracking-wider">
+            <div className="mb-6 rounded-2xl border border-gold/20 bg-gold/[0.04] p-4">
+              <div className="flex items-center gap-2 text-xs font-bold text-gold mb-1.5 uppercase tracking-wider">
                 <GitCommit className="size-3.5" />
                 <span>{pick(UI.lineage)}</span>
               </div>
@@ -1475,7 +1486,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 {pick(activeFigure.lineage)}
               </p>
               {activeFigure.mother && (
-                <p className="text-xs text-ink-3 mt-2 border-t border-emerald-500/10 pt-2">
+                <p className="text-xs text-ink-3 mt-2 border-t border-gold/10 pt-2">
                   <strong className="text-ink-2">{pick(UI.mother)}</strong>
                   {pick(activeFigure.mother)}
                 </p>

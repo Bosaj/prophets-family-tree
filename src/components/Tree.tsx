@@ -19,7 +19,7 @@ import {
   BookOpen,
   Info,
 } from 'lucide-react'
-import { useI18n } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import type { Key } from '../i18n/strings'
 import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions, type TreeEdge } from '../lib/layout'
 import { relationLabel } from '../lib/relations'
@@ -81,7 +81,8 @@ const EDGE_KIND_COLOR: Record<EdgeKind, string> = {
   possible: '#94a3b8',
 }
 
-const MIN_K = 0.25
+/** Lowest zoom: low enough for "fit" to show the whole tree on a phone. */
+const MIN_K = 0.085
 const MAX_K = 2.6
 
 const TREE_EPOCHS: Array<{
@@ -734,7 +735,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     fontWeight="600"
                     letterSpacing="0.05em"
                   >
-                    {lang === 'ar' ? '⸻ حاجز البدء: نسل بني آدم ⸻' : '⸻ Primordial Threshold · Adam & Humankind ⸻'}
+                    {tx(lang, '⸻ Primordial Threshold · Adam & Humankind ⸻', '⸻ Le seuil : Adam et l’humanité ⸻', '⸻ حاجز البدء: نسل بني آدم ⸻', '⸻ El umbral: Adán y la humanidad ⸻')}
                   </text>
 
                   {/* Quranic & Prophetic Principle: Creation of Angels from Light, Jinn from Fire, Adam from Clay */}
@@ -748,14 +749,10 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     className="font-sans tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                   >
                     <tspan x={isH ? px + (sign * 145) : px} dy="0">
-                      {lang === 'ar'
-                        ? '«خُلِقَتِ الْمَلَائِكَةُ مِنْ نُورٍ، وَخُلِقَ الْجَانُّ مِنْ مَارِجٍ مِنْ نَارٍ، وَخُلِقَ آدَمُ مِمَّا وُصِفَ لَكُمْ» (صحيح مسلم 2996)'
-                        : '«Angels from light · Jinn from fire · Adam from what you were told» (Sahih Muslim 2996)'}
+                      {tx(lang, '«Angels from light · Jinn from fire · Adam from what you were told» (Sahih Muslim 2996)', '« Les anges de lumière · les djinns de feu · Adam de ce qui vous a été décrit » (Sahih Muslim 2996)', '«خُلِقَتِ الْمَلَائِكَةُ مِنْ نُورٍ، وَخُلِقَ الْجَانُّ مِنْ مَارِجٍ مِنْ نَارٍ، وَخُلِقَ آدَمُ مِمَّا وُصِفَ لَكُمْ» (صحيح مسلم 2996)', '«Los ángeles de luz · los genios de fuego · Adán de lo que se os ha descrito» (Sahih Muslim 2996)')}
                     </tspan>
                     <tspan x={isH ? px + (sign * 145) : px} dy="14" fill="#a78bfa" fontSize="8.5" fontWeight="500">
-                      {lang === 'ar'
-                        ? 'عالم ما قبل آدم · خلق مستقل قبل استخلاف البشر على الأرض'
-                        : 'Pre-Adamic Cosmic Realm · Independent Creation Prior to Humankind'}
+                      {tx(lang, 'Before Adam · creatures made before humankind', 'Avant Adam · des créatures antérieures à l’humanité', 'ما قبل آدم · خلق سبق البشر', 'Antes de Adán · criaturas anteriores a la humanidad')}
                     </tspan>
                   </text>
 
@@ -806,7 +803,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       fontWeight="bold"
                       className="font-sans"
                     >
-                      {lang === 'ar' ? 'الملائكة (خُلقوا من نور)' : 'Angels (From Light)'}
+                      {tx(lang, 'Angels (From Light)', 'Les anges (de lumière)', 'الملائكة (خُلقوا من نور)', 'Los ángeles (de luz)')}
                     </text>
                     <text
                       x={angelsX}
@@ -816,7 +813,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       fontSize="8"
                       fontWeight="600"
                     >
-                      {lang === 'ar' ? 'سجدوا طاعةً لأمر الله' : 'Bowed in Obedience'}
+                      {tx(lang, 'Bowed in Obedience', 'Prosternés par obéissance', 'سجدوا طاعةً لأمر الله', 'Se postraron por obediencia')}
                     </text>
                   </g>
 
@@ -854,7 +851,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       fontWeight="bold"
                       className="font-sans"
                     >
-                      {lang === 'ar' ? 'إبليس (خُلق من نار)' : 'Iblis / Satan (From Fire)'}
+                      {tx(lang, 'Iblis / Satan (From Fire)', 'Iblis / Satan (de feu)', 'إبليس (خُلق من نار)', 'Iblis / Satanás (de fuego)')}
                     </text>
                     <text
                       x={iblisX}
@@ -864,7 +861,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       fontSize="8"
                       fontWeight="600"
                     >
-                      {lang === 'ar' ? 'استكبر وأبى السجود' : 'Refused out of Pride'}
+                      {tx(lang, 'Refused out of Pride', 'Refusa par orgueil', 'استكبر وأبى السجود', 'Se negó por orgullo')}
                     </text>
                   </g>
 
@@ -901,9 +898,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       fontWeight="bold"
                       className="font-sans"
                     >
-                      {lang === 'ar'
-                        ? '⚡ عالم ما قبل آدم (الجن، الحن والبن، والنسناس)'
-                        : '⚡ Pre-Adamic Realm (Jinn, Hinn & Nasnas)'}
+                      {tx(lang, '⚡ Before Adam (jinn, and reports of Hinn & Nasnas)', '⚡ Avant Adam (djinns, et récits sur les Hinn et Nasnas)', '⚡ ما قبل آدم (الجن، وأخبار الحن والنسناس)', '⚡ Antes de Adán (genios, y relatos sobre los Hinn y Nasnas)')}
                     </text>
                   </g>
                 </g>
@@ -997,7 +992,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                         setShowScripturesModal(true)
                       }}
                     >
-                      <title>{`${scriptureBook.title.ar} · ${pick(scriptureBook.title)} (${scriptureBook.id === 'quran' ? (lang === 'ar' ? 'نص موحد محفوظ' : '1 Preserved Text') : `${scriptureBook.versionsCount} ${lang === 'ar' ? 'روايات ومخطوطات' : 'traditions'}`})`}</title>
+                      <title>{`${scriptureBook.title.ar} · ${pick(scriptureBook.title)} (${scriptureBook.id === 'quran' ? (tx(lang, '1 Preserved Text', '1 texte préservé', 'نص موحد محفوظ', '1 texto preservado')) : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات ومخطوطات', 'tradiciones')}`})`}</title>
                       {/* Generous touch target */}
                       <circle r="22" fill="transparent" />
                       <circle
@@ -1173,11 +1168,11 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   setShowScripturesModal(true)
                 }}
                 className="glass flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold text-amber-300 border border-amber-500/40 hover:border-amber-400 hover:bg-amber-500/20 shadow-md transition-all"
-                title={lang === 'ar' ? 'الكتب السماوية وتاريخ المخطوطات' : 'Holy Scriptures & Manuscript History'}
+                title={tx(lang, 'Holy Scriptures & Manuscript History', 'Les Livres révélés et l’histoire de leurs manuscrits', 'الكتب السماوية وتاريخ المخطوطات', 'Las Escrituras reveladas y la historia de sus manuscritos')}
               >
                 <BookOpen className="size-3.5 text-amber-400" aria-hidden="true" />
                 <span className="hidden sm:inline">
-                  {lang === 'ar' ? 'الكتب السماوية' : lang === 'fr' ? 'Livres Célestes' : 'Holy Books'}
+                  {tx(lang, 'Holy Books', 'Livres Célestes', 'الكتب السماوية', 'Libros revelados')}
                 </span>
               </button>
 
@@ -1593,12 +1588,12 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-amber-500/20">
                       <div className="flex items-center gap-1.5 font-semibold text-amber-300 uppercase tracking-wider text-[11px]">
                         <BookOpen className="size-3.5 text-amber-400" />
-                        <span>{lang === 'ar' ? 'الكتاب السماوي المنزل' : lang === 'fr' ? 'Livre Céleste Révélé' : 'Revealed Scripture'}</span>
+                        <span>{tx(lang, 'Revealed Scripture', 'Livre Céleste Révélé', 'الكتاب السماوي المنزل', 'Escritura revelada')}</span>
                       </div>
                       <span className="rounded-full px-2 py-0.5 text-[10px] font-mono bg-amber-500/20 text-amber-200 border border-amber-500/30">
                         {scriptureBook.id === 'quran'
-                          ? lang === 'ar' ? '١ نص موحد محفوظ' : '1 Preserved Text'
-                          : `${scriptureBook.versionsCount} ${lang === 'ar' ? 'روايات ومخطوطات' : 'traditions'}`}
+                          ? tx(lang, '1 Preserved Text', '1 texte préservé', '١ نص موحد محفوظ', '1 texto preservado')
+                          : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات ومخطوطات', 'tradiciones')}`}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
@@ -1629,7 +1624,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       className="mt-3 w-full flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500/30 to-amber-600/30 hover:from-amber-500/40 hover:to-amber-600/40 border border-amber-400/50 py-2 px-3 text-xs font-semibold text-amber-200 hover:text-amber-100 transition-all shadow-sm cursor-pointer"
                     >
                       <BookOpen className="size-3.5 text-amber-300" />
-                      <span>{lang === 'ar' ? 'تصفح دراسة المخطوطات والنسخ' : lang === 'fr' ? 'Explorer les Manuscrits & Versions' : 'Explore Textual History & Manuscripts'}</span>
+                      <span>{tx(lang, 'Explore Textual History & Manuscripts', 'Explorer les Manuscrits & Versions', 'تصفح دراسة المخطوطات والنسخ', 'Explorar la historia del texto y sus manuscritos')}</span>
                       <ArrowRight className="size-3 rtl:rotate-180" />
                     </button>
                   </div>
@@ -1757,7 +1752,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             <div className="glass pointer-events-auto flex max-w-[calc(100vw-1.5rem)] sm:max-w-fit items-center gap-1.5 overflow-x-auto rounded-full p-1.5 shadow-2xl border border-gold/30 bg-night-surface/95 backdrop-blur-md scrollbar-none">
               <div className="flex shrink-0 items-center gap-1.5 ps-2.5 pe-1 text-xs font-semibold text-gold">
                 <Clock className="size-3.5" />
-                <span className="hidden sm:inline">{lang === 'ar' ? 'العصور الزمانية:' : 'Epochs:'}</span>
+                <span className="hidden sm:inline">{tx(lang, 'Epochs:', 'Époques :', 'العصور الزمانية:', 'Épocas:')}</span>
               </div>
               {TREE_EPOCHS.map((ep) => {
                 const active = selected && lineage(selected).includes(ep.target)
@@ -1814,6 +1809,13 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
   const [selectedEntity, setSelectedEntity] = useState<PreAdamEntity | null>(() =>
     initialEntityId ? PRE_ADAM_ENTITIES.find((e) => e.id === initialEntityId) ?? null : null
   )
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
 
   if (typeof document === 'undefined') return null
 
@@ -1834,12 +1836,10 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
             </div>
             <div>
               <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gold bg-gold/10 px-2.5 py-0.5 rounded-full border border-gold/25">
-                {lang === 'ar' ? 'فصل تمهيدي في شجرة الأنبياء' : 'Primordial Prologue'}
+                {tx(lang, 'Primordial Prologue', 'Prologue', 'فصل تمهيدي في شجرة الأنبياء', 'Prólogo')}
               </span>
               <h2 className="text-xl sm:text-2xl font-bold text-ink mt-1">
-                {lang === 'ar'
-                  ? 'عالم ما قبل آدم: الملائكة، إبليس، الجن، والحن والبن والنسناس'
-                  : 'The Pre-Adamic Realm: Angels, Iblis, Jinn, Hinn, Binn & Nasnas'}
+                {tx(lang, 'Before Adam: angels, Iblis, jinn, and the reports of Hinn, Binn & Nasnas', 'Avant Adam : anges, Iblis, djinns, et récits sur les Hinn, Binn et Nasnas', 'ما قبل آدم: الملائكة، وإبليس، والجن، وأخبار الحن والبن والنسناس', 'Antes de Adán: ángeles, Iblis, genios, y relatos sobre los Hinn, Binn y Nasnas')}
               </h2>
             </div>
           </div>
@@ -1847,7 +1847,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
             type="button"
             onClick={onClose}
             className="rounded-full border border-white/10 bg-white/5 p-2 text-ink-2 hover:bg-white/15 hover:text-ink cursor-pointer shrink-0 transition-colors"
-            aria-label="Close"
+            aria-label={tx(lang, 'Close', 'Fermer', 'إغلاق', 'Cerrar')}
           >
             <X className="size-5" />
           </button>
@@ -1856,9 +1856,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
         {/* Scrollable Body with Custom Gold Scrollbar */}
         <div className="overflow-y-auto px-6 sm:px-8 py-6 space-y-6 flex-1">
           <p className="text-xs sm:text-sm text-ink-2 leading-relaxed bg-white/[0.02] p-4 rounded-2xl border border-white/5">
-            {lang === 'ar'
-              ? 'آدم عليه السلام هو أبو البشر، خُلق مستقلاً من طين ولا يمت بنسب لأي خلق قبله. وثقت نصوص القرآن الكريم والسنة النبوية الصحيحة خلق الملائكة من نور سابقاً لخلق البشر، وسجودهم لآدم طاعةً لله، كما وثقت خلق الجان وإبليس من نار، ووجود أمم أرضية سابقة سكنت الأرض كالحن والبن والنسناس.'
-              : 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Classical Islamic texts document the creation of Angels from Light, Jinn and Iblis from Fire, and pre-Adamic earthly creatures (Hinn, Binn, Nasnas) prior to human stewardship.'}
+            {tx(lang, 'Prophet Adam (peace be upon him) is the Father of Humankind, created directly from clay. Angels were created from light, and the jinn and Iblis from fire (Muslim 2996, Qur’an 15:27). The reports of Hinn, Binn and Nasnas come from old chronicles and the Isra’iliyyat, and are not established.', 'Le prophète Adam (paix sur lui) est le père de l’humanité, créé directement d’argile. Les anges furent créés de lumière, les djinns et Iblis de feu (Muslim 2996, Coran 15:27). Les récits sur les Hinn, Binn et Nasnas viennent de chroniques anciennes et des Isra’iliyyat, et ne sont pas établis.', 'آدم عليه السلام أبو البشر، خُلق مستقلًا من طين. وثبت في القرآن والسنة الصحيحة خلق الملائكة من نور وسجودهم لآدم، وخلق الجان وإبليس من نار (مسلم 2996، القرآن 15:27). أما أخبار الحن والبن والنسناس فمن كتب التاريخ القديمة والإسرائيليات، ولا تثبت.', 'El profeta Adán (la paz sea con él) es el padre de la humanidad, creado directamente de arcilla. Los ángeles fueron creados de luz, los genios e Iblis de fuego (Muslim 2996, Corán 15:27). Los relatos sobre los Hinn, Binn y Nasnas vienen de crónicas antiguas y de las Isra’iliyyat, y no están establecidos.')}
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -1884,12 +1882,12 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                       </span>
                       <span className="text-[0.65rem] font-mono text-ink-3">
                         {entity.id === 'angels'
-                          ? (lang === 'ar' ? 'خلق من نور' : 'Created from Light')
+                          ? (tx(lang, 'Created from Light', 'Créés de lumière', 'خلق من نور', 'Creados de luz'))
                           : entity.id === 'iblis'
-                          ? (lang === 'ar' ? 'عزازيل / إبليس (نار)' : 'Azazil / Satan (Fire)')
+                          ? (tx(lang, 'Azazil / Satan (Fire)', 'Azazil / Satan (feu)', 'عزازيل / إبليس (نار)', 'Azazil / Satanás (fuego)'))
                           : entity.id === 'jinn'
-                          ? (lang === 'ar' ? 'مارج من نار' : 'Smokeless Fire')
-                          : (lang === 'ar' ? 'أمم سابقة' : 'Ancient Race')}
+                          ? (tx(lang, 'Smokeless Fire', 'Feu sans fumée', 'مارج من نار', 'Fuego sin humo'))
+                          : (tx(lang, 'Ancient Race', 'Peuple ancien', 'أمم سابقة', 'Pueblo antiguo'))}
                       </span>
                     </div>
 
@@ -1909,9 +1907,9 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                   </div>
 
                   <div className="text-[0.72rem] text-ink-3 space-y-1">
-                    <p><strong className="text-gold/90">{lang === 'ar' ? 'طبيعة الخلق:' : 'Nature:'}</strong> {pick(entity.nature)}</p>
+                    <p><strong className="text-gold/90">{tx(lang, 'Nature:', 'Nature :', 'طبيعة الخلق:', 'Naturaleza:')}</strong> {pick(entity.nature)}</p>
                     {entity.scientificCorrelation && (
-                      <p><strong className="text-sky-300">{lang === 'ar' ? 'الربط العلمي والإحاثي:' : 'Paleontological link:'}</strong> {pick(entity.scientificCorrelation)}</p>
+                      <p><strong className="text-sky-300">{tx(lang, 'Modern comparison (speculative):', 'Rapprochement moderne (spéculatif) :', 'ربط معاصر (تخمين لا يثبت):', 'Vínculo moderno (especulativo):')}</strong> {pick(entity.scientificCorrelation)}</p>
                     )}
                   </div>
                 </div>
@@ -1926,7 +1924,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                     className="inline-flex items-center gap-1 text-xs font-medium text-gold hover:text-gold-2 transition-colors cursor-pointer"
                   >
                     <BookOpen className="size-3.5" />
-                    <span>{isSelected ? (lang === 'ar' ? 'إغلاق الأدلة' : 'Collapse') : (lang === 'ar' ? 'أقوال العلماء والمصادر' : 'Scholarly Sources')}</span>
+                    <span>{isSelected ? (tx(lang, 'Collapse', 'Replier', 'إغلاق الأدلة', 'Plegar')) : (tx(lang, 'Scholarly Sources', 'Sources savantes', 'أقوال العلماء والمصادر', 'Fuentes académicas'))}</span>
                   </button>
                 </div>
 
@@ -1935,7 +1933,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                     <div className="rounded-xl bg-black/40 p-3.5 border border-gold/20">
                       <h4 className="text-xs font-bold text-gold uppercase tracking-wider mb-2 flex items-center gap-1.5">
                         <Info className="size-3.5" />
-                        <span>{lang === 'ar' ? 'التفصيل العقدي والتاريخي:' : 'Theological & Historical Detail:'}</span>
+                        <span>{tx(lang, 'Theological & Historical Detail:', 'Détail théologique et historique :', 'التفصيل العقدي والتاريخي:', 'Detalle teológico e histórico:')}</span>
                       </h4>
                       <p className="text-xs text-ink leading-relaxed">
                         {pick(entity.detailedDescription)}
@@ -1955,7 +1953,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                     ))}
 
                     <div className="rounded-xl bg-amber-500/10 p-3 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed">
-                      <strong className="text-gold block mb-1">{lang === 'ar' ? 'الخلاصة الإيمانية:' : 'Creed & Theological Note:'}</strong>
+                      <strong className="text-gold block mb-1">{tx(lang, 'Creed & Theological Note:', 'Note de croyance :', 'الخلاصة الإيمانية:', 'Nota de creencia:')}</strong>
                       {pick(entity.theologicalContext)}
                     </div>
 
@@ -1966,15 +1964,11 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                           <h4 className="text-xs font-bold text-sky-200 uppercase tracking-wider flex items-center gap-1.5 mb-1">
                             <Sparkles className="size-3.5 text-gold" />
                             <span>
-                              {lang === 'ar'
-                                ? 'أشهر الملائكة في القرآن والسنة ومظهرهم المهيب (كيف يبدون)'
-                                : 'Great Archangels in the Qur’an & Sunnah & How They Look'}
+                              {tx(lang, 'Great Archangels in the Qur’an & Sunnah & How They Look', 'Les grands anges dans le Coran et la Sunna, et leur description', 'أشهر الملائكة في القرآن والسنة ومظهرهم المهيب (كيف يبدون)', 'Los grandes ángeles en el Corán y la Sunna, y su descripción')}
                             </span>
                           </h4>
                           <p className="text-[0.72rem] text-ink-2">
-                            {lang === 'ar'
-                              ? 'بيان وظائفهم الكونية وأوصاف خلقهم العظيم وهيئاتهم الثابتة في النصوص النبوية الشريفة'
-                              : 'Their celestial duties and authentic descriptions in Prophetic traditions.'}
+                            {tx(lang, 'Their celestial duties and authentic descriptions in Prophetic traditions.', 'Leurs fonctions et leurs descriptions authentiques dans la tradition prophétique.', 'بيان وظائفهم الكونية وأوصاف خلقهم العظيم وهيئاتهم الثابتة في النصوص النبوية الشريفة', 'Sus funciones y sus descripciones auténticas en la tradición profética.')}
                           </p>
                         </div>
 
@@ -2000,22 +1994,20 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
 
                               <p className="text-xs text-ink-2 mb-2 font-medium">
                                 <strong className="text-ink">
-                                  {lang === 'ar' ? 'الوظيفة والتكليف: ' : 'Celestial Duty: '}
+                                  {tx(lang, 'Celestial Duty: ', 'Fonction : ', 'الوظيفة والتكليف: ', 'Función: ')}
                                 </strong>
                                 {pick(angel.role)}
                               </p>
 
                               <div className="rounded-lg bg-white/[0.04] p-2.5 border border-white/5 text-[0.73rem] text-ink leading-relaxed">
                                 <strong className="text-amber-300 block mb-1">
-                                  {lang === 'ar'
-                                    ? 'المظهر والهيئة في القرآن والسنة (كيف يبدون):'
-                                    : 'Appearance in Qur’an & Sunnah (How They Look):'}
+                                  {tx(lang, 'Appearance in Qur’an & Sunnah (How They Look):', 'Description dans le Coran et la Sunna :', 'المظهر والهيئة في القرآن والسنة (كيف يبدون):', 'Descripción en el Corán y la Sunna:')}
                                 </strong>
                                 {pick(angel.appearance)}
                               </div>
 
                               <div className="mt-2 text-[0.65rem] text-ink-3">
-                                <strong>{lang === 'ar' ? 'المصادر والحديث: ' : 'Sources: '}</strong>
+                                <strong>{tx(lang, 'Sources: ', 'Sources : ', 'المصادر والحديث: ', 'Fuentes: ')}</strong>
                                 {angel.hadithRefs.join(' · ')}
                               </div>
                             </div>
