@@ -21,6 +21,18 @@ export const BOOKS: Record<string, L3> = {
     fr: 'Le récit biblique, rapporté par les historiens — pas une source islamique',
     ar: 'الرواية التوراتية كما ينقلها المؤرخون — ليست مصدرًا إسلاميًّا',
   },
+  ibnkathir: {
+    en: 'Ibn Kathir, Tafsir al-Qur’an al-‘Azim',
+    fr: 'Ibn Kathir, Tafsir al-Qur’an al-‘Azim',
+    ar: 'ابن كثير، تفسير القرآن العظيم',
+    es: 'Ibn Kazir, Tafsir al-Qur’an al-‘Azim',
+  },
+  qurtubi: {
+    en: 'Al-Qurtubi, al-Jami‘ li-Ahkam al-Qur’an',
+    fr: 'Al-Qurtubi, al-Jami‘ li-Ahkam al-Qur’an',
+    ar: 'القرطبي، الجامع لأحكام القرآن',
+    es: 'Al-Qurtubi, al-Yami‘ li-Ahkam al-Qur’an',
+  },
   historians: {
     en: 'Estimates of modern historians — not from Islamic sources',
     fr: 'Estimations des historiens modernes — pas des sources islamiques',

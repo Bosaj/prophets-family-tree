@@ -9,6 +9,7 @@ import { LIFE_MOMENTS, HARDSHIP_DUAS } from '../src/data/duas.ts'
 import { ADHKAR, DAY_PARTS, FRIDAY, PRAYERS } from '../src/data/awqat.ts'
 import { parseRef } from '../src/data/sources.ts'
 import { HOUR_PARTS, HOUR_QUOTES } from '../src/data/hour.ts'
+import { HIJRI_QUOTES, HIJRI_REFS } from '../src/data/hijri.ts'
 
 const BASES = ['https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1', 'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1']
 
@@ -83,6 +84,8 @@ const items = [
   ...Object.values(ADHKAR).map((d) => ({ where: `adhkar/${d.id}`, ...d })),
   // 2.7.0: the beginning of creation, the signs of the Hour and the end
   ...HOUR_QUOTES,
+  // 2.8.0: the Hijri calendar, its months and the two Eids
+  ...HIJRI_QUOTES,
 ]
 const refsOnly = [
   ...DAY_PARTS.flatMap((p) => p.guide.map((g, i) => ({ where: `day/${p.id}/${i}`, r: g.r }))),
@@ -101,6 +104,7 @@ refsOnly.push(
   ...Object.entries(SALIHIN_STEPS).flatMap(([id, steps]) => steps.map((p, i) => ({ where: `salihin/${id}/${i}`, r: p.r }))),
   ...Object.entries(WHY_MENTIONED).map(([id, w]) => ({ where: `nature/${id}`, r: w.r })),
   ...HOUR_PARTS.flatMap((p) => p.steps.map((st) => ({ where: `hour/${p.id}/${st.id}`, r: st.r }))),
+  ...HIJRI_REFS,
 )
 
 // Ayah counts per surah, to check that every Qur'an reference points at verses that exist.

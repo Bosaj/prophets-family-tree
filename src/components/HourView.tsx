@@ -40,7 +40,7 @@ const STATUS: Record<SignStatus, { label: L4; className: string }> = {
   future: { label: t('Still to come', 'Encore à venir', 'لم يقع بعد', 'Aún por venir'), className: 'border-sky-400/30 bg-sky-400/10 text-sky-300' },
 }
 
-function Step({ s, n }: { s: HourStep; n: number }) {
+export function Step({ s, n }: { s: HourStep; n: number }) {
   const { pick, lang } = useI18n()
   const dir = lang === 'ar' ? 'rtl' : 'ltr'
   return (
