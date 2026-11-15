@@ -83,6 +83,10 @@ function loadGroup(group: PersonGroup): Promise<Person[]> {
       }
       const { applySpanish } = await import('../es/people.es')
       applySpanish(list)
+      // Spanish readers also get the long texts (stories, places, notes); others never download them.
+      if (typeof document !== 'undefined' && document.documentElement.lang === 'es') {
+        await (await import('../es/long/apply')).applyLongPeople(list)
+      }
       for (const p of list) cache.set(p.id, p)
       return list
     })()
@@ -90,6 +94,9 @@ function loadGroup(group: PersonGroup): Promise<Person[]> {
   }
   return pending
 }
+
+/** The people of the era chunks loaded so far. */
+export const loadedPeople = (): Person[] => [...cache.values()]
 
 /** Lazy-load full biographical/narrative Person record only for its era chunk. */
 export async function loadPersonDetails(id: string): Promise<Person | undefined> {

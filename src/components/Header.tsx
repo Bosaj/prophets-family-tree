@@ -22,6 +22,7 @@ const NAV: readonly NavItem[] = [
   { key: 'navTree', href: '/tree', route: 'tree', main: true, short: { en: 'Tree', fr: 'Arbre', ar: 'الشجرة', es: 'Árbol' } },
   { key: 'navSahaba', href: '/sahaba', route: 'sahaba', main: true, short: { en: 'Sahaba', fr: 'Sahaba', ar: 'الصحابة', es: 'Sahaba' } },
   { key: 'navDuas', href: '/duas', route: 'duas', main: true, short: { en: 'Duas', fr: 'Invocations', ar: 'الأدعية', es: 'Súplicas' } },
+  { key: 'navSalat', href: '/salat', route: 'salat', main: true, short: { en: 'Prayer', fr: 'Prière', ar: 'الصلاة', es: 'Oración' } },
   { key: 'navTimes', href: '/times', route: 'times', main: true, short: { en: 'Times', fr: 'Horaires', ar: 'المواقيت', es: 'Horarios' } },
   { key: 'navIslam', href: '/islam', route: 'islam', main: true, short: { en: 'Islam', fr: 'L’islam', ar: 'الإسلام', es: 'El islam' } },
   { key: 'navStories', href: '/stories', route: 'stories', main: true, short: { en: 'Stories', fr: 'Récits', ar: 'القصص', es: 'Relatos' } },
@@ -50,7 +51,7 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
   const solid = scrolled || route.name !== 'home'
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${solid ? 'glass-strong border-x-0 border-t-0' : 'border-b border-transparent bg-transparent'}`}>
+    <header className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 print:hidden ${solid ? 'glass-strong border-x-0 border-t-0' : 'border-b border-transparent bg-transparent'}`}>
       <div className="mx-auto flex h-16 w-full max-w-[1720px] items-center justify-between gap-1.5 sm:gap-2 px-3 sm:px-4 lg:px-6">
         <A href="/" className="flex shrink-0 items-center gap-2 rounded-full pe-1 sm:pe-2" aria-label={`${t('brand')} — ${t('navHome')}`}>
           <Logo className="size-7 sm:size-8" />

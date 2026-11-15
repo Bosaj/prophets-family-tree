@@ -449,8 +449,8 @@ export const ibrahamicPeople: Person[] = [
         "كان أيوب عليه السلام من سلالة إبراهيم الخليل، غنياً شاكراً، آتاه الله المال الوافر والأنعام والأراضي في حوران، ورزقه بنين وبنات، وكان براً تقياً يطعم المسكين ويكفل اليتيم ويثني على الله آناء الليل وأطراف النهار.",
       ),
       t(
-        "He was subjected to a legendary trial that became an eternal benchmark for human patience (*Sabr*). In succession, his herds perished, his farmsteads collapsed, his children died under a collapsing roof, and a severe affliction struck his physical body, leaving only his heart and tongue intact to praise his Creator. Deserted by acquaintances, his faithful wife Rahmah stood steadfastly at his side.",
-        "Il fut frappé d’une épreuve héroïque devenue le symbole éternel de la patience (*Sabr*). Ses troupeaux périrent, ses demeures s’effondrèrent sur ses enfants, et une maladie éprouvante frappa sa chair, ne laissant que son cœur et sa langue pour invoquer son Seigneur, soutenu fidèlement par son épouse Rahma.",
+        "He was subjected to a trial that became the lasting measure of human patience (*Sabr*). One after another his herds perished, his farms were ruined, his children died, and a severe illness struck his body, leaving his heart and tongue to praise his Creator. Abandoned by acquaintances, his faithful wife stayed at his side.",
+        "Il fut frappé d’une épreuve devenue la mesure durable de la patience (*Sabr*). Ses troupeaux périrent, ses terres furent ruinées, ses enfants moururent et une grave maladie atteignit son corps, ne lui laissant que le cœur et la langue pour louer son Créateur. Abandonné de ses proches, son épouse fidèle resta à ses côtés.",
         "ابتلاه الله بذهاب ماله وهلاك أنعامه وموت أولاده جميعاً، ثم ابتُلي في جسده بالمرض الشديد حتى انقطع عنه الناس إلا زوجته الوفية التي قامت على خدمته، فما ازداد إلا شكراً وذكراً وصبراً لا يتزعزع.",
       ),
       t(
@@ -511,9 +511,9 @@ export const ibrahamicPeople: Person[] = [
         "نصحهم شعيب بحكمة وعاطفة: ﴿أَوْفُوا الْمِكْيَالَ وَالْمِيزَانَ بِالْقِسْطِ وَلَا تَبْخَسُوا النَّاسَ أَشْيَاءَهُمْ﴾ (هود 85)، فاستكبر طغاتهم وهددوه بالرجم والإخراج من قريتهم واستهزؤوا به: ﴿أَصَلَاتُكَ تَأْمُرُكَ أَن نَّتْرُكَ مَا يَعْبُدُ آبَاؤُنَا﴾.",
       ),
       t(
-        "When Musa fled Egypt, he sought sanctuary in Midian, marrying Shu‘ayb’s pious daughter and tending his flocks for a decade. Meanwhile, the unrepentant people of Midian were struck down by an unbearable fiery cloud (*Yawm az-Zullah*), followed by a deafening seismic blast (*ar-rajfah*) that left them dead in their homes, while Shu‘ayb and the faithful were preserved.",
-        "Moïse, fuyant l’Égypte, trouva refuge chez lui, épousant sa fille vertueuse et gardant ses troupeaux durant dix ans. Pendant ce temps, le peuple impénitent fut anéanti par l’ombre d’un nuage de feu (*Yawm az-Zoullah*) suivi d’un séisme foudroyant, laissant Shu‘ayb et les croyants victorieux.",
-        "آوى إليه موسى حين فرّ من مصر وصاهره على إحدى ابنتيه ورعى له الغنم عشر سنين، فلما استمر قوم مدين في غيهم أخذهم عذاب يوم الظلة إنه كان عذاب يوم عظيم، ثم رجفت بهم الأرض فأصبحوا في دارهم جاثمين.",
+        "When Musa fled Egypt, he sought refuge in Madyan, married a pious daughter of its old man and tended his flocks for a decade (some scholars identify that old man with Shu‘ayb; many reject this). Meanwhile, the unrepentant people of Madyan were struck by an unbearable fiery cloud (*Yawm az-Zullah*) and a deafening tremor (*ar-rajfah*) that left them dead in their homes, while Shu‘ayb and the faithful were saved.",
+        "Lorsque Moïse fuit l’Égypte, il trouva refuge à Madyan, épousa une fille pieuse de son vieillard et garda ses troupeaux dix ans (certains savants identifient ce vieillard à Shu‘ayb ; beaucoup le rejettent). Pendant ce temps, le peuple de Madyan, sans repentir, fut frappé par un nuage brûlant (*Yawm az-Zullah*) et un tremblement assourdissant (*ar-rajfah*) qui les laissa morts dans leurs maisons, tandis que Shu‘ayb et les croyants furent sauvés.",
+        "لجأ موسى حين فرّ من مصر إلى مدين، فتزوج إحدى ابنتي شيخها الصالح ورعى له الغنم عشر سنين (وقد عدّ بعض العلماء هذا الشيخ شعيبًا، وردّه كثيرون). فلما استمر قوم مدين في غيهم أخذهم عذاب يوم الظلة إنه كان عذاب يوم عظيم، ثم رجفت بهم الأرض فأصبحوا في دارهم جاثمين.",
       ),
     ],
     image: 'shuayb',

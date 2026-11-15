@@ -11,6 +11,7 @@ import { SearchDialog } from './components/Search'
 import { VerseSheet } from './components/VerseSheet'
 import { VerseContext } from './components/ui'
 import { PlaceProvider } from './lib/place'
+import { UpdatePrompt } from './components/UpdatePrompt'
 import { Logo } from './components/Logo'
 import './data/es/apply'
 
@@ -25,6 +26,7 @@ const AwqatView = lazy(() => import('./components/AwqatView').then((m) => ({ def
 const IslamView = lazy(() => import('./components/IslamView').then((m) => ({ default: m.IslamView })))
 const HourView = lazy(() => import('./components/HourView').then((m) => ({ default: m.HourView })))
 const HijriView = lazy(() => import('./components/HijriView').then((m) => ({ default: m.HijriView })))
+const SalatView = lazy(() => import('./components/SalatView').then((m) => ({ default: m.SalatView })))
 const NatureView = lazy(() => import('./components/NatureView').then((m) => ({ default: m.NatureView })))
 const SahabaTree = lazy(() => import('./components/SahabaTree').then((m) => ({ default: m.SahabaTree })))
 const ScienceView = lazy(() => import('./components/ScienceView').then((m) => ({ default: m.ScienceView })))
@@ -113,6 +115,8 @@ export default function App() {
         return <HourView />
       case 'hijri':
         return <HijriView />
+      case 'salat':
+        return <SalatView />
       case 'sahaba':
         return <SahabaTree key={route.focus ?? 'all'} focus={route.focus} />
       case 'science':
@@ -214,6 +218,7 @@ export default function App() {
       </Suspense>
       <VerseSheet refId={verse} onClose={() => setVerse(null)} />
       <SearchDialog open={searching} onClose={() => setSearching(false)} />
+      <UpdatePrompt />
     </VerseContext.Provider>
     </PlaceProvider>
   )

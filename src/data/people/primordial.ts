@@ -215,8 +215,8 @@ export const primordialPeople: Person[] = [
         "قابل قومه دعوته بالعناد والاستكبار ﴿جَعَلُوا أَصَابِعَهُمْ فِي آذَانِهِمْ وَاسْتَغْشَوْا ثِيَابَهُمْ﴾ (نوح 7)، فأمره الله بصنع الفلك بأعين الله ووحيه، فكان كلما مر عليه ملأ من قومه سخروا منه، وهو صابر محتسب.",
       ),
       t(
-        "When the terrestrial fountains erupted and torrential celestial rain poured, the Deluge consumed all disbelievers, including his rebellious son Yam who sought refuge upon a mountain. The Ark safely voyaged through mountainous waves until resting on Mount Judi, inaugurating a purified rebirth for human civilization.",
-        "Lorsque les sources jaillirent de terre et que les cataractes du ciel s’ouvrirent, le Déluge engloutit les négateurs, y compris son fils rebelle. L’Arche vogua parmi les vagues vertigineuses avant d’aborder en paix sur le mont Djoudi, ouvrant une ère nouvelle.",
+        "When the springs of the earth burst forth and torrential rain poured from the sky, the Flood took all the disbelievers, including his rebellious son (named Yam in tradition), who sought refuge on a mountain. The Ark sailed through waves like mountains until it came to rest on Mount Judi, and humankind began anew.",
+        "Lorsque les sources jaillirent de terre et que la pluie tomba à torrents, le Déluge emporta tous les négateurs, y compris son fils rebelle (nommé Yam par la tradition), qui chercha refuge sur une montagne. L’Arche vogua parmi des vagues hautes comme des montagnes jusqu’à se poser sur le mont Joudi, et l’humanité recommença.",
         "فار التنور وانهمرت السماء بماء منهمر وتفجرت الأرض عيوناً، وغرق المكذبون حتى نادى نوح ابنه فأبى وغرقه الموج، وحملت السفينة المؤمنين حتى استوت على الجودي، فكان نوح أبا البشرية الثاني.",
       ),
     ],

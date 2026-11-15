@@ -69,8 +69,8 @@ export const mosaicAndKingsPeople: Person[] = [
         "وُلد كليم الله موسى في عام ذبح البنين بمصر، فألقته أمه في اليم بأمر الله فألقاه النهر إلى ساحل قصر فرعون، والتقطته زوجة فرعون آسية وأحبته وقالت قرة عين لي ولك، فتربى في بيت الملك مكرماً.",
       ),
       t(
-        "After defending an oppressed Israelite and unintentionally killing an Egyptian, he fled across the Sinai wilderness to Midian, dwelling for ten years in the service of Prophet Shu‘ayb. Journeying back with his family, he beheld divine luminescence upon Mount Sinai and was addressed directly by Allah: \"Indeed, I am Allah. There is no deity except Me, so worship Me.\"",
-        "Après avoir secouru un Hébreu opprimé et causé involontairement la mort d’un Égyptien, il s’enfuit à Madian, servant le prophète Shu‘ayb durant dix ans. De retour avec sa famille, il vit une flamme sacrée sur le mont Sinaï où Allah lui parla directement.",
+        "After defending an oppressed Israelite and unintentionally killing an Egyptian, he fled across the Sinai wilderness to Madyan and spent ten years in the service of its righteous old man. Journeying back with his family, he beheld a fire on Mount Sinai and was addressed directly by Allah: \"Indeed, I am Allah. There is no deity except Me, so worship Me.\"",
+        "Après avoir secouru un Hébreu opprimé et causé involontairement la mort d’un Égyptien, il s’enfuit à Madyan et y servit dix ans le vieillard vertueux de la ville. Sur le chemin du retour avec sa famille, il vit un feu sur le mont Sinaï et Allah lui parla directement : « Je suis Allah, il n’y a de dieu que Moi ; adore-Moi donc. »",
         "خرج خائفاً يترقب إلى مدين فتزوج ومكث عشر سنين، ولما سار بأهله آنس من جانب الطور ناراً، فكلّمه الله تكليماً في الوادي المقدس طوى، وأيده بمعجزتي العصا التي تنقلب حية واليد البيضاء كالنور.",
       ),
       t(

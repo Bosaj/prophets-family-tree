@@ -122,6 +122,21 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: 'Three hundred years, and nine more' })).toBeInTheDocument()
   })
 
+  it('teaches the prayer step by step, with its sources', async () => {
+    await renderAt('/salat')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('The prayer')
+    expect(screen.getByRole('heading', { name: 'The ablution (wudu), step by step' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'How to pray, step by step' })).toBeInTheDocument()
+    expect(screen.getByText('The five prayers at a glance')).toBeInTheDocument()
+    expect(document.querySelector('a[href="https://sunnah.com/bukhari:757"]')).not.toBeNull()
+  })
+
+  it('shows the prayer page in Arabic', async () => {
+    await renderAt('/salat', 'ar')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('الصلاة')
+    expect(screen.getByRole('heading', { name: 'الوضوء خطوة خطوة' })).toBeInTheDocument()
+  })
+
   it('shows the Hour page in Arabic', async () => {
     await renderAt('/hour', 'ar')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('البداية والنهاية')

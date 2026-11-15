@@ -2,6 +2,7 @@ import { defineConfig, type Plugin } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { fileURLToPath } from 'node:url'
 
 const base = process.env.VITE_BASE || (process.env.GITHUB_PAGES ? '/prophets-family-tree/' : '/')
 const cleanBase = base.endsWith('/') ? base : `${base}/`
@@ -30,7 +31,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      // A new worker takes over at once (so readers on an old version move too); the app registers it itself
+      // (src/components/UpdatePrompt.tsx) and decides when to reload into the new version.
       registerType: 'autoUpdate',
+      injectRegister: false,
       pwaAssets: { config: true },
       includeAssets: ['favicon.svg'],
       manifest: {
@@ -45,6 +49,10 @@ export default defineConfig({
         categories: ['education', 'books'],
       },
       workbox: {
+        // Without these the new worker waits until every tab is closed, which kept readers on old versions.
+        skipWaiting: true,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,svg,woff2}'],
         navigateFallback: `${cleanBase}index.html`,
         runtimeCaching: [
@@ -67,5 +75,6 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],
     css: false,
+    alias: { 'virtual:pwa-register/react': fileURLToPath(new URL('./src/test/pwa-register-react.ts', import.meta.url)) },
   },
 })
