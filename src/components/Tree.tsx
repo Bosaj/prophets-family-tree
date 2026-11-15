@@ -18,6 +18,8 @@ import {
   Flame,
   BookOpen,
   Info,
+  Download,
+  Printer,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
 import '../data/es/preAdam.es'
@@ -28,7 +30,10 @@ import { relationLabel } from '../lib/relations'
 import { labelScale, nodeBoxes, placeLabels, textWidth, type LabelRequest } from '../lib/labelLayout'
 import { EdgeLabel } from './EdgeLabel'
 import { treeParent } from '../data/links'
-import { byId } from '../data/people'
+import { coreById as byId } from '../data/peopleCore'
+import { loadPersonDetails } from '../data/people/loader'
+import type { Person } from '../data/types'
+import { buildTreePosterSvg, downloadSvgPoster, printPosterAsPdf } from '../lib/posterExport'
 import type { Kind, Lang } from '../data/types'
 import { hrefOf, navigate } from '../lib/router'
 import { A, FactText, LEVEL_STROKE, LevelChip, Refs, SubName, RefChip } from './ui'
@@ -36,7 +41,6 @@ import { formatDate, formatBirthDeath } from '../lib/dates'
 import { PRE_ADAM_ENTITIES, type PreAdamEntity } from '../data/preAdam'
 import { SCRIPTURES_BY_PROPHET } from '../data/scriptures'
 import { ScripturesModal } from './ScripturesModal'
-import { PosterButton } from './PosterButton'
 
 interface View {
   k: number
@@ -122,8 +126,6 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const layout = useMemo(() => buildLayout(filterOpts, wide, lang === 'ar'), [filterOpts, wide, lang])
   const [selected, setSelected] = useState<string | null>(focus ?? null)
   const box = useRef<HTMLDivElement>(null)
-  const svgRef = useRef<SVGSVGElement>(null)
-  const contentRef = useRef<SVGGElement>(null)
   const [view, setView] = useState<View>({ k: 0.5, x: 0, y: 0 })
   const pointers = useRef(new Map<number, { x: number; y: number }>())
   const pinch = useRef<{ d: number; k: number } | null>(null)
@@ -369,7 +371,22 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
     zoomAt(f, el.clientWidth / 2, el.clientHeight / 2)
   }
 
-  const sel = selected ? byId.get(selected) : undefined
+  const [selDetail, setSelDetail] = useState<Person | null>(null)
+  useEffect(() => {
+    if (!selected) {
+      setSelDetail(null)
+      return
+    }
+    let cancelled = false
+    loadPersonDetails(selected).then((full) => {
+      if (!cancelled && full) setSelDetail(full)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [selected])
+
+  const sel = selected ? (selDetail?.id === selected ? selDetail : byId.get(selected)) : undefined
   const selLink = selected ? treeParent.get(selected) : undefined
 
   const orbForKind = (kind: Kind) => {
@@ -442,7 +459,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       >
-        <svg ref={svgRef} width="100%" height="100%" role="group" aria-label={t('navTree')}>
+        <svg width="100%" height="100%" role="group" aria-label={t('navTree')}>
           <defs>
             <radialGradient id="orb-gold" cx="45%" cy="35%" r="65%">
               <stop offset="0" stopColor="#ffffff" />
@@ -510,7 +527,6 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             </radialGradient>
           </defs>
           <g
-            ref={contentRef}
             style={{
               transform: `translate(${view.x}px, ${view.y}px) scale(${view.k})`,
               transformOrigin: '0 0',
@@ -1191,8 +1207,6 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 <span className="hidden sm:inline">{t('mapView')}</span>
               </A>
 
-              <PosterButton svg={svgRef} content={contentRef} />
-
               {[
                 { f: 1.25, icon: Plus, label: t('zoomIn') },
                 { f: 0.8, icon: Minus, label: t('zoomOut') },
@@ -1232,6 +1246,30 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 title={t('resetView')}
               >
                 <RotateCcw className="size-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const svg = buildTreePosterSvg(layout, lang)
+                  downloadSvgPoster(svg, `shajara-prophets-tree-${lang}.svg`)
+                }}
+                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                aria-label={t('posterSvg')}
+                title={t('posterSvg')}
+              >
+                <Download className="size-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const svg = buildTreePosterSvg(layout, lang)
+                  printPosterAsPdf(svg, `${t('brand')} — ${t('posterPdf')}`, lang)
+                }}
+                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                aria-label={t('posterPdf')}
+                title={t('posterPdf')}
+              >
+                <Printer className="size-4" aria-hidden="true" />
               </button>
             </div>
           </div>

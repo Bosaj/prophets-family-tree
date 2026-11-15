@@ -29,7 +29,9 @@ export function applyLong(root: unknown, map: Map): number {
 }
 
 const SETS: [() => Promise<unknown>, () => Promise<{ default: Map }>][] = [
-  [() => import('../../people'), () => import('./people.json')],
+  // People: the core summaries now; the era chunks when they load (people/loader.ts) or are already loaded.
+  [() => import('../../peopleCore'), () => import('./people.json')],
+  [async () => (await import('../../people/loader')).loadedPeople(), () => import('./people.json')],
   [() => import('../../links'), () => import('./links.json')],
   [() => import('../../nature'), () => import('./nature.json')],
   [() => import('../../sahaba'), () => import('./sahaba.json')],
@@ -40,6 +42,11 @@ const SETS: [() => Promise<unknown>, () => Promise<{ default: Map }>][] = [
 ]
 
 let done: Promise<number> | null = null
+
+/** Applies the Spanish long texts to an era chunk of people as it loads (Spanish readers only). */
+export async function applyLongPeople(list: unknown): Promise<void> {
+  applyLong(list, (await import('./people.json')).default)
+}
 
 /** Loads and applies every dataset's Spanish texts once. */
 export function applyAllLong(): Promise<number> {

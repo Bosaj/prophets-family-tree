@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Calendar, ChevronDown, ChevronUp, Clock, Sparkles, Flame, BookOpen, Info } from 'lucide-react'
 import { legacy, useI18n, tx } from '../i18n'
 import '../data/es/preAdam.es'
-import { people } from '../data/people'
-import type { Person } from '../data/types'
+import { peopleCore } from '../data/peopleCore'
+import { loadAllPeople } from '../data/people/loader'
+import type { PersonSummary } from '../data/types'
 import { hrefOf } from '../lib/router'
 import { A, LevelChip, Refs, Scene, SubName } from './ui'
 import { formatDate } from '../lib/dates'
@@ -44,17 +45,28 @@ export function Timeline() {
   const [estimates, setEstimates] = useState(true)
   const [mode, setMode] = useState<TimelineMode>('dual')
   const [activeEra, setActiveEra] = useState<string>('all')
+  const [allPeople, setAllPeople] = useState<PersonSummary[]>(peopleCore)
+
+  useEffect(() => {
+    let cancelled = false
+    loadAllPeople().then((list) => {
+      if (!cancelled) setAllPeople(list)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const groups = useMemo(() => {
     const selectedEra = (ERAS.find((e) => e.id === activeEra) ?? ERAS[0])!
-    const m = new Map<number, Person[]>()
-    for (const p of people) {
+    const m = new Map<number, PersonSummary[]>()
+    for (const p of allPeople) {
       if (p.kind !== 'prophet') continue
       if (p.order < selectedEra.range[0] || p.order > selectedEra.range[1]) continue
       m.set(p.order, [...(m.get(p.order) ?? []), p])
     }
     return [...m.entries()].sort((a, b) => a[0] - b[0])
-  }, [activeEra])
+  }, [activeEra, allPeople])
 
   return (
     <div className="mx-auto max-w-5xl px-4 pt-32 pb-24 sm:px-6 sm:pt-28">
@@ -378,7 +390,7 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
   )
 }
 
-function Card({ p, estimates, mode }: { p: Person; estimates: boolean; mode: TimelineMode }) {
+function Card({ p, estimates, mode }: { p: PersonSummary; estimates: boolean; mode: TimelineMode }) {
   const { pick, t, lang } = useI18n()
   const [expanded, setExpanded] = useState(false)
   const showEra = p.era && (p.era.l !== 'disputed' || estimates || p.era.r?.some((r) => !r.startsWith('book:')))

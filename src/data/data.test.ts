@@ -5,6 +5,7 @@ import { links, treeParent } from './links'
 import { parseRef, refLabel, refUrl } from './sources'
 import type { Fact, L3 } from './types'
 import { allTextRefs } from './verified'
+import { VERIFIED_REFS } from './peopleCore'
 import { SACRED_SITES, ROUTES } from '../components/TopographyMap'
 
 const facts = (p: (typeof people)[number]): Fact[] =>
@@ -69,6 +70,7 @@ describe('dataset', () => {
   })
 
   it('uses well-formed references only', () => {
+    expect(VERIFIED_REFS).toBe(allTextRefs().size)
     for (const r of allTextRefs()) {
       const p = parseRef(r)
       if (p.kind === 'quran') {
@@ -98,7 +100,8 @@ describe('dataset', () => {
   })
 
   it('has comprehensive, authentic sacred sites and prophetic routes in TopographyMap', () => {
-    expect(SACRED_SITES.length).toBeGreaterThanOrEqual(30)
+    expect(SACRED_SITES.length).toBeGreaterThanOrEqual(50)
+    const validLevels = new Set(['quran', 'hadith', 'archaeology', 'tradition'])
     for (const site of SACRED_SITES) {
       expect(site.id).toBeTruthy()
       expect(site.lat).toBeGreaterThan(-15)
@@ -108,6 +111,10 @@ describe('dataset', () => {
       expect(site.name.en).toBeTruthy()
       expect(site.name.fr).toBeTruthy()
       expect(site.name.ar).toMatch(/[؀-ۿ]/)
+      expect(validLevels.has(site.sourceLevel!)).toBe(true)
+      expect(site.source?.en).toBeTruthy()
+      expect(site.source?.fr).toBeTruthy()
+      expect(site.source?.ar).toMatch(/[؀-ۿ]/)
       if (site.prophetId) {
         expect(byId.has(site.prophetId), `site ${site.id} references invalid prophet ${site.prophetId}`).toBe(true)
       }
@@ -116,6 +123,12 @@ describe('dataset', () => {
     expect(ROUTES.length).toBeGreaterThanOrEqual(7)
     for (const route of ROUTES) {
       expect(route.id).toBeTruthy()
+      for (const stop of route.stops) {
+        expect(validLevels.has(stop.sourceLevel!)).toBe(true)
+        expect(stop.source?.en).toBeTruthy()
+        expect(stop.source?.fr).toBeTruthy()
+        expect(stop.source?.ar).toMatch(/[؀-ۿ]/)
+      }
       expect(route.color).toMatch(/^#[0-9a-f]{6}$/i)
       expect(byId.has(route.prophetId), `route ${route.id} references invalid prophet ${route.prophetId}`).toBe(true)
       expect(route.coords.length).toBeGreaterThanOrEqual(4)

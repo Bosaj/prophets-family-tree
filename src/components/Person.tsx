@@ -25,7 +25,8 @@ import {
 import { useI18n, tx } from '../i18n'
 import '../data/es/scriptures.es'
 import type { Key } from '../i18n/strings'
-import { byId, people } from '../data/people'
+import { coreById as byId, peopleCore as people } from '../data/peopleCore'
+import { loadPersonDetails } from '../data/people/loader'
 import type { Fact, Person as P } from '../data/types'
 import { refLabel } from '../data/sources'
 import { relativesOf } from '../lib/layout'
@@ -52,20 +53,43 @@ const ordered = [...people].sort((a, b) => a.order - b.order || (a.kind === b.ki
 export function Person({ id }: { id: string }) {
   const { t, pick, lang } = useI18n()
   const openVerse = useOpenVerse()
-  const p = byId.get(id)
+  const core = byId.get(id)
+  const [detail, setDetail] = useState<P | null>(null)
   const [copied, setCopied] = useState(false)
   const [showScriptureModal, setShowScriptureModal] = useState(false)
-  const relatives = useMemo(() => (p ? relativesOf(p.id) : []), [p])
-  const scriptureBook = p ? SCRIPTURES_BY_PROPHET.get(p.id) : null
 
   useEffect(() => {
-    if (p) document.title = `${p.name.ar} · ${pick(p.name)} — ${t('brand')}`
+    setDetail(null)
+    if (!id) return
+    let cancelled = false
+    loadPersonDetails(id).then((full) => {
+      if (!cancelled && full) setDetail(full)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [id])
+
+  const relatives = useMemo(() => (core ? relativesOf(core.id) : []), [core])
+  const scriptureBook = core ? SCRIPTURES_BY_PROPHET.get(core.id) : null
+
+  useEffect(() => {
+    if (core) document.title = `${core.name.ar} · ${pick(core.name)} — ${t('brand')}`
     return () => {
       document.title = 'شجرة الأنبياء · Shajara — The Tree of the Prophets'
     }
-  }, [p, pick, t])
+  }, [core, pick, t])
 
-  if (!p) return <NotFound />
+  if (!core) return <NotFound />
+  const p = detail?.id === id ? detail : undefined
+  if (!p) {
+    return (
+      <div data-loading className="flex min-h-[60vh] flex-col items-center justify-center gap-3 px-4 py-24 text-center">
+        <p className="ar-name gold-text text-5xl font-bold">{core.name.ar}</p>
+        <p className="text-sm text-ink-3">{pick(core.name)}</p>
+      </div>
+    )
+  }
 
   const i = ordered.findIndex((x) => x.id === p.id)
   const prev = ordered[i - 1]

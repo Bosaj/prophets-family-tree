@@ -115,6 +115,11 @@ export interface Person {
   ululAzm?: boolean
 }
 
+export type PersonSummary = Omit<Person, 'story' | 'verses'> & {
+  story?: L3
+  verses?: Ref[]
+}
+
 export type LinkType = 'parent' | 'descendant' | 'sibling' | 'cousin' | 'guardian' | 'nephew' | 'maybe-parent' | 'spouse' | 'child'
 
 export interface Link {

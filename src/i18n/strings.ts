@@ -211,6 +211,8 @@ const en = {
   natureKicker: 'Creatures, Plants & Sacred Sustenance',
   natureTitle: 'Animals, Flora & Prophetic Medicine',
   natureLead: 'The animals, plants, fruits and remedies mentioned in the Qur’an and the authentic Sunnah, with why each is mentioned and what it teaches.',
+  posterSvg: 'Poster SVG',
+  posterPdf: 'Print PDF Poster',
 }
 
 
@@ -421,6 +423,8 @@ const fr: Record<Key, string> = {
   natureKicker: 'Créatures, Plantes & Aliments Sacrés',
   natureTitle: 'Animaux, Flore & Médecine Prophétique',
   natureLead: 'Les animaux, plantes, fruits et remèdes cités dans le Coran et la Sunna authentique, avec la raison de leur mention et ce qu’ils enseignent.',
+  posterSvg: 'Affiche SVG',
+  posterPdf: 'Imprimer PDF',
 }
 
 
@@ -629,6 +633,8 @@ const ar: Record<Key, string> = {
   natureKicker: 'حيوانات ونباتات وأطعمة الوحي',
   natureTitle: 'حيوانات ونباتات القرآن والطب النبوي',
   natureLead: 'الحيوانات والنباتات والثمار والأدوية المذكورة في القرآن الكريم والسنة الصحيحة، مع حكمة ذكرها وما تعلّمه.',
+  posterSvg: 'ملصق SVG',
+  posterPdf: 'طباعة ملصق PDF',
 }
 
 
@@ -836,6 +842,8 @@ const es: Record<Key, string> = {
   natureKicker: 'Criaturas, plantas y sustento',
   natureTitle: 'Animales, plantas y medicina profética',
   natureLead: 'Los animales, plantas, frutos y remedios mencionados en el Corán y en la Sunna auténtica, con la sabiduría de su mención y sus beneficios.',
+  posterSvg: 'Póster SVG',
+  posterPdf: 'Imprimir PDF',
 }
 
 export const STRINGS: Record<Lang, Record<Key, string>> = { en, fr, ar, es }

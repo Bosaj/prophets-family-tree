@@ -14,11 +14,26 @@ import {
   Castle,
   Waypoints,
   Maximize2,
-  Footprints, Printer } from 'lucide-react'
+  Footprints,
+  Download,
+  Printer,
+  AlertTriangle,
+  ShieldCheck,
+} from 'lucide-react'
 import type L from 'leaflet'
 import { legacy, tx, useI18n } from '../i18n'
-import { byId, prophets } from '../data/people'
-import type { Person } from '../data/types'
+import { coreById as byId, coreProphets as prophets } from '../data/peopleCore'
+import { loadPersonDetails } from '../data/people/loader'
+import type { Person, PersonSummary } from '../data/types'
+import {
+  ARCHAEOLOGICAL_WAYPOINTS,
+  resolveWaypointSource,
+  SOURCE_LEVEL_BADGE,
+  TRADITION_CAUTION_NOTE,
+  type SiteSourceLevel,
+  type SiteSourceText,
+} from '../data/archaeologySites'
+import { buildMapPosterSvg, downloadSvgPoster, printPosterAsPdf } from '../lib/posterExport'
 import { hrefOf } from '../lib/router'
 import { A, FactText, Scene, WithQuran } from './ui'
 
@@ -31,17 +46,21 @@ export interface SacredSitePin {
   type: 'mountain' | 'sanctuary' | 'well' | 'city'
   lat: number
   lng: number
-  desc: { en: string; fr: string; ar: string }
+  desc: { en: string; fr: string; ar: string; es?: string }
   prophetId?: string
   quranRef?: string
+  sourceLevel?: SiteSourceLevel
+  source?: SiteSourceText
 }
 
 export interface RouteWaypoint {
   name: { en: string; fr: string; ar: string; es?: string }
   lat: number
   lng: number
-  desc: { en: string; fr: string; ar: string }
+  desc: { en: string; fr: string; ar: string; es?: string }
   quranRef?: string
+  sourceLevel?: SiteSourceLevel
+  source?: SiteSourceText
 }
 
 export interface PropheticRoute {
@@ -55,7 +74,7 @@ export interface PropheticRoute {
   stops: RouteWaypoint[]
 }
 
-export const SACRED_SITES: SacredSitePin[] = [
+const BASE_SACRED_SITES: SacredSitePin[] = [
   {
     id: 'kaaba',
     name: { en: 'Al-Ka‘bah & The Sacred Sanctuary', fr: 'La Ka‘bah et le Sanctuaire Sacré', ar: 'الكعبة المشرفة والمسجد الحرام', es: 'La Ka‘ba y el Santuario Sagrado' },
@@ -488,7 +507,15 @@ export const SACRED_SITES: SacredSitePin[] = [
   },
 ]
 
-export const ROUTES: PropheticRoute[] = [
+export const SACRED_SITES: SacredSitePin[] = [
+  ...BASE_SACRED_SITES,
+  ...ARCHAEOLOGICAL_WAYPOINTS,
+].map((site) => {
+  const meta = resolveWaypointSource(site)
+  return { ...site, sourceLevel: meta.sourceLevel, source: meta.source }
+})
+
+const BASE_ROUTES: PropheticRoute[] = [
   {
     id: 'ibrahim_path',
     name: { en: 'Migration Path of Ibrahim عليه السلام', fr: 'Itinéraire d’Ibrahim عليه السلام', ar: 'مسار هجرة إبراهيم الخليل عليه السلام', es: 'La migración de Ibrahim عليه السلام' },
@@ -1246,6 +1273,14 @@ export const ROUTES: PropheticRoute[] = [
   },
 ]
 
+export const ROUTES: PropheticRoute[] = BASE_ROUTES.map((route) => ({
+  ...route,
+  stops: route.stops.map((stop) => {
+    const meta = resolveWaypointSource(stop)
+    return { ...stop, sourceLevel: meta.sourceLevel, source: meta.source }
+  }),
+}))
+
 const ERAS = [
   { id: 'all', label: { en: 'All Eras', fr: 'Toutes époques', ar: 'جميع العصور', es: 'Todas las épocas' } },
   { id: 'primordial', label: { en: 'Primordial', fr: 'Origines', ar: 'البدايات الأولى', es: 'Los orígenes' }, ids: ['adam', 'idris', 'nuh'] },
@@ -1280,7 +1315,24 @@ export function TopographyMap({ focus }: { focus?: string }) {
     return new Set(eraObj?.ids ?? [])
   }, [activeEra])
 
-  const selectedPerson = selectedId ? byId.get(selectedId) : undefined
+  const [selectedDetail, setSelectedDetail] = useState<Person | null>(null)
+  useEffect(() => {
+    if (!selectedId) {
+      setSelectedDetail(null)
+      return
+    }
+    let cancelled = false
+    loadPersonDetails(selectedId).then((full) => {
+      if (!cancelled && full) setSelectedDetail(full)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [selectedId])
+
+  const selectedPerson = selectedId
+    ? (selectedDetail?.id === selectedId ? selectedDetail : byId.get(selectedId))
+    : undefined
   const selectedRoute = useMemo(() => ROUTES.find((r) => r.id === selectedRouteId), [selectedRouteId])
 
   // Filtered sacred sites according to category
@@ -1540,9 +1592,11 @@ export function TopographyMap({ focus }: { focus?: string }) {
               iconAnchor: [13, 13],
             })
 
+            const stopLevel = stop.sourceLevel ?? 'archaeology'
+            const stopBadge = SOURCE_LEVEL_BADGE[stopLevel][lang]
             const marker = Leaflet.marker([stop.lat, stop.lng], { icon: stopIcon })
             marker.bindTooltip(
-              `<div style="font-family: inherit; font-size: 11px; font-weight: 700; padding: 3px 6px;">${index + 1}. ${(stop.name[lang] ?? stop.name.en)}</div>`,
+              `<div style="font-family: inherit; font-size: 11px; font-weight: 700; padding: 3px 6px;">${index + 1}. ${(stop.name[lang] ?? stop.name.en)} <span style="opacity:0.75;font-weight:500;">· ${stopBadge}</span></div>`,
               { direction: 'top', offset: [0, -12] }
             )
             marker.on('click', () => {
@@ -1568,6 +1622,8 @@ export function TopographyMap({ focus }: { focus?: string }) {
                 : '#f472b6'
 
           const isSelected = selectedSite?.id === site.id
+          const isTradition = site.sourceLevel === 'tradition'
+          const siteBadge = SOURCE_LEVEL_BADGE[site.sourceLevel ?? 'archaeology'][lang]
 
           const iconHtml = `
             <div style="
@@ -1578,7 +1634,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
               height: ${isSelected ? '28px' : '22px'};
               border-radius: 50%;
               background: #080b1c;
-              border: 1.5px solid ${bgCol};
+              border: 1.5px ${isTradition ? 'dashed' : 'solid'} ${bgCol};
               box-shadow: 0 0 ${isSelected ? '18px 4px' : '10px 1px'} ${bgCol};
               cursor: pointer;
               transition: all 0.25s ease;
@@ -1602,7 +1658,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             map.flyTo([site.lat, site.lng], Math.max(map.getZoom(), 8), { duration: 1 })
           })
           marker.bindTooltip(
-            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px;">${(site.name[lang] ?? site.name.en)}</div>`,
+            `<div style="font-family: inherit; font-size: 11px; font-weight: bold; padding: 2px 4px;">${(site.name[lang] ?? site.name.en)} <span style="opacity:0.75;font-weight:500;">· ${siteBadge}</span></div>`,
             { direction: 'top', offset: [0, -10] },
           )
           marker.addTo(sitesGroup)
@@ -1698,7 +1754,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
     }
   }, [focus, mapReady])
 
-  const flyToProphet = (p: Person) => {
+  const flyToProphet = (p: Person | PersonSummary) => {
     setSelectedId(p.id)
     setSelectedSite(null)
     setSelectedRouteId(null)
@@ -1759,7 +1815,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
       <div ref={mapContainer} className="relative z-0 h-full w-full outline-none" tabIndex={0} />
 
       {/* Floating Header Controls */}
-      <div className="pointer-events-none absolute inset-x-3 top-3 z-[1050] flex flex-wrap items-center justify-between gap-2.5 sm:inset-x-6 sm:top-4 print:hidden">
+      <div className="pointer-events-none absolute inset-x-3 top-3 z-[1050] flex flex-wrap items-center justify-between gap-2.5 sm:inset-x-6 sm:top-4">
         {/* Style & Layer Toggles */}
         <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex items-center gap-1 rounded-full p-1.5 shadow-2xl">
           <button
@@ -1854,13 +1910,27 @@ export function TopographyMap({ focus }: { focus?: string }) {
           >
             <RotateCcw className="size-3.5" />
           </button>
-
           <button
             type="button"
-            onClick={() => window.print()}
+            onClick={() => {
+              const svg = buildMapPosterSvg(SACRED_SITES, ROUTES, lang)
+              downloadSvgPoster(svg, `shajara-sacred-map-${lang}.svg`)
+            }}
             className="flex items-center gap-1 rounded-full px-2 py-1 text-ink-3 hover:text-gold transition-colors"
-            title={tx(lang, 'Print the map or save it as a PDF poster', 'Imprimer la carte ou l’enregistrer en affiche PDF', 'طباعة الخريطة أو حفظها ملصقًا PDF', 'Imprimir el mapa o guardarlo como póster PDF')}
-            aria-label={tx(lang, 'Print the map', 'Imprimer la carte', 'طباعة الخريطة', 'Imprimir el mapa')}
+            aria-label={t('posterSvg')}
+            title={t('posterSvg')}
+          >
+            <Download className="size-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const svg = buildMapPosterSvg(SACRED_SITES, ROUTES, lang)
+              printPosterAsPdf(svg, `${t('brand')} — ${t('posterPdf')}`, lang)
+            }}
+            className="flex items-center gap-1 rounded-full px-2 py-1 text-ink-3 hover:text-gold transition-colors"
+            aria-label={t('posterPdf')}
+            title={t('posterPdf')}
           >
             <Printer className="size-3.5" />
           </button>
@@ -1868,7 +1938,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
       </div>
 
       {/* Floating Filter Bars: Eras & Sacred Site Categories */}
-      <div className="pointer-events-none absolute inset-x-3 top-14 z-[1050] flex flex-col items-center gap-2 sm:inset-x-6 sm:top-16 print:hidden">
+      <div className="pointer-events-none absolute inset-x-3 top-14 z-[1050] flex flex-col items-center gap-2 sm:inset-x-6 sm:top-16">
         {/* Era Filter Bar */}
         <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-2xl max-w-2xl">
           {ERAS.map((era) => (
@@ -2159,44 +2229,59 @@ export function TopographyMap({ focus }: { focus?: string }) {
               <span className="text-ink-3 text-[0.7rem]">{selectedRoute.stops.length} stations</span>
             </div>
 
-            {selectedRoute.stops.map((stop, idx) => (
-              <div
-                key={idx}
-                className="group relative rounded-2xl border border-white/5 bg-white/[0.02] p-3 transition-colors hover:border-emerald-400/40 hover:bg-white/[0.04]"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-400/20 text-[0.65rem] font-extrabold text-emerald-300">
-                      {idx + 1}
-                    </span>
-                    <span className="text-xs font-bold text-ink">{(stop.name[lang] ?? stop.name.en)}</span>
+            {selectedRoute.stops.map((stop, idx) => {
+              const stopMeta = resolveWaypointSource(stop)
+              const stopBadge = SOURCE_LEVEL_BADGE[stopMeta.sourceLevel]
+              return (
+                <div
+                  key={idx}
+                  className="group relative rounded-2xl border border-white/5 bg-white/[0.02] p-3 transition-colors hover:border-emerald-400/40 hover:bg-white/[0.04]"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-400/20 text-[0.65rem] font-extrabold text-emerald-300">
+                        {idx + 1}
+                      </span>
+                      <span className="text-xs font-bold text-ink">{(stop.name[lang] ?? stop.name.en)}</span>
+                    </div>
+                    <span className="ar-name text-xs text-gold">{stop.name.ar}</span>
                   </div>
-                  <span className="ar-name text-xs text-gold">{stop.name.ar}</span>
-                </div>
 
-                <p className="mt-1.5 ps-7 text-[0.7rem] leading-relaxed text-ink-3">
-                  {stop.desc[legacy(lang)]}
-                </p>
+                  <p className="mt-1.5 ps-7 text-[0.7rem] leading-relaxed text-ink-3">
+                    {stop.desc[legacy(lang)]}
+                  </p>
 
-                <div className="mt-2 flex items-center justify-between ps-7 text-[0.65rem]">
-                  {stop.quranRef ? (
-                    <span className="rounded bg-white/5 px-1.5 py-0.5 text-sky-300 font-mono">
-                      {stop.quranRef}
-                    </span>
-                  ) : (
-                    <span />
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => flyToWaypoint(stop)}
-                    className="flex items-center gap-1 text-emerald-300 hover:text-emerald-200 font-medium"
-                  >
-                    <span>{t('flyToWaypoint')}</span>
-                    <Maximize2 className="size-3" />
-                  </button>
+                  <div className="mt-2 ps-7 space-y-1.5">
+                    <div className="flex flex-wrap items-center gap-1.5 text-[0.62rem]">
+                      <span className={`rounded-full border px-2 py-0.5 font-semibold ${stopBadge.colorClass}`}>
+                        {stopBadge[lang]}
+                      </span>
+                      {stop.quranRef && (
+                        <span className="rounded bg-white/5 px-1.5 py-0.5 text-sky-300 font-mono">
+                          {stop.quranRef}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[0.65rem] leading-snug text-ink-3">
+                      {stopMeta.source[lang] ?? stopMeta.source.en}
+                    </p>
+                    <div className="flex items-center justify-between text-[0.65rem]">
+                      <span className="font-mono text-ink-3">
+                        {stop.lat.toFixed(4)}° N, {stop.lng.toFixed(4)}° E
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => flyToWaypoint(stop)}
+                        className="flex items-center gap-1 text-emerald-300 hover:text-emerald-200 font-medium"
+                      >
+                        <span>{t('flyToWaypoint')}</span>
+                        <Maximize2 className="size-3" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </aside>
       )}
@@ -2206,10 +2291,19 @@ export function TopographyMap({ focus }: { focus?: string }) {
         <aside className="glass-strong absolute inset-x-3 bottom-3 z-[1100] flex flex-col rounded-3xl border border-sky-400/30 p-5 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:w-[380px]">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1.5">
                 <span className="rounded-full bg-sky-400/20 px-2.5 py-0.5 text-[0.65rem] font-bold text-sky-200 uppercase tracking-wider">
                   {selectedSite.type}
                 </span>
+                {(() => {
+                  const meta = resolveWaypointSource(selectedSite)
+                  const badge = SOURCE_LEVEL_BADGE[meta.sourceLevel]
+                  return (
+                    <span className={`rounded-full border px-2.5 py-0.5 text-[0.65rem] font-semibold ${badge.colorClass}`}>
+                      {badge[lang]}
+                    </span>
+                  )
+                })()}
                 {selectedSite.quranRef && (
                   <span className="rounded-full bg-gold/20 px-2 py-0.5 text-[0.65rem] font-mono text-gold-2">
                     {selectedSite.quranRef}
@@ -2229,6 +2323,27 @@ export function TopographyMap({ focus }: { focus?: string }) {
           </div>
 
           <p className="mt-4 text-xs leading-relaxed text-ink-2">{selectedSite.desc[legacy(lang)]}</p>
+
+          {(() => {
+            const meta = resolveWaypointSource(selectedSite)
+            return (
+              <div className="mt-3 space-y-2">
+                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2.5 text-[0.7rem] leading-relaxed text-ink-2">
+                  <div className="flex items-center gap-1.5 font-semibold text-gold-2 mb-1">
+                    <ShieldCheck className="size-3.5 text-gold shrink-0" />
+                    <span>{({ en: 'Scholarly & Archaeological Source', fr: 'Source académique et archéologique', ar: 'المصدر العلمي والأثري', es: 'Fuente académica y arqueológica' } as const)[lang]}</span>
+                  </div>
+                  <p>{meta.source[lang] ?? meta.source.en}</p>
+                </div>
+                {meta.sourceLevel === 'tradition' && (
+                  <div className="rounded-xl border border-amber-400/35 bg-amber-500/10 p-2.5 text-[0.68rem] leading-relaxed text-amber-200 flex items-start gap-2">
+                    <AlertTriangle className="size-4 text-amber-300 shrink-0 mt-0.5" />
+                    <span>{TRADITION_CAUTION_NOTE[lang] ?? TRADITION_CAUTION_NOTE.en}</span>
+                  </div>
+                )}
+              </div>
+            )
+          })()}
 
           {/* Associated Prophet link if present */}
           {selectedSite.prophetId && byId.get(selectedSite.prophetId) && (

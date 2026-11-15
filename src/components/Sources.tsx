@@ -4,10 +4,11 @@ import { useI18n, tx } from '../i18n'
 import { LEVEL_TEXT } from '../i18n/strings'
 import { BOOKS, LEVELS } from '../data/sources'
 import { LevelChip } from './ui'
-import { VERIFIED_REFS } from '../data/verified'
+import { VERIFIED_REFS } from '../data/peopleCore'
 import photoCredits from '../data/photoCredits.json'
 
-export const REPO = 'https://github.com/Bosaj/prophets-family-tree'
+import { REPO } from '../lib/repo'
+export { REPO }
 
 export function Sources() {
   const { t, lang } = useI18n()

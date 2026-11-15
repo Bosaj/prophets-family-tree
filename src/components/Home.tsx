@@ -2,11 +2,10 @@ import { ArrowRight, BookOpen, ChevronDown, Compass, GitBranch, Hourglass, Leaf,
 import { Suspense, lazy } from 'react'
 import { useI18n } from '../i18n'
 import { LEVEL_TEXT } from '../i18n/strings'
-import { byId, heavens, people, prophets, ululAzm } from '../data/people'
+import { coreById as byId, heavens, coreProphets as prophets, ululAzm, VERIFIED_REFS } from '../data/peopleCore'
 import { LEVELS } from '../data/sources'
 import { hrefOf } from '../lib/router'
 import { A, LevelChip, Refs, Scene, Section } from './ui'
-import { VERIFIED_REFS } from '../data/verified'
 
 // The "now" card needs the prayer engine and the day guide: it loads after the page.
 const NowCard = lazy(() => import('./NowCard'))
@@ -16,7 +15,7 @@ const Tree = lazy(() => import('./Tree').then((m) => ({ default: m.Tree })))
 
 export function Home() {
   const { t, pick, lang } = useI18n()
-  const chapters = [...people].filter((p) => p.kind === 'prophet').sort((a, b) => a.order - b.order)
+  const chapters = [...prophets].sort((a, b) => a.order - b.order)
 
   return (
     <>

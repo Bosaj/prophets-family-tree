@@ -164,3 +164,37 @@ describe('Qur’an loader', () => {
     expect(p.ayahs[0]!.translation).toMatch(/Recite/)
   })
 })
+
+describe('classroom poster SVG/PDF exporter (#13)', () => {
+  it('exports printable classroom SVG posters of the tree and map keeping labels in Arabic, English, or French', async () => {
+    const { buildTreePosterSvg, buildMapPosterSvg } = await import('./posterExport')
+    const { SACRED_SITES, ROUTES } = await import('../components/TopographyMap')
+    const layout = buildLayout(true, true, false)
+
+    for (const lang of ['en', 'fr', 'ar'] as const) {
+      const treeSvg = buildTreePosterSvg(layout, lang)
+      expect(treeSvg).toContain('<svg')
+      expect(treeSvg).toContain('آدم')
+      expect(treeSvg).toContain('إبراهيم')
+      expect(treeSvg).toContain('محمد')
+      if (lang === 'en') expect(treeSvg).toContain('The Family Tree &amp; Lineage of the 25 Prophets')
+      if (lang === 'fr') expect(treeSvg).toContain('L’Arbre Généalogique des 25 Prophètes')
+      if (lang === 'ar') expect(treeSvg).toContain('شجرة نسب الأنبياء والمرسلين')
+
+      const mapSvg = buildMapPosterSvg(SACRED_SITES, ROUTES, lang)
+      expect(mapSvg).toContain('<svg')
+      expect(mapSvg).toContain('TRAD*')
+      expect(mapSvg).toContain('ARCH')
+      if (lang === 'en') expect(mapSvg).toContain('Sacred Geography &amp; Archaeological Atlas')
+      if (lang === 'fr') expect(mapSvg).toContain('Géographie Sacrée et Atlas Archéologique')
+      if (lang === 'ar') expect(mapSvg).toContain('أطلس الجغرافيا المقدسة')
+    }
+
+    const { loadAllPeople, loadPersonDetails } = await import('../data/people/loader')
+    const { peopleCore } = await import('../data/peopleCore')
+    const loaded = await loadAllPeople()
+    expect(loaded).toHaveLength(peopleCore.length)
+    const musa = await loadPersonDetails('musa')
+    expect(musa?.verses.length).toBeGreaterThan(0)
+  })
+})
