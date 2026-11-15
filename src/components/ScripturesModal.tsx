@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
+import '../data/es/scriptures.es'
 import { WithQuran } from './ui'
 import {
   SCRIPTURES,

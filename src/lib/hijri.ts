@@ -123,3 +123,15 @@ export const LUNAR_YEAR_DAYS = 354.3671
 
 /** How many lunar (Hijri) years last as long as `solarYears` solar years. */
 export const solarToLunar = (solarYears: number) => (solarYears * SOLAR_YEAR_DAYS) / LUNAR_YEAR_DAYS
+
+/**
+ * The Hijri date for a place: Morocco's announced date, Saudi Arabia's Umm al-Qura (official there), and for
+ * anywhere else the Umm al-Qura date, marked as an estimate because each country announces its own months.
+ */
+export function hijriForPlace(now: Date, timeZone: string): { date: HDate; status: MoroccoStatus } {
+  if (timeZone === 'Africa/Casablanca') {
+    const m = moroccoDate(now)
+    return { date: m.date, status: m.status }
+  }
+  return { date: hijri(now, 'umalqura', timeZone), status: timeZone === 'Asia/Riyadh' ? 'official' : 'estimate' }
+}

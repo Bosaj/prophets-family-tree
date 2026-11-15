@@ -8,6 +8,10 @@ import { hrefOf } from '../lib/router'
 import { A, LevelChip, Refs, Scene, Section } from './ui'
 import { VERIFIED_REFS } from '../data/verified'
 
+// The "now" card needs the prayer engine and the day guide: it loads after the page.
+const NowCard = lazy(() => import('./NowCard'))
+
+
 const Tree = lazy(() => import('./Tree').then((m) => ({ default: m.Tree })))
 
 export function Home() {
@@ -32,6 +36,9 @@ export function Home() {
               {lang !== 'ar' && <span className="mt-2 block text-2xl font-light tracking-[0.3em] text-ink/90 uppercase sm:text-3xl">Shajara</span>}
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-pretty text-ink-2 sm:text-lg">{t('heroLead')}</p>
+            <Suspense fallback={null}>
+              <NowCard />
+            </Suspense>
             <div className="mt-9 flex flex-wrap gap-3">
               <A href="/tree" className="btn btn-gold">
                 <GitBranch className="size-4" aria-hidden="true" /> {t('exploreTree')}

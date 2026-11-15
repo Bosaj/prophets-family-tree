@@ -7,6 +7,7 @@ import type { Lang } from '../data/types'
 import type { Key } from '../i18n/strings'
 import { A } from './ui'
 import { Logo } from './Logo'
+import { PlaceClock } from './PlaceClock'
 
 interface NavItem {
   key: Key
@@ -80,6 +81,7 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
         </nav>
 
         <div className="flex shrink-0 items-center gap-1 sm:gap-1.5 xl:gap-2">
+          <PlaceClock />
           <button
             type="button"
             onClick={onSearch}

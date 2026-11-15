@@ -45,3 +45,11 @@ describe('solarToLunar', () => {
     expect(solarToLunar(300)).toBeCloseTo(309.2, 1)
   })
 })
+
+describe('MONTH_NAMES', () => {
+  it('matches the month names of the Hijri page', async () => {
+    const { MONTH_NAMES } = await import('../data/hijriMonths')
+    const { MONTHS } = await import('../data/hijri')
+    expect(MONTH_NAMES).toEqual(MONTHS.map((m) => m.name))
+  })
+})

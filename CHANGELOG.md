@@ -4,6 +4,33 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.9.0] — 2026-11-15
+### Added
+- **Your place and time, everywhere.**
+  - The site starts from this device’s time zone: the first known city in it, else Rabat. You can change the place from the new clock in the header, or use your location.
+  - The header clock shows the local time. Its panel shows the device’s time zone, today’s Hijri date (Morocco’s announced date in Morocco), and the night that begins at Maghrib. It also shows the part of the day and the next prayer.
+  - The Times and Hijri pages share the same place, so changing it once changes it everywhere.
+- **“Now” on the home page.** The time and city, the Hijri date, the part of the day with its first piece of guidance, and the next prayer. It links to the Times page.
+- **Checklist of the signs of the Hour** (`/hour`). The ten small signs are marked as come to pass (5), seen by many scholars today (4) or still to come (1). The ten great signs are listed exactly as Muslim 2901 names them, none come to pass; the smoke is marked as disputed (Ibn Mas‘ud, Bukhari 4821). Each line jumps to its explanation. The page says the marks are the scholars’ reading, not revelation.
+
+### Fixed
+- **Sahaba: the “Ten Promised Paradise” filter showed 6.** Abu Bakr, ‘Umar, ‘Uthman and ‘Ali belong to the ten (Tirmidhi 3747), but they are filed as caliphs. The filter, its count and the tree highlight now include them: 10.
+- **Empty space.**
+  - The Stature detail panel stretched to the height of the list next to it and left a large empty area. It now fits its content and stays in view while the list scrolls.
+  - The Hijri month cards had the same problem (up to 586 px empty).
+  - A scan of every page found no other case.
+- **Hadith book names in the reader’s language.** The Stature page wrote “Sahih al-Bukhari #3551” in English in every language. It now uses the site’s reference chips (البخاري ٣٥٥١, linked to sunnah.com), as does the raw `bukhari:3326` under Adam.
+- **Arabic pages with English words.** The Timeline showed English names under the Arabic ones (“Noah”, “Often identified with Enoch”); it now shows only Arabic notes. The Science page’s “DOI link” is translated.
+- **Times page Hijri date.** It always showed Umm al-Qura; in Morocco it now shows the Ministry’s announced date, like the Hijri page.
+- **Made-up species names.** Buraq (“Celestial Trans-Dimensional Mount”) and the Ababil (“Aves Caelestes”) had invented scientific names. They now have none, since no species is named. English flourishes after real names (“Miraculous Archetype”, “Bright Golden Heifer”…) are removed, and photos use the creature’s name as their description.
+- **Spanish.** Added for the Stature page (94 texts) and for the pre-Adam and angel cards (subtitles, nature, era, cautions and roles), plus the home page’s Ulul ‘Azm line.
+- **Half the startup download.** The Spanish name lists loaded every dataset (Nature, Scriptures, Sahaba, Stories, pre-Adam) on the first page. Each list now loads with its own page. The prayer engine and the day guide load only when the clock panel or the home card needs them. The main bundle went from 1,183 KB to 586 KB.
+
+### Checked
+- Accessibility scan of 18 pages: no button, link, image or field without a name.
+- All 45 internal links resolve.
+- Tests: 89/89 pass. `verify:duas`, `verify:sources` and `audit:content` pass, with no missing references.
+
 ## [2.8.0] — 2026-11-13
 ### Added
 - **The Hijri calendar (`/hijri`)**, in four languages, in the menu and linked from the Hijri date on the Times page:

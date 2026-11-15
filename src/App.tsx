@@ -10,6 +10,7 @@ import { NotFound } from './components/NotFound'
 import { SearchDialog } from './components/Search'
 import { VerseSheet } from './components/VerseSheet'
 import { VerseContext } from './components/ui'
+import { PlaceProvider } from './lib/place'
 import { Logo } from './components/Logo'
 import './data/es/apply'
 
@@ -128,6 +129,7 @@ export default function App() {
   })()
 
   return (
+    <PlaceProvider>
     <VerseContext.Provider value={openVerse}>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-gold focus:px-4 focus:py-2 focus:text-night">
         {t('skip')}
@@ -213,5 +215,6 @@ export default function App() {
       <VerseSheet refId={verse} onClose={() => setVerse(null)} />
       <SearchDialog open={searching} onClose={() => setSearching(false)} />
     </VerseContext.Provider>
+    </PlaceProvider>
   )
 }

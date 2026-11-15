@@ -319,7 +319,7 @@ export function ScienceView() {
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-semibold text-sky-300 hover:bg-sky-500/20 hover:text-sky-200 transition-colors shrink-0 w-fit"
                         >
-                          <span>DOI Link</span>
+                          <span>{tx(lang, 'DOI link', 'Lien DOI', 'رابط DOI', 'Enlace DOI')}</span>
                           <ExternalLink className="size-3" />
                         </a>
                       </div>
