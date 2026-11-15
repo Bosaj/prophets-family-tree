@@ -5,21 +5,25 @@ export const BOOKS: Record<string, L3> = {
     en: 'Ibn Kathir, Qisas al-Anbiya (Stories of the Prophets), and the classical commentaries',
     fr: 'Ibn Kathir, Qisas al-Anbiya (Histoires des prophètes), et les commentaires classiques',
     ar: 'ابن كثير، قصص الأنبياء، وكتب التفسير',
+    es: 'Ibn Kazir, Qisas al-Anbiya (Historias de los profetas), y los comentarios clásicos',
   },
   tabari: {
     en: 'Al-Tabari, Tarikh al-Rusul wa al-Muluk (History of Prophets and Kings)',
     fr: 'Al-Tabari, Tarikh al-Rusul wa al-Muluk (Histoire des prophètes et des rois)',
     ar: 'الطبري، تاريخ الرسل والملوك',
+    es: 'At-Tabari, Tarij ar-Rusul wa al-Muluk (Historia de los profetas y los reyes)',
   },
   sira: {
     en: 'Ibn Hisham, al-Sira al-Nabawiyya, and the hadith collections',
     fr: 'Ibn Hicham, al-Sira al-Nabawiyya, et les recueils de hadiths',
     ar: 'ابن هشام، السيرة النبوية، وكتب الحديث',
+    es: 'Ibn Hisham, as-Sira an-Nabawiyya, y las colecciones de hadices',
   },
   bible: {
     en: 'The Biblical account, as reported by historians — not an Islamic source',
     fr: 'Le récit biblique, rapporté par les historiens — pas une source islamique',
     ar: 'الرواية التوراتية كما ينقلها المؤرخون — ليست مصدرًا إسلاميًّا',
+    es: 'El relato bíblico, tal como lo transmiten los historiadores; no es una fuente islámica',
   },
   ibnkathir: {
     en: 'Ibn Kathir, Tafsir al-Qur’an al-‘Azim',
@@ -37,6 +41,7 @@ export const BOOKS: Record<string, L3> = {
     en: 'Estimates of modern historians — not from Islamic sources',
     fr: 'Estimations des historiens modernes — pas des sources islamiques',
     ar: 'تقديرات المؤرخين المعاصرين — لا من المصادر الإسلامية',
+    es: 'Estimaciones de historiadores modernos; no proceden de fuentes islámicas',
   },
 }
 

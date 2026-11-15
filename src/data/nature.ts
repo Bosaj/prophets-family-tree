@@ -615,9 +615,9 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
         'براءة المظلوم وظهور الحق؛ وأن الكذب لا يثبت أمام نور الحقيقة مهما لُفقت له الأدلة المزورة كدم القميص.'
       ),
       sunnahGuidance: t(
-        'The speaking wolf incident is an authentic miracle (Karamah / Prophetic Sign) recorded in Sahih Sunan testifying to the Prophet’s mission.',
-        'Le miracle du loup doué de parole constitue un signe éclatant de la véracité prophétique.',
-        'معجزة نطق الحيوان بالشهادة للرسول ﷺ وصدق نبوته وإخباره بالغيب.'
+        'The account of the speaking wolf is a prophetic sign reported in the hadith books and accepted by many scholars.',
+        'Le récit du loup qui parla est un signe prophétique rapporté dans les recueils de hadith et accepté par de nombreux savants.',
+        'قصة كلام الذئب آية نبوية رواها أهل الحديث وقبلها كثير من العلماء.'
       ),
       scientificEcological: t(
         'Apex carnivore preventing deer and rodent overpopulation, preventing overgrazing of desert saplings and preserving fragile flora.',
@@ -698,9 +698,9 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
         book: 'Ahmad',
         number: '3251',
         text: t(
-          'During the Hijrah, the Prophet ﷺ and Abu Bakr took refuge in the Cave of Thawr; Allah commanded a spider to spin its web across the cave entrance, confounding the search party of Quraysh.',
-          'Durant l’Hégire, le Prophète ﷺ et Abou Bakr s’abritèrent dans la grotte de Thawr; Allah commanda à l’araignée de tisser sa toile à l’entrée, déroutant les poursuivants de Quraych.',
-          'لَمَّا دَخَلَ النَّبِيُّ ﷺ وَأَبُو بَكْرٍ غَارَ ثَوْرٍ، بَعَثَ اللَّهُ الْعَنكَبُوتَ فَنَسَجَتْ عَلَى بَابِ الْغَارِ سِتْرًا، فَلَمَّا وَقَفَ مُشْرِكُو قُرَيْشٍ قَالُوا: مَا دَخَلَ هُنَا أَحَدٌ!'
+          'According to Hijrah reports in the biographies, when the Prophet ﷺ and Abu Bakr hid in the Cave of Thawr a spider spun its web across the entrance and the Quraysh search party turned back; scholars differ on the strength of this report.',
+          'Selon des récits de l’Hégire rapportés dans les biographies, quand le Prophète ﷺ et Abou Bakr se cachèrent dans la grotte de Thawr, une araignée tissa sa toile à l’entrée et les poursuivants de Quraysh rebroussèrent chemin ; les savants divergent sur la solidité de ce récit.',
+          'تذكر روايات الهجرة في كتب السيرة أن النبي ﷺ وأبا بكر لما اختبآ في غار ثور نسجت العنكبوت على بابه فرجع طلب قريش، واختلف العلماء في ثبوت هذه الرواية.'
         ),
       },
     ],
@@ -711,9 +711,9 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
       'الحشرة الناسجة التي ضرب الله ببيتها مثلاً في سورة العنكبوت لبيان وهن الشرك، والتي نسجت خيوطها بأمر الله على فم غار ثور حماية لرسول الله ﷺ وصاحبه أبي بكر.'
     ),
     whatTheyDid: t(
-      'Allah struck a profound parable: "The example of those who take protectors other than Allah is like that of the spider who builds a house; and indeed, the frailest of houses is the house of the spider, if they only knew." The Quran specifies "built [fem.] a house" matching modern biology which discovered that female spiders exclusively spin webs. During the perilous night of the Hijrah, Quraysh trackers climbed Mount Thawr seeking the Prophet ﷺ. Arriving at the cave mouth, they saw a fresh, intact spider’s web glistening across the aperture and concluded no human could have entered without breaking it, turning back in frustration.',
-      'Dieu a formulé une parabole saisissante : « L’exemple de ceux qui prennent des protecteurs en dehors d’Allah est tel celui de l’araignée qui s’est donné une demeure; et certes, la plus fragile des demeures est bien celle de l’araignée. » Le verbe au féminin concorde avec la découverte que seules les femelles tissent ces toiles. Lors de l’Hégire, une toile tissée devant la grotte de Thawr fit rebrousser chemin aux traqueurs mecquois.',
-      'ضرب الله بها مثلاً للمشركين الذين يعتمدون على غير الله: ﴿مَثَلُ الَّذِينَ اتَّخَذُوا مِنْ دُونِ اللَّهِ أَوْلِيَاءَ كَمَثَلِ الْعَنْكَبُوتِ اتَّخَذَتْ بَيْتًا وَإِنَّ أَوْهَنَ الْبُيُوتِ لَبَيْتُ الْعَنْكَبُوتِ لَوْ كَانُوا يَعْلَمُونَ﴾، وجاء التعبير بالفعل المؤنث ﴿اتَّخَذَتْ﴾ لأن أنثى العنكبوت هي التي تنسج البيت وتقتل ذكره بعد التلقيح. كما كانت خيوطها أرق جند حَمَى النبي ﷺ في الغار وصرف عنه أعين الكفار.'
+      'Allah struck a profound parable: "The example of those who take protectors other than Allah is like that of the spider who takes [fem.] a house; and indeed, the frailest of houses is the house of the spider, if they only knew." The verb is feminine in Arabic, and it is mostly females that build the webs. According to Hijrah reports, the Quraysh trackers climbed Mount Thawr, saw an intact web across the cave mouth and turned back.',
+      'Allah a formulé une parabole saisissante : « L’exemple de ceux qui prennent des protecteurs en dehors d’Allah est tel celui de l’araignée qui s’est donné une demeure ; et la plus fragile des demeures est bien celle de l’araignée. » Le verbe est au féminin en arabe, et ce sont surtout les femelles qui construisent les toiles. Selon des récits de l’Hégire, une toile intacte devant la grotte de Thawr fit rebrousser chemin aux poursuivants mecquois.',
+      'ضرب الله بها مثلًا للمشركين الذين يعتمدون على غير الله: ﴿مَثَلُ الَّذِينَ اتَّخَذُوا مِنْ دُونِ اللَّهِ أَوْلِيَاءَ كَمَثَلِ الْعَنْكَبُوتِ اتَّخَذَتْ بَيْتًا وَإِنَّ أَوْهَنَ الْبُيُوتِ لَبَيْتُ الْعَنْكَبُوتِ لَوْ كَانُوا يَعْلَمُونَ﴾، وجاء الفعل مؤنثًا ﴿اتَّخَذَتْ﴾، وأكثر من ينسج البيوت إناث العنكبوت. وتذكر روايات الهجرة أن خيوطها على باب غار ثور صرفت أعين المشركين.'
     ),
     physicalTraits: {
       size: t('5–30 mm body length, orb web up to 1 meter wide', '5–30 mm, toile circulaire jusqu’à 1 m', 'طول جسمها 5-30 مم، وباع شبكتها يتجاوز متراً كاملاً'),
@@ -939,9 +939,9 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
         'ربط البراق بالحلقة درس عملي نبوي في الأخذ بالأسباب مع كمال التوكل على مسبب الأسباب.'
       ),
       scientificEcological: t(
-        'Parallels modern relativistic physics and quantum teleportation concepts where distance collapses under non-local divine commands.',
-        'Fait écho aux concepts de physique quantique et de courbure de l’espace-temps relativiste.',
-        'التقاء الإعجاز النبوي مع مفاهيم طي الأبعاد ونسف حواجز الزمكان في الفيزياء الحديثة.'
+        'A miracle, not a phenomenon that physics explains.',
+        'Un miracle, non un phénomène qu’explique la physique.',
+        'معجزة، لا ظاهرة تفسرها الفيزياء.'
       ),
       practicalBenefits: t(
         'Symbolizes the eternal bond connecting the Two Holy Sanctuaries: Al-Masjid al-Haram in Makkah and Al-Masjid al-Aqsa in Jerusalem.',
@@ -1576,9 +1576,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'سكريات أحادية سريعة الامتصاص تعيد توازن سكر الدم فوراً، وأكثر من 15 معدناً وفيتاميناً أهمها البوتاسيوم والمغنيسيوم والحديد.'
       ),
       medicinalProphetic: t(
-        'Prophetic remedy of 7 Ajwa dates for hepatic detoxification and protection against cellular toxins; natural oxytocic activity facilitating safe childbirth.',
-        'L’Ajwa de Médine offre un bouclier hépato-protecteur unique; stimule les contractions utérines naturelles et accélère la délivrance.',
-        'عجوة المدينة تقي من السموم وتنشط وظائف الكبد، ويحتوي الرطب على مادة تماثل هرمون الأوكسيتوسين المساعد على انقباض الرحم وتسهيل الولادة.'
+        'The hadith of the seven ‘Ajwa dates is a prophetic promise; scholars differ on whether it is limited to the dates of Madinah. It is not a proven medical treatment.',
+        'Le hadith des sept dattes ‘Ajwa est une promesse prophétique ; les savants divergent sur sa limitation aux dattes de Médine. Ce n’est pas un traitement médical démontré.',
+        'حديث سبع تمرات العجوة وعد نبوي، واختلف العلماء في اختصاصه بعجوة المدينة، وليس علاجًا طبيًّا مثبتًا.'
       ),
       spiritualWisdom: t(
         'The Prophet ﷺ compared the faithful believer to the date palm: its leaves never fall, every part yields benefit, and it remains steadfast through storms.',
@@ -1737,9 +1737,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'غني بمركبات البونيكالاجين وحمض الإيلاجيك والأنثوسيانين وفيتامين ج والألياف.'
       ),
       medicinalProphetic: t(
-        'Tones and strengthens stomach lining ("Dabagh al-Ma’idah"), stops ulcer inflammation, improves cardiac circulation, and prevents arterial plaque buildup.',
-        'Régénère la muqueuse stomacale, combat les ulcères et fluidifie la microcirculation cardiaque.',
-        'يدبغ المعدة ويقوي بطانتها الداخلية، ويقاوم قرحة المعدة والجرثومة، ويطهر الجهاز الهضمي.'
+        'Studied for its effects on circulation and blood pressure.',
+        'Étudiée pour ses effets sur la circulation et la tension artérielle.',
+        'تُدرس آثاره في الدورة الدموية وضغط الدم.'
       ),
       spiritualWisdom: t(
         'Each ruby aril packed symmetrically within white parchment chambers reflects divine geometry and harmonious unity in diversity.',
@@ -1747,9 +1747,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'هندسة الحبات المتراصة بإحكام داخل الغرف البيضاء مظهر من مظاهر بديع صنع الخالق وتناسق الكون.'
       ),
       modernScience: t(
-        'Clinical studies prove punicalagins reverse carotid artery stenosis, lower systolic blood pressure, and inhibit prostate and breast cellular proliferation.',
-        'Prouvé cliniquement pour réduire la plaque d’athérome carotidienne et stabiliser la tension artérielle.',
-        'أثبتت الأبحاث السريرية قدرة عصيره على خفض ضغط الدم، وإذابة الدهون المتراكمة في الشرايين، ومقاومة الأورام.'
+        'Some small clinical studies suggest effects on blood pressure; the results are not yet conclusive.',
+        'Quelques petites études cliniques suggèrent des effets sur la tension artérielle ; les résultats ne sont pas encore concluants.',
+        'تشير بعض الدراسات السريرية الصغيرة إلى أثر في ضغط الدم، ونتائجها غير حاسمة بعد.'
       ),
     },
   },
@@ -1804,9 +1804,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'يجمع بين لذة الطعم وشفاء الداء؛ مثلاً لنور القرآن الذي هو شفاء لما في الصدور ولذة لأرواح العارفين.'
       ),
       modernScience: t(
-        'Broad-spectrum antimicrobial efficacy against antibiotic-resistant MRSA; high osmolarity and low pH inhibit bacterial reproduction; accelerates fibroblast tissue regeneration.',
-        'Antibactérien puissant actif contre le SARM; stimule la prolifération des fibroblastes et la régénération tissulaire.',
-        'أثبت الطب الحديث فاعليته ضد البكتيريا المقاومة للمضادات الحيوية (MRSA)، وخصائصه الأسموزية التي تمنع نمو الميكروبات.'
+        'Its acidity and high sugar concentration hold back bacterial growth; medical-grade honey is used in wound care.',
+        'Son acidité et sa forte concentration en sucre freinent la croissance bactérienne ; le miel de qualité médicale est utilisé pour soigner les plaies.',
+        'حموضته وتركيز السكر العالي فيه يكبحان نمو البكتيريا، ويُستعمل العسل الطبي في العناية بالجروح.'
       ),
     },
   },
@@ -1860,9 +1860,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'مادة الثيموكينون الفائقة الفاعلية، والنيجلون، وحمض اللينوليك الدهني، ومضادات الأكسدة النادرة.'
       ),
       medicinalProphetic: t(
-        'Strengthens respiratory system against asthma, relieves allergic rhinitis, dissolves kidney crystals, stimulates pancreatic beta cells, and supports deep sleep.',
-        'Soulage l’asthme et les allergies respiratoires, stimule l’immunité globale et équilibre la glycémie.',
-        'علاج فعال للربو والتهابات الصدر والحساسية، ومقوٍ لجهاز المناعة، ومخفض لضغط الدم وسكر الدم.'
+        'Studied for asthma, allergies and blood sugar; it does not replace medical treatment.',
+        'Étudiée pour l’asthme, les allergies et la glycémie ; elle ne remplace pas un traitement médical.',
+        'تُدرس آثارها في الربو والحساسية وسكر الدم، ولا تغني عن العلاج الطبي.'
       ),
       spiritualWisdom: t(
         'A humble tiny seed reminding humanity that divine cure does not require costly alchemy; Allah hid universal protection in the smallest creation.',
@@ -1870,9 +1870,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'تذكير بأن الشفاء يودعه الله في أصغر خلقه، وأن بركة التوكل تكمن في اتباع الهدي النبوي الشريف.'
       ),
       modernScience: t(
-        'Over 1,200 peer-reviewed studies validate Thymoquinone’s potent anti-inflammatory, bronchodilatory, anti-tumorigenic, and hepatoprotective properties.',
-        'Plus de 1 200 études scientifiques confirment son action anticancéreuse, bronchodilatatrice et protectrice cellulaire.',
-        'أكثر من 1200 بحث علمي محكم يثبت قدرة الثيموكينون على تثبيط الخلايا السرطانية وتوسيع الشعب الهوائية وحماية خلايا الكبد.'
+        'Hundreds of studies, mostly in the laboratory, investigate the anti-inflammatory action of thymoquinone; trials in people are still limited.',
+        'Des centaines d’études, surtout en laboratoire, examinent l’action anti-inflammatoire de la thymoquinone ; les essais chez l’humain restent limités.',
+        'مئات الدراسات، أكثرها مخبرية، تبحث أثر الثيموكينون المضاد للالتهاب، والتجارب على البشر ما زالت محدودة.'
       ),
     },
   },
@@ -2031,9 +2031,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'غني بالحمض الأميني التريبتوفان المصنع لهرمون السعادة (السيروتونين)، والمغنيسيوم والبوتاسيوم وفيتامينات ب المركبة.'
       ),
       medicinalProphetic: t(
-        'Soothes grief-induced myocardial stress ("Tujimmu Fu’ad al-Marid"), combats clinical depression and melancholia, lowers blood cholesterol, and coats gastric lining.',
-        'Dissipe l’anxiété et la dépression, apaise les palpitations cardiaques et régule le cholestérol.',
-        'تريح عضلة القلب المجهدة من الحزن، وتعالج الاكتئاب وتوتر الأعصاب، وتخفض الكولسترول الضار وتلين المعدة.'
+        'A comforting, easily digested food in grief and illness; barley beta-glucan helps lower cholesterol.',
+        'Un aliment réconfortant et facile à digérer dans le deuil et la maladie ; le bêta-glucane de l’orge aide à baisser le cholestérol.',
+        'طعام مريح سهل الهضم في الحزن والمرض، ويساعد بيتا غلوكان الشعير على خفض الكولسترول.'
       ),
       spiritualWisdom: t(
         'Embodies holistic prophetic medicine recognizing the profound psychosomatic link between nutrition, brain chemistry, and spiritual patience during grief.',
@@ -2041,9 +2041,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'إعجاز في الطب النفسي الجسدي؛ يربط بين تغذية الجسد وراحة الروح وانشراح الصدر في أوقات المصائب.'
       ),
       modernScience: t(
-        'Barley beta-glucans regulate gut-brain axis neurotransmitter synthesis; high magnesium and tryptophan significantly lower depressive rating scores in clinical trials.',
-        'Les bêta-glucanes et le tryptophane de l’orge régulent l’axe intestin-cerveau et réduisent les scores d’anxiété.',
-        'أثبتت الدراسات العصبية أن الشعير يعزز إفراز السيروتونين والدوبامين في الدماغ، مما يقرّب معنى قوله ﷺ: «تَذْهَبُ بِبَعْضِ الْحُزْنِ» (صحيح البخاري 5417).'
+        'Barley beta-glucan has a recognised effect on cholesterol; its effect on mood is still being studied.',
+        'Le bêta-glucane de l’orge a un effet reconnu sur le cholestérol ; son effet sur l’humeur est encore étudié.',
+        'لبيتا غلوكان الشعير أثر معروف في خفض الكولسترول، أما أثره في المزاج فما زال قيد الدراسة.'
       ),
     },
   },
@@ -2107,9 +2107,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'برهان على كرم الرزاق الذي يخرج من بطن الرمال القاحلة غذاءً ودواءً خالصاً دون حرث ولا بذر.'
       ),
       modernScience: t(
-        'Extensive clinical trials at King Saud University showed sterile aqueous Kam’ah extract completely halted Chlamydia trachomatis bacteria and prevented blindness in trachoma patients.',
-        'Les essais cliniques démontrent son efficacité totale contre Chlamydia trachomatis, empêchant la cécité trachomateuse.',
-        'أثبتت الأبحاث الإكلينيكية في جامعة الملك سعود أن ماء الكمأة المعقم يقضي تماماً على بكتيريا التراخوما ويمنع عتامة القرنية.'
+        'Some laboratory studies have found antibacterial activity in desert-truffle extracts; it is not an approved eye treatment.',
+        'Des études de laboratoire ont trouvé une activité antibactérienne dans des extraits de truffe du désert ; ce n’est pas un traitement oculaire approuvé.',
+        'وجدت بعض الدراسات المخبرية نشاطًا مضادًّا للبكتيريا في مستخلصات الكمأة، وليست علاجًا معتمدًا للعين.'
       ),
     },
   },
@@ -2277,9 +2277,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'الجمع الإعجازي بين الدفء والانتعاش في نعيم الجنة، رمز لاكتمال اللذة وتمام الصحة في دار الخلود.'
       ),
       modernScience: t(
-        'Proven to outperform over-the-counter antiemetics for motion sickness and pregnancy nausea; exerts potent anti-inflammatory effects matching prescription NSAIDs.',
-        'Efficacité clinique supérieure aux antiémétiques de synthèse; puissant anti-inflammatoire sans effets secondaires.',
-        'أكدت التجارب السريرية تفوقه على الأدوية الكيميائية في علاج الغثيان والقيء وتسكين آلام المفاصل والتهابات القولون.'
+        'There is evidence that it eases pregnancy and motion nausea; its anti-inflammatory effect is modest.',
+        'Des preuves montrent qu’il soulage les nausées de grossesse et du mal des transports ; son effet anti-inflammatoire est modeste.',
+        'ثمة أدلة على أنه يخفف غثيان الحمل ودوار السفر، وأثره المضاد للالتهاب متواضع.'
       ),
     },
   },

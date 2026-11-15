@@ -83,6 +83,7 @@ export interface ProphetBook {
     arabicText: string
     translationEn: string
     translationFr: string
+    translationEs?: string
   }>
   preservationStatus: 'divinely_preserved' | 'partially_extant' | 'historical_recensions' | 'lost_original'
   versionsCount: number
@@ -137,6 +138,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ﴾',
         translationEn: 'Indeed, it is We who sent down the Qur’an and indeed, We will be its guardian.',
         translationFr: 'En vérité, c’est Nous qui avons fait descendre le Rappel, et c’est Nous qui en sommes les gardiens.',
+        translationEs: 'Somos Nosotros quienes hemos hecho descender el Recuerdo, y somos Nosotros sus guardianes.',
       },
       {
         surah: 2,
@@ -144,6 +146,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ﴾',
         translationEn: 'This is the Book about which there is no doubt, a guidance for those conscious of Allah.',
         translationFr: 'C’est le Livre au sujet duquel il n’y a aucun doute, un guide pour les pieux.',
+        translationEs: 'Este es el Libro del que no hay duda, guía para los que temen a Allah.',
       },
       {
         surah: 41,
@@ -151,6 +154,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَإِنَّهُ لَكِتَابٌ عَزِيزٌ * لَّا يَأْتِيهِ الْبَاطِلُ مِن بَيْنِ يَدَيْهِ وَلَا مِنْ خَلْفِهِ ۖ تَنزِيلٌ مِّنْ حَكِيمٍ حَمِيدٍ﴾',
         translationEn: 'And indeed, it is an unassailable book. Falsehood cannot approach it from before it or from behind it; [it is] a revelation from a [Lord who is] Wise and Praiseworthy.',
         translationFr: 'Et c’est un Livre inattaquable. Le faux ne l’atteint d’aucune part, ni par devant ni par derrière : c’est une révélation émanant d’un Sage, Digne de louange.',
+        translationEs: 'Es un Libro inexpugnable: la falsedad no puede llegarle ni por delante ni por detrás; es una revelación de un Sabio, digno de alabanza.',
       },
     ],
     preservationStatus: 'divinely_preserved',
@@ -290,6 +294,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿إِنَّا أَنزَلْنَا التَّوْرَاةَ فِيهَا هُدًى وَنُورٌ ۚ يَحْكُمُ بِهَا النَّبِيُّونَ الَّذِينَ أَسْلَمُوا لِلَّذِينَ هَادُوا﴾',
         translationEn: 'Indeed, We sent down the Torah, in which was guidance and light. The prophets who submitted [to Allah] judged by it for the Jews.',
         translationFr: 'Nous avons fait descendre la Thora dans laquelle il y a guide et lumière. C’est sur sa base que les prophètes qui s’étaient soumis à Allah jugeaient pour les Juifs.',
+        translationEs: 'Hicimos descender la Torá, en la que hay guía y luz. Con ella juzgaban a los judíos los profetas sometidos a Allah.',
       },
       {
         surah: 7,
@@ -297,6 +302,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَكَتَبْنَا لَهُ فِي الْأَلْوَاحِ مِن كُلِّ شَيْءٍ مَّوْعِظَةً وَتَفْصِيلًا لِّكُلِّ شَيْءٍ﴾',
         translationEn: 'And We wrote for him on the tablets [something] of all things - instruction and explanation for all things.',
         translationFr: 'Et Nous écrivîmes pour lui, sur les Tables, une exhortation sur toute chose, et un exposé détaillé de toute chose.',
+        translationEs: 'Y le escribimos en las Tablas una exhortación sobre todas las cosas y una explicación de todas las cosas.',
       },
       {
         surah: 2,
@@ -304,6 +310,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَقَدْ كَانَ فَرِيقٌ مِّنْهُمْ يَسْمَعُونَ كَلَامَ اللَّهِ ثُمَّ يُحَرِّفُونَهُ مِن بَعْدِ مَا عَقَلُوهُ وَهُمْ يَعْلَمُونَ﴾',
         translationEn: 'While a party of them used to hear the words of Allah and then distort the Torah after they had understood it while they were knowing?',
         translationFr: 'Alors qu’un groupe d’entre eux entendait la parole d’Allah, puis la falsifiait sciemment après l’avoir comprise ?',
+        translationEs: '¿Esperáis que os crean, cuando una parte de ellos oía la palabra de Allah y luego la alteraba a sabiendas, después de haberla comprendido?',
       },
     ],
     preservationStatus: 'historical_recensions',
@@ -615,6 +622,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَآتَيْنَا دَاوُودَ زَبُورًا﴾',
         translationEn: 'And to David We gave the book of Psalms.',
         translationFr: 'Et à David Nous avons donné le Zabour (les Psaumes).',
+        translationEs: 'Y a Dawud le dimos los Salmos.',
       },
       {
         surah: 17,
@@ -622,6 +630,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَلَقَدْ فَضَّلْنَا بَعْضَ النَّبِيِّينَ عَلَىٰ بَعْضٍ ۖ وَآتَيْنَا دَاوُودَ زَبُورًا﴾',
         translationEn: 'And We have made some of the prophets exceed others [in various ways], and to David We gave the Psalms.',
         translationFr: 'Et Nous avons préféré certains prophètes à d’autres. Et Nous avons donné à David le Zabour.',
+        translationEs: 'Hemos favorecido a unos profetas sobre otros, y a Dawud le dimos los Salmos.',
       },
       {
         surah: 21,
@@ -629,6 +638,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَلَقَدْ كَتَبْنَا فِي الزَّبُورِ مِن بَعْدِ الذِّكْرِ أَنَّ الْأَرْضَ يَرِثُهَا عِبَادِيَ الصَّالِحُونَ﴾',
         translationEn: 'And We have already written in the book [of Psalms] after the [previous] mention that the land [of Paradise] is inherited by My righteous servants.',
         translationFr: 'Et Nous avons certes écrit dans le Zabour, après le Rappel, que la terre sera héritée par Mes bons serviteurs.',
+        translationEs: 'Y hemos escrito en los Salmos, después del Recuerdo, que la tierra la heredarán Mis siervos justos.',
       },
     ],
     preservationStatus: 'historical_recensions',
@@ -897,6 +907,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَقَفَّيْنَا عَلَىٰ آثَارِهِم بِعِيسَى ابْنِ مَرْيَمَ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ مِنَ التَّوْرَاةِ ۖ وَآتَيْنَاهُ الْإِنجِيلَ فِيهِ هُدًى وَنُورٌ وَمُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ مِنَ التَّوْرَاةِ وَهُدًى وَمَوْعِظَةً لِّلْمُتَّقِينَ﴾',
         translationEn: 'And We sent, following in their footsteps, Jesus, the son of Mary, confirming that which came before him in the Torah; and We gave him the Gospel, in which was guidance and light and confirming that which preceded it of the Torah and as guidance and instruction for the righteous.',
         translationFr: 'Et Nous avons envoyé après eux Jésus, fils de Marie, pour confirmer ce qu’il y avait dans la Thora avant lui. Et Nous lui avons donné l’Évangile, où il y a guide et lumière, confirmant ce qu’il y avait dans la Thora avant lui, et un guide et une exhortation pour les pieux.',
+        translationEs: 'E hicimos que les siguiera ‘Isa, hijo de Maryam, confirmando la Torá que había antes de él, y le dimos el Evangelio, en el que hay guía y luz, confirmando la Torá que había antes de él, y guía y exhortación para los que temen a Allah.',
       },
       {
         surah: 57,
@@ -904,6 +915,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَقَفَّيْنَا بِعِيسَى ابْنِ مَرْيَمَ وَآتَيْنَاهُ الْإِنجِيلَ وَجَعَلْنَا فِي قُلُوبِ الَّذِينَ اتَّبَعُوهُ رَأْفَةً وَرَحْمَةً﴾',
         translationEn: 'And We sent, following in their footsteps, Jesus, the son of Mary, and gave him the Gospel. And We placed in the hearts of those who followed him compassion and mercy.',
         translationFr: 'Puis Nous fîmes suivre Jésus, fils de Marie, et lui apportâmes l’Évangile, et mîmes dans les cœurs de ceux qui le suivirent douceur et compassion.',
+        translationEs: 'Luego, tras ellos, enviamos a ‘Isa, hijo de Maryam, y le dimos el Evangelio, y pusimos en el corazón de quienes lo siguieron compasión y misericordia.',
       },
       {
         surah: 7,
@@ -911,6 +923,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿الَّذِينَ يَتَّبِعُونَ الرَّسُولَ النَّبِيَّ الْأُمِّيَّ الَّذِي يَجِدُونَهُ مَكْتُوبًا عِندَهُمْ فِي التَّوْرَاةِ وَالْإِنجِيلِ﴾',
         translationEn: 'Those who follow the Messenger, the unlettered prophet, whom they find written [i.e., described] with them in what they have of the Torah and the Gospel...',
         translationFr: 'Ceux qui suivent le Messager, le Prophète illettré qu’ils trouvent mentionné chez eux dans la Thora et l’Évangile...',
+        translationEs: 'Los que siguen al Mensajero, el profeta iletrado, al que encuentran descrito en lo que tienen de la Torá y el Evangelio…',
       },
     ],
     preservationStatus: 'historical_recensions',
@@ -1308,6 +1321,7 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿إِنَّ هَٰذَا لَفِي الصُّحُفِ الْأُولَىٰ * صُحُفِ إِبْرَاهِيمَ وَمُوسَىٰ﴾',
         translationEn: 'Indeed, this is in the former scriptures, the scriptures of Abraham and Moses.',
         translationFr: 'Ceci se trouve, certes, dans les Feuilles anciennes, les Feuilles d’Abraham et de Moïse.',
+        translationEs: 'Esto está en las hojas antiguas, las hojas de Ibrahim y de Musa.',
       },
       {
         surah: 53,
@@ -1315,19 +1329,20 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿أَمْ لَمْ يُنَبَّأْ بِمَا فِي صُحُفِ مُوسَىٰ * وَإِبْرَاهِيمَ الَّذِي وَفَّىٰ﴾',
         translationEn: 'Or has he not been informed of what was in the scriptures of Moses and Abraham, who fulfilled [his obligations]?',
         translationFr: 'Ne lui a-t-on pas annoncé ce qu’il y avait dans les Feuilles de Moïse et d’Abraham qui a tenu sa promesse ?',
+        translationEs: '¿O no se le ha informado de lo que hay en las hojas de Musa y de Ibrahim, el que cumplió fielmente?',
       },
     ],
     preservationStatus: 'lost_original',
     versionsCount: 4, // 4 surviving records & pseudepigrapha traditions
     versionsSummary: {
-      en: '4 Surviving Historical Traditions & Records: The Lost Divine Original (Al-Asl al-Mafqud), The Testament of Abraham (Greek, Coptic, Arabic recensions), The Apocalypse of Abraham (Old Slavonic from Semitic vorlage), and Prophetic Hadiths recording their moral maxims (Sahih Ibn Hibban).',
-      fr: '4 Traditions historiques et témoins : L’Original divin perdu, le Testament d’Abraham (recensions grecque, copte, arabe), l’Apocalypse d’Abraham (slave) et les Hadiths authentiques rapportant leurs maximes morales.',
-      ar: '٤ شواهد وتقاليد تاريخية: الأصل الإلهي المفقود، وصية إبراهيم (برواياتها اليونانية والقبطية والعربية)، رؤيا إبراهيم (السلافية عن أصل سامي)، وأحاديث المصطفى ﷺ التي روت حكم تلك الصحف ومواعظها (صحيح ابن حبان).',
+      en: '4 traditions and records: the lost divine original (al-Asl al-Mafqud), the Testament of Abraham (Greek, Coptic and Arabic recensions), the Apocalypse of Abraham (Old Slavonic, from a Semitic original), and a long hadith of Abu Dharr in Sahih Ibn Hibban that many hadith critics grade very weak.',
+      fr: '4 traditions et témoins : l’original divin perdu, le Testament d’Abraham (recensions grecque, copte, arabe), l’Apocalypse d’Abraham (slave) et un long hadith d’Abou Dharr chez Ibn Hibban, que de nombreux critiques du hadith jugent très faible.',
+      ar: '٤ شواهد وتقاليد تاريخية: الأصل الإلهي المفقود، ووصية إبراهيم (برواياتها اليونانية والقبطية والعربية)، ورؤيا إبراهيم (السلافية عن أصل سامي)، وحديث أبي ذر الطويل عند ابن حبان، وقد ضعّفه كثير من نقاد الحديث جدًّا.',
     },
     theologicalContext: {
-      en: 'The Scrolls of Abraham represent the earliest primordial divine revelation explicitly named in the Qur’an, containing pure monotheistic creed (Hanifiyyah), parables, and ethical wisdom. While the physical scrolls were lost over four millennia of history, authentic Hadith narrations (such as that of Abu Dharr in Sahih Ibn Hibban) preserve their moral precepts.',
-      fr: 'Les Feuillets d’Abraham constituent la plus ancienne révélation divine mentionnée nominativement dans le Coran, axée sur le monothéisme pur (Hanifiyya) et la sagesse éthique.',
-      ar: 'صحف إبراهيم أول الكتب السماوية المسماة في القرآن الكريم، تضمنت الحنيفية السمحة والمواعظ والحكم والأمثال. ضاعت ألواحها الأصلية بتقادم آلاف السنين، وحفظت لنا السنة النبوية الشريفة في صحيح ابن حبان وجامع الآجري قبسات من حكمها العظيمة.',
+      en: 'The Scrolls of Abraham are among the oldest revelations the Qur’an names (87:18-19, 53:36-37), carrying pure monotheism (Hanifiyyah) and moral wisdom. The scrolls were lost over the millennia; the Qur’an summarises part of their message. A long hadith attributed to Abu Dharr (Ibn Hibban 361) describes further maxims, but its chain is very weak according to many specialists.',
+      fr: 'Les Feuillets d’Abraham comptent parmi les plus anciennes révélations nommées par le Coran (87:18-19, 53:36-37), porteurs du monothéisme pur (Hanifiyya) et de sagesse morale. Ils se sont perdus au fil des millénaires ; le Coran en résume une partie. Un long hadith attribué à Abou Dharr (Ibn Hibban 361) en décrit d’autres maximes, mais sa chaîne est très faible selon de nombreux spécialistes.',
+      ar: 'صحف إبراهيم من أقدم ما سمّاه القرآن من الكتب (الأعلى ١٨-١٩، النجم ٣٦-٣٧)، وفيها الحنيفية والحكمة. وقد ضاعت بتقادم القرون، ولخّص القرآن بعض ما فيها. وفي حديث أبي ذر الطويل عند ابن حبان (٣٦١) وصف لحِكَم أخرى، لكن إسناده ضعيف جدًّا عند كثير من المحدثين.',
     },
     versions: [
       {
@@ -1353,9 +1368,9 @@ export const SCRIPTURES: ProphetBook[] = [
           ar: 'الوحي الإلهي المباشر الذي أوتيه خليل الرحمن وإمام الحنفاء عليه السلام.',
         },
         description: {
-          en: 'According to prophetic tradition narrated in Sahih Ibn Hibban (#361), Allah revealed 10 scrolls unto Abraham, filled with proverbs, wisdom for the intellect, and admonitions against tyranny.',
-          fr: 'Selon la tradition prophétique (Sahih Ibn Hibban n°361), Allah fit descendre 10 feuillets sur Abraham.',
-          ar: 'روى أبو ذر رضي الله عنه في حديث صحيح ابن حبان: "قلت يا رسول الله: فما كانت صحف إبراهيم؟ قال: كانت أمثالاً كلها...".',
+          en: 'A long hadith of Abu Dharr in Ibn Hibban (361), very weak according to many specialists, says Allah revealed ten scrolls to Abraham, full of proverbs and warnings against tyranny.',
+          fr: 'Selon un long hadith d’Abou Dharr chez Ibn Hibban (n°361), très faible selon de nombreux spécialistes, Allah fit descendre dix feuillets sur Abraham.',
+          ar: 'في حديث أبي ذر الطويل عند ابن حبان (٣٦١)، وإسناده ضعيف جدًّا عند كثير من المحدثين: «قلت يا رسول الله: فما كانت صحف إبراهيم؟ قال: كانت أمثالًا كلها...».',
         },
         extantManuscripts: {
           en: 'No surviving physical manuscripts from the 2nd millennium BCE.',
@@ -1477,9 +1492,9 @@ export const SCRIPTURES: ProphetBook[] = [
           ar: 'القرن الأول الهجري (مدون في أمهات كتب الحديث والزهد)',
         },
         significance: {
-          en: 'The definitive Islamic record preserving the actual ethical contents of the Scrolls of Abraham as described by Prophet Muhammad ﷺ.',
-          fr: 'Le témoignage islamique authentique préservant la sagesse morale des Feuillets d’Abraham.',
-          ar: 'الأصل الإسلامي الموثوق الذي حفظ لنا المعاني والمواعظ الحقيقية لصحف إبراهيم كما جلاها الصادق المصدوق ﷺ.',
+          en: 'A long hadith attributed to Abu Dharr describing the moral content of the Scrolls of Abraham; its chain is very weak according to many specialists, so its wording is not attributed to the Prophet ﷺ with certainty.',
+          fr: 'Un long hadith attribué à Abou Dharr décrivant la sagesse morale des Feuillets d’Abraham ; sa chaîne est très faible selon de nombreux spécialistes, et son texte n’est donc pas attribué au Prophète ﷺ avec certitude.',
+          ar: 'حديث طويل منسوب إلى أبي ذر يصف مواعظ صحف إبراهيم، وإسناده ضعيف جدًّا عند كثير من المحدثين، فلا يُجزم بنسبة لفظه إلى النبي ﷺ.',
         },
         description: {
           en: 'Quotes the wisdom of the scrolls: "A ruler must not be deceived by power... An intelligent person must divide his day into four hours: an hour to supplicate his Lord, an hour to examine his deeds, an hour to contemplate Allah’s creation, and an hour to earn lawful sustenance."',
@@ -1492,9 +1507,9 @@ export const SCRIPTURES: ProphetBook[] = [
           ar: 'صحيح ابن حبان، كتاب الشريعة والزهد للآجري، شعب الإيمان للبيهقي، البداية والنهاية لابن كثير.',
         },
         variantCountOrStatus: {
-          en: 'Transmitted with sound continuous chains (Isnad) from Abu Dharr al-Ghifari.',
-          fr: 'Transmis par plusieurs chaînes de transmission depuis Abou Dharr.',
-          ar: 'حديث مروي بأسانيد حسنة من طرق متعددة عن الصحابي الجليل أبي ذر الغفاري رضي الله عنه.',
+          en: 'Transmitted from Abu Dharr al-Ghifari through a chain that includes Ibrahim ibn Hisham al-Ghassani, whom the critics rejected; many therefore grade it very weak.',
+          fr: 'Transmis d’Abou Dharr par une chaîne où figure Ibrahim ibn Hisham al-Ghassani, rejeté par les critiques ; beaucoup le jugent donc très faible.',
+          ar: 'يُروى عن أبي ذر الغفاري بإسناد فيه إبراهيم بن هشام الغساني، وقد تركه النقاد، ولذا ضعّفه كثيرون جدًّا.',
         },
         theologicalPerspective: {
           en: 'Reveals that true spiritual wisdom and self-accountability have been universal constants across all prophetic dispensations.',
@@ -1540,27 +1555,28 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿وَاذْكُرْ فِي الْكِتَابِ إِدْرِيسَ ۚ إِنَّهُ كَانَ صِدِّيقًا نَّبِيًّا * وَرَفَعْنَاهُ مَكَانًا عَلِيًّا﴾',
         translationEn: 'And mention in the Book, Idris. Indeed, he was a man of truth and a prophet. And We raised him to a high station.',
         translationFr: 'Et mentionne Idris, dans le Livre. C’était un véridique et un prophète. Et Nous l’élevâmes à un haut rang.',
+        translationEs: 'Y recuerda en el Libro a Idris: era veraz y profeta. Y lo elevamos a un alto rango.',
       },
     ],
     preservationStatus: 'lost_original',
     versionsCount: 3,
     versionsSummary: {
-      en: '3 Historical Records: The 30 Divine Scrolls recorded in Sahih Hadith (Sahih Ibn Hibban #361), Ethiopic 1 Enoch (Book of the Watchers and Astronomical Book), and Slavonic 2 Enoch (Secrets of Enoch).',
-      fr: '3 Témoins historiques : Les 30 feuillets rapportés par le Hadith (Ibn Hibban), le Livre d’Hénoch éthiopien (1 Hénoch) et le Livre des secrets d’Hénoch slave (2 Hénoch).',
-      ar: '٣ شواهد تاريخية: ٣٠ صحيفة سماوية نص عليها الحديث الصحيح (ابن حبان)، سفر أخنوخ الحبشي الأول (١ أخنوخ)، وسفر أسرار أخنوخ السلافي الثاني (٢ أخنوخ).',
+      en: '3 records: the thirty scrolls named in the long hadith of Abu Dharr (Ibn Hibban 361, with a very weak chain), Ethiopic 1 Enoch (Book of the Watchers and Astronomical Book), and Slavonic 2 Enoch (Secrets of Enoch).',
+      fr: '3 témoins : les trente feuillets cités dans le long hadith d’Abou Dharr (Ibn Hibban 361, à la chaîne très faible), le Livre d’Hénoch éthiopien (1 Hénoch) et le Livre des secrets d’Hénoch slave (2 Hénoch).',
+      ar: '٣ شواهد: الصحف الثلاثون المذكورة في حديث أبي ذر الطويل (ابن حبان ٣٦١، وإسناده ضعيف جدًّا)، وسفر أخنوخ الحبشي الأول، وسفر أسرار أخنوخ السلافي الثاني.',
     },
     theologicalContext: {
-      en: 'Prophet Idris (identified traditionally with Enoch) was the first human being granted the art of writing with the pen (Al-Khatt bil-Qalam) and the knowledge of astronomy and celestial orbits. According to Sahih Hadith, Allah revealed 30 scrolls unto him.',
-      fr: 'Idris (Hénoch) est traditionnellement reconnu comme le premier homme à avoir écrit avec la plume et reçu la science des astres. 30 feuillets lui furent révélés.',
-      ar: 'إدريس عليه السلام أول من خط بالقلم في تاريخ البشرية وأول من درس النجوم وحساب الفلك. أنزل الله عليه ثلاثين صحيفة جامعة لأصول التوحيد والشريعة ومحاربة طغيان قابيل، ورفعه الله مكاناً علياً في السماء الرابعة.',
+      en: 'Tradition says Prophet Idris (identified with Enoch) was the first to write with the pen and was given knowledge of the stars. The hadith of Abu Dharr that gives him thirty scrolls is very weak according to many specialists.',
+      fr: 'La tradition fait d’Idris (identifié à Hénoch) le premier à écrire avec la plume et à recevoir la science des astres. Le hadith d’Abou Dharr qui lui attribue trente feuillets est très faible selon de nombreux spécialistes.',
+      ar: 'يُروى أن إدريس عليه السلام أول من خط بالقلم ونظر في النجوم، ورفعه الله مكانًا عليًّا. أما حديث أبي ذر في إنزال ثلاثين صحيفة عليه فإسناده ضعيف جدًّا عند كثير من المحدثين.',
     },
     versions: [
       {
         id: 'hadith_idris_scrolls',
         name: {
-          en: 'The 30 Divine Scrolls (Sahih Hadith Record)',
-          fr: 'Les 30 Feuillets Révélés (Hadith d’Ibn Hibban)',
-          ar: 'الصحف الثلاثون المنزلة (الرواية النبوية الصحيحة)',
+          en: 'The 30 Scrolls (in the hadith of Abu Dharr)',
+          fr: 'Les 30 feuillets (dans le hadith d’Abou Dharr)',
+          ar: 'الصحف الثلاثون (في حديث أبي ذر)',
         },
         language: {
           en: 'Classical Arabic (reporting the ancient revelation)',
@@ -1568,19 +1584,19 @@ export const SCRIPTURES: ProphetBook[] = [
           ar: 'العربية الفصحى المسندة',
         },
         period: {
-          en: 'Transmitted from the Prophet Muhammad ﷺ to Abu Dharr',
-          fr: 'Transmis par le Prophète ﷺ',
-          ar: 'عن النبي ﷺ في بيان عدد الكتب المنزلة على الأنبياء',
+          en: 'Attributed to the Prophet Muhammad ﷺ through Abu Dharr',
+          fr: 'Attribué au Prophète ﷺ par Abou Dharr',
+          ar: 'منسوب إلى النبي ﷺ من رواية أبي ذر',
         },
         significance: {
-          en: 'Confirmed in Sahih Ibn Hibban (#361): "How many books did Allah reveal? He said: 104 books... upon Idris 30 scrolls."',
-          fr: 'Confirmé dans Sahih Ibn Hibban : 104 livres révélés, dont 30 sur Idris.',
-          ar: 'ثبت في صحيح ابن حبان: "قلت يا رسول الله كم كتاباً أنزل الله؟ قال: مائة كتاب وأربعة كتب، أنزل الله على شيث خمسين صحيفة، وأنزل على إخنوخ - وهو إدريس - ثلاثين صحيفة...".',
+          en: 'In Ibn Hibban (361): “How many books did Allah reveal? He said: one hundred and four… upon Idris thirty scrolls.” The chain is very weak according to many specialists.',
+          fr: 'Chez Ibn Hibban (n°361) : 104 livres révélés, dont 30 sur Idris. La chaîne est très faible selon de nombreux spécialistes.',
+          ar: 'عند ابن حبان (٣٦١): «قلت يا رسول الله كم كتابًا أنزل الله؟ قال: مائة كتاب وأربعة كتب... وأنزل على أخنوخ ثلاثين صحيفة». وإسناده ضعيف جدًّا عند كثير من المحدثين.',
         },
         description: {
-          en: 'First written codices of divine guidance, establishing writing, measurement, and moral limits against pre-Flood transgressions.',
-          fr: 'Premiers textes écrits de l’humanité, fixant les lois morales contre la décadence antédiluvienne.',
-          ar: 'أول تدوين كتابي شرعي لتوحيد الله ونهي ولد آدم عن الفواحش التي أحدثها نسل قابيل.',
+          en: 'Tradition presents them as the first written guidance, teaching writing, measure and moral limits.',
+          fr: 'La tradition y voit les premiers écrits de guidance, enseignant l’écriture, la mesure et les limites morales.',
+          ar: 'تذكرها الأخبار أول تدوين للهداية، فيه الكتابة والقياس وحدود الأخلاق.',
         },
         extantManuscripts: {
           en: 'Recorded across Hadith and historical works (Ibn Hibban, Al-Tabari, Ibn al-Athir).',
@@ -1588,9 +1604,9 @@ export const SCRIPTURES: ProphetBook[] = [
           ar: 'مدون في كتب السنن والآثار وتاريخ الرسل والملوك للطبري وابن الأثير.',
         },
         variantCountOrStatus: {
-          en: 'Authentic prophetic attestation of its existence.',
-          fr: 'Attestation prophétique authentique.',
-          ar: 'ثابت بالرواية النبوية الصحيحة المستفيضة.',
+          en: 'Named in a hadith with a weak chain; the Qur’an does not give a number of scrolls.',
+          fr: 'Cité dans un hadith à la chaîne faible ; le Coran ne donne pas de nombre de feuillets.',
+          ar: 'ورد ذكرها في حديث ضعيف الإسناد، ولم يذكر القرآن عدد صحف إدريس.',
         },
         theologicalPerspective: {
           en: 'Affirms that literacy and writing are divinely revealed blessings bestowed upon humanity.',
@@ -1722,27 +1738,28 @@ export const SCRIPTURES: ProphetBook[] = [
         arabicText: '﴿إِنَّا أَوْحَيْنَا إِلَيْكَ كَمَا أَوْحَيْنَا إِلَىٰ نُوحٍ وَالنَّبِيِّينَ مِن بَعْدِهِ﴾',
         translationEn: 'Indeed, We have revealed to you, [O Muhammad], as We revealed to Noah and the prophets after him.',
         translationFr: 'Nous t’avons fait une révélation comme Nous fîmes à Noé et aux prophètes après lui.',
+        translationEs: 'Te hemos revelado [oh Muhammad] como revelamos a Nuh y a los profetas después de él.',
       },
     ],
     preservationStatus: 'lost_original',
     versionsCount: 2,
     versionsSummary: {
-      en: '2 Historical Records: The 50 Divine Scrolls attested in Sahih Hadith (Sahih Ibn Hibban #361) and ancient Near-Eastern Sethian traditions.',
-      fr: '2 Témoins historiques : Les 50 feuillets attestés par le Hadith (Ibn Hibban) et les traditions séthiennes antiques.',
-      ar: 'شاهدان تاريخيان: ٥٠ صحيفة سماوية نص عليها الحديث الصحيح في صحيح ابن حبان، وموروثات الكتب الشيثية القديمة.',
+      en: '2 records: the fifty scrolls named in the long hadith of Abu Dharr (Ibn Hibban 361, with a very weak chain) and ancient Near-Eastern Sethian traditions.',
+      fr: '2 témoins : les cinquante feuillets cités dans le long hadith d’Abou Dharr (Ibn Hibban 361, à la chaîne très faible) et les traditions séthiennes antiques.',
+      ar: 'شاهدان: الصحف الخمسون المذكورة في حديث أبي ذر الطويل (ابن حبان ٣٦١، وإسناده ضعيف جدًّا)، وموروثات الكتب الشيثية القديمة.',
     },
     theologicalContext: {
-      en: 'Prophet Shith (Seth, "Gift of Allah") was born to Adam and Hawwa after the murder of Habil (Abel). He succeeded his father as spiritual leader of humanity. According to Sahih Hadith, Allah revealed fifty scrolls unto him—the largest number of scrolls granted to any single prophet.',
-      fr: 'Seth (« Don de Dieu ») succéda à Adam pour guider l’humanité. Allah lui révéla 50 feuillets selon le Hadith authentique.',
-      ar: 'شيث هبة الله عليه السلام، رزقه الله لآدم وحواء بعد مقتل هابيل، وصار وصي أبيه وإمام أهل الإيمان. خصّه الله بإنزال خمسين صحيفة—وهو أكثر عدد صحف نزل على نبي واحد—ليؤسس بها أول مجتمع عابد موحد على ظهر البسيطة.',
+      en: 'Shith (Seth, “gift of Allah”) was born to Adam and Hawwa after the murder of Habil. According to the historians he succeeded his father as guide of humankind. The hadith of Abu Dharr that gives him fifty scrolls is very weak according to many specialists.',
+      fr: 'Seth (« don de Dieu ») naquit d’Adam et Hawwa après le meurtre d’Abel et, selon les historiens, succéda à son père pour guider l’humanité. Le hadith d’Abou Dharr qui lui attribue cinquante feuillets est très faible selon de nombreux spécialistes.',
+      ar: 'شيث هبة الله، رزقه الله لآدم وحواء بعد مقتل هابيل، ويذكر المؤرخون أنه خلف أباه في هداية الناس. أما حديث أبي ذر في إنزال خمسين صحيفة عليه فإسناده ضعيف جدًّا عند كثير من المحدثين.',
     },
     versions: [
       {
         id: 'hadith_shith_50_scrolls',
         name: {
-          en: 'The 50 Divine Scrolls (Sahih Ibn Hibban)',
-          fr: 'Les 50 Feuillets Révélés (Sahih Ibn Hibban)',
-          ar: 'الصحف الخمسون لشيث هبة الله (صحيح ابن حبان)',
+          en: 'The 50 Scrolls (in the hadith of Abu Dharr)',
+          fr: 'Les 50 feuillets (dans le hadith d’Abou Dharr)',
+          ar: 'الصحف الخمسون (في حديث أبي ذر)',
         },
         language: {
           en: 'Classical Arabic (attesting the primordial revelation)',
@@ -1750,19 +1767,19 @@ export const SCRIPTURES: ProphetBook[] = [
           ar: 'العربية الفصحى المسندة',
         },
         period: {
-          en: 'Prophetic narration in Sahih Ibn Hibban (#361)',
-          fr: 'Rapporté dans Sahih Ibn Hibban',
-          ar: 'عن رسول الله ﷺ في حديث أبي ذر الغفاري رضي الله عنه',
+          en: 'Narration in Sahih Ibn Hibban (361), with a very weak chain',
+          fr: 'Rapporté par Ibn Hibban (n°361), chaîne très faible',
+          ar: 'رواه ابن حبان (٣٦١) بإسناد ضعيف جدًّا',
         },
         significance: {
-          en: 'Explicit statement: "Allah revealed upon Shith fifty scrolls", constituting the foundational canon of post-Adamic humanity.',
-          fr: 'Déclaration prophétique explicite confirmant la révélation de 50 feuillets sur Seth.',
-          ar: 'قول النبي ﷺ الصريح: "وأنزل على شيث خمسين صحيفة"، وهي أكبر حصة من الصحف المنزلة.',
+          en: 'It says: “Allah revealed fifty scrolls to Shith.”',
+          fr: 'Il dit : « Allah fit descendre sur Seth cinquante feuillets. »',
+          ar: 'فيه: «وأنزل على شيث خمسين صحيفة».',
         },
         description: {
-          en: 'Prescribed pure monotheism, marriage sanctity, prohibition of incest among parallel siblings, and separation from the decadent camp of Qabil.',
-          fr: 'Réglementait le culte pur, le mariage et la séparation d’avec la lignée de Caïn.',
-          ar: 'نظمت عبادة التوحيد، وأحكام الطهارة، وحرمت الاختلاط بقبائل قابيل الباغية في السهول.',
+          en: 'According to the chronicles, they taught pure monotheism and the sanctity of marriage, and kept people away from the corrupt line of Qabil.',
+          fr: 'Selon les chroniques, ils enseignaient le monothéisme pur et la sainteté du mariage, et écartaient de la lignée corrompue de Caïn.',
+          ar: 'تذكر الأخبار أنها دعت إلى التوحيد وحرمة النكاح، وحذّرت من فساد ذرية قابيل.',
         },
         extantManuscripts: {
           en: 'Transmitted in Sahih Ibn Hibban, Al-Tabari, and Ibn Kathir.',
@@ -1770,14 +1787,14 @@ export const SCRIPTURES: ProphetBook[] = [
           ar: 'مدونة في كتب الصحاح والآثار والتاريخ الإسلامي المعتمد.',
         },
         variantCountOrStatus: {
-          en: 'Authentically documented prophetic narrative.',
-          fr: 'Documenté par la tradition prophétique.',
-          ar: 'رواية نبوية صحيحة مسندة.',
+          en: 'A narration with a weak chain; the Qur’an does not mention scrolls of Shith.',
+          fr: 'Une narration à la chaîne faible ; le Coran ne mentionne pas de feuillets de Seth.',
+          ar: 'رواية ضعيفة الإسناد، ولم يذكر القرآن صحفًا لشيث.',
         },
         theologicalPerspective: {
-          en: 'Demonstrates that early human civilization was founded upon divine law and enlightenment, not lawless barbarism.',
-          fr: 'Prouve que l’humanité première a été fondée sur la révélation et non la barbarie.',
-          ar: 'رد قاطع على النظريات المادية، وإثبات أن البشرية بدأت بالتوحيد والمدنية النبوية.',
+          en: 'Tradition presents the first humankind as guided by divine law.',
+          fr: 'La tradition présente la première humanité comme guidée par la loi divine.',
+          ar: 'تصوّر الأخبار البشرية الأولى مهتدية بشرع الله.',
         },
       },
       {

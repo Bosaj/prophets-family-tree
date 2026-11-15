@@ -278,7 +278,7 @@ export function ScripturesModal({
                     </p>
                     {lang !== 'ar' && (
                       <p className="text-ink/70 italic text-[11px] leading-normal">
-                        {lang === 'fr' ? ref.translationFr : ref.translationEn}
+                        {lang === 'fr' ? ref.translationFr : lang === 'es' ? (ref.translationEs ?? ref.translationEn) : ref.translationEn}
                       </p>
                     )}
                   </div>

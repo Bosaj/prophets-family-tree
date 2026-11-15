@@ -235,7 +235,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 </p>
                 {lang !== 'ar' && (
                   <p className="text-ink/75 italic text-xs leading-relaxed">
-                    {lang === 'fr' ? ref.translationFr : ref.translationEn}
+                    {lang === 'fr' ? ref.translationFr : lang === 'es' ? (ref.translationEs ?? ref.translationEn) : ref.translationEn}
                   </p>
                 )}
               </div>

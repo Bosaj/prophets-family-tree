@@ -35,10 +35,26 @@ const I18n = createContext<Ctx | null>(null)
 
 export function I18nProvider({ children, lang: forced }: { children: ReactNode; lang?: Lang }) {
   const [lang, setLangState] = useState<Lang>(() => forced ?? initialLang())
+  // Bumped when the Spanish long texts arrive, so every page re-renders with them.
+  const [esLoaded, setEsLoaded] = useState(0)
 
   useEffect(() => {
     document.documentElement.lang = lang
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
+  }, [lang])
+
+  useEffect(() => {
+    if (lang !== 'es') return
+    let live = true
+    import('../data/es/long/apply')
+      .then((m) => m.applyAllLong())
+      .then((n) => live && n > 0 && setEsLoaded((v) => v + 1))
+      .catch(() => {
+        /* offline or a chunk failed: English stays */
+      })
+    return () => {
+      live = false
+    }
   }, [lang])
 
   const setLang = useCallback((l: Lang) => {
@@ -62,7 +78,8 @@ export function I18nProvider({ children, lang: forced }: { children: ReactNode; 
         return s
       },
     }),
-    [lang, setLang],
+    // esLoaded: a new value (and new pick) once the Spanish long texts are applied
+    [lang, setLang, esLoaded],
   )
   return <I18n.Provider value={value}>{children}</I18n.Provider>
 }
