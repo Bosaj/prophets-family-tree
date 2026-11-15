@@ -1017,6 +1017,24 @@ export const HOUR_PARTS: HourPart[] = [
   },
 ]
 
+/**
+ * The ten great signs exactly as Muslim 2901 lists them, for the checklist. None has come to pass, except that
+ * scholars differ on the smoke (Ibn Mas‘ud held the verse described a famine in Makkah, Bukhari 4821).
+ * `step` is the step of the page that explains it.
+ */
+export const GREAT_TEN: { id: string; step: string; title: L4; state: 'future' | 'disputed' }[] = [
+  { id: 'smoke', step: 'smoke', title: t('The smoke', 'La fumée', 'الدخان', 'El humo'), state: 'disputed' },
+  { id: 'dajjal', step: 'dajjal', title: t('The Dajjal', 'Le Dajjal', 'المسيح الدجال', 'El Dajjal'), state: 'future' },
+  { id: 'beast', step: 'beast', title: t('The beast', 'La bête', 'الدابة', 'La bestia'), state: 'future' },
+  { id: 'west', step: 'west', title: t('The sun rising from the west', 'Le soleil se levant à l’ouest', 'طلوع الشمس من مغربها', 'El sol saliendo por el oeste'), state: 'future' },
+  { id: 'isa', step: 'isa', title: t('The descent of ‘Isa son of Maryam', 'La descente de ‘Isa fils de Maryam', 'نزول عيسى ابن مريم', 'El descenso de ‘Isa hijo de Maryam'), state: 'future' },
+  { id: 'gog', step: 'gog', title: t('Gog and Magog', 'Gog et Magog', 'يأجوج ومأجوج', 'Gog y Magog'), state: 'future' },
+  { id: 'collapse-east', step: 'last-fire', title: t('A collapse in the east', 'Un effondrement à l’est', 'خسف بالمشرق', 'Un hundimiento en el este'), state: 'future' },
+  { id: 'collapse-west', step: 'last-fire', title: t('A collapse in the west', 'Un effondrement à l’ouest', 'خسف بالمغرب', 'Un hundimiento en el oeste'), state: 'future' },
+  { id: 'collapse-arabia', step: 'last-fire', title: t('A collapse in the Arabian Peninsula', 'Un effondrement dans la péninsule Arabique', 'خسف بجزيرة العرب', 'Un hundimiento en la península arábiga'), state: 'future' },
+  { id: 'fire', step: 'last-fire', title: t('The fire from Yemen that gathers people', 'Le feu du Yémen qui rassemble les gens', 'نار تخرج من اليمن تطرد الناس إلى محشرهم', 'El fuego del Yemen que reúne a la gente'), state: 'future' },
+]
+
 /** The answer to “When is the Hour?”: what matters is what one prepares. */
 export const HOUR_CLOSE = q(
   'prepare',

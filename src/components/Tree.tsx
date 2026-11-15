@@ -20,6 +20,8 @@ import {
   Info,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
+import '../data/es/preAdam.es'
+import '../data/es/scriptures.es'
 import type { Key } from '../i18n/strings'
 import { buildLayout, lineage, type TreeNode, type LayoutFilterOptions, type TreeEdge } from '../lib/layout'
 import { relationLabel } from '../lib/relations'

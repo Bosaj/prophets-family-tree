@@ -1,7 +1,7 @@
-import { Hourglass, Info } from 'lucide-react'
+import { Hourglass, Info, Scale, Square, SquareCheckBig, SquareDot } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { L4 } from '../data/types'
-import { HOUR_CLOSE, HOUR_FRAME, HOUR_PARTS, type HourStep, type SignStatus } from '../data/hour'
+import { GREAT_TEN, HOUR_CLOSE, HOUR_FRAME, HOUR_PARTS, type HourStep, type SignStatus } from '../data/hour'
 import { DuaCard } from './DuasView'
 import { A, LevelChip, RefChip } from './ui'
 
@@ -81,6 +81,97 @@ export function Step({ s, n }: { s: HourStep; n: number }) {
   )
 }
 
+const CHECK = {
+  title: t('Checklist of the signs', 'Liste des signes', 'قائمة الأشراط', 'Lista de los signos'),
+  lead: t(
+    'Which signs the historians and scholars count as having come, which many see today, and which are still to come. Only Allah knows the Hour; this is the scholars’ reading, not revelation.',
+    'Les signes que les historiens et les savants comptent comme réalisés, ceux que beaucoup voient aujourd’hui, et ceux à venir. Seul Allah connaît l’Heure ; c’est la lecture des savants, non la révélation.',
+    'ما عدّه المؤرخون والعلماء واقعًا من الأشراط، وما يراه كثير منهم اليوم، وما لم يقع بعد. ولا يعلم الساعة إلا الله، وهذا اجتهاد العلماء لا وحي.',
+    'Los signos que los historiadores y sabios cuentan como ya ocurridos, los que muchos ven hoy y los que están por venir. Solo Allah conoce la Hora; es la lectura de los sabios, no revelación.',
+  ),
+  small: t('The small signs', 'Les petits signes', 'الأشراط الصغرى', 'Los signos menores'),
+  great: t('The ten great signs (Muslim 2901)', 'Les dix grands signes (Muslim 2901)', 'الأشراط الكبرى العشر (مسلم 2901)', 'Los diez grandes signos (Muslim 2901)'),
+  past: t('Has come to pass', 'S’est réalisé', 'وقع', 'Ya ocurrió'),
+  now: t('Many scholars see it today', 'Beaucoup de savants le voient aujourd’hui', 'يراه كثير من العلماء اليوم', 'Muchos sabios lo ven hoy'),
+  future: t('Still to come', 'Encore à venir', 'لم يقع بعد', 'Aún por venir'),
+  disputed: t('Scholars differ', 'Les savants divergent', 'مختلف فيه', 'Los sabios difieren'),
+  count: t('{a} of {b}', '{a} sur {b}', '{a} من {b}', '{a} de {b}'),
+}
+
+type CheckState = SignStatus | 'disputed'
+
+function CheckIcon({ state }: { state: CheckState }) {
+  const cls = 'size-5 shrink-0'
+  if (state === 'past') return <SquareCheckBig aria-hidden="true" className={`${cls} text-emerald-300`} />
+  if (state === 'now') return <SquareDot aria-hidden="true" className={`${cls} text-amber-300`} />
+  if (state === 'disputed') return <Scale aria-hidden="true" className={`${cls} text-lvl-disputed`} />
+  return <Square aria-hidden="true" className={`${cls} text-ink-3`} />
+}
+
+function CheckRow({ href, state, label }: { href: string; state: CheckState; label: string }) {
+  const { pick } = useI18n()
+  return (
+    <li>
+      <a href={href} className="flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-white/[0.04]">
+        <CheckIcon state={state} />
+        <span className={`min-w-0 flex-1 text-sm ${state === 'past' ? 'text-ink' : 'text-ink-2'}`}>{label}</span>
+        <span className="sr-only">{pick(CHECK[state])}</span>
+      </a>
+    </li>
+  )
+}
+
+/** The signs at a glance: small ones by what has come, great ones all ahead (the smoke is disputed). */
+function SignsChecklist() {
+  const { pick } = useI18n()
+  const small = HOUR_PARTS.find((p) => p.id === 'minor')!.steps.filter((s) => s.status)
+  const counts = { past: small.filter((s) => s.status === 'past').length, now: small.filter((s) => s.status === 'now').length }
+  const legend: CheckState[] = ['past', 'now', 'future', 'disputed']
+  return (
+    <section id="checklist" aria-labelledby="checklist-title" className="glass mb-14 scroll-mt-20 rounded-3xl p-6 sm:p-8">
+      <h2 id="checklist-title" className="text-2xl font-semibold text-ink sm:text-3xl">
+        {pick(CHECK.title)}
+      </h2>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-2">{pick(CHECK.lead)}</p>
+      <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-ink-3">
+        {legend.map((s) => (
+          <li key={s} className="inline-flex items-center gap-1.5">
+            <CheckIcon state={s} /> {pick(CHECK[s])}
+          </li>
+        ))}
+      </ul>
+      <div className="mt-6 grid items-start gap-6 md:grid-cols-2">
+        <div className="min-w-0">
+          <h3 className="flex flex-wrap items-baseline justify-between gap-2 text-lg font-semibold text-ink">
+            {pick(CHECK.small)}
+            <span className="text-xs font-normal text-emerald-300">
+              {pick(CHECK.past)}: {pick(CHECK.count).replace('{a}', String(counts.past)).replace('{b}', String(small.length))}
+            </span>
+          </h3>
+          <ul className="mt-3 space-y-1">
+            {small.map((s) => (
+              <CheckRow key={s.id} href={`#${s.id}`} state={s.status!} label={pick(s.title)} />
+            ))}
+          </ul>
+        </div>
+        <div className="min-w-0">
+          <h3 className="flex flex-wrap items-baseline justify-between gap-2 text-lg font-semibold text-ink">
+            {pick(CHECK.great)}
+            <span className="text-xs font-normal text-ink-3">
+              {pick(CHECK.past)}: {pick(CHECK.count).replace('{a}', '0').replace('{b}', String(GREAT_TEN.length))}
+            </span>
+          </h3>
+          <ul className="mt-3 space-y-1">
+            {GREAT_TEN.map((g) => (
+              <CheckRow key={g.id} href={`#${g.step}`} state={g.state} label={pick(g.title)} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function HourView() {
   const { pick } = useI18n()
 
@@ -108,6 +199,8 @@ export function HourView() {
           </a>
         ))}
       </nav>
+
+      <SignsChecklist />
 
       {HOUR_PARTS.map((p, i) => (
         <section key={p.id} id={`part-${p.id}`} className="mb-16 scroll-mt-20">

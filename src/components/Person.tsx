@@ -23,6 +23,7 @@ import {
   Waves,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
+import '../data/es/scriptures.es'
 import type { Key } from '../i18n/strings'
 import { byId, people } from '../data/people'
 import type { Fact, Person as P } from '../data/types'

@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
+import '../data/es/scriptures.es'
 import {
   SCRIPTURES,
   type ProphetBook,

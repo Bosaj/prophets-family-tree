@@ -174,10 +174,13 @@ export function Scene({ image, className = '', alt = '', eager = false, sizes = 
   )
 }
 
-/** The line under a big Arabic name: the Latin name (Arabic UI) or the local name plus its Biblical form. */
+/**
+ * The line under a big Arabic name: the local name plus its Biblical form. In Arabic only an Arabic note is
+ * shown (such as “يُقال إنه أخنوخ”), never an English name.
+ */
 export function SubName({ p, className = '' }: { p: Person; className?: string }) {
   const { lang, pick } = useI18n()
-  if (lang === 'ar') return <span dir="ltr" className={className}>{p.alt?.en ?? p.name.en}</span>
+  if (lang === 'ar') return p.alt && /[؀-ۿ]/.test(p.alt.ar) ? <span className={className}>{p.alt.ar}</span> : null
   return (
     <span className={className}>
       {pick(p.name)}

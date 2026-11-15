@@ -9,7 +9,11 @@ import {
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
 import { STATURE_SCALE_DATA, PROPHETIC_DESCRIPTIONS } from '../data/stature'
-import { A, LevelChip } from './ui'
+import '../data/es/stature.es'
+import { A, LevelChip, RefChip } from './ui'
+
+/** The collections named in the stature data, as reference keys, so their names show in the reader's language. */
+const BOOK_KEY: Record<string, string> = { 'Sahih al-Bukhari': 'bukhari', 'Sahih Muslim': 'muslim', 'Jami‘ at-Tirmidhi': 'tirmidhi' }
 
 export function StatureView() {
   const { pick, lang } = useI18n()
@@ -522,7 +526,7 @@ export function StatureView() {
         </div>
 
         {/* Right: Selected Scale Detail Dossier */}
-        <div className="glass rounded-3xl p-6 sm:p-8 lg:col-span-5 flex flex-col justify-between border-gold/30">
+        <div className="glass rounded-3xl p-6 sm:p-8 lg:col-span-5 flex flex-col gap-6 border-gold/30 lg:sticky lg:top-24 lg:self-start">
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
               <Sparkles className="size-4" />
@@ -572,7 +576,7 @@ export function StatureView() {
             <span className="flex items-center gap-2">
               {activeScale.level ? <LevelChip level={activeScale.level} /> : <span>{tx(lang, 'Scientific measurement', 'Mesure scientifique', 'قياس علمي', 'Medida científica')}</span>}
             </span>
-            {activeScale.textRef && <span className="font-mono text-gold-2">{activeScale.textRef}</span>}
+            {activeScale.textRef && <RefChip r={activeScale.textRef} />}
           </div>
         </div>
       </div>
@@ -713,9 +717,10 @@ export function StatureView() {
             <div className="space-y-4">
               {activeDesc.authenticNarrations.map((narration, nIdx) => (
                 <div key={nIdx} className="border-s-2 border-gold/40 ps-4 py-1">
-                  <div className="flex items-center gap-2 text-xs text-gold-2 mb-1">
-                    <span className="font-semibold">{narration.source}</span>
-                    {narration.hadithNumber && <span className="font-mono">#{narration.hadithNumber}</span>}
+                  <div className="mb-1 flex flex-wrap items-center gap-1.5">
+                    {BOOK_KEY[narration.source] && narration.hadithNumber
+                      ? narration.hadithNumber.split(/[,،]\s*/).map((n) => <RefChip key={n} r={`${BOOK_KEY[narration.source]}:${n.trim()}`} />)
+                      : <span className="text-xs font-semibold text-gold-2">{narration.source}</span>}
                   </div>
                   <p className={`text-sm text-ink-2 leading-relaxed ${lang === 'ar' ? 'font-hadith text-lg leading-loose' : 'italic'}`}>
                     {pick(narration.text)}

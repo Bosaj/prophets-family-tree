@@ -260,7 +260,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'naqat_salih',
     name: t('She-Camel of Allah', 'La Chamelle de Dieu', 'ناقة الله (ناقة صالح)'),
-    scientificName: 'Camelus dromedarius (Miraculous Archetype)',
+    scientificName: 'Camelus dromedarius',
     arabicCalligraphy: 'فَقَالَ لَهُمْ رَسُولُ اللَّهِ نَاقَةَ اللَّهِ وَسُقْيَاهَا',
     category: 'mammals',
     source: 'quran',
@@ -324,7 +324,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'kalb_kahf',
     name: t('The Dog of the Cave', 'Le Chien des Compagnons de la Caverne', 'كلب أصحاب الكهف (قطمير)'),
-    scientificName: 'Canis lupus familiaris (Ancient Shepherd Breed)',
+    scientificName: 'Canis lupus familiaris',
     arabicCalligraphy: 'وَكَلْبُهُم بَاسِطٌ ذِرَاعَيْهِ بِالْوَصِيدِ',
     category: 'mammals',
     source: 'quran',
@@ -388,7 +388,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'baqarah',
     name: t('The Yellow Cow of Bani Isra’il', 'La Vache des Enfants d’Israël', 'بقرة بني إسرائيل'),
-    scientificName: 'Bos taurus (Bright Golden Heifer)',
+    scientificName: 'Bos taurus',
     arabicCalligraphy: 'إِنَّهَا بَقَرَةٌ صَفْرَاءُ فَاقِعٌ لَّوْنُهَا تَسُرُّ النَّاظِرِينَ',
     category: 'mammals',
     source: 'quran',
@@ -570,7 +570,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'dhib_yusuf',
     name: t('The Wolf of Yusuf & The Speaking Wolf', 'Le Loup de Joseph & Le Loup Parlant', 'ذئب يوسف والذئب المتكلم'),
-    scientificName: 'Canis lupus arabs (Arabian Desert Wolf)',
+    scientificName: 'Canis lupus arabs',
     arabicCalligraphy: 'وَتَرَكْنَا يُوسُفَ عِندَ مَتَاعِنَا فَأَكَلَهُ الذِّئْبُ',
     category: 'mammals',
     source: 'quran_and_sunnah',
@@ -816,7 +816,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'khayl_adiyat',
     name: t('The Charging Steeds & War Horses', 'Les Coursiers & Chevaux de Bataille', 'الخيل والعاديات والجياد'),
-    scientificName: 'Equus caballus (Arabian Purebred)',
+    scientificName: 'Equus caballus',
     arabicCalligraphy: 'وَالْعَادِيَاتِ ضَبْحًا * فَالْمُورِيَاتِ قَدْحًا',
     category: 'mammals',
     source: 'quran_and_sunnah',
@@ -880,7 +880,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'buraq',
     name: t('Al-Buraq (The Celestial Mount)', 'Al-Bourâq (La Monture Céleste)', 'البراق (مركب الإسراء والمعراج)'),
-    scientificName: 'Creature of Light (Celestial Trans-Dimensional Mount)',
+    scientificName: '—',
     arabicCalligraphy: 'سُبْحَانَ الَّذِي أَسْرَىٰ بِعَبْدِهِ لَيْلًا مِّنَ الْمَسْجِدِ الْحَرَامِ إِلَى الْمَسْجِدِ الْأَقْصَى',
     category: 'mammals',
     source: 'sunnah',
@@ -953,7 +953,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'tayr_ababil',
     name: t('The Ababil Flocks', 'Les Oiseaux Ababil', 'طير أبابيل'),
-    scientificName: 'Aves Caelestes (Divine Flocks of Retribution)',
+    scientificName: '—',
     arabicCalligraphy: 'وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ * تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ',
     category: 'birds',
     source: 'quran',
@@ -1756,7 +1756,7 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
   {
     id: 'asal',
     name: t('Pure Honey', 'Le Miel Pur', 'العسل النقي (شفاء للناس)'),
-    scientificName: 'Mel (Apis mellifera Nectar)',
+    scientificName: 'Mel (Apis mellifera)',
     category: 'drinks_sustenance',
     source: 'quran_and_sunnah',
     quranRefs: ['16:69', '47:15'],

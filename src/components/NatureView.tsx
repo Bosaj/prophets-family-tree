@@ -12,6 +12,7 @@ import {
   Zap,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
+import '../data/es/nature.es'
 import photoCredits from '../data/photoCredits.json'
 import {
   QURAN_SUNNAH_ANIMALS,
@@ -1707,7 +1708,7 @@ export function NatureView() {
                         {/* Sharp, uncropped full subject */}
                         <img
                           src={`${import.meta.env.BASE_URL}nature/${animal.id}.jpg`}
-                          alt={animal.scientificName}
+                          alt={pick(animal.name)}
                           loading="lazy"
                           className="relative z-10 max-h-full max-w-full object-contain p-2 drop-shadow-2xl"
                         />
@@ -1802,7 +1803,7 @@ export function NatureView() {
                         {/* Sharp, uncropped full subject */}
                         <img
                           src={`${import.meta.env.BASE_URL}nature/${plant.id}.jpg`}
-                          alt={plant.scientificName}
+                          alt={pick(plant.name)}
                           loading="lazy"
                           className="relative z-10 max-h-full max-w-full object-contain p-2 drop-shadow-2xl"
                         />
@@ -1946,7 +1947,7 @@ export function NatureView() {
                 <div className="w-52 h-52 sm:w-60 sm:h-60 rounded-2xl overflow-hidden border-2 border-gold/40 shadow-[0_10px_25px_rgba(0,0,0,0.6)] relative my-2">
                   <img
                     src={`${import.meta.env.BASE_URL}nature/${detailItem.id}.jpg`}
-                    alt={detailItem.scientificName}
+                    alt={pick(detailItem.name)}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />

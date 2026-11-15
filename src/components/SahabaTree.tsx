@@ -20,6 +20,7 @@ import {
   RotateCcw,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
+import '../data/es/sahaba.es'
 import { labelScale, nodeBoxes, placeLabels, textWidth, type LabelRequest } from '../lib/labelLayout'
 import { EdgeLabel } from './EdgeLabel'
 import { SAHABA_STORIES, type StoryPoint } from '../data/sahabaStories'
@@ -47,6 +48,14 @@ interface View {
   x: number
   y: number
 }
+
+/**
+ * The ten promised Paradise (Tirmidhi 3747, Abu Dawud 4649): six sit in the 'mubasharun' era, and the other
+ * four are the first four caliphs, so the filter for the ten must include them too.
+ */
+const TEN_PROMISED_CALIPHS = new Set(['abu_bakr', 'umar_ibn_khattab', 'uthman_ibn_affan', 'ali_ibn_abi_talib'])
+const inEra = (fig: SahabaFigure, era: SahabaEra | 'all') =>
+  era === 'all' || fig.era === era || (era === 'mubasharun' && TEN_PROMISED_CALIPHS.has(fig.id))
 
 /** Lowest zoom: low enough for the whole 2400-unit tree to fit a phone. */
 const MIN_SAHABA_K = 0.12
@@ -409,7 +418,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
       const cw = el.clientWidth || 1000
       const ch = el.clientHeight || 780
 
-      const matching = SAHABA_FIGURES.filter((f) => f.era === eraId)
+      const matching = SAHABA_FIGURES.filter((f) => inEra(f, eraId))
         .map((f) => SAHABA_NODE_COORDS[f.id])
         .filter((c): c is { x: number; y: number } => !!c)
 
@@ -561,7 +570,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
   // Filtered Figures
   const filteredFigures = useMemo(() => {
     return SAHABA_FIGURES.filter((fig) => {
-      if (selectedEra !== 'all' && fig.era !== selectedEra) return false
+      if (!inEra(fig, selectedEra)) return false
       if (!query.trim()) return true
       const q = query.toLowerCase()
       return (
@@ -645,7 +654,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
       if (view.k < 0.5 && !touchesActive) return
       const fromFig = SAHABA_FIGURES.find((f) => f.id === link.from)
       const toFig = SAHABA_FIGURES.find((f) => f.id === link.to)
-      if (selectedEra !== 'all' && fromFig?.era !== selectedEra && toFig?.era !== selectedEra && !touchesActive) return
+      if (!(fromFig && inEra(fromFig, selectedEra)) && !(toFig && inEra(toFig, selectedEra)) && !touchesActive) return
       const midY = (from.y + to.y) / 2
       requests.push({
         key: String(idx),
@@ -770,7 +779,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
           const count =
             era.id === 'all'
               ? SAHABA_FIGURES.length
-              : SAHABA_FIGURES.filter((f) => f.era === era.id).length
+              : SAHABA_FIGURES.filter((f) => inEra(f, era.id)).length
           const isActive = selectedEra === era.id
           return (
             <button
@@ -858,7 +867,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <span className="font-bold text-emerald-300">
                 {tx(lang, 'Active Filter:', 'Filtre actif :', 'تصفية محددة:', 'Filtro activo:')}{' '}
                 {pick(SAHABA_ERAS.find((e) => e.id === selectedEra)?.label ?? { en: '', fr: '', ar: '' })} (
-                {SAHABA_FIGURES.filter((f) => f.era === selectedEra).length})
+                {SAHABA_FIGURES.filter((f) => inEra(f, selectedEra)).length})
               </span>
               <button
                 type="button"
@@ -953,8 +962,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 const toFig = SAHABA_FIGURES.find((f) => f.id === link.to)
                 const lineMatchesEra =
                   selectedEra === 'all' ||
-                  fromFig?.era === selectedEra ||
-                  toFig?.era === selectedEra
+                  (fromFig && inEra(fromFig, selectedEra)) ||
+                  (toFig && inEra(toFig, selectedEra))
 
                 const midY = (from.y + to.y) / 2
                 const d = `M ${from.x} ${from.y} C ${from.x} ${midY}, ${to.x} ${midY}, ${to.x} ${to.y}`
@@ -989,7 +998,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 const isActive = activeFigure?.id === fig.id
                 const isConnected = activeLineageIds.has(fig.id)
 
-                const isMatchEra = selectedEra === 'all' || fig.era === selectedEra
+                const isMatchEra = inEra(fig, selectedEra)
                 const isSearchMatch = !query.trim() || filteredFigures.some((ff) => ff.id === fig.id)
                 const isHighlighted = isMatchEra && isSearchMatch
                 const isDimmed = !isHighlighted || (activeFigure && !isConnected && !isActive)

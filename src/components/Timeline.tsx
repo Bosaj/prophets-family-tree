@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Calendar, ChevronDown, ChevronUp, Clock, Sparkles, Flame, BookOpen, Info } from 'lucide-react'
 import { legacy, useI18n, tx } from '../i18n'
+import '../data/es/preAdam.es'
 import { people } from '../data/people'
 import type { Person } from '../data/types'
 import { hrefOf } from '../lib/router'

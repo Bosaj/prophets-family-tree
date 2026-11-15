@@ -39,7 +39,7 @@ describe('Full Website Automated Test Suite', () => {
       // Verify specific era chip counts
       expect(screen.getByRole('button', { name: /Hadith Masters & Preservers\s*\(3\)/i })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /Rightly Guided Caliphs\s*\(5\)/i })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /Ten Promised Paradise\s*\(6\)/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /Ten Promised Paradise\s*\(10\)/i })).toBeInTheDocument()
     })
 
     it('filters correctly to Hadith Masters (Abu Hurairah, Al-Bukhari, Imam Muslim) in Cards view', async () => {

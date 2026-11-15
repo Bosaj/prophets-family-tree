@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Clock, LocateFixed, MapPin, Moon, RotateCcw, Sun } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { L4, Lang } from '../data/types'
 import { ADHKAR, DAY_PARTS, FRIDAY, PRAYERS, type DayPartId } from '../data/awqat'
-import { PLACES, currentPart, dayTimes, guessMethod, nextPrayer, type DayTimes, type MethodId, type Place, type PrayerKey } from '../lib/prayerTimes'
+import { PLACES, currentPart, dayTimes, nextPrayer, type DayTimes, type MethodId, type PrayerKey } from '../lib/prayerTimes'
+import { usePlace } from '../lib/place'
+import { hijriForPlace } from '../lib/hijri'
+import { MONTHS } from '../data/hijri'
 import { DuaCard } from './DuasView'
 import { A, LevelChip, RefChip } from './ui'
 
@@ -35,7 +38,7 @@ const UI = {
     'المواقيت محسوبة، وقد تختلف دقيقة أو دقيقتين عن مسجدك، والعبرة بأذان مسجدك. في المغرب تتبع طريقة وزارة الأوقاف (الفجر 19°، العشاء 17°).',
     'Los horarios son calculados y pueden diferir uno o dos minutos de tu mezquita. Prevalece la llamada de tu mezquita local. En Marruecos el método sigue al Ministerio de Habices (Fayr 19°, ‘Isha 17°).',
   ),
-  hijriNote: t('Hijri date by calculation (Umm al-Qura); local moon sighting can differ by a day.', 'Date hégirienne calculée (Umm al-Qura) ; l’observation locale du croissant peut différer d’un jour.', 'التاريخ الهجري بالحساب (أم القرى)، وقد يختلف يومًا عن الرؤية المحلية.', 'Fecha hégira calculada (Umm al-Qura); la observación local de la luna puede diferir un día.'),
+  hijriNote: t('Morocco: the date announced by the Ministry of Habous. Elsewhere: Umm al-Qura, which a local sighting can differ from by a day.', 'Maroc : la date annoncée par le ministère des Habous. Ailleurs : Umm al-Qura, dont une observation locale peut différer d’un jour.', 'المغرب: التاريخ الذي تعلنه وزارة الأوقاف. وفي غيره: أم القرى، وقد تخالفه الرؤية المحلية بيوم.', 'Marruecos: la fecha anunciada por el Ministerio de Habous. En otros lugares: Umm al-Qura, de la que un avistamiento local puede diferir un día.'),
   reset: t('Reset', 'Remettre à zéro', 'إعادة', 'Reiniciar'),
   tap: t('Tap to count', 'Touchez pour compter', 'اضغط للعدّ', 'Toca para contar'),
   rakahs: t('rak‘ahs', 'rak‘as', 'ركعات', 'rak‘as'),
@@ -51,26 +54,6 @@ const METHODS: { id: MethodId; label: L4 }[] = [
 ]
 
 const LOCALE: Record<Lang, string> = { en: 'en-GB', fr: 'fr-FR', ar: 'ar-MA', es: 'es-ES' }
-const STORE = 'shajara:place'
-
-function loadPlace(): Place {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORE) ?? 'null') as Place | null
-    if (saved && typeof saved.lat === 'number' && typeof saved.lng === 'number') return saved
-  } catch {
-    /* storage blocked */
-  }
-  return PLACES[0]!
-}
-
-function savePlace(p: Place) {
-  try {
-    localStorage.setItem(STORE, JSON.stringify(p))
-  } catch {
-    /* storage blocked */
-  }
-}
-
 /** Noon of the calendar day `offset` days from `now` in the place's time zone, as a Date for adhan. */
 function dayIn(tz: string, now: Date, offset: number): Date {
   const parts = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(now)
@@ -80,38 +63,17 @@ function dayIn(tz: string, now: Date, offset: number): Date {
 
 export function AwqatView() {
   const { pick, lang } = useI18n()
-  const [place, setPlace] = useState<Place>(loadPlace)
-  const [now, setNow] = useState(() => new Date())
+  const { place, setPlace: choose, now, locate: locateDevice } = usePlace()
   const [locating, setLocating] = useState(false)
   const [locError, setLocError] = useState(false)
 
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 30_000)
-    return () => clearInterval(id)
-  }, [])
-
-  const choose = (p: Place) => {
-    setPlace(p)
-    savePlace(p)
-  }
-
   const locate = () => {
-    if (!navigator.geolocation) return setLocError(true)
     setLocating(true)
     setLocError(false)
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const lat = Number(pos.coords.latitude.toFixed(4))
-        const lng = Number(pos.coords.longitude.toFixed(4))
-        choose({ id: 'here', name: UI.here, lat, lng, tz: Intl.DateTimeFormat().resolvedOptions().timeZone, method: guessMethod(lat, lng) })
-        setLocating(false)
-      },
-      () => {
-        setLocating(false)
-        setLocError(true)
-      },
-      { timeout: 10_000, maximumAge: 3_600_000 },
-    )
+    locateDevice().then((ok) => {
+      setLocating(false)
+      if (!ok) setLocError(true)
+    })
   }
 
   const { today, yesterday, tomorrow } = useMemo(
@@ -129,12 +91,8 @@ export function AwqatView() {
   const next = nextPrayer(now, today, tomorrow)
   const fmt = new Intl.DateTimeFormat(LOCALE[lang], { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: place.tz })
   const dateFmt = new Intl.DateTimeFormat(LOCALE[lang], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: place.tz })
-  let hijri = ''
-  try {
-    hijri = new Intl.DateTimeFormat(`${LOCALE[lang]}-u-ca-islamic-umalqura`, { day: 'numeric', month: 'long', year: 'numeric', timeZone: place.tz }).format(now)
-  } catch {
-    /* calendar not supported */
-  }
+  const ph = hijriForPlace(now, place.tz)
+  const hijri = `${ph.date.d} ${pick(MONTHS[ph.date.m - 1]!.name)} ${ph.date.y} ${lang === 'ar' ? 'هـ' : lang === 'en' ? 'AH' : 'H'}`
   const isFriday = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: place.tz }).format(now) === 'Fri'
   const mins = Math.max(0, Math.round((next.at.getTime() - now.getTime()) / 60_000))
   const left = `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`

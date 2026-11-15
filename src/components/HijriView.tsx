@@ -4,7 +4,8 @@ import { useI18n } from '../i18n'
 import type { L4, Lang } from '../data/types'
 import { EID_STEPS, HIJRI_INTRO, KAHF, MONTHS, OCCASIONS, OTHER_COUNTRIES, SACRED_MONTHS_QUOTE, SACRED_NOTE } from '../data/hijri'
 import { diyanetDate, hijri, moroccoDate, nextOccurrence, solarToLunar, type HDate, type MoroccoStatus } from '../lib/hijri'
-import { dayTimes, PLACES, type Place } from '../lib/prayerTimes'
+import { dayTimes, PLACES } from '../lib/prayerTimes'
+import { usePlace } from '../lib/place'
 import { DuaCard } from './DuasView'
 import { Step } from './HourView'
 import { A, LevelChip, RefChip } from './ui'
@@ -12,7 +13,6 @@ import { A, LevelChip, RefChip } from './ui'
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
 const LOCALE: Record<Lang, string> = { en: 'en-GB', fr: 'fr-FR', ar: 'ar-MA', es: 'es-ES' }
 const ERA: Record<Lang, string> = { en: 'AH', fr: 'H', ar: 'هـ', es: 'H' }
-const STORE = 'shajara:place'
 
 const UI = {
   kicker: t('Live, from the moon', 'En direct, d’après la lune', 'مباشر، على منازل القمر', 'En directo, según la luna'),
@@ -75,16 +75,6 @@ const UI = {
   more: t('Prayer times and the day', 'Horaires de prière et la journée', 'مواقيت الصلاة واليوم', 'Horarios de oración y el día'),
 }
 
-function loadPlace(): Place {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORE) ?? 'null') as Place | null
-    if (saved && typeof saved.lat === 'number' && typeof saved.lng === 'number' && saved.tz) return saved
-  } catch {
-    /* storage blocked */
-  }
-  return PLACES[0]!
-}
-
 function dayIn(tz: string, now: Date, offset: number): Date {
   const parts = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(now)
   const [y, m, d] = parts.split('-').map(Number) as [number, number, number]
@@ -93,15 +83,9 @@ function dayIn(tz: string, now: Date, offset: number): Date {
 
 export function HijriView() {
   const { pick, lang } = useI18n()
-  const [now, setNow] = useState(() => new Date())
-  const [place, setPlace] = useState<Place>(loadPlace)
+  const { place, setPlace, now } = usePlace()
   const [turkey, setTurkey] = useState<HDate | null | 'loading'>('loading')
   const [solar, setSolar] = useState(300)
-
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 60_000)
-    return () => clearInterval(id)
-  }, [])
 
   // Turkey: the Diyanet date, once per civil day in Istanbul
   const istanbulDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul' }).format(now)
@@ -149,13 +133,7 @@ export function HijriView() {
 
   const choose = (id: string) => {
     const p = PLACES.find((x) => x.id === id)
-    if (!p) return
-    setPlace(p)
-    try {
-      localStorage.setItem(STORE, JSON.stringify(p))
-    } catch {
-      /* storage blocked */
-    }
+    if (p) setPlace(p)
   }
 
   const statusChip = (s: MoroccoStatus) => (
@@ -285,7 +263,7 @@ export function HijriView() {
         <div className="mt-5">
           <DuaCard d={SACRED_MONTHS_QUOTE} compact />
         </div>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid items-start gap-4 md:grid-cols-2">
           {MONTHS.map((mo) => (
             <article key={mo.n} id={`month-${mo.n}`} className={`min-w-0 rounded-2xl border p-5 ${mo.n === currentMonth ? 'border-gold/50 bg-gold/[0.06]' : 'border-white/10 bg-white/[0.02]'}`}>
               <div className="flex flex-wrap items-center gap-2">

@@ -8,6 +8,7 @@ import {
   Users,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
+import '../data/es/salihin.es'
 import {
   SALIHIN_DATA,
   QURANIC_STORIES,
