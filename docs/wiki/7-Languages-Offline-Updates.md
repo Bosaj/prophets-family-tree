@@ -1,0 +1,22 @@
+# Languages, offline and updates
+
+## Four languages
+Arabic, English, French and Spanish. Arabic switches the page to right-to-left.
+- **Interface text:** `tx(lang, en, fr, ar, es)` for inline text, `src/i18n/strings.ts` for shared keys.
+- **Data:** each text is `{ en, fr, ar, es? }`; `pick()` falls back to English when a language is missing.
+- **Spanish names** (short fields) are added per page by `src/data/es/*.es.ts`, imported by the page that needs them, so the first page stays small.
+- **Spanish long texts** (stories, places, notes: 2,165 texts) live in `src/data/es/long/<dataset>.json`, keyed by `textKey(english)` (`src/lib/textKey.ts`, FNV-1a). They are loaded only when the reader chooses Spanish (`src/i18n/index.tsx`), and the people chunks get theirs as `src/data/people/loader.ts` loads them.
+- **When an English text changes**, its Spanish entry must move to the new key; `src/data/es/long/coverage.test.ts` fails if a Spanish entry no longer matches any English text.
+
+## Offline
+The service worker (vite-plugin-pwa / Workbox) precaches the app, the fonts and the data on the first visit. After that, the site opens without internet: prayer times, the Hijri date and the supplications are computed in the browser. A notice says when the saved copy is shown, and the first visit says when the site is ready offline. Images, the Qur'an audio and the Turkish Diyanet date need the network.
+
+## How readers get a new version
+Before v2.10.0 a new version waited until every tab of the site was closed, so readers stayed on old versions. Since v2.10.0:
+1. The worker uses `skipWaiting` and `clientsClaim`: a new version takes over as soon as it is downloaded, also for readers still on an old one.
+2. `src/components/UpdatePrompt.tsx` checks for a new version every 30 minutes and whenever the tab comes back.
+3. When one is in place, the page reloads into it when the tab is in the background or on the reader's next page change; a bar offers to reload right away.
+4. If a page of an old version can no longer load one of its files (a deploy replaced it), the page reloads once instead of failing.
+5. `index.html`, `sw.js` and the manifest are served with `max-age=0, must-revalidate` (`vercel.json`); built assets are immutable.
+
+A phone that still runs a version older than v2.10.0 needs one refresh to download the new worker and a second refresh (or closing the tab) to show it.

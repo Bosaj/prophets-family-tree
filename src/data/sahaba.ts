@@ -383,8 +383,8 @@ export const SAHABA_FIGURES: SahabaFigure[] = [
     ],
     propheticPraise: {
       ar: '«حُسَيْنٌ مِنِّي وَأَنَا مِنْ حُسَيْنٍ، أَحَبَّ اللَّهُ مَنْ أَحَبَّ حُسَيْنًا، حُسَيْنٌ سِبْطٌ مِنَ الْأَسْبَاطِ»',
-      en: '"Husayn is from me and I am from Husayn; may Allah love whoever loves Husayn. Husayn is a nation among nations."',
-      fr: '« Hussein est de moi et je suis de Hussein; qu’Allah aime celui qui aime Hussein. »',
+      en: '"Husayn is from me and I am from Husayn; may Allah love whoever loves Husayn. Husayn is a sibt among the asbat" (a forefather whose descendants become a whole tribe).',
+      fr: '« Hussein est de moi et je suis de Hussein ; qu’Allah aime celui qui aime Hussein. Hussein est un sibt parmi les asbat » (un ancêtre dont la descendance devient une tribu entière).',
       hadithSource: 'Sunan at-Tirmidhi (3775), Sunan Ibn Majah (144), Musnad Ahmad (17564)',
     },
     symbolColor: '#ef4444',

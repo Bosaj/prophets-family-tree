@@ -4,7 +4,7 @@ Welcome to the official documentation for **Shajara** (`@Bosaj/prophets-family-t
 
 **Live Deployment (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
 **Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
-**Current version:** v2.4.3 · [Releases](https://github.com/Bosaj/prophets-family-tree/releases) · [Changelog](https://github.com/Bosaj/prophets-family-tree/blob/main/CHANGELOG.md)
+**Current version:** v2.10.2 · [Releases](https://github.com/Bosaj/prophets-family-tree/releases) · [Changelog](https://github.com/Bosaj/prophets-family-tree/blob/main/CHANGELOG.md)
 
 ---
 
@@ -46,8 +46,18 @@ Welcome to the official documentation for **Shajara** (`@Bosaj/prophets-family-t
 
 9. **Stature, stories, scriptures and sources (`/stature`, `/stories`, `/scriptures`, `/sources`):** heights the texts give (illustrative ones marked and drawn as pillars), the stories of the Qur'an and the righteous, the revealed books, and every reference with the photo credits.
 
-10. **Trilingual Parity:**
-   - Full native support for Arabic (العربية), English, and French (Français) across every profile, event, kinship link, and citation.
+10. **Worship and the calendar (`/salat`, `/times`, `/duas`, `/hijri`, `/islam`, `/hour`):**
+   - **The prayer:** what it is, its conditions, the ablution, how to pray step by step with posture figures, the rak‘ahs of the five prayers, the Sunnah prayers and the remembrance after it. Maliki notes where the schools differ.
+   - **Prayer times** for your place (Morocco follows the Ministry of Habous method), the parts of the day with their guidance, and the Prophet’s supplications in full.
+   - **The Hijri calendar:** today’s date by country (Morocco from the Ministry’s announcements, Saudi Arabia by Umm al-Qura, Turkey by Diyanet), the twelve months, the two Eids, al-Kahf 300/309, and **fasting reminders** with a calendar file (alarm the evening before).
+   - **What is Islam?** and **the beginning and the end** (creation, the signs of the Hour with a checklist, the end).
+   - Every Arabic hadith is copied from its source and checked in CI (150 texts).
+   See [[Worship pages|6-Worship-Pages]].
+
+11. **Four languages, offline, always up to date:**
+   - Arabic, English, French and Spanish across the interface and the data (2,165 long Spanish texts load only for Spanish readers).
+   - Works offline after the first visit; a new version replaces the old one by itself.
+   See [[Languages, offline and updates|7-Languages-Offline-Updates]].
 
 ---
 
@@ -58,6 +68,8 @@ Welcome to the official documentation for **Shajara** (`@Bosaj/prophets-family-t
 * **[Kinship & Household Model](3-Kinship-and-Lineage)** — Deep dive into the family graph, spouses, children, siblings, and theological rules.
 * **[Dual Timeline & Chronology](4-Dual-Timeline)** — Mathematical alignment of Hijri and BCE/CE timelines and Qur'anic chronological anchors.
 * **[Accuracy & Sources](5-Accuracy-and-Sources)** — Source levels, the rules, and the automated audits that run in CI.
+* **[Worship pages](6-Worship-Pages)** — The prayer, prayer times, the Hijri calendar, fasting reminders and the monthly Moroccan upkeep.
+* **[Languages, offline & updates](7-Languages-Offline-Updates)** — Four languages, the Spanish long texts, the service worker and how readers get new versions.
 * **[Developer Setup & Contribution](Developer-Setup)** — Local environment setup, test execution, automated source verifications, and CI/CD pipelines.
 
 ---

@@ -4,6 +4,16 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.10.2] — 2026-11-15
+### Fixed
+- **Hadith review.** The 28 references the content audit flags were read one by one against their sources. Most are correct summaries that join or paraphrase several hadith. Corrected:
+  - **Israfil:** “his eyes are like glittering stars fixed on the Throne” was stated as fact; it now says this comes from a report in al-Hakim’s Mustadrak, and that the name Israfil comes from reports other than the cited hadith.
+  - **Ridwan:** the keeper of Paradise cited “Sahih Muslim (Shafa‘ah)” with no number; it now cites Muslim 197, where the keeper is not named, and says the name Ridwan comes from reports that are not authentic.
+  - **Husayn:** “Husayn is a nation among nations” is now translated as “Husayn is a sibt among the asbat”, with its meaning; the French had dropped that sentence.
+
+### Documentation
+- **Wiki** brought up to date from v2.4.3: home page, roadmap with every release since v2.5.0, architecture, accuracy rules and checks, developer setup, and two new pages: worship pages (prayer, times, Hijri calendar, fasting reminders, the Moroccan monthly upkeep) and languages, offline and updates.
+
 ## [2.10.1] — 2026-11-15
 ### Fixed
 - **Hadith references on the Nature and Science pages** are written in the reader’s language and link to sunnah.com, like the rest of the site (they were bare English labels such as “Bukhari 3320”). Musnad Ahmad has its own label.

@@ -92,9 +92,9 @@ export const FAMOUS_ANGELS: AngelEntry[] = [
     quranRefs: ['39:68', '69:13', '50:41', '20:102'],
     hadithRefs: ['Sunan at-Tirmidhi 2431, 3243 (Sahih)', 'Musnad Ahmad'],
     appearance: {
-      en: 'Stands before the Divine Throne in continuous awe and vigilance. The Prophet ﷺ said: "How can I be at ease when the Angel of the Horn has already put the Trumpet to his mouth, tilted his forehead, bent his ear, waiting in rapt attention for the order to blow?" (Sunan at-Tirmidhi 2431). His eyes are like glittering stars, fixed unwaveringly upon the Throne.',
-      fr: 'Se tient debout face au Trône Divin dans une vigilance totale. Le Prophète ﷺ a dit : « Comment pourrais-je me réjouir alors que le préposé à la Trompe a déjà embouché le Cor, incliné son front, tendu l’oreille, attendant l’ordre de souffler ? » (at-Tirmidhi 2431).',
-      ar: 'واقف في خشوع عظيم تلقاء العرش مهيأ للنفخ. قال رسول الله ﷺ: «كيف أنعمُ وصاحبُ القرنِ قد التقم القرنَ، وحنى جبهتَه، وأصغى سمعَه ينتظرُ أن يُؤمَرَ فينفُخَ؟» (سنن الترمذي 2431). عيناه شاخصتان نحو العرش لا يطرف، كأنهما كوكبان دريان من الخشية والترقب لنداء البعث والنشور.',
+      en: 'The Prophet ﷺ said: "How can I be at ease when the Angel of the Horn has already put the Trumpet to his mouth, tilted his forehead, bent his ear, waiting for the order to blow?" (Sunan at-Tirmidhi 2431). That this angel is named Israfil comes from other reports; a report in al-Hakim’s Mustadrak adds that his eyes are like two shining stars fixed on the Throne.',
+      fr: 'Le Prophète ﷺ a dit : « Comment pourrais-je me réjouir alors que le préposé à la Trompe a déjà embouché le Cor, incliné son front, tendu l’oreille, attendant l’ordre de souffler ? » (at-Tirmidhi 2431). Que cet ange se nomme Israfil vient d’autres récits ; un récit du Moustadrak d’al-Hakim ajoute que ses yeux sont comme deux étoiles brillantes fixées sur le Trône.',
+      ar: 'قال رسول الله ﷺ: «كيف أنعمُ وصاحبُ القرنِ قد التقم القرنَ، وحنى جبهتَه، وأصغى سمعَه ينتظرُ أن يُؤمَرَ فينفُخَ؟» (سنن الترمذي 2431). وتسميته إسرافيل من روايات أخرى، وفي رواية للحاكم في المستدرك أن عينيه كأنهما كوكبان دريان شاخصتان نحو العرش.',
     },
   },
   {
@@ -169,16 +169,16 @@ export const FAMOUS_ANGELS: AngelEntry[] = [
     },
     arabicHonorific: 'عَلَيْهِ ٱلسَّلَامُ',
     role: {
-      en: 'Chief guardian of Jannah (Paradise), welcoming the righteous through its eight majestic gates.',
-      fr: 'Gardien en chef des portes du Paradis, accueillant les bienheureux aux huit portes de félicité.',
-      ar: 'خازن دار النعيم والجنان المشرف على أبواب الجنة الثمانية، يستقبل وفود المتقين بالسلام والتكريم ﴿وَقَالَ لَهُمْ خَزَنَتُهَا سَلَامٌ عَلَيْكُمْ طِبْتُمْ فَادْخُلُوهَا خَالِدِينَ﴾.',
+      en: 'In later reports, the chief guardian of Paradise, welcoming the righteous at its eight gates.',
+      fr: 'Selon des récits postérieurs, le gardien en chef du Paradis, accueillant les bienheureux à ses huit portes.',
+      ar: 'في روايات متأخرة: خازن الجنة الذي يستقبل المتقين على أبوابها الثمانية.',
     },
     quranRefs: ['39:73', '13:23-24'],
-    hadithRefs: ['Sahih Muslim (Shafa\'ah)', 'Tafsir Ibn Kathir'],
+    hadithRefs: ['Sahih Muslim 197', 'Tafsir Ibn Kathir'],
     appearance: {
-      en: 'Radiant, serene, and beaming with joyful celestial light. His countenance radiates warmth and welcome, greeting the believers with peace and honor as they enter their eternal rewards.',
-      fr: 'Radieux, infiniment bienveillant, drapé d’une lumière céleste parfumée. Son visage respire la joie éternelle et la paix sublime.',
-      ar: 'مَلَك نوراني طلق الوجه بشوش نضر، يفيض نوره سلاماً وبِشراً وتكريماً، يكسوه بهاء من نور الجنة، يحيي الداخلين بسلام الله وأمنه الأبدي.',
+      en: 'The Qur’an says the keepers of Paradise greet the believers: “Peace be upon you; you have done well, so enter it to abide eternally” (39:73). In Sahih Muslim (197) the keeper opens the gate first for the Prophet ﷺ, without being named. The name Ridwan comes from reports that are not authentic.',
+      fr: 'Le Coran dit que les gardiens du Paradis accueillent les croyants : « Paix sur vous ! Vous avez été bons : entrez-y pour l’éternité » (39:73). Dans Sahih Muslim (197), le gardien ouvre la porte d’abord au Prophète ﷺ, sans être nommé. Le nom Ridwan vient de récits non authentiques.',
+      ar: 'أخبر القرآن أن خزنة الجنة يستقبلون المؤمنين بقولهم ﴿سَلَامٌ عَلَيْكُمْ طِبْتُمْ فَادْخُلُوهَا خَالِدِينَ﴾، وفي صحيح مسلم (١٩٧) يستفتح النبي ﷺ فيفتح له الخازن أولًا دون ذكر اسمه، وتسميته رضوان جاءت في روايات لا تصح.',
     },
   },
   {
