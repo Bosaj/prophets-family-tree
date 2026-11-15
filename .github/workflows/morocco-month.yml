@@ -1,0 +1,23 @@
+name: Morocco month check
+
+# Opens an issue when the next Moroccan Hijri month must be added to MOROCCO_STARTS (src/lib/hijri.ts).
+on:
+  schedule:
+    - cron: '30 21 * * *' # every evening, after the Ministry's announcement time
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node scripts/check-morocco-month.mjs
+        env:
+          GH_TOKEN: ${{ github.token }}
