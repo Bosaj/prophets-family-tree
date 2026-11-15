@@ -1,11 +1,11 @@
 import { hierarchy, tree, type HierarchyPointNode } from 'd3-hierarchy'
 import { links, treeParent, CHILD_MOTHER, SPOUSE_OF } from '../data/links'
-import { byId, people } from '../data/people'
-import type { Link, Person } from '../data/types'
+import { coreById as byId, peopleCore as people } from '../data/peopleCore'
+import type { Link, PersonSummary } from '../data/types'
 
 export interface TreeNode {
   id: string
-  person: Person
+  person: PersonSummary
   x: number
   y: number
   depth: number
@@ -412,7 +412,7 @@ export function lineage(id: string): string[] {
 }
 
 export interface Relative {
-  person: Person
+  person: PersonSummary
   link: Link
   /** Relation key as seen from the profile owner. */
   rel:

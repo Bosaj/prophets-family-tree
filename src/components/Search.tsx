@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CornerDownLeft, Search as SearchIcon } from 'lucide-react'
 import { useI18n } from '../i18n'
-import { people } from '../data/people'
-import type { Person } from '../data/types'
+import { peopleCore } from '../data/peopleCore'
+import { SIGN_SEARCH_HINTS } from '../data/signSearchHints'
+import type { PersonSummary } from '../data/types'
 import { hrefOf, navigate } from '../lib/router'
 
 /** Remove Arabic diacritics and Latin accents so "ibrahim", "Ibrâhîm" and "إبْرَاهِيم" all match. */
@@ -16,17 +17,17 @@ export function fold(s: string): string {
     .toLowerCase()
 }
 
-function haystack(p: Person): string {
-  const parts = [p.name.en, p.name.fr, p.name.ar, p.alt?.en, p.alt?.fr, p.sentTo?.t.en, p.sentTo?.t.fr, p.sentTo?.t.ar, p.title?.t.en, p.title?.t.fr, p.title?.t.ar]
+function haystack(p: PersonSummary): string {
+  const parts = [p.name.en, p.name.fr, p.name.ar, p.alt?.en, p.alt?.fr, p.sentTo?.t.en, p.sentTo?.t.fr, p.sentTo?.t.ar, p.title?.t.en, p.title?.t.fr, p.title?.t.ar, SIGN_SEARCH_HINTS[p.id]]
   for (const s of p.signs ?? []) parts.push(s.t.en, s.t.fr, s.t.ar)
   return fold(parts.filter(Boolean).join(' | '))
 }
 
-const INDEX = people.map((p) => ({ p, h: haystack(p), n: fold(`${p.name.en} ${p.name.fr} ${p.name.ar} ${p.alt?.en ?? ''} ${p.alt?.fr ?? ''}`) }))
+const INDEX = peopleCore.map((p) => ({ p, h: haystack(p), n: fold(`${p.name.en} ${p.name.fr} ${p.name.ar} ${p.alt?.en ?? ''} ${p.alt?.fr ?? ''}`) }))
 
-export function search(q: string): Person[] {
+export function search(q: string): PersonSummary[] {
   const f = fold(q.trim())
-  if (!f) return [...people].filter((p) => p.kind === 'prophet').sort((a, b) => a.order - b.order)
+  if (!f) return [...peopleCore].filter((p) => p.kind === 'prophet').sort((a, b) => a.order - b.order)
   return INDEX.filter((x) => x.h.includes(f))
     .sort((a, b) => Number(b.n.includes(f)) - Number(a.n.includes(f)) || a.p.order - b.p.order)
     .map((x) => x.p)
@@ -52,7 +53,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
     if (!open && d.open) d.close()
   }, [open])
 
-  const go = (p?: Person) => {
+  const go = (p?: PersonSummary) => {
     if (!p) return
     onClose()
     navigate(hrefOf({ name: 'person', id: p.id }))

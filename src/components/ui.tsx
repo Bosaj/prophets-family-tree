@@ -7,7 +7,7 @@ import { parseRef, refLabel, refUrl } from '../data/sources'
 
 /** Public asset prefix: '/' on Vercel, '/prophets-family-tree/' on GitHub Pages. */
 export const ASSET = import.meta.env.BASE_URL
-import type { Fact, Level, Person, Ref } from '../data/types'
+import type { Fact, Level, Person, PersonSummary, Ref } from '../data/types'
 
 /** In-app link: plain <a> for crawlers and middle-click, client-side navigation otherwise. */
 export function A({ href, children, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }) {
@@ -178,7 +178,7 @@ export function Scene({ image, className = '', alt = '', eager = false, sizes = 
  * The line under a big Arabic name: the local name plus its Biblical form. In Arabic only an Arabic note is
  * shown (such as “يُقال إنه أخنوخ”), never an English name.
  */
-export function SubName({ p, className = '' }: { p: Person; className?: string }) {
+export function SubName({ p, className = '' }: { p: Person | PersonSummary; className?: string }) {
   const { lang, pick } = useI18n()
   if (lang === 'ar') return p.alt && /[؀-ۿ]/.test(p.alt.ar) ? <span className={className}>{p.alt.ar}</span> : null
   return (

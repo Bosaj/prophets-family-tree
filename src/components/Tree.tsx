@@ -18,6 +18,8 @@ import {
   Flame,
   BookOpen,
   Info,
+  Download,
+  Printer,
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
 import '../data/es/preAdam.es'
@@ -28,7 +30,10 @@ import { relationLabel } from '../lib/relations'
 import { labelScale, nodeBoxes, placeLabels, textWidth, type LabelRequest } from '../lib/labelLayout'
 import { EdgeLabel } from './EdgeLabel'
 import { treeParent } from '../data/links'
-import { byId } from '../data/people'
+import { coreById as byId } from '../data/peopleCore'
+import { loadPersonDetails } from '../data/people/loader'
+import type { Person } from '../data/types'
+import { buildTreePosterSvg, downloadSvgPoster, printPosterAsPdf } from '../lib/posterExport'
 import type { Kind, Lang } from '../data/types'
 import { hrefOf, navigate } from '../lib/router'
 import { A, FactText, LEVEL_STROKE, LevelChip, Refs, SubName, RefChip } from './ui'
@@ -366,7 +371,22 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
     zoomAt(f, el.clientWidth / 2, el.clientHeight / 2)
   }
 
-  const sel = selected ? byId.get(selected) : undefined
+  const [selDetail, setSelDetail] = useState<Person | null>(null)
+  useEffect(() => {
+    if (!selected) {
+      setSelDetail(null)
+      return
+    }
+    let cancelled = false
+    loadPersonDetails(selected).then((full) => {
+      if (!cancelled && full) setSelDetail(full)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [selected])
+
+  const sel = selected ? (selDetail?.id === selected ? selDetail : byId.get(selected)) : undefined
   const selLink = selected ? treeParent.get(selected) : undefined
 
   const orbForKind = (kind: Kind) => {
@@ -1226,6 +1246,30 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 title={t('resetView')}
               >
                 <RotateCcw className="size-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const svg = buildTreePosterSvg(layout, lang)
+                  downloadSvgPoster(svg, `shajara-prophets-tree-${lang}.svg`)
+                }}
+                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                aria-label={t('posterSvg')}
+                title={t('posterSvg')}
+              >
+                <Download className="size-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const svg = buildTreePosterSvg(layout, lang)
+                  printPosterAsPdf(svg, `${t('brand')} — ${t('posterPdf')}`, lang)
+                }}
+                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                aria-label={t('posterPdf')}
+                title={t('posterPdf')}
+              >
+                <Printer className="size-4" aria-hidden="true" />
               </button>
             </div>
           </div>

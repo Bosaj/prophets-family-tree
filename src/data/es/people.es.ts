@@ -1,6 +1,6 @@
 // Spanish texts for the prophets' main fields. Applied onto people.ts at load time, so the
 // English, French and Arabic sources stay untouched. Fields not listed here fall back to English.
-import type { Person } from '../types'
+import type { Person, PersonSummary } from '../types'
 
 interface EsFields {
   name?: string
@@ -241,8 +241,8 @@ export const PEOPLE_ES: Record<string, EsFields> = {
   },
 }
 
-/** Adds the Spanish texts to the people records. Called once by people.ts. */
-export function applySpanish(people: Person[]) {
+/** Adds the Spanish texts to the people records. Called once by apply.ts and lazy chunk loaders. */
+export function applySpanish(people: (Person | PersonSummary)[]) {
   for (const p of people) {
     const es = PEOPLE_ES[p.id]
     if (!es) continue
@@ -252,6 +252,6 @@ export function applySpanish(people: Person[]) {
     if (es.role && p.role) p.role.t.es = es.role
     if (es.sentTo && p.sentTo) p.sentTo.t.es = es.sentTo
     if (es.era && p.era) p.era.t.es = es.era
-    if (es.story) p.story.es = es.story
+    if (es.story && p.story) p.story.es = es.story
   }
 }
