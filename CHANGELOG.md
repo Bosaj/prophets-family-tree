@@ -4,6 +4,22 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.10.0] — 2026-11-15
+### Added
+- **The prayer** (`/salat`). What the prayer is and its place in Islam, the conditions before it, the ablution step by step, how to pray step by step with a figure for each position, a table of the rak‘ahs of the five prayers (what is recited, aloud or silent, where one sits), what to do when unsure, the Sunnah prayers (the twelve rak‘ahs, Fajr, witr, duha, the night prayer, greeting the mosque, congregation and Friday) and the remembrance after the prayer. 42 hadith texts are copied from their sources and checked (148 in total). Where the schools differ, a note gives the Maliki practice followed in Morocco (hands, raising them, the basmalah, the tashahhud, the salam, sujud al-sahw, qunut, witr).
+- **Fasting reminders** on the Hijri page. The next white days, Tasu‘a, ‘Ashura, ‘Arafah, the start of Ramadan and the Eids for your place (Morocco counted from the Ministry’s announcements), and a calendar file (.ics) with an alarm at 20:00 the evening before each day. 13 Dhu al-Hijjah (a day of tashriq) and Ramadan are left out of the white days. The home card shows today’s or tomorrow’s fasting day.
+- **Tree poster** (#13). The Poster menu on the tree exports the whole tree as an SVG with its fonts, a high-resolution PNG, or opens it for printing or saving as PDF. The map has a print button; the tile attribution stays on the page.
+- **Spanish long texts** (#25). 2,165 texts across the prophets, their families and places, nature, the Companions and dynasties, the Holy Books, the righteous, the scientific notes and the pages before Adam, plus the Qur’an verse meanings of the Holy Books page. They load only for Spanish readers. A test fails if a Spanish text no longer matches its English source.
+- **Morocco month check.** A daily GitHub Action opens an issue when the next Moroccan month is due, with the evening of the 29th and both possible start dates.
+
+### Changed
+- **Holy Books** use the site’s colours (gold, night, ink) instead of their own amber and purple, on the Holy Books page, its window, and the scripture blocks of the tree and the prophet pages.
+
+### Fixed
+- **Readers stuck on an old version.** The new service worker took over only after every tab was closed. It now takes over at once (also for readers on the old version). The site checks for a new version every 30 minutes and when you come back to the tab, and reloads into it when the tab is hidden or on your next page change; a bar offers to reload right away. If a page of an old version can no longer load its code, it reloads once. `index.html` and the manifest are always revalidated.
+- **Overstated sources.** The long hadith of Abu Dharr in Ibn Hibban (#361) on the scrolls of Ibrahim, Idris and Shith was called sahih; it is now marked very weak, with the reason. Health claims for black seed, desert truffles, talbinah, ginger, pomegranate, ‘ajwa and honey now say what studies show. The cave spider, the speaking wolf, Musa’s father-in-law, Ayyub’s wife and Nuh’s son are attributed to their reports instead of stated as fact.
+- **Offline.** A notice says when the saved copy is shown, and the first visit says when the site is ready offline.
+
 ## [2.9.0] — 2026-11-15
 ### Added
 - **Your place and time, everywhere.**
