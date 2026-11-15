@@ -8,6 +8,7 @@ import { dayTimes, PLACES } from '../lib/prayerTimes'
 import { usePlace } from '../lib/place'
 import { DuaCard } from './DuasView'
 import { Step } from './HourView'
+import { FastingReminders } from './FastingReminders'
 import { A, LevelChip, RefChip } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
@@ -330,6 +331,8 @@ export function HijriView() {
           ))}
         </ul>
       </section>
+
+      <FastingReminders />
 
       {/* The two Eids */}
       <section className="mb-14">

@@ -14,8 +14,7 @@ import {
   Castle,
   Waypoints,
   Maximize2,
-  Footprints,
-} from 'lucide-react'
+  Footprints, Printer } from 'lucide-react'
 import type L from 'leaflet'
 import { legacy, tx, useI18n } from '../i18n'
 import { byId, prophets } from '../data/people'
@@ -1760,7 +1759,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
       <div ref={mapContainer} className="relative z-0 h-full w-full outline-none" tabIndex={0} />
 
       {/* Floating Header Controls */}
-      <div className="pointer-events-none absolute inset-x-3 top-3 z-[1050] flex flex-wrap items-center justify-between gap-2.5 sm:inset-x-6 sm:top-4">
+      <div className="pointer-events-none absolute inset-x-3 top-3 z-[1050] flex flex-wrap items-center justify-between gap-2.5 sm:inset-x-6 sm:top-4 print:hidden">
         {/* Style & Layer Toggles */}
         <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex items-center gap-1 rounded-full p-1.5 shadow-2xl">
           <button
@@ -1855,11 +1854,21 @@ export function TopographyMap({ focus }: { focus?: string }) {
           >
             <RotateCcw className="size-3.5" />
           </button>
+
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="flex items-center gap-1 rounded-full px-2 py-1 text-ink-3 hover:text-gold transition-colors"
+            title={tx(lang, 'Print the map or save it as a PDF poster', 'Imprimer la carte ou l’enregistrer en affiche PDF', 'طباعة الخريطة أو حفظها ملصقًا PDF', 'Imprimir el mapa o guardarlo como póster PDF')}
+            aria-label={tx(lang, 'Print the map', 'Imprimer la carte', 'طباعة الخريطة', 'Imprimir el mapa')}
+          >
+            <Printer className="size-3.5" />
+          </button>
         </div>
       </div>
 
       {/* Floating Filter Bars: Eras & Sacred Site Categories */}
-      <div className="pointer-events-none absolute inset-x-3 top-14 z-[1050] flex flex-col items-center gap-2 sm:inset-x-6 sm:top-16">
+      <div className="pointer-events-none absolute inset-x-3 top-14 z-[1050] flex flex-col items-center gap-2 sm:inset-x-6 sm:top-16 print:hidden">
         {/* Era Filter Bar */}
         <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-2xl max-w-2xl">
           {ERAS.map((era) => (

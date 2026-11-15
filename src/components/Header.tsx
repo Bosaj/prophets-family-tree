@@ -51,7 +51,7 @@ export function Header({ route, onSearch }: { route: Route; onSearch: () => void
   const solid = scrolled || route.name !== 'home'
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${solid ? 'glass-strong border-x-0 border-t-0' : 'border-b border-transparent bg-transparent'}`}>
+    <header className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 print:hidden ${solid ? 'glass-strong border-x-0 border-t-0' : 'border-b border-transparent bg-transparent'}`}>
       <div className="mx-auto flex h-16 w-full max-w-[1720px] items-center justify-between gap-1.5 sm:gap-2 px-3 sm:px-4 lg:px-6">
         <A href="/" className="flex shrink-0 items-center gap-2 rounded-full pe-1 sm:pe-2" aria-label={`${t('brand')} — ${t('navHome')}`}>
           <Logo className="size-7 sm:size-8" />

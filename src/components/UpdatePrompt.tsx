@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { CloudCheck, RefreshCw, WifiOff } from 'lucide-react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { useI18n, tx } from '../i18n'
-import { useRoute } from '../lib/router'
+import { hrefOf, useRoute } from '../lib/router'
 
 const CHECK_EVERY = 30 * 60_000
 const RELOADED_KEY = 'shajara:reloaded-for-update'
@@ -19,8 +19,9 @@ const RELOADED_KEY = 'shajara:reloaded-for-update'
  */
 export function UpdatePrompt() {
   const { lang } = useI18n()
-  const route = useRoute()
-  const lastRoute = useRef(route)
+  // The page's path as a string: the route object is new on every render.
+  const page = hrefOf(useRoute())
+  const lastPage = useRef(page)
   const [updated, setUpdated] = useState(false)
   const [online, setOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine))
 
@@ -70,9 +71,9 @@ export function UpdatePrompt() {
   }, [updated])
 
   useEffect(() => {
-    if (updated && route !== lastRoute.current) location.reload()
-    lastRoute.current = route
-  }, [route, updated])
+    if (updated && page !== lastPage.current) location.reload()
+    lastPage.current = page
+  }, [page, updated])
 
   // A chunk of the old version is gone after a deploy: reload once into the new one.
   useEffect(() => {

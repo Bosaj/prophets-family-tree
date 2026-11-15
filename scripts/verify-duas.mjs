@@ -11,6 +11,7 @@ import { parseRef } from '../src/data/sources.ts'
 import { HOUR_PARTS, HOUR_QUOTES } from '../src/data/hour.ts'
 import { HIJRI_QUOTES, HIJRI_REFS } from '../src/data/hijri.ts'
 import { SALAT_QUOTES, SALAT_REFS } from '../src/data/salat.ts'
+import { FAST_QUOTES, FAST_REFS } from '../src/data/fasting.ts'
 
 const BASES = ['https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1', 'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1']
 
@@ -89,6 +90,7 @@ const items = [
   ...HIJRI_QUOTES,
   // 2.10.0: the prayer, the ablution and the Sunnah prayers
   ...SALAT_QUOTES,
+  ...FAST_QUOTES,
 ]
 const refsOnly = [
   ...DAY_PARTS.flatMap((p) => p.guide.map((g, i) => ({ where: `day/${p.id}/${i}`, r: g.r }))),
@@ -109,6 +111,7 @@ refsOnly.push(
   ...HOUR_PARTS.flatMap((p) => p.steps.map((st) => ({ where: `hour/${p.id}/${st.id}`, r: st.r }))),
   ...HIJRI_REFS,
   ...SALAT_REFS,
+  ...FAST_REFS,
 )
 
 // Ayah counts per surah, to check that every Qur'an reference points at verses that exist.

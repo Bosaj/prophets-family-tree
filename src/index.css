@@ -394,3 +394,19 @@ html[lang='ar'] body {
   background: transparent !important;
   border: none !important;
 }
+
+/* Printing (the map's print button, or the browser's print): the page alone, colours kept. */
+@media print {
+  @page {
+    size: A3 landscape;
+    margin: 8mm;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* The zoom buttons go; the tile attribution stays, as the map providers require. */
+  .leaflet-control-zoom {
+    display: none !important;
+  }
+}

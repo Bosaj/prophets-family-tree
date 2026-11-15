@@ -36,6 +36,7 @@ import { formatDate, formatBirthDeath } from '../lib/dates'
 import { PRE_ADAM_ENTITIES, type PreAdamEntity } from '../data/preAdam'
 import { SCRIPTURES_BY_PROPHET } from '../data/scriptures'
 import { ScripturesModal } from './ScripturesModal'
+import { PosterButton } from './PosterButton'
 
 interface View {
   k: number
@@ -121,6 +122,8 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
   const layout = useMemo(() => buildLayout(filterOpts, wide, lang === 'ar'), [filterOpts, wide, lang])
   const [selected, setSelected] = useState<string | null>(focus ?? null)
   const box = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const contentRef = useRef<SVGGElement>(null)
   const [view, setView] = useState<View>({ k: 0.5, x: 0, y: 0 })
   const pointers = useRef(new Map<number, { x: number; y: number }>())
   const pinch = useRef<{ d: number; k: number } | null>(null)
@@ -439,7 +442,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       >
-        <svg width="100%" height="100%" role="group" aria-label={t('navTree')}>
+        <svg ref={svgRef} width="100%" height="100%" role="group" aria-label={t('navTree')}>
           <defs>
             <radialGradient id="orb-gold" cx="45%" cy="35%" r="65%">
               <stop offset="0" stopColor="#ffffff" />
@@ -507,6 +510,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             </radialGradient>
           </defs>
           <g
+            ref={contentRef}
             style={{
               transform: `translate(${view.x}px, ${view.y}px) scale(${view.k})`,
               transformOrigin: '0 0',
@@ -1186,6 +1190,8 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                 <Compass className="size-3.5" aria-hidden="true" />
                 <span className="hidden sm:inline">{t('mapView')}</span>
               </A>
+
+              <PosterButton svg={svgRef} content={contentRef} />
 
               {[
                 { f: 1.25, icon: Plus, label: t('zoomIn') },
