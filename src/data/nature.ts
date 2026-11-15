@@ -22,7 +22,7 @@ export interface AnimalEntry {
   category: AnimalCategory
   source: ScriptureSource
   quranRefs: string[]
-  hadithRefs: { book: string; number: string; text: L3 }[]
+  hadithRefs: { book: string; number: string; text: L3; grade?: L3 }[]
   relatedProphets: string[]
   summary: L3
   whatTheyDid: L3
@@ -47,7 +47,7 @@ export interface PlantFoodEntry {
   category: PlantCategory
   source: ScriptureSource
   quranRefs: string[]
-  hadithRefs: { book: string; number: string; text: L3 }[]
+  hadithRefs: { book: string; number: string; text: L3; grade?: L3 }[]
   relatedProphets: string[]
   summary: L3
   scriptureContext: L3
@@ -577,20 +577,31 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
     quranRefs: ['12:13', '12:14', '12:17'],
     hadithRefs: [
       {
-        book: 'Musnad Ahmad 11792 (graded sahih by al-Albani); a shorter account of a speaking wolf is in Sahih al-Bukhari',
-        number: '3471',
+        book: 'Musnad Ahmad',
+        number: '11792',
+        grade: t4('Sahih (al-Albani)', 'Sahih (al-Albani)', 'صحيح (الألباني)', 'Sahih (al-Albani)'),
         text: t(
           'A wolf seized a sheep, so the shepherd chased it and retrieved the sheep. The wolf sat upon its tail and spoke: "Do you take from me sustenance that Allah provided me?" The shepherd said: "How astonishing, a speaking wolf!" The wolf said: "Shall I tell you of something more astonishing? A Prophet in Yathrib telling people of past news!" The shepherd came to the Prophet ﷺ and embraced Islam. (Wording of Musnad Ahmad.)',
           'Un loup ravit une brebis qu’un berger lui reprit. Le loup s’assit et parla : « Me prives-tu d’une subsistance qu’Allah m’a accordée ? » Le berger s’écria : « Un loup qui parle ! » Le loup lui dit : « T’informerai-je d’un prodige plus grand ? Un Prophète à Yathrib vous annonce les récits du passé ! » (Version du Musnad Ahmad.)',
           'عَدَا الذِّئْبُ عَلَى شَاةٍ فَأَخَذَهَا، فَطَلَبَهُ الرَّاعِي حَتَّى انْتَزَعَهَا مِنْهُ، فَقَعَدَ الذِّئْبُ عَلَى ذَنَبِهِ فَقَالَ: «أَلَا تَتَّقِي اللَّهَ، تَنْزِعُ مِنِّي رِزْقًا سَاقَهُ اللَّهُ إِلَيَّ؟» فَقَالَ الرَّاعِي: «يَا عَجَبِي! ذِئْبٌ مُقْعٍ عَلَى ذَنَبِهِ يُكَلِّمُنِي كَلَامَ الإِنْسِ!» فَقَالَ الذِّئْبُ: «أَلَا أُخْبِرُكَ بِأَعْجَبَ مِنْ ذَلِكَ؟ رَسُولُ اللَّهِ ﷺ بَيْنَ الحَرَّتَيْنِ يُخْبِرُ النَّاسَ بِأَنْبَاءِ مَا قَدْ سَبَقَ!» فَأَتَى الرَّاعِي النَّبِيَّ ﷺ فَأَسْلَمَ.'
         ),
       },
+      {
+        book: 'Bukhari',
+        number: '3471',
+        text: t4(
+          'While a man was with his sheep, a wolf attacked and took one of them. He chased it until he seemed to have saved it, and the wolf said to him: "You have saved it from me, but who will guard it on the day of the wild beasts?"',
+          'Alors qu’un homme gardait ses moutons, un loup en attaqua un et l’emporta. Il le poursuivit jusqu’à sembler le lui reprendre, et le loup lui dit : « Tu me l’as reprise, mais qui la gardera le jour des bêtes sauvages ? »',
+          'وَبَيْنَمَا رَجُلٌ فِي غَنَمِهِ إِذْ عَدَا الذِّئْبُ فَذَهَبَ مِنْهَا بِشَاةٍ، فَطَلَبَ حَتَّى كَأَنَّهُ اسْتَنْقَذَهَا مِنْهُ، فَقَالَ لَهُ الذِّئْبُ هَذَا اسْتَنْقَذْتَهَا مِنِّي فَمَنْ لَهَا يَوْمَ السَّبُعِ',
+          'Mientras un hombre estaba con sus ovejas, un lobo atacó y se llevó una. La persiguió hasta casi rescatarla, y el lobo le dijo: «Me la has quitado, pero ¿quién la guardará el día de las fieras?».',
+        ),
+      },
     ],
     relatedProphets: ['yusuf', 'yaqub', 'muhammad'],
     summary: t(
-      'The desert predator falsely accused by Yusuf’s brothers of devouring him; in the Sunnah, an authentic wolf spoke in clear human tongue testifying to the prophethood of Muhammad ﷺ.',
-      'Le loup du désert faussement accusé par les frères de Joseph; dans la Sunnah, un loup s’assit et s’exprima en langage humain pour attester du message prophétique.',
-      'الذئب البري الذي لفق له إخوة يوسف تهمة أكله، وهو بريء من دمه، وفي السنة النبوية تكلم ذئب بلسان عربي فصيح مخاطباً الراعي بالشهادة لنبوة محمد ﷺ.'
+      'The desert predator falsely accused by Yusuf’s brothers of devouring him; in the Sunnah, a wolf is reported to have spoken to a shepherd and pointed him to the Prophet ﷺ.',
+      'Le prédateur du désert faussement accusé par les frères de Joseph de l’avoir dévoré ; dans la Sunna, un loup aurait parlé à un berger et l’aurait orienté vers le Prophète ﷺ.',
+      'الذئب الذي اتهمه إخوة يوسف كذبًا بأكله، وفي السنة رُوي أن ذئبًا كلّم راعيًا ودلّه على النبي ﷺ.'
     ),
     whatTheyDid: t(
       'Yusuf’s brothers plotted against him out of jealousy, cast him into the dark depths of the desert cistern, stained his tunic with false sheep’s blood, and wept before their father Yaqub saying: "O our father, we went racing and left Yusuf with our possessions, and the wolf ate him." Yaqub saw through their deception and declared: "Rather, your souls have enticed you to something, so patience is most fitting." Centuries later in the outskirts of Madinah, a wolf sat upon its tail and addressed a shepherd in plain Arabic, directing him to the final Messenger of Allah in Yathrib.',
@@ -1147,9 +1158,9 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
         'النهي النبوي المشدد عن فجع الطير في فراخه أو صيد حمام الحرم، وتكريس مبدأ الرحمة الشاملة بكافة الكائنات الحية.'
       ),
       scientificEcological: t(
-        'Advanced magnetoreception utilizing cryptochrome retinal pigments and atmospheric infrasound mapping for homing precision over thousands of kilometers; rich seed disperser regenerating desert flora.',
-        'Sens magnétique fondé sur les cryptochromes rétiniens permettant un retour au nid sur des milliers de kilomètres; disséminateur végétal clé.',
-        'تمتلك بوصلة بصرية مغناطيسية تعتمد على صبغات الكريبتوكروم وشبكة استشعار الموجات تحت الصوتية، مع إفراز لبن الحوصلة الفريد الغني بمضادات الأكسدة والأجسام المضادة.'
+        'Strong magnetic and visual navigation lets pigeons home over hundreds of kilometres; they also spread seeds.',
+        'Une orientation magnétique et visuelle puissante permet aux pigeons de rentrer sur des centaines de kilomètres ; ils dispersent aussi des graines.',
+        'يهتدي الحمام بالمجال المغناطيسي والبصر فيعود إلى عشه من مئات الكيلومترات، وينشر البذور.'
       ),
       practicalBenefits: t(
         'Ancient long-distance carrier messaging system (Al-Hammam az-Zajil) trusted for centuries across the Islamic realm for urgent communication and relief.',
@@ -1839,14 +1850,14 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
     ],
     relatedProphets: ['muhammad'],
     summary: t(
-      'The legendary "seed of blessing" (Habbat al-Barakah) extolled in Sahih hadith as containing a cure for every affliction except death; modern clinical science identifies its star molecule, Thymoquinone (TQ), as a master immunomodulator.',
-      'La graine bénie célébrée dans le hadith comme panacée universelle; la science moderne y a découvert la thymoquinone, puissant modulateur immunitaire.',
-      'حبة البركة التي خلدت السنة النبوية فضلها كشفاء من كل داء إلا السام، كنز الطب النبوي الذي أثبت العلم الحديث أن مادته الفعالة (الثيموكينون) معجزة علاجية شاملة.'
+      'The “seed of blessing” (Habbat al-Barakah): the authentic hadith says it holds healing for every disease except death. Science studies its main compound, thymoquinone.',
+      'La « graine de la bénédiction » (Habbat al-Baraka) : le hadith authentique dit qu’elle contient une guérison pour toute maladie sauf la mort. La science étudie son principal composé, la thymoquinone.',
+      '«الحبة المباركة»: قال الحديث الصحيح إن فيها شفاء من كل داء إلا الموت، ويدرس العلم مركبها الرئيس الثيموكينون.'
     ),
     scriptureContext: t(
-      'The Prophet Muhammad ﷺ delivered this sweeping, universal medical statement recorded in both Sahih al-Bukhari and Sahih Muslim. Aisha (ra) related that when someone fell ill, she would crush black seed, blend it with honey or oil, and administer it into the nostrils or mouth, achieving rapid recovery by Allah’s will.',
-      'Cette déclaration médicale prophétique solennelle est consignée dans les deux recueils authentiques de Boukhari et Muslim. Aïcha l’administrait pilée avec de l’huile ou du miel pour soulager les malades de son entourage.',
-      'أطلق النبي ﷺ هذه القاعدة الطبية الشاملة في صحيحي البخاري ومسلم، وكانت أم المؤمنين عائشة رضي الله عنها تطحنها وتخلطها بزيت أو عسل وتصفها للمحموم والمريض فيبرأ بإذن الله.'
+      'The Prophet Muhammad ﷺ said this, as recorded in Sahih al-Bukhari and Sahih Muslim. A narrator in al-Bukhari (5687) describes crushing the seed with oil and putting drops in the nose. Scholars explain “every disease” as a great blessing, not as a replacement for medicine.',
+      'Le Prophète ﷺ l’a dit, selon Sahih al-Bukhari et Sahih Muslim. Un narrateur chez al-Bukhari (5687) décrit l’écrasement des graines avec de l’huile et des gouttes dans le nez. Les savants comprennent « toute maladie » comme une grande bénédiction, non comme un substitut à la médecine.',
+      'قاله النبي ﷺ كما في صحيحي البخاري ومسلم، ووصف أحد الرواة عند البخاري (٥٦٨٧) سحقها بالزيت والتقطير منها في الأنف. ويفسّر العلماء «كل داء» ببركة عظيمة فيها، لا أنها تغني عن الطب.'
     ),
     botanicalTraits: {
       growthForm: t('Delicate annual flowering herb with finely divided leaves and pale blue blossoms, 30–60 cm', 'Plante annuelle gracieuse aux fleurs bleu ciel pâle, 40 cm', 'عشبة حولية رقيقة ذات أزهار زرقاء مبيضة وثمار كبسولية تضم بذيرات سوداء فاحمة'),
@@ -1896,9 +1907,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
     ],
     relatedProphets: ['yunus', 'muhammad'],
     summary: t(
-      'The miraculous plant grown by Allah over Prophet Yunus on the barren shore to provide soothing shade, cooling hydration, and insect-repellent foliage for his sun-blistered skin; deeply cherished by Prophet Muhammad ﷺ.',
-      'La plante miraculeuse qu’Allah fit croître pour ombrager et soigner la peau meurtrie de Jonas rejeté sur le rivage; mets favori du Prophète ﷺ.',
-      'الشجرة المباركة التي أنبتها الله فوق نبي الله يونس حين لفظه الحوت بالعراء سقيماً رقيق الجلد، فظللته ورطبته ومنعت عنه الذباب، وكان النبي ﷺ يحب أكلها ويتتبعها في الإناء.'
+      'The plant Allah made grow over Prophet Yunus on the bare shore; commentators say its broad leaves gave him shade. The Prophet Muhammad ﷺ loved to eat it.',
+      'La plante qu’Allah fit pousser au-dessus du prophète Yunus sur le rivage nu ; les commentateurs disent que ses larges feuilles lui donnaient de l’ombre. Le Prophète Muhammad ﷺ aimait en manger.',
+      'النبتة التي أنبتها الله على يونس بالعراء، قال المفسرون إن ورقها العريض أظلّه، وكان النبي ﷺ يحب أكلها.'
     ),
     scriptureContext: t(
       'When the whale cast Prophet Yunus onto the desolate coastal desert, his skin was peeling, raw, and vulnerable as a newborn infant. Allah says: "And We cast him onto the open shore while he was ill. And We caused to grow over him a gourd vine (Shajaratan min Yaqtin)." Its broad tender leaves provided soothing shade, flies and insects naturally shunned its scent, and its nourishing watery fruit healed his parched body until he recovered.',
@@ -2076,14 +2087,14 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
     ],
     relatedProphets: ['muhammad', 'musa'],
     summary: t(
-      'The subterranean desert delicacy celebrated in authentic Hadith as an offshoot of the divine Manna, whose extracted aqueous juice acts as a miraculous clinical cure for eye infections and corneal trachoma.',
-      'Le trésor souterrain du désert issu de la Manne céleste, dont le suc pur guérit miraculeusement les affections oculaires et le trachome.',
-      'نبات الصحراء العجيب الذي يخرج من الأرض بلا زرع ولا سقي، وصفه النبي ﷺ بأنه من المن الإلهي وأن ماءه شفاء لأمراض العيون والرمد.'
+      'The desert delicacy the authentic hadith calls part of the manna, whose water is “a cure for the eyes”. It should not be put in the eyes without medical advice.',
+      'Le mets du désert que le hadith authentique rattache à la manne, et dont l’eau est « une guérison pour les yeux ». Il ne faut pas le mettre dans les yeux sans avis médical.',
+      'طعام البادية الذي عدّه الحديث الصحيح من المنّ، وماؤه «شفاء للعين»، ولا يُقطَّر في العين دون استشارة طبية.'
     ),
     scriptureContext: t(
-      'The Prophet ﷺ declared the Kam’ah to be of the "Manna"—the miraculous food provided without human labor, plowing, or sowing, sprouting spontaneously in the desert after autumn thunderstorms. Authentic companions, including Abu Hurairah (ra), extracted its water by boiling or squeezing and applied drops directly into inflamed eyes, achieving total healing.',
-      'Le Prophète ﷺ l’a rattachée à la Manne car elle croît sans semence ni labour après les orages d’automne. Abou Hurayra et les médecins musulmans extrayaient son eau distillée pour soigner le trachome et les conjonctivites avec un succès éclatant.',
-      'بين النبي ﷺ أنها من المن لأنها تنبت عفواً بفضل الله بالمطر دون تكلف بذر ولا سقاية، وكان الصحابة رضوان الله عليهم يستقطرون ماءها في العين الرمدة فيبرأ بصرها بإذن الله تعالى.'
+      'The Prophet ﷺ declared the kam’ah to be of the “manna”: food that comes without plowing or sowing, sprouting by itself in the desert after the autumn storms. A report in al-Tirmidhi says Abu Hurayrah used its water for an eye ailment; its chain is weak.',
+      'Le Prophète ﷺ a dit que la truffe fait partie de la « manne » : une nourriture qui vient sans labour ni semence, poussant d’elle-même dans le désert après les orages d’automne. Un récit chez at-Tirmidhi dit qu’Abou Hourayra employa son eau pour un mal d’yeux ; sa chaîne est faible.',
+      'قال النبي ﷺ إن الكمأة من المنّ: رزق يأتي بلا حرث ولا بذر، تنبت بنفسها في البادية بعد أمطار الخريف. وروى الترمذي أن أبا هريرة استعمل ماءها لعلة في العين، وإسناده ضعيف.'
     ),
     botanicalTraits: {
       growthForm: t('Subterranean mycorrhizal desert fungus growing beneath cracking soil without stem or leaves', 'Champignon hypogé poussant sous la croûte du désert sans tige ni feuilles', 'فطر صحراوي لحمي ينمو متخفياً تحت سطح الرمال بتكافل مع جذور الرقروق'),
@@ -2133,9 +2144,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
     ],
     relatedProphets: ['muhammad'],
     summary: t(
-      'The sacred medicinal aromatic root praised by the Prophet ﷺ as containing "seven cures," uniquely effective when inhaled as snuff for throat/tonsil swellings and taken orally for respiratory and pleurisy infections.',
-      'La racine aromatique majeure de la pharmacopée prophétique renfermant « sept guérisons », notamment contre les angines et les affections pulmonaires.',
-      'العود الطبي المبارك الذي أعلن النبي ﷺ أن فيه سبعة أشفية؛ يفتح انسدادات الجهاز التنفسي، ويعالج التهابات اللوزتين، ويداوي ذات الجنب وأمراض الرئة.'
+      'The aromatic root the Prophet ﷺ said contains “seven cures”, naming its use as nasal drops for throat swelling and by mouth for pleurisy.',
+      'La racine aromatique dont le Prophète ﷺ a dit qu’elle contient « sept guérisons », citant son usage en gouttes nasales pour l’enflure de la gorge et par la bouche pour la pleurésie.',
+      'العود الهندي الذي قال النبي ﷺ إن فيه سبعة أشفية، وذكر منها السعوط لعذرة الحلق واللدود لذات الجنب.'
     ),
     scriptureContext: t(
       'A mother brought her young child to the Prophet ﷺ having compressed his swollen uvula/tonsils painfully with her fingers. The Prophet ﷺ gently reproached her: "Why do you torment your children by pressing their palates? Upon you is this Indian wood (Qist), for in it are seven cures!" Prescribing it as a gentle nasal drops / snuff (Sa’oot) and oral suspension.',
@@ -2154,9 +2165,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
         'مركبات الكوستونويلد، واللاكتونات السيسكويتربينية، والزيوت الطيارة المطهرة للأغشية المخاطية.'
       ),
       medicinalProphetic: t(
-        'Proved effective for acute tonsillitis, pharyngitis, pleurisy (Dhat al-Janb), lung phlegm clearing, thyroid regulation, and pelvic inflammatory infections.',
-        'Remède d’élite des angines sévères, pleurésies, régulation de la thyroïde et infections respiratoires.',
-        'علاج حاسم لالتهاب اللوزتين والحلق بالاستعاط، وتطهير الرئة من البلغم، وتنظيم هرمونات الغدة الدرقية، وعلاج ذات الجنب.'
+        'The Sunnah names it for the throat and for pleurisy; laboratory studies are exploring it, and it does not replace medical treatment.',
+        'La Sunna le cite pour la gorge et la pleurésie ; des études de laboratoire l’explorent, et il ne remplace pas un traitement médical.',
+        'ذكرته السنة للحلق وذات الجنب، وتبحثه دراسات مخبرية، ولا يغني عن العلاج الطبي.'
       ),
       spiritualWisdom: t(
         'Promotes gentle, merciful pediatric care; teaches the Ummah to replace harsh folk procedures with refined botanical remedies.',
@@ -2246,9 +2257,9 @@ export const QURAN_SUNNAH_PLANTS: PlantFoodEntry[] = [
     hadithRefs: [],
     relatedProphets: ['muhammad'],
     summary: t(
-      'The heavenly warming spice mentioned in Surah Al-Insan as the flavor infused into the cups of the Righteous in Paradise; a universal digestive and anti-inflammatory tonic.',
-      'L’épice céleste de la sourate Al-Insân infusée dans les calices des Justes au Paradis; tonique digestif et anti-inflammatoire majeur.',
-      'نبات الجنة العطر الذي يُخلط به شراب الأبرار في سورة الإنسان: ﴿وَيُسْقَوْنَ فِيهَا كَأْسًا كَانَ مِزَاجُهَا زَنْجَبِيلًا﴾، دواء هاضم مسخن للمعدة ومنقٍ للشرايين.'
+      'The warming spice that, in Surat al-Insan, flavours the cups of the righteous in Paradise.',
+      'L’épice chaude qui, dans la sourate al-Insan, parfume les coupes des justes au Paradis.',
+      'التابل الدافئ الذي يُمزج به شراب الأبرار في الجنة كما في سورة الإنسان.'
     ),
     scriptureContext: t(
       'In Surah Al-Insan (76:17), Allah describes the exalted rewards of the righteous servants: "And they will be given to drink therein a cup whose mixture is of ginger, from a spring therein named Salsabil." The warming, fragrant ginger balance contrasts with the cooling spring of camphor mentioned earlier in the surah, illustrating the perfect equilibrium of heavenly delights.',
