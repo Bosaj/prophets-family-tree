@@ -6,6 +6,8 @@
   * [3. Kinship & Household Model](3-Kinship-and-Lineage)
   * [4. Dual Timeline & Chronology](4-Dual-Timeline)
   * [5. Accuracy & Sources](5-Accuracy-and-Sources)
+  * [6. Worship pages](6-Worship-Pages)
+  * [7. Languages, offline & updates](7-Languages-Offline-Updates)
 * **Development**
   * [Developer Setup](Developer-Setup)
 * **Links**

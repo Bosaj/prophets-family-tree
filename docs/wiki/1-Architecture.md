@@ -88,7 +88,13 @@ flowchart TD
 | `scripts/verify-sources.mjs`, `scripts/audit-content.mjs` | Source checks that run in CI (see [[Accuracy & sources|5-Accuracy-and-Sources]]) |
 | `scripts/trace-photo-credits.mjs` | Matches each photo to its Commons file and writes the credits |
 
-**Performance.** Every page is a lazy-loaded chunk; a static splash in `index.html` paints at once and is removed after the first page renders, and the footer waits inside the same `Suspense`, so nothing shifts (CLS 0). The service worker precaches the app shell only; images are cached at runtime.
+| `src/data/people/*.ts`, `people/loader.ts`, `peopleCore.ts` | People split by era: a light core for the tree and lists, full records loaded per page |
+| `src/data/salat.ts`, `fasting.ts`, `hijri.ts`, `awqat.ts`, `duas.ts`, `hour.ts`, `islam.ts` | Worship and calendar pages; their Arabic quotes are checked by `verify:duas` |
+| `src/lib/hijri.ts`, `fastDays.ts`, `place.tsx`, `prayerTimes.ts` | Hijri engine (Umm al-Qura, Morocco from `MOROCCO_STARTS`, Diyanet), fasting days and `.ics`, the reader’s place and time, prayer times (adhan) |
+| `src/data/es/*.es.ts`, `src/data/es/long/*.json` | Spanish names per page, and the long Spanish texts keyed by `textKey(english)`, loaded only for Spanish readers |
+| `src/components/UpdatePrompt.tsx` | Registers the service worker, checks for new versions, reloads into them, offline notice |
+
+**Performance.** Every page is a lazy-loaded chunk; a static splash in `index.html` paints at once and is removed after the first page renders, and the footer waits inside the same `Suspense`, so nothing shifts (CLS 0). The service worker (vite-plugin-pwa, `autoUpdate` with `skipWaiting` and `clientsClaim`) precaches the app, so it works offline; images are cached at runtime. See [[Languages, offline and updates|7-Languages-Offline-Updates]].
 
 **Fonts.** Reem Kufi, Amiri and Sora for the interface; the author's Arabic name in the footer uses Bouazzi Maghribi (Mohamed Gallah, MIT), subset to the letters of the name.
 
