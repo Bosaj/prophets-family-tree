@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Hourglass, Info, Scale, Square, SquareCheckBig, SquareDot } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { L4 } from '../data/types'
@@ -40,7 +41,7 @@ const STATUS: Record<SignStatus, { label: L4; className: string }> = {
   future: { label: t('Still to come', 'Encore à venir', 'لم يقع بعد', 'Aún por venir'), className: 'border-sky-400/30 bg-sky-400/10 text-sky-300' },
 }
 
-export function Step({ s, n }: { s: HourStep; n: number }) {
+export function Step({ s, n, icon }: { s: HourStep; n: number; icon?: ReactNode }) {
   const { pick, lang } = useI18n()
   const dir = lang === 'ar' ? 'rtl' : 'ltr'
   return (
@@ -49,6 +50,7 @@ export function Step({ s, n }: { s: HourStep; n: number }) {
         {n}
       </span>
       <div className="flex flex-wrap items-center gap-2">
+        {icon}
         <h3 className="text-lg font-semibold text-ink text-balance sm:text-xl">{pick(s.title)}</h3>
         {s.status && <span className={`rounded-full border px-2.5 py-0.5 text-xs ${STATUS[s.status].className}`}>{pick(STATUS[s.status].label)}</span>}
       </div>

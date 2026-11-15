@@ -33,6 +33,7 @@ const UI = {
   moreTree: t('The prophets, from Adam to Muhammad ﷺ', 'Les prophètes, d’Adam à Muhammad ﷺ', 'الأنبياء من آدم إلى محمد ﷺ', 'Los profetas, de Adán a Muhammad ﷺ'),
   moreDuas: t('The Prophet’s supplications', 'Les invocations du Prophète', 'أدعية النبي ﷺ', 'Las súplicas del Profeta'),
   moreTimes: t('A Muslim’s day', 'La journée d’un musulman', 'يوم المسلم', 'El día de un musulmán'),
+  moreSalat: t('How to pray, step by step', 'Comment prier, pas à pas', 'صفة الصلاة خطوة خطوة', 'Cómo rezar, paso a paso'),
   moreHour: t('The beginning of creation and the signs of the Hour', 'Le commencement de la création et les signes de l’Heure', 'بدء الخلق وأشراط الساعة', 'El comienzo de la creación y los signos de la Hora'),
   note: t(
     'This page is an introduction, not a fatwa. To learn more, read a translation of the Qur’an or visit a local mosque: visitors are welcome.',
@@ -142,6 +143,7 @@ export function IslamView() {
         </h2>
         <ul className="mt-4 flex flex-wrap gap-2">
           <li><A href="/tree" className="ref">{pick(UI.moreTree)}</A></li>
+          <li><A href="/salat" className="ref">{pick(UI.moreSalat)}</A></li>
           <li><A href="/duas" className="ref">{pick(UI.moreDuas)}</A></li>
           <li><A href="/times" className="ref">{pick(UI.moreTimes)}</A></li>
           <li><A href="/hour" className="ref">{pick(UI.moreHour)}</A></li>

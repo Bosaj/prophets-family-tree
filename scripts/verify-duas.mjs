@@ -10,6 +10,7 @@ import { ADHKAR, DAY_PARTS, FRIDAY, PRAYERS } from '../src/data/awqat.ts'
 import { parseRef } from '../src/data/sources.ts'
 import { HOUR_PARTS, HOUR_QUOTES } from '../src/data/hour.ts'
 import { HIJRI_QUOTES, HIJRI_REFS } from '../src/data/hijri.ts'
+import { SALAT_QUOTES, SALAT_REFS } from '../src/data/salat.ts'
 
 const BASES = ['https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1', 'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1']
 
@@ -86,6 +87,8 @@ const items = [
   ...HOUR_QUOTES,
   // 2.8.0: the Hijri calendar, its months and the two Eids
   ...HIJRI_QUOTES,
+  // 2.10.0: the prayer, the ablution and the Sunnah prayers
+  ...SALAT_QUOTES,
 ]
 const refsOnly = [
   ...DAY_PARTS.flatMap((p) => p.guide.map((g, i) => ({ where: `day/${p.id}/${i}`, r: g.r }))),
@@ -105,6 +108,7 @@ refsOnly.push(
   ...Object.entries(WHY_MENTIONED).map(([id, w]) => ({ where: `nature/${id}`, r: w.r })),
   ...HOUR_PARTS.flatMap((p) => p.steps.map((st) => ({ where: `hour/${p.id}/${st.id}`, r: st.r }))),
   ...HIJRI_REFS,
+  ...SALAT_REFS,
 )
 
 // Ayah counts per surah, to check that every Qur'an reference points at verses that exist.

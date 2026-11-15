@@ -22,6 +22,7 @@ const NAV: readonly NavItem[] = [
   { key: 'navTree', href: '/tree', route: 'tree', main: true, short: { en: 'Tree', fr: 'Arbre', ar: 'الشجرة', es: 'Árbol' } },
   { key: 'navSahaba', href: '/sahaba', route: 'sahaba', main: true, short: { en: 'Sahaba', fr: 'Sahaba', ar: 'الصحابة', es: 'Sahaba' } },
   { key: 'navDuas', href: '/duas', route: 'duas', main: true, short: { en: 'Duas', fr: 'Invocations', ar: 'الأدعية', es: 'Súplicas' } },
+  { key: 'navSalat', href: '/salat', route: 'salat', main: true, short: { en: 'Prayer', fr: 'Prière', ar: 'الصلاة', es: 'Oración' } },
   { key: 'navTimes', href: '/times', route: 'times', main: true, short: { en: 'Times', fr: 'Horaires', ar: 'المواقيت', es: 'Horarios' } },
   { key: 'navIslam', href: '/islam', route: 'islam', main: true, short: { en: 'Islam', fr: 'L’islam', ar: 'الإسلام', es: 'El islam' } },
   { key: 'navStories', href: '/stories', route: 'stories', main: true, short: { en: 'Stories', fr: 'Récits', ar: 'القصص', es: 'Relatos' } },

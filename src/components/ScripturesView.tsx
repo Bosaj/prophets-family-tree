@@ -44,19 +44,19 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 space-y-8 animate-fade-in text-amber-50">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 space-y-8 animate-fade-in text-ink">
       {/* Page Header */}
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-semibold text-amber-300">
-          <BookOpen className="h-4 w-4 text-amber-400" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-semibold text-gold">
+          <BookOpen className="h-4 w-4 text-gold" />
           <span>
             {tx(lang, 'Divine Scriptures & Manuscript Histories', 'Les Livres révélés et l’histoire de leurs manuscrits', 'الكتب والصحف السماوية المنزلة', 'Las Escrituras reveladas y la historia de sus manuscritos')}
           </span>
         </div>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-amber-200">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gold-2">
           {tx(lang, 'Manuscript Traditions & Texts of the Prophets', 'Traditions manuscrites et textes des prophètes', 'تاريخ المخطوطات والكتب المنزلة على الأنبياء', 'Tradiciones manuscritas y textos de los profetas')}
         </h1>
-        <p className="mx-auto max-w-3xl text-sm sm:text-base text-amber-200/80 leading-relaxed font-sans">
+        <p className="mx-auto max-w-3xl text-sm sm:text-base text-ink-2 leading-relaxed font-sans">
           {tx(lang, 'A comprehensive documentary investigation comparing the miraculous preservation of the singular Noble Qur’an with the evolving manuscript traditions and textual recensions of the Torah, Psalms, Gospel, and ancient prophetic scrolls.', 'Une étude documentaire qui compare la préservation du Coran, texte unique, avec l’évolution des manuscrits et des recensions de la Torah, des Psaumes, de l’Évangile et des anciennes Feuilles des prophètes.', 'دراسة وثائقية شاملة تقارن بين حفظ القرآن الكريم المعجز ورسمه العثماني الموحد، وبين التقاليد النصية والمخطوطات التاريخية للتوراة والزبور والإنجيل وصحف الأنبياء الأوائل وعدد رواياتها.', 'Un estudio documental que compara la preservación del Corán, texto único, con la evolución de los manuscritos y las recensiones de la Torá, los Salmos, el Evangelio y las antiguas Hojas de los profetas.')}
         </p>
       </div>
@@ -75,8 +75,8 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
               }}
               className={`flex items-center gap-2 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium transition-all ${
                 isSelected
-                  ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold shadow-lg shadow-amber-500/25 ring-2 ring-amber-300/60'
-                  : 'bg-black/40 text-amber-200/80 hover:bg-white/10 hover:text-amber-100 border border-white/10'
+                  ? 'bg-gradient-to-r from-gold to-gold-3 text-night font-bold shadow-lg shadow-gold/20 ring-2 ring-gold/60'
+                  : 'bg-night/40 text-ink-2 hover:bg-white/10 hover:text-ink border border-white/10'
               }`}
             >
               <span>{book.title.ar}</span>
@@ -88,8 +88,8 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
               <span
                 className={`rounded-full px-2 py-0.5 text-[10px] font-mono ${
                   isSelected
-                    ? 'bg-black/20 text-slate-950 font-bold'
-                    : 'bg-amber-400/10 text-amber-300'
+                    ? 'bg-night/20 text-night font-bold'
+                    : 'bg-gold/10 text-gold'
                 }`}
               >
                 {book.id === 'quran'
@@ -104,18 +104,18 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
       </div>
 
       {/* Main Book Card */}
-      <div className="glass-card relative overflow-hidden rounded-3xl border border-amber-500/30 bg-[#0d0918]/90 p-6 sm:p-8 shadow-2xl">
+      <div className="glass-card relative overflow-hidden rounded-3xl border border-gold/30 bg-night-2/90 p-6 sm:p-8 shadow-2xl">
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Visual Artwork */}
-          <div className="relative w-full lg:w-80 h-56 sm:h-72 rounded-2xl overflow-hidden border border-amber-400/40 shadow-xl shrink-0 group">
+          <div className="relative w-full lg:w-80 h-56 sm:h-72 rounded-2xl overflow-hidden border border-gold/40 shadow-xl shrink-0 group">
             <img
               src={imageMap[currentBook.id] || imageMap.quran}
               alt={currentBook.transliteration}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-night/85 via-night/25 to-transparent" />
             <div className="absolute bottom-3 inset-x-3 text-center">
-              <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold bg-amber-500 text-slate-950 shadow-md">
+              <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold bg-gold text-night shadow-md">
                 {currentBook.preservationStatus === 'divinely_preserved'
                   ? tx(lang, 'Divinely Preserved · 100%', 'Préservé par Allah · 100 %', 'محفوظ بحفظ الله التام', 'Preservado por Allah · 100 %')
                   : lang === 'ar'
@@ -129,15 +129,15 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
           <div className="flex-1 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h2 className="text-3xl sm:text-4xl font-bold font-serif text-amber-200">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gold-2">
                   {currentBook.title.ar}
                 </h2>
                 {lang !== 'ar' ? (
-                  <p className="text-base sm:text-lg font-medium text-amber-300/80">
+                  <p className="text-base sm:text-lg font-medium text-gold/80">
                     {pick(currentBook.title)} · {currentBook.transliteration}
                   </p>
                 ) : (
-                  <p className="text-base sm:text-lg font-medium text-amber-300/80">
+                  <p className="text-base sm:text-lg font-medium text-gold/80">
                     {currentBook.preservationStatus === 'divinely_preserved'
                       ? 'وحي الله المعجز المحفوظ بحفظ الله التام في الصدور والمصاحف'
                       : `${currentBook.versionsCount} روايات وتقاليد نصية رئيسية`}
@@ -146,7 +146,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
               </div>
               <A
                 href={hrefOf({ name: 'person', id: currentBook.prophetId })}
-                className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/40 hover:bg-amber-500/30 transition-colors shadow-sm"
+                className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold bg-gold/20 text-gold-2 border border-gold/40 hover:bg-gold/30 transition-colors shadow-sm"
               >
                 <span>{pick(currentBook.prophetName)}</span>
                 <ExternalLink className="h-3.5 w-3.5" />
@@ -154,49 +154,49 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-              <div className="flex items-center gap-2.5 rounded-xl bg-black/40 p-3 border border-white/5">
-                <Globe className="h-5 w-5 text-amber-400 shrink-0" />
+              <div className="flex items-center gap-2.5 rounded-xl bg-night/40 p-3 border border-white/5">
+                <Globe className="h-5 w-5 text-gold shrink-0" />
                 <div>
-                  <span className="text-amber-200/60 block text-xs">
+                  <span className="text-ink-2 block text-xs">
                     {tx(lang, 'Original Language', 'Langue d’origine', 'اللغة الأصلية للوحي', 'Lengua original')}
                   </span>
-                  <span className="font-semibold text-amber-100">
+                  <span className="font-semibold text-ink">
                     {pick(currentBook.originalLanguage)}
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 rounded-xl bg-black/40 p-3 border border-white/5">
-                <History className="h-5 w-5 text-amber-400 shrink-0" />
+              <div className="flex items-center gap-2.5 rounded-xl bg-night/40 p-3 border border-white/5">
+                <History className="h-5 w-5 text-gold shrink-0" />
                 <div>
-                  <span className="text-amber-200/60 block text-xs">
+                  <span className="text-ink-2 block text-xs">
                     {tx(lang, 'Revealed Era', 'Époque de la révélation', 'العصر التاريخي', 'Época de la revelación')}
                   </span>
-                  <span className="font-semibold text-amber-100">
+                  <span className="font-semibold text-ink">
                     {pick(currentBook.revealedEra)}
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 rounded-xl bg-black/40 p-3 border border-white/5">
-                <Library className="h-5 w-5 text-amber-400 shrink-0" />
+              <div className="flex items-center gap-2.5 rounded-xl bg-night/40 p-3 border border-white/5">
+                <Library className="h-5 w-5 text-gold shrink-0" />
                 <div>
-                  <span className="text-amber-200/60 block text-xs">
+                  <span className="text-ink-2 block text-xs">
                     {tx(lang, 'Revealed Location', 'Lieu de la révélation', 'مكان التنزيل النبوي', 'Lugar de la revelación')}
                   </span>
-                  <span className="font-semibold text-amber-100">
+                  <span className="font-semibold text-ink">
                     {pick(currentBook.revealedLocation)}
                   </span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2.5 rounded-xl bg-black/40 p-3 border border-white/5">
-                <Layers className="h-5 w-5 text-amber-400 shrink-0" />
+              <div className="flex items-center gap-2.5 rounded-xl bg-night/40 p-3 border border-white/5">
+                <Layers className="h-5 w-5 text-gold shrink-0" />
                 <div>
-                  <span className="text-amber-200/60 block text-xs">
+                  <span className="text-ink-2 block text-xs">
                     {tx(lang, 'How Many Versions Exist?', 'Combien de versions existent ?', 'كم عدد النسخ والروايات؟', '¿Cuántas versiones existen?')}
                   </span>
-                  <span className="font-semibold text-amber-300">
+                  <span className="font-semibold text-gold">
                     {currentBook.id === 'quran'
                       ? tx(lang, '1 Singular Consonantal Text (10 Qira’at)', 'Un seul texte consonantique (10 lectures)', 'نص إمام واحد (١٠ قراءات متواترة)', 'Un único texto consonántico (10 lecturas)')
                       : `${currentBook.versionsCount} ${
@@ -207,16 +207,16 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
               </div>
             </div>
 
-            <p className="text-sm text-amber-100/90 leading-relaxed font-sans pt-1">
+            <p className="text-sm text-ink leading-relaxed font-sans pt-1">
               {pick(currentBook.theologicalContext)}
             </p>
           </div>
         </div>
 
         {/* Quran References */}
-        <div className="mt-8 pt-6 border-t border-amber-500/20 space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-amber-400" />
+        <div className="mt-8 pt-6 border-t border-gold/20 space-y-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-gold flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-gold" />
             <span>
               {tx(lang, 'Noble Qur’anic Verses Referencing This Scripture', 'Versets du Coran qui citent ce Livre', 'الآيات القرآنية الشريفة في ذكر هذا الكتاب', 'Versículos del Corán que mencionan este Libro')}
             </span>
@@ -225,16 +225,16 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             {currentBook.quranReferences.map((ref, idx) => (
               <div
                 key={idx}
-                className="rounded-xl bg-black/50 p-4 border border-amber-500/15 space-y-1.5"
+                className="rounded-xl bg-night/50 p-4 border border-gold/15 space-y-1.5"
               >
-                <div className="text-amber-400 font-mono text-xs">
+                <div className="text-gold font-mono text-xs">
                   {tx(lang, 'Surah', 'Sourate', 'سورة', 'Sura')} {ref.surah} : {ref.ayah}
                 </div>
-                <p className="text-amber-200 font-serif text-base leading-relaxed text-right dir-rtl">
+                <p className="text-gold-2 text-base leading-relaxed text-right dir-rtl">
                   {ref.arabicText}
                 </p>
                 {lang !== 'ar' && (
-                  <p className="text-amber-100/75 italic text-xs leading-relaxed">
+                  <p className="text-ink/75 italic text-xs leading-relaxed">
                     {lang === 'fr' ? ref.translationFr : ref.translationEn}
                   </p>
                 )}
@@ -247,15 +247,15 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
       {/* Versions Breakdown */}
       <div className="space-y-4">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold font-serif text-amber-200 flex items-center gap-2">
-            <FileText className="h-6 w-6 text-amber-400" />
+          <h2 className="text-xl sm:text-2xl font-bold text-gold-2 flex items-center gap-2">
+            <FileText className="h-6 w-6 text-gold" />
             <span>
               {lang === 'ar'
                 ? `تفصيل النسخ والمخطوطات والتقاليد النصية (${currentBook.versions.length})`
                 : `Detailed Textual Traditions & Manuscripts (${currentBook.versions.length})`}
             </span>
           </h2>
-          <p className="text-sm text-amber-200/70">
+          <p className="text-sm text-ink-2">
             {pick(currentBook.versionsSummary)}
           </p>
         </div>
@@ -270,26 +270,26 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 onClick={() => setSelectedVersionId(ver.id)}
                 className={`flex flex-col text-start p-4 rounded-2xl border transition-all min-w-0 ${
                   isActive
-                    ? 'bg-amber-500/20 border-amber-400/80 shadow-lg shadow-amber-500/20 ring-1 ring-amber-400'
-                    : 'bg-black/40 border-white/10 hover:bg-white/5 hover:border-amber-400/30'
+                    ? 'bg-gold/20 border-gold/80 shadow-lg shadow-gold/20 ring-1 ring-gold'
+                    : 'bg-night/40 border-white/10 hover:bg-white/5 hover:border-gold/30'
                 }`}
               >
                 <div className="flex items-start justify-between gap-1.5 w-full">
-                  <span className="font-bold text-amber-200 font-serif text-base break-words">
+                  <span className="font-bold text-gold-2 text-base break-words">
                     {ver.name.ar}
                   </span>
                   {isActive && (
-                    <CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
                   )}
                 </div>
                 {lang !== 'ar' && (
-                  <span className="text-xs text-amber-100/70 font-sans break-words mt-1">
+                  <span className="text-xs text-ink/70 font-sans break-words mt-1">
                     {pick(ver.name)}
                   </span>
                 )}
-                <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-amber-300/80 font-mono">
-                  <span className="rounded bg-black/40 px-2 py-0.5 border border-white/5">{pick(ver.language)}</span>
-                  <span className="rounded bg-black/40 px-2 py-0.5 border border-white/5">{pick(ver.period)}</span>
+                <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-gold/80 font-mono">
+                  <span className="rounded bg-night/40 px-2 py-0.5 border border-white/5">{pick(ver.language)}</span>
+                  <span className="rounded bg-night/40 px-2 py-0.5 border border-white/5">{pick(ver.period)}</span>
                 </div>
               </button>
             )
@@ -298,49 +298,49 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
 
         {/* Selected Version Detail */}
         {activeVersion && (
-          <div className="rounded-2xl border border-amber-400/40 bg-gradient-to-br from-amber-950/30 via-slate-900/60 to-black/80 p-6 space-y-4 shadow-xl">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-amber-500/20 pb-4">
+          <div className="rounded-2xl border border-gold/40 bg-gradient-to-br from-gold/10 via-night-3/60 to-night/80 p-6 space-y-4 shadow-xl">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gold/20 pb-4">
               <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-amber-200 font-serif">
+                <h3 className="text-xl sm:text-2xl font-bold text-gold-2">
                   {activeVersion.name.ar} {lang !== 'ar' && `· ${pick(activeVersion.name)}`}
                 </h3>
-                <p className="text-sm text-amber-300 font-sans mt-0.5">
+                <p className="text-sm text-gold font-sans mt-0.5">
                   {pick(activeVersion.significance)}
                 </p>
               </div>
-              <span className="rounded-full px-3.5 py-1 text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-500/40 font-mono">
+              <span className="rounded-full px-3.5 py-1 text-xs font-semibold bg-gold/20 text-gold-2 border border-gold/40 font-mono">
                 {pick(activeVersion.period)}
               </span>
             </div>
 
-            <p className="text-sm sm:text-base text-amber-100/90 leading-relaxed font-sans">
+            <p className="text-sm sm:text-base text-ink leading-relaxed font-sans">
               {pick(activeVersion.description)}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 text-xs sm:text-sm">
-              <div className="rounded-xl bg-black/50 p-3.5 border border-white/5 space-y-1">
-                <span className="text-amber-200/60 block font-semibold text-xs">
+              <div className="rounded-xl bg-night/50 p-3.5 border border-white/5 space-y-1">
+                <span className="text-ink-2 block font-semibold text-xs">
                   {tx(lang, 'Extant Manuscripts', 'Manuscrits conservés', 'المخطوطات الباقية', 'Manuscritos conservados')}
                 </span>
-                <span className="text-amber-100 font-mono text-xs">
+                <span className="text-ink font-mono text-xs">
                   {pick(activeVersion.extantManuscripts)}
                 </span>
               </div>
 
-              <div className="rounded-xl bg-black/50 p-3.5 border border-white/5 space-y-1">
-                <span className="text-amber-200/60 block font-semibold text-xs">
+              <div className="rounded-xl bg-night/50 p-3.5 border border-white/5 space-y-1">
+                <span className="text-ink-2 block font-semibold text-xs">
                   {tx(lang, 'Variants / Status', 'Variantes / état', 'عدد الفروق وحالة النص', 'Variantes / estado')}
                 </span>
-                <span className="text-amber-300 font-mono text-xs">
+                <span className="text-gold font-mono text-xs">
                   {pick(activeVersion.variantCountOrStatus)}
                 </span>
               </div>
 
-              <div className="rounded-xl bg-black/50 p-3.5 border border-white/5 space-y-1">
-                <span className="text-amber-200/60 block font-semibold text-xs">
+              <div className="rounded-xl bg-night/50 p-3.5 border border-white/5 space-y-1">
+                <span className="text-ink-2 block font-semibold text-xs">
                   {tx(lang, 'Theological Perspective', 'Point de vue théologique', 'المنظور العلمي والعقدي', 'Perspectiva teológica')}
                 </span>
-                <span className="text-amber-200/90 text-xs">
+                <span className="text-ink-2 text-xs">
                   {pick(activeVersion.theologicalPerspective)}
                 </span>
               </div>
@@ -350,14 +350,14 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
       </div>
 
       {/* Comparative Theological Anchor */}
-      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-6 space-y-3 shadow-lg">
-        <h3 className="font-bold font-serif text-emerald-300 text-base sm:text-lg flex items-center gap-2">
-          <ShieldCheck className="h-5 w-5 text-emerald-400" />
+      <div className="rounded-2xl border border-lvl-hadith/30 bg-lvl-hadith/10 p-6 space-y-3 shadow-lg">
+        <h3 className="font-bold text-lvl-hadith text-base sm:text-lg flex items-center gap-2">
+          <ShieldCheck className="h-5 w-5 text-lvl-hadith" />
           <span>
             {tx(lang, 'Islamic Doctrine: Preservation of the Qur’an vs. Textual Fluidity of Earlier Scriptures', 'Doctrine islamique : la préservation du Coran et l’évolution textuelle des Livres antérieurs', 'القاعدة الإسلامية: حفظ القرآن الكريم المهيمن وسر اختلاف نسخ الكتب السابقة', 'Doctrina islámica: la preservación del Corán y la evolución textual de las Escrituras anteriores')}
           </span>
         </h3>
-        <p className="text-emerald-100/90 leading-relaxed font-sans text-sm sm:text-base">
+        <p className="text-ink-2 leading-relaxed font-sans text-sm sm:text-base">
           <WithQuran text={tx(lang, 'Allah entrusted the custody of earlier scriptures to their respective communities ("by that which they were entrusted of the Scripture of Allah"), leading to human redactions, loss, and divergent textual traditions. In contrast, Allah Himself undertook the perpetual preservation of the Qur’an ("Indeed, it is We who sent down the Qur’an and indeed, We will be its guardian"), securing word-for-word identity across all continents and centuries.', 'Allah avait confié la garde des livres antérieurs aux communautés humaines (« par ce qui leur était confié du Livre d’Allah »), ce qui a conduit à des altérations et à une multiplicité de manuscrits divergents. Pour le Coran, Allah a garanti Sa propre protection directe (« C’est Nous qui avons fait descendre le Rappel, et c’est Nous qui en sommes les gardiens »), assurant l’exactitude intégrale de chaque lettre à travers les âges.', 'استودع الله الأمم السابقة حفظ كتبها فقال ﴿بِمَا اسْتُحْفِظُوا مِن كِتَابِ اللَّهِ﴾، فدخلها النسيان والتبديل البشري وتعددت نسخها ومخطوطاتها المتناقضة. أما القرآن الكريم فقد تولى الله حفظه بنفسه ﴿إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ﴾، فظل نصاً إماماً واحداً ثابتاً في الصدور والمصاحف بحروفه ورسمه عبر أرجاء الأرض قاطبة.', 'Allah confió la custodia de las Escrituras anteriores a sus comunidades («por lo que se les había confiado del Libro de Allah»), lo que llevó a redacciones humanas, pérdidas y tradiciones textuales divergentes. En cambio, Allah mismo asumió la preservación perpetua del Corán («Somos Nosotros quienes hicimos descender el Recuerdo y somos Nosotros sus custodios»), asegurando que sea idéntico palabra por palabra en todos los continentes y siglos.')} />
         </p>
       </div>
