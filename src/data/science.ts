@@ -156,14 +156,14 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
       'سادت في العصور القديمة نظريات أرسطو وجالينوس القائلة بأن الجنين إما كائن مصغر كامل داخل النطفة (Preformationism) أو تخثر دم الطمث. ولم يُعرف تتابع التطور الخلوي والتعشيش وانقسام الطبقات الجنينية إلا بعد اختراع المجاهر في القرون المتأخرة.'
     ),
     modernDiscovery: t(
-      'Modern embryology recognizes Carnegie Stages: 1) Zygote/Blastocyst (Nutfa), 2) Day 15–24: Implantation and somite formation resembling a leech/hanging clot (Alaqa), 3) Day 24–32: Somite segments resembling teeth-imprinted chewed substance (Mudghah), 4) Week 7: Chondrification and osteogenesis (bone framework), followed immediately by 5) Week 8: Myogenesis (muscular flesh clothing).',
-      'L’embryologie moderne (stades de Carnegie) valide exactement cette séquence : blastocyste, fixation en sangsue/caillot (Alaqa), somites en empreinte dentaire (Moudghah), squelette cartilagineux/osseux, puis myogenèse enveloppante.',
-      'أثبتت المجهريات الجنينية ومراحل كارنيجي أن الجنين في اليوم 15-24 يعلق بجدار الرحم كالعلقة شكلاً ووظيفة، ثم تتكون الفلقات الجسدية (Somites) في اليوم 24-32 فتبدو كقطعة لحم معلوكة، ثم يتمايز الهيكل العظمي في الأسبوع السابع، لتعقبه في الأسبوع الثامن كسوة العضلات والألياف اللحمية.'
+      'Modern embryology describes the Carnegie stages: the zygote and blastocyst; around days 15–24, implantation and an embryo some compare to a leech (‘alaqah); around days 24–32, the somites, some compare to tooth marks (mudghah); around week 7, cartilage and bone begin to form; in week 8, the muscles. These matches are modern authors’ readings and are debated.',
+      'L’embryologie moderne décrit les stades de Carnegie : le zygote et le blastocyste ; vers les jours 15–24, l’implantation et un embryon que certains comparent à une sangsue (‘alaqa) ; vers les jours 24–32, les somites, que certains comparent à des marques de dents (mudgha) ; vers la 7e semaine, le cartilage et l’os ; à la 8e, les muscles. Ces rapprochements sont des lectures d’auteurs modernes et sont débattus.',
+      'يصف علم الأجنة الحديث مراحل كارنيغي: اللاقحة والكيسة الأريمية، ثم نحو الأيام ١٥–٢٤ الانغراس وجنينًا يشبّهه بعضهم بالعلقة، ثم نحو الأيام ٢٤–٣٢ الكتل البدنية التي يشبّهها بعضهم بآثار الأسنان في المضغة، ثم نحو الأسبوع السابع تكوّن الغضروف والعظم، وفي الثامن العضلات. وهذه المقابلات قراءات لمؤلفين معاصرين وفيها خلاف.'
     ),
     scientificConsensus: t(
-      'Reviewed by Professor Keith L. Moore (Founding Chair of Anatomy, University of Toronto), stating that modern terminology matches the Quranic staging sequence.',
-      'Attesté par le Pr Keith L. Moore, sommité mondiale de l’embryologie, confirmant l’exactitude saisissante de la nomenclature coranique.',
-      'أكد البروفيسور كيث مور (رئيس قسم التشريح بجامعة تورنتو) في أبحاثه الموثقة أن الوصف القرآني يتطابق بدقة متناهية مع أدق أطوار علم الأجنة الحديث.'
+      'Reviewed by Professor Keith L. Moore (anatomist, University of Toronto), who said the modern terms match the Qur’anic sequence; other scholars dispute this reading.',
+      'Revu par le professeur Keith L. Moore (anatomiste, Université de Toronto), qui a dit que les termes modernes correspondent à la séquence coranique ; d’autres savants contestent cette lecture.',
+      'راجعه البروفيسور كيث مور (عالم تشريح بجامعة تورنتو) وقال إن المصطلحات الحديثة توافق الترتيب القرآني، ونازع آخرون في هذه القراءة.'
     ),
     papers: [
       {
@@ -336,9 +336,9 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
       'كان القدماء يظنون أن الجبال مجرد كتل صخرية مستقرة على سطح الأرض كالأهرامات. ولم يُعرف أن للجبال امتدادات عميقة مغروسة في الوشاح كأوتاد الخيمة إلا مع وضع نظرية التوازن التضاغطي (Isostasy) على يد جورج إيري في منتصف القرن التاسع عشر.'
     ),
     modernDiscovery: t(
-      'Geophysicists discovered the Mohorovičić discontinuity (Moho). Under plains, crustal thickness is 30–35 km; under high mountain chains (like the Himalayas, Alps, and Rockies), the crust plunges into a deep "mountain root" up to 70–80 km into the asthenosphere. Like an iceberg or a stake/peg, the visible portion is only the top 10–15%, while the deep root supplies buoyancy and lithospheric mechanical stability preventing tectonic sliding ("lest it shake with you").',
-      'Les géophysiciens ont prouvé que sous les chaînes montagneuses, la croûte plonge jusqu’à 70–80 km de profondeur. Ce piquet lithosphérique assure la stabilité isostatique et prévient les glissements tectoniques majeurs.',
-      'أثبتت الدراسات السيزمية أن القشرة الأرضية تحت السلاسل الجبلية تغوص في الوشاح الصخري لتشكل جذوراً عملاقة تصل أعماقها إلى 70-80 كم (كما في جبال الهيمالايا)، وتعمل هذه الجذور كأوتاد حقيقية توفر التوازن الطافي وتثبت الصفائح التكتونية من الاضطراب.'
+      'Geophysicists found the Mohorovičić discontinuity (Moho). Under plains the crust is about 30–35 km thick; under great ranges (Himalaya, Alps, Rockies) it sinks into a “root” up to 70–80 km deep. As with an iceberg, the visible part is only a fraction, and the deep root balances the mountain by buoyancy (isostasy); some authors link this to “lest it shake with you”.',
+      'Les géophysiciens ont découvert la discontinuité de Mohorovičić (Moho). Sous les plaines, la croûte mesure environ 30–35 km ; sous les grandes chaînes (Himalaya, Alpes, Rocheuses), elle s’enfonce en une « racine » jusqu’à 70–80 km. Comme pour un iceberg, la partie visible n’est qu’une fraction, et la racine équilibre la montagne par flottaison (isostasie) ; certains auteurs rapprochent cela de « afin qu’elle ne vacille pas avec vous ».',
+      'اكتشف الجيوفيزيائيون انقطاع موهوروفيتشيتش؛ فسمك القشرة تحت السهول نحو ٣٠–٣٥ كم، وتحت السلاسل العظيمة تغوص «جذور» حتى ٧٠–٨٠ كم، والظاهر منها جزء يسير كجبل الجليد، والجذر يوازن الجبل بالطفو (التوازن الأيزوستاتي)، وربط بعض المؤلفين ذلك بقوله ﴿أَن تَمِيدَ بِكُمْ﴾.'
     ),
     scientificConsensus: t(
       'Airy-Heiskanen isostasy is universally taught in all university geophysics and plate tectonics curricula.',
@@ -396,9 +396,9 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
       'كان القدماء يظنون أن الحديد معدن أرضي نبت وتكون في طبقات الأرض كالحجارة والصلصال، ولم يخطر ببال بشر أن الحديد لم يُخلق على كوكب الأرض بل أنزل إليها إنزالاً من الفضاء الخارجي.'
     ),
     modernDiscovery: t(
-      'Nuclear astrophysics proved that terrestrial planets could never reach the temperatures required to synthesize iron (Fe-56). The synthesis of iron requires stellar core temperatures exceeding 3 to 4 billion Kelvin, achieved only during silicon-burning in supergiant stars and Type Ia / core-collapse Supernovae. When these giant stars exploded, billions of tons of iron were blasted into space and eventually rained down onto the forming proto-Earth ("sent down iron").',
-      'La nucléosynthèse stellaire prouve que le fer-56 ne peut être synthétisé que dans des cœurs stellaires à plusieurs milliards de degrés. L’explosion de ces supernovas a littéralement précipité le fer sur la Terre primitive.',
-      'أثبتت الفيزياء النووية الفلكية أن طاقة الربط النووي للحديد هي الأعلى بين جميع العناصر، وأن المجموعة الشمسية عاجزة عن إنتاجه لأن تصنيعه يتطلب درجات حرارة هائلة (تتجاوز 3 مليارات كلفن) لا توجد إلا في قلوب النجوم العملاقة المنفجرة (Supernovae)، والتي قذفت بالحديد في الفضاء ليهبط على الأرض أثناء تشكلها مصداقاً لقوله تعالى: ﴿وَأَنزَلْنَا الْحَدِيدَ﴾.'
+      'Nuclear astrophysics shows that planets never reach the temperatures needed to form iron (Fe-56): it forms in massive stars late in their lives and in supernova explosions, which scattered it into the cloud from which the Earth formed. Many commentators read “We sent down” as “We created and gave”; some modern authors link it to this stellar origin.',
+      'L’astrophysique nucléaire montre que les planètes n’atteignent jamais les températures nécessaires pour former le fer (Fe-56) : il se forme dans les étoiles massives en fin de vie et dans les supernovas, qui l’ont dispersé dans le nuage d’où naquit la Terre. Beaucoup de commentateurs lisent « Nous avons fait descendre » comme « Nous avons créé et donné » ; certains auteurs modernes y voient cette origine stellaire.',
+      'يبيّن علم الفيزياء الفلكية النووية أن الكواكب لا تبلغ الحرارة اللازمة لتكوين الحديد، وأنه يتكوّن في النجوم الضخمة في أواخر عمرها وفي انفجارات المستعرات العظمى التي نثرته في السحابة التي تكونت منها الأرض. وفسّر كثير من المفسرين ﴿وَأَنزَلْنَا﴾ بالخلق والإعطاء، وربطه بعض المعاصرين بهذا الأصل النجمي.'
     ),
     scientificConsensus: t(
       'Stellar nucleosynthesis and cosmic abundance of iron is undisputed in modern astrophysics (Burbidge et al., Hoyle).',
@@ -456,9 +456,9 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
       'كان الشائع في الطب القديم أن القلب هو مركز الإحساس بالألم، وأن تعمق الحرق في الأحشاء الداخلية يزيد الألم شدة. ولم يكن معلوماً أن الحروق العميقة من الدرجة الثالثة تدمر النهايات العصبية فيفقد المصاب الإحساس بالألم تماماً.'
     ),
     modernDiscovery: t(
-      'Dermatological neuroscience proved that pain receptors (nociceptive free nerve endings and TRPV1 channels) are concentrated exclusively in the epidermis and dermis of the skin. Once full-thickness burns roast and destroy the dermal layer, the patient enters painless nerve necrosis; pain can only be perceived again if healthy, unburned skin replete with intact receptors is present ("We will replace them with other skins so they may taste the punishment").',
-      'La neurodermatologie a démontré que les récepteurs nociceptifs sont concentrés dans le derme. La brûlure au 3e degré détruit ces récepteurs, rendant la zone insensible. Seule une peau renouvelée peut éprouver la douleur.',
-      'أثبت علم الأعصاب والجلد الحديث أن مستقبلات الألم المتخصصة (Nociceptors وقنوات TRPV1) تتمركز بكثافة في طبقتي البشرة والأدمة بالجلد، فإذا احترق الجلد تماماً ونضج تلفت نهايات الأعصاب ولم يعد الشخص يشعر بالألم، مما يفسر الإعجاز القرآني في ضرورة تبديل الجلود بجلود جديدة سليمة ليستشعر الإنسان ألم العذاب باستمرار.'
+      'Skin neuroscience shows that many pain receptors (free nerve endings, TRPV1 channels) lie in the epidermis and dermis. Full-thickness burns destroy these endings, so the burned area loses feeling; some authors link this to “We will replace them with other skins so they may taste the punishment”.',
+      'La neuroscience de la peau montre que de nombreux récepteurs de la douleur (terminaisons nerveuses libres, canaux TRPV1) se trouvent dans l’épiderme et le derme. Les brûlures profondes détruisent ces terminaisons et la zone brûlée perd sa sensibilité ; certains auteurs rapprochent cela de « Nous leur changerons la peau pour qu’ils goûtent au châtiment ».',
+      'يبيّن علم أعصاب الجلد أن كثيرًا من مستقبلات الألم (النهايات العصبية الحرة وقنوات TRPV1) في البشرة والأدمة، وأن الحروق العميقة تتلفها فيفقد الموضع إحساسه، وربط بعض المؤلفين ذلك بقوله تعالى ﴿بَدَّلْنَاهُمْ جُلُودًا غَيْرَهَا لِيَذُوقُوا الْعَذَابَ﴾.'
     ),
     scientificConsensus: t(
       'Award of the 2021 Nobel Prize in Physiology or Medicine to David Julius and Ardem Patapoutian for discovering temperature and touch receptors.',
@@ -516,9 +516,9 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
       'كان يُنظر إلى جبهة الرأس ومقدمته على أنها مجرد عظم صلب لحماية الدماغ، أو موضع نمو الشعر. ولم يكن يخطر في عقل طبيب أن المنطقة الكائنة خلف الجبهة مباشرة هي المحرك الرئيسي لقرارات الصدق والكذب والخطأ المتعمد.'
     ),
     modernDiscovery: t(
-      'Functional neuroimaging (fMRI and PET) demonstrated that the Prefrontal Cortex (specifically the dorsolateral and ventromedial prefrontal areas located directly behind the forelock) is the executive brain region commanding decision-making, goal planning, moral volition, and active deceit. When an individual fabricates a lie or engages in intentional sinful misconduct, the prefrontal cortex lights up with hyper-metabolic activation to suppress the truth.',
-      'L’IRM fonctionnelle démontre que le cortex préfrontal, situé immédiatement sous le front, est le centre exécutif commandant la prise de décision, la planification et la fabrication active du mensonge.',
-      'أثبتت دراسات الرنين المغناطيسي الوظيفي (fMRI) أن القشرة الجبهية الأمامية (Prefrontal Cortex) الكائنة في الناصية هي المسؤولة عن الوظائف التنفيذية العليا، كالتخطيط، والمبادرة، واختيار الكذب، وتثبيط قول الصدق، مما يجعل وصف القرآن للناصية بأنها كاذبة خاطئة في منتهى الدقة التشريحية والوظيفية.'
+      'Functional neuroimaging (fMRI and PET) shows that the prefrontal cortex, behind the forehead, takes part in decisions, planning, impulse control and deliberate deception. Some modern authors link this to “a lying, sinning forelock”.',
+      'La neuro-imagerie fonctionnelle (IRMf, TEP) montre que le cortex préfrontal, derrière le front, participe aux décisions, à la planification, au contrôle des impulsions et au mensonge délibéré. Certains auteurs modernes rapprochent cela d’« un toupet menteur et pécheur ».',
+      'تبيّن صور الدماغ الوظيفية أن القشرة الجبهية الأمامية خلف الجبهة تشارك في القرار والتخطيط وضبط الاندفاع والكذب المتعمد، وربط بعض المعاصرين ذلك بقوله ﴿نَاصِيَةٍ كَاذِبَةٍ خَاطِئَةٍ﴾.'
     ),
     scientificConsensus: t(
       'Established cognitive neuroscience of executive functioning and neuroimaging of deception.',
@@ -604,11 +604,11 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
   {
     id: 'black_seed_thymoquinone',
     category: 'medicine',
-    title: t('Nigella Sativa (Black Seed): Broad-Spectrum Panacea', 'Nigella Sativa (Graine Noire) : Panacée Pharmacologique', 'الحبة السوداء (الشونيز) ومركب الثيموكينون الشافي'),
+    title: t('Nigella sativa (black seed)', 'Nigella sativa (la graine de nigelle)', 'الحبة السوداء (Nigella sativa)'),
     subtitle: t(
-      'Prophetic Hadith declared black seed a cure for all diseases; modern pharmacology reveals thymoquinone’s multi-target efficacy.',
-      'Le Hadith prophétique affirme que la graine noire guérit de tout mal; la recherche moderne isole la thymoquinone comme régulateur immunitaire universel.',
-      'الحديث النبوي الصحيح: «إِنَّ فِي الْحَبَّةِ السَّوْدَاءِ شِفَاءً مِنْ كُلِّ دَاءٍ»؛ والأبحاث الصيدلانية تؤكد تعدد أهداف مركب الثيموكينون الفعال.'
+      'The hadith says the black seed holds healing for every disease except death; pharmacology studies the effects of thymoquinone.',
+      'Le hadith dit que la nigelle contient une guérison pour toute maladie sauf la mort ; la pharmacologie étudie les effets de la thymoquinone.',
+      'يقول الحديث إن في الحبة السوداء شفاء من كل داء إلا الموت، وتدرس الصيدلة آثار الثيموكينون.'
     ),
     hadithRefs: [
       {
@@ -644,9 +644,9 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
         year: 2013,
         doiOrUrl: 'https://doi.org/10.1016/S2221-1691(13)60075-1',
         keyFinding: t(
-          'Comprehensive meta-analysis of over 100 pharmacological trials validating multi-system therapeutic efficacy.',
-          'Méta-analyse validant l’efficacité multi-systémique de la graine noire et de la thymoquinone.',
-          'دراسة شاملة توثق الخصائص العلاجية الشاملة للحبة السوداء ضد الأمراض المناعية والتنفسية والأيضية.'
+          'Review of pharmacological studies of its effects on several body systems.',
+          'Revue d’études pharmacologiques sur ses effets dans plusieurs systèmes du corps.',
+          'مراجعة لدراسات صيدلانية في آثارها على أجهزة الجسم.'
         ),
       },
       {
@@ -762,9 +762,9 @@ export const SCIENTIFIC_FACTS: ScientificFact[] = [
       'لما ضرب الله المثل بالذباب والعنكبوت في القرآن عجب المشركون وقالوا مستهزئين: «ما يريد الله بذكر هذه الخسائس الحقيرة؟ أيذكر رب السماوات ذبابة أو عنكبوتاً؟» فأنزل الله تعالى ﴿إِنَّ اللَّهَ لَا يَسْتَحْيِي أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا﴾ مبيناً أن صغر الجرم يخفي في طياته معجزات خلقية تحار فيها عقول البشر.'
     ),
     modernDiscovery: t(
-      'Scanning Electron Microscopy (SEM) and advanced entomology revealed astonishing biological wonders in the mosquito: 1) "What is upon/above it" (فَمَا فَوْقَهَا): Entomologists discovered that mosquitoes harbor specialized ectoparasitic water mites (notably Arrenurus and Thyasidae species) and biting midges (Ceratopogonidae) permanently attached to their thorax, abdomen, and leg joints, feeding on hemolymph and living an entire ecosystem atop the mosquito. 2) Compound Optical System: A head equipped with over 100 hexagonal ommatidial lenses granting nearly 360° panoramic spherical vision. 3) Circulatory Engineering: Three distinct pulsating hearts (a central dorsal vessel plus two auxiliary wing-base pulsatile pumps). 4) Surgical Fascicle: A mouthpart consisting of 6 micro-needles: 2 serrated maxillae cutting skin painlessly like microscopic scalpels, 2 mandibles holding flesh apart, a central labrum piercing capillaries, and a hypopharynx secreting anesthetic saliva and anticoagulant enzymes. 5) Infrared Thermal Vision: Ultra-sensitive sensory organs detecting human body heat variations down to 0.001°C in complete darkness.',
-      'La microscopie électronique à balayage (MEB) a révélé des merveilles stupéfiantes chez le moustique : 1) « Ce qui est au-dessus » (فما فوقها) : La découverte d’acariens ectoparasites aquatiques spécialisés (Arrenurus spp.) vivant littéralement ancrés sur le thorax et l’abdomen du moustique. 2) Un système optique à 100 facettes composées. 3) Trois cœurs assurant la circulation hémo-lymphatique. 4) Un faisceau de 6 micro-aiguilles chirurgicales avec anesthésiant et anticoagulant. 5) Des récepteurs thermiques infrarouges détectant 0,001 °C.',
-      'كشفت أبحاث علم الحشرات والمجهر الإلكتروني الماسح (SEM) عن أسرار علمية خارقة في البعوضة: أولاً: ﴿فَمَا فَوْقَهَا﴾ كشفت الصور المجهرية الدقيقة عن وجود كائنات حية مجهرية متطفلة، من أبرزها حلم الماء العذب (Arrenurus water mites) وذباب الهاموش متناهي الصغر، تعيش ملتصقة بظهر وصدر البعوضة وتتغذى على سوائل جسمها، مشكلة مجتمعاً حيوياً كاملاً يعلوها. ثانياً: تمتلك البعوضة في رأسها نحو 100 عين مركبة تمنحها رؤية بانورامية، وثلاثة قلوب تضخ الدم لجسمها وأجنحتها، وجهاز استشعار حراري كالأشعة تحت الحمراء يتحسس حرارة الأجسام بدقة تصل إلى واحد على ألف من الدرجة المئوية، وخرطوم تشريحي دقيق يتكون من ست إبر جراحية دقيقة: اثنتان مشرطيتان تقطعان الجلد دون ألم، واثنتان تباعدان الأنسجة، وإبرة تغرس في الوعاء الدموي، وإبرة تفرز مخدراً موضعياً ومادة مانعة للتجلط.'
+      'Electron microscopy and entomology revealed many details of the mosquito: some water mites (such as Arrenurus) live attached to its body and feed on it; its compound eyes have many lenses; its circulation has a dorsal vessel and extra pumps; its proboscis is made of six stylets that cut, hold apart and suck, with saliva that stops clotting; and it senses body heat and CO2.',
+      'La microscopie électronique et l’entomologie ont révélé bien des détails du moustique : des acariens aquatiques (comme Arrenurus) vivent fixés sur son corps et s’en nourrissent ; ses yeux composés ont de nombreuses lentilles ; sa circulation comprend un vaisseau dorsal et des pompes auxiliaires ; sa trompe est faite de six stylets qui coupent, écartent et aspirent, avec une salive anticoagulante ; et il perçoit la chaleur du corps et le CO2.',
+      'كشف المجهر الإلكتروني وعلم الحشرات تفاصيل كثيرة في البعوضة: عوالق مائية (كأريرونوس) تعيش ملتصقة بجسمها وتتغذى منه، وعيون مركبة كثيرة العدسات، ووعاء ظهري ومضخات مساعدة، وخرطوم من ست إبر تقطع وتباعد وتمتص مع لعاب يمنع التخثر، وتحس بحرارة الجسم وثاني أكسيد الكربون.'
     ),
     scientificConsensus: t(
       'Universal biological validation of ectoparasitic mite colonization upon mosquitoes, and biomimetic adoption of mosquito fascicle mechanics in modern painless medical micro-needles.',

@@ -17,6 +17,7 @@ import {
   type ScienceCategory,
 } from '../data/science'
 import { audioUrl, loadPassage } from '../lib/quran'
+import { HadithLabel } from './ui'
 
 export function ScienceView() {
   const { lang, pick } = useI18n()
@@ -249,12 +250,10 @@ export function ScienceView() {
                         {h.text.ar}
                       </p>
                       {lang !== 'ar' && (
-                        <p className="text-xs text-ink-2 italic">
-                          "{lang === 'fr' ? h.text.fr : h.text.en}"
-                        </p>
+                        <p className="text-xs text-ink-2 italic">"{pick(h.text)}"</p>
                       )}
-                      <div className="text-[0.68rem] text-emerald-400/80 font-mono text-end pt-1">
-                        {h.book} ({h.number})
+                      <div className="flex justify-end pt-1">
+                        <HadithLabel book={h.book} number={h.number} />
                       </div>
                     </div>
                   ))}

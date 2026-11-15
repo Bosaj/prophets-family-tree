@@ -4,6 +4,12 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.10.1] — 2026-11-15
+### Fixed
+- **Hadith references on the Nature and Science pages** are written in the reader’s language and link to sunnah.com, like the rest of the site (they were bare English labels such as “Bukhari 3320”). Musnad Ahmad has its own label.
+- **The speaking wolf**: the citation was one long English sentence. It is now two references: Musnad Ahmad 11792 with its grade (Sahih, al-Albani) and the shorter account in al-Bukhari 3471, quoted from the source.
+- **Second accuracy pass** on Nature and Science, in English, French and Arabic: the black seed is no longer a “panacea”; the desert truffle, costus, ginger and the pigeon’s homing range are described by what is reported and studied; the embryology, mountain, iron, pain-receptor and frontal-lobe notes say which links are modern authors’ readings and which are disputed; pain receptors are no longer said to be only in the skin.
+
 ## [2.10.0] — 2026-11-15
 ### Added
 - **The prayer** (`/salat`). What the prayer is and its place in Islam, the conditions before it, the ablution step by step, how to pray step by step with a figure for each position, a table of the rak‘ahs of the five prayers (what is recited, aloud or silent, where one sits), what to do when unsure, the Sunnah prayers (the twelve rak‘ahs, Fajr, witr, duha, the night prayer, greeting the mosque, congregation and Friday) and the remembrance after the prayer. 42 hadith texts are copied from their sources and checked (148 in total). Where the schools differ, a note gives the Maliki practice followed in Morocco (hands, raising them, the basmalah, the tashahhud, the salam, sujud al-sahw, qunut, witr).

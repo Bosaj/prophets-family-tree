@@ -55,6 +55,69 @@ export function LevelChip({ level, className = '' }: { level: Level; className?:
 export const VerseContext = createContext<(ref: Ref) => void>(() => {})
 export const useOpenVerse = () => useContext(VerseContext)
 
+const HADITH_KEY: Record<string, string> = {
+  bukhari: 'bukhari',
+  'sahih al-bukhari': 'bukhari',
+  muslim: 'muslim',
+  'sahih muslim': 'muslim',
+  tirmidhi: 'tirmidhi',
+  'abu dawud': 'abudawud',
+  'nasa’i': 'nasai',
+  "nasa'i": 'nasai',
+  'ibn majah': 'ibnmajah',
+}
+const OTHER_BOOK: Record<string, { en: string; fr: string; ar: string; es: string }> = {
+  ahmad: { en: 'Musnad Ahmad', fr: 'Musnad Ahmad', ar: 'مسند أحمد', es: 'Musnad Ahmad' },
+  'musnad ahmad': { en: 'Musnad Ahmad', fr: 'Musnad Ahmad', ar: 'مسند أحمد', es: 'Musnad Ahmad' },
+}
+
+/** A hadith reference written as a free book name (nature and science data) as a site reference: the reader's language, linked to sunnah.com when possible. */
+export function hadithRef(book: string, number: string): Ref | null {
+  const key = HADITH_KEY[book.trim().toLowerCase()]
+  const n = /^\d+$/.test(number.trim()) ? number.trim() : null
+  return key && n ? `${key}:${n}` : null
+}
+
+export function HadithLabel({ book, number }: { book: string; number: string }) {
+  const { lang } = useI18n()
+  // "2849, 2852": one chip per hadith
+  if (number.includes(',')) {
+    return (
+      <>
+        {number.split(',').map((n) => (
+          <HadithLabel key={n} book={book} number={n.trim()} />
+        ))}
+      </>
+    )
+  }
+  const r = hadithRef(book, number)
+  if (r) return <RefChip r={r} />
+  const other = OTHER_BOOK[book.trim().toLowerCase()]
+  return (
+    <span className="ref">
+      <ScrollText aria-hidden="true" className="size-3" />
+      <bdi>
+        {other ? other[lang] : book} {number}
+      </bdi>
+    </span>
+  )
+}
+
+/** The same, as plain text (for headings). */
+export function useHadithText() {
+  const { lang } = useI18n()
+  return (book: string, number: string): string => {
+    if (number.includes(',')) return number.split(',').map((n) => text(book, n.trim())).join(' · ')
+    return text(book, number)
+  }
+  function text(book: string, number: string) {
+    const r = hadithRef(book, number)
+    if (r) return refLabel(r, lang)
+    const other = OTHER_BOOK[book.trim().toLowerCase()]
+    return `${other ? other[lang] : book} ${number}`
+  }
+}
+
 export function RefChip({ r }: { r: Ref }) {
   const { lang } = useI18n()
   const open = useOpenVerse()

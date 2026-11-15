@@ -23,7 +23,7 @@ import {
   type AnimalEntry,
   type PlantFoodEntry,
 } from '../data/nature'
-import { LevelChip, RefChip } from './ui'
+import { HadithLabel, LevelChip, RefChip, useHadithText } from './ui'
 import { WHY_MENTIONED } from '../data/natureWisdom'
 import type { L4 } from '../data/types'
 
@@ -1456,6 +1456,7 @@ function RenderOrganismSilhouette({ id, animated = true }: { id: string; animate
 
 export function NatureView() {
   const { lang, pick, t } = useI18n()
+  const hadithText = useHadithText()
 
   const [activeTab, setActiveTab] = useState<'animals' | 'plants'>('animals')
   const [animalCategory, setAnimalCategory] = useState<AnimalCategory | 'all'>('all')
@@ -1731,13 +1732,7 @@ export function NatureView() {
                           <RefChip key={r} r={r} />
                         ))}
                         {animal.hadithRefs.map((h, i) => (
-                          <span
-                            key={i}
-                            className="inline-flex items-center gap-1 rounded bg-teal-500/10 px-1.5 py-0.5 text-[0.68rem] text-teal-300 font-mono"
-                          >
-                            <BookOpen className="size-2.5" />
-                            {h.book} {h.number}
-                          </span>
+                          <HadithLabel key={i} book={h.book} number={h.number} />
                         ))}
                       </div>
 
@@ -1826,13 +1821,7 @@ export function NatureView() {
                           <RefChip key={r} r={r} />
                         ))}
                         {plant.hadithRefs.slice(0, 1).map((h, i) => (
-                          <span
-                            key={i}
-                            className="inline-flex items-center gap-1 rounded bg-teal-500/10 px-1.5 py-0.5 text-[0.68rem] text-teal-300 font-mono"
-                          >
-                            <BookOpen className="size-2.5" />
-                            {h.book} {h.number}
-                          </span>
+                          <HadithLabel key={i} book={h.book} number={h.number} />
                         ))}
                       </div>
 
@@ -2074,7 +2063,8 @@ export function NatureView() {
                   <div key={i} className="rounded-xl border border-teal-500/20 bg-teal-500/5 p-3 w-full">
                     <div className="flex items-center gap-1.5 text-xs text-teal-300 font-semibold mb-1">
                       <BookOpen className="size-3.5" />
-                      <span>{h.book} #{h.number}</span>
+                      <span>{hadithText(h.book, h.number)}</span>
+                      {h.grade && <span className="font-normal text-ink-3">· {pick(h.grade)}</span>}
                     </div>
                     <p className={`text-ink-2 leading-relaxed ${lang === 'ar' ? 'font-hadith text-base' : 'text-xs italic'}`}>"{pick(h.text)}"</p>
                   </div>
