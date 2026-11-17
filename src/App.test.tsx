@@ -87,11 +87,19 @@ describe('App', () => {
     expect(document.querySelector('.leaflet-container')).toBeNull()
   })
 
-  it('renders the Prophet’s supplications, quoting each text with its source', async () => {
+  it('renders the supplications of each day by occasion, with their grades', async () => {
     await renderAt('/duas')
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('What he said at each moment of his life')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('What to say, moment by moment')
+    expect(screen.getByText('If you forgot to say it')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: 'Travel' })).toBeInTheDocument()
+    expect(screen.getAllByText(/some graded its chain weak/).length).toBeGreaterThan(0)
+  })
+
+  it('shows the Prophet’s supplications through his life on the page about Islam', async () => {
+    await renderAt('/islam')
     expect(screen.getByText('اللَّهُمَّ الرَّفِيقَ الأَعْلَى')).toBeInTheDocument()
     expect(screen.getAllByText(/Weak chain/).length).toBeGreaterThan(0)
+    expect(screen.getByText('Who was Muhammad ﷺ?')).toBeInTheDocument()
   })
 
   it('renders today’s prayer times and the day guide', async () => {

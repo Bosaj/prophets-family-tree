@@ -22,6 +22,7 @@ Shajara follows [Semantic Versioning](https://semver.org/): content corrections 
 | [v2.10.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.10.0) | 2026-11-15 | The prayer (`/salat`), fasting reminders, Spanish long texts, no stale cache, offline notice, Morocco month check, posters (#13), people data split (#14), sourced waypoints (#15) |
 | [v2.10.1](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.10.1) | 2026-11-15 | Hadith labels in every language; second accuracy pass |
 | [v2.10.2](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.10.2) | 2026-11-15 | Hadith review: Israfil, Ridwan and Husayn texts corrected; wiki brought up to date |
+| [v2.11.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.11.0) | 2026-11-17 | Fixing the prayer, praying behind an imam, janazah, istikharah, Eids, Friday, travel and eclipse prayers; supplications for every day by occasion; more about Islam |
 
 There is no v2.1.0: work planned under that number shipped in v2.2.0.
 

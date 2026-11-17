@@ -4,11 +4,11 @@ Pages that help a reader pray, fast and follow the calendar. Every Arabic hadith
 
 | Page | What it shows | Data |
 |---|---|---|
-| `/salat` The prayer | What the prayer is, its conditions, the ablution step by step, how to pray step by step (posture figures), the rak‘ahs of the five prayers, forgetting (sujud al-sahw), the Sunnah prayers, the remembrance after the prayer | `src/data/salat.ts` |
+| `/salat` The prayer | What the prayer is, its conditions, the ablution step by step, how to pray step by step (posture figures), the rak‘ahs of the five prayers, fixing the prayer (sujud al-sahw), praying behind an imam and arriving late, the Sunnah prayers, the funeral prayer, istikharah, the two Eids, Friday, the traveller’s and the eclipse prayers, the remembrance after the prayer | `src/data/salat.ts`, `src/data/salatMore.ts` |
 | `/times` Prayer times | Today's times for the reader's place, the next prayer, the parts of the day with their guidance, Friday | `src/data/awqat.ts`, `src/lib/prayerTimes.ts` |
-| `/duas` Supplications | The Prophet's supplications by moment of life and hardship, in full | `src/data/duas.ts` |
+| `/duas` Supplications | What to say at each moment of the day, by occasion (morning and evening, sleep, home, mosque, food and fasting, travel, sickness, worry, weather, people), in full with grades | `src/data/hisn.ts` (new texts; morning, sleep and prayer remembrances come from `awqat.ts`, hardship from `duas.ts`) |
 | `/hijri` The Hijri calendar | Today's date by country, how the calendar works, the twelve months, the Eids, al-Kahf 300/309, fasting reminders | `src/data/hijri.ts`, `src/lib/hijri.ts`, `src/data/fasting.ts`, `src/lib/fastDays.ts` |
-| `/islam` What is Islam? | The pillars and common questions, sourced | `src/data/islam.ts` |
+| `/islam` What is Islam? | The pillars, the articles of faith, common questions, more about Islam and Muslims, and the Prophet's supplications through his life (`#life`) | `src/data/islam.ts`, `src/data/duas.ts` |
 | `/hour` The beginning and the end | Creation, the signs of the Hour (with a checklist), the end | `src/data/hour.ts` |
 
 ## The prayer and the schools
