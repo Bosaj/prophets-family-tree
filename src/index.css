@@ -161,6 +161,12 @@ html[lang='ar'] body {
     border: 1px solid currentColor;
     background: color-mix(in oklab, currentColor 12%, transparent);
     white-space: nowrap;
+    max-width: 100%;
+  }
+  /* A long chip (a grade with a note) wraps instead of widening its card on a phone. */
+  .chip:where(:not(:has(svg))) {
+    white-space: normal;
+    text-wrap: balance;
   }
   .ref {
     display: inline-flex;
@@ -193,6 +199,16 @@ html[lang='ar'] body {
   }
   .naskh {
     font-family: var(--font-naskh);
+  }
+  .quote-hadith {
+    font-family: var(--font-hadith);
+    font-size: 1.1em;
+    line-height: 1.6;
+  }
+  .quote-quran {
+    font-family: var(--font-quran);
+    font-size: 1.1em;
+    line-height: 1.9;
   }
   .quran-text {
     font-family: var(--font-quran);

@@ -3,7 +3,7 @@ import { useI18n } from '../i18n'
 import type { L4 } from '../data/types'
 import { BASICS, FAITH, INTRO, PILLARS, QUESTIONS, type Point } from '../data/islam'
 import { LifeDuas } from './DuasView'
-import { A, LevelChip, RefChip } from './ui'
+import { A, LevelChip, q, RefChip } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
 
@@ -56,8 +56,8 @@ function Sourced({ p }: { p: Point }) {
   const { pick } = useI18n()
   return (
     <div className="glass rounded-3xl p-5 sm:p-6">
-      <h3 className="text-lg font-semibold text-ink">{pick(p.title)}</h3>
-      <p className="mt-2 leading-relaxed text-ink-2">{pick(p.text)}</p>
+      <h3 className="text-lg font-semibold text-ink">{q(pick(p.title))}</h3>
+      <p className="mt-2 leading-relaxed text-ink-2">{q(pick(p.text))}</p>
       <div className="mt-3 flex flex-wrap gap-1.5">
         <LevelChip level={p.l} />
         {p.r.map((r) => <RefChip key={r} r={r} />)}
@@ -72,12 +72,12 @@ export function IslamView() {
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <header className="reveal mx-auto mb-12 max-w-2xl text-center">
         <p className="kicker inline-flex items-center justify-center gap-2">
-          <Compass aria-hidden="true" className="size-3.5" /> {pick(UI.kicker)}
+          <Compass aria-hidden="true" className="size-3.5" /> {q(pick(UI.kicker))}
         </p>
         <h1 className="mt-4 text-4xl font-semibold tracking-tight text-balance sm:text-6xl">
-          <span className="gold-text">{pick(UI.title)}</span>
+          <span className="gold-text">{q(pick(UI.title))}</span>
         </h1>
-        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2 sm:text-lg">{pick(UI.lead)}</p>
+        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2 sm:text-lg">{q(pick(UI.lead))}</p>
       </header>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -85,8 +85,8 @@ export function IslamView() {
       </div>
 
       <section className="mt-20" aria-labelledby="pillars">
-        <h2 id="pillars" className="text-3xl font-semibold text-ink sm:text-4xl">{pick(UI.pillars)}</h2>
-        <p className="mt-3 max-w-2xl text-ink-2">{pick(UI.pillarsLead)}</p>
+        <h2 id="pillars" className="text-3xl font-semibold text-ink sm:text-4xl">{q(pick(UI.pillars))}</h2>
+        <p className="mt-3 max-w-2xl text-ink-2">{q(pick(UI.pillarsLead))}</p>
         <ol className="mt-8 space-y-4">
           {PILLARS.map((p) => (
             <li key={p.id} className="grid gap-4 rounded-3xl border border-gold/20 bg-gold/[0.03] p-5 sm:grid-cols-[5rem_1fr] sm:p-7">
@@ -95,15 +95,15 @@ export function IslamView() {
                 <span lang="ar" className="font-naskh text-lg text-gold-2">{p.arabic}</span>
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-ink">{pick(p.name)}</h3>
+                <h3 className="text-xl font-semibold text-ink">{q(pick(p.name))}</h3>
                 <dl className="mt-3 grid gap-3 md:grid-cols-2">
                   <div>
-                    <dt className="text-xs font-semibold uppercase tracking-wider text-ink-3">{pick(UI.what)}</dt>
-                    <dd className="mt-1 leading-relaxed text-ink-2">{pick(p.what)}</dd>
+                    <dt className="text-xs font-semibold uppercase tracking-wider text-ink-3">{q(pick(UI.what))}</dt>
+                    <dd className="mt-1 leading-relaxed text-ink-2">{q(pick(p.what))}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs font-semibold uppercase tracking-wider text-gold/80">{pick(UI.why)}</dt>
-                    <dd className="mt-1 leading-relaxed text-ink-2">{pick(p.why)}</dd>
+                    <dt className="text-xs font-semibold uppercase tracking-wider text-gold/80">{q(pick(UI.why))}</dt>
+                    <dd className="mt-1 leading-relaxed text-ink-2">{q(pick(p.why))}</dd>
                   </div>
                 </dl>
                 <div className="mt-3 flex flex-wrap gap-1.5">
@@ -116,21 +116,21 @@ export function IslamView() {
       </section>
 
       <section className="mt-20" aria-labelledby="faith">
-        <h2 id="faith" className="text-3xl font-semibold text-ink sm:text-4xl">{pick(UI.faith)}</h2>
-        <p className="mt-3 max-w-2xl text-ink-2">{pick(UI.faithLead)}</p>
+        <h2 id="faith" className="text-3xl font-semibold text-ink sm:text-4xl">{q(pick(UI.faith))}</h2>
+        <p className="mt-3 max-w-2xl text-ink-2">{q(pick(UI.faithLead))}</p>
         <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {FAITH.map((f, i) => (
             <li key={i} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-              <p className="font-semibold text-ink">{pick(f.name)}</p>
-              <p className="mt-1 text-sm leading-relaxed text-ink-2">{pick(f.text)}</p>
+              <p className="font-semibold text-ink">{q(pick(f.name))}</p>
+              <p className="mt-1 text-sm leading-relaxed text-ink-2">{q(pick(f.text))}</p>
             </li>
           ))}
         </ul>
         <div className="mt-6 rounded-3xl border border-lvl-hadith/30 bg-lvl-hadith/[0.05] p-5">
           <p className="flex items-center gap-2 font-semibold text-lvl-hadith">
-            <Sparkles aria-hidden="true" className="size-4" /> {pick(UI.ihsan)}
+            <Sparkles aria-hidden="true" className="size-4" /> {q(pick(UI.ihsan))}
           </p>
-          <p className="mt-2 text-lg leading-relaxed text-ink">{pick(UI.ihsanText)}</p>
+          <p className="mt-2 text-lg leading-relaxed text-ink">{q(pick(UI.ihsanText))}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             <LevelChip level="hadith" />
             <RefChip r="muslim:8" />
@@ -140,14 +140,14 @@ export function IslamView() {
       </section>
 
       <section className="mt-20" aria-labelledby="questions">
-        <h2 id="questions" className="text-3xl font-semibold text-ink sm:text-4xl">{pick(UI.questions)}</h2>
+        <h2 id="questions" className="text-3xl font-semibold text-ink sm:text-4xl">{q(pick(UI.questions))}</h2>
         <div className="mt-6 grid gap-4">
           {QUESTIONS.map((q, i) => <Sourced key={i} p={q} />)}
         </div>
       </section>
 
       <section className="mt-20" aria-labelledby="basics">
-        <h2 id="basics" className="text-3xl font-semibold text-ink sm:text-4xl">{pick(UI.basics)}</h2>
+        <h2 id="basics" className="text-3xl font-semibold text-ink sm:text-4xl">{q(pick(UI.basics))}</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           {BASICS.map((p, i) => <Sourced key={i} p={p} />)}
         </div>
@@ -155,24 +155,24 @@ export function IslamView() {
 
       <section id="life" className="mt-20 scroll-mt-24" aria-labelledby="life-h">
         <h2 id="life-h" className="flex items-center gap-2 text-3xl font-semibold text-ink sm:text-4xl">
-          <HandHeart aria-hidden="true" className="size-7 text-gold" /> {pick(UI.life)}
+          <HandHeart aria-hidden="true" className="size-7 text-gold" /> {q(pick(UI.life))}
         </h2>
-        <p className="mt-3 mb-8 max-w-2xl leading-relaxed text-ink-2">{pick(UI.lifeLead)}</p>
+        <p className="mt-3 mb-8 max-w-2xl leading-relaxed text-ink-2">{q(pick(UI.lifeLead))}</p>
         <LifeDuas />
       </section>
 
       <section className="mt-20 rounded-3xl border border-white/10 p-6 sm:p-8">
         <h2 className="flex items-center gap-2 text-xl font-semibold text-ink">
-          <HeartHandshake aria-hidden="true" className="size-5 text-gold" /> {pick(UI.more)}
+          <HeartHandshake aria-hidden="true" className="size-5 text-gold" /> {q(pick(UI.more))}
         </h2>
         <ul className="mt-4 flex flex-wrap gap-2">
-          <li><A href="/tree" className="ref">{pick(UI.moreTree)}</A></li>
-          <li><A href="/salat" className="ref">{pick(UI.moreSalat)}</A></li>
-          <li><A href="/duas" className="ref">{pick(UI.moreDuas)}</A></li>
-          <li><A href="/times" className="ref">{pick(UI.moreTimes)}</A></li>
-          <li><A href="/hour" className="ref">{pick(UI.moreHour)}</A></li>
+          <li><A href="/tree" className="ref">{q(pick(UI.moreTree))}</A></li>
+          <li><A href="/salat" className="ref">{q(pick(UI.moreSalat))}</A></li>
+          <li><A href="/duas" className="ref">{q(pick(UI.moreDuas))}</A></li>
+          <li><A href="/times" className="ref">{q(pick(UI.moreTimes))}</A></li>
+          <li><A href="/hour" className="ref">{q(pick(UI.moreHour))}</A></li>
         </ul>
-        <p className="mt-5 text-sm text-ink-3">{pick(UI.note)}</p>
+        <p className="mt-5 text-sm text-ink-3">{q(pick(UI.note))}</p>
       </section>
     </div>
   )

@@ -21,6 +21,7 @@ export const primordialPeople: Person[] = [
     signs: [
       f('quran', t('Allah taught him the names of all things.', 'Allah lui enseigna les noms de toutes choses.', 'علّمه الله الأسماء كلها.'), '2:31-33'),
       f('quran', t('The angels were commanded to prostrate to him; Iblis refused.', 'Les anges reçurent l’ordre de se prosterner devant lui ; Iblis refusa.', 'أُمرت الملائكة بالسجود له فأبى إبليس.'), '2:34', '7:11-12'),
+      f("quran", t("Created by Allah’s own hands, from clay, without father or mother.", "Créé par les mains d’Allah, d’argile, sans père ni mère.", "خلقه الله بيديه من طين، بلا أب ولا أم."), "38:75", "3:59"),
     ],
     notes: [
       f('hadith', t('Created sixty cubits tall.', 'Créé d’une taille de soixante coudées.', 'خُلق طوله ستون ذراعًا.'), 'bukhari:3326'),
@@ -177,6 +178,7 @@ export const primordialPeople: Person[] = [
     signs: [
       f('quran', t('The Ark and the Flood.', 'L’Arche et le Déluge.', 'السفينة والطوفان.'), '11:37-44', '54:11-14'),
       f('quran', t('His descendants were made the survivors.', 'Sa descendance fut celle qui survécut.', 'جعل الله ذريته هم الباقين.'), '37:77'),
+      f("quran", t("He called his people for nine hundred and fifty years.", "Il appela son peuple pendant neuf cent cinquante ans.", "لبث في قومه ألف سنة إلا خمسين عامًا يدعوهم."), "29:14"),
     ],
     story: t(
       'Nuh called his people to worship Allah alone, night and day, for 950 years, but only a few believed. Allah commanded him to build the Ark. When the flood came, the believers and pairs of animals were saved, and the Ark came to rest on Mount al-Judi.',
@@ -234,7 +236,10 @@ export const primordialPeople: Person[] = [
     sentTo: f('quran', t('The people of ‘Ad, who lived among the sand dunes (al-Ahqaf).', 'Le peuple de ‘Ad, qui vivait parmi les dunes (al-Ahqaf).', 'قوم عاد، وكانوا بالأحقاف.'), '7:65', '46:21'),
     place: f('tradition', t('Southern Arabia, between Yemen and Oman. The Qur’an mentions “Iram of the pillars”.', 'Le sud de l’Arabie, entre le Yémen et Oman. Le Coran mentionne « Iram aux colonnes ».', 'جنوب الجزيرة بين اليمن وعُمان، وذكر القرآن «إرم ذات العماد».'), '89:6-8'),
     lifespan: f('tradition', UNKNOWN),
-    signs: [f('quran', t('The disbelievers were destroyed by a furious wind for seven nights and eight days; Hud and the believers were saved.', 'Les mécréants furent anéantis par un vent furieux durant sept nuits et huit jours ; Hud et les croyants furent sauvés.', 'أُهلك الكافرون بريح صرصر عاتية سبع ليال وثمانية أيام، ونجّى الله هودًا والمؤمنين.'), '69:6-7', '11:58')],
+    signs: [
+      f('quran', t('The disbelievers were destroyed by a furious wind for seven nights and eight days; Hud and the believers were saved.', 'Les mécréants furent anéantis par un vent furieux durant sept nuits et huit jours ; Hud et les croyants furent sauvés.', 'أُهلك الكافرون بريح صرصر عاتية سبع ليال وثمانية أيام، ونجّى الله هودًا والمؤمنين.'), '69:6-7', '11:58'),
+      f("quran", t("He challenged his whole people to plot against him together, and they could not harm him.", "Il défia tout son peuple de comploter ensemble contre lui, et ils ne purent lui nuire.", "تحدّى قومه جميعًا أن يكيدوه ثم لا يُنظروه، فلم يصلوا إليه بسوء."), "11:54-56"),
+    ],
     story: t(
       '‘Ad were a powerful people who built monuments on every height. Hud called them to worship Allah alone and to seek His forgiveness. They mocked him, and a wind they first took for a rain cloud destroyed them.',
       '‘Ad était un peuple puissant qui bâtissait des monuments sur chaque hauteur. Hud les appela à adorer Allah seul et à implorer Son pardon. Ils se moquèrent de lui, et un vent qu’ils prirent d’abord pour un nuage de pluie les anéantit.',
@@ -290,7 +295,10 @@ export const primordialPeople: Person[] = [
     sentTo: f('quran', t('The people of Thamud, who carved homes into the mountains.', 'Le peuple de Thamud, qui taillait ses demeures dans les montagnes.', 'قوم ثمود الذين نحتوا من الجبال بيوتًا.'), '7:73-74', '15:80-82'),
     place: f('hadith', t('Al-Hijr, in north-west Arabia (Hegra). The Prophet ﷺ passed by it and told his companions not to drink from its wells.', 'Al-Hijr, au nord-ouest de l’Arabie (Hégra). Le Prophète ﷺ y passa et interdit d’en boire l’eau des puits.', 'الحِجر شمال غرب الجزيرة، مرّ بها النبي ﷺ ونهى عن الشرب من آبارها.'), 'bukhari:3379'),
     lifespan: f('tradition', UNKNOWN),
-    signs: [f('quran', t('The she-camel of Allah: she had her share of the water on one day and they on another. They killed her and were seized by the blast.', 'La chamelle d’Allah : elle avait sa part d’eau un jour et eux l’autre. Ils la tuèrent et furent saisis par le cri.', 'ناقة الله: لها شِرب يوم ولهم شِرب يوم، فعقروها فأخذتهم الصيحة.'), '7:73', '26:155-158', '54:27-31')],
+    signs: [
+      f('quran', t('The she-camel of Allah: she had her share of the water on one day and they on another. They killed her and were seized by the blast.', 'La chamelle d’Allah : elle avait sa part d’eau un jour et eux l’autre. Ils la tuèrent et furent saisis par le cri.', 'ناقة الله: لها شِرب يوم ولهم شِرب يوم، فعقروها فأخذتهم الصيحة.'), '7:73', '26:155-158', '54:27-31'),
+      f("quran", t("He told them they had three days left in their homes, and the punishment came as he said.", "Il leur annonça qu’il leur restait trois jours dans leurs demeures, et le châtiment vint comme il l’avait dit.", "قال لهم: تمتعوا في داركم ثلاثة أيام، فجاء العذاب كما قال."), "11:65-67"),
+    ],
     story: t(
       'Thamud asked for a sign, and Allah sent a she-camel with a share of their water. Salih warned them not to harm her. They hamstrung her and challenged him, and after three days the blast seized them.',
       'Thamud demanda un signe, et Allah envoya une chamelle avec sa part d’eau. Salih les avertit de ne pas lui faire de mal. Ils lui coupèrent les jarrets et le défièrent ; trois jours plus tard, le cri les saisit.',

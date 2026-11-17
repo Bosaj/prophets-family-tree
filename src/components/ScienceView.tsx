@@ -17,7 +17,7 @@ import {
   type ScienceCategory,
 } from '../data/science'
 import { audioUrl, loadPassage } from '../lib/quran'
-import { HadithLabel } from './ui'
+import { HadithLabel, q } from './ui'
 
 export function ScienceView() {
   const { lang, pick } = useI18n()
@@ -148,7 +148,7 @@ export function ScienceView() {
                 }`}
               >
                 <span>{cat.icon}</span>
-                <span>{pick(cat.label)}</span>
+                <span>{q(pick(cat.label))}</span>
               </button>
             )
           })}
@@ -185,7 +185,7 @@ export function ScienceView() {
                 <div className="flex items-center gap-2">
                   <span className="rounded-full bg-sky-500/15 border border-sky-400/30 px-3 py-1 text-xs font-bold text-sky-300 flex items-center gap-1.5">
                     <Sparkles className="size-3 text-amber-400" />
-                    <span>{pick(fact.title)}</span>
+                    <span>{q(pick(fact.title))}</span>
                   </span>
                   {fact.quranRefs && (
                     <span className="font-mono text-xs text-amber-400/90 rounded-full bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5">
@@ -213,7 +213,7 @@ export function ScienceView() {
 
               {/* Subtitle / Key Claim */}
               <p className="text-sm sm:text-base text-ink-1 font-medium mb-5 leading-relaxed">
-                {pick(fact.subtitle)}
+                {q(pick(fact.subtitle))}
               </p>
 
               {/* Quran Verse Display Box */}
@@ -250,7 +250,7 @@ export function ScienceView() {
                         {h.text.ar}
                       </p>
                       {lang !== 'ar' && (
-                        <p className="text-xs text-ink-2 italic">"{pick(h.text)}"</p>
+                        <p className="text-xs text-ink-2 italic">"{q(pick(h.text))}"</p>
                       )}
                       <div className="flex justify-end pt-1">
                         <HadithLabel book={h.book} number={h.number} />
@@ -268,7 +268,7 @@ export function ScienceView() {
                     <span>{tx(lang, '7th-Century Historical Beliefs', 'Croyances du VIIe siècle', 'المعتقدات السائدة في عصر الرسالة (القرن 7م)', 'Creencias del siglo VII')}</span>
                   </span>
                   <p className="text-ink-2 leading-relaxed">
-                    {pick(fact.historicalContext)}
+                    {q(pick(fact.historicalContext))}
                   </p>
                 </div>
 
@@ -278,7 +278,7 @@ export function ScienceView() {
                     <span>{tx(lang, 'Modern Scientific Discovery', 'Découverte scientifique moderne', 'الاكتشاف العلمي الحديث وتطبيقاته', 'Descubrimiento científico moderno')}</span>
                   </span>
                   <p className="text-ink-1 leading-relaxed">
-                    {pick(fact.modernDiscovery)}
+                    {q(pick(fact.modernDiscovery))}
                   </p>
                 </div>
               </div>
@@ -327,7 +327,7 @@ export function ScienceView() {
                         <strong className="text-sky-400 font-medium">
                           {tx(lang, 'Key Finding: ', 'Résultat clé : ', 'الخلاصة العلمية المعتمدة: ', 'Hallazgo clave: ')}
                         </strong>
-                        {pick(paper.keyFinding)}
+                        {q(pick(paper.keyFinding))}
                       </p>
                     </div>
                   ))}

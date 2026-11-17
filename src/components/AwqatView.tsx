@@ -8,7 +8,7 @@ import { usePlace } from '../lib/place'
 import { hijriForPlace } from '../lib/hijri'
 import { MONTHS } from '../data/hijri'
 import { DuaCard } from './DuasView'
-import { A, LevelChip, RefChip } from './ui'
+import { A, LevelChip, q, RefChip } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
 
@@ -92,7 +92,7 @@ export function AwqatView() {
   const fmt = new Intl.DateTimeFormat(LOCALE[lang], { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: place.tz })
   const dateFmt = new Intl.DateTimeFormat(LOCALE[lang], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: place.tz })
   const ph = hijriForPlace(now, place.tz)
-  const hijri = `${ph.date.d} ${pick(MONTHS[ph.date.m - 1]!.name)} ${ph.date.y} ${lang === 'ar' ? 'هـ' : lang === 'en' ? 'AH' : 'H'}`
+  const hijri = `${ph.date.d} ${q(pick(MONTHS[ph.date.m - 1]!.name))} ${ph.date.y} ${lang === 'ar' ? 'هـ' : lang === 'en' ? 'AH' : 'H'}`
   const isFriday = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: place.tz }).format(now) === 'Fri'
   const mins = Math.max(0, Math.round((next.at.getTime() - now.getTime()) / 60_000))
   const left = `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`
@@ -102,18 +102,18 @@ export function AwqatView() {
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <header className="reveal mx-auto mb-8 max-w-2xl text-center">
         <p className="kicker inline-flex items-center justify-center gap-2">
-          <Clock aria-hidden="true" className="size-3.5" /> {pick(UI.kicker)}
+          <Clock aria-hidden="true" className="size-3.5" /> {q(pick(UI.kicker))}
         </p>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-          <span className="gold-text">{pick(UI.title)}</span>
+          <span className="gold-text">{q(pick(UI.title))}</span>
         </h1>
-        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{pick(UI.lead)}</p>
+        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{q(pick(UI.lead))}</p>
       </header>
 
       {/* Place and method */}
       <div className="glass mb-6 flex flex-col gap-3 rounded-3xl p-4 sm:flex-row sm:items-end">
         <label className="flex flex-1 flex-col gap-1 text-xs text-ink-3">
-          <span className="inline-flex items-center gap-1"><MapPin aria-hidden="true" className="size-3" /> {pick(UI.place)}</span>
+          <span className="inline-flex items-center gap-1"><MapPin aria-hidden="true" className="size-3" /> {q(pick(UI.place))}</span>
           <select
             value={place.id}
             onChange={(e) => {
@@ -122,21 +122,21 @@ export function AwqatView() {
             }}
             className="rounded-xl border border-white/10 bg-night-2 px-3 py-2 text-sm text-ink"
           >
-            {place.id === 'here' && <option value="here">{pick(UI.here)} ({place.lat}, {place.lng})</option>}
+            {place.id === 'here' && <option value="here">{q(pick(UI.here))} ({place.lat}, {place.lng})</option>}
             {PLACES.map((p) => (
-              <option key={p.id} value={p.id}>{pick(p.name)}</option>
+              <option key={p.id} value={p.id}>{q(pick(p.name))}</option>
             ))}
           </select>
         </label>
         <label className="flex flex-1 flex-col gap-1 text-xs text-ink-3">
-          <span>{pick(UI.method)}</span>
+          <span>{q(pick(UI.method))}</span>
           <select
             value={place.method}
             onChange={(e) => choose({ ...place, method: e.target.value as MethodId })}
             className="rounded-xl border border-white/10 bg-night-2 px-3 py-2 text-sm text-ink"
           >
             {METHODS.map((m) => (
-              <option key={m.id} value={m.id}>{pick(m.label)}</option>
+              <option key={m.id} value={m.id}>{q(pick(m.label))}</option>
             ))}
           </select>
         </label>
@@ -146,10 +146,10 @@ export function AwqatView() {
           disabled={locating}
           className="inline-flex items-center justify-center gap-2 rounded-xl border border-gold/40 bg-gold/10 px-4 py-2 text-sm font-medium text-gold transition-colors hover:bg-gold/20 disabled:opacity-60"
         >
-          <LocateFixed aria-hidden="true" className="size-4" /> {pick(locating ? UI.locating : UI.myLocation)}
+          <LocateFixed aria-hidden="true" className="size-4" /> {q(pick(locating ? UI.locating : UI.myLocation))}
         </button>
       </div>
-      {locError && <p role="alert" className="-mt-3 mb-6 text-sm text-lvl-disputed">{pick(UI.denied)}</p>}
+      {locError && <p role="alert" className="-mt-3 mb-6 text-sm text-lvl-disputed">{q(pick(UI.denied))}</p>}
 
       {/* Today */}
       <section className="glass-strong mb-12 overflow-hidden rounded-3xl p-5 sm:p-8" aria-labelledby="today">
@@ -164,12 +164,12 @@ export function AwqatView() {
         <div className="mt-6 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <SunArc today={today} now={now} fmt={fmt} lang={lang} name={(k) => pick(PRAYERS.find((p) => p.id === k)!.name).split(' (')[0]!} />
           <div>
-            <p className="text-sm text-ink-3">{pick(UI.next)}</p>
+            <p className="text-sm text-ink-3">{q(pick(UI.next))}</p>
             <p className="mt-1 text-3xl font-semibold text-gold-2 sm:text-4xl">
               {prayerName(next.key)} <span className="tabular-nums">{fmt.format(next.at)}</span>
             </p>
             <p className="mt-1 text-sm text-ink-2">
-              {pick(UI.in)} <span className="tabular-nums" dir="ltr">{left}</span>
+              {q(pick(UI.in))} <span className="tabular-nums" dir="ltr">{left}</span>
             </p>
             <ul className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-3">
               {PRAYERS.map((p) => {
@@ -177,20 +177,20 @@ export function AwqatView() {
                 const isNext = p.id === next.key && next.at === at
                 return (
                   <li key={p.id} className={`rounded-2xl border px-3 py-2 text-center ${isNext ? 'border-gold/60 bg-gold/10' : 'border-white/10 bg-white/[0.02]'}`}>
-                    <span className={`block text-xs ${p.id === 'sunrise' ? 'text-ink-3' : 'text-ink-2'}`}>{pick(p.name)}</span>
+                    <span className={`block text-xs ${p.id === 'sunrise' ? 'text-ink-3' : 'text-ink-2'}`}>{q(pick(p.name))}</span>
                     <span className="block text-lg font-semibold tabular-nums text-ink">{fmt.format(at)}</span>
-                    {p.fard && <span className="block text-[0.65rem] text-ink-3">{p.fard} {pick(UI.rakahs)}</span>}
+                    {p.fard && <span className="block text-[0.65rem] text-ink-3">{p.fard} {q(pick(UI.rakahs))}</span>}
                   </li>
                 )
               })}
             </ul>
           </div>
         </div>
-        <p className="mt-6 text-xs leading-relaxed text-ink-3">{pick(UI.note)}</p>
+        <p className="mt-6 text-xs leading-relaxed text-ink-3">{q(pick(UI.note))}</p>
       </section>
 
       {/* Day guide */}
-      <h2 className="mb-6 text-2xl font-semibold text-ink sm:text-3xl">{pick(UI.guide)}</h2>
+      <h2 className="mb-6 text-2xl font-semibold text-ink sm:text-3xl">{q(pick(UI.guide))}</h2>
       <ol className="space-y-5">
         {DAY_PARTS.map((d) => (
           <DayPartCard key={d.id} id={d.id} active={d.id === part} />
@@ -198,8 +198,8 @@ export function AwqatView() {
       </ol>
 
       <section className={`mt-10 rounded-3xl border p-5 sm:p-6 ${isFriday ? 'border-gold/50 bg-gold/10' : 'border-white/10 bg-white/[0.02]'}`}>
-        <h2 className="text-xl font-semibold text-ink">{pick(UI.friday)}</h2>
-        <p className="mt-2 leading-relaxed text-ink-2">{pick(FRIDAY.text)}</p>
+        <h2 className="text-xl font-semibold text-ink">{q(pick(UI.friday))}</h2>
+        <p className="mt-2 leading-relaxed text-ink-2">{q(pick(FRIDAY.text))}</p>
         <div className="mt-3 flex flex-wrap gap-1.5">
           <LevelChip level={FRIDAY.l} />
           {FRIDAY.r.map((r) => <RefChip key={r} r={r} />)}
@@ -215,18 +215,18 @@ function DayPartCard({ id, active }: { id: DayPartId; active: boolean }) {
   return (
     <li id={`part-${id}`} className={`min-w-0 rounded-3xl border p-5 transition-colors sm:p-6 ${active ? 'border-gold/60 bg-gold/[0.07] shadow-[0_0_30px_rgba(233,198,123,0.12)]' : 'border-white/10 bg-white/[0.02]'}`}>
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <h3 className="text-lg font-semibold text-ink sm:text-xl">{pick(d.title)}</h3>
-        {active && <span className="chip text-gold">{pick(UI.now)}</span>}
-        <span className="text-sm text-ink-3">{pick(d.span)}</span>
+        <h3 className="text-lg font-semibold text-ink sm:text-xl">{q(pick(d.title))}</h3>
+        {active && <span className="chip text-gold">{q(pick(UI.now))}</span>}
+        <span className="text-sm text-ink-3">{q(pick(d.span))}</span>
       </div>
       {d.guide.length > 0 && (
         <ul className="mt-4 space-y-3">
           {d.guide.map((g, i) => (
             <li key={i} className="leading-relaxed text-ink-2">
-              {pick(g.text)}
+              {q(pick(g.text))}
               <span className="mt-1.5 flex flex-wrap gap-1.5">
                 <LevelChip level={g.l} />
-                {g.grade && <span className="chip text-ink-2">{pick(g.grade)}</span>}
+                {g.grade && <span className="chip text-ink-2">{q(pick(g.grade))}</span>}
                 {g.r.map((r) => <RefChip key={r} r={r} />)}
               </span>
             </li>
@@ -240,7 +240,7 @@ function DayPartCard({ id, active }: { id: DayPartId; active: boolean }) {
             if (!a) return null
             return (
               <div key={k} className="min-w-0">
-                <p className="mb-1.5 text-sm font-medium text-gold">{pick(a.title)}</p>
+                <p className="mb-1.5 text-sm font-medium text-gold">{q(pick(a.title))}</p>
                 <DuaCard d={a} compact />
                 {a.count && a.count > 1 && <Counter target={a.count} />}
               </div>
@@ -263,9 +263,9 @@ function Counter({ target }: { target: number }) {
         type="button"
         onClick={() => setN((x) => Math.min(target, x + 1))}
         className={`min-h-11 flex-1 rounded-xl border px-4 py-2 text-sm font-medium tabular-nums transition-[transform,background-color] active:scale-[0.98] ${done ? 'border-lvl-hadith/50 bg-lvl-hadith/10 text-lvl-hadith' : 'border-gold/30 bg-gold/5 text-gold hover:bg-gold/10'}`}
-        aria-label={`${pick(UI.tap)}: ${n} / ${target}`}
+        aria-label={`${q(pick(UI.tap))}: ${n} / ${target}`}
       >
-        {n} / {target} {!done && <span className="text-ink-3">· {pick(UI.tap)}</span>}
+        {n} / {target} {!done && <span className="text-ink-3">· {q(pick(UI.tap))}</span>}
       </button>
       <button type="button" onClick={() => setN(0)} className="grid size-11 place-items-center rounded-xl border border-white/10 text-ink-3 hover:text-ink" aria-label={pick(UI.reset)} title={pick(UI.reset)}>
         <RotateCcw aria-hidden="true" className="size-4" />

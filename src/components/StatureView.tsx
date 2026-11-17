@@ -10,7 +10,7 @@ import {
 import { useI18n, tx } from '../i18n'
 import { STATURE_SCALE_DATA, PROPHETIC_DESCRIPTIONS } from '../data/stature'
 import '../data/es/stature.es'
-import { A, LevelChip, RefChip } from './ui'
+import { A, LevelChip, q, RefChip } from './ui'
 
 /** The collections named in the stature data, as reference keys, so their names show in the reader's language. */
 const BOOK_KEY: Record<string, string> = { 'Sahih al-Bukhari': 'bukhari', 'Sahih Muslim': 'muslim', 'Jami‘ at-Tirmidhi': 'tirmidhi' }
@@ -489,7 +489,7 @@ export function StatureView() {
                   <div className="flex items-center justify-between text-sm mb-2">
                     <span className={`font-semibold flex items-center gap-2 ${active ? 'text-gold' : 'text-ink'}`}>
                       <span className={`size-2.5 rounded-full ${active ? 'bg-gold animate-pulse' : 'bg-white/20'}`} />
-                      {pick(item.name)}
+                      {q(pick(item.name))}
                     </span>
                     <span className="flex items-center gap-2">
                       {item.level && <LevelChip level={item.level} />}
@@ -512,7 +512,7 @@ export function StatureView() {
                     />
                   </div>
                   <div className="mt-1 flex justify-between text-[0.7rem] text-ink-3">
-                    <span>{pick(item.era)}</span>
+                    <span>{q(pick(item.era))}</span>
                     <span>
                       {item.scaleRatio === 1
                         ? (tx(lang, 'Modern Baseline', 'Référence actuelle', 'المقياس الأساسي المعاصر', 'Referencia actual'))
@@ -533,10 +533,10 @@ export function StatureView() {
               <span>{tx(lang, 'Documentary Scale Details', 'Détails de l’échelle', 'التفاصيل التوثيقية للمقياس', 'Detalles de la escala')}</span>
             </div>
             <h3 className="mt-3 text-2xl font-bold text-ink">
-              {pick(activeScale.name)}
+              {q(pick(activeScale.name))}
             </h3>
             <p className="mt-1 text-xs text-gold-2 font-mono">
-              {pick(activeScale.era)}
+              {q(pick(activeScale.era))}
             </p>
 
             <div className="mt-6 rounded-2xl border border-gold/20 bg-gold/5 p-4 text-center">
@@ -556,7 +556,7 @@ export function StatureView() {
             </div>
 
             <p className="mt-6 text-sm leading-relaxed text-ink-2">
-              {pick(activeScale.description)}
+              {q(pick(activeScale.description))}
             </p>
 
             {activeScale.hadithText && (
@@ -566,7 +566,7 @@ export function StatureView() {
                   <span>{tx(lang, 'Textual Citation', 'Texte cité', 'النص والحديث الشريف', 'Texto citado')}</span>
                 </div>
                 <p className={`text-xs leading-relaxed text-ink-2 ${lang === 'ar' ? 'font-hadith text-base leading-loose' : 'italic'}`}>
-                  {pick(activeScale.hadithText)}
+                  {q(pick(activeScale.hadithText))}
                 </p>
               </div>
             )}
@@ -615,7 +615,7 @@ export function StatureView() {
                   }`}
                 >
                   <span className="ar-name me-1">{pd.name.ar}</span>
-                  {lang !== 'ar' && <span>· {pick(pd.name)}</span>}
+                  {lang !== 'ar' && <span>· {q(pick(pd.name))}</span>}
                 </button>
               )
             })}
@@ -626,10 +626,10 @@ export function StatureView() {
         <div className="glass rounded-3xl p-6 sm:p-10 border-gold/30">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
             <div>
-              <span className="chip text-gold text-xs font-semibold whitespace-normal max-w-full">{pick(activeDesc.honorific)}</span>
+              <span className="chip text-gold text-xs font-semibold whitespace-normal max-w-full">{q(pick(activeDesc.honorific))}</span>
               <h3 className="mt-2 text-3xl sm:text-4xl font-bold text-ink">
                 <span className="ar-name gold-text me-3">{activeDesc.name.ar}</span>
-                {lang !== 'ar' && <span className="font-light text-ink-2">· {pick(activeDesc.name)}</span>}
+                {lang !== 'ar' && <span className="font-light text-ink-2">· {q(pick(activeDesc.name))}</span>}
               </h3>
             </div>
             <div className="text-end">
@@ -637,10 +637,10 @@ export function StatureView() {
                 {tx(lang, 'Stature Category', 'Catégorie de stature', 'القامة والهيئة', 'Categoría de estatura')}
               </span>
               <span className="font-medium text-gold-2 text-base">
-                {pick(activeDesc.statureCategory)}
+                {q(pick(activeDesc.statureCategory))}
               </span>
               <span className="block text-xs text-ink-3 font-mono mt-0.5">
-                {pick(activeDesc.heightEstimate)}
+                {q(pick(activeDesc.heightEstimate))}
               </span>
             </div>
           </div>
@@ -653,7 +653,7 @@ export function StatureView() {
                 {tx(lang, 'Complexion & Skin', 'Teint et peau', 'اللون والبشرة', 'Tez y piel')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
-                {pick(activeDesc.complexion)}
+                {q(pick(activeDesc.complexion))}
               </p>
             </div>
 
@@ -663,7 +663,7 @@ export function StatureView() {
                 {tx(lang, 'Hair & Beard', 'Cheveux et barbe', 'الشعر واللحية', 'Cabello y barba')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
-                {pick(activeDesc.hairAndBeard)}
+                {q(pick(activeDesc.hairAndBeard))}
               </p>
             </div>
 
@@ -673,7 +673,7 @@ export function StatureView() {
                 {tx(lang, 'Physique & Build', 'Carrure', 'البنية والمنكبان', 'Complexión')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
-                {pick(activeDesc.physiqueAndBuild)}
+                {q(pick(activeDesc.physiqueAndBuild))}
               </p>
             </div>
 
@@ -683,7 +683,7 @@ export function StatureView() {
                 {tx(lang, 'Facial Features & Eyes', 'Visage et yeux', 'ملامح الوجه والعينين', 'Rostro y ojos')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
-                {pick(activeDesc.facialFeatures)}
+                {q(pick(activeDesc.facialFeatures))}
               </p>
             </div>
 
@@ -693,7 +693,7 @@ export function StatureView() {
                 {tx(lang, 'Demeanor & Aura', 'Allure et prestance', 'الهيبة والمشية والخلق', 'Porte y presencia')}
               </span>
               <p className={`text-sm text-ink leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
-                {pick(activeDesc.demeanorAndPresence)}
+                {q(pick(activeDesc.demeanorAndPresence))}
               </p>
             </div>
 
@@ -703,7 +703,7 @@ export function StatureView() {
                 {tx(lang, 'Compared to Humans Today', 'Comparé aux hommes d’aujourd’hui', 'المقارنة مع الإنسان المعاصر', 'Comparado con las personas de hoy')}
               </span>
               <p className={`text-sm text-ink-2 leading-relaxed ${lang === 'ar' ? 'naskh text-base' : ''}`}>
-                {pick(activeDesc.comparisonWithModern)}
+                {q(pick(activeDesc.comparisonWithModern))}
               </p>
             </div>
           </div>
@@ -723,7 +723,7 @@ export function StatureView() {
                       : <span className="text-xs font-semibold text-gold-2">{narration.source}</span>}
                   </div>
                   <p className={`text-sm text-ink-2 leading-relaxed ${lang === 'ar' ? 'font-hadith text-lg leading-loose' : 'italic'}`}>
-                    {pick(narration.text)}
+                    {q(pick(narration.text))}
                   </p>
                 </div>
               ))}

@@ -6,7 +6,7 @@ import { peopleCore } from '../data/peopleCore'
 import { loadAllPeople } from '../data/people/loader'
 import type { PersonSummary } from '../data/types'
 import { hrefOf } from '../lib/router'
-import { A, LevelChip, Refs, Scene, SubName } from './ui'
+import { A, LevelChip, q, Refs, Scene, SubName } from './ui'
 import { formatDate } from '../lib/dates'
 import { PRE_ADAM_ENTITIES, type PreAdamEntity } from '../data/preAdam'
 
@@ -244,7 +244,7 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[0.68rem] font-mono font-medium text-gold-2 bg-gold/10 px-2 py-0.5 rounded border border-gold/25 inline-flex items-center gap-1">
                       <Sparkles className="size-2.5 text-gold" />
-                      <span>{pick(entity.era)}</span>
+                      <span>{q(pick(entity.era))}</span>
                     </span>
                     <span className="text-[0.65rem] font-mono text-ink-3">
                       {entity.id === 'iblis'
@@ -257,23 +257,23 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
 
                   <div>
                     <h3 className="font-bold text-ink text-lg group-hover:text-gold transition-colors leading-snug">
-                      {pick(entity.name)}
+                      {q(pick(entity.name))}
                     </h3>
-                    <p className="text-xs text-gold-2/80 font-medium mt-1 leading-relaxed">{pick(entity.subTitle)}</p>
+                    <p className="text-xs text-gold-2/80 font-medium mt-1 leading-relaxed">{q(pick(entity.subTitle))}</p>
                   </div>
                 </div>
 
                 <div className="my-3 rounded-xl bg-night-3/70 p-3 border border-white/5">
                   <p className="text-xs text-ink-2 leading-relaxed">
-                    {pick(entity.summary)}
-                      {entity.caution && <span className="mt-2 block rounded-lg border border-lvl-disputed/40 bg-lvl-disputed/10 p-2 text-lvl-disputed">{pick(entity.caution)}</span>}
+                    {q(pick(entity.summary))}
+                      {entity.caution && <span className="mt-2 block rounded-lg border border-lvl-disputed/40 bg-lvl-disputed/10 p-2 text-lvl-disputed">{q(pick(entity.caution))}</span>}
                   </p>
                 </div>
 
                 <div className="text-[0.72rem] text-ink-3 space-y-1">
-                  <p><strong className="text-gold/90">{tx(lang, 'Nature:', 'Nature :', 'طبيعة الخلق:', 'Naturaleza:')}</strong> {pick(entity.nature)}</p>
+                  <p><strong className="text-gold/90">{tx(lang, 'Nature:', 'Nature :', 'طبيعة الخلق:', 'Naturaleza:')}</strong> {q(pick(entity.nature))}</p>
                   {entity.scientificCorrelation && (
-                    <p><strong className="text-sky-300">{tx(lang, 'Modern comparison (speculative):', 'Rapprochement moderne (spéculatif) :', 'ربط معاصر (تخمين لا يثبت):', 'Vínculo moderno (especulativo):')}</strong> {pick(entity.scientificCorrelation)}</p>
+                    <p><strong className="text-sky-300">{tx(lang, 'Modern comparison (speculative):', 'Rapprochement moderne (spéculatif) :', 'ربط معاصر (تخمين لا يثبت):', 'Vínculo moderno (especulativo):')}</strong> {q(pick(entity.scientificCorrelation))}</p>
                   )}
                 </div>
               </div>
@@ -301,25 +301,25 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                       <span>{tx(lang, 'Theological & Historical Detail:', 'Détail théologique et historique :', 'التفصيل العقدي والتاريخي:', 'Detalle teológico e histórico:')}</span>
                     </h4>
                     <p className="text-xs text-ink leading-relaxed">
-                      {pick(entity.detailedDescription)}
+                      {q(pick(entity.detailedDescription))}
                     </p>
                   </div>
 
                   {entity.scholarlySources.map((s, idx) => (
                     <div key={idx} className="rounded-xl bg-white/[0.02] p-3 border border-white/10">
                       <div className="flex items-center justify-between gap-2 text-xs font-semibold text-gold mb-1">
-                        <span>{pick(s.author)}</span>
-                        <span className="text-[0.68rem] text-ink-3 italic">{pick(s.work)}</span>
+                        <span>{q(pick(s.author))}</span>
+                        <span className="text-[0.68rem] text-ink-3 italic">{q(pick(s.work))}</span>
                       </div>
                       <blockquote className="text-xs text-ink-2 italic border-s-2 border-gold/40 ps-2.5 my-1 font-serif">
-                        {pick(s.citation)}
+                        {q(pick(s.citation))}
                       </blockquote>
                     </div>
                   ))}
 
                   <div className="rounded-xl bg-amber-500/10 p-3 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed">
                     <strong className="text-gold block mb-1">{tx(lang, 'Creed & Theological Note:', 'Note de croyance :', 'الخلاصة الإيمانية:', 'Nota de creencia:')}</strong>
-                    {pick(entity.theologicalContext)}
+                    {q(pick(entity.theologicalContext))}
                   </div>
 
                   {/* Famous Archangels in Quran & Sunnah & How They Look */}
@@ -346,7 +346,7 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                             <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
                               <div className="flex items-center gap-2">
                                 <span className="text-xs font-bold text-gold">
-                                  {pick(angel.name)}
+                                  {q(pick(angel.name))}
                                 </span>
                                 <span className="text-[0.65rem] text-gold-3 font-serif">
                                   {angel.arabicHonorific}
@@ -361,14 +361,14 @@ function PreAdamSection({ activeEra }: { activeEra: string }) {
                               <strong className="text-ink">
                                 {tx(lang, 'Celestial Duty: ', 'Fonction : ', 'الوظيفة والتكليف: ', 'Función: ')}
                               </strong>
-                              {pick(angel.role)}
+                              {q(pick(angel.role))}
                             </p>
 
                             <div className="rounded-lg bg-white/[0.04] p-2.5 border border-white/5 text-[0.73rem] text-ink leading-relaxed">
                               <strong className="text-amber-300 block mb-1">
                                 {tx(lang, 'Appearance in Qur’an & Sunnah (How They Look):', 'Description dans le Coran et la Sunna :', 'المظهر والهيئة في القرآن والسنة (كيف يبدون):', 'Descripción en el Corán y la Sunna:')}
                               </strong>
-                              {pick(angel.appearance)}
+                              {q(pick(angel.appearance))}
                             </div>
 
                             <div className="mt-2 text-[0.65rem] text-ink-3">
@@ -430,11 +430,11 @@ function Card({ p, estimates, mode }: { p: PersonSummary; estimates: boolean; mo
             </div>
           )}
 
-          {p.sentTo && <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-ink-2">{pick(p.sentTo.t)}</p>}
+          {p.sentTo && <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-ink-2">{q(pick(p.sentTo.t))}</p>}
 
           {showEra && p.era && (
             <p className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-ink-3">
-              <span>{pick(p.era.t)}</span>
+              <span>{q(pick(p.era.t))}</span>
               <LevelChip level={p.era.l} />
             </p>
           )}
@@ -463,7 +463,7 @@ function Card({ p, estimates, mode }: { p: PersonSummary; estimates: boolean; mo
                 <li key={ev.id} className="relative">
                   <span className="absolute -start-[17px] top-1 size-2 rounded-full bg-gold" />
                   <div className="flex items-center justify-between gap-2">
-                    <p className="font-semibold text-ink text-xs">{pick(ev.title)}</p>
+                    <p className="font-semibold text-ink text-xs">{q(pick(ev.title))}</p>
                     <div className="flex items-center gap-1.5 shrink-0 font-mono text-[0.68rem]">
                       {ev.yearHijri && (
                         <span className="rounded bg-gold/10 px-1.5 py-0.5 text-gold-2">
@@ -477,7 +477,7 @@ function Card({ p, estimates, mode }: { p: PersonSummary; estimates: boolean; mo
                       )}
                     </div>
                   </div>
-                  <p className="text-[0.75rem] text-ink-3 mt-0.5 leading-relaxed">{pick(ev.desc)}</p>
+                  <p className="text-[0.75rem] text-ink-3 mt-0.5 leading-relaxed">{q(pick(ev.desc))}</p>
                   {ev.refs && (
                     <div className="mt-1">
                       <Refs refs={ev.refs} />

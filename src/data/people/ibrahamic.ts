@@ -37,6 +37,7 @@ export const ibrahamicPeople: Person[] = [
       f('quran', t('The fire was made cool and safe for him.', 'Le feu devint fraîcheur et salut pour lui.', 'قال الله للنار: كوني بردًا وسلامًا على إبراهيم.'), '21:68-70'),
       f('quran', t('Four birds were brought back to life before his eyes.', 'Quatre oiseaux furent ramenés à la vie sous ses yeux.', 'أحيا الله له الطير الأربعة.'), '2:260'),
       f('quran', t('His willing son was ransomed with a great sacrifice.', 'Son fils consentant fut racheté par un sacrifice immense.', 'فدى الله ابنه بذبح عظيم.'), '37:102-107'),
+      f("quran", t("He silenced the king who claimed to give life and death: “Allah brings the sun from the east; bring it from the west.”", "Il réduisit au silence le roi qui prétendait donner la vie et la mort : « Allah fait venir le soleil de l’orient, fais-le venir de l’occident. »", "حاجّ الملك الذي ادّعى الإحياء والإماتة فقال: إن الله يأتي بالشمس من المشرق فأت بها من المغرب، فبُهت الذي كفر."), "2:258"),
     ],
     notes: [f('hadith', t('Met in the seventh heaven during the Mi‘raj.', 'Rencontré au septième ciel lors du Mi‘raj.', 'لقيه النبي ﷺ في السماء السابعة ليلة المعراج.'), 'bukhari:3207')],
     story: t(
@@ -291,7 +292,10 @@ export const ibrahamicPeople: Person[] = [
     lifespan: f('tradition', t('About 147 years, according to the Biblical account.', 'Environ 147 ans selon le récit biblique.', 'نحو 147 سنة في الرواية التوراتية.'), 'book:bible'),
     marriage: f('tradition', t('Tradition names his wives Leah and Rachel, plus two others.', 'La tradition nomme ses épouses Léa et Rachel, et deux autres.', 'تذكر الرواية زوجتيه ليا وراحيل وأخريين.'), 'book:qisas'),
     children: f('quran', t('Twelve sons, among them Yusuf and his brother (Binyamin in tradition). They are “the Tribes”.', 'Douze fils, dont Yusuf et son frère (Binyamin selon la tradition). Ce sont « les Tribus ».', 'اثنا عشر ابنًا منهم يوسف وأخوه (بنيامين في الرواية)، وهم الأسباط.'), '12:4', '12:59', '2:136'),
-    signs: [f('quran', t('His sight returned when Yusuf’s shirt was cast over his face.', 'Sa vue revint quand la chemise de Yusuf fut jetée sur son visage.', 'ارتدّ بصيرًا لما أُلقي قميص يوسف على وجهه.'), '12:93-96')],
+    signs: [
+      f('quran', t('His sight returned when Yusuf’s shirt was cast over his face.', 'Sa vue revint quand la chemise de Yusuf fut jetée sur son visage.', 'ارتدّ بصيرًا لما أُلقي قميص يوسف على وجهه.'), '12:93-96'),
+      f("quran", t("He sensed Yusuf’s scent as soon as the caravan left Egypt.", "Il sentit l’odeur de Yusuf dès que la caravane quitta l’Égypte.", "وجد ريح يوسف لما فصلت العير من مصر."), "12:94"),
+    ],
     notes: [f('quran', t('On his deathbed he asked his sons whom they would worship after him.', 'Sur son lit de mort, il demanda à ses fils qui ils adoreraient après lui.', 'سأل بنيه عند موته: ما تعبدون من بعدي؟'), '2:133')],
     story: t(
       'Ya‘qub loved his son Yusuf deeply. When his sons claimed a wolf had eaten Yusuf, he answered with “beautiful patience”. He grieved until his eyes turned white, never lost hope in Allah, and was reunited with Yusuf in Egypt.',
@@ -354,6 +358,7 @@ export const ibrahamicPeople: Person[] = [
     signs: [
       f('quran', t('Taught the interpretation of dreams.', 'Instruit de l’interprétation des rêves.', 'علّمه الله تأويل الأحاديث.'), '12:6', '12:36-49', '12:101'),
       f('quran', t('His shirt restored his father’s sight.', 'Sa chemise rendit la vue à son père.', 'ردّ قميصه بصر أبيه.'), '12:93'),
+      f("quran", t("His childhood dream, eleven stars, the sun and the moon bowing to him, came true in Egypt.", "Son rêve d’enfant, onze étoiles, le soleil et la lune prosternés devant lui, se réalisa en Égypte.", "تحققت في مصر رؤياه في صغره: أحد عشر كوكبًا والشمس والقمر له ساجدين."), "12:4", "12:100"),
     ],
     notes: [f('hadith', t('Met in the third heaven during the Mi‘raj.', 'Rencontré au troisième ciel lors du Mi‘raj.', 'لقيه النبي ﷺ في السماء الثالثة ليلة المعراج.'), 'bukhari:3207')],
     story: t(
@@ -415,7 +420,10 @@ export const ibrahamicPeople: Person[] = [
     lifespan: f('tradition', UNKNOWN),
     marriage: f('tradition', t('His wife stayed by his side through the long illness (from the commentary of 38:44).', 'Son épouse resta à ses côtés durant la longue maladie (d’après le commentaire de 38:44).', 'صبرت زوجته معه في بلائه (من تفسير الآية 38:44).'), '38:44'),
     children: f('quran', t('His family was restored to him, and as many again with them.', 'Sa famille lui fut rendue, et autant avec elle.', 'آتاه الله أهله ومثلهم معهم.'), '21:84', '38:43'),
-    signs: [f('quran', t('Told to strike the ground with his foot: a cool spring for washing and drinking healed him.', 'Il lui fut dit de frapper le sol du pied : une source fraîche pour se laver et boire le guérit.', 'قيل له: اركض برجلك، فنبع ماء بارد للاغتسال والشراب فشُفي.'), '38:42')],
+    signs: [
+      f('quran', t('Told to strike the ground with his foot: a cool spring for washing and drinking healed him.', 'Il lui fut dit de frapper le sol du pied : une source fraîche pour se laver et boire le guérit.', 'قيل له: اركض برجلك، فنبع ماء بارد للاغتسال والشراب فشُفي.'), '38:42'),
+      f("quran", t("His family was given back to him, and as many again with them.", "Sa famille lui fut rendue, et autant avec elle.", "آتاه الله أهله ومثلهم معهم رحمةً منه."), "21:84", "38:43"),
+    ],
     notes: [f('hadith', t('After his recovery, golden locusts fell on him while he bathed.', 'Après sa guérison, des sauterelles d’or tombèrent sur lui pendant qu’il se lavait.', 'خرّ عليه جراد من ذهب وهو يغتسل.'), 'bukhari:279')],
     story: t(
       'Ayyub was tested with the loss of his health, wealth and family. He remained patient and called on his Lord: “Harm has touched me, and You are the Most Merciful of the merciful.” Allah healed him with a spring and gave him back his family and more.',

@@ -4,7 +4,7 @@ import { useI18n } from '../i18n'
 import type { L4 } from '../data/types'
 import { GREAT_TEN, HOUR_CLOSE, HOUR_FRAME, HOUR_PARTS, type HourStep, type SignStatus } from '../data/hour'
 import { DuaCard } from './DuasView'
-import { A, LevelChip, RefChip } from './ui'
+import { A, LevelChip, q, RefChip } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
 
@@ -51,11 +51,11 @@ export function Step({ s, n, icon }: { s: HourStep; n: number; icon?: ReactNode 
       </span>
       <div className="flex flex-wrap items-center gap-2">
         {icon}
-        <h3 className="text-lg font-semibold text-ink text-balance sm:text-xl">{pick(s.title)}</h3>
-        {s.status && <span className={`rounded-full border px-2.5 py-0.5 text-xs ${STATUS[s.status].className}`}>{pick(STATUS[s.status].label)}</span>}
+        <h3 className="text-lg font-semibold text-ink text-balance sm:text-xl">{q(pick(s.title))}</h3>
+        {s.status && <span className={`rounded-full border px-2.5 py-0.5 text-xs ${STATUS[s.status].className}`}>{q(pick(STATUS[s.status].label))}</span>}
       </div>
       <p className="mt-2 max-w-2xl leading-relaxed text-ink-2 text-pretty" dir={dir}>
-        {pick(s.text)}
+        {q(pick(s.text))}
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
         <LevelChip level={s.l} />
@@ -74,8 +74,8 @@ export function Step({ s, n, icon }: { s: HourStep; n: number; icon?: ReactNode 
         <aside className="mt-4 flex gap-2.5 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm leading-relaxed text-ink-2" dir={dir}>
           <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-gold" />
           <p>
-            <span className="font-semibold text-ink">{pick(UI.differ)}. </span>
-            {pick(s.note)}
+            <span className="font-semibold text-ink">{q(pick(UI.differ))}. </span>
+            {q(pick(s.note))}
           </p>
         </aside>
       )}
@@ -117,7 +117,7 @@ function CheckRow({ href, state, label }: { href: string; state: CheckState; lab
       <a href={href} className="flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-white/[0.04]">
         <CheckIcon state={state} />
         <span className={`min-w-0 flex-1 text-sm ${state === 'past' ? 'text-ink' : 'text-ink-2'}`}>{label}</span>
-        <span className="sr-only">{pick(CHECK[state])}</span>
+        <span className="sr-only">{q(pick(CHECK[state]))}</span>
       </a>
     </li>
   )
@@ -132,22 +132,22 @@ function SignsChecklist() {
   return (
     <section id="checklist" aria-labelledby="checklist-title" className="glass mb-14 scroll-mt-20 rounded-3xl p-6 sm:p-8">
       <h2 id="checklist-title" className="text-2xl font-semibold text-ink sm:text-3xl">
-        {pick(CHECK.title)}
+        {q(pick(CHECK.title))}
       </h2>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-2">{pick(CHECK.lead)}</p>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-2">{q(pick(CHECK.lead))}</p>
       <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs text-ink-3">
         {legend.map((s) => (
           <li key={s} className="inline-flex items-center gap-1.5">
-            <CheckIcon state={s} /> {pick(CHECK[s])}
+            <CheckIcon state={s} /> {q(pick(CHECK[s]))}
           </li>
         ))}
       </ul>
       <div className="mt-6 grid items-start gap-6 md:grid-cols-2">
         <div className="min-w-0">
           <h3 className="flex flex-wrap items-baseline justify-between gap-2 text-lg font-semibold text-ink">
-            {pick(CHECK.small)}
+            {q(pick(CHECK.small))}
             <span className="text-xs font-normal text-emerald-300">
-              {pick(CHECK.past)}: {pick(CHECK.count).replace('{a}', String(counts.past)).replace('{b}', String(small.length))}
+              {q(pick(CHECK.past))}: {pick(CHECK.count).replace('{a}', String(counts.past)).replace('{b}', String(small.length))}
             </span>
           </h3>
           <ul className="mt-3 space-y-1">
@@ -158,9 +158,9 @@ function SignsChecklist() {
         </div>
         <div className="min-w-0">
           <h3 className="flex flex-wrap items-baseline justify-between gap-2 text-lg font-semibold text-ink">
-            {pick(CHECK.great)}
+            {q(pick(CHECK.great))}
             <span className="text-xs font-normal text-ink-3">
-              {pick(CHECK.past)}: {pick(CHECK.count).replace('{a}', '0').replace('{b}', String(GREAT_TEN.length))}
+              {q(pick(CHECK.past))}: {pick(CHECK.count).replace('{a}', '0').replace('{b}', String(GREAT_TEN.length))}
             </span>
           </h3>
           <ul className="mt-3 space-y-1">
@@ -181,12 +181,12 @@ export function HourView() {
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
       <header className="reveal mx-auto mb-10 max-w-2xl text-center">
         <p className="kicker inline-flex items-center justify-center gap-2">
-          <Hourglass aria-hidden="true" className="size-3.5" /> {pick(UI.kicker)}
+          <Hourglass aria-hidden="true" className="size-3.5" /> {q(pick(UI.kicker))}
         </p>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-          <span className="gold-text">{pick(UI.title)}</span>
+          <span className="gold-text">{q(pick(UI.title))}</span>
         </h1>
-        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{pick(UI.lead)}</p>
+        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{q(pick(UI.lead))}</p>
       </header>
 
       <div className="mb-10">
@@ -197,7 +197,7 @@ export function HourView() {
         {HOUR_PARTS.map((p, i) => (
           <a key={p.id} href={`#part-${p.id}`} className="rounded-full border border-white/10 px-4 py-1.5 text-sm text-ink-2 transition-colors hover:border-gold/40 hover:text-gold">
             <span className="me-1.5 font-semibold text-gold">{i + 1}</span>
-            {pick(p.title)}
+            {q(pick(p.title))}
           </a>
         ))}
       </nav>
@@ -207,8 +207,8 @@ export function HourView() {
       {HOUR_PARTS.map((p, i) => (
         <section key={p.id} id={`part-${p.id}`} className="mb-16 scroll-mt-20">
           <p className="text-xs font-medium uppercase tracking-wider text-gold/80">{`${i + 1} / ${HOUR_PARTS.length}`}</p>
-          <h2 className="mt-1 text-2xl font-semibold text-ink text-balance sm:text-3xl">{pick(p.title)}</h2>
-          <p className="mt-3 max-w-2xl leading-relaxed text-ink-2 text-pretty">{pick(p.lead)}</p>
+          <h2 className="mt-1 text-2xl font-semibold text-ink text-balance sm:text-3xl">{q(pick(p.title))}</h2>
+          <p className="mt-3 max-w-2xl leading-relaxed text-ink-2 text-pretty">{q(pick(p.lead))}</p>
           <ol className="relative mt-8 space-y-10 border-s border-gold/20 ps-6 sm:ps-10">
             {p.steps.map((s, j) => (
               <Step key={s.id} s={s} n={j + 1} />
@@ -218,22 +218,22 @@ export function HourView() {
       ))}
 
       <section className="glass rounded-3xl p-6 sm:p-8">
-        <h2 className="text-2xl font-semibold text-ink">{pick(UI.close)}</h2>
-        <p className="mt-2 text-ink-2">{pick(UI.closeLead)}</p>
+        <h2 className="text-2xl font-semibold text-ink">{q(pick(UI.close))}</h2>
+        <p className="mt-2 text-ink-2">{q(pick(UI.closeLead))}</p>
         <div className="mt-5">
           <DuaCard d={HOUR_CLOSE} />
         </div>
         <div className="mt-6 flex flex-wrap gap-2">
           <A href="/tree" className="rounded-full bg-gold px-5 py-2 text-sm font-semibold text-night transition-transform hover:scale-[1.02] active:scale-[0.98]">
-            {pick(UI.moreTree)}
+            {q(pick(UI.moreTree))}
           </A>
           <A href="/duas" className="rounded-full border border-gold/40 px-5 py-2 text-sm font-semibold text-gold transition-colors hover:bg-gold/10">
-            {pick(UI.moreDuas)}
+            {q(pick(UI.moreDuas))}
           </A>
         </div>
       </section>
 
-      <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-ink-3">{pick(UI.note)}</p>
+      <p className="mx-auto mt-8 max-w-2xl text-center text-xs leading-relaxed text-ink-3">{q(pick(UI.note))}</p>
     </div>
   )
 }

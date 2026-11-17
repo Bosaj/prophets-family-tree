@@ -32,7 +32,7 @@ import { refLabel } from '../data/sources'
 import { relativesOf } from '../lib/layout'
 import { formatDate } from '../lib/dates'
 import { hrefOf } from '../lib/router'
-import { A, FactText, LevelChip, Refs, Scene, useOpenVerse } from './ui'
+import { A, FactText, LevelChip, q, Refs, Scene, useOpenVerse } from './ui'
 import { NotFound } from './NotFound'
 import { SCRIPTURES_BY_PROPHET } from '../data/scriptures'
 import { ScripturesModal } from './ScripturesModal'
@@ -74,7 +74,7 @@ export function Person({ id }: { id: string }) {
   const scriptureBook = core ? SCRIPTURES_BY_PROPHET.get(core.id) : null
 
   useEffect(() => {
-    if (core) document.title = `${core.name.ar} · ${pick(core.name)} — ${t('brand')}`
+    if (core) document.title = `${core.name.ar} · ${q(pick(core.name))} — ${t('brand')}`
     return () => {
       document.title = 'شجرة الأنبياء · Shajara — The Tree of the Prophets'
     }
@@ -86,7 +86,7 @@ export function Person({ id }: { id: string }) {
     return (
       <div data-loading className="flex min-h-[60vh] flex-col items-center justify-center gap-3 px-4 py-24 text-center">
         <p className="ar-name gold-text text-5xl font-bold">{core.name.ar}</p>
-        <p className="text-sm text-ink-3">{pick(core.name)}</p>
+        <p className="text-sm text-ink-3">{q(pick(core.name))}</p>
       </div>
     )
   }
@@ -98,7 +98,7 @@ export function Person({ id }: { id: string }) {
   const share = async () => {
     const url = location.href
     try {
-      if (navigator.share) await navigator.share({ title: `${p.name.ar} · ${pick(p.name)}`, url })
+      if (navigator.share) await navigator.share({ title: `${p.name.ar} · ${q(pick(p.name))}`, url })
       else {
         await navigator.clipboard.writeText(url)
         setCopied(true)
@@ -131,15 +131,15 @@ export function Person({ id }: { id: string }) {
                   <span dir="ltr">{p.alt ? p.alt.en : p.name.en}</span>
                 ) : (
                   <>
-                    {pick(p.name)}
-                    {p.alt && <span className="text-ink-3"> · {pick(p.alt)}</span>}
+                    {q(pick(p.name))}
+                    {p.alt && <span className="text-ink-3"> · {q(pick(p.alt))}</span>}
                   </>
                 )}
               </span>
             </h1>
             {p.title && (
               <div className="mt-5 max-w-2xl">
-                <p className="text-lg text-gold-2 italic sm:text-xl">{pick(p.title.t)}</p>
+                <p className="text-lg text-gold-2 italic sm:text-xl">{q(pick(p.title.t))}</p>
                 <div className="mt-2 flex flex-wrap items-center gap-1.5">
                   <LevelChip level={p.title.l} />
                   <Refs refs={p.title.r} />
@@ -168,7 +168,7 @@ export function Person({ id }: { id: string }) {
         {/* story */}
         <section aria-labelledby="story" className="glass rounded-3xl p-6 sm:p-10">
           <h2 id="story" className="kicker">{t('story')}</h2>
-          <p className={`mt-4 text-pretty text-ink ${lang === 'ar' ? 'naskh text-2xl leading-[2.1]' : 'text-lg leading-relaxed sm:text-xl'}`}>{pick(p.story)}</p>
+          <p className={`mt-4 text-pretty text-ink ${lang === 'ar' ? 'naskh text-2xl leading-[2.1]' : 'text-lg leading-relaxed sm:text-xl'}`}>{q(pick(p.story))}</p>
           {p.mentions && (
             <p className="mt-6 text-sm text-ink-3" title={t('mentionsHint')}>
               {t('mentions', { n: p.mentions })} <span className="opacity-70">({t('mentionsHint')})</span>
@@ -189,7 +189,7 @@ export function Person({ id }: { id: string }) {
               {p.biography.map((para, bIdx) => (
                 <div key={bIdx} className="relative ps-4 border-s-2 border-gold/40">
                   <p className={`text-pretty text-ink-2 ${lang === 'ar' ? 'naskh text-xl leading-[2.2]' : 'text-base leading-relaxed sm:text-lg text-ink/90'}`}>
-                    {pick(para)}
+                    {q(pick(para))}
                   </p>
                 </div>
               ))}
@@ -220,9 +220,9 @@ export function Person({ id }: { id: string }) {
                         />
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-gold-2">{scriptureBook.title.ar} · {pick(scriptureBook.title)}</p>
+                        <p className="text-xs font-bold text-gold-2">{scriptureBook.title.ar} · {q(pick(scriptureBook.title))}</p>
                         <p className="text-[11px] text-gold/70 font-mono">
-                          {pick(scriptureBook.originalLanguage)} • {scriptureBook.id === 'quran' ? (tx(lang, '1 Preserved Text', '1 texte préservé', 'نص موحد محفوظ', '1 texto preservado')) : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات', 'tradiciones')}`}
+                          {q(pick(scriptureBook.originalLanguage))} • {scriptureBook.id === 'quran' ? (tx(lang, '1 Preserved Text', '1 texte préservé', 'نص موحد محفوظ', '1 texto preservado')) : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات', 'tradiciones')}`}
                         </p>
                       </div>
                     </div>
@@ -272,7 +272,7 @@ export function Person({ id }: { id: string }) {
                   <Globe className="size-3.5" />
                   <span>{t('region')}</span>
                 </div>
-                <p className="mt-2 text-base font-medium text-ink">{pick(p.topography.region)}</p>
+                <p className="mt-2 text-base font-medium text-ink">{q(pick(p.topography.region))}</p>
               </div>
 
               {/* Modern Countries */}
@@ -281,7 +281,7 @@ export function Person({ id }: { id: string }) {
                   <Map className="size-3.5" />
                   <span>{t('modernCountries')}</span>
                 </div>
-                <p className="mt-2 text-base font-medium text-ink">{pick(p.topography.modernCountries)}</p>
+                <p className="mt-2 text-base font-medium text-ink">{q(pick(p.topography.modernCountries))}</p>
               </div>
             </div>
 
@@ -292,7 +292,7 @@ export function Person({ id }: { id: string }) {
                   <Navigation className="size-3.5" />
                   <span>{t('missionRoute')}</span>
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-ink-2 sm:text-base">{pick(p.topography.missionRoute)}</p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-2 sm:text-base">{q(pick(p.topography.missionRoute))}</p>
               </div>
             )}
 
@@ -321,10 +321,10 @@ export function Person({ id }: { id: string }) {
                         <div className="flex items-center gap-2 text-gold">
                           <SiteIcon className="size-4 shrink-0" />
                           <span className="ar-name font-bold text-lg text-gold-2">{site.name.ar}</span>
-                          {lang !== 'ar' && <span className="text-sm text-ink font-medium">· {pick(site.name)}</span>}
+                          {lang !== 'ar' && <span className="text-sm text-ink font-medium">· {q(pick(site.name))}</span>}
                         </div>
                         {site.desc && (
-                          <p className="mt-2 text-xs leading-relaxed text-ink-3 sm:text-sm">{pick(site.desc)}</p>
+                          <p className="mt-2 text-xs leading-relaxed text-ink-3 sm:text-sm">{q(pick(site.desc))}</p>
                         )}
                       </div>
                     )
@@ -424,16 +424,16 @@ export function Person({ id }: { id: string }) {
                       )}
                       {ev.era && (
                         <span className="rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-ink-3">
-                          {pick(ev.era)}
+                          {q(pick(ev.era))}
                         </span>
                       )}
                     </div>
                     <h3 className="mt-3 text-lg font-semibold text-ink sm:text-xl">
                       <span className="ar-name gold-text me-2">{ev.title.ar}</span>
-                      {lang !== 'ar' && <span>· {pick(ev.title)}</span>}
+                      {lang !== 'ar' && <span>· {q(pick(ev.title))}</span>}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-ink-2 sm:text-base">
-                      {pick(ev.desc)}
+                      {q(pick(ev.desc))}
                     </p>
                     {ev.refs && (
                       <div className="mt-3">
@@ -460,7 +460,7 @@ export function Person({ id }: { id: string }) {
                   <span className="text-xs font-semibold tracking-wider text-ink-3 uppercase">{t('father')}</span>
                   <div className="mt-2">
                     <p className="ar-name gold-text text-2xl font-bold">{p.parents.father.t.ar}</p>
-                    <p className="text-sm text-ink">{pick(p.parents.father.t)}</p>
+                    <p className="text-sm text-ink">{q(pick(p.parents.father.t))}</p>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-1.5">
                     <LevelChip level={p.parents.father.l} />
@@ -473,7 +473,7 @@ export function Person({ id }: { id: string }) {
                   <span className="text-xs font-semibold tracking-wider text-ink-3 uppercase">{t('mother')}</span>
                   <div className="mt-2">
                     <p className="ar-name gold-text text-2xl font-bold">{p.parents.mother.t.ar}</p>
-                    <p className="text-sm text-ink">{pick(p.parents.mother.t)}</p>
+                    <p className="text-sm text-ink">{q(pick(p.parents.mother.t))}</p>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-1.5">
                     <LevelChip level={p.parents.mother.l} />
@@ -486,7 +486,7 @@ export function Person({ id }: { id: string }) {
                   <span className="text-xs font-semibold tracking-wider text-ink-3 uppercase">{t('fosterMother')}</span>
                   <div className="mt-2">
                     <p className="ar-name gold-text text-2xl font-bold">{p.parents.fosterMother.t.ar}</p>
-                    <p className="text-sm text-ink">{pick(p.parents.fosterMother.t)}</p>
+                    <p className="text-sm text-ink">{q(pick(p.parents.fosterMother.t))}</p>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-1.5">
                     <LevelChip level={p.parents.fosterMother.l} />
@@ -509,7 +509,7 @@ export function Person({ id }: { id: string }) {
               {p.spouses.map((s, idx) => (
                 <div key={idx} className="glass rounded-3xl border-rose-500/20 p-5">
                   <p className="ar-name text-2xl font-bold text-rose-200">{s.t.ar}</p>
-                  <p className="text-sm text-ink">{pick(s.t)}</p>
+                  <p className="text-sm text-ink">{q(pick(s.t))}</p>
                   <div className="mt-3 flex flex-wrap items-center gap-1.5">
                     <LevelChip level={s.l} />
                     {s.r && <Refs refs={s.r} />}
@@ -531,7 +531,7 @@ export function Person({ id }: { id: string }) {
               {p.allChildren.map((c, idx) => (
                 <div key={idx} className="glass rounded-3xl border-lvl-hadith/20 p-5">
                   <p className="ar-name text-2xl font-bold text-emerald-200">{c.t.ar}</p>
-                  <p className="text-sm text-ink">{pick(c.t)}</p>
+                  <p className="text-sm text-ink">{q(pick(c.t))}</p>
                   <div className="mt-3 flex flex-wrap items-center gap-1.5">
                     <LevelChip level={c.l} />
                     {c.r && <Refs refs={c.r} />}
@@ -553,7 +553,7 @@ export function Person({ id }: { id: string }) {
               {p.siblings.map((sib, idx) => (
                 <div key={idx} className="glass rounded-3xl border-gold/20 p-5">
                   <p className="ar-name text-2xl font-bold text-gold-2">{sib.t.ar}</p>
-                  <p className="text-sm text-ink">{pick(sib.t)}</p>
+                  <p className="text-sm text-ink">{q(pick(sib.t))}</p>
                   <div className="mt-3 flex flex-wrap items-center gap-1.5">
                     <LevelChip level={sib.l} />
                     {sib.r && <Refs refs={sib.r} />}
@@ -605,8 +605,8 @@ export function Person({ id }: { id: string }) {
                   <A href={hrefOf({ name: 'person', id: r.person.id })} className="glass group block h-full rounded-3xl p-5 transition-colors hover:border-gold/40">
                     <p className="text-xs text-ink-3">{t(r.rel)}</p>
                     <p className="ar-name gold-text mt-1 text-3xl font-bold">{r.person.name.ar}</p>
-                    <p className="text-sm text-ink">{pick(r.person.name)}</p>
-                    {r.link.note && <p className="mt-2 text-xs leading-relaxed text-ink-2">{pick(r.link.note)}</p>}
+                    <p className="text-sm text-ink">{q(pick(r.person.name))}</p>
+                    {r.link.note && <p className="mt-2 text-xs leading-relaxed text-ink-2">{q(pick(r.link.note))}</p>}
                     <div className="mt-3 flex flex-wrap items-center gap-1.5">
                       <LevelChip level={r.link.l} />
                     </div>

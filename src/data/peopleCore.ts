@@ -2450,4 +2450,4 @@ export const heavens: { n: number; ids: string[] }[] = [
 ]
 
 /** Total verified Qur'an and Hadith references across all prophet records and lineage links (checked against allTextRefs().size in data.test.ts). */
-export const VERIFIED_REFS = 310
+export const VERIFIED_REFS = 324

@@ -9,7 +9,7 @@ import { usePlace } from '../lib/place'
 import { DuaCard } from './DuasView'
 import { Step } from './HourView'
 import { FastingReminders } from './FastingReminders'
-import { A, LevelChip, RefChip } from './ui'
+import { A, LevelChip, q, RefChip } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
 const LOCALE: Record<Lang, string> = { en: 'en-GB', fr: 'fr-FR', ar: 'ar-MA', es: 'es-ES' }
@@ -97,7 +97,7 @@ export function HijriView() {
     return () => ctrl.abort()
   }, [istanbulDay])
 
-  const fmtH = (h: HDate) => `${h.d} ${pick(MONTHS[h.m - 1]!.name)} ${h.y} ${ERA[lang]}`
+  const fmtH = (h: HDate) => `${h.d} ${q(pick(MONTHS[h.m - 1]!.name))} ${h.y} ${ERA[lang]}`
   const time = (d: Date, tz: string) => new Intl.DateTimeFormat(LOCALE[lang], { hour: '2-digit', minute: '2-digit', timeZone: tz, hour12: false }).format(d)
   const greg = (d: Date, tz: string) => new Intl.DateTimeFormat(LOCALE[lang], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(d)
 
@@ -139,7 +139,7 @@ export function HijriView() {
 
   const statusChip = (s: MoroccoStatus) => (
     <span className={`rounded-full border px-2.5 py-0.5 text-xs ${s === 'official' ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-300' : s === 'pending' ? 'border-amber-400/30 bg-amber-400/10 text-amber-300' : 'border-white/15 bg-white/5 text-ink-3'}`}>
-      {pick(s === 'official' ? UI.official : s === 'pending' ? UI.pending : UI.estimate)}
+      {q(pick(s === 'official' ? UI.official : s === 'pending' ? UI.pending : UI.estimate))}
     </span>
   )
 
@@ -149,23 +149,23 @@ export function HijriView() {
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <header className="reveal mx-auto mb-10 max-w-2xl text-center">
         <p className="kicker inline-flex items-center justify-center gap-2">
-          <Moon aria-hidden="true" className="size-3.5" /> {pick(UI.kicker)}
+          <Moon aria-hidden="true" className="size-3.5" /> {q(pick(UI.kicker))}
         </p>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-          <span className="gold-text">{pick(UI.title)}</span>
+          <span className="gold-text">{q(pick(UI.title))}</span>
         </h1>
-        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{pick(UI.lead)}</p>
+        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{q(pick(UI.lead))}</p>
       </header>
 
       {/* Today where the reader is */}
       <section aria-live="polite" className="glass mb-12 rounded-3xl p-6 text-center sm:p-8">
         <label className="mb-4 inline-flex items-center gap-2 text-sm text-ink-3">
-          {pick(UI.place)}
+          {q(pick(UI.place))}
           <select value={PLACES.some((p) => p.id === place.id) ? place.id : ''} onChange={(e) => choose(e.target.value)} className="rounded-full border border-white/15 bg-night-2 px-3 py-1 text-ink">
-            {!PLACES.some((p) => p.id === place.id) && <option value="">{pick(place.name as L4)}</option>}
+            {!PLACES.some((p) => p.id === place.id) && <option value="">{q(pick(place.name as L4))}</option>}
             {PLACES.map((p) => (
               <option key={p.id} value={p.id}>
-                {pick(p.name)}
+                {q(pick(p.name))}
               </option>
             ))}
           </select>
@@ -186,60 +186,60 @@ export function HijriView() {
 
       {/* By country */}
       <section className="mb-14">
-        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{pick(UI.byCountry)}</h2>
-        <p className="mt-2 max-w-2xl text-ink-2">{pick(UI.byCountryLead)}</p>
+        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{q(pick(UI.byCountry))}</h2>
+        <p className="mt-2 max-w-2xl text-ink-2">{q(pick(UI.byCountryLead))}</p>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <article className="glass rounded-2xl p-5">
-            <p className="text-sm text-ink-3">🇸🇦 {pick(UI.saudi)}</p>
+            <p className="text-sm text-ink-3">🇸🇦 {q(pick(UI.saudi))}</p>
             <p className="mt-1 text-2xl font-semibold text-gold-2">{fmtH(saudi)}</p>
             <div className="mt-2">{statusChip('official')}</div>
-            <p className="mt-3 text-sm text-ink-2">{pick(UI.saudiHow)}</p>
+            <p className="mt-3 text-sm text-ink-2">{q(pick(UI.saudiHow))}</p>
           </article>
           <article className="glass rounded-2xl p-5">
-            <p className="text-sm text-ink-3">🇲🇦 {pick(UI.morocco)}</p>
+            <p className="text-sm text-ink-3">🇲🇦 {q(pick(UI.morocco))}</p>
             <p className="mt-1 text-2xl font-semibold text-gold-2">{fmtH(morocco.date)}</p>
             <div className="mt-2">{statusChip(morocco.status)}</div>
-            <p className="mt-3 text-sm text-ink-2">{pick(UI.moroccoHow)}</p>
-            {morocco.source && <p className="mt-2 text-xs text-ink-3">{pick(morocco.source)}</p>}
+            <p className="mt-3 text-sm text-ink-2">{q(pick(UI.moroccoHow))}</p>
+            {morocco.source && <p className="mt-2 text-xs text-ink-3">{q(pick(morocco.source))}</p>}
           </article>
           <article className="glass rounded-2xl p-5">
-            <p className="text-sm text-ink-3">🇹🇷 {pick(UI.turkey)}</p>
+            <p className="text-sm text-ink-3">🇹🇷 {q(pick(UI.turkey))}</p>
             <p className="mt-1 text-2xl font-semibold text-gold-2">{turkey === 'loading' ? pick(UI.loading) : fmtH(turkey ?? turkeyFallback)}</p>
             <div className="mt-2">
-              {turkey === 'loading' ? null : turkey ? statusChip('official') : <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-xs text-ink-3">{pick(UI.offline)}</span>}
+              {turkey === 'loading' ? null : turkey ? statusChip('official') : <span className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-xs text-ink-3">{q(pick(UI.offline))}</span>}
             </div>
-            <p className="mt-3 text-sm text-ink-2">{pick(UI.turkeyHow)}</p>
+            <p className="mt-3 text-sm text-ink-2">{q(pick(UI.turkeyHow))}</p>
           </article>
         </div>
 
-        <h3 className="mt-8 text-lg font-semibold text-ink">{pick(UI.methods)}</h3>
+        <h3 className="mt-8 text-lg font-semibold text-ink">{q(pick(UI.methods))}</h3>
         <ul className="mt-3 grid gap-2 sm:grid-cols-3">
           {methods.map(({ m, h }) => (
             <li key={m} className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
-              <span className="block text-xs text-ink-3">{pick(UI[m])}</span>
+              <span className="block text-xs text-ink-3">{q(pick(UI[m]))}</span>
               <span className="block font-semibold text-ink">{fmtH(h)}</span>
             </li>
           ))}
         </ul>
 
-        <h3 className="mt-8 text-lg font-semibold text-ink">{pick(UI.others)}</h3>
+        <h3 className="mt-8 text-lg font-semibold text-ink">{q(pick(UI.others))}</h3>
         <div className="mt-3 overflow-x-auto rounded-2xl border border-white/10">
           <table className="w-full min-w-[560px] text-start text-sm">
             <thead className="bg-white/[0.04] text-ink-3">
               <tr>
-                <th className="px-4 py-2 text-start font-medium">{pick(UI.country)}</th>
-                <th className="px-4 py-2 text-start font-medium">{pick(UI.authority)}</th>
-                <th className="px-4 py-2 text-start font-medium">{pick(UI.method)}</th>
+                <th className="px-4 py-2 text-start font-medium">{q(pick(UI.country))}</th>
+                <th className="px-4 py-2 text-start font-medium">{q(pick(UI.authority))}</th>
+                <th className="px-4 py-2 text-start font-medium">{q(pick(UI.method))}</th>
               </tr>
             </thead>
             <tbody>
               {OTHER_COUNTRIES.map((c) => (
                 <tr key={c.id} className="border-t border-white/5">
                   <td className="px-4 py-2 text-ink">
-                    <span aria-hidden="true">{c.flag}</span> {pick(c.name)}
+                    <span aria-hidden="true">{c.flag}</span> {q(pick(c.name))}
                   </td>
-                  <td className="px-4 py-2 text-ink-2">{pick(c.authority)}</td>
-                  <td className="px-4 py-2 text-ink-2">{pick(c.method)}</td>
+                  <td className="px-4 py-2 text-ink-2">{q(pick(c.authority))}</td>
+                  <td className="px-4 py-2 text-ink-2">{q(pick(c.method))}</td>
                 </tr>
               ))}
             </tbody>
@@ -249,7 +249,7 @@ export function HijriView() {
 
       {/* How it works */}
       <section className="mb-14">
-        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{pick(UI.explain)}</h2>
+        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{q(pick(UI.explain))}</h2>
         <ol className="relative mt-8 space-y-10 border-s border-gold/20 ps-6 sm:ps-10">
           {HIJRI_INTRO.map((s, i) => (
             <Step key={s.id} s={s} n={i + 1} />
@@ -259,8 +259,8 @@ export function HijriView() {
 
       {/* The twelve months */}
       <section className="mb-14">
-        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{pick(UI.months)}</h2>
-        <p className="mt-2 max-w-2xl text-ink-2">{pick(UI.monthsLead)}</p>
+        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{q(pick(UI.months))}</h2>
+        <p className="mt-2 max-w-2xl text-ink-2">{q(pick(UI.monthsLead))}</p>
         <div className="mt-5">
           <DuaCard d={SACRED_MONTHS_QUOTE} compact />
         </div>
@@ -271,16 +271,16 @@ export function HijriView() {
                 <span className="grid size-7 place-items-center rounded-full bg-night-2 text-xs font-semibold text-gold ring-1 ring-gold/40">{mo.n}</span>
                 <h3 className="text-lg font-semibold text-ink">
                   <span lang="ar" className="font-hadith text-xl text-gold-2">{mo.ar}</span>
-                  {lang !== 'ar' && <span className="ms-2">{pick(mo.name)}</span>}
+                  {lang !== 'ar' && <span className="ms-2">{q(pick(mo.name))}</span>}
                 </h3>
-                {mo.sacred && <span className="rounded-full border border-gold/40 bg-gold/10 px-2.5 py-0.5 text-xs text-gold">{pick(SACRED_NOTE)}</span>}
-                {mo.n === currentMonth && <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 text-xs text-emerald-300">{pick(UI.now)}</span>}
+                {mo.sacred && <span className="rounded-full border border-gold/40 bg-gold/10 px-2.5 py-0.5 text-xs text-gold">{q(pick(SACRED_NOTE))}</span>}
+                {mo.n === currentMonth && <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 text-xs text-emerald-300">{q(pick(UI.now))}</span>}
               </div>
-              <p className="mt-2 text-sm text-ink-2">{pick(mo.meaning)}</p>
+              <p className="mt-2 text-sm text-ink-2">{q(pick(mo.meaning))}</p>
               {mo.days.map((d, i) => (
                 <div key={i} className="mt-4 border-t border-white/5 pt-3">
-                  <p className="text-sm font-semibold text-ink">{pick(d.title)}</p>
-                  <p className="mt-1 text-sm text-ink-2">{pick(d.text)}</p>
+                  <p className="text-sm font-semibold text-ink">{q(pick(d.title))}</p>
+                  <p className="mt-1 text-sm text-ink-2">{q(pick(d.text))}</p>
                   <div className="mt-2 flex flex-wrap items-center gap-1.5">
                     <LevelChip level={d.l} />
                     {d.r.map((r) => (
@@ -298,25 +298,25 @@ export function HijriView() {
           ))}
         </div>
         <p className="mt-4 flex items-center gap-2 text-xs text-ink-3">
-          <LevelChip level="tradition" /> {pick(UI.meaningLevel)}
+          <LevelChip level="tradition" /> {q(pick(UI.meaningLevel))}
         </p>
       </section>
 
       {/* Coming up */}
       <section className="mb-14">
         <h2 className="flex items-center gap-2 text-2xl font-semibold text-ink sm:text-3xl">
-          <CalendarDays aria-hidden="true" className="size-6 text-gold" /> {pick(UI.coming)}
+          <CalendarDays aria-hidden="true" className="size-6 text-gold" /> {q(pick(UI.coming))}
         </h2>
-        <p className="mt-2 max-w-2xl text-ink-2">{pick(UI.comingLead)}</p>
+        <p className="mt-2 max-w-2xl text-ink-2">{q(pick(UI.comingLead))}</p>
         <ul className="mt-6 space-y-3">
           {coming.map(({ o, next }) => (
             <li key={o.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
-                <p className="font-semibold text-ink">{pick(o.title)}</p>
+                <p className="font-semibold text-ink">{q(pick(o.title))}</p>
                 <p className="text-sm text-ink-2">
                   {fmtH(next!.h)} · {greg(next!.date, 'UTC')}
                 </p>
-                {o.note && <p className="mt-1 text-xs text-ink-3">{pick(o.note)}</p>}
+                {o.note && <p className="mt-1 text-xs text-ink-3">{q(pick(o.note))}</p>}
                 <div className="mt-2 flex flex-wrap items-center gap-1.5">
                   <LevelChip level={o.l} />
                   {o.r.map((r) => (
@@ -336,7 +336,7 @@ export function HijriView() {
 
       {/* The two Eids */}
       <section className="mb-14">
-        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{pick(UI.eids)}</h2>
+        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{q(pick(UI.eids))}</h2>
         <ol className="relative mt-8 space-y-10 border-s border-gold/20 ps-6 sm:ps-10">
           {EID_STEPS.map((s, i) => (
             <Step key={s.id} s={s} n={i + 1} />
@@ -346,14 +346,14 @@ export function HijriView() {
 
       {/* Al-Kahf: 300 and 309 */}
       <section id="kahf" className="glass mb-10 rounded-3xl p-6 sm:p-8">
-        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{pick(KAHF.title)}</h2>
-        <p className="mt-3 leading-relaxed text-ink-2">{pick(KAHF.lead)}</p>
+        <h2 className="text-2xl font-semibold text-ink sm:text-3xl">{q(pick(KAHF.title))}</h2>
+        <p className="mt-3 leading-relaxed text-ink-2">{q(pick(KAHF.lead))}</p>
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
           <LevelChip level="quran" />
           <RefChip r="18:25" />
           <RefChip r="18:26" />
         </div>
-        <p className="mt-5 leading-relaxed text-ink-2">{pick(KAHF.explain)}</p>
+        <p className="mt-5 leading-relaxed text-ink-2">{q(pick(KAHF.explain))}</p>
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
           <LevelChip level="tradition" />
           {KAHF.r.map((r) => (
@@ -372,20 +372,20 @@ export function HijriView() {
               className="w-28 rounded-xl border border-white/15 bg-night-2 px-3 py-2 text-lg font-semibold text-gold-2"
               aria-label={pick(UI.kahfCalc)}
             />
-            <span>{pick(UI.kahfCalc)}</span>
-            <span className="text-ink-3">{pick(UI.kahfEquals)}</span>
+            <span>{q(pick(UI.kahfCalc))}</span>
+            <span className="text-ink-3">{q(pick(UI.kahfEquals))}</span>
             <strong className="text-2xl text-gold-2">{lunar.toLocaleString(LOCALE[lang], { maximumFractionDigits: 1 })}</strong>
-            <span>{pick(UI.lunarYears)}</span>
+            <span>{q(pick(UI.lunarYears))}</span>
           </label>
           <div className="mt-5 space-y-2" aria-hidden="true">
             <div className="flex items-center gap-3">
-              <span className="w-24 shrink-0 text-xs text-ink-3">{pick(UI.kahfCalc)}</span>
+              <span className="w-24 shrink-0 text-xs text-ink-3">{q(pick(UI.kahfCalc))}</span>
               <div className="h-3 flex-1 rounded-full bg-white/5">
                 <div className="h-3 rounded-full bg-sky-300/70" style={{ width: `${(solar / lunar) * 100}%` }} />
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <span className="w-24 shrink-0 text-xs text-ink-3">{pick(UI.lunarYears)}</span>
+              <span className="w-24 shrink-0 text-xs text-ink-3">{q(pick(UI.lunarYears))}</span>
               <div className="h-3 flex-1 rounded-full bg-white/5">
                 <div className="h-3 w-full rounded-full bg-gold/80" />
               </div>
@@ -396,15 +396,15 @@ export function HijriView() {
         <aside className="mt-5 flex gap-2.5 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm leading-relaxed text-ink-2" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
           <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-gold" />
           <p>
-            <span className="font-semibold text-ink">{pick(UI.differ)}. </span>
-            {pick(KAHF.note)}
+            <span className="font-semibold text-ink">{q(pick(UI.differ))}. </span>
+            {q(pick(KAHF.note))}
           </p>
         </aside>
       </section>
 
       <p className="text-center">
         <A href="/times" className="ref">
-          {pick(UI.more)}
+          {q(pick(UI.more))}
         </A>
       </p>
     </div>

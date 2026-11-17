@@ -26,6 +26,8 @@ export const mosaicAndKingsPeople: Person[] = [
       f('quran', t('Nine clear signs before Pharaoh, including the flood, locusts, lice, frogs and blood.', 'Neuf signes évidents devant Pharaon, dont l’inondation, les sauterelles, les poux, les grenouilles et le sang.', 'تسع آيات بينات، منها الطوفان والجراد والقمّل والضفادع والدم.'), '17:101', '7:133'),
       f('quran', t('The sea parted, each side like a great mountain.', 'La mer s’ouvrit, chaque côté comme une énorme montagne.', 'انفلق البحر فكان كل فرق كالطود العظيم.'), '26:63'),
       f('quran', t('Twelve springs gushed from the rock when he struck it.', 'Douze sources jaillirent du rocher qu’il frappa.', 'انفجرت من الحجر اثنتا عشرة عينًا.'), '2:60'),
+      f("quran", t("Allah spoke to him directly, at the mountain.", "Allah lui parla directement, au mont.", "كلّمه الله تكليمًا عند جبل الطور."), "4:164", "7:143"),
+      f("quran", t("In the desert, clouds shaded the Children of Israel, and manna and quails were sent down to them.", "Dans le désert, les nuages ombragèrent les Enfants d’Israël, et la manne et les cailles leur furent envoyées.", "ظلّل الله عليهم الغمام في التيه وأنزل عليهم المنّ والسلوى."), "2:57", "7:160"),
     ],
     notes: [
       f('quran', t('Travelled with a knowledgeable servant of Allah (al-Khidr in the hadith) to learn from him.', 'Voyagea avec un serviteur savant d’Allah (al-Khidr dans le hadith) pour apprendre de lui.', 'رحل إلى العبد الصالح (الخضر في الحديث) ليتعلم منه.'), '18:60-82'),
@@ -96,6 +98,9 @@ export const mosaicAndKingsPeople: Person[] = [
     notes: [
       f('quran', t('More eloquent than Musa, who asked for him as a helper.', 'Plus éloquent que Musa, qui le demanda comme assistant.', 'كان أفصح من موسى لسانًا، فسأله موسى وزيرًا.'), '28:34', '20:29-32'),
       f('hadith', t('Met in the fifth heaven during the Mi‘raj.', 'Rencontré au cinquième ciel lors du Mi‘raj.', 'لقيه النبي ﷺ في السماء الخامسة ليلة المعراج.'), 'bukhari:3207'),
+    ],
+    signs: [
+      f("quran", t("Sent with Musa, he shared the signs and the clear authority given to him.", "Envoyé avec Musa, il partagea les signes et l’autorité évidente qui leur furent donnés.", "أرسله الله مع موسى بالآيات والسلطان المبين."), "23:45", "20:29-36"),
     ],
     story: t(
       'Musa asked Allah to make his brother Harun his helper, and Allah made him a prophet. Together they went to Pharaoh. When the Samiri led the people to worship a calf while Musa was away, Harun tried to stop them and was afraid of dividing them.',
@@ -213,6 +218,7 @@ export const mosaicAndKingsPeople: Person[] = [
     signs: [
       f('quran', t('The mountains and the birds glorified Allah with him.', 'Les montagnes et les oiseaux glorifiaient Allah avec lui.', 'سخّر الله الجبال والطير يسبّحن معه.'), '21:79', '38:18-19'),
       f('quran', t('Iron was made soft for him; he crafted coats of mail.', 'Le fer fut assoupli pour lui ; il fabriquait des cottes de mailles.', 'ألان الله له الحديد فصنع الدروع.'), '34:10-11', '21:80'),
+      f("hadith", t("Reciting his scripture was made light for him: he finished it while his mounts were being saddled.", "La récitation de son Écriture lui fut rendue légère : il la terminait pendant qu’on sellait ses montures.", "خُفّف عليه الزبور، فكان يأمر بدوابه فتُسرج فيقرؤه قبل أن تُسرج."), "bukhari:3417"),
     ],
     notes: [
       f('hadith', t('He ate only from the work of his own hands.', 'Il ne mangeait que du travail de ses mains.', 'كان لا يأكل إلا من عمل يده.'), 'bukhari:2073'),
