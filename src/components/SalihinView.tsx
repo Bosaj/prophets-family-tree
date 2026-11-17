@@ -195,7 +195,7 @@ export function SalihinView() {
                 {/* Header: Key Virtue chip & Era badge */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="chip text-gold text-xs leading-normal whitespace-normal text-start max-w-full">{q(pick(fig.keyVirtue))}</span>
-                  <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono shrink-0">
+                  <span className="min-w-0 max-w-full rounded-2xl bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono text-pretty">
                     {q(pick(fig.era))}
                   </span>
                 </div>
@@ -306,7 +306,7 @@ export function SalihinView() {
                 {/* Header: Surah chip & Setting badge */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="chip text-gold text-xs leading-normal whitespace-normal text-start max-w-full">{q(pick(story.surahName))}</span>
-                  <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono shrink-0">
+                  <span className="min-w-0 max-w-full rounded-2xl bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono text-pretty">
                     {q(pick(story.historicalSetting))}
                   </span>
                 </div>

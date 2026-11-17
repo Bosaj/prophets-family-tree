@@ -8,6 +8,12 @@ Arabic, English, French and Spanish. Arabic switches the page to right-to-left.
 - **Spanish long texts** (stories, places, notes: 2,165 texts) live in `src/data/es/long/<dataset>.json`, keyed by `textKey(english)` (`src/lib/textKey.ts`, FNV-1a). They are loaded only when the reader chooses Spanish (`src/i18n/index.tsx`), and the people chunks get theirs as `src/data/people/loader.ts` loads them.
 - **When an English text changes**, its Spanish entry must move to the new key; `src/data/es/long/coverage.test.ts` fails if a Spanish entry no longer matches any English text.
 
+## Phones
+Every page is checked at 375 pixels wide in the four languages, including the open states: the tree with a person open, the header menus, the place panel and the verse sheet. Popups that open from the header use a fixed position on phones (`fixed inset-x-3`), because a panel anchored to the end of a button runs off the screen in right-to-left Arabic. Chips that hold a long grade wrap (`.chip` in `src/index.css`).
+
+## Qur'an and hadith fonts
+Supplication cards and verses use Amiri and Amiri Quran. Inside other texts, `q()` (`src/components/ui.tsx`) wraps Arabic Qur'an quotes (﴿…﴾) and Arabic hadith quotes («…», three words or more) in those fonts; components render data texts as `{q(pick(text))}`.
+
 ## Offline
 The service worker (vite-plugin-pwa / Workbox) precaches the app, the fonts and the data on the first visit. After that, the site opens without internet: prayer times, the Hijri date and the supplications are computed in the browser. A notice says when the saved copy is shown, and the first visit says when the site is ready offline. Images, the Qur'an audio and the Turkish Diyanet date need the network.
 

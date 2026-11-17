@@ -4,6 +4,18 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.12.0] — 2026-11-17
+### Fixed
+- **Phones.** The place and time panel opened past the edge of the screen in Arabic; it now stays inside the screen on every phone. On the tree, the person panel now covers the legend and the era bar instead of sitting under them, and the zoom and download controls fit a 375-pixel screen. A grade with a note (such as “some graded its chain weak”) wraps instead of pushing the supplications page wider than the screen in French and Spanish.
+- **Checked on a 375-pixel phone in all four languages:** every page, the tree with a person open, the header menus, the place panel and the verse sheet stay inside the screen.
+
+### Changed
+- **Qur’an and hadith in their own font everywhere.** Arabic Qur’an quotes (﴿…﴾) and hadith quotes («…») inside stories, notes and explanations now use the Amiri Quran and Amiri fonts, like the supplication cards, instead of the page font.
+
+### Added
+- **More miracles and signs of the prophets:** 19, each from the Qur’an or al-Bukhari, for Adam, Nuh, Hud, Salih, Ibrahim, Ya‘qub, Yusuf, Ayyub, Musa, Harun, Dawud, Yahya, ‘Isa and Muhammad ﷺ (the palm trunk that cried, the meal at the Trench, the rain from the pulpit, the prophecy to ‘Adi ibn Hatim). 324 references are verified.
+- **Seven more Qur’an stories** on the Stories page: Ibrahim and the idols, the infant Musa on the river, the golden calf, the cow of the Children of Israel, the man who passed by a ruined town, the owner of the two gardens, and Saba and the flood of the dam. Each in four languages, with its verses.
+
 ## [2.11.0] — 2026-11-17
 ### Added
 - **Fixing the prayer** (`/salat#sahw`). What sujud al-sahw is, and what to do when a step is missed, a rak‘ah is added or one is unsure how many were prayed, each from the hadith that reports it, with the Maliki practice (before the salam for an omission, after it for an addition).
