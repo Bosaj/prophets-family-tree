@@ -4,6 +4,17 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.11.0] — 2026-11-17
+### Added
+- **Fixing the prayer** (`/salat#sahw`). What sujud al-sahw is, and what to do when a step is missed, a rak‘ah is added or one is unsure how many were prayed, each from the hadith that reports it, with the Maliki practice (before the salam for an omission, after it for an addition).
+- **Praying behind an imam** (`/salat#imam`). How to follow the imam without going ahead of him, and what to do when one arrives late: joining him in the position he is in, which rak‘ah counts, and completing what was missed after his salam.
+- **Other prayers** (`/salat#other`). The funeral prayer (janazah), the istikharah with its supplication in full, the two Eids, Friday, the traveller’s prayer (shortening and joining) and the eclipse prayer, each with its sources and the Maliki notes where the schools differ.
+- **Supplications for every day** (`/duas`). The page now leads with what to say at each moment of the day, by occasion: morning and evening, sleep, home and clothes, the mosque and the prayer, food and fasting, travel, sickness and loss, worry and anger, the sky and the weather, and other people. 26 new supplications are copied from their hadith and checked (196 texts in total); outside al-Bukhari and Muslim each shows its grade, and two that some scholars graded weak say so.
+- **More about Islam and Muslims** (`/islam`). Nine sourced points for readers who are not Muslim: the word “Islam”, Muslims and Arabs, who Muhammad ﷺ was, the Qur’an and the Sunnah, being born pure, food and drink, mosques, Friday and the Eids, and becoming Muslim. The topics follow common introductions to Islam; the text is our own.
+
+### Changed
+- **The Prophet’s supplications through his life** (Makkah, the Hijra, Madinah, his last days) moved from `/duas` to `/islam#life`, with a link from the supplications page.
+
 ## [2.10.2] — 2026-11-15
 ### Fixed
 - **Hadith review.** The 28 references the content audit flags were read one by one against their sources. Most are correct summaries that join or paraphrase several hadith. Corrected:

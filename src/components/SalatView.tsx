@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react'
-import { BookOpen, Clock, Droplets, HandHeart, Info, ListChecks, Sparkles } from 'lucide-react'
+import { BookOpen, Clock, Droplets, HandHeart, Info, ListChecks, Sparkles, Undo2, Users, Star } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { L4 } from '../data/types'
 import { ADHKAR, PRAYERS } from '../data/awqat'
 import { HOW_MODEL, HOW_STEPS, PRAYER_PLAN, SALAT_BEFORE, SALAT_WHAT, SUNNAH_STEPS, WUDU_STEPS, type Pose, type SalatStep } from '../data/salat'
+import { JAMAA_STEPS, OTHER_PRAYERS, SAHW_STEPS } from '../data/salatMore'
 import { DuaCard } from './DuasView'
 import { Step } from './HourView'
 import { A, LevelChip, RefChip } from './ui'
@@ -198,9 +199,36 @@ const JUMP: { id: string; label: L4 }[] = [
   { id: 'before', label: UI.before },
   { id: 'wudu', label: t('Ablution', 'Ablutions', 'الوضوء', 'Ablución') },
   { id: 'how', label: t('How to pray', 'Comment prier', 'صفة الصلاة', 'Cómo rezar') },
+  { id: 'sahw', label: t('Fixing the prayer', 'Réparer la prière', 'سجود السهو', 'Reparar la oración') },
+  { id: 'imam', label: t('Behind an imam', 'Derrière un imam', 'خلف الإمام', 'Tras un imam') },
   { id: 'sunnah', label: t('Sunnah prayers', 'Prières de la Sunna', 'السنن', 'Oraciones de la Sunna') },
+  { id: 'other', label: t('Other prayers', 'Autres prières', 'صلوات أخرى', 'Otras oraciones') },
   { id: 'after', label: UI.after },
 ]
+
+const MORE = {
+  sahw: t('If you forget or make a mistake', 'Si vous oubliez ou vous trompez', 'إذا نسيت أو أخطأت في صلاتك', 'Si olvidas o te equivocas'),
+  sahwLead: t(
+    'A forgotten step, an extra rak‘ah or a doubt is repaired with two prostrations; the prayer is not lost.',
+    'Une étape oubliée, une rak‘a en trop ou un doute se répare par deux prosternations ; la prière n’est pas perdue.',
+    'نسيان ركن أو زيادة ركعة أو الشك يُجبر بسجدتين، ولا تبطل الصلاة.',
+    'Un paso olvidado, una rak‘a de más o una duda se reparan con dos postraciones; la oración no se pierde.',
+  ),
+  imam: t('Praying behind an imam', 'Prier derrière un imam', 'الصلاة خلف الإمام', 'Rezar tras un imam'),
+  imamLead: t(
+    'How to follow the imam, what not to do, and what to do when you arrive late.',
+    'Comment suivre l’imam, ce qu’il ne faut pas faire, et que faire quand on arrive en retard.',
+    'كيف تتابع الإمام، وما يُنهى عنه، وماذا تفعل إذا فاتك بعض الصلاة.',
+    'Cómo seguir al imam, qué no hacer y qué hacer si llegas tarde.',
+  ),
+  other: t('Other prayers', 'Les autres prières', 'صلوات أخرى', 'Otras oraciones'),
+  otherLead: t(
+    'The funeral prayer, istikharah, the two Eids, Friday, the traveller’s prayer and the eclipse prayer.',
+    'La prière funéraire, l’istikhara, les deux Aïds, le vendredi, la prière du voyageur et celle de l’éclipse.',
+    'صلاة الجنازة والاستخارة والعيدين والجمعة وصلاة المسافر وصلاة الكسوف.',
+    'La oración fúnebre, la istijara, los dos Eid, el viernes, la oración del viajero y la del eclipse.',
+  ),
+}
 
 export function SalatView() {
   const { pick } = useI18n()
@@ -271,8 +299,20 @@ export function SalatView() {
         <Steps steps={HOW_STEPS} />
       </Section>
 
+      <Section id="sahw" icon={<Undo2 aria-hidden="true" className="size-6" />} title={pick(MORE.sahw)} lead={pick(MORE.sahwLead)}>
+        <Steps steps={SAHW_STEPS} />
+      </Section>
+
+      <Section id="imam" icon={<Users aria-hidden="true" className="size-6" />} title={pick(MORE.imam)} lead={pick(MORE.imamLead)}>
+        <Steps steps={JAMAA_STEPS} />
+      </Section>
+
       <Section id="sunnah" icon={<Sparkles aria-hidden="true" className="size-6" />} title={pick(UI.sunnah)} lead={pick(UI.sunnahLead)}>
         <Steps steps={SUNNAH_STEPS} />
+      </Section>
+
+      <Section id="other" icon={<Star aria-hidden="true" className="size-6" />} title={pick(MORE.other)} lead={pick(MORE.otherLead)}>
+        <Steps steps={OTHER_PRAYERS} />
       </Section>
 
       <Section id="after" icon={<HandHeart aria-hidden="true" className="size-6" />} title={pick(UI.after)}>

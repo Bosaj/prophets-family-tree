@@ -1,7 +1,8 @@
-import { Compass, HeartHandshake, Sparkles } from 'lucide-react'
+import { Compass, HandHeart, HeartHandshake, Sparkles } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { L4 } from '../data/types'
-import { FAITH, INTRO, PILLARS, QUESTIONS, type Point } from '../data/islam'
+import { BASICS, FAITH, INTRO, PILLARS, QUESTIONS, type Point } from '../data/islam'
+import { LifeDuas } from './DuasView'
 import { A, LevelChip, RefChip } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
@@ -29,6 +30,14 @@ const UI = {
     '«Adorar a Allah como si Lo vieras; y si no Lo ves, Él te ve».',
   ),
   questions: t('Common questions', 'Questions fréquentes', 'أسئلة شائعة', 'Preguntas frecuentes'),
+  basics: t('More about Islam and Muslims', 'Mieux connaître l’islam et les musulmans', 'المزيد عن الإسلام والمسلمين', 'Más sobre el islam y los musulmanes'),
+  life: t('The Prophet’s ﷺ supplications, through his life', 'Les invocations du Prophète ﷺ au fil de sa vie', 'أدعية النبي ﷺ في محطات حياته', 'Las súplicas del Profeta ﷺ a lo largo de su vida'),
+  lifeLead: t(
+    'From the persecution in Makkah to his last breath, the words he addressed to Allah, each quoted from the hadith that reports it and checked against that text.',
+    'Des persécutions de La Mecque à son dernier souffle, les paroles qu’il adressa à Allah, chacune citée du hadith qui la rapporte et vérifiée sur ce texte.',
+    'من أذى مكة إلى آخر أنفاسه، كلماته التي ناجى بها ربه، كل منها منقول من الحديث الذي رواه ومراجَع على نصه.',
+    'De la persecución en La Meca a su último aliento, las palabras que dirigió a Allah, cada una citada del hadiz que la transmite y verificada con ese texto.',
+  ),
   more: t('Keep reading', 'Pour aller plus loin', 'للمزيد', 'Para seguir'),
   moreTree: t('The prophets, from Adam to Muhammad ﷺ', 'Les prophètes, d’Adam à Muhammad ﷺ', 'الأنبياء من آدم إلى محمد ﷺ', 'Los profetas, de Adán a Muhammad ﷺ'),
   moreDuas: t('The Prophet’s supplications', 'Les invocations du Prophète', 'أدعية النبي ﷺ', 'Las súplicas del Profeta'),
@@ -135,6 +144,21 @@ export function IslamView() {
         <div className="mt-6 grid gap-4">
           {QUESTIONS.map((q, i) => <Sourced key={i} p={q} />)}
         </div>
+      </section>
+
+      <section className="mt-20" aria-labelledby="basics">
+        <h2 id="basics" className="text-3xl font-semibold text-ink sm:text-4xl">{pick(UI.basics)}</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {BASICS.map((p, i) => <Sourced key={i} p={p} />)}
+        </div>
+      </section>
+
+      <section id="life" className="mt-20 scroll-mt-24" aria-labelledby="life-h">
+        <h2 id="life-h" className="flex items-center gap-2 text-3xl font-semibold text-ink sm:text-4xl">
+          <HandHeart aria-hidden="true" className="size-7 text-gold" /> {pick(UI.life)}
+        </h2>
+        <p className="mt-3 mb-8 max-w-2xl leading-relaxed text-ink-2">{pick(UI.lifeLead)}</p>
+        <LifeDuas />
       </section>
 
       <section className="mt-20 rounded-3xl border border-white/10 p-6 sm:p-8">

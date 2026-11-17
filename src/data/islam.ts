@@ -222,3 +222,106 @@ export const QUESTIONS: Point[] = [
     r: ['bukhari:13', 'muslim:2586', '16:90'],
   },
 ]
+
+/** 2.11.0: more for readers who are not Muslim (topics inspired by introductions such as IslamiCity's; the text is our own). */
+export const BASICS: Point[] = [
+  {
+    title: t('The word “Islam”', 'Le mot « islam »', 'كلمة «الإسلام»', 'La palabra «islam»'),
+    text: t(
+      '“Islam” comes from the Arabic root s-l-m, the root of “salam”, peace. It means giving oneself to God, and with it living at peace with Him, with oneself and with others. “The Peace” (al-Salam) is one of God’s names, and the Prophet ﷺ said: “The Muslim is the one from whose tongue and hand the Muslims are safe.”',
+      '« Islam » vient de la racine arabe s-l-m, celle de « salam », la paix. Il signifie se remettre à Dieu, et avec cela vivre en paix avec Lui, avec soi-même et avec les autres. « La Paix » (al-Salam) est l’un des noms de Dieu, et le Prophète ﷺ a dit : « Le musulman est celui dont les musulmans sont à l’abri de la langue et de la main. »',
+      'الإسلام من مادة «س ل م» التي منها السلام، ومعناه الاستسلام لله، ومعه أن يعيش المرء في سلام مع ربه ونفسه والناس. و«السلام» من أسماء الله، وقال النبي ﷺ: «المسلم من سلم المسلمون من لسانه ويده».',
+      '«Islam» viene de la raíz árabe s-l-m, la de «salam», la paz. Significa entregarse a Dios y, con ello, vivir en paz con Él, con uno mismo y con los demás. «La Paz» (al-Salam) es uno de los nombres de Dios, y el Profeta ﷺ dijo: «El musulmán es aquel de cuya lengua y mano están a salvo los musulmanes».',
+    ),
+    l: 'hadith',
+    r: ['59:23', 'bukhari:10'],
+  },
+  {
+    title: t('Muslims are not only Arabs', 'Les musulmans ne sont pas que des Arabes', 'المسلمون ليسوا العرب وحدهم', 'Los musulmanes no son solo árabes'),
+    text: t(
+      'Most Muslims are not Arabs: the countries with the most Muslims are Indonesia, Pakistan, India and Bangladesh. And not every Arab is Muslim; there are Arab Christians and Jews. The Qur’an is in Arabic and the prayer is said in Arabic, but a person may call on God in any language. The Qur’an says God made people into nations and tribes so that they may know one another, and that the most honoured of them before God is the most mindful of Him.',
+      'La plupart des musulmans ne sont pas arabes : les pays qui comptent le plus de musulmans sont l’Indonésie, le Pakistan, l’Inde et le Bangladesh. Et tout Arabe n’est pas musulman ; il y a des Arabes chrétiens et juifs. Le Coran est en arabe et la prière se dit en arabe, mais on peut invoquer Dieu dans toute langue. Le Coran dit que Dieu a fait des humains des peuples et des tribus pour qu’ils se connaissent, et que le plus noble d’entre eux auprès de Dieu est le plus pieux.',
+      'أكثر المسلمين ليسوا عربًا، فأكبر البلدان عددًا من المسلمين إندونيسيا وباكستان والهند وبنغلاديش، وليس كل عربي مسلمًا، ففي العرب نصارى ويهود. والقرآن عربي والصلاة بالعربية، أما الدعاء فبأي لسان. وأخبر القرآن أن الله جعل الناس شعوبًا وقبائل ليتعارفوا، وأن أكرمهم عنده أتقاهم.',
+      'La mayoría de los musulmanes no son árabes: los países con más musulmanes son Indonesia, Pakistán, la India y Bangladés. Y no todo árabe es musulmán; hay árabes cristianos y judíos. El Corán está en árabe y la oración se dice en árabe, pero se puede invocar a Dios en cualquier idioma. El Corán dice que Dios hizo de las personas pueblos y tribus para que se conozcan, y que el más noble ante Dios es el más piadoso.',
+    ),
+    l: 'quran',
+    r: ['49:13', '30:22'],
+  },
+  {
+    title: t('Who was Muhammad ﷺ?', 'Qui était Muhammad ﷺ ?', 'من هو محمد ﷺ؟', '¿Quién fue Muhammad ﷺ?'),
+    text: t(
+      'He was born in Makkah around 570 CE. Revelation came to him at forty; he called people to God in Makkah for thirteen years, then emigrated to Madinah in 622 CE (the Hijra) and lived there ten more years until his death in 632 CE. Muslims believe he is the last of the prophets, sent to all people as a mercy, and his life (the Sunnah) shows how the Qur’an is lived.',
+      'Il naquit à La Mecque vers 570. La révélation lui vint à quarante ans ; il appela à Dieu à La Mecque pendant treize ans, puis émigra à Médine en 622 (l’Hégire) et y vécut encore dix ans, jusqu’à sa mort en 632. Les musulmans croient qu’il est le dernier des prophètes, envoyé à tous les humains comme une miséricorde, et sa vie (la Sunna) montre comment le Coran se vit.',
+      'وُلد بمكة نحو سنة 570م، وبُعث على رأس الأربعين، فمكث بمكة ثلاث عشرة سنة يدعو إلى الله، ثم هاجر إلى المدينة سنة 622م ومكث بها عشر سنين حتى تُوفي سنة 632م. ويؤمن المسلمون أنه خاتم النبيين، أُرسل إلى الناس كافة رحمةً للعالمين، وأن سنته هي التطبيق العملي للقرآن.',
+      'Nació en La Meca hacia el año 570. La revelación le llegó a los cuarenta años; llamó a Dios en La Meca durante trece años, luego emigró a Medina en 622 (la Hégira) y vivió allí diez años más, hasta su muerte en 632. Los musulmanes creen que es el último de los profetas, enviado a toda la humanidad como misericordia, y su vida (la Sunna) muestra cómo se vive el Corán.',
+    ),
+    l: 'hadith',
+    r: ['bukhari:3851', '33:40', '34:28', '21:107'],
+  },
+  {
+    title: t('The two sources: the Qur’an and the Sunnah', 'Les deux sources : le Coran et la Sunna', 'المصدران: القرآن والسنة', 'Las dos fuentes: el Corán y la Sunna'),
+    text: t(
+      'The Qur’an is God’s word, revealed to the Prophet ﷺ in Arabic over twenty-three years; God promises to preserve it. The Sunnah is what the Prophet ﷺ said, did and approved, reported in the hadith; it explains the Qur’an, and the Qur’an tells believers to take what the Messenger gives them. Scholars check each hadith’s chain of narrators, which is why this site shows where every hadith comes from and how it is graded.',
+      'Le Coran est la parole de Dieu, révélée au Prophète ﷺ en arabe pendant vingt-trois ans ; Dieu promet de le préserver. La Sunna est ce que le Prophète ﷺ a dit, fait et approuvé, rapporté dans les hadiths ; elle explique le Coran, et le Coran demande aux croyants de prendre ce que le Messager leur donne. Les savants vérifient la chaîne de transmetteurs de chaque hadith ; c’est pourquoi ce site indique d’où vient chaque hadith et son degré.',
+      'القرآن كلام الله، نزل على النبي ﷺ بالعربية في ثلاث وعشرين سنة، وتكفّل الله بحفظه. والسنة ما صدر عن النبي ﷺ من قول أو فعل أو تقرير، وهي في كتب الحديث، تبيّن القرآن، وقد أمر القرآن بأخذ ما آتى الرسول. ويفحص العلماء إسناد كل حديث، ولذلك يذكر هذا الموقع مصدر كل حديث وحكمه.',
+      'El Corán es la palabra de Dios, revelada al Profeta ﷺ en árabe durante veintitrés años; Dios promete preservarlo. La Sunna es lo que el Profeta ﷺ dijo, hizo y aprobó, transmitido en los hadices; explica el Corán, y el Corán pide a los creyentes tomar lo que el Mensajero les da. Los sabios examinan la cadena de transmisores de cada hadiz; por eso este sitio indica de dónde viene cada hadiz y su grado.',
+    ),
+    l: 'quran',
+    r: ['15:9', '16:44', '59:7'],
+  },
+  {
+    title: t('Every child is born pure', 'Chaque enfant naît pur', 'كل مولود يولد على الفطرة', 'Todo niño nace puro'),
+    text: t(
+      'Islam has no inherited sin. The Prophet ﷺ said that every child is born on the natural disposition (fitrah). No soul carries the burden of another, and a person answers only for what they do once old enough to be responsible. The door of repentance stays open: the Qur’an tells people never to despair of God’s mercy.',
+      'L’islam ne connaît pas de péché héréditaire. Le Prophète ﷺ a dit que tout enfant naît sur la nature originelle (fitra). Nulle âme ne porte le fardeau d’une autre, et chacun ne répond que de ses actes une fois responsable. La porte du repentir reste ouverte : le Coran dit de ne jamais désespérer de la miséricorde de Dieu.',
+      'لا خطيئة موروثة في الإسلام، فقد قال النبي ﷺ: «كل مولود يولد على الفطرة»، و«لا تزر وازرة وزر أخرى»، ولا يُحاسب الإنسان إلا على عمله بعد التكليف. وباب التوبة مفتوح، ونهى القرآن عن القنوط من رحمة الله.',
+      'El islam no tiene pecado heredado. El Profeta ﷺ dijo que todo niño nace en la disposición natural (fitra). Ningún alma carga con la carga de otra, y cada uno responde solo de lo que hace una vez responsable. La puerta del arrepentimiento sigue abierta: el Corán dice que nunca se desespere de la misericordia de Dios.',
+    ),
+    l: 'hadith',
+    r: ['bukhari:1385', '6:164', '39:53'],
+  },
+  {
+    title: t('What Muslims eat and drink', 'Ce que mangent et boivent les musulmans', 'طعام المسلم وشرابه', 'Lo que comen y beben los musulmanes'),
+    text: t(
+      'The Qur’an tells people to eat what is lawful and good. It forbids pork, blood, the meat of animals that died by themselves or were offered to other than God, and it forbids wine and gambling; scholars include every intoxicant.',
+      'Le Coran dit de manger ce qui est licite et bon. Il interdit le porc, le sang, la chair des bêtes mortes d’elles-mêmes ou sacrifiées à un autre que Dieu, et il interdit le vin et les jeux de hasard ; les savants y incluent tout ce qui enivre.',
+      'أمر القرآن بأكل الحلال الطيب، وحرّم الخنزير والدم والميتة وما أُهلّ لغير الله، وحرّم الخمر والميسر، ويدخل في الخمر عند العلماء كل مسكر.',
+      'El Corán dice que se coma lo lícito y bueno. Prohíbe el cerdo, la sangre, la carne de animales muertos por sí mismos o sacrificados a otro que Dios, y prohíbe el vino y los juegos de azar; los sabios incluyen todo lo que embriaga.',
+    ),
+    l: 'quran',
+    r: ['2:168', '5:3', '5:90'],
+  },
+  {
+    title: t('Mosques, and the whole earth', 'Les mosquées, et la terre entière', 'المساجد والأرض كلها', 'Las mezquitas, y toda la tierra'),
+    text: t(
+      'A Muslim may pray anywhere clean: the Prophet ﷺ said the earth was made a place of prayer for him. Praying together in a mosque is better. Three mosques are visited above all others: the Sacred Mosque in Makkah, the Prophet’s Mosque in Madinah and al-Aqsa in Jerusalem.',
+      'Un musulman peut prier en tout lieu propre : le Prophète ﷺ a dit que la terre lui a été faite lieu de prière. Prier ensemble à la mosquée est meilleur. Trois mosquées se visitent avant toutes les autres : la Mosquée sacrée à La Mecque, la Mosquée du Prophète à Médine et al-Aqsa à Jérusalem.',
+      'يصلي المسلم في أي مكان طاهر، فقد قال النبي ﷺ: «وجُعلت لي الأرض مسجدًا وطهورًا»، والصلاة في جماعة المسجد أفضل. ولا تُشد الرحال إلا إلى ثلاثة مساجد: المسجد الحرام، ومسجد الرسول ﷺ، والمسجد الأقصى.',
+      'Un musulmán puede rezar en cualquier lugar limpio: el Profeta ﷺ dijo que la tierra fue hecha para él lugar de oración. Rezar juntos en la mezquita es mejor. Tres mezquitas se visitan por encima de todas: la Mezquita Sagrada en La Meca, la Mezquita del Profeta en Medina y al-Aqsa en Jerusalén.',
+    ),
+    l: 'hadith',
+    r: ['bukhari:335', 'bukhari:1189'],
+  },
+  {
+    title: t('Friday, the two Eids and the calendar', 'Le vendredi, les deux Aïds et le calendrier', 'الجمعة والعيدان والتقويم', 'El viernes, los dos Eid y el calendario'),
+    text: t(
+      'Friday is the weekly day of gathering: at midday Muslims leave their work for the sermon and the Friday prayer. There are two Eids: Eid al-Fitr at the end of Ramadan, and Eid al-Adha during the pilgrimage, which recalls Abraham’s readiness to sacrifice his son. The Islamic calendar has twelve lunar months and counts its years from the Hijra.',
+      'Le vendredi est le jour de rassemblement de la semaine : à midi, les musulmans quittent leur travail pour le sermon et la prière du vendredi. Il y a deux Aïds : l’Aïd al-Fitr à la fin du Ramadan, et l’Aïd al-Adha pendant le pèlerinage, qui rappelle qu’Abraham était prêt à sacrifier son fils. Le calendrier islamique a douze mois lunaires et compte ses années depuis l’Hégire.',
+      'الجمعة عيد الأسبوع، يترك المسلمون أعمالهم ظهرًا للخطبة والصلاة. وللمسلمين عيدان: الفطر بعد رمضان، والأضحى في موسم الحج، ويذكّر بفداء إبراهيم ابنه. والتقويم الهجري اثنا عشر شهرًا قمريًا، تُعدّ سنواته من الهجرة.',
+      'El viernes es el día semanal de reunión: a mediodía los musulmanes dejan su trabajo para el sermón y la oración del viernes. Hay dos Eid: el Eid al-Fitr al final del Ramadán, y el Eid al-Adha durante la peregrinación, que recuerda que Abraham estuvo dispuesto a sacrificar a su hijo. El calendario islámico tiene doce meses lunares y cuenta sus años desde la Hégira.',
+    ),
+    l: 'quran',
+    r: ['62:9-10', '37:102-107', '9:36'],
+  },
+  {
+    title: t('Becoming Muslim', 'Devenir musulman', 'الدخول في الإسلام', 'Hacerse musulmán'),
+    text: t(
+      'A person becomes Muslim by bearing witness, with conviction, that there is no god but God and that Muhammad is His Messenger. No ceremony, clergy or fee is needed. The Qur’an says that what came before is forgiven, and that God turns the misdeeds of those who repent and do good into good deeds.',
+      'On devient musulman en attestant, avec conviction, qu’il n’y a de dieu que Dieu et que Muhammad est Son Messager. Aucune cérémonie, aucun clergé, aucun frais n’est nécessaire. Le Coran dit que le passé est pardonné, et que Dieu change en bonnes actions les fautes de ceux qui se repentent et font le bien.',
+      'يدخل المرء في الإسلام بشهادة أن لا إله إلا الله وأن محمدًا رسول الله عن يقين، بلا مراسم ولا وسيط ولا رسوم. وأخبر القرآن أن ما سلف يُغفر، وأن الله يبدّل سيئات التائبين حسنات.',
+      'Uno se hace musulmán atestiguando, con convicción, que no hay dios sino Dios y que Muhammad es Su Mensajero. No hace falta ceremonia, clero ni pago. El Corán dice que lo pasado se perdona, y que Dios cambia en buenas obras las faltas de quienes se arrepienten y hacen el bien.',
+    ),
+    l: 'quran',
+    r: ['47:19', '8:38', '25:70'],
+  },
+]

@@ -12,6 +12,8 @@ import { HOUR_PARTS, HOUR_QUOTES } from '../src/data/hour.ts'
 import { HIJRI_QUOTES, HIJRI_REFS } from '../src/data/hijri.ts'
 import { SALAT_QUOTES, SALAT_REFS } from '../src/data/salat.ts'
 import { FAST_QUOTES, FAST_REFS } from '../src/data/fasting.ts'
+import { SALAT_MORE_QUOTES, SALAT_MORE_REFS } from '../src/data/salatMore.ts'
+import { HISN_QUOTES } from '../src/data/hisn.ts'
 
 const BASES = ['https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1', 'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1']
 
@@ -91,6 +93,9 @@ const items = [
   // 2.10.0: the prayer, the ablution and the Sunnah prayers
   ...SALAT_QUOTES,
   ...FAST_QUOTES,
+  ...SALAT_MORE_QUOTES,
+  // 2.11.0: supplications for every day, by occasion
+  ...HISN_QUOTES,
 ]
 const refsOnly = [
   ...DAY_PARTS.flatMap((p) => p.guide.map((g, i) => ({ where: `day/${p.id}/${i}`, r: g.r }))),
@@ -99,12 +104,13 @@ const refsOnly = [
 ]
 
 // Pages added in 2.5.0 that quote no Arabic but cite sources: every reference must exist.
-const { INTRO, PILLARS, QUESTIONS } = await import('../src/data/islam.ts')
+const { INTRO, PILLARS, QUESTIONS, BASICS } = await import('../src/data/islam.ts')
 const { SAHABA_STORIES } = await import('../src/data/sahabaStories.ts')
 const { SALIHIN_STEPS } = await import('../src/data/salihinDetail.ts')
 const { WHY_MENTIONED } = await import('../src/data/natureWisdom.ts')
 refsOnly.push(
   ...[...INTRO, ...PILLARS, ...QUESTIONS].map((p, i) => ({ where: `islam/${i}`, r: p.r })),
+  ...BASICS.map((p, i) => ({ where: `islam/basics/${i}`, r: p.r })),
   ...Object.entries(SAHABA_STORIES).flatMap(([id, s]) => [...s.challenges, ...s.sacrifices].map((p, i) => ({ where: `sahaba/${id}/${i}`, r: p.r }))),
   ...Object.entries(SALIHIN_STEPS).flatMap(([id, steps]) => steps.map((p, i) => ({ where: `salihin/${id}/${i}`, r: p.r }))),
   ...Object.entries(WHY_MENTIONED).map(([id, w]) => ({ where: `nature/${id}`, r: w.r })),
@@ -112,6 +118,7 @@ refsOnly.push(
   ...HIJRI_REFS,
   ...SALAT_REFS,
   ...FAST_REFS,
+  ...SALAT_MORE_REFS,
 )
 
 // Ayah counts per surah, to check that every Qur'an reference points at verses that exist.
