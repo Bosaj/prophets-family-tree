@@ -19,7 +19,7 @@ import {
   type ScriptureVersion,
 } from '../data/scriptures'
 import { hrefOf } from '../lib/router'
-import { A, WithQuran } from './ui'
+import { A, q, WithQuran } from './ui'
 
 export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: string }) {
   const { lang, pick } = useI18n()
@@ -82,7 +82,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
               <span>{book.title.ar}</span>
               {lang !== 'ar' && (
                 <span className="opacity-75 text-[11px] font-sans">
-                  ({pick(book.title)})
+                  ({q(pick(book.title))})
                 </span>
               )}
               <span
@@ -134,7 +134,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 </h2>
                 {lang !== 'ar' ? (
                   <p className="text-base sm:text-lg font-medium text-gold/80">
-                    {pick(currentBook.title)} · {currentBook.transliteration}
+                    {q(pick(currentBook.title))} · {currentBook.transliteration}
                   </p>
                 ) : (
                   <p className="text-base sm:text-lg font-medium text-gold/80">
@@ -148,7 +148,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 href={hrefOf({ name: 'person', id: currentBook.prophetId })}
                 className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold bg-gold/20 text-gold-2 border border-gold/40 hover:bg-gold/30 transition-colors shadow-sm"
               >
-                <span>{pick(currentBook.prophetName)}</span>
+                <span>{q(pick(currentBook.prophetName))}</span>
                 <ExternalLink className="h-3.5 w-3.5" />
               </A>
             </div>
@@ -161,7 +161,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                     {tx(lang, 'Original Language', 'Langue d’origine', 'اللغة الأصلية للوحي', 'Lengua original')}
                   </span>
                   <span className="font-semibold text-ink">
-                    {pick(currentBook.originalLanguage)}
+                    {q(pick(currentBook.originalLanguage))}
                   </span>
                 </div>
               </div>
@@ -173,7 +173,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                     {tx(lang, 'Revealed Era', 'Époque de la révélation', 'العصر التاريخي', 'Época de la revelación')}
                   </span>
                   <span className="font-semibold text-ink">
-                    {pick(currentBook.revealedEra)}
+                    {q(pick(currentBook.revealedEra))}
                   </span>
                 </div>
               </div>
@@ -185,7 +185,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                     {tx(lang, 'Revealed Location', 'Lieu de la révélation', 'مكان التنزيل النبوي', 'Lugar de la revelación')}
                   </span>
                   <span className="font-semibold text-ink">
-                    {pick(currentBook.revealedLocation)}
+                    {q(pick(currentBook.revealedLocation))}
                   </span>
                 </div>
               </div>
@@ -208,7 +208,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             </div>
 
             <p className="text-sm text-ink leading-relaxed font-sans pt-1">
-              {pick(currentBook.theologicalContext)}
+              {q(pick(currentBook.theologicalContext))}
             </p>
           </div>
         </div>
@@ -256,7 +256,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             </span>
           </h2>
           <p className="text-sm text-ink-2">
-            {pick(currentBook.versionsSummary)}
+            {q(pick(currentBook.versionsSummary))}
           </p>
         </div>
 
@@ -284,12 +284,12 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                 </div>
                 {lang !== 'ar' && (
                   <span className="text-xs text-ink/70 font-sans break-words mt-1">
-                    {pick(ver.name)}
+                    {q(pick(ver.name))}
                   </span>
                 )}
                 <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs text-gold/80 font-mono">
-                  <span className="rounded bg-night/40 px-2 py-0.5 border border-white/5">{pick(ver.language)}</span>
-                  <span className="rounded bg-night/40 px-2 py-0.5 border border-white/5">{pick(ver.period)}</span>
+                  <span className="rounded bg-night/40 px-2 py-0.5 border border-white/5">{q(pick(ver.language))}</span>
+                  <span className="rounded bg-night/40 px-2 py-0.5 border border-white/5">{q(pick(ver.period))}</span>
                 </div>
               </button>
             )
@@ -302,19 +302,19 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gold/20 pb-4">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-gold-2">
-                  {activeVersion.name.ar} {lang !== 'ar' && `· ${pick(activeVersion.name)}`}
+                  {activeVersion.name.ar} {lang !== 'ar' && `· ${q(pick(activeVersion.name))}`}
                 </h3>
                 <p className="text-sm text-gold font-sans mt-0.5">
-                  {pick(activeVersion.significance)}
+                  {q(pick(activeVersion.significance))}
                 </p>
               </div>
               <span className="rounded-full px-3.5 py-1 text-xs font-semibold bg-gold/20 text-gold-2 border border-gold/40 font-mono">
-                {pick(activeVersion.period)}
+                {q(pick(activeVersion.period))}
               </span>
             </div>
 
             <p className="text-sm sm:text-base text-ink leading-relaxed font-sans">
-              {pick(activeVersion.description)}
+              {q(pick(activeVersion.description))}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 text-xs sm:text-sm">
@@ -323,7 +323,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                   {tx(lang, 'Extant Manuscripts', 'Manuscrits conservés', 'المخطوطات الباقية', 'Manuscritos conservados')}
                 </span>
                 <span className="text-ink font-mono text-xs">
-                  {pick(activeVersion.extantManuscripts)}
+                  {q(pick(activeVersion.extantManuscripts))}
                 </span>
               </div>
 
@@ -332,7 +332,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                   {tx(lang, 'Variants / Status', 'Variantes / état', 'عدد الفروق وحالة النص', 'Variantes / estado')}
                 </span>
                 <span className="text-gold font-mono text-xs">
-                  {pick(activeVersion.variantCountOrStatus)}
+                  {q(pick(activeVersion.variantCountOrStatus))}
                 </span>
               </div>
 
@@ -341,7 +341,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
                   {tx(lang, 'Theological Perspective', 'Point de vue théologique', 'المنظور العلمي والعقدي', 'Perspectiva teológica')}
                 </span>
                 <span className="text-ink-2 text-xs">
-                  {pick(activeVersion.theologicalPerspective)}
+                  {q(pick(activeVersion.theologicalPerspective))}
                 </span>
               </div>
             </div>

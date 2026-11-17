@@ -23,7 +23,7 @@ import {
   type AnimalEntry,
   type PlantFoodEntry,
 } from '../data/nature'
-import { HadithLabel, LevelChip, RefChip, useHadithText } from './ui'
+import { HadithLabel, LevelChip, q, RefChip, useHadithText } from './ui'
 import { WHY_MENTIONED } from '../data/natureWisdom'
 import type { L4 } from '../data/types'
 
@@ -1679,7 +1679,7 @@ export function NatureView() {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <h3 className="font-bold text-ink text-base group-hover:text-gold transition-colors">
-                          {pick(animal.name)}
+                          {q(pick(animal.name))}
                         </h3>
                         <p className="text-xs font-mono text-ink-3 italic">{animal.scientificName}</p>
                       </div>
@@ -1721,7 +1721,7 @@ export function NatureView() {
                     </div>
 
                     <p className="text-xs text-ink-2 leading-relaxed line-clamp-3 mb-4">
-                      {pick(animal.summary)}
+                      {q(pick(animal.summary))}
                     </p>
                   </div>
 
@@ -1768,7 +1768,7 @@ export function NatureView() {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <h3 className="font-bold text-ink text-base group-hover:text-gold transition-colors">
-                          {pick(plant.name)}
+                          {q(pick(plant.name))}
                         </h3>
                         <p className="text-xs font-mono text-ink-3 italic">{plant.scientificName}</p>
                       </div>
@@ -1810,7 +1810,7 @@ export function NatureView() {
                     </div>
 
                     <p className="text-xs text-ink-2 leading-relaxed line-clamp-3 mb-4">
-                      {pick(plant.summary)}
+                      {q(pick(plant.summary))}
                     </p>
                   </div>
 
@@ -1865,7 +1865,7 @@ export function NatureView() {
                   <span className="text-xs font-mono text-ink-3 italic">{detailItem.scientificName}</span>
                 </div>
                 <div className="flex flex-wrap items-baseline gap-2.5">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-ink">{pick(detailItem.name)}</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-ink">{q(pick(detailItem.name))}</h2>
                   {lang !== 'ar' && (
                     <span className="ar-name gold-text text-lg sm:text-xl font-bold">{detailItem.name.ar}</span>
                   )}
@@ -1962,9 +1962,9 @@ export function NatureView() {
               <div className="mb-6 rounded-2xl border border-gold/30 bg-gold/[0.06] p-4 sm:p-5">
                 <h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-gold mb-2">
                   <Sparkles className="size-4" />
-                  <span>{pick(WHY_TITLE)}</span>
+                  <span>{q(pick(WHY_TITLE))}</span>
                 </h3>
-                <p className="text-sm sm:text-base text-ink leading-relaxed">{pick(WHY_MENTIONED[detailItem.id]!.text)}</p>
+                <p className="text-sm sm:text-base text-ink leading-relaxed">{q(pick(WHY_MENTIONED[detailItem.id]!.text))}</p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   <LevelChip level={WHY_MENTIONED[detailItem.id]!.l} />
                   {WHY_MENTIONED[detailItem.id]!.r.map((r) => <RefChip key={r} r={r} />)}
@@ -2064,9 +2064,9 @@ export function NatureView() {
                     <div className="flex items-center gap-1.5 text-xs text-teal-300 font-semibold mb-1">
                       <BookOpen className="size-3.5" />
                       <span>{hadithText(h.book, h.number)}</span>
-                      {h.grade && <span className="font-normal text-ink-3">· {pick(h.grade)}</span>}
+                      {h.grade && <span className="font-normal text-ink-3">· {q(pick(h.grade))}</span>}
                     </div>
-                    <p className={`text-ink-2 leading-relaxed ${lang === 'ar' ? 'font-hadith text-base' : 'text-xs italic'}`}>"{pick(h.text)}"</p>
+                    <p className={`text-ink-2 leading-relaxed ${lang === 'ar' ? 'font-hadith text-base' : 'text-xs italic'}`}>"{q(pick(h.text))}"</p>
                   </div>
                 ))}
               </div>

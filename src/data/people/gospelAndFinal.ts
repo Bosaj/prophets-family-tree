@@ -82,6 +82,10 @@ export const gospelAndFinalPeople: Person[] = [
       f('quran', t('Peace upon him the day he was born, the day he dies and the day he is raised alive.', 'Paix sur lui le jour où il naquit, le jour où il meurt et le jour où il sera ressuscité.', 'سلام عليه يوم وُلد ويوم يموت ويوم يُبعث حيًّا.'), '19:15'),
       f('hadith', t('He and ‘Isa are maternal cousins, met together in the second heaven during the Mi‘raj.', 'Lui et ‘Isa sont cousins par leurs mères, rencontrés ensemble au deuxième ciel lors du Mi‘raj.', 'هو وعيسى ابنا الخالة، لقيهما النبي ﷺ في السماء الثانية.'), 'bukhari:3430'),
     ],
+    signs: [
+      f("quran", t("His name was given by Allah; no one had been called by it before him.", "Son nom fut donné par Allah ; personne ne l’avait porté avant lui.", "سمّاه الله يحيى، ولم يجعل له من قبل سميًّا."), "19:7"),
+      f("quran", t("He was given wisdom while still a child.", "Il reçut la sagesse dès l’enfance.", "آتاه الله الحكم صبيًّا."), "19:12"),
+    ],
     story: t(
       'Yahya was born to the aged Zakariya. Allah gave him wisdom as a child, tenderness and purity. He was dutiful to his parents, never arrogant or disobedient, and he confirmed the coming of ‘Isa.',
       'Yahya naquit de Zakariya âgé. Allah lui donna la sagesse dès l’enfance, la tendresse et la pureté. Il était bon envers ses parents, jamais arrogant ni désobéissant, et il confirma la venue de ‘Isa.',
@@ -186,6 +190,7 @@ export const gospelAndFinalPeople: Person[] = [
       f('quran', t('Spoke from the cradle.', 'Parla dès le berceau.', 'تكلم في المهد.'), '19:29-33'),
       f('quran', t('By Allah’s permission: a bird of clay came to life, he healed the blind and the leper, and raised the dead.', 'Par la permission d’Allah : un oiseau d’argile prit vie, il guérit l’aveugle et le lépreux, et ressuscita les morts.', 'بإذن الله: نفخ في الطين فكان طيرًا، وأبرأ الأكمه والأبرص، وأحيا الموتى.'), '3:49', '5:110'),
       f('quran', t('A table spread with food came down from heaven.', 'Une table servie descendit du ciel.', 'نزلت مائدة من السماء.'), '5:112-115'),
+      f("quran", t("He was neither killed nor crucified; Allah raised him up to Himself.", "Il ne fut ni tué ni crucifié ; Allah l’éleva vers Lui.", "ما قتلوه وما صلبوه، بل رفعه الله إليه."), "4:157-158"),
     ],
     notes: [
       f('quran', t('He gave the good news of a messenger to come after him, named Ahmad.', 'Il annonça la venue d’un messager après lui, nommé Ahmad.', 'بشّر برسول يأتي من بعده اسمه أحمد.'), '61:6'),
@@ -262,6 +267,10 @@ export const gospelAndFinalPeople: Person[] = [
       f('quran', t('The Night Journey to al-Masjid al-Aqsa and the Ascension.', 'Le Voyage nocturne vers al-Masjid al-Aqsa et l’Ascension.', 'الإسراء إلى المسجد الأقصى والمعراج.'), '17:1', '53:13-18'),
       f('hadith', t('The splitting of the moon.', 'La fente de la lune.', 'انشقاق القمر.'), '54:1', 'bukhari:3637'),
       f('hadith', t('Water flowed from between his fingers at al-Hudaybiyah.', 'L’eau jaillit d’entre ses doigts à al-Hudaybiya.', 'نبع الماء من بين أصابعه يوم الحديبية.'), 'bukhari:3576'),
+      f("hadith", t("The palm trunk he leaned on while preaching cried like a child when he moved to the new pulpit, until he put his hand on it.", "Le tronc de palmier sur lequel il s’appuyait pour prêcher pleura comme un enfant quand il passa à la nouvelle chaire, jusqu’à ce qu’il pose la main sur lui.", "حنّ الجذع الذي كان يخطب عنده لما انتقل إلى المنبر، فبكى بكاء الصبي حتى ضمّه إليه."), "bukhari:3584"),
+      f("hadith", t("At the Trench, the small meal Jabir prepared fed the whole army, and food was left over.", "À la Tranchée, le petit repas préparé par Jabir nourrit toute l’armée, et il en resta.", "يوم الخندق أطعم طعامُ جابر القليل الجيشَ كله وبقي منه."), "bukhari:4101"),
+      f("hadith", t("He prayed for rain on the pulpit and it rained for a week; when he prayed again, the clouds parted around Madinah.", "Il pria pour la pluie sur la chaire et il plut une semaine ; quand il pria de nouveau, les nuages s’écartèrent autour de Médine.", "استسقى على المنبر فمُطروا أسبوعًا، ثم دعا فانجاب السحاب عن المدينة."), "bukhari:1013"),
+      f("hadith", t("He told ‘Adi ibn Hatim that a woman would travel alone from al-Hira to the Ka‘bah fearing no one but Allah, and that Khosrow’s treasures would be opened; ‘Adi lived to see both.", "Il annonça à ‘Adi ibn Hatim qu’une femme voyagerait seule d’al-Hira à la Ka‘ba sans craindre personne sauf Allah, et que les trésors de Khosrô seraient ouverts ; ‘Adi vécut assez pour voir les deux.", "أخبر عديَّ بن حاتم أن الظعينة سترتحل من الحيرة حتى تطوف بالكعبة لا تخاف إلا الله، وأن كنوز كسرى ستُفتح، فرأى عديٌّ ذلك كله."), "bukhari:3595"),
     ],
     notes: [
       f('hadith', t('Descended from Isma‘il through Kinanah, Quraysh and Banu Hashim.', 'Descendant d’Ismail par Kinana, Quraysh et Banu Hachim.', 'من ولد إسماعيل، من كنانة ثم قريش ثم بني هاشم.'), 'muslim:2276'),

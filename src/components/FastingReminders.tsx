@@ -8,7 +8,7 @@ import { downloadIcs, fastingIcs, upcomingFastDays, type FastDay } from '../lib/
 import { civilDay } from '../lib/hijri'
 import { usePlace } from '../lib/place'
 import { DuaCard } from './DuasView'
-import { A, LevelChip, RefChip } from './ui'
+import { A, LevelChip, q, RefChip } from './ui'
 
 const LOCALE: Record<Lang, string> = { en: 'en-GB', fr: 'fr-FR', ar: 'ar-MA', es: 'es-ES' }
 
@@ -45,14 +45,14 @@ export function FastingReminders() {
   const fmt = (day: string, withDay = true) =>
     new Intl.DateTimeFormat(LOCALE[lang], { weekday: withDay ? 'long' : undefined, day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(`${day}T12:00:00Z`))
   const range = (g: FastDay[]) => (g.length === 1 ? fmt(g[0]!.day) : `${fmt(g[0]!.day)} – ${fmt(g[g.length - 1]!.day)}`)
-  const hRange = (g: FastDay[]) => `${g.length === 1 ? g[0]!.h.d : `${g[0]!.h.d}–${g[g.length - 1]!.h.d}`} ${pick(MONTH_NAMES[g[0]!.h.m - 1]!)}`
+  const hRange = (g: FastDay[]) => `${g.length === 1 ? g[0]!.h.d : `${g[0]!.h.d}–${g[g.length - 1]!.h.d}`} ${q(pick(MONTH_NAMES[g[0]!.h.m - 1]!))}`
 
   return (
     <section id="reminders" aria-labelledby="reminders-h" className="mb-14 scroll-mt-24">
       <h2 id="reminders-h" className="flex items-center gap-2.5 text-2xl font-semibold text-ink sm:text-3xl">
-        <BellRing aria-hidden="true" className="size-6 text-gold" /> {pick(FAST_UI.title)}
+        <BellRing aria-hidden="true" className="size-6 text-gold" /> {q(pick(FAST_UI.title))}
       </h2>
-      <p className="mt-3 max-w-2xl leading-relaxed text-ink-2 text-pretty">{pick(FAST_UI.lead)}</p>
+      <p className="mt-3 max-w-2xl leading-relaxed text-ink-2 text-pretty">{q(pick(FAST_UI.lead))}</p>
       <ul className="mt-6 grid gap-2 sm:grid-cols-2">
         {groups.map((g) => {
           const f = g[0]!
@@ -62,10 +62,10 @@ export function FastingReminders() {
               <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
                 <span className="font-semibold text-ink">{range(g)}</span>
                 <span className="text-ink-3">{hRange(g)}</span>
-                {g.some((x) => x.estimate) && <span className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[0.7rem] text-ink-3">{pick(FAST_UI.estimate)}</span>}
+                {g.some((x) => x.estimate) && <span className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[0.7rem] text-ink-3">{q(pick(FAST_UI.estimate))}</span>}
               </p>
-              <p className={`mt-1 font-medium ${info.rule === 'forbidden' ? 'text-ink-2' : 'text-gold-2'}`}>{pick(info.title)}</p>
-              <p className="mt-0.5 text-sm text-ink-2">{pick(info.why)}</p>
+              <p className={`mt-1 font-medium ${info.rule === 'forbidden' ? 'text-ink-2' : 'text-gold-2'}`}>{q(pick(info.title))}</p>
+              <p className="mt-0.5 text-sm text-ink-2">{q(pick(info.why))}</p>
             </li>
           )
         })}
@@ -76,11 +76,11 @@ export function FastingReminders() {
           onClick={() => downloadIcs(fastingIcs(list, pick))}
           className="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-night transition-transform active:scale-95"
         >
-          <CalendarPlus aria-hidden="true" className="size-4" /> {pick(FAST_UI.add)}
+          <CalendarPlus aria-hidden="true" className="size-4" /> {q(pick(FAST_UI.add))}
         </button>
-        <span className="text-xs text-ink-3">{pick(place.name)}</span>
+        <span className="text-xs text-ink-3">{q(pick(place.name))}</span>
       </div>
-      <p className="mt-3 max-w-2xl text-xs leading-relaxed text-ink-3">{pick(FAST_UI.estimateNote)}</p>
+      <p className="mt-3 max-w-2xl text-xs leading-relaxed text-ink-3">{q(pick(FAST_UI.estimateNote))}</p>
       <div className="mt-5 grid gap-3 md:grid-cols-2">
         {FAST_QUOTES.map((d) => (
           <DuaCard key={d.id} d={d} compact />
@@ -109,8 +109,8 @@ export function FastBanner() {
     <A href="/hijri#reminders" className="mt-3 flex max-w-xl items-center gap-2.5 rounded-2xl border border-gold/30 bg-gold/[0.06] px-4 py-3 text-sm text-ink transition-colors hover:border-gold/60">
       <BellRing aria-hidden="true" className="size-4 shrink-0 text-gold" />
       <span>
-        <span className="font-semibold text-gold-2">{pick(when)}</span> · {pick(info.title)}
-        {rule && <span className="text-ink-2"> · {pick(rule)}</span>}
+        <span className="font-semibold text-gold-2">{q(pick(when))}</span> · {q(pick(info.title))}
+        {rule && <span className="text-ink-2"> · {q(pick(rule))}</span>}
       </span>
     </A>
   )

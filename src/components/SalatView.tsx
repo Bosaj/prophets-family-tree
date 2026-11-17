@@ -7,7 +7,7 @@ import { HOW_MODEL, HOW_STEPS, PRAYER_PLAN, SALAT_BEFORE, SALAT_WHAT, SUNNAH_STE
 import { JAMAA_STEPS, OTHER_PRAYERS, SAHW_STEPS } from '../data/salatMore'
 import { DuaCard } from './DuasView'
 import { Step } from './HourView'
-import { A, LevelChip, RefChip } from './ui'
+import { A, LevelChip, q, RefChip } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
 
@@ -142,7 +142,7 @@ function Steps({ steps }: { steps: SalatStep[] }) {
               <span className="grid size-12 shrink-0 place-items-center rounded-2xl border border-gold/25 bg-gold/[0.06] text-gold" title={pick(POSE_LABEL[s.pose])}>
                 <PoseFigure pose={s.pose} />
                 <span className="sr-only">
-                  {pick(UI.posture)}: {pick(POSE_LABEL[s.pose])}
+                  {q(pick(UI.posture))}: {q(pick(POSE_LABEL[s.pose]))}
                 </span>
               </span>
             )
@@ -159,13 +159,13 @@ function PrayerTable() {
   const name = (id: string) => PRAYERS.find((p) => p.id === id)!.name
   return (
     <div className="mt-8 overflow-hidden rounded-3xl border border-white/10">
-      <h3 className="border-b border-white/10 bg-night-2/60 px-5 py-3 text-base font-semibold text-ink">{pick(UI.plan)}</h3>
+      <h3 className="border-b border-white/10 bg-night-2/60 px-5 py-3 text-base font-semibold text-ink">{q(pick(UI.plan))}</h3>
       <ul className="divide-y divide-white/10">
         {PRAYER_PLAN.map((p) => (
           <li key={p.id} className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center">
             <div className="w-32 shrink-0">
-              <p className="font-semibold text-gold-2">{pick(name(p.id))}</p>
-              <p className="text-xs text-ink-3">{pick(RAKAHS[p.rakahs]!)}</p>
+              <p className="font-semibold text-gold-2">{q(pick(name(p.id)))}</p>
+              <p className="text-xs text-ink-3">{q(pick(RAKAHS[p.rakahs]!))}</p>
             </div>
             <ol className="flex min-w-0 flex-wrap items-stretch gap-1.5" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
               {Array.from({ length: p.rakahs }, (_, i) => {
@@ -175,12 +175,12 @@ function PrayerTable() {
                   <li key={n} className="flex items-stretch gap-1.5">
                     <span className="flex flex-col justify-center rounded-xl border border-gold/20 bg-gold/[0.05] px-2.5 py-1.5 text-xs leading-snug">
                       <span className="font-semibold text-ink">{pick(UI.rakah).replace('{n}', String(n))}</span>
-                      <span className="text-ink-2">{pick(n <= 2 ? UI.fatihaSurah : UI.fatihaOnly)}</span>
-                      <span className="text-ink-3">{pick(n <= p.aloud ? UI.aloud : UI.silent)}</span>
+                      <span className="text-ink-2">{q(pick(n <= 2 ? UI.fatihaSurah : UI.fatihaOnly))}</span>
+                      <span className="text-ink-3">{q(pick(n <= p.aloud ? UI.aloud : UI.silent))}</span>
                     </span>
                     {sitAfter && (
                       <span className={`flex items-center rounded-xl px-2.5 py-1.5 text-xs font-medium ${sitAfter === 'last' ? 'bg-gold text-night' : 'border border-white/15 bg-white/5 text-ink-2'}`}>
-                        {pick(sitAfter === 'last' ? UI.lastSit : UI.firstSit)}
+                        {q(pick(sitAfter === 'last' ? UI.lastSit : UI.firstSit))}
                       </span>
                     )}
                   </li>
@@ -236,18 +236,18 @@ export function SalatView() {
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <header className="reveal mx-auto mb-8 max-w-2xl text-center">
         <p className="kicker inline-flex items-center justify-center gap-2">
-          <Sparkles aria-hidden="true" className="size-3.5" /> {pick(UI.kicker)}
+          <Sparkles aria-hidden="true" className="size-3.5" /> {q(pick(UI.kicker))}
         </p>
         <h1 className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-          <span className="gold-text">{pick(UI.title)}</span>
+          <span className="gold-text">{q(pick(UI.title))}</span>
         </h1>
-        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{pick(UI.lead)}</p>
+        <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{q(pick(UI.lead))}</p>
       </header>
 
       <nav aria-label={pick(UI.title)} className="mb-12 flex flex-wrap justify-center gap-2">
         {JUMP.map((j) => (
           <a key={j.id} href={`#${j.id}`} className="ref">
-            {pick(j.label)}
+            {q(pick(j.label))}
           </a>
         ))}
       </nav>
@@ -257,7 +257,7 @@ export function SalatView() {
         {(['stand', 'bow', 'stand', 'prostrate', 'sit', 'prostrate', 'sit', 'salam'] as Pose[]).map((p, i) => (
           <li key={i} className="flex w-[4.6rem] flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/[0.03] px-1 py-2.5 text-gold">
             <PoseFigure pose={p} className="size-11" />
-            <span className="text-center text-[0.68rem] leading-tight text-ink-2">{pick(POSE_LABEL[p])}</span>
+            <span className="text-center text-[0.68rem] leading-tight text-ink-2">{q(pick(POSE_LABEL[p]))}</span>
           </li>
         ))}
       </ol>
@@ -270,7 +270,7 @@ export function SalatView() {
         <Steps steps={SALAT_BEFORE} />
         <p className="mt-6">
           <A href="/times" className="ref">
-            <Clock aria-hidden="true" className="size-3" /> {pick(UI.times)}
+            <Clock aria-hidden="true" className="size-3" /> {q(pick(UI.times))}
           </A>
         </p>
       </Section>
@@ -281,8 +281,8 @@ export function SalatView() {
 
       <Section id="how" icon={<HandHeart aria-hidden="true" className="size-6" />} title={pick(UI.how)} lead={pick(UI.howLead)}>
         <div className="mt-8 rounded-3xl border border-gold/20 bg-gold/[0.03] p-5 sm:p-6">
-          <h3 className="text-lg font-semibold text-ink text-balance sm:text-xl">{pick(HOW_MODEL.title)}</h3>
-          <p className="mt-2 max-w-2xl leading-relaxed text-ink-2 text-pretty">{pick(HOW_MODEL.text)}</p>
+          <h3 className="text-lg font-semibold text-ink text-balance sm:text-xl">{q(pick(HOW_MODEL.title))}</h3>
+          <p className="mt-2 max-w-2xl leading-relaxed text-ink-2 text-pretty">{q(pick(HOW_MODEL.text))}</p>
           <div className="mt-3 flex flex-wrap items-center gap-1.5">
             <LevelChip level={HOW_MODEL.l} />
             {HOW_MODEL.r.map((r) => (
@@ -322,17 +322,17 @@ export function SalatView() {
         </div>
         <p className="mt-6 flex flex-wrap gap-2">
           <A href="/duas" className="ref">
-            {pick(UI.duas)}
+            {q(pick(UI.duas))}
           </A>
           <A href="/times" className="ref">
-            <Clock aria-hidden="true" className="size-3" /> {pick(UI.times)}
+            <Clock aria-hidden="true" className="size-3" /> {q(pick(UI.times))}
           </A>
         </p>
       </Section>
 
       <aside className="flex gap-3 rounded-3xl border border-white/10 bg-white/[0.03] p-5 text-sm leading-relaxed text-ink-2 sm:p-6">
         <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-gold" />
-        <p>{pick(UI.schools)}</p>
+        <p>{q(pick(UI.schools))}</p>
       </aside>
     </div>
   )

@@ -24,7 +24,7 @@ import '../data/es/sahaba.es'
 import { labelScale, nodeBoxes, placeLabels, textWidth, type LabelRequest } from '../lib/labelLayout'
 import { EdgeLabel } from './EdgeLabel'
 import { SAHABA_STORIES, type StoryPoint } from '../data/sahabaStories'
-import { LevelChip, RefChip } from './ui'
+import { LevelChip, q, RefChip } from './ui'
 import type { L4, Lang } from '../data/types'
 import {
   SAHABA_FIGURES,
@@ -803,7 +803,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 className="size-2 rounded-full shrink-0"
                 style={{ backgroundColor: era.badgeColor }}
               />
-              <span>{pick(era.label)}</span>
+              <span>{q(pick(era.label))}</span>
               <span className="opacity-80 text-[0.65rem] font-mono">({count})</span>
             </button>
           )
@@ -850,7 +850,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
           </div>
           {(view.k < 0.5 || [...placedLabels.values()].includes(null)) && (
             <p className="pointer-events-none absolute top-16 end-4 z-20 rounded-full bg-night-2/90 px-3 py-1 text-[0.7rem] text-ink-3">
-              {pick(UI.zoomHint)}
+              {q(pick(UI.zoomHint))}
             </p>
           )}
 
@@ -866,7 +866,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               />
               <span className="font-bold text-emerald-300">
                 {tx(lang, 'Active Filter:', 'Filtre actif :', 'تصفية محددة:', 'Filtro activo:')}{' '}
-                {pick(SAHABA_ERAS.find((e) => e.id === selectedEra)?.label ?? { en: '', fr: '', ar: '' })} (
+                {q(pick(SAHABA_ERAS.find((e) => e.id === selectedEra)?.label ?? { en: '', fr: '', ar: '' }))} (
                 {SAHABA_FIGURES.filter((f) => inEra(f, selectedEra)).length})
               </span>
               <button
@@ -1115,7 +1115,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                         fontWeight={500}
                         className="drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]"
                       >
-                        {pick(fig.name)}
+                        {q(pick(fig.name))}
                       </text>
                     )}
 
@@ -1243,7 +1243,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2">
                       <span className="ar-name text-base font-bold text-ink group-hover:text-gold transition-colors">
-                        {pick(fig.name)}
+                        {q(pick(fig.name))}
                       </span>
                       {fig.honorific && (
                         <span className="text-[0.68rem] text-emerald-400">
@@ -1264,11 +1264,11 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   </div>
 
                   <p className="text-xs text-ink-3 font-medium mb-3">
-                    {pick(fig.title)}
+                    {q(pick(fig.title))}
                   </p>
 
                   <p className="text-xs text-ink-2 leading-relaxed mb-3 line-clamp-2">
-                    {pick(fig.biography)}
+                    {q(pick(fig.biography))}
                   </p>
 
                   {/* Highlights Bar */}
@@ -1281,7 +1281,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     )}
                     <span className="flex items-center gap-1">
                       <MapPin className="size-3 text-emerald-400" />
-                      <span>{pick(fig.burialPlace)}</span>
+                      <span>{q(pick(fig.burialPlace))}</span>
                     </span>
                     <span className="text-cyan-400 font-semibold group-hover:underline ms-auto">
                       {tx(lang, 'Full Dossier →', 'Fiche complète →', 'الملف الكامل ←', 'Ficha completa →')}
@@ -1337,7 +1337,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     </div>
                     <div>
                       <h3 className="ar-name text-lg font-bold text-ink group-hover:text-gold transition-colors flex items-center gap-1.5">
-                        <span>{pick(fig.name)}</span>
+                        <span>{q(pick(fig.name))}</span>
                         {fig.honorific && (
                           <span className="text-[0.68rem] font-normal text-emerald-400">
                             {fig.honorific}
@@ -1345,7 +1345,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                         )}
                       </h3>
                       <p className="text-xs text-ink-3 font-medium line-clamp-1">
-                        {pick(fig.title)}
+                        {q(pick(fig.title))}
                       </p>
                     </div>
                   </div>
@@ -1371,7 +1371,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 </div>
 
                 <p className="text-xs text-ink-2 leading-relaxed line-clamp-3 mb-4">
-                  {pick(fig.biography)}
+                  {q(pick(fig.biography))}
                 </p>
               </div>
 
@@ -1379,7 +1379,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="border-t border-white/5 pt-3 flex items-center justify-between text-[0.7rem] text-ink-3">
                 <span className="flex items-center gap-1 truncate max-w-[65%]">
                   <MapPin className="size-3 text-emerald-400 shrink-0" />
-                  <span className="truncate">{pick(fig.burialPlace)}</span>
+                  <span className="truncate">{q(pick(fig.burialPlace))}</span>
                 </span>
                 <span className="text-emerald-400 font-semibold group-hover:underline">
                   {tx(lang, 'Full Dossier →', 'Fiche complète →', 'الملف والسيرة الكاملة ←', 'Ficha completa →')}
@@ -1427,7 +1427,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 </div>
                 <div>
                   <h2 className="ar-name text-2xl sm:text-3xl font-bold text-ink gold-text flex items-center gap-2">
-                    <span>{pick(activeFigure.name)}</span>
+                    <span>{q(pick(activeFigure.name))}</span>
                     {activeFigure.honorific && (
                       <span className="text-sm font-normal text-gold/80">
                         {activeFigure.honorific}
@@ -1435,25 +1435,25 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     )}
                   </h2>
                   <p className="text-sm text-ink-2 font-medium">
-                    {pick(activeFigure.title)}
+                    {q(pick(activeFigure.title))}
                   </p>
                   <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs text-ink-3 font-mono">
                     {activeFigure.reignDates && (
                       <span className="text-amber-400 font-semibold inline-flex items-center gap-1">
-                        <span>{pick(UI.reign)}</span>
+                        <span>{q(pick(UI.reign))}</span>
                         <span dir={lang === 'ar' ? 'rtl' : 'ltr'}>{formatReignDate(activeFigure.reignDates, lang)}</span>
                       </span>
                     )}
                     {activeFigure.reignDates && <span>·</span>}
                     <span className="inline-flex items-center gap-1">
-                      <span>{pick(UI.passed)}</span>
+                      <span>{q(pick(UI.passed))}</span>
                       <span dir={lang === 'ar' ? 'rtl' : 'ltr'}>{formatDeathDate(activeFigure.lifeDates.death, lang)}</span>
                     </span>
                     {activeFigure.hadithsNarrated && (
                       <>
                         <span>·</span>
                         <span className="text-cyan-300 font-bold font-mono">
-                          {activeFigure.hadithsNarrated.toLocaleString()} {pick(UI.hadiths)}
+                          {activeFigure.hadithsNarrated.toLocaleString()} {q(pick(UI.hadiths))}
                         </span>
                       </>
                     )}
@@ -1481,7 +1481,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 onClick={() => document.getElementById('sahabi-story')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                 className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-sm font-medium text-gold transition-colors hover:bg-gold/20"
               >
-                <BookOpen className="size-4" /> {pick(UI.readStory)}
+                <BookOpen className="size-4" /> {q(pick(UI.readStory))}
               </button>
             )}
 
@@ -1489,15 +1489,15 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <div className="mb-6 rounded-2xl border border-gold/20 bg-gold/[0.04] p-4">
               <div className="flex items-center gap-2 text-xs font-bold text-gold mb-1.5 uppercase tracking-wider">
                 <GitCommit className="size-3.5" />
-                <span>{pick(UI.lineage)}</span>
+                <span>{q(pick(UI.lineage))}</span>
               </div>
               <p className="text-xs sm:text-sm text-ink-1 leading-relaxed font-serif">
-                {pick(activeFigure.lineage)}
+                {q(pick(activeFigure.lineage))}
               </p>
               {activeFigure.mother && (
                 <p className="text-xs text-ink-3 mt-2 border-t border-gold/10 pt-2">
-                  <strong className="text-ink-2">{pick(UI.mother)}</strong>
-                  {pick(activeFigure.mother)}
+                  <strong className="text-ink-2">{q(pick(UI.mother))}</strong>
+                  {q(pick(activeFigure.mother))}
                 </p>
               )}
             </div>
@@ -1509,7 +1509,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               return (
                 <div className="mb-6">
                   <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2 flex items-center gap-2">
-                    <Users className="size-3.5" /> {pick(UI.relations)}
+                    <Users className="size-3.5" /> {q(pick(UI.relations))}
                   </h4>
                   <ul className="grid gap-2 sm:grid-cols-2">
                     {rels.map((l) => {
@@ -1524,11 +1524,11 @@ export function SahabaTree({ focus }: { focus?: string }) {
                             onClick={() => setActiveFigure(other)}
                             className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-start transition-colors hover:border-gold/40 hover:bg-gold/5 cursor-pointer"
                           >
-                            <span className="block text-sm font-semibold text-ink">{pick(other.name)}</span>
+                            <span className="block text-sm font-semibold text-ink">{q(pick(other.name))}</span>
                             <span className="block text-xs text-ink-3">
-                              {outgoing ? `${pick(activeFigure.name)} → ${pick(other.name)}` : `${pick(other.name)} → ${pick(activeFigure.name)}`}
+                              {outgoing ? `${q(pick(activeFigure.name))} → ${q(pick(other.name))}` : `${q(pick(other.name))} → ${q(pick(activeFigure.name))}`}
                               {' · '}
-                              <span className="text-gold-2">{pick(l.note ?? l.label)}</span>
+                              <span className="text-gold-2">{q(pick(l.note ?? l.label))}</span>
                             </span>
                           </button>
                         </li>
@@ -1542,10 +1542,10 @@ export function SahabaTree({ focus }: { focus?: string }) {
             {/* Biography */}
             <div className="mb-6">
               <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2">
-                {pick(UI.biography)}
+                {q(pick(UI.biography))}
               </h4>
               <p className="text-xs sm:text-sm text-ink-2 leading-relaxed">
-                {pick(activeFigure.biography)}
+                {q(pick(activeFigure.biography))}
               </p>
             </div>
 
@@ -1555,11 +1555,11 @@ export function SahabaTree({ focus }: { focus?: string }) {
               const her = activeFigure.id === 'fatimah_az_zahra'
               const list = (items: StoryPoint[], title: L4, tone: string) => (
                 <div className="mt-4">
-                  <h5 className={`text-xs font-bold uppercase tracking-wider ${tone}`}>{pick(title)}</h5>
+                  <h5 className={`text-xs font-bold uppercase tracking-wider ${tone}`}>{q(pick(title))}</h5>
                   <ul className="mt-2 space-y-3">
                     {items.map((p, i) => (
                       <li key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
-                        <p className="text-xs sm:text-sm leading-relaxed text-ink-2">{pick(p.text)}</p>
+                        <p className="text-xs sm:text-sm leading-relaxed text-ink-2">{q(pick(p.text))}</p>
                         <div className="mt-2 flex flex-wrap gap-1.5">
                           <LevelChip level={p.l} />
                           {p.r.map((ref) => <RefChip key={ref} r={ref} />)}
@@ -1572,9 +1572,9 @@ export function SahabaTree({ focus }: { focus?: string }) {
               return (
                 <section id="sahabi-story" className="mb-6 rounded-2xl border border-gold/25 bg-gold/[0.04] p-4 sm:p-5">
                   <h4 className="flex items-center gap-2 text-sm font-bold text-gold">
-                    <BookOpen className="size-4" /> {pick(her ? UI.storyHer : UI.story)}
+                    <BookOpen className="size-4" /> {q(pick(her ? UI.storyHer : UI.story))}
                   </h4>
-                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-ink">{pick(st.story)}</p>
+                  <p className="mt-2 text-sm sm:text-base leading-relaxed text-ink">{q(pick(st.story))}</p>
                   {list(st.challenges, her ? UI.challengesHer : UI.challenges, 'text-lvl-disputed')}
                   {list(st.sacrifices, her ? UI.sacrificesHer : UI.sacrifices, 'text-lvl-hadith')}
                 </section>
@@ -1586,7 +1586,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="mb-6 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-amber-500/5 p-4.5">
                 <div className="flex items-center gap-2 text-xs font-bold text-amber-300 mb-2">
                   <Sparkles className="size-3.5 text-amber-400" />
-                  <span>{pick(UI.praise)}</span>
+                  <span>{q(pick(UI.praise))}</span>
                 </div>
                 <p lang="ar" dir="rtl" className="font-hadith text-base sm:text-lg text-amber-100 leading-loose mb-2 text-center sm:text-start">
                   {activeFigure.propheticPraise.ar}
@@ -1598,7 +1598,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                 )}
                 {activeFigure.propheticPraise.grade && (
                   <p className="mb-2 rounded-lg border border-lvl-disputed/40 bg-lvl-disputed/10 px-3 py-2 text-xs leading-relaxed text-lvl-disputed" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-                    {pick(activeFigure.propheticPraise.grade === 'weak' ? UI.gradeWeak : UI.gradeDisputed)}
+                    {q(pick(activeFigure.propheticPraise.grade === 'weak' ? UI.gradeWeak : UI.gradeDisputed))}
                   </p>
                 )}
                 <div className="text-[0.7rem] text-amber-400/80 font-mono text-end">
@@ -1612,7 +1612,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="mb-6">
                 <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <BookOpen className="size-3.5 text-cyan-400" />
-                  <span>{pick(UI.works)}</span>
+                  <span>{q(pick(UI.works))}</span>
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {activeFigure.works.map((w, idx) => (
@@ -1621,7 +1621,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                       className="rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-3 text-xs text-cyan-200 font-medium flex items-center gap-2"
                     >
                       <span className="size-1.5 rounded-full bg-cyan-400 shrink-0" />
-                      <span>{pick(w)}</span>
+                      <span>{q(pick(w))}</span>
                     </div>
                   ))}
                 </div>
@@ -1635,13 +1635,13 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-xs">
                     <span className="flex items-center gap-1.5 font-bold text-ink-3 uppercase tracking-wider mb-2">
                       <Users className="size-3.5 text-amber-400" />
-                      <span>{pick(UI.teachers)}</span>
+                      <span>{q(pick(UI.teachers))}</span>
                     </span>
                     <ul className="space-y-1.5 text-ink-2">
                       {activeFigure.teachers.map((t, i) => (
                         <li key={i} className="flex items-center gap-1.5">
                           <span className="size-1 rounded-full bg-amber-400 shrink-0" />
-                          <span>{pick(t)}</span>
+                          <span>{q(pick(t))}</span>
                         </li>
                       ))}
                     </ul>
@@ -1651,13 +1651,13 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-xs">
                     <span className="flex items-center gap-1.5 font-bold text-ink-3 uppercase tracking-wider mb-2">
                       <Users className="size-3.5 text-cyan-400" />
-                      <span>{pick(UI.students)}</span>
+                      <span>{q(pick(UI.students))}</span>
                     </span>
                     <ul className="space-y-1.5 text-ink-2">
                       {activeFigure.students.map((s, i) => (
                         <li key={i} className="flex items-center gap-1.5">
                           <span className="size-1 rounded-full bg-cyan-400 shrink-0" />
-                          <span>{pick(s)}</span>
+                          <span>{q(pick(s))}</span>
                         </li>
                       ))}
                     </ul>
@@ -1671,7 +1671,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                 <div className="flex items-center gap-2 text-xs font-bold text-gold mb-2">
                   <Quote className="size-3.5" />
-                  <span>{pick(UI.quotes)}</span>
+                  <span>{q(pick(UI.quotes))}</span>
                 </div>
                 {activeFigure.famousQuotes.map((q, idx) => (
                   <div key={idx} className="space-y-1 text-xs">
@@ -1693,7 +1693,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
               <div className="mb-6">
                 <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Milestone className="size-3.5 text-emerald-400" />
-                  <span>{pick(UI.milestones)}</span>
+                  <span>{q(pick(UI.milestones))}</span>
                 </h4>
                 <div className="space-y-2">
                   {activeFigure.milestones.map((m, idx) => (
@@ -1705,8 +1705,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
                         {m.yearAH}
                       </span>
                       <div>
-                        <div className="font-semibold text-ink-1">{pick(m.title)}</div>
-                        <p className="text-ink-3 text-[0.72rem] mt-0.5">{pick(m.desc)}</p>
+                        <div className="font-semibold text-ink-1">{q(pick(m.title))}</div>
+                        <p className="text-ink-3 text-[0.72rem] mt-0.5">{q(pick(m.desc))}</p>
                       </div>
                     </div>
                   ))}
@@ -1718,7 +1718,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <div className="mb-6">
               <h4 className="text-xs font-bold text-ink-3 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <Award className="size-3.5 text-emerald-400" />
-                <span>{pick(UI.achievements)}</span>
+                <span>{q(pick(UI.achievements))}</span>
               </h4>
               <ul className="space-y-2">
                 {activeFigure.achievements.map((ach, i) => (
@@ -1727,7 +1727,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                     className="flex items-start gap-2.5 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-xs text-ink-2 leading-relaxed"
                   >
                     <CheckCircle2 className="size-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                    <span>{pick(ach)}</span>
+                    <span>{q(pick(ach))}</span>
                   </li>
                 ))}
               </ul>
@@ -1737,8 +1737,8 @@ export function SahabaTree({ focus }: { focus?: string }) {
             <div className="border-t border-white/10 pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-ink-3">
               <span className="flex items-center gap-1.5">
                 <MapPin className="size-3.5 text-emerald-400 shrink-0" />
-                <span>{pick(UI.burial)}</span>
-                <strong className="text-ink-2 font-medium">{pick(activeFigure.burialPlace)}</strong>
+                <span>{q(pick(UI.burial))}</span>
+                <strong className="text-ink-2 font-medium">{q(pick(activeFigure.burialPlace))}</strong>
               </span>
               <div className="flex items-center gap-2 self-end sm:self-auto">
                 <a
@@ -1746,14 +1746,14 @@ export function SahabaTree({ focus }: { focus?: string }) {
                   className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition-colors flex items-center gap-1"
                 >
                   <MapPin className="size-3" />
-                  <span>{pick(UI.viewMap)}</span>
+                  <span>{q(pick(UI.viewMap))}</span>
                 </a>
                 <button
                   type="button"
                   onClick={() => setActiveFigure(null)}
                   className="rounded-full bg-emerald-500 px-4 py-1.5 text-xs font-bold text-night hover:bg-emerald-400 transition-colors cursor-pointer"
                 >
-                  {pick(UI.close)}
+                  {q(pick(UI.close))}
                 </button>
               </div>
             </div>

@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 import { useI18n, tx } from '../i18n'
 import '../data/es/scriptures.es'
-import { WithQuran } from './ui'
+import { q, WithQuran } from './ui'
 import {
   SCRIPTURES,
   type ProphetBook,
@@ -111,7 +111,7 @@ export function ScripturesModal({
                 <span>{book.title.ar}</span>
                 {lang !== 'ar' && (
                   <span className="opacity-75 text-[11px] font-sans">
-                    ({pick(book.title)})
+                    ({q(pick(book.title))})
                   </span>
                 )}
                 <span
@@ -169,7 +169,7 @@ export function ScripturesModal({
                     </h3>
                     {lang !== 'ar' ? (
                       <p className="text-sm sm:text-base font-medium text-gold/80 break-words">
-                        {pick(currentBook.title)} · {currentBook.transliteration}
+                        {q(pick(currentBook.title))} · {currentBook.transliteration}
                       </p>
                     ) : (
                       <p className="text-sm sm:text-base font-medium text-gold/80 break-words">
@@ -188,7 +188,7 @@ export function ScripturesModal({
                       }}
                       className="shrink-0 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold bg-gold/20 text-gold-2 border border-gold/40 hover:bg-gold/30 transition-colors"
                     >
-                      <span>{pick(currentBook.prophetName)}</span>
+                      <span>{q(pick(currentBook.prophetName))}</span>
                       <ExternalLink className="h-3 w-3" />
                     </button>
                   )}
@@ -202,7 +202,7 @@ export function ScripturesModal({
                         {tx(lang, 'Original Revelation Language', 'Langue de la révélation', 'اللغة الأصلية للوحي', 'Lengua de la revelación')}
                       </span>
                       <span className="font-semibold text-ink break-words leading-tight block">
-                        {pick(currentBook.originalLanguage)}
+                        {q(pick(currentBook.originalLanguage))}
                       </span>
                     </div>
                   </div>
@@ -214,7 +214,7 @@ export function ScripturesModal({
                         {tx(lang, 'Revealed Era', 'Époque de la révélation', 'العصر التاريخي', 'Época de la revelación')}
                       </span>
                       <span className="font-semibold text-ink break-words leading-tight block">
-                        {pick(currentBook.revealedEra)}
+                        {q(pick(currentBook.revealedEra))}
                       </span>
                     </div>
                   </div>
@@ -226,7 +226,7 @@ export function ScripturesModal({
                         {tx(lang, 'Revealed Location', 'Lieu de la révélation', 'مكان التنزيل النبوي', 'Lugar de la revelación')}
                       </span>
                       <span className="font-semibold text-ink break-words leading-tight block">
-                        {pick(currentBook.revealedLocation)}
+                        {q(pick(currentBook.revealedLocation))}
                       </span>
                     </div>
                   </div>
@@ -249,7 +249,7 @@ export function ScripturesModal({
                 </div>
 
                 <p className="text-xs sm:text-sm text-ink leading-relaxed font-sans pt-1">
-                  {pick(currentBook.theologicalContext)}
+                  {q(pick(currentBook.theologicalContext))}
                 </p>
               </div>
             </div>
@@ -300,7 +300,7 @@ export function ScripturesModal({
                   </span>
                 </h4>
                 <p className="text-xs text-ink-2">
-                  {pick(currentBook.versionsSummary)}
+                  {q(pick(currentBook.versionsSummary))}
                 </p>
               </div>
             </div>
@@ -330,15 +330,15 @@ export function ScripturesModal({
                     </div>
                     {lang !== 'ar' && (
                       <span className="text-[11px] text-ink/70 font-sans break-words mt-0.5">
-                        {pick(ver.name)}
+                        {q(pick(ver.name))}
                       </span>
                     )}
                     <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-[10px] text-gold/80 font-mono">
                       <span className="rounded bg-night/40 px-1.5 py-0.5 border border-white/5">
-                        {pick(ver.language)}
+                        {q(pick(ver.language))}
                       </span>
                       <span className="rounded bg-night/40 px-1.5 py-0.5 border border-white/5">
-                        {pick(ver.period)}
+                        {q(pick(ver.period))}
                       </span>
                     </div>
                   </button>
@@ -352,19 +352,19 @@ export function ScripturesModal({
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-3">
                   <div className="min-w-0">
                     <h5 className="text-base sm:text-lg font-bold text-gold-2 break-words">
-                      {activeVersion.name.ar} {lang !== 'ar' && `· ${pick(activeVersion.name)}`}
+                      {activeVersion.name.ar} {lang !== 'ar' && `· ${q(pick(activeVersion.name))}`}
                     </h5>
                     <p className="text-xs text-gold font-sans break-words mt-0.5">
-                      {pick(activeVersion.significance)}
+                      {q(pick(activeVersion.significance))}
                     </p>
                   </div>
                   <span className="shrink-0 rounded-full px-3 py-1 text-xs font-semibold bg-gold/20 text-gold-2 border border-gold/40 font-mono">
-                    {pick(activeVersion.period)}
+                    {q(pick(activeVersion.period))}
                   </span>
                 </div>
 
                 <p className="text-xs sm:text-sm text-ink leading-relaxed font-sans">
-                  {pick(activeVersion.description)}
+                  {q(pick(activeVersion.description))}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs">
@@ -373,7 +373,7 @@ export function ScripturesModal({
                       {tx(lang, 'Extant Manuscripts', 'Manuscrits conservés', 'المخطوطات الباقية', 'Manuscritos conservados')}
                     </span>
                     <span className="text-ink font-mono text-[11px] break-words block leading-relaxed">
-                      {pick(activeVersion.extantManuscripts)}
+                      {q(pick(activeVersion.extantManuscripts))}
                     </span>
                   </div>
 
@@ -382,7 +382,7 @@ export function ScripturesModal({
                       {tx(lang, 'Variants / Status', 'Variantes / état', 'عدد الفروق وحالة النص', 'Variantes / estado')}
                     </span>
                     <span className="text-gold font-mono text-[11px] break-words block leading-relaxed">
-                      {pick(activeVersion.variantCountOrStatus)}
+                      {q(pick(activeVersion.variantCountOrStatus))}
                     </span>
                   </div>
 
@@ -391,7 +391,7 @@ export function ScripturesModal({
                       {tx(lang, 'Theological Perspective', 'Point de vue théologique', 'المنظور العلمي والعقدي', 'Perspectiva teológica')}
                     </span>
                     <span className="text-ink-2 text-[11px] break-words block leading-relaxed">
-                      {pick(activeVersion.theologicalPerspective)}
+                      {q(pick(activeVersion.theologicalPerspective))}
                     </span>
                   </div>
                 </div>

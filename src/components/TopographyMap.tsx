@@ -35,7 +35,7 @@ import {
 } from '../data/archaeologySites'
 import { buildMapPosterSvg, downloadSvgPoster, printPosterAsPdf } from '../lib/posterExport'
 import { hrefOf } from '../lib/router'
-import { A, FactText, Scene, WithQuran } from './ui'
+import { A, FactText, q, Scene, WithQuran } from './ui'
 
 type MapStyle = 'satellite' | 'dark' | 'terrain'
 type SiteCategory = 'all' | 'sanctuary' | 'mountain' | 'well' | 'city'
@@ -2115,7 +2115,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                       onClick={() => flyToProphet(p)}
                       className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-start text-xs text-ink hover:bg-gold/15 transition-colors"
                     >
-                      <span className="font-semibold text-gold-2">{pick(p.name)}</span>
+                      <span className="font-semibold text-gold-2">{q(pick(p.name))}</span>
                       <span className="ar-name text-sm text-gold">{p.name.ar}</span>
                     </button>
                   ))}
@@ -2202,7 +2202,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
               <div className="flex items-center gap-2">
                 <Footprints className="size-4 text-gold" />
                 <span className="text-xs font-semibold text-gold-2">
-                  {t('relatedProphet')}: {pick(byId.get(selectedRoute.prophetId)!.name)}
+                  {t('relatedProphet')}: {q(pick(byId.get(selectedRoute.prophetId)!.name))}
                 </span>
               </div>
               <button
@@ -2349,7 +2349,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
           {selectedSite.prophetId && byId.get(selectedSite.prophetId) && (
             <div className="mt-4 flex items-center justify-between rounded-xl border border-gold/30 bg-gold/10 p-2.5">
               <span className="text-xs font-semibold text-gold-2">
-                {t('relatedProphet')}: {pick(byId.get(selectedSite.prophetId)!.name)}
+                {t('relatedProphet')}: {q(pick(byId.get(selectedSite.prophetId)!.name))}
               </span>
               <button
                 type="button"
@@ -2402,9 +2402,9 @@ export function TopographyMap({ focus }: { focus?: string }) {
             <div className="absolute inset-x-4 bottom-3">
               <p className="ar-name gold-text text-3xl font-bold">{selectedPerson.name.ar}</p>
               <h2 className="text-base font-semibold text-ink">
-                {pick(selectedPerson.name)}
+                {q(pick(selectedPerson.name))}
                 {selectedPerson.alt && lang !== 'ar' && (
-                  <span className="text-xs text-ink-3 ms-2">· {pick(selectedPerson.alt)}</span>
+                  <span className="text-xs text-ink-3 ms-2">· {q(pick(selectedPerson.alt))}</span>
                 )}
               </h2>
             </div>
@@ -2419,13 +2419,13 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   <span className="text-[0.65rem] tracking-wider uppercase text-gold font-semibold">
                     {t('region')}
                   </span>
-                  <p className="text-ink font-medium">{pick(selectedPerson.topography.region)}</p>
+                  <p className="text-ink font-medium">{q(pick(selectedPerson.topography.region))}</p>
                 </div>
                 <div>
                   <span className="text-[0.65rem] tracking-wider uppercase text-sky-300 font-semibold">
                     {t('modernCountries')}
                   </span>
-                  <p className="text-ink-2">{pick(selectedPerson.topography.modernCountries)}</p>
+                  <p className="text-ink-2">{q(pick(selectedPerson.topography.modernCountries))}</p>
                 </div>
               </div>
             )}
@@ -2434,7 +2434,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             {selectedPerson.topography?.missionRoute && (
               <div>
                 <h4 className="font-semibold text-gold mb-1">{t('missionRoute')}</h4>
-                <p className="text-ink-2 leading-relaxed">{pick(selectedPerson.topography.missionRoute)}</p>
+                <p className="text-ink-2 leading-relaxed">{q(pick(selectedPerson.topography.missionRoute))}</p>
               </div>
             )}
 
@@ -2453,7 +2453,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                 <ul className="space-y-1.5">
                   {selectedPerson.topography.sacredSites.map((s, idx) => (
                     <li key={idx} className="rounded-xl border border-white/5 bg-white/[0.02] p-2.5">
-                      <span className="font-semibold text-ink">{pick(s.name)}</span>
+                      <span className="font-semibold text-ink">{q(pick(s.name))}</span>
                       {s.desc && <p className="text-ink-3 mt-0.5 leading-snug"><WithQuran text={pick(s.desc)} /></p>}
                     </li>
                   ))}
@@ -2465,7 +2465,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             {selectedPerson.biography && selectedPerson.biography.length > 0 && (
               <div className="border-t border-white/5 pt-3">
                 <h4 className="font-semibold text-gold mb-1">{t('fullBiography')}</h4>
-                <p className="text-ink-3 leading-relaxed line-clamp-4">{pick(selectedPerson.biography[0]!)}</p>
+                <p className="text-ink-3 leading-relaxed line-clamp-4">{q(pick(selectedPerson.biography[0]!))}</p>
               </div>
             )}
           </div>

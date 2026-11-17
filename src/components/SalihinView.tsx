@@ -13,7 +13,7 @@ import {
   SALIHIN_DATA,
   QURANIC_STORIES,
 } from '../data/salihin'
-import { LevelChip, RefChip, WithQuran, useOpenVerse } from './ui'
+import { LevelChip, q, RefChip, useOpenVerse, WithQuran } from './ui'
 import { SALIHIN_STEPS } from '../data/salihinDetail'
 import type { L4 } from '../data/types'
 
@@ -194,22 +194,22 @@ export function SalihinView() {
               >
                 {/* Header: Key Virtue chip & Era badge */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="chip text-gold text-xs leading-normal whitespace-normal text-start max-w-full">{pick(fig.keyVirtue)}</span>
+                  <span className="chip text-gold text-xs leading-normal whitespace-normal text-start max-w-full">{q(pick(fig.keyVirtue))}</span>
                   <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono shrink-0">
-                    {pick(fig.era)}
+                    {q(pick(fig.era))}
                   </span>
                 </div>
 
                 <div className="mt-3.5">
                   <h3 className="text-xl sm:text-2xl font-bold text-ink leading-tight flex flex-wrap items-baseline gap-2">
                     <span className="ar-name gold-text text-2xl sm:text-3xl">{fig.name.ar}</span>
-                    {lang !== 'ar' && <span className="text-base sm:text-lg font-light text-ink-2">· {pick(fig.name)}</span>}
+                    {lang !== 'ar' && <span className="text-base sm:text-lg font-light text-ink-2">· {q(pick(fig.name))}</span>}
                   </h3>
-                  <p className="mt-1 text-xs text-gold-2 font-medium">{pick(fig.title)}</p>
+                  <p className="mt-1 text-xs text-gold-2 font-medium">{q(pick(fig.title))}</p>
                 </div>
 
                 <p className="mt-4 text-sm text-ink-2 leading-relaxed">
-                  {pick(fig.summary)}
+                  {q(pick(fig.summary))}
                 </p>
 
                 {/* Verses references */}
@@ -244,19 +244,19 @@ export function SalihinView() {
                           {tx(lang, 'The Quranic Narrative', 'Le récit coranique', 'السياق والقصة القرآنية', 'El relato coránico')}
                         </h4>
                         <p className={`text-xs text-ink-2 leading-relaxed ${lang === 'ar' ? 'naskh text-sm' : ''}`}>
-                          {pick(fig.story)}
+                          {q(pick(fig.story))}
                         </p>
                       </div>
 
                       {SALIHIN_STEPS[fig.id] && (
                         <div className="rounded-2xl border border-gold/20 bg-gold/[0.04] p-4">
-                          <h4 className="text-xs font-semibold text-gold uppercase mb-3">{pick(STEPS_TITLE)}</h4>
+                          <h4 className="text-xs font-semibold text-gold uppercase mb-3">{q(pick(STEPS_TITLE))}</h4>
                           <ol className="space-y-3">
                             {SALIHIN_STEPS[fig.id]!.map((step, i) => (
                               <li key={i} className="flex gap-3">
                                 <span className="grid size-6 shrink-0 place-items-center rounded-full bg-gold/15 text-[0.7rem] font-semibold text-gold tabular-nums">{i + 1}</span>
                                 <div>
-                                  <p className="text-sm leading-relaxed text-ink-2">{pick(step.text)}</p>
+                                  <p className="text-sm leading-relaxed text-ink-2">{q(pick(step.text))}</p>
                                   <div className="mt-1.5 flex flex-wrap gap-1.5">
                                     <LevelChip level={step.l} />
                                     {step.r.map((r) => <RefChip key={r} r={r} />)}
@@ -277,7 +277,7 @@ export function SalihinView() {
                           {fig.lessons.map((les, lIdx) => (
                             <li key={lIdx} className="flex items-start gap-2">
                               <CheckCircle2 className="size-3.5 text-gold shrink-0 mt-0.5" />
-                              <span>{pick(les)}</span>
+                              <span>{q(pick(les))}</span>
                             </li>
                           ))}
                         </ul>
@@ -305,21 +305,21 @@ export function SalihinView() {
               >
                 {/* Header: Surah chip & Setting badge */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="chip text-gold text-xs leading-normal whitespace-normal text-start max-w-full">{pick(story.surahName)}</span>
+                  <span className="chip text-gold text-xs leading-normal whitespace-normal text-start max-w-full">{q(pick(story.surahName))}</span>
                   <span className="rounded-full bg-white/5 border border-white/10 px-2.5 py-0.5 text-[0.7rem] text-ink-3 font-mono shrink-0">
-                    {pick(story.historicalSetting)}
+                    {q(pick(story.historicalSetting))}
                   </span>
                 </div>
 
                 <div className="mt-3.5">
                   <h3 className="text-xl sm:text-2xl font-bold text-ink leading-tight flex flex-wrap items-baseline gap-2">
                     <span className="ar-name gold-text text-2xl sm:text-3xl">{story.title.ar}</span>
-                    {lang !== 'ar' && <span className="text-base sm:text-lg font-light text-ink-2">· {pick(story.title)}</span>}
+                    {lang !== 'ar' && <span className="text-base sm:text-lg font-light text-ink-2">· {q(pick(story.title))}</span>}
                   </h3>
                 </div>
 
                 <p className="mt-4 text-sm text-ink-2 leading-relaxed">
-                  {pick(story.summary)}
+                  {q(pick(story.summary))}
                 </p>
 
                 {/* Verses references */}
@@ -358,7 +358,7 @@ export function SalihinView() {
                           {story.coreLessons.map((les, lIdx) => (
                             <li key={lIdx} className="flex items-start gap-2">
                               <CheckCircle2 className="size-3.5 text-gold shrink-0 mt-0.5" />
-                              <span>{pick(les)}</span>
+                              <span>{q(pick(les))}</span>
                             </li>
                           ))}
                         </ul>

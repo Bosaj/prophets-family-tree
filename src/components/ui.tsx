@@ -118,6 +118,29 @@ export function useHadithText() {
   }
 }
 
+const QUOTE = /(«[^«»]*»|﴿[^﴿﴾]*﴾)/
+const ARABIC = /[\u0600-\u06FF]/
+
+/**
+ * Renders a text with its Arabic Qur'an quotes (﴿…﴾) and hadith quotes («…», three words or more) in the
+ * Qur'an and hadith fonts, as on the rest of the site. Other quotes stay in the page font.
+ */
+export function q(s: string): ReactNode {
+  if (!s || (!s.includes('«') && !s.includes('﴿'))) return s
+  const parts = s.split(QUOTE)
+  if (parts.length === 1) return s
+  return parts.map((p, i) => {
+    if (i % 2 === 0) return p
+    const quran = p.startsWith('﴿')
+    if (!quran && (!ARABIC.test(p) || p.trim().split(/\s+/).length < 3)) return p
+    return (
+      <span key={i} lang="ar" className={quran ? 'quote-quran' : 'quote-hadith'}>
+        {p}
+      </span>
+    )
+  })
+}
+
 export function RefChip({ r }: { r: Ref }) {
   const { lang } = useI18n()
   const open = useOpenVerse()
@@ -186,7 +209,7 @@ export function FactText({ fact, className = '' }: { fact: Fact; className?: str
   const { pick } = useI18n()
   return (
     <div className={className}>
-      <p className="leading-relaxed text-ink">{pick(fact.t)}</p>
+      <p className="leading-relaxed text-ink">{q(pick(fact.t))}</p>
       <div className="mt-2 flex flex-wrap items-center gap-1.5">
         <LevelChip level={fact.l} />
         {fact.r?.map((r) => (
@@ -246,8 +269,8 @@ export function SubName({ p, className = '' }: { p: Person | PersonSummary; clas
   if (lang === 'ar') return p.alt && /[؀-ۿ]/.test(p.alt.ar) ? <span className={className}>{p.alt.ar}</span> : null
   return (
     <span className={className}>
-      {pick(p.name)}
-      {p.alt && <span className="text-ink-3"> · {pick(p.alt)}</span>}
+      {q(pick(p.name))}
+      {p.alt && <span className="text-ink-3"> · {q(pick(p.alt))}</span>}
     </span>
   )
 }

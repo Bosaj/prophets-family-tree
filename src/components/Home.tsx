@@ -5,7 +5,7 @@ import { LEVEL_TEXT } from '../i18n/strings'
 import { coreById as byId, heavens, coreProphets as prophets, ululAzm, VERIFIED_REFS } from '../data/peopleCore'
 import { LEVELS } from '../data/sources'
 import { hrefOf } from '../lib/router'
-import { A, LevelChip, Refs, Scene, Section } from './ui'
+import { A, LevelChip, q, Refs, Scene, Section } from './ui'
 
 // The "now" card needs the prayer engine and the day guide: it loads after the page.
 const NowCard = lazy(() => import('./NowCard'))
@@ -94,10 +94,10 @@ export function Home() {
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <p className="ar-name gold-text text-4xl font-bold">{p.name.ar}</p>
                   <p className="mt-1 flex items-center gap-2 text-ink">
-                    <span className="font-semibold">{pick(p.name)}</span>
-                    {p.alt && lang !== 'ar' && <span className="text-sm text-ink-3">· {pick(p.alt)}</span>}
+                    <span className="font-semibold">{q(pick(p.name))}</span>
+                    {p.alt && lang !== 'ar' && <span className="text-sm text-ink-3">· {q(pick(p.alt))}</span>}
                   </p>
-                  {p.sentTo && <p className="mt-1.5 line-clamp-1 text-sm text-ink-2">{pick(p.sentTo.t)}</p>}
+                  {p.sentTo && <p className="mt-1.5 line-clamp-1 text-sm text-ink-2">{q(pick(p.sentTo.t))}</p>}
                 </div>
               </A>
             </li>
@@ -132,8 +132,8 @@ export function Home() {
               <li key={id}>
                 <A href={hrefOf({ name: 'person', id })} className="glass group flex h-full flex-col items-center rounded-3xl px-3 py-6 text-center transition-colors hover:border-gold/40">
                   <span className="ar-name gold-text text-3xl font-bold transition-transform duration-500 group-hover:-translate-y-0.5">{p.name.ar}</span>
-                  <span className="mt-2 text-sm text-ink">{pick(p.name)}</span>
-                  {p.title && <span className="mt-2 line-clamp-2 text-xs text-ink-3">{pick(p.title.t)}</span>}
+                  <span className="mt-2 text-sm text-ink">{q(pick(p.name))}</span>
+                  {p.title && <span className="mt-2 line-clamp-2 text-xs text-ink-3">{q(pick(p.title.t))}</span>}
                 </A>
               </li>
             )
@@ -245,7 +245,7 @@ function Heavens() {
                 {h.ids.map((id) => (
                   <A key={id} href={hrefOf({ name: 'person', id })} className="ar-name inline-flex min-h-6 min-w-6 items-center justify-center px-1 text-sm font-semibold text-ink hover:text-gold-2 sm:text-lg">
                     {byId.get(id)!.name.ar}
-                    <span className="sr-only"> — {pick(byId.get(id)!.name)}</span>
+                    <span className="sr-only"> — {q(pick(byId.get(id)!.name))}</span>
                   </A>
                 ))}
               </div>

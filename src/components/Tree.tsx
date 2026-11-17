@@ -36,7 +36,7 @@ import type { Person } from '../data/types'
 import { buildTreePosterSvg, downloadSvgPoster, printPosterAsPdf } from '../lib/posterExport'
 import type { Kind, Lang } from '../data/types'
 import { hrefOf, navigate } from '../lib/router'
-import { A, FactText, LEVEL_STROKE, LevelChip, Refs, SubName, RefChip } from './ui'
+import { A, FactText, LEVEL_STROKE, LevelChip, q, RefChip, Refs, SubName } from './ui'
 import { formatDate, formatBirthDeath } from '../lib/dates'
 import { PRE_ADAM_ENTITIES, type PreAdamEntity } from '../data/preAdam'
 import { SCRIPTURES_BY_PROPHET } from '../data/scriptures'
@@ -1014,7 +1014,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                         setShowScripturesModal(true)
                       }}
                     >
-                      <title>{`${scriptureBook.title.ar} · ${pick(scriptureBook.title)} (${scriptureBook.id === 'quran' ? (tx(lang, '1 Preserved Text', '1 texte préservé', 'نص موحد محفوظ', '1 texto preservado')) : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات ومخطوطات', 'tradiciones')}`})`}</title>
+                      <title>{`${scriptureBook.title.ar} · ${q(pick(scriptureBook.title))} (${scriptureBook.id === 'quran' ? (tx(lang, '1 Preserved Text', '1 texte préservé', 'نص موحد محفوظ', '1 texto preservado')) : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات ومخطوطات', 'tradiciones')}`})`}</title>
                       {/* Generous touch target */}
                       <circle r="22" fill="transparent" />
                       <circle
@@ -1078,7 +1078,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       letterSpacing={0.4}
                       className="drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
                     >
-                      {pick(n.person.name)}
+                      {q(pick(n.person.name))}
                     </text>
                   )}
                   {dateLabel && (
@@ -1182,14 +1182,14 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             </div>
 
             {/* Zoom / Fit Controls & Map View Toggle */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <button
                 type="button"
                 onClick={() => {
                   setSelectedBookId('quran')
                   setShowScripturesModal(true)
                 }}
-                className="glass flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold text-gold border border-gold/40 hover:border-gold hover:bg-gold/20 shadow-md transition-all"
+                className="glass flex h-9 sm:h-auto items-center gap-1.5 rounded-full px-2.5 sm:px-3 py-2 text-xs font-semibold text-gold border border-gold/40 hover:border-gold hover:bg-gold/20 shadow-md transition-all"
                 title={tx(lang, 'Holy Scriptures & Manuscript History', 'Les Livres révélés et l’histoire de leurs manuscrits', 'الكتب السماوية وتاريخ المخطوطات', 'Las Escrituras reveladas y la historia de sus manuscritos')}
               >
                 <BookOpen className="size-3.5 text-gold" aria-hidden="true" />
@@ -1200,7 +1200,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
 
               <A
                 href="/map"
-                className="glass flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-medium text-gold hover:border-gold/50 hover:bg-gold/15 shadow-md transition-colors"
+                className="glass flex h-9 sm:h-auto items-center gap-1.5 rounded-full px-2.5 sm:px-3 py-2 text-xs font-medium text-gold hover:border-gold/50 hover:bg-gold/15 shadow-md transition-colors"
                 title={t('mapView')}
               >
                 <Compass className="size-3.5" aria-hidden="true" />
@@ -1215,7 +1215,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   key={label}
                   type="button"
                   onClick={() => zoomBtn(f)}
-                  className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                  className="glass grid size-9 sm:size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
                   aria-label={label}
                   title={label}
                 >
@@ -1228,7 +1228,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   setGlide(true)
                   fit()
                 }}
-                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                className="glass grid size-9 sm:size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
                 aria-label={t('fit')}
                 title={t('fit')}
               >
@@ -1241,7 +1241,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   fit()
                   setSelected(null)
                 }}
-                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                className="glass grid size-9 sm:size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
                 aria-label={t('resetView')}
                 title={t('resetView')}
               >
@@ -1253,7 +1253,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   const svg = buildTreePosterSvg(layout, lang)
                   downloadSvgPoster(svg, `shajara-prophets-tree-${lang}.svg`)
                 }}
-                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                className="glass grid size-9 sm:size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
                 aria-label={t('posterSvg')}
                 title={t('posterSvg')}
               >
@@ -1265,7 +1265,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   const svg = buildTreePosterSvg(layout, lang)
                   printPosterAsPdf(svg, `${t('brand')} — ${t('posterPdf')}`, lang)
                 }}
-                className="glass grid size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
+                className="glass grid size-9 sm:size-10 place-items-center rounded-full text-ink hover:border-gold/50 shadow-md"
                 aria-label={t('posterPdf')}
                 title={t('posterPdf')}
               >
@@ -1277,7 +1277,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
           {/* Top Banner when an edge kind is highlighted across the tree */}
           {activeLegendKind && (
             <div className="glass pointer-events-auto absolute top-4 inset-x-0 mx-auto w-fit max-w-[90%] rounded-full px-4 py-2 text-center text-xs text-ink flex items-center gap-3 shadow-2xl border border-gold/40 z-30 backdrop-blur-md animate-fade-in">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <Sparkles className="size-3.5 text-gold animate-spin-slow" />
                 <span>
                   {t('edgeHighlightActive')}: <strong className="text-gold font-semibold">{t(KIND_STRING_KEY[activeLegendKind])}</strong> ({highlightedCount} {t('legendLines')})
@@ -1328,7 +1328,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   onClick={() => jumpToPerson(activeEdgeInfo.from.id)}
                   className="text-start hover:text-gold transition-colors font-medium text-ink min-w-0 flex-1 cursor-pointer"
                 >
-                  <span className="block truncate">{pick(activeEdgeInfo.from.name)}</span>
+                  <span className="block truncate">{q(pick(activeEdgeInfo.from.name))}</span>
                   <span className="ar-name block text-xs text-gold truncate">{activeEdgeInfo.from.name.ar}</span>
                 </button>
                 <span className="text-ink-3 text-xs shrink-0 px-1">➔</span>
@@ -1337,7 +1337,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                   onClick={() => jumpToPerson(activeEdgeInfo.to.id)}
                   className="text-end hover:text-gold transition-colors font-medium text-ink min-w-0 flex-1 cursor-pointer"
                 >
-                  <span className="block truncate">{pick(activeEdgeInfo.to.name)}</span>
+                  <span className="block truncate">{q(pick(activeEdgeInfo.to.name))}</span>
                   <span className="ar-name block text-xs text-gold truncate">{activeEdgeInfo.to.name.ar}</span>
                 </button>
               </div>
@@ -1598,7 +1598,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
           {sel && (
             <aside
               aria-live="polite"
-              className="glass-strong absolute inset-x-2 bottom-2 max-h-[60%] overflow-y-auto rounded-3xl p-5 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:max-h-none sm:w-[26rem]"
+              className="glass-strong absolute inset-x-2 bottom-2 z-30 max-h-[60%] overflow-y-auto rounded-3xl p-5 shadow-2xl sm:inset-x-auto sm:end-6 sm:top-20 sm:bottom-6 sm:max-h-none sm:w-[26rem]"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -1653,11 +1653,11 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="font-bold text-gold-2 text-base truncate">{scriptureBook.title.ar}</h4>
-                        <p className="text-xs text-gold/80 font-sans truncate">{pick(scriptureBook.title)}</p>
+                        <p className="text-xs text-gold/80 font-sans truncate">{q(pick(scriptureBook.title))}</p>
                         <div className="mt-1 flex items-center gap-2 text-[10px] text-ink-2 font-mono">
-                          <span>{pick(scriptureBook.originalLanguage)}</span>
+                          <span>{q(pick(scriptureBook.originalLanguage))}</span>
                           <span>•</span>
-                          <span>{pick(scriptureBook.revealedEra)}</span>
+                          <span>{q(pick(scriptureBook.revealedEra))}</span>
                         </div>
                       </div>
                     </div>
@@ -1760,7 +1760,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                     {sel.events.slice(0, 3).map((ev) => (
                       <li key={ev.id} className="flex items-start gap-1.5">
                         <span className="text-gold font-bold">·</span>
-                        <span>{pick(ev.title)}</span>
+                        <span>{q(pick(ev.title))}</span>
                       </li>
                     ))}
                   </ul>
@@ -1777,9 +1777,9 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               {selLink && (
                 <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3 text-xs">
                   <p className="text-ink-3">
-                    {pick(byId.get(selLink.from)!.name)} → {pick(sel.name)}
+                    {q(pick(byId.get(selLink.from)!.name))} → {q(pick(sel.name))}
                   </p>
-                  {selLink.note && <p className="mt-1 text-ink-2">{pick(selLink.note)}</p>}
+                  {selLink.note && <p className="mt-1 text-ink-2">{q(pick(selLink.note))}</p>}
                   <div className="mt-2 flex flex-wrap items-center gap-1.5">
                     <LevelChip level={selLink.l} />
                     <Refs refs={selLink.r} />
@@ -1924,7 +1924,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-[0.68rem] font-mono font-medium text-gold-2 bg-gold/10 px-2 py-0.5 rounded border border-gold/25 inline-flex items-center gap-1">
                         <Sparkles className="size-2.5 text-gold" />
-                        <span>{pick(entity.era)}</span>
+                        <span>{q(pick(entity.era))}</span>
                       </span>
                       <span className="text-[0.65rem] font-mono text-ink-3">
                         {entity.id === 'angels'
@@ -1939,23 +1939,23 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
 
                     <div>
                       <h3 className="font-bold text-ink text-lg group-hover:text-gold transition-colors leading-snug">
-                        {pick(entity.name)}
+                        {q(pick(entity.name))}
                       </h3>
-                      <p className="text-xs text-gold-2/80 font-medium mt-1 leading-relaxed">{pick(entity.subTitle)}</p>
+                      <p className="text-xs text-gold-2/80 font-medium mt-1 leading-relaxed">{q(pick(entity.subTitle))}</p>
                     </div>
                   </div>
 
                   <div className="my-3 rounded-xl bg-night-3/70 p-3 border border-white/5">
                     <p className="text-xs text-ink-2 leading-relaxed">
-                      {pick(entity.summary)}
-                      {entity.caution && <span className="mt-2 block rounded-lg border border-lvl-disputed/40 bg-lvl-disputed/10 p-2 text-lvl-disputed">{pick(entity.caution)}</span>}
+                      {q(pick(entity.summary))}
+                      {entity.caution && <span className="mt-2 block rounded-lg border border-lvl-disputed/40 bg-lvl-disputed/10 p-2 text-lvl-disputed">{q(pick(entity.caution))}</span>}
                     </p>
                   </div>
 
                   <div className="text-[0.72rem] text-ink-3 space-y-1">
-                    <p><strong className="text-gold/90">{tx(lang, 'Nature:', 'Nature :', 'طبيعة الخلق:', 'Naturaleza:')}</strong> {pick(entity.nature)}</p>
+                    <p><strong className="text-gold/90">{tx(lang, 'Nature:', 'Nature :', 'طبيعة الخلق:', 'Naturaleza:')}</strong> {q(pick(entity.nature))}</p>
                     {entity.scientificCorrelation && (
-                      <p><strong className="text-sky-300">{tx(lang, 'Modern comparison (speculative):', 'Rapprochement moderne (spéculatif) :', 'ربط معاصر (تخمين لا يثبت):', 'Vínculo moderno (especulativo):')}</strong> {pick(entity.scientificCorrelation)}</p>
+                      <p><strong className="text-sky-300">{tx(lang, 'Modern comparison (speculative):', 'Rapprochement moderne (spéculatif) :', 'ربط معاصر (تخمين لا يثبت):', 'Vínculo moderno (especulativo):')}</strong> {q(pick(entity.scientificCorrelation))}</p>
                     )}
                   </div>
                 </div>
@@ -1982,25 +1982,25 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                         <span>{tx(lang, 'Theological & Historical Detail:', 'Détail théologique et historique :', 'التفصيل العقدي والتاريخي:', 'Detalle teológico e histórico:')}</span>
                       </h4>
                       <p className="text-xs text-ink leading-relaxed">
-                        {pick(entity.detailedDescription)}
+                        {q(pick(entity.detailedDescription))}
                       </p>
                     </div>
 
                     {entity.scholarlySources.map((s, idx) => (
                       <div key={idx} className="rounded-xl bg-white/[0.02] p-3 border border-white/10">
                         <div className="flex items-center justify-between gap-2 text-xs font-semibold text-gold mb-1">
-                          <span>{pick(s.author)}</span>
-                          <span className="text-[0.68rem] text-ink-3 italic">{pick(s.work)}</span>
+                          <span>{q(pick(s.author))}</span>
+                          <span className="text-[0.68rem] text-ink-3 italic">{q(pick(s.work))}</span>
                         </div>
                         <blockquote className="text-xs text-ink-2 italic border-s-2 border-gold/40 ps-2.5 my-1">
-                          {pick(s.citation)}
+                          {q(pick(s.citation))}
                         </blockquote>
                       </div>
                     ))}
 
                     <div className="rounded-xl bg-gold/10 p-3 border border-gold/20 text-xs text-ink-2 leading-relaxed">
                       <strong className="text-gold block mb-1">{tx(lang, 'Creed & Theological Note:', 'Note de croyance :', 'الخلاصة الإيمانية:', 'Nota de creencia:')}</strong>
-                      {pick(entity.theologicalContext)}
+                      {q(pick(entity.theologicalContext))}
                     </div>
 
                     {/* Famous Archangels in Quran & Sunnah & How They Look */}
@@ -2027,7 +2027,7 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                               <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
                                 <div className="flex items-center gap-2">
                                   <span className="text-xs font-bold text-gold">
-                                    {pick(angel.name)}
+                                    {q(pick(angel.name))}
                                   </span>
                                   <span className="text-[0.65rem] text-gold-3">
                                     {angel.arabicHonorific}
@@ -2042,14 +2042,14 @@ function TreePreAdamModal({ onClose, initialEntityId }: { onClose: () => void; i
                                 <strong className="text-ink">
                                   {tx(lang, 'Celestial Duty: ', 'Fonction : ', 'الوظيفة والتكليف: ', 'Función: ')}
                                 </strong>
-                                {pick(angel.role)}
+                                {q(pick(angel.role))}
                               </p>
 
                               <div className="rounded-lg bg-white/[0.04] p-2.5 border border-white/5 text-[0.73rem] text-ink leading-relaxed">
                                 <strong className="text-gold block mb-1">
                                   {tx(lang, 'Appearance in Qur’an & Sunnah (How They Look):', 'Description dans le Coran et la Sunna :', 'المظهر والهيئة في القرآن والسنة (كيف يبدون):', 'Descripción en el Corán y la Sunna:')}
                                 </strong>
-                                {pick(angel.appearance)}
+                                {q(pick(angel.appearance))}
                               </div>
 
                               <div className="mt-2 text-[0.65rem] text-ink-3">
