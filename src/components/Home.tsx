@@ -218,7 +218,24 @@ export function Home() {
 function Heavens() {
   const { pick, t } = useI18n()
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[640px]">
+    <>
+    {/* Phones: the inner orbits are too close for their cards, so the seven heavens are listed instead. */}
+    <ol className="grid grid-cols-2 gap-2.5 sm:hidden">
+      {heavens.map((h) => (
+        <li key={h.n} className={`glass-strong flex flex-col items-center rounded-2xl px-3 py-2 text-center ${h.n === 7 ? 'col-span-2' : ''}`}>
+          <span className="text-[0.68rem] text-gold">{t('heavenBadge', { n: h.n })}</span>
+          <span className="flex flex-wrap justify-center gap-x-2">
+            {h.ids.map((id) => (
+              <A key={id} href={hrefOf({ name: 'person', id })} className="ar-name inline-flex min-h-8 items-center px-1 text-lg font-semibold text-ink hover:text-gold-2">
+                {byId.get(id)!.name.ar}
+                <span className="sr-only"> — {q(pick(byId.get(id)!.name))}</span>
+              </A>
+            ))}
+          </span>
+        </li>
+      ))}
+    </ol>
+    <div className="relative mx-auto hidden aspect-square w-full max-w-[640px] sm:block">
       <svg viewBox="-320 -320 640 640" className="absolute inset-0 h-full w-full" aria-hidden="true">
         <defs>
           <radialGradient id="core" r="50%">
@@ -254,5 +271,6 @@ function Heavens() {
         })}
       </ol>
     </div>
+    </>
   )
 }
