@@ -6,12 +6,17 @@ import { BOOKS, LEVELS } from '../data/sources'
 import { LevelChip } from './ui'
 import { VERIFIED_REFS } from '../data/peopleCore'
 import photoCredits from '../data/photoCredits.json'
+import { QURAN_SUNNAH_ANIMALS, QURAN_SUNNAH_PLANTS } from '../data/nature'
+import '../data/es/nature.es'
 
 import { REPO } from '../lib/repo'
 export { REPO }
 
+
+/** Photo credits are keyed by the creature's id; show its name in the reader's language. */
+const PHOTO_NAMES = new Map([...QURAN_SUNNAH_ANIMALS, ...QURAN_SUNNAH_PLANTS].map((e) => [e.id, e.name]))
 export function Sources() {
-  const { t, lang } = useI18n()
+  const { t, lang, pick } = useI18n()
   return (
     <div className="mx-auto max-w-4xl px-4 pt-32 pb-24 sm:px-6 sm:pt-28">
       <header className="text-center">
@@ -75,11 +80,11 @@ export function Sources() {
             .filter(([, c]) => !c.generated)
             .map(([id, c]) => (
               <li key={id} className="glass rounded-xl px-3 py-2">
-                <span className="font-mono text-ink-2">{id}</span> ·{' '}
+                <span className="text-ink-2">{PHOTO_NAMES.has(id) ? pick(PHOTO_NAMES.get(id)!) : id}</span> ·{' '}
                 <a href={c.page} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-gold">
                   {c.author}
                 </a>{' '}
-                · {c.license}
+                · {c.license === 'Public domain' ? tx(lang, 'Public domain', 'Domaine public', 'ملكية عامة', 'Dominio público') : c.license}
               </li>
             ))}
         </ul>

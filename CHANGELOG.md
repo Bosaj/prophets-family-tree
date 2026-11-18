@@ -4,6 +4,16 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.13.1] — 2026-11-18
+### Fixed
+- **Map on phones.** The bars at the top of the map were placed at fixed heights and covered each other as soon as they wrapped onto two lines (the owner’s screenshot of `/map` in Arabic). They now stack in one column; the era and site filters fold behind a **Filters** button on phones and scroll sideways instead of wrapping; the bars and the zoom buttons step aside while a detail panel is open. Prophet labels no longer pile on top of each other: where pins are close, the most important label stays and the others hide until you zoom in.
+- **Tree on phones.** The legend and the era ruler hide while a person’s panel is open (they sat under it), and the hint no longer touches the legend pill.
+- **Translations.** Map prophet labels were always in Arabic; they now follow the reader’s language. 137 map texts (sites, routes and stops) had no Spanish and showed English; they are translated. Also translated: the manuscripts buttons of the Holy Books, the Companions’ dates (battles, “Present”, “to”), the timeline notes in Spanish, the zoom buttons, “papers” on the Miracles page, “Public domain” and the photo names on the Sources page.
+- **Accuracy.** Four map texts stated contested claims as facts (the “first mosque in Africa”, a UNESCO recognition, two traditional founding stories); they now say what is established and what is tradition, in all four languages.
+
+### Added
+- **Phone audit in CI** (`npm run audit:layout`, `scripts/layout-audit.mjs`). Every pull request now opens every page on a 375-pixel phone in English, French, Spanish and Arabic and fails if text runs off the screen, if two panels or labels overlap, if a header popup opens off screen, or if a French, Spanish or Arabic page shows text left in English.
+
 ## [2.13.0] — 2026-11-18
 ### Added
 - **How the hadith were preserved** (`/hadith`), for readers who want to check the method, Muslim or not:

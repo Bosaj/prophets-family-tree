@@ -11,6 +11,8 @@ Arabic, English, French and Spanish. Arabic switches the page to right-to-left.
 ## Phones
 Every page is checked at 375 pixels wide in the four languages, including the open states: the tree with a person open, the header menus, the place panel and the verse sheet. Popups that open from the header use a fixed position on phones (`fixed inset-x-3`), because a panel anchored to the end of a button runs off the screen in right-to-left Arabic. Chips that hold a long grade wrap (`.chip` in `src/index.css`).
 
+**Automatic check.** `npm run audit:layout` (`scripts/layout-audit.mjs`, Playwright) opens every page of the built site on a 375 × 812 phone in the four languages and fails when text runs off the screen, two floating surfaces overlap, a header popup opens off screen, or a French, Spanish or Arabic page shows a text left in English (names, scientific names and citations are allowed). It runs in CI as the `layout` job on every pull request. Floating controls must stack in one flow container, never at fixed heights that assume one line.
+
 ## Qur'an and hadith fonts
 Supplication cards and verses use Amiri and Amiri Quran. Inside other texts, `q()` (`src/components/ui.tsx`) wraps Arabic Qur'an quotes (﴿…﴾) and Arabic hadith quotes («…», three words or more) in those fonts; components render data texts as `{q(pick(text))}`.
 
