@@ -92,7 +92,7 @@ export function AwqatView() {
   const fmt = new Intl.DateTimeFormat(LOCALE[lang], { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: place.tz })
   const dateFmt = new Intl.DateTimeFormat(LOCALE[lang], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: place.tz })
   const ph = hijriForPlace(now, place.tz)
-  const hijri = `${ph.date.d} ${q(pick(MONTHS[ph.date.m - 1]!.name))} ${ph.date.y} ${lang === 'ar' ? 'هـ' : lang === 'en' ? 'AH' : 'H'}`
+  const hijri = `${ph.date.d} ${pick(MONTHS[ph.date.m - 1]!.name)} ${ph.date.y} ${lang === 'ar' ? 'هـ' : lang === 'en' ? 'AH' : 'H'}`
   const isFriday = new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: place.tz }).format(now) === 'Fri'
   const mins = Math.max(0, Math.round((next.at.getTime() - now.getTime()) / 60_000))
   const left = `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2, '0')}`
@@ -263,7 +263,7 @@ function Counter({ target }: { target: number }) {
         type="button"
         onClick={() => setN((x) => Math.min(target, x + 1))}
         className={`min-h-11 flex-1 rounded-xl border px-4 py-2 text-sm font-medium tabular-nums transition-[transform,background-color] active:scale-[0.98] ${done ? 'border-lvl-hadith/50 bg-lvl-hadith/10 text-lvl-hadith' : 'border-gold/30 bg-gold/5 text-gold hover:bg-gold/10'}`}
-        aria-label={`${q(pick(UI.tap))}: ${n} / ${target}`}
+        aria-label={`${pick(UI.tap)}: ${n} / ${target}`}
       >
         {n} / {target} {!done && <span className="text-ink-3">· {q(pick(UI.tap))}</span>}
       </button>

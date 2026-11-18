@@ -410,3 +410,9 @@ html[lang='ar'] body {
   background: transparent !important;
   border: none !important;
 }
+
+@media (max-width: 639px) {
+  .map-drawer-open .leaflet-control-container {
+    display: none;
+  }
+}

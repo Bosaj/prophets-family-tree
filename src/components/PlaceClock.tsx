@@ -4,7 +4,6 @@ import { useI18n } from '../i18n'
 import type { L4 } from '../data/types'
 import { usePlace } from '../lib/place'
 import { LOCALE, NOW_UI } from '../lib/nowText'
-import { q } from './ui'
 
 const Panel = lazy(() => import('./PlaceClockPanel'))
 
@@ -41,7 +40,7 @@ export function PlaceClock() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="dialog"
-        aria-label={`${q(pick(NOW_UI.label))}: ${cityName} ${time(now, place.tz)}`}
+        aria-label={`${pick(NOW_UI.label)}: ${cityName} ${time(now, place.tz)}`}
         className="flex h-8 sm:h-9 items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2 xl:px-2.5 text-xs text-ink-2 transition-colors hover:border-gold/40 hover:text-ink"
       >
         <Clock className="size-3.5" aria-hidden="true" />

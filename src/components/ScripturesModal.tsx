@@ -153,9 +153,7 @@ export function ScripturesModal({
                   <span className="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold bg-gold/90 text-night shadow-sm">
                     {currentBook.preservationStatus === 'divinely_preserved'
                       ? tx(lang, 'Divinely Preserved · 100%', 'Préservé par Allah · 100 %', 'محفوظ بحفظ الله التام', 'Preservado por Allah · 100 %')
-                      : lang === 'ar'
-                      ? `${currentBook.versionsCount} تقاليد نصية رئيسية`
-                      : `${currentBook.versionsCount} Major Textual Traditions`}
+                      : tx(lang, `${currentBook.versionsCount} Major Textual Traditions`, `${currentBook.versionsCount} grandes traditions textuelles`, `${currentBook.versionsCount} تقاليد نصية رئيسية`, `${currentBook.versionsCount} grandes tradiciones textuales`)}
                   </span>
                 </div>
               </div>
@@ -294,9 +292,7 @@ export function ScripturesModal({
                 <h4 className="text-base sm:text-lg font-bold text-gold-2 flex items-center gap-2">
                   <FileText className="h-5 w-5 text-gold shrink-0" />
                   <span>
-                    {lang === 'ar'
-                      ? `تفصيل النسخ والمخطوطات والتقاليد النصية (${currentBook.versions.length})`
-                      : `Detailed Textual Traditions & Manuscripts (${currentBook.versions.length})`}
+                    {tx(lang, `Detailed Textual Traditions & Manuscripts (${currentBook.versions.length})`, `Traditions textuelles et manuscrits en détail (${currentBook.versions.length})`, `تفصيل النسخ والمخطوطات والتقاليد النصية (${currentBook.versions.length})`, `Tradiciones textuales y manuscritos en detalle (${currentBook.versions.length})`)}
                   </span>
                 </h4>
                 <p className="text-xs text-ink-2">
@@ -352,7 +348,7 @@ export function ScripturesModal({
                 <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-3">
                   <div className="min-w-0">
                     <h5 className="text-base sm:text-lg font-bold text-gold-2 break-words">
-                      {activeVersion.name.ar} {lang !== 'ar' && `· ${q(pick(activeVersion.name))}`}
+                      {activeVersion.name.ar} {lang !== 'ar' && `· ${pick(activeVersion.name)}`}
                     </h5>
                     <p className="text-xs text-gold font-sans break-words mt-0.5">
                       {q(pick(activeVersion.significance))}

@@ -118,9 +118,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
               <span className="inline-block rounded-full px-3 py-1 text-xs font-semibold bg-gold text-night shadow-md">
                 {currentBook.preservationStatus === 'divinely_preserved'
                   ? tx(lang, 'Divinely Preserved · 100%', 'Préservé par Allah · 100 %', 'محفوظ بحفظ الله التام', 'Preservado por Allah · 100 %')
-                  : lang === 'ar'
-                  ? `${currentBook.versionsCount} تقاليد نصية رئيسية`
-                  : `${currentBook.versionsCount} Major Textual Traditions`}
+                  : tx(lang, `${currentBook.versionsCount} Major Textual Traditions`, `${currentBook.versionsCount} grandes traditions textuelles`, `${currentBook.versionsCount} تقاليد نصية رئيسية`, `${currentBook.versionsCount} grandes tradiciones textuales`)}
               </span>
             </div>
           </div>
@@ -250,9 +248,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
           <h2 className="text-xl sm:text-2xl font-bold text-gold-2 flex items-center gap-2">
             <FileText className="h-6 w-6 text-gold" />
             <span>
-              {lang === 'ar'
-                ? `تفصيل النسخ والمخطوطات والتقاليد النصية (${currentBook.versions.length})`
-                : `Detailed Textual Traditions & Manuscripts (${currentBook.versions.length})`}
+              {tx(lang, `Detailed Textual Traditions & Manuscripts (${currentBook.versions.length})`, `Traditions textuelles et manuscrits en détail (${currentBook.versions.length})`, `تفصيل النسخ والمخطوطات والتقاليد النصية (${currentBook.versions.length})`, `Tradiciones textuales y manuscritos en detalle (${currentBook.versions.length})`)}
             </span>
           </h2>
           <p className="text-sm text-ink-2">
@@ -302,7 +298,7 @@ export function ScripturesView({ initialBookId = 'quran' }: { initialBookId?: st
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gold/20 pb-4">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-gold-2">
-                  {activeVersion.name.ar} {lang !== 'ar' && `· ${q(pick(activeVersion.name))}`}
+                  {activeVersion.name.ar} {lang !== 'ar' && `· ${pick(activeVersion.name)}`}
                 </h3>
                 <p className="text-sm text-gold font-sans mt-0.5">
                   {q(pick(activeVersion.significance))}

@@ -1014,7 +1014,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
                         setShowScripturesModal(true)
                       }}
                     >
-                      <title>{`${scriptureBook.title.ar} · ${q(pick(scriptureBook.title))} (${scriptureBook.id === 'quran' ? (tx(lang, '1 Preserved Text', '1 texte préservé', 'نص موحد محفوظ', '1 texto preservado')) : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات ومخطوطات', 'tradiciones')}`})`}</title>
+                      <title>{`${scriptureBook.title.ar} · ${pick(scriptureBook.title)} (${scriptureBook.id === 'quran' ? (tx(lang, '1 Preserved Text', '1 texte préservé', 'نص موحد محفوظ', '1 texto preservado')) : `${scriptureBook.versionsCount} ${tx(lang, 'traditions', 'traditions', 'روايات ومخطوطات', 'tradiciones')}`})`}</title>
                       {/* Generous touch target */}
                       <circle r="22" fill="transparent" />
                       <circle
@@ -1353,7 +1353,8 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
             </div>
           )}
 
-          {/* Interactive Legend Toggle Pill */}
+          {/* Interactive Legend Toggle Pill (hidden while a person's panel is open, which would cover it) */}
+          {!sel && (
           <button
             type="button"
             onClick={() => setShowLegend((s) => !s)}
@@ -1371,9 +1372,10 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
               <span className="size-2 rounded-full bg-gold animate-ping" />
             )}
           </button>
+          )}
 
           {/* Specific Categorized Interactive Legend Card */}
-          {showLegend && (
+          {showLegend && !sel && (
             <div
               className="glass-strong pointer-events-auto absolute start-3 sm:start-5 bottom-28 sm:bottom-32 z-20 w-80 max-w-[calc(100vw-2rem)] max-h-[65vh] overflow-y-auto rounded-2xl p-3.5 text-xs text-ink-2 shadow-2xl backdrop-blur-xl border border-gold/30 no-scrollbar animate-fadeIn"
             >
@@ -1589,7 +1591,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
         )}
 
         {!sel && !showLegend && (
-          <p className="glass pointer-events-none absolute inset-x-0 bottom-16 sm:bottom-20 mx-auto w-fit max-w-[90%] rounded-full px-4 py-1.5 text-center text-xs text-ink-2 z-10 animate-fadeIn">
+          <p className="glass pointer-events-none absolute inset-x-0 bottom-28 sm:bottom-32 mx-auto w-fit max-w-[90%] rounded-full px-4 py-1.5 text-center text-xs text-ink-2 z-10 animate-fadeIn">
             {t('traceHint')}
           </p>
         )}
@@ -1794,7 +1796,7 @@ export function Tree({ focus, mini = false }: { focus?: string; mini?: boolean }
           )}
 
           {/* Bottom Floating Time-Space Epoch Ruler */}
-          <div className="absolute inset-x-2 sm:inset-x-6 bottom-3 sm:bottom-5 z-10 flex justify-center pointer-events-none">
+          <div className={`absolute inset-x-2 sm:inset-x-6 bottom-3 sm:bottom-5 z-10 justify-center pointer-events-none ${sel ? 'hidden' : 'flex'}`}>
             <div className="glass pointer-events-auto flex max-w-[calc(100vw-1.5rem)] sm:max-w-fit items-center gap-1.5 overflow-x-auto rounded-full p-1.5 shadow-2xl border border-gold/30 bg-night-surface/95 backdrop-blur-md scrollbar-none">
               <div className="flex shrink-0 items-center gap-1.5 ps-2.5 pe-1 text-xs font-semibold text-gold">
                 <Clock className="size-3.5" />

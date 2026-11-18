@@ -1417,7 +1417,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'farash',
     name: t4('Moths', 'Les papillons de nuit', 'الفراش', 'Las polillas'),
-    scientificName: 'Lepidoptera (e.g. Autographa gamma)',
+    scientificName: 'Lepidoptera (Autographa gamma)',
     category: 'insects',
     source: 'quran_and_sunnah',
     quranRefs: ['101:4'],
@@ -1498,7 +1498,7 @@ export const QURAN_SUNNAH_ANIMALS: AnimalEntry[] = [
   {
     id: 'hayyah',
     name: t4('The snake of Musa’s staff', 'Le serpent du bâton de Musa', 'الحية (عصا موسى)', 'La serpiente del bastón de Musa'),
-    scientificName: 'Serpentes (desert species such as Cerastes cerastes)',
+    scientificName: 'Serpentes (Cerastes cerastes)',
     category: 'reptiles',
     source: 'quran',
     quranRefs: ['20:17-21', '7:107', '7:117-122', '27:10'],

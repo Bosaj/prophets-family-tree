@@ -97,7 +97,7 @@ export function HijriView() {
     return () => ctrl.abort()
   }, [istanbulDay])
 
-  const fmtH = (h: HDate) => `${h.d} ${q(pick(MONTHS[h.m - 1]!.name))} ${h.y} ${ERA[lang]}`
+  const fmtH = (h: HDate) => `${h.d} ${pick(MONTHS[h.m - 1]!.name)} ${h.y} ${ERA[lang]}`
   const time = (d: Date, tz: string) => new Intl.DateTimeFormat(LOCALE[lang], { hour: '2-digit', minute: '2-digit', timeZone: tz, hour12: false }).format(d)
   const greg = (d: Date, tz: string) => new Intl.DateTimeFormat(LOCALE[lang], { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(d)
 

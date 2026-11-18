@@ -99,7 +99,7 @@ const DESC: Record<string, Fields> = {
     comparisonWithModern: 'De estatura media; no existe ninguna medida.',
   },
   ibrahim_desc: {
-    name: 'Ibrahim (Abraham)',
+    name: 'Ibrahim (Abrahán)',
     honorific: 'Jalilullah y padre de los profetas',
     statureCategory: 'No se describe',
     heightEstimate: 'Las fuentes no la indican.',

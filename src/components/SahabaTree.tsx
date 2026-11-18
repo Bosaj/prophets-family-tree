@@ -326,11 +326,24 @@ const TREE_LINKS: TreeLink[] = [
 ]
 
 // Date localization & BiDi protection helpers
+/** English phrases found in the dates of the data, with their French, Arabic and Spanish. */
+const DATE_PHRASES: [RegExp, string, string, string][] = [
+  [/\bBattle of Uhud\b/gi, 'bataille d’Uhud', 'غزوة أحد', 'batalla de Uhud'],
+  [/\bBattle of the Camel\b/gi, 'bataille du Chameau', 'وقعة الجمل', 'batalla del Camello'],
+  [/\bPlague of Amwas\b/gi, 'peste d’Amwas', 'طاعون عمواس', 'peste de Amwas'],
+  [/\bduring Hajj\b/gi, 'pendant le Hajj', 'في الحج', 'durante el Hach'],
+  [/\bMid-Ramadan\b/gi, 'mi-Ramadan', 'منتصف رمضان', 'mediados de Ramadán'],
+  [/\b(\d+) months\b/gi, '$1 mois', '$1 أشهر', '$1 meses'],
+  [/\bCaliph\b/g, 'calife', 'خليفة', 'califa'],
+  [/\bPresent\b/g, 'aujourd’hui', 'الآن', 'hoy'],
+]
+
 function formatDeathDate(death: { ah: string; ce: string }, lang: Lang): string {
   if (death.ah === 'Living' || death.ce === 'Current') {
     return tx(lang, 'Living', 'Actuel', 'معاصر', 'Vivo')
   }
   let s = death.ah
+  for (const [re, fr, ar, es] of DATE_PHRASES) if (lang !== 'en') s = s.replace(re, lang === 'fr' ? fr : lang === 'es' ? es : ar)
   if (lang === 'ar') {
     s = s
       .replace(/\bAH\b/g, 'هـ')
@@ -357,7 +370,8 @@ function formatDeathDate(death: { ah: string; ce: string }, lang: Lang): string 
 
 function formatReignDate(reign: { ah?: string; ce?: string } | undefined, lang: Lang): string {
   if (!reign?.ah) return ''
-  return localizeDate(lang === 'ar' ? reign.ah.replace(/\bto\b/g, 'إلى') : reign.ah, lang)
+  const to = lang === 'ar' ? 'إلى' : lang === 'fr' ? 'à' : lang === 'es' ? 'a' : 'to'
+  return localizeDate(reign.ah.replace(/\bto\b/g, to), lang)
 }
 
 export function SahabaTree({ focus }: { focus?: string }) {
@@ -1526,7 +1540,7 @@ export function SahabaTree({ focus }: { focus?: string }) {
                           >
                             <span className="block text-sm font-semibold text-ink">{q(pick(other.name))}</span>
                             <span className="block text-xs text-ink-3">
-                              {outgoing ? `${q(pick(activeFigure.name))} → ${q(pick(other.name))}` : `${q(pick(other.name))} → ${q(pick(activeFigure.name))}`}
+                              {outgoing ? `${pick(activeFigure.name)} → ${pick(other.name)}` : `${pick(other.name)} → ${pick(activeFigure.name)}`}
                               {' · '}
                               <span className="text-gold-2">{q(pick(l.note ?? l.label))}</span>
                             </span>

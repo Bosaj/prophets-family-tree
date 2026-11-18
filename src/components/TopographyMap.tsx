@@ -19,9 +19,10 @@ import {
   Printer,
   AlertTriangle,
   ShieldCheck,
+  SlidersHorizontal,
 } from 'lucide-react'
 import type L from 'leaflet'
-import { legacy, tx, useI18n } from '../i18n'
+import { tx, useI18n } from '../i18n'
 import { coreById as byId, coreProphets as prophets } from '../data/peopleCore'
 import { loadPersonDetails } from '../data/people/loader'
 import type { Person, PersonSummary } from '../data/types'
@@ -68,8 +69,8 @@ export interface PropheticRoute {
   name: { en: string; fr: string; ar: string; es?: string }
   color: string
   prophetId: string
-  period: { en: string; fr: string; ar: string }
-  desc: { en: string; fr: string; ar: string }
+  period: { en: string; fr: string; ar: string; es: string }
+  desc: { en: string; fr: string; ar: string; es: string }
   coords: [number, number][]
   stops: RouteWaypoint[]
 }
@@ -81,7 +82,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 21.4225,
     lng: 39.8262,
-    desc: { en: 'The first sanctuary appointed for mankind; its foundations were raised by Ibrahim and Ismail (Qur’an 2:127, 3:96).', fr: 'Premier sanctuaire édifié pour l’humanité, élevé par Ibrahim et Ismail (Coran 2:127, 3:96).', ar: 'أول بيت وُضع للناس في بكة مباركًا وهدى للعالمين، رفع قواعده إبراهيم وإسماعيل عليهما السلام.' },
+    desc: { en: 'The first sanctuary appointed for mankind; its foundations were raised by Ibrahim and Ismail (Qur’an 2:127, 3:96).', fr: 'Premier sanctuaire édifié pour l’humanité, élevé par Ibrahim et Ismail (Coran 2:127, 3:96).', ar: 'أول بيت وُضع للناس في بكة مباركًا وهدى للعالمين، رفع قواعده إبراهيم وإسماعيل عليهما السلام.', es: "El primer santuario establecido para la humanidad; sus cimientos los levantaron Ibrahim e Ismail (Corán 2:127, 3:96)." },
     prophetId: 'ibrahim',
     quranRef: 'Al-Baqarah 2:127',
   },
@@ -91,7 +92,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 24.4686,
     lng: 39.6108,
-    desc: { en: 'Sanctuary of Prophet Muhammad ﷺ in Madinah, containing the noble Rawdah: "Between my house and my pulpit is a garden from Paradise".', fr: 'Le sanctuaire du Prophète Muhammad ﷺ à Médine, abritant la noble Rawdah.', ar: 'مسجد رسول الله ﷺ ومرقده الشريف، وفيه الروضة الشريفة: «ما بين بيتي ومنبري روضة من رياض الجنة».' },
+    desc: { en: 'Sanctuary of Prophet Muhammad ﷺ in Madinah, containing the noble Rawdah: "Between my house and my pulpit is a garden from Paradise".', fr: 'Le sanctuaire du Prophète Muhammad ﷺ à Médine, abritant la noble Rawdah.', ar: 'مسجد رسول الله ﷺ ومرقده الشريف، وفيه الروضة الشريفة: «ما بين بيتي ومنبري روضة من رياض الجنة».', es: "Santuario del Profeta Muhammad ﷺ en Medina, que guarda la noble Rawda: «Entre mi casa y mi púlpito hay un jardín del Paraíso»." },
     prophetId: 'muhammad',
     quranRef: 'Sahih al-Bukhari 1195',
   },
@@ -101,7 +102,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 31.7761,
     lng: 35.2358,
-    desc: { en: 'The second mosque placed on earth, sanctuary of the Prophets of Israel, and destination of the Night Journey (Al-Isra).', fr: 'Deuxième mosquée sur terre, destination du Voyage nocturne (Isra) et sanctuaire des Prophètes.', ar: 'ثاني مسجد وُضع في الأرض، وقبلة الأنبياء الأولى، ومسرى النبي ﷺ في ليلة الإسراء والمعراج.' },
+    desc: { en: 'The second mosque placed on earth, sanctuary of the Prophets of Israel, and destination of the Night Journey (Al-Isra).', fr: 'Deuxième mosquée sur terre, destination du Voyage nocturne (Isra) et sanctuaire des Prophètes.', ar: 'ثاني مسجد وُضع في الأرض، وقبلة الأنبياء الأولى، ومسرى النبي ﷺ في ليلة الإسراء والمعراج.', es: "La segunda mezquita establecida en la tierra, santuario de los profetas de Israel y destino del Viaje Nocturno (al-Isra)." },
     prophetId: 'isa',
     quranRef: 'Al-Isra 17:1',
   },
@@ -111,7 +112,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 28.5394,
     lng: 33.9753,
-    desc: { en: 'Sacred peak where Allah spoke directly to Musa without intermediary, sanctified by divine oath (Qur’an 95:2).', fr: 'Sommet sacré où Allah s’adressa directement à Moïse sans intermédiaire, sanctifié par serment divin (Coran 95:2).', ar: 'الجبل الأشم الذي كلّم الله عنده موسى تكليمًا، وأقسم به في محكم التنزيل ﴿وَطُورِ سِينِينَ﴾.' },
+    desc: { en: 'Sacred peak where Allah spoke directly to Musa without intermediary, sanctified by divine oath (Qur’an 95:2).', fr: 'Sommet sacré où Allah s’adressa directement à Moïse sans intermédiaire, sanctifié par serment divin (Coran 95:2).', ar: 'الجبل الأشم الذي كلّم الله عنده موسى تكليمًا، وأقسم به في محكم التنزيل ﴿وَطُورِ سِينِينَ﴾.', es: "Cumbre sagrada donde Allah habló directamente a Musa sin intermediario, santificada por un juramento divino (Corán 95:2)." },
     prophetId: 'musa',
     quranRef: 'At-Tin 95:2',
   },
@@ -121,7 +122,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 28.5560,
     lng: 33.9740,
-    desc: { en: 'The holy valley at the foot of Mount Sinai where Musa was commanded: "Take off your sandals, indeed you are in the sacred valley of Tuwa" (Qur’an 20:12).', fr: 'La vallée bénie au pied du Sinaï où Musa reçut l’ordre de retirer ses sandales (Coran 20:12).', ar: 'الوادي المبارك أسفل جبل الطور حيث نودي موسى: ﴿فَاخْلَعْ نَعْلَيْكَ إِنَّكَ بِالْوَادِ الْمُقَدَّسِ طُوًى﴾.' },
+    desc: { en: 'The holy valley at the foot of Mount Sinai where Musa was commanded: "Take off your sandals, indeed you are in the sacred valley of Tuwa" (Qur’an 20:12).', fr: 'La vallée bénie au pied du Sinaï où Musa reçut l’ordre de retirer ses sandales (Coran 20:12).', ar: 'الوادي المبارك أسفل جبل الطور حيث نودي موسى: ﴿فَاخْلَعْ نَعْلَيْكَ إِنَّكَ بِالْوَادِ الْمُقَدَّسِ طُوًى﴾.', es: "El valle sagrado al pie del monte Sinaí donde se ordenó a Musa: «Quítate las sandalias, estás en el valle sagrado de Tuwa» (Corán 20:12)." },
     prophetId: 'musa',
     quranRef: 'Taha 20:12',
   },
@@ -131,7 +132,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 37.3800,
     lng: 42.4500,
-    desc: { en: 'The mountain in southeastern Anatolia overlooking the Tigris where Nuh’s Ark rested after the Great Deluge (Qur’an 11:44).', fr: 'Montagne où s’est posée l’Arche de Nuh après le grand déluge (Coran 11:44).', ar: 'الموضع الذي استوت عليه سفينة نوح بعد الطوفان العظيم: ﴿وَاسْتَوَتْ عَلَى الْجُودِيِّ وَقِيلَ بُعْدًا لِّلْقَوْمِ الظَّالِمِينَ﴾.' },
+    desc: { en: 'The mountain in southeastern Anatolia overlooking the Tigris where Nuh’s Ark rested after the Great Deluge (Qur’an 11:44).', fr: 'Montagne où s’est posée l’Arche de Nuh après le grand déluge (Coran 11:44).', ar: 'الموضع الذي استوت عليه سفينة نوح بعد الطوفان العظيم: ﴿وَاسْتَوَتْ عَلَى الْجُودِيِّ وَقِيلَ بُعْدًا لِّلْقَوْمِ الظَّالِمِينَ﴾.', es: "La montaña del sureste de Anatolia, frente al Tigris, donde se posó el Arca de Nuh tras el gran diluvio (Corán 11:44)." },
     prophetId: 'nuh',
     quranRef: 'Hud 11:44',
   },
@@ -141,7 +142,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 21.4583,
     lng: 39.8583,
-    desc: { en: 'The mountain cave northeast of Makkah where the Archangel Jibril descended with the first revelation of the Qur’an: Iqra.', fr: 'La grotte où l’ange Jibril descendit avec les premiers versets du Coran (Iqra).', ar: 'الغار في قمة جبل النور حيث كان يتحنث النبي ﷺ وهبط عليه الروح الأمين جبريل بأول الوحي ﴿اقْرَأْ﴾.' },
+    desc: { en: 'The mountain cave northeast of Makkah where the Archangel Jibril descended with the first revelation of the Qur’an: Iqra.', fr: 'La grotte où l’ange Jibril descendit avec les premiers versets du Coran (Iqra).', ar: 'الغار في قمة جبل النور حيث كان يتحنث النبي ﷺ وهبط عليه الروح الأمين جبريل بأول الوحي ﴿اقْرَأْ﴾.', es: "La cueva de montaña al noreste de La Meca donde el ángel Yibril descendió con la primera revelación del Corán: Iqra." },
     prophetId: 'muhammad',
     quranRef: 'Al-Alaq 96:1-5',
   },
@@ -151,7 +152,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 21.3786,
     lng: 39.8497,
-    desc: { en: 'Sanctuary where the Prophet ﷺ and Abu Bakr hid for three nights during the historic Hijrah: "Grieve not, Allah is with us" (Qur’an 9:40).', fr: 'Refuge où le Prophète ﷺ et Abou Bakr s’abritèrent lors de l’Hégire (Coran 9:40).', ar: 'الغار المنيع جنوب مكة الذي لجأ إليه النبي ﷺ وأبو بكر في طريق الهجرة ﴿إِذْ يَقُولُ لِصَاحِبِهِ لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا﴾.' },
+    desc: { en: 'Sanctuary where the Prophet ﷺ and Abu Bakr hid for three nights during the historic Hijrah: "Grieve not, Allah is with us" (Qur’an 9:40).', fr: 'Refuge où le Prophète ﷺ et Abou Bakr s’abritèrent lors de l’Hégire (Coran 9:40).', ar: 'الغار المنيع جنوب مكة الذي لجأ إليه النبي ﷺ وأبو بكر في طريق الهجرة ﴿إِذْ يَقُولُ لِصَاحِبِهِ لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا﴾.', es: "Refugio donde el Profeta ﷺ y Abu Bakr se ocultaron tres noches durante la Hégira: «No te entristezcas, Allah está con nosotros» (Corán 9:40)." },
     prophetId: 'muhammad',
     quranRef: 'At-Tawbah 9:40',
   },
@@ -161,7 +162,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'well',
     lat: 21.4226,
     lng: 39.8264,
-    desc: { en: 'Miraculous freshwater spring that gushed forth in the arid valley for Hajar and infant Ismail.', fr: 'Source miraculeuse qui jaillit sous les pieds du nourrisson Ismail et de sa mère Hajar.', ar: 'النبع المبارك الذي فجّره جبريل لهاجر وطفلها إسماعيل في وادٍ غير ذي زرع.' },
+    desc: { en: 'Miraculous freshwater spring that gushed forth in the arid valley for Hajar and infant Ismail.', fr: 'Source miraculeuse qui jaillit sous les pieds du nourrisson Ismail et de sa mère Hajar.', ar: 'النبع المبارك الذي فجّره جبريل لهاجر وطفلها إسماعيل في وادٍ غير ذي زرع.', es: "Manantial de agua dulce que brotó milagrosamente en el valle árido para Hayar y el pequeño Ismail." },
     prophetId: 'ismail',
     quranRef: 'Sahih al-Bukhari 3364',
   },
@@ -171,7 +172,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 21.3549,
     lng: 39.9841,
-    desc: { en: 'Pinnacle of Hajj ("Al-Hajju Arafah") and hill of divine mercy where the Prophet ﷺ delivered the Farewell Sermon.', fr: 'Pilier suprême du pèlerinage où le Prophète ﷺ prononça le sermon d’adieu.', ar: 'ركن الحج الأعظم «الحج عرفة»، وموقف الرحمة والضراعة وموضع خطبة الوداع لرسول الله ﷺ.' },
+    desc: { en: 'Pinnacle of Hajj ("Al-Hajju Arafah") and hill of divine mercy where the Prophet ﷺ delivered the Farewell Sermon.', fr: 'Pilier suprême du pèlerinage où le Prophète ﷺ prononça le sermon d’adieu.', ar: 'ركن الحج الأعظم «الحج عرفة»، وموقف الرحمة والضراعة وموضع خطبة الوداع لرسول الله ﷺ.', es: "Cumbre del Hach («el Hach es ‘Arafa») y monte de la misericordia donde el Profeta ﷺ pronunció el Sermón de Despedida." },
     prophetId: 'muhammad',
     quranRef: 'Al-Baqarah 2:198',
   },
@@ -181,7 +182,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 24.4392,
     lng: 39.6172,
-    desc: { en: 'The first mosque erected in Islam during the Hijrah: "A mosque founded on righteousness from the first day" (Qur’an 9:108).', fr: 'Première mosquée érigée en Islam dès l’arrivée de l’Hégire, fondée sur la piété (Coran 9:108).', ar: 'أول مسجد أُسس في الإسلام عند مطلع الهجرة النبوية ﴿لَّمَسْجِدٌ أُسِّسَ عَلَى التَّقْوَىٰ مِنْ أَوَّلِ يَوْمٍ أَحَقُّ أَن تَقُومَ فِيهِ﴾.' },
+    desc: { en: 'The first mosque erected in Islam during the Hijrah: "A mosque founded on righteousness from the first day" (Qur’an 9:108).', fr: 'Première mosquée érigée en Islam dès l’arrivée de l’Hégire, fondée sur la piété (Coran 9:108).', ar: 'أول مسجد أُسس في الإسلام عند مطلع الهجرة النبوية ﴿لَّمَسْجِدٌ أُسِّسَ عَلَى التَّقْوَىٰ مِنْ أَوَّلِ يَوْمٍ أَحَقُّ أَن تَقُومَ فِيهِ﴾.', es: "La primera mezquita construida en el islam durante la Hégira: «Una mezquita fundada en la piedad desde el primer día» (Corán 9:108)." },
     prophetId: 'muhammad',
     quranRef: 'At-Tawbah 9:108',
   },
@@ -191,7 +192,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 23.7822,
     lng: 38.7903,
-    desc: { en: 'The historic battlefield and caravan wells where the decisive Day of Criterion occurred, aided by descending angels (Qur’an 3:123).', fr: 'Plaine historique et puits où se déroula la bataille décisive du Jour du Discernement (Coran 3:123).', ar: 'أرض المعركة الفاصلة بين الحق والباطل، ويوم الفرقان الذي نصر الله فيه رسوله والمؤمنين.' },
+    desc: { en: 'The historic battlefield and caravan wells where the decisive Day of Criterion occurred, aided by descending angels (Qur’an 3:123).', fr: 'Plaine historique et puits où se déroula la bataille décisive du Jour du Discernement (Coran 3:123).', ar: 'أرض المعركة الفاصلة بين الحق والباطل، ويوم الفرقان الذي نصر الله فيه رسوله والمؤمنين.', es: "El campo de batalla y los pozos de caravanas donde tuvo lugar el decisivo Día del Discernimiento, con la ayuda de ángeles (Corán 3:123)." },
     prophetId: 'muhammad',
     quranRef: 'Ali \'Imran 3:123',
   },
@@ -201,7 +202,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 24.5034,
     lng: 39.6120,
-    desc: { en: 'Red granite mountain north of Madinah: "Uhud is a mountain that loves us and we love it" (Sahih Bukhari), sanctuary of the martyrs.', fr: 'Mont emblématique au nord de Médine abritant les tombes des martyrs.', ar: 'الجبل العظيم المحبوب الذي قال فيه ﷺ: «أحد جبل يحبنا ونحبه»، ومرقد سيد الشهداء حمزة والصحب الكرام.' },
+    desc: { en: 'Red granite mountain north of Madinah: "Uhud is a mountain that loves us and we love it" (Sahih Bukhari), sanctuary of the martyrs.', fr: 'Mont emblématique au nord de Médine abritant les tombes des martyrs.', ar: 'الجبل العظيم المحبوب الذي قال فيه ﷺ: «أحد جبل يحبنا ونحبه»، ومرقد سيد الشهداء حمزة والصحب الكرام.', es: "Montaña de granito rojo al norte de Medina: «Uhud es una montaña que nos ama y que amamos» (Sahih al-Bujari), santuario de los mártires." },
     prophetId: 'muhammad',
     quranRef: 'Sahih al-Bukhari 4083',
   },
@@ -211,7 +212,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 31.5247,
     lng: 35.1107,
-    desc: { en: 'The ancient stone sanctuary and cave resting place of Ibrahim, Sarah, Ishaq, and Ya‘qub in Palestine.', fr: 'Lieu d’inhumation d’Ibrahim, Sarah, Ishaq et Ya‘qub en Palestine.', ar: 'الحرم المبارك في مدينة الخليل ببيت المقدس، مدفن خليل الله إبراهيم وزوجه سارة وإسحاق ويعقوب عليهم السلام.' },
+    desc: { en: 'The ancient stone sanctuary and cave resting place of Ibrahim, Sarah, Ishaq, and Ya‘qub in Palestine.', fr: 'Lieu d’inhumation d’Ibrahim, Sarah, Ishaq et Ya‘qub en Palestine.', ar: 'الحرم المبارك في مدينة الخليل ببيت المقدس، مدفن خليل الله إبراهيم وزوجه سارة وإسحاق ويعقوب عليهم السلام.', es: "El antiguo santuario de piedra y la cueva donde reposan Ibrahim, Sara, Ishaq y Ya‘qub, en Palestina." },
     prophetId: 'ibrahim',
     quranRef: 'Scholarly consensus',
   },
@@ -221,7 +222,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 30.9628,
     lng: 46.1030,
-    desc: { en: 'The ancient Sumerian metropolis where Ibrahim was born, debated Nimrud, and emerged unharmed from the fire (Qur’an 21:69).', fr: 'Métropole antique de Mésopotamie où Ibrahim naquit et triompha de la fournaise.', ar: 'موطن ولادة الخليل إبراهيم ومحاجته لقومه ونمرود، وموقع النار التي جعلها الله بردًا وسلامًا عليه.' },
+    desc: { en: 'The ancient Sumerian metropolis where Ibrahim was born, debated Nimrud, and emerged unharmed from the fire (Qur’an 21:69).', fr: 'Métropole antique de Mésopotamie où Ibrahim naquit et triompha de la fournaise.', ar: 'موطن ولادة الخليل إبراهيم ومحاجته لقومه ونمرود، وموقع النار التي جعلها الله بردًا وسلامًا عليه.', es: "La antigua metrópolis sumeria donde nació Ibrahim, discutió con Nimrud y salió ileso del fuego (Corán 21:69)." },
     prophetId: 'ibrahim',
     quranRef: 'Al-Anbiya 21:69',
   },
@@ -231,7 +232,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'well',
     lat: 28.4833,
     lng: 35.0167,
-    desc: { en: 'The freshwater well where Musa watered the flocks for the two daughters of the righteous elder of Midian (Qur’an 28:23-28).', fr: 'Le puits où Musa abreuva le troupeau pour les filles du sage de Madyan.', ar: 'ماء مدين حيث سقى موسى لابنتي الشيخ الصالح ﴿فَسَقَىٰ لَهُمَا ثُمَّ تَوَلَّىٰ إِلَى الظِّلِّ﴾.' },
+    desc: { en: 'The freshwater well where Musa watered the flocks for the two daughters of the righteous elder of Midian (Qur’an 28:23-28).', fr: 'Le puits où Musa abreuva le troupeau pour les filles du sage de Madyan.', ar: 'ماء مدين حيث سقى موسى لابنتي الشيخ الصالح ﴿فَسَقَىٰ لَهُمَا ثُمَّ تَوَلَّىٰ إِلَى الظِّلِّ﴾.', es: "El pozo de agua dulce donde Musa dio de beber a los rebaños de las dos hijas del anciano justo de Madyan (Corán 28:23-28)." },
     prophetId: 'shuayb',
     quranRef: 'Al-Qasas 28:23',
   },
@@ -241,7 +242,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 26.8044,
     lng: 37.9547,
-    desc: { en: 'Monumental rock-hewn dwellings carved into sandstone mountains, site of the miraculous She-Camel of Allah (Qur’an 15:80-84).', fr: 'Cité troglodytique taillée dans les falaises, patrie de Salih et de la Chamelle miraculeuse.', ar: 'ديار ثمود المنحوتة في الصخر ﴿وَكَانُوا يَنْحِتُونَ مِنَ الْجِبَالِ بُيُوتًا آمِنِينَ﴾ وموطن معجزة الناقة.' },
+    desc: { en: 'Monumental rock-hewn dwellings carved into sandstone mountains, site of the miraculous She-Camel of Allah (Qur’an 15:80-84).', fr: 'Cité troglodytique taillée dans les falaises, patrie de Salih et de la Chamelle miraculeuse.', ar: 'ديار ثمود المنحوتة في الصخر ﴿وَكَانُوا يَنْحِتُونَ مِنَ الْجِبَالِ بُيُوتًا آمِنِينَ﴾ وموطن معجزة الناقة.', es: "Monumentales moradas talladas en montañas de arenisca, lugar de la milagrosa camella de Allah (Corán 15:80-84)." },
     prophetId: 'salih',
     quranRef: 'Al-Hijr 15:80-84',
   },
@@ -251,7 +252,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 18.2547,
     lng: 53.6489,
-    desc: { en: 'Vast sand dunes between Oman and Hadramawt where Prophet Hud called the powerful nation of ‘Ad (Qur’an 46:21, 89:7).', fr: 'Désert méridional d’Arabie où le prophète Houd avertit le puissant peuple de ‘Ad.', ar: 'مملكة عاد العظيمة في رمال الربع الخالي والأحقاف ﴿إِرَمَ ذَاتِ الْعِمَادِ الَّتِي لَمْ يُخْلَقْ مِثْلُهَا فِي الْبِلَادِ﴾.' },
+    desc: { en: 'Vast sand dunes between Oman and Hadramawt where Prophet Hud called the powerful nation of ‘Ad (Qur’an 46:21, 89:7).', fr: 'Désert méridional d’Arabie où le prophète Houd avertit le puissant peuple de ‘Ad.', ar: 'مملكة عاد العظيمة في رمال الربع الخالي والأحقاف ﴿إِرَمَ ذَاتِ الْعِمَادِ الَّتِي لَمْ يُخْلَقْ مِثْلُهَا فِي الْبِلَادِ﴾.', es: "Vastas dunas entre Omán y Hadramaut donde el profeta Hud llamó a la poderosa nación de ‘Ad (Corán 46:21, 89:7)." },
     prophetId: 'hud',
     quranRef: 'Al-Ahqaf 46:21, Al-Fajr 89:7',
   },
@@ -261,7 +262,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 16.0333,
     lng: 49.5333,
-    desc: { en: 'Sacred mountain ravine in Hadramawt, Yemen, revered since early antiquity as the resting place of Hud.', fr: 'Gorge sacrée au Yémen vénérée depuis des siècles comme le sanctuaire du prophète Houd.', ar: 'الشعب الشريف في وادي حضرموت باليمن المتوارث أنه مدفن نبي الله هود عليه السلام بعد نجاة المؤمنين.' },
+    desc: { en: 'Sacred mountain ravine in Hadramawt, Yemen, revered since early antiquity as the resting place of Hud.', fr: 'Gorge sacrée au Yémen vénérée depuis des siècles comme le sanctuaire du prophète Houd.', ar: 'الشعب الشريف في وادي حضرموت باليمن المتوارث أنه مدفن نبي الله هود عليه السلام بعد نجاة المؤمنين.', es: "Barranco sagrado en Hadramaut (Yemen), venerado desde la Antigüedad como lugar de reposo de Hud." },
     prophetId: 'hud',
     quranRef: 'Mu‘jam al-Buldan',
   },
@@ -271,7 +272,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 31.3322,
     lng: 35.5000,
-    desc: { en: 'The sunken valley where the corrupt cities of Sodom were turned upside down and rained upon with stones (Qur’an 11:82).', fr: 'Fossé tectonique où furent renversées les cités corrompues de Sodome (Coran 11:82).', ar: 'أرض المؤتفكات في غور الأردن التي جعل الله عاليها سافلها وأمطر عليها حجارة من سجيل.' },
+    desc: { en: 'The sunken valley where the corrupt cities of Sodom were turned upside down and rained upon with stones (Qur’an 11:82).', fr: 'Fossé tectonique où furent renversées les cités corrompues de Sodome (Coran 11:82).', ar: 'أرض المؤتفكات في غور الأردن التي جعل الله عاليها سافلها وأمطر عليها حجارة من سجيل.', es: "El valle hundido donde las ciudades corruptas de Sodoma fueron volteadas y recibieron una lluvia de piedras (Corán 11:82)." },
     prophetId: 'lut',
     quranRef: 'Hud 11:82',
   },
@@ -281,7 +282,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 29.0000,
     lng: 34.6667,
-    desc: { en: 'Where Musa struck the sea with his staff, splitting the waters into two towering walls of safety for the believers (Qur’an 26:63).', fr: 'Lieu où Musa frappa la mer de son bâton, créant un passage à sec à travers les flots (Coran 26:63).', ar: 'الموضع المهيب حيث ضرب موسى البحر بعصاه فانفلق فكان كل فِرق كالطود العظيم ونجّى الله بني إسرائيل.' },
+    desc: { en: 'Where Musa struck the sea with his staff, splitting the waters into two towering walls of safety for the believers (Qur’an 26:63).', fr: 'Lieu où Musa frappa la mer de son bâton, créant un passage à sec à travers les flots (Coran 26:63).', ar: 'الموضع المهيب حيث ضرب موسى البحر بعصاه فانفلق فكان كل فِرق كالطود العظيم ونجّى الله بني إسرائيل.', es: "Donde Musa golpeó el mar con su vara y abrió las aguas en dos murallas que salvaron a los creyentes (Corán 26:63)." },
     prophetId: 'musa',
     quranRef: 'Ash-Shu‘ara 26:63',
   },
@@ -291,7 +292,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 30.3167,
     lng: 35.4056,
-    desc: { en: 'Towering red sandstone mountain near Petra, Jordan, bearing the historic sanctuary and tomb of Prophet Harun.', fr: 'Sommet gréseux de Jordanie abritant le sanctuaire historique du prophète Haroun.', ar: 'أعلى قمم البتراء في الأردن، يعلوه المسجد الأبيض ذو القبة المؤرخ أنه مدفن نبي الله هارون عليه السلام.' },
+    desc: { en: 'Towering red sandstone mountain near Petra, Jordan, bearing the historic sanctuary and tomb of Prophet Harun.', fr: 'Sommet gréseux de Jordanie abritant le sanctuaire historique du prophète Haroun.', ar: 'أعلى قمم البتراء في الأردن، يعلوه المسجد الأبيض ذو القبة المؤرخ أنه مدفن نبي الله هارون عليه السلام.', es: "Imponente montaña de arenisca roja cerca de Petra (Jordania), con el santuario y la tumba tradicional del profeta Harun." },
     prophetId: 'harun',
     quranRef: 'Classical geography',
   },
@@ -301,7 +302,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'well',
     lat: 32.8333,
     lng: 36.0333,
-    desc: { en: 'The miraculous spring in Hauran, Syria, where Ayyub struck the ground to bathe and drink, fully healed (Qur’an 38:42).', fr: 'Source jaillie sous le pas d’Ayyub pour le purifier et le guérir miraculeusement (Coran 38:42).', ar: 'النبع الذي انبجس حين ضرب أيوب الأرض برجله بأمر الله: ﴿ارْكُضْ بِرِجْلِكَ هَذَا مُغْتَسَلٌ بَارِدٌ وَشَرَابٌ﴾.' },
+    desc: { en: 'The miraculous spring in Hauran, Syria, where Ayyub struck the ground to bathe and drink, fully healed (Qur’an 38:42).', fr: 'Source jaillie sous le pas d’Ayyub pour le purifier et le guérir miraculeusement (Coran 38:42).', ar: 'النبع الذي انبجس حين ضرب أيوب الأرض برجله بأمر الله: ﴿ارْكُضْ بِرِجْلِكَ هَذَا مُغْتَسَلٌ بَارِدٌ وَشَرَابٌ﴾.', es: "El manantial milagroso de Hauran (Siria) donde Ayyub golpeó el suelo para lavarse y beber, y quedó curado (Corán 38:42)." },
     prophetId: 'ayyub',
     quranRef: 'Sad 38:42',
   },
@@ -311,7 +312,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'well',
     lat: 32.9667,
     lng: 35.5333,
-    desc: { en: 'The ancient stone cistern in Dothan / Galilee where young Yusuf was cast by his brothers before being rescued by a caravan.', fr: 'Citerne antique où les frères jaloux jetèrent le jeune Youssouf avant qu’une caravane ne le recueille.', ar: 'البئر العتيق الذي ألقى فيه إخوة يوسف أخاهم حسدًا، ثم استنقذته سيارة التجار وباعوه بمصر.' },
+    desc: { en: 'The ancient stone cistern in Dothan / Galilee where young Yusuf was cast by his brothers before being rescued by a caravan.', fr: 'Citerne antique où les frères jaloux jetèrent le jeune Youssouf avant qu’une caravane ne le recueille.', ar: 'البئر العتيق الذي ألقى فيه إخوة يوسف أخاهم حسدًا، ثم استنقذته سيارة التجار وباعوه بمصر.', es: "La antigua cisterna de piedra de Dotán, en Galilea, donde sus hermanos arrojaron al joven Yusuf antes de que lo rescatara una caravana." },
     prophetId: 'yusuf',
     quranRef: 'Yusuf 12:10, 15',
   },
@@ -321,7 +322,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 29.8499,
     lng: 31.2544,
-    desc: { en: 'Ancient capital of Egypt where Yusuf interpreted the King’s dream, was made keeper of the storehouses, and welcomed his family.', fr: 'Capitale antique où Youssouf interpréta le rêve royal et fut établi intendant des trésors.', ar: 'عاصمة مصر القديمة حيث فوّض الملك ليوسف إدارة خزائن الأرض لإنقاذ العباد من القحط.' },
+    desc: { en: 'Ancient capital of Egypt where Yusuf interpreted the King’s dream, was made keeper of the storehouses, and welcomed his family.', fr: 'Capitale antique où Youssouf interpréta le rêve royal et fut établi intendant des trésors.', ar: 'عاصمة مصر القديمة حيث فوّض الملك ليوسف إدارة خزائن الأرض لإنقاذ العباد من القحط.', es: "Antigua capital de Egipto donde Yusuf interpretó el sueño del rey, fue nombrado guardián de los almacenes y recibió a su familia." },
     prophetId: 'yusuf',
     quranRef: 'Yusuf 12:55',
   },
@@ -331,7 +332,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 36.3587,
     lng: 43.1528,
-    desc: { en: 'Metropolis on the Tigris where Yunus preached to over one hundred thousand people, the only entire nation whose faith averted doom.', fr: 'Capitale assyrienne sur le Tigre où le peuple entier de Younous se repentit et fut épargné.', ar: 'عاصمة الآشوريين على دجلة، المدينة الوحيدة التي آمن أهلها جميعًا فكشف الله عنهم عذاب الخزي.' },
+    desc: { en: 'Metropolis on the Tigris where Yunus preached to over one hundred thousand people, the only entire nation whose faith averted doom.', fr: 'Capitale assyrienne sur le Tigre où le peuple entier de Younous se repentit et fut épargné.', ar: 'عاصمة الآشوريين على دجلة، المدينة الوحيدة التي آمن أهلها جميعًا فكشف الله عنهم عذاب الخزي.', es: "Metrópolis a orillas del Tigris donde Yunus predicó a más de cien mil personas, la única nación entera cuya fe apartó el castigo." },
     prophetId: 'yunus',
     quranRef: 'Yunus 10:98, As-Saffat 37:148',
   },
@@ -341,7 +342,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 32.0536,
     lng: 34.7567,
-    desc: { en: 'The Mediterranean coast where the whale cast Yunus ashore exhausted, and Allah caused a gourd vine to shelter him (Qur’an 37:145-146).', fr: 'Rivage où la baleine rejeta Younous, et où Allah fit pousser un arbre de courge pour l’ombrager.', ar: 'الساحل الذي لفظ فيه الحوت يونس بالعراء وهو سقيم، فأنبت الله عليه شجرة من يقطين تظله وتشفيه.' },
+    desc: { en: 'The Mediterranean coast where the whale cast Yunus ashore exhausted, and Allah caused a gourd vine to shelter him (Qur’an 37:145-146).', fr: 'Rivage où la baleine rejeta Younous, et où Allah fit pousser un arbre de courge pour l’ombrager.', ar: 'الساحل الذي لفظ فيه الحوت يونس بالعراء وهو سقيم، فأنبت الله عليه شجرة من يقطين تظله وتشفيه.', es: "La costa mediterránea donde el gran pez arrojó a Yunus agotado y Allah hizo crecer una calabacera que le dio sombra (Corán 37:145-146)." },
     prophetId: 'yunus',
     quranRef: 'As-Saffat 37:145-146',
   },
@@ -351,7 +352,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 32.8167,
     lng: 34.9833,
-    desc: { en: 'Coastal mountain ridge overlooking Haifa where Prophet Ilyas confronted the worshippers of the idol Ba‘l (Qur’an 37:123-125).', fr: 'Crête montagneuse côtière où le prophète Élie défia les adorateurs de l’idole Ba‘l.', ar: 'سلسلة الجبال المطلة على البحر المتوسط حيث جاهد نبي الله إلياس عباد الصنم «بعل».' },
+    desc: { en: 'Coastal mountain ridge overlooking Haifa where Prophet Ilyas confronted the worshippers of the idol Ba‘l (Qur’an 37:123-125).', fr: 'Crête montagneuse côtière où le prophète Élie défia les adorateurs de l’idole Ba‘l.', ar: 'سلسلة الجبال المطلة على البحر المتوسط حيث جاهد نبي الله إلياس عباد الصنم «بعل».', es: "Cordillera costera frente a Haifa donde el profeta Ilyas se enfrentó a los adoradores del ídolo Ba‘l (Corán 37:123-125)." },
     prophetId: 'ilyas',
     quranRef: 'As-Saffat 37:123-125',
   },
@@ -361,7 +362,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'city',
     lat: 31.7049,
     lng: 35.2078,
-    desc: { en: 'The tranquil birthplace of Isa (Jesus) under the ripe date palm tree: "Shake toward yourself the trunk of the palm tree" (Qur’an 19:22-25).', fr: 'Lieu saint où naquit Isa sous le palmier mûrissant (Coran 19:22-25).', ar: 'المكان القَصِيّ المبارك الذي ولدت فيه مريم ابنها المسيح عيسى تحت جذع النخلة ﴿وَهُزِّي إِلَيْكِ بِجِذْعِ النَّخْلَةِ﴾.' },
+    desc: { en: 'The tranquil birthplace of Isa (Jesus) under the ripe date palm tree: "Shake toward yourself the trunk of the palm tree" (Qur’an 19:22-25).', fr: 'Lieu saint où naquit Isa sous le palmier mûrissant (Coran 19:22-25).', ar: 'المكان القَصِيّ المبارك الذي ولدت فيه مريم ابنها المسيح عيسى تحت جذع النخلة ﴿وَهُزِّي إِلَيْكِ بِجِذْعِ النَّخْلَةِ﴾.', es: "El tranquilo lugar de nacimiento de ‘Isa (Jesús) bajo la palmera madura: «Sacude hacia ti el tronco de la palmera» (Corán 19:22-25)." },
     prophetId: 'isa',
     quranRef: 'Maryam 19:22-25',
   },
@@ -371,7 +372,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'mountain',
     lat: 31.7781,
     lng: 35.2444,
-    desc: { en: 'Sacred ridge rising east of Jerusalem where Isa prayed and from which Allah raised him physically to heaven (Qur’an 4:158).', fr: 'Colline sainte à l’est de Jérusalem d’où Allah éleva Isa vers Lui.', ar: 'الجبل المشرف على المسجد الأقصى من جهة الشرق، موضع دعاء المسيح ورفعه إلى السماء ﴿بَل رَّفَعَهُ اللَّهُ إِلَيْهِ﴾.' },
+    desc: { en: 'Sacred ridge rising east of Jerusalem where Isa prayed and from which Allah raised him physically to heaven (Qur’an 4:158).', fr: 'Colline sainte à l’est de Jérusalem d’où Allah éleva Isa vers Lui.', ar: 'الجبل المشرف على المسجد الأقصى من جهة الشرق، موضع دعاء المسيح ورفعه إلى السماء ﴿بَل رَّفَعَهُ اللَّهُ إِلَيْهِ﴾.', es: "Colina sagrada al este de Jerusalén donde ‘Isa rezaba y desde donde Allah lo elevó en cuerpo al cielo (Corán 4:158)." },
     prophetId: 'isa',
     quranRef: 'An-Nisa 4:158',
   },
@@ -381,7 +382,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 33.5119,
     lng: 36.3067,
-    desc: { en: 'Grand architectural sanctuary in ancient Damascus housing the revered tomb and head of Prophet Yahya (John the Baptist).', fr: 'Merveille architecturale de Damas abritant le tombeau vénéré du prophète Yahya.', ar: 'المقام الجليل داخل الجامع الأموي الكبير بدمشق، المحفوظ فيه مرقد ورأس نبي الله يحيى بن زكريا.' },
+    desc: { en: 'Grand architectural sanctuary in ancient Damascus housing the revered tomb and head of Prophet Yahya (John the Baptist).', fr: 'Merveille architecturale de Damas abritant le tombeau vénéré du prophète Yahya.', ar: 'المقام الجليل داخل الجامع الأموي الكبير بدمشق، المحفوظ فيه مرقد ورأس نبي الله يحيى بن زكريا.', es: "Gran santuario en la antigua Damasco que alberga la venerada tumba y la cabeza del profeta Yahya (Juan el Bautista)." },
     prophetId: 'yahya',
     quranRef: 'Tarikh Dimashq',
   },
@@ -391,7 +392,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 31.7765,
     lng: 35.2285,
-    desc: { en: 'The secluded chamber in Jerusalem where Dawud retired for prayer and psalm chanting, where the litigants entered (Qur’an 38:21).', fr: 'Sanctuaire retiré à Jérusalem où Daoud priait quand les deux plaideurs escaladèrent le mur.', ar: 'المحراب والخلوة التعبدية التي اعتزل فيها داود عليه السلام للتسبيح ﴿إِذْ تَسَوَّرُوا الْمِحْرَابَ﴾.' },
+    desc: { en: 'The secluded chamber in Jerusalem where Dawud retired for prayer and psalm chanting, where the litigants entered (Qur’an 38:21).', fr: 'Sanctuaire retiré à Jérusalem où Daoud priait quand les deux plaideurs escaladèrent le mur.', ar: 'المحراب والخلوة التعبدية التي اعتزل فيها داود عليه السلام للتسبيح ﴿إِذْ تَسَوَّرُوا الْمِحْرَابَ﴾.', es: "La cámara apartada de Jerusalén donde Dawud se retiraba a rezar y a cantar los salmos, y donde entraron los litigantes (Corán 38:21)." },
     prophetId: 'dawud',
     quranRef: 'Sad 38:21',
   },
@@ -401,7 +402,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 24.4672,
     lng: 39.6158,
-    desc: { en: 'The historic resting ground in Madinah adjacent to the Prophet’s Mosque, where over 10,000 illustrious Sahaba, the wives of the Prophet (Mothers of the Believers), and Ahl al-Bayt rest in eternal peace.', fr: 'Le cimetière historique de Médine où reposent plus de 10 000 illustres compagnons, les mères des croyants et les membres de la noble famille prophétique.', ar: 'المقبرة التاريخية العظيمة بالمدينة المنورة المجاورة للحرم النبوي، التي تضم رفات أكثر من عشرة آلاف صحابي جليل وأمهات المؤمنين وآل البيت الأطهار.' },
+    desc: { en: 'The historic resting ground in Madinah adjacent to the Prophet’s Mosque, where over 10,000 illustrious Sahaba, the wives of the Prophet (Mothers of the Believers), and Ahl al-Bayt rest in eternal peace.', fr: 'Le cimetière historique de Médine où reposent plus de 10 000 illustres compagnons, les mères des croyants et les membres de la noble famille prophétique.', ar: 'المقبرة التاريخية العظيمة بالمدينة المنورة المجاورة للحرم النبوي، التي تضم رفات أكثر من عشرة آلاف صحابي جليل وأمهات المؤمنين وآل البيت الأطهار.', es: "El histórico cementerio de Medina, junto a la Mezquita del Profeta, donde reposan más de 10.000 ilustres Compañeros, las esposas del Profeta (Madres de los Creyentes) y la gente de su casa." },
     prophetId: 'muhammad',
     quranRef: 'Sahih Muslim 974',
   },
@@ -411,7 +412,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 32.7483,
     lng: 35.8690,
-    desc: { en: 'The scenic gorge where Khalid ibn al-Walid and the companion army achieved their epochal victory in 15 AH (636 CE), liberating the Levant from Byzantine rule and opening Jerusalem.', fr: 'Le défilé historique où Khalid ibn al-Walid et l’armée des compagnons remportèrent la victoire décisive de 15 H (636), ouvrant la voie à la libération de Jérusalem.', ar: 'الوادي التاريخي الأشم حيث قاد سيف الله خالد بن الوليد وأصحاب النبي ملحمة اليرموك الخالدة سنة 15 هـ، مؤذنة بتحرير بلاد الشام وفتح القدس.' },
+    desc: { en: 'The scenic gorge where Khalid ibn al-Walid and the companion army achieved their epochal victory in 15 AH (636 CE), liberating the Levant from Byzantine rule and opening Jerusalem.', fr: 'Le défilé historique où Khalid ibn al-Walid et l’armée des compagnons remportèrent la victoire décisive de 15 H (636), ouvrant la voie à la libération de Jérusalem.', ar: 'الوادي التاريخي الأشم حيث قاد سيف الله خالد بن الوليد وأصحاب النبي ملحمة اليرموك الخالدة سنة 15 هـ، مؤذنة بتحرير بلاد الشام وفتح القدس.', es: "El desfiladero donde Jalid ibn al-Walid y el ejército de los Compañeros lograron su histórica victoria en 15 H (636), liberando el Levante del dominio bizantino y abriendo Jerusalén." },
     prophetId: 'muhammad',
     quranRef: 'Tarikh at-Tabari',
   },
@@ -421,7 +422,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 32.0294,
     lng: 44.4008,
-    desc: { en: 'One of the earliest grand mosques in Islam, founded in 17 AH by Sa‘d ibn Abi Waqqas, later serving as the seat of the Caliphate under the Commander of the Faithful Ali ibn Abi Talib.', fr: 'L’une des plus anciennes grandes mosquées de l’Islam, fondée en 17 H par Sa‘d ibn Abi Waqqas et capitale du califat sous Ali ibn Abi Talib.', ar: 'من أقدم وأقدس مساجد الإسلام، خطّه سعد بن أبي وقاص سنة 17 هـ، وكان عاصمة خلافة أمير المؤمنين علي بن أبي طالب ومقر حكمه وقضائه العادل.' },
+    desc: { en: 'One of the earliest grand mosques in Islam, founded in 17 AH by Sa‘d ibn Abi Waqqas, later serving as the seat of the Caliphate under the Commander of the Faithful Ali ibn Abi Talib.', fr: 'L’une des plus anciennes grandes mosquées de l’Islam, fondée en 17 H par Sa‘d ibn Abi Waqqas et capitale du califat sous Ali ibn Abi Talib.', ar: 'من أقدم وأقدس مساجد الإسلام، خطّه سعد بن أبي وقاص سنة 17 هـ، وكان عاصمة خلافة أمير المؤمنين علي بن أبي طالب ومقر حكمه وقضائه العادل.', es: "Una de las primeras grandes mezquitas del islam, fundada en 17 H por Sa‘d ibn Abi Waqqas y después sede del califato del Príncipe de los Creyentes ‘Ali ibn Abi Talib." },
     prophetId: 'muhammad',
     quranRef: 'Ansab al-Ashraf',
   },
@@ -431,7 +432,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 30.0101,
     lng: 31.2331,
-    desc: { en: 'The "Taj al-Jawami‘" (Crown of Mosques) founded in 21 AH (642 CE) by ‘Amr ibn al-‘Aas; the very first mosque ever erected on the entire African continent.', fr: 'La toute première mosquée érigée sur le continent africain, fondée en 21 H (642) par le compagnon ‘Amr ibn al-‘Aas à Foussat.', ar: 'تاج الجوامع وأول مسجد أُسس في قارة إفريقيا قاطبة سنة 21 هـ (642 م) على يد الفاتح الصحابي عمرو بن العاص بالفسطاط عاصمة مصر الإسلامية.' },
+    desc: { en: 'The "Taj al-Jawami‘" (Crown of Mosques) founded in 21 AH (642 CE) by ‘Amr ibn al-‘Aas; the first great congregational mosque of Egypt and of Africa.', fr: 'La première grande mosquée du vendredi d’Égypte et d’Afrique, fondée en 21 H (642) par le compagnon ‘Amr ibn al-‘Aas à Foussat.', ar: 'تاج الجوامع وأول جامع كبير في مصر وإفريقيا، أسسه الصحابي عمرو بن العاص سنة 21 هـ (642 م) بالفسطاط عاصمة مصر الإسلامية.', es: "La «Taj al-Yawami‘» (Corona de las mezquitas), fundada en 21 H (642) por ‘Amr ibn al-‘As; la primera gran mezquita de Egipto y de África." },
     prophetId: 'muhammad',
     quranRef: 'Husn al-Muhadarah',
   },
@@ -441,7 +442,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 33.5119,
     lng: 36.3067,
-    desc: { en: 'Masterpiece of early Islamic architecture completed by Caliph al-Walid I in 96 AH (715 CE), heart of the Umayyad Caliphate reigning across three continents.', fr: 'Chef-d’œuvre architectural bâti par le calife al-Walid Ier en 96 H, cœur battant du califat omeyyade étendu sur trois continents.', ar: 'درة العمارة الإسلامية الخالدة التي شادها الخليفة الوليد بن عبد الملك سنة 96 هـ، عاصمة الخلافة الأموية ومركز إشعاعها الحضاري العالمي.' },
+    desc: { en: 'Masterpiece of early Islamic architecture completed by Caliph al-Walid I in 96 AH (715 CE), heart of the Umayyad Caliphate reigning across three continents.', fr: 'Chef-d’œuvre architectural bâti par le calife al-Walid Ier en 96 H, cœur battant du califat omeyyade étendu sur trois continents.', ar: 'درة العمارة الإسلامية الخالدة التي شادها الخليفة الوليد بن عبد الملك سنة 96 هـ، عاصمة الخلافة الأموية ومركز إشعاعها الحضاري العالمي.', es: "Obra maestra de la primera arquitectura islámica, terminada por el califa al-Walid I en 96 H (715), corazón del califato omeya que reinaba en tres continentes." },
     prophetId: 'muhammad',
     quranRef: 'Al-Bidayah wan-Nihayah',
   },
@@ -451,7 +452,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 37.8790,
     lng: -4.7794,
-    desc: { en: 'The radiant crown of Muslim Spain founded by Abd al-Rahman I in 170 AH (786 CE); beacon of European philosophy, astronomy, medicine, and tolerance throughout the Middle Ages.', fr: 'Phare de la civilisation andalouse fondé par Abd al-Rahman Ier en 170 H, haut-lieu de rayonnement scientifique, philosophique et artistique en Europe médiévale.', ar: 'تاج الحضارة الأندلسية الذي أسسه صقر قريش عبد الرحمن الداخل سنة 170 هـ، منارة العلم والطب والفلسفة التي أضاءت ظلمات أوروبا في القرون الوسطى.' },
+    desc: { en: 'The radiant crown of Muslim Spain founded by Abd al-Rahman I in 170 AH (786 CE); beacon of European philosophy, astronomy, medicine, and tolerance throughout the Middle Ages.', fr: 'Phare de la civilisation andalouse fondé par Abd al-Rahman Ier en 170 H, haut-lieu de rayonnement scientifique, philosophique et artistique en Europe médiévale.', ar: 'تاج الحضارة الأندلسية الذي أسسه صقر قريش عبد الرحمن الداخل سنة 170 هـ، منارة العلم والطب والفلسفة التي أضاءت ظلمات أوروبا في القرون الوسطى.', es: "La radiante joya de la España musulmana, fundada por ‘Abd ar-Rahman I en 170 H (786); faro de filosofía, astronomía, medicina y tolerancia en la Edad Media europea." },
     prophetId: 'muhammad',
     quranRef: 'Nafh at-Tib',
   },
@@ -461,7 +462,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 33.3406,
     lng: 44.4010,
-    desc: { en: 'Epicenter of the Abbasid Golden Age founded by Harun al-Rashid and al-Ma’mun in Baghdad; where universal mathematics (algebra), astronomy, optics, and philosophy flourished.', fr: 'Épicentre de l’Âge d’Or abbasside fondé par Harun al-Rashid et al-Ma’mun, berceau de l’algèbre, de l’optique moderne et de la traduction universelle.', ar: 'أم الأكاديميات الكبرى في العصر الذهبي العباسي التي رعاها الرشيد والمأمون في بغداد، حيث ولدت علوم الجبر الحديثة والبصريات وتُرجم تراث الإنسانية.' },
+    desc: { en: 'Epicenter of the Abbasid Golden Age founded by Harun al-Rashid and al-Ma’mun in Baghdad; where universal mathematics (algebra), astronomy, optics, and philosophy flourished.', fr: 'Épicentre de l’Âge d’Or abbasside fondé par Harun al-Rashid et al-Ma’mun, berceau de l’algèbre, de l’optique moderne et de la traduction universelle.', ar: 'أم الأكاديميات الكبرى في العصر الذهبي العباسي التي رعاها الرشيد والمأمون في بغداد، حيث ولدت علوم الجبر الحديثة والبصريات وتُرجم تراث الإنسانية.', es: "Epicentro de la Edad de Oro abasí fundado por Harun ar-Rashid y al-Ma’mun en Bagdad, donde florecieron el álgebra, la astronomía, la óptica y la filosofía." },
     prophetId: 'muhammad',
     quranRef: 'Wafayat al-A‘yan',
   },
@@ -471,7 +472,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 39.7972,
     lng: 66.9022,
-    desc: { en: 'Sanctuary of the undisputed Commander of Hadith Scholars, Imam Muhammad ibn Isma‘il al-Bukhari (d. 256 AH / 870 CE), author of the most authentic book after the Book of Allah.', fr: 'Mémorial du prince des traditionnistes, l’Imam al-Bukhari (m. 256 H), auteur du recueil le plus authentique après le Coran.', ar: 'الروضة الزكية لأمير المؤمنين في الحديث الإمام محمد بن إسماعيل البخاري (ت 256 هـ)، جامع أصح كتاب بعد كتاب الله العزيز بربوع خرتنك بسمرقند.' },
+    desc: { en: 'Sanctuary of the undisputed Commander of Hadith Scholars, Imam Muhammad ibn Isma‘il al-Bukhari (d. 256 AH / 870 CE), author of the most authentic book after the Book of Allah.', fr: 'Mémorial du prince des traditionnistes, l’Imam al-Bukhari (m. 256 H), auteur du recueil le plus authentique après le Coran.', ar: 'الروضة الزكية لأمير المؤمنين في الحديث الإمام محمد بن إسماعيل البخاري (ت 256 هـ)، جامع أصح كتاب بعد كتاب الله العزيز بربوع خرتنك بسمرقند.', es: "Santuario del indiscutido maestro de los sabios del hadiz, el imam Muhammad ibn Isma‘il al-Bujari (m. 256 H / 870), autor del libro más auténtico después del Libro de Allah." },
     prophetId: 'muhammad',
     quranRef: 'Siyar A‘lam an-Nubala',
   },
@@ -481,7 +482,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 36.2133,
     lng: 58.7958,
-    desc: { en: 'Final resting place of Imam Muslim ibn al-Hajjaj an-Naysaburi (d. 261 AH / 875 CE), author of Sahih Muslim renowned for unparalleled structural precision and hadith chains.', fr: 'Dernière demeure de l’Imam Muslim an-Naysaburi (m. 261 H), maître incontesté de la méthodologie et de la précision des chaînes de transmission.', ar: 'مرقد حجة الإسلام وإمام المحدثين مسلم بن الحجاج القشيري النيسابوري (ت 261 هـ) صاحب الصحيح الجامع الرصين الذي أجمع علماء الأمة على عظمته وإتقانه.' },
+    desc: { en: 'Final resting place of Imam Muslim ibn al-Hajjaj an-Naysaburi (d. 261 AH / 875 CE), author of Sahih Muslim renowned for unparalleled structural precision and hadith chains.', fr: 'Dernière demeure de l’Imam Muslim an-Naysaburi (m. 261 H), maître incontesté de la méthodologie et de la précision des chaînes de transmission.', ar: 'مرقد حجة الإسلام وإمام المحدثين مسلم بن الحجاج القشيري النيسابوري (ت 261 هـ) صاحب الصحيح الجامع الرصين الذي أجمع علماء الأمة على عظمته وإتقانه.', es: "Lugar de reposo del imam Muslim ibn al-Hayyay an-Naysaburi (m. 261 H / 875), autor del Sahih Muslim, célebre por la precisión de su estructura y de sus cadenas." },
     prophetId: 'muhammad',
     quranRef: 'Tadhkirat al-Huffaz',
   },
@@ -491,7 +492,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 34.0649,
     lng: -4.9734,
-    desc: { en: 'Founded in 245 AH (859 CE) by Fatima al-Fihri, recognized by UNESCO and Guinness as the oldest continuously operating university in the world, educating Ibn Khaldun and Maimonides.', fr: 'Fondée en 859 par Fatima al-Fihriya à Fès, reconnue par l’UNESCO comme la plus ancienne université au monde encore en activité.', ar: 'أسستها العالمة الجليلة فاطمة الفهرية سنة 245 هـ (859 م) بمدينة فاس المغربية، أقدم جامعة مستمرة تمنح درجات علمية في تاريخ البشرية بشهادة اليونسكو.' },
+    desc: { en: 'Founded in 245 AH (859 CE) by Fatima al-Fihri, listed by Guinness World Records as the oldest continuously operating university in the world; Ibn Khaldun and Maimonides studied there.', fr: 'Fondée en 859 par Fatima al-Fihriya à Fès, citée par le Livre Guinness des records comme la plus ancienne université au monde encore en activité.', ar: 'أسستها فاطمة الفهرية سنة 245 هـ (859 م) بمدينة فاس المغربية، وتعدّها موسوعة غينيس أقدم جامعة ما زالت قائمة في العالم، ودرس فيها ابن خلدون وموسى بن ميمون.', es: "Fundada en 245 H (859) por Fátima al-Fihri, reconocida por el Libro Guinness como la universidad más antigua en funcionamiento continuo; allí estudiaron Ibn Jaldún y Maimónides." },
     prophetId: 'muhammad',
     quranRef: 'Rawd al-Qirtas',
   },
@@ -501,7 +502,7 @@ const BASE_SACRED_SITES: SacredSitePin[] = [
     type: 'sanctuary',
     lat: 41.0478,
     lng: 28.9342,
-    desc: { en: 'Resting place of the venerable companion Abu Ayyub al-Ansari who hosted the Prophet in Madinah, beside the imperial seat of the Ottoman Caliphate on the Bosphorus.', fr: 'Mausolée du vénérable compagnon Abou Ayyoub al-Ansari qui accueillit le Prophète à Médine, aux côtés du siège impérial ottoman sur le Bosphore.', ar: 'مرقد الصحابي البدري الجليل أبي أيوب الأنصاري مضيف رسول الله ﷺ، في قلب عاصمة الخلافة العثمانية بإسطنبول حيث تحقق الوعد النبوي الشريف.' },
+    desc: { en: 'Resting place of the venerable companion Abu Ayyub al-Ansari who hosted the Prophet in Madinah, beside the imperial seat of the Ottoman Caliphate on the Bosphorus.', fr: 'Mausolée du vénérable compagnon Abou Ayyoub al-Ansari qui accueillit le Prophète à Médine, aux côtés du siège impérial ottoman sur le Bosphore.', ar: 'مرقد الصحابي البدري الجليل أبي أيوب الأنصاري مضيف رسول الله ﷺ، في قلب عاصمة الخلافة العثمانية بإسطنبول حيث تحقق الوعد النبوي الشريف.', es: "Lugar de reposo del venerable Compañero Abu Ayyub al-Ansari, que hospedó al Profeta en Medina, junto a la sede imperial del califato otomano a orillas del Bósforo." },
     prophetId: 'muhammad',
     quranRef: 'Musnad Ahmad 18977',
   },
@@ -521,12 +522,11 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: { en: 'Migration Path of Ibrahim عليه السلام', fr: 'Itinéraire d’Ibrahim عليه السلام', ar: 'مسار هجرة إبراهيم الخليل عليه السلام', es: 'La migración de Ibrahim عليه السلام' },
     color: '#e9c67b',
     prophetId: 'ibrahim',
-    period: { en: 'c. 1900–1800 BCE', fr: 'env. 1900–1800 av. J.-C.', ar: 'حوالي 1900–1800 ق.م' },
+    period: { en: 'c. 1900–1800 BCE', fr: 'env. 1900–1800 av. J.-C.', ar: 'حوالي 1900–1800 ق.م', es: "h. 1900–1800 a. C." },
     desc: {
       en: 'The momentous journey of faith spanning four ancient civilisations: from Ur and Babylon across Haran and Damascus to Canaan, Egypt, and founding the sanctuary of Makkah.',
       fr: 'Le grand périple de la foi traversant quatre empires antiques : de la Mésopotamie au Levant, à l’Égypte et à La Mecque.',
-      ar: 'رحلة التوحيد الكبرى عبر أربع حضارات عريقة: من أور وبابل إلى حران ودمشق، ثم كنعان ومصر وبناء قواعد الكعبة بمكة.',
-    },
+      ar: 'رحلة التوحيد الكبرى عبر أربع حضارات عريقة: من أور وبابل إلى حران ودمشق، ثم كنعان ومصر وبناء قواعد الكعبة بمكة.', es: "El gran viaje de fe a través de cuatro civilizaciones antiguas: de Ur y Babilonia, por Harán y Damasco, hasta Canaán, Egipto y la fundación del santuario de La Meca." },
     coords: [
       [30.9628, 46.1030], // Ur
       [32.5422, 44.4210], // Babylon
@@ -541,49 +541,49 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Ur of the Chaldees', fr: 'Our des Chaldéens', ar: 'أور الكلدانيين', es: 'Ur de los caldeos' },
         lat: 30.9628,
         lng: 46.1030,
-        desc: { en: 'Birthplace of Ibrahim and confrontation with idolaters; delivered from the blazing fire.', fr: 'Lieu de naissance d’Ibrahim et sauvetage de la fournaise.', ar: 'موطن مولده ومحاجته لقومه ونجاته من النار العظيمة.' },
+        desc: { en: 'Birthplace of Ibrahim and confrontation with idolaters; delivered from the blazing fire.', fr: 'Lieu de naissance d’Ibrahim et sauvetage de la fournaise.', ar: 'موطن مولده ومحاجته لقومه ونجاته من النار العظيمة.', es: "Lugar de nacimiento de Ibrahim y de su enfrentamiento con los idólatras; salvado del fuego ardiente." },
         quranRef: 'Al-Anbiya 21:69',
       },
       {
         name: { en: 'Babylon', fr: 'Babylone', ar: 'بابل', es: 'Babilonia' },
         lat: 32.5422,
         lng: 44.4210,
-        desc: { en: 'Shattering the idols and philosophical dispute with King Nimrud on life and death.', fr: 'Destruction des idoles et débat avec le roi Nemrod.', ar: 'تكسير الأصنام ومحاججة الملك نمرود في الإحياء والإماتة.' },
+        desc: { en: 'Shattering the idols and philosophical dispute with King Nimrud on life and death.', fr: 'Destruction des idoles et débat avec le roi Nemrod.', ar: 'تكسير الأصنام ومحاججة الملك نمرود في الإحياء والإماتة.', es: "La destrucción de los ídolos y la discusión con el rey Nimrud sobre la vida y la muerte." },
         quranRef: 'Al-Baqarah 2:258',
       },
       {
         name: { en: 'Haran (Upper Mesopotamia)', fr: 'Haran', ar: 'حرّان', es: 'Harán (Alta Mesopotamia)' },
         lat: 36.8667,
         lng: 39.0333,
-        desc: { en: 'Dawah to heavenly body worshippers (sun, moon, stars).', fr: 'Prédication auprès des adorateurs des astres.', ar: 'دعوة قومه المنشغلين بعبادة الكواكب والشمس والقمر.' },
+        desc: { en: 'Dawah to heavenly body worshippers (sun, moon, stars).', fr: 'Prédication auprès des adorateurs des astres.', ar: 'دعوة قومه المنشغلين بعبادة الكواكب والشمس والقمر.', es: "Llamada a los adoradores de los astros (el sol, la luna y las estrellas)." },
         quranRef: 'Al-An‘am 6:76-79',
       },
       {
         name: { en: 'Damascus (Sham)', fr: 'Damas', ar: 'دمشق', es: 'Damasco (Sham)' },
         lat: 33.5138,
         lng: 36.2765,
-        desc: { en: 'Gateway of migration into the blessed Levant.', fr: 'Porte d’entrée vers les terres bénies du Levant.', ar: 'محطة العبور نحو الأرض المباركة في بلاد الشام.' },
+        desc: { en: 'Gateway of migration into the blessed Levant.', fr: 'Porte d’entrée vers les terres bénies du Levant.', ar: 'محطة العبور نحو الأرض المباركة في بلاد الشام.', es: "Puerta de la emigración hacia el bendito Levante." },
         quranRef: 'Al-Anbiya 21:71',
       },
       {
         name: { en: 'Hebron (Al-Khalil)', fr: 'Hébron (Al-Khalil)', ar: 'الخليل (كنعان)', es: 'Hebrón (al-Jalil)' },
         lat: 31.5247,
         lng: 35.1107,
-        desc: { en: 'Settlement in the land of Canaan and announcement of the birth of Ishaq.', fr: 'Établissement en terre de Canaan et annonce d’Ishaq.', ar: 'الاستقرار في أرض كنعان وبشارة الملائكة بإسحاق.' },
+        desc: { en: 'Settlement in the land of Canaan and announcement of the birth of Ishaq.', fr: 'Établissement en terre de Canaan et annonce d’Ishaq.', ar: 'الاستقرار في أرض كنعان وبشارة الملائكة بإسحاق.', es: "Asentamiento en la tierra de Canaán y anuncio del nacimiento de Ishaq." },
         quranRef: 'Hud 11:69-71',
       },
       {
         name: { en: 'Nile Delta (Egypt)', fr: 'Delta du Nil (Égypte)', ar: 'مصر ووادي النيل', es: 'Delta del Nilo (Egipto)' },
         lat: 30.0444,
         lng: 31.2357,
-        desc: { en: 'Journey during famine where Sarah and Hajar joined the prophetic household.', fr: 'Voyage durant la famine ; Hajar rejoint le foyer prophétique.', ar: 'الرحيل أثناء القحط ومجيء هاجر أم إسماعيل.' },
+        desc: { en: 'Journey during famine where Sarah and Hajar joined the prophetic household.', fr: 'Voyage durant la famine ; Hajar rejoint le foyer prophétique.', ar: 'الرحيل أثناء القحط ومجيء هاجر أم إسماعيل.', es: "Viaje en tiempos de hambruna en el que Sara y Hayar se unieron a la casa profética." },
         quranRef: 'Sahih al-Bukhari 3358',
       },
       {
         name: { en: 'Valley of Bakkah (Makkah)', fr: 'Vallée de Bakkah (La Mecque)', ar: 'وادي مكة المكرمة', es: 'El valle de Bakka (La Meca)' },
         lat: 21.4225,
         lng: 39.8262,
-        desc: { en: 'Leaving Hajar and Ismail in the uncultivated valley, raising the foundations of the Ka‘bah.', fr: 'Installation de Hajar et Ismail, élévation de la Ka‘bah.', ar: 'إسكان هاجر وإسماعيل بوادٍ غير ذي زرع ورفع قواعد البيت العتيق.' },
+        desc: { en: 'Leaving Hajar and Ismail in the uncultivated valley, raising the foundations of the Ka‘bah.', fr: 'Installation de Hajar et Ismail, élévation de la Ka‘bah.', ar: 'إسكان هاجر وإسماعيل بوادٍ غير ذي زرع ورفع قواعد البيت العتيق.', es: "Dejó a Hayar e Ismail en el valle sin cultivos y levantó los cimientos de la Kaaba." },
         quranRef: 'Ibrahim 14:37, Al-Baqarah 2:127',
       },
     ],
@@ -593,12 +593,11 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: { en: 'The Exodus & Wandering of Musa عليه السلام', fr: 'L’Exode de Musa عليه السلام', ar: 'مسار الخروج لموسى وبني إسرائيل', es: 'El Éxodo y la travesía de Musa عليه السلام' },
     color: '#38bdf8',
     prophetId: 'musa',
-    period: { en: 'c. 13th Century BCE', fr: 'env. XIIIe siècle av. J.-C.', ar: 'حوالي القرن 13 ق.م' },
+    period: { en: 'c. 13th Century BCE', fr: 'env. XIIIe siècle av. J.-C.', ar: 'حوالي القرن 13 ق.م', es: "h. siglo XIII a. C." },
     desc: {
       en: 'From royal upbringing in Pharaoh’s court to refuge in Midian, receiving divine speech at Mount Sinai, the miraculous parting of the sea, and guidance in the desert.',
       fr: 'De la cour de Pharaon à l’exil à Madyan, la théophanie au mont Sinaï et la traversée de la mer Rouge.',
-      ar: 'من قصر فرعون إلى الهروب لمدين، ثم تكليم الله له بالطور وفلق البحر الأحمر وتيه بني إسرائيل.'
-    },
+      ar: 'من قصر فرعون إلى الهروب لمدين، ثم تكليم الله له بالطور وفلق البحر الأحمر وتيه بني إسرائيل.', es: "De su crianza en la corte del Faraón al refugio en Madyan, la palabra divina en el monte Sinaí, la milagrosa apertura del mar y la guía en el desierto." },
     coords: [
       [30.5852, 31.5035], // Goshen / Nile Delta
       [28.4833, 35.0167], // Midian
@@ -611,35 +610,35 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Goshen / Nile Delta', fr: 'Goshên / Delta du Nil', ar: 'أرض جاسان (دلتا مصر)', es: 'Gosén / delta del Nilo' },
         lat: 30.5852,
         lng: 31.5035,
-        desc: { en: 'Cast as an infant into the Nile, raised in Pharaoh’s court.', fr: 'Recueilli des flots du Nil et élevé au palais de Pharaon.', ar: 'إلقاؤه في التابوت في اليم ونشأته في قصر فرعون.' },
+        desc: { en: 'Cast as an infant into the Nile, raised in Pharaoh’s court.', fr: 'Recueilli des flots du Nil et élevé au palais de Pharaon.', ar: 'إلقاؤه في التابوت في اليم ونشأته في قصر فرعون.', es: "Arrojado de niño al Nilo y criado en la corte del Faraón." },
         quranRef: 'Al-Qasas 28:7-9',
       },
       {
         name: { en: 'Midian (Al-Bad‘)', fr: 'Madyan (Al-Bad‘)', ar: 'مدين (البدع)', es: 'Madián (al-Bad‘)' },
         lat: 28.4833,
         lng: 35.0167,
-        desc: { en: 'Ten years refuge, watering flocks for the daughters of the righteous elder.', fr: 'Dix années d’exil et mariage avec la fille du sage.', ar: 'عشر سنوات من الرعاية والخدمة ومصاهرة الشيخ الصالح.' },
+        desc: { en: 'Ten years refuge, watering flocks for the daughters of the righteous elder.', fr: 'Dix années d’exil et mariage avec la fille du sage.', ar: 'عشر سنوات من الرعاية والخدمة ومصاهرة الشيخ الصالح.', es: "Diez años de refugio, dando de beber a los rebaños de las hijas del anciano justo." },
         quranRef: 'Al-Qasas 28:22-28',
       },
       {
         name: { en: 'Mount Sinai & Valley of Tuwa', fr: 'Mont Sinaï & Vallée de Touwa', ar: 'طور سيناء والوادي المقدس', es: 'El monte Sinaí y el valle de Tuwa' },
         lat: 28.5394,
         lng: 33.9753,
-        desc: { en: 'Direct speech with Allah at the burning bush and reception of the Tablets.', fr: 'Parole divine directe et don des Tables de la Loi.', ar: 'تكليم الله له بالأمر بالرسالة ونزول ألواح التوراة.' },
+        desc: { en: 'Direct speech with Allah at the burning bush and reception of the Tablets.', fr: 'Parole divine directe et don des Tables de la Loi.', ar: 'تكليم الله له بالأمر بالرسالة ونزول ألواح التوراة.', es: "Palabra directa con Allah junto al fuego y recepción de las Tablas." },
         quranRef: 'Taha 20:10-14',
       },
       {
         name: { en: 'Red Sea Crossing', fr: 'Passage de la Mer Rouge', ar: 'موضع فلق البحر', es: 'El cruce del mar Rojo' },
         lat: 29.9668,
         lng: 32.5498,
-        desc: { en: 'Parting of the sea with his staff; salvation of the believers and drowning of Pharaoh.', fr: 'Ouverture miraculeuse des eaux et noyade de Pharaon.', ar: 'انفلاق البحر بعصا موسى وغرق فرعون وجنوده.' },
+        desc: { en: 'Parting of the sea with his staff; salvation of the believers and drowning of Pharaoh.', fr: 'Ouverture miraculeuse des eaux et noyade de Pharaon.', ar: 'انفلاق البحر بعصا موسى وغرق فرعون وجنوده.', es: "La apertura del mar con su vara; salvación de los creyentes y ahogamiento del Faraón." },
         quranRef: 'Ash-Shu‘ara 26:63-66',
       },
       {
         name: { en: 'Mount Nebo & Jordan Valley', fr: 'Mont Nébo & Vallée du Jourdain', ar: 'جبل نيبو وغور الأردن', es: 'El monte Nebo y el valle del Jordán' },
         lat: 31.7683,
         lng: 35.7253,
-        desc: { en: 'Overlooking the Holy Land after forty years in the wilderness.', fr: 'Regard sur la Terre Sainte au terme des quarante années d’errance.', ar: 'الإشراف على الأرض المقدسة بعد أربعين سنة من التيه.' },
+        desc: { en: 'Overlooking the Holy Land after forty years in the wilderness.', fr: 'Regard sur la Terre Sainte au terme des quarante années d’errance.', ar: 'الإشراف على الأرض المقدسة بعد أربعين سنة من التيه.', es: "Contempló la Tierra Santa tras cuarenta años en el desierto." },
         quranRef: 'Al-Ma’idah 5:21-26',
       },
     ],
@@ -649,12 +648,11 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: { en: 'The Blessed Hijrah of Muhammad ﷺ', fr: 'La sainte Hégire vers Médine', ar: 'طريق الهجرة النبوية الشريفة', es: 'La Hégira bendita de Muhammad ﷺ' },
     color: '#4ade80',
     prophetId: 'muhammad',
-    period: { en: '622 CE / 1 AH', fr: '622 ap. J.-C. / 1 H', ar: '622 م / 1 هـ' },
+    period: { en: '622 CE / 1 AH', fr: '622 ap. J.-C. / 1 H', ar: '622 م / 1 هـ', es: "622 / 1 H" },
     desc: {
       en: 'The watershed exodus from persecution in Makkah to sovereignty in Madinah: departing secretly, sheltering in Cave Thawr, and traversing the harsh coastal trail.',
       fr: 'Le grand tournant de l’Islam : départ clandestin de La Mecque, halte dans la grotte de Thawr et traversée côtière vers Médine.',
-      ar: 'الهجرة النبوية المباركة: الخروج المستور من مكة والغار ثم المسار الساحلي وصولًا لقباء وتأسيس دولة المدينة.'
-    },
+      ar: 'الهجرة النبوية المباركة: الخروج المستور من مكة والغار ثم المسار الساحلي وصولًا لقباء وتأسيس دولة المدينة.', es: "La gran emigración de la persecución en La Meca a la soberanía en Medina: salida en secreto, refugio en la cueva de Zawr y travesía del duro camino de la costa." },
     coords: [
       [21.4225, 39.8262], // Makkah
       [21.3786, 39.8497], // Cave of Thawr
@@ -668,42 +666,42 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Dar al-Arqam (Makkah)', fr: 'Dar al-Arqam (La Mecque)', ar: 'دار الأرقم (مكة)', es: 'Dar al-Arqam (La Meca)' },
         lat: 21.4225,
         lng: 39.8262,
-        desc: { en: 'Secret departure under the cover of night while Ali lay in the Prophet’s bed.', fr: 'Départ secret de nuit pendant qu’Ali occupait son lit.', ar: 'الخروج الحذر في جنح الظلام ومبيت علي بن أبي طالب في فراشه الشريف.' },
+        desc: { en: 'Secret departure under the cover of night while Ali lay in the Prophet’s bed.', fr: 'Départ secret de nuit pendant qu’Ali occupait son lit.', ar: 'الخروج الحذر في جنح الظلام ومبيت علي بن أبي طالب في فراشه الشريف.', es: "Salida secreta al amparo de la noche mientras ‘Ali dormía en la cama del Profeta." },
         quranRef: 'Al-Anfal 8:30',
       },
       {
         name: { en: 'Cave of Thawr', fr: 'Grotte de Thawr', ar: 'غار ثور', es: 'La cueva de Zawr' },
         lat: 21.3786,
         lng: 39.8497,
-        desc: { en: 'Three days refuge with Abu Bakr while Quraysh searchers stood outside.', fr: 'Trois nuits de halte avec Abou Bakr protégé par la providence divine.', ar: 'المقام ثلاث ليالٍ مع الصديق أبي بكر ﴿لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا﴾.' },
+        desc: { en: 'Three days refuge with Abu Bakr while Quraysh searchers stood outside.', fr: 'Trois nuits de halte avec Abou Bakr protégé par la providence divine.', ar: 'المقام ثلاث ليالٍ مع الصديق أبي بكر ﴿لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا﴾.', es: "Tres días de refugio con Abu Bakr mientras los perseguidores de Quraysh estaban a la entrada." },
         quranRef: 'At-Tawbah 9:40',
       },
       {
         name: { en: 'Tent of Umm Ma‘bad (Qudayd)', fr: 'Tente d’Oumm Ma‘bad', ar: 'خيمة أم معبد (قديد)', es: 'La tienda de Umm Ma‘bad (Qudayd)' },
         lat: 21.9167,
         lng: 39.3167,
-        desc: { en: 'Miracle of the dry ewe overflowing with milk for the travelers.', fr: 'Miracle de la brebis tarie qui donna du lait en abondance.', ar: 'معجزة الشاة الهزيلة التي درّت اللبن وسقيا الركب المهاجر.' },
+        desc: { en: 'Miracle of the dry ewe overflowing with milk for the travelers.', fr: 'Miracle de la brebis tarie qui donna du lait en abondance.', ar: 'معجزة الشاة الهزيلة التي درّت اللبن وسقيا الركب المهاجر.', es: "El milagro de la oveja seca que se llenó de leche para los viajeros." },
         quranRef: 'Zad al-Ma‘ad',
       },
       {
         name: { en: 'Coastal Track (Rabigh)', fr: 'Piste côtière de Rabigh', ar: 'طريق الساحل (رابغ)', es: 'Ruta costera (Rabigh)' },
         lat: 22.8000,
         lng: 39.0000,
-        desc: { en: 'Navigating untracked desert paths guided by expert tracker Abdullah ibn Urayqit.', fr: 'Navigation dans les sables côtiers guidée par Ibn Ourayqit.', ar: 'سلوك مسالك وعرة غير مألوفة بقيادة الدليل عبد الله بن أريقط.' },
+        desc: { en: 'Navigating untracked desert paths guided by expert tracker Abdullah ibn Urayqit.', fr: 'Navigation dans les sables côtiers guidée par Ibn Ourayqit.', ar: 'سلوك مسالك وعرة غير مألوفة بقيادة الدليل عبد الله بن أريقط.', es: "Recorrido por sendas desérticas sin marcar, guiados por el experto rastreador ‘Abdullah ibn Urayqit." },
         quranRef: 'Sirat Ibn Hisham',
       },
       {
         name: { en: 'Quba Oasis', fr: 'Oasis de Quba', ar: 'واحة قباء', es: 'El oasis de Quba' },
         lat: 24.4392,
         lng: 39.6172,
-        desc: { en: 'Joyous reception by the early emigrants and erection of the first mosque in Islam.', fr: 'Accueil triomphal et édification de la première mosquée de l’Islam.', ar: 'نزوله ﷺ بقباء وتأسيس أول مسجد أُسس على التقوى.' },
+        desc: { en: 'Joyous reception by the early emigrants and erection of the first mosque in Islam.', fr: 'Accueil triomphal et édification de la première mosquée de l’Islam.', ar: 'نزوله ﷺ بقباء وتأسيس أول مسجد أُسس على التقوى.', es: "Alegre acogida de los primeros emigrantes y construcción de la primera mezquita del islam." },
         quranRef: 'At-Tawbah 9:108',
       },
       {
         name: { en: 'Al-Masjid an-Nabawi (Madinah)', fr: 'Médine l’Illuminée', ar: 'المسجد النبوي (طيبة)', es: 'Al-Masyid an-Nabawi (Medina)' },
         lat: 24.4686,
         lng: 39.6108,
-        desc: { en: 'Halting of the camel Qaswa, welcomed by the Ansar singing Tala‘a al-Badru ‘Alayna.', fr: 'Arrivée triomphale à Médine et arrêt de la chamelle Qaswa.', ar: 'بروك ناقته القصواء وبناء المسجد النبوي الشريف والمؤاخاة بين المهاجرين والأنصار.' },
+        desc: { en: 'Halting of the camel Qaswa, welcomed by the Ansar singing Tala‘a al-Badru ‘Alayna.', fr: 'Arrivée triomphale à Médine et arrêt de la chamelle Qaswa.', ar: 'بروك ناقته القصواء وبناء المسجد النبوي الشريف والمؤاخاة بين المهاجرين والأنصار.', es: "Se detuvo la camella Qaswa y los Ansar lo recibieron cantando Tala‘a al-Badru ‘Alayna." },
         quranRef: 'Al-Hashr 59:9',
       },
     ],
@@ -713,12 +711,11 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: { en: 'Al-Isra: The Miraculous Night Journey', fr: 'Al-Isra : Le Voyage nocturne', ar: 'رحلة الإسراء الأرضية المباركة', es: 'Al-Isra: el Viaje Nocturno' },
     color: '#c084fc',
     prophetId: 'muhammad',
-    period: { en: 'c. 621 CE (Pre-Hijrah)', fr: 'env. 621 ap. J.-C.', ar: 'حوالي 621 م / قبل الهجرة' },
+    period: { en: 'c. 621 CE (Pre-Hijrah)', fr: 'env. 621 ap. J.-C.', ar: 'حوالي 621 م / قبل الهجرة', es: "h. 621 (antes de la Hégira)" },
     desc: {
       en: 'The miraculous terrestrial night passage from the Sacred Mosque in Makkah to Al-Aqsa in Jerusalem aboard Al-Buraq, stopping to pray at prophetic milestones.',
       fr: 'Le voyage nocturne miraculeux de La Mecque à Jérusalem sur Al-Bouraq avec prière aux étapes prophétiques.',
-      ar: 'الرحلة الإعجازية الليلية من المسجد الحرام إلى المسجد الأقصى على البراق، وصلاة النبي ﷺ في المحطات المباركة.'
-    },
+      ar: 'الرحلة الإعجازية الليلية من المسجد الحرام إلى المسجد الأقصى على البراق، وصلاة النبي ﷺ في المحطات المباركة.', es: "El milagroso viaje nocturno por la tierra desde la Mezquita Sagrada de La Meca hasta al-Aqsa en Jerusalén a lomos de al-Buraq, con paradas para rezar en lugares de los profetas." },
     coords: [
       [21.4225, 39.8262], // Makkah
       [24.4686, 39.6108], // Yathrib / Madinah
@@ -731,35 +728,35 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Al-Masjid al-Haram (Makkah)', fr: 'Al-Masjid al-Haram (La Mecque)', ar: 'المسجد الحرام (مكة)', es: 'Al-Masyid al-Haram (La Meca)' },
         lat: 21.4225,
         lng: 39.8262,
-        desc: { en: 'Starting point of the nocturnal journey from the Hijr Ismail aboard Al-Buraq.', fr: 'Point de départ sur Al-Bouraq depuis le Hijr d’Ismail.', ar: 'انطلاق الرحلة من الحِجر عند الكعبة المشرفة بصحبة جبريل على البراق.' },
+        desc: { en: 'Starting point of the nocturnal journey from the Hijr Ismail aboard Al-Buraq.', fr: 'Point de départ sur Al-Bouraq depuis le Hijr d’Ismail.', ar: 'انطلاق الرحلة من الحِجر عند الكعبة المشرفة بصحبة جبريل على البراق.', es: "Punto de partida del viaje nocturno desde el Hiyr de Ismail a lomos de al-Buraq." },
         quranRef: 'Al-Isra 17:1',
       },
       {
         name: { en: 'Taybah (Madinah)', fr: 'Taybah (Médine)', ar: 'طيبة (المدينة المنورة)', es: 'Tayba (Medina)' },
         lat: 24.4686,
         lng: 39.6108,
-        desc: { en: 'First prayer station at the future land of migration.', fr: 'Première halte de prière sur la terre de la future émigration.', ar: 'الهبوط والصلاة بأمر جبريل بأرض النخيل وطيبة موضع الهجرة.' },
+        desc: { en: 'First prayer station at the future land of migration.', fr: 'Première halte de prière sur la terre de la future émigration.', ar: 'الهبوط والصلاة بأمر جبريل بأرض النخيل وطيبة موضع الهجرة.', es: "Primera parada para rezar en la futura tierra de la emigración." },
         quranRef: 'Sunan an-Nasa’i 450',
       },
       {
         name: { en: 'Mount Sinai (Tur Sina)', fr: 'Mont Sinaï (Tour Sina)', ar: 'طور سيناء', es: 'El monte Sinaí (Tur Sina)' },
         lat: 28.5394,
         lng: 33.9753,
-        desc: { en: 'Halting to pray where Allah spoke directly to Prophet Musa.', fr: 'Prière à l’endroit où Allah s’adressa à Musa.', ar: 'الصلاة عند الجبل الأشم حيث كلّم الله موسى تكليمًا.' },
+        desc: { en: 'Halting to pray where Allah spoke directly to Prophet Musa.', fr: 'Prière à l’endroit où Allah s’adressa à Musa.', ar: 'الصلاة عند الجبل الأشم حيث كلّم الله موسى تكليمًا.', es: "Parada para rezar donde Allah habló directamente al profeta Musa." },
         quranRef: 'Sunan an-Nasa’i 450',
       },
       {
         name: { en: 'Bayt Lahm (Bethlehem)', fr: 'Bayt Lahm (Bethléem)', ar: 'بيت لحم', es: 'Bayt Lahm (Belén)' },
         lat: 31.7049,
         lng: 35.2078,
-        desc: { en: 'Halting to pray where Isa ibn Maryam was born under the palm tree.', fr: 'Prière au lieu de naissance béni d’Isa.', ar: 'الصلاة في موضع ولادة المسيح عيسى بن مريم عليه السلام.' },
+        desc: { en: 'Halting to pray where Isa ibn Maryam was born under the palm tree.', fr: 'Prière au lieu de naissance béni d’Isa.', ar: 'الصلاة في موضع ولادة المسيح عيسى بن مريم عليه السلام.', es: "Parada para rezar donde nació ‘Isa hijo de Maryam, bajo la palmera." },
         quranRef: 'Sunan an-Nasa’i 450',
       },
       {
         name: { en: 'Al-Masjid al-Aqsa (Jerusalem)', fr: 'Al-Masjid al-Aqsa (Jérusalem)', ar: 'المسجد الأقصى المبارك', es: 'Al-Masyid al-Aqsa (Jerusalén)' },
         lat: 31.7761,
         lng: 35.2358,
-        desc: { en: 'Leading all Prophets in congregation in prayer, followed by the ascension (Al-Mi‘raj).', fr: 'Prière collective guidée devant tous les prophètes, suivie du Mi‘raj.', ar: 'إمامة الأنبياء والمرسلين جميعًا في الصلاة ثم العروج إلى السماوات السبع.' },
+        desc: { en: 'Leading all Prophets in congregation in prayer, followed by the ascension (Al-Mi‘raj).', fr: 'Prière collective guidée devant tous les prophètes, suivie du Mi‘raj.', ar: 'إمامة الأنبياء والمرسلين جميعًا في الصلاة ثم العروج إلى السماوات السبع.', es: "Dirigió en oración a todos los profetas, y después vino la ascensión (al-Mi‘ray)." },
         quranRef: 'Al-Isra 17:1',
       },
     ],
@@ -769,12 +766,11 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: { en: 'The Odyssey of Yusuf عليه السلام', fr: 'L’Épopée de Yusuf عليه السلام', ar: 'مسار رحلة يوسف الصديق عليه السلام', es: 'El viaje de Yusuf عليه السلام' },
     color: '#fbbf24',
     prophetId: 'yusuf',
-    period: { en: 'c. 17th Century BCE', fr: 'env. XVIIe siècle av. J.-C.', ar: 'حوالي القرن 17 ق.م' },
+    period: { en: 'c. 17th Century BCE', fr: 'env. XVIIe siècle av. J.-C.', ar: 'حوالي القرن 17 ق.م', es: "h. siglo XVII a. C." },
     desc: {
       en: 'From pastoral boyhood in Canaan to the dark cistern of Dothan, crossing the Sinai desert into Egyptian slavery, rising to minister of the storehouses.',
       fr: 'De l’enfance en Canaan au puits de Dothan, à l’esclavage en Égypte puis au trône de ministre des trésors.',
-      ar: 'من بادية كنعان إلى ظلمة الجب ثم رحلة القافلة عبر سيناء، ومن السجن إلى عرش خزائن مصر وعناق الأبوين.'
-    },
+      ar: 'من بادية كنعان إلى ظلمة الجب ثم رحلة القافلة عبر سيناء، ومن السجن إلى عرش خزائن مصر وعناق الأبوين.', es: "De una infancia pastoril en Canaán a la oscura cisterna de Dotán, la travesía del desierto del Sinaí hacia la esclavitud en Egipto y el ascenso a ministro de los almacenes." },
     coords: [
       [31.5247, 35.1107], // Hebron / Canaan
       [32.9667, 35.5333], // Well of Dothan (Jubb Yusuf)
@@ -787,35 +783,35 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Canaan (Hebron)', fr: 'Canaan (Hébron)', ar: 'أرض كنعان (الخليل)', es: 'Canaán (Hebrón)' },
         lat: 31.5247,
         lng: 35.1107,
-        desc: { en: 'Childhood home of Yusuf and his eleven brothers, and his vision of the eleven stars.', fr: 'Foyer d’enfance et vision prophétique des onze étoiles.', ar: 'موطن صباه وحلم سجود الأحد عشر كوكبًا والشمس والقمر له.' },
+        desc: { en: 'Childhood home of Yusuf and his eleven brothers, and his vision of the eleven stars.', fr: 'Foyer d’enfance et vision prophétique des onze étoiles.', ar: 'موطن صباه وحلم سجود الأحد عشر كوكبًا والشمس والقمر له.', es: "Hogar de infancia de Yusuf y sus once hermanos, y de su visión de las once estrellas." },
         quranRef: 'Yusuf 12:4',
       },
       {
         name: { en: 'Well of Dothan (Jubb Yusuf)', fr: 'Puits de Dothan (Joub Youssouf)', ar: 'جُبّ يوسف (دوثان)', es: 'El pozo de Dotán (Yubb Yusuf)' },
         lat: 32.9667,
         lng: 35.5333,
-        desc: { en: 'Cast down the dark cistern by envious brothers and sold to a passing caravan for dirhams.', fr: 'Jeté au fond du puits puis vendu à une caravane pour quelques pièces.', ar: 'إلقاؤه في قعر الجب حسدًا وبيعه لقافلة تجار بثمن بخس دراهم معدودة.' },
+        desc: { en: 'Cast down the dark cistern by envious brothers and sold to a passing caravan for dirhams.', fr: 'Jeté au fond du puits puis vendu à une caravane pour quelques pièces.', ar: 'إلقاؤه في قعر الجب حسدًا وبيعه لقافلة تجار بثمن بخس دراهم معدودة.', es: "Arrojado a la oscura cisterna por sus hermanos envidiosos y vendido por unos dírhams a una caravana." },
         quranRef: 'Yusuf 12:15-20',
       },
       {
         name: { en: 'Beersheba (Negev Caravan Highway)', fr: 'Beer-Sheva (Piste du Néguev)', ar: 'بئر السبع (طريق القوافل)', es: 'Beerseba (ruta de caravanas del Néguev)' },
         lat: 31.2589,
         lng: 34.7997,
-        desc: { en: 'Caravan junction crossing southward towards the borders of Egypt.', fr: 'Croisée caravanière menant vers le sud et la frontière égyptienne.', ar: 'محطة مسير القافلة التجارية باتجاه صحراء سيناء ووادي النيل.' },
+        desc: { en: 'Caravan junction crossing southward towards the borders of Egypt.', fr: 'Croisée caravanière menant vers le sud et la frontière égyptienne.', ar: 'محطة مسير القافلة التجارية باتجاه صحراء سيناء ووادي النيل.', es: "Cruce de caravanas hacia el sur, en dirección a las fronteras de Egipto." },
         quranRef: 'Yusuf 12:19',
       },
       {
         name: { en: 'Northern Sinai Desert Track', fr: 'Piste du Nord-Sinaï', ar: 'درب شمال سيناء', es: 'Ruta del desierto del norte del Sinaí' },
         lat: 31.0500,
         lng: 33.8000,
-        desc: { en: 'The grueling trade highway across the sands between the Levant and Egypt.', fr: 'La route aride du commerce reliant le Levant aux portes du Nil.', ar: 'طريق التجارة القديم عبر رمال سيناء الفاصلة بين الشام ومصر.' },
+        desc: { en: 'The grueling trade highway across the sands between the Levant and Egypt.', fr: 'La route aride du commerce reliant le Levant aux portes du Nil.', ar: 'طريق التجارة القديم عبر رمال سيناء الفاصلة بين الشام ومصر.', es: "La dura ruta comercial por las arenas entre el Levante y Egipto." },
         quranRef: 'Yusuf 12:21',
       },
       {
         name: { en: 'Memphis & Egyptian Royal Court', fr: 'Memphis et Palais Royal', ar: 'منف وقصر العزيز بمصر', es: 'Menfis y la corte real de Egipto' },
         lat: 29.8499,
         lng: 31.2544,
-        desc: { en: 'From the mansion of Al-Aziz and prison to stewardship of all Egyptian granaries.', fr: 'De la demeure d’Al-Aziz et la prison jusqu’à l’intendance des greniers.', ar: 'التمكين في الأرض بعد محنة السجن، وحفظ خزائن مصر، وجمع شمل أهله.' },
+        desc: { en: 'From the mansion of Al-Aziz and prison to stewardship of all Egyptian granaries.', fr: 'De la demeure d’Al-Aziz et la prison jusqu’à l’intendance des greniers.', ar: 'التمكين في الأرض بعد محنة السجن، وحفظ خزائن مصر، وجمع شمل أهله.', es: "De la casa del ‘Aziz y la prisión a la administración de todos los graneros de Egipto." },
         quranRef: 'Yusuf 12:54-56, 12:100',
       },
     ],
@@ -825,12 +821,11 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: { en: 'Mission, Ordeal & Return of Yunus عليه السلام', fr: 'Mission et Épreuve de Yunus عليه السلام', ar: 'مسار دعوة ومحنة يونس عليه السلام', es: 'Misión, prueba y regreso de Yunus عليه السلام' },
     color: '#2dd4bf',
     prophetId: 'yunus',
-    period: { en: 'c. 8th Century BCE', fr: 'env. VIIIe siècle av. J.-C.', ar: 'حوالي القرن 8 ق.م' },
+    period: { en: 'c. 8th Century BCE', fr: 'env. VIIIe siècle av. J.-C.', ar: 'حوالي القرن 8 ق.م', es: "h. siglo VIII a. C." },
     desc: {
       en: 'Sent to the mighty Assyrian capital Nineveh, departing in distress across the desert to Jaffa port, swallowed by the great fish at sea, and returned to a saved nation.',
       fr: 'Envoyé à Ninive, embarqué à Jaffa, englouti par la baleine puis ramené vers un peuple sauvé.',
-      ar: 'من نينوى العظيمة إلى ميناء يافا، والتقام الحوت في لجج البحر، ثم النجاة بشجرة اليقطين والعودة لقومه المؤمنين.'
-    },
+      ar: 'من نينوى العظيمة إلى ميناء يافا، والتقام الحوت في لجج البحر، ثم النجاة بشجرة اليقطين والعودة لقومه المؤمنين.', es: "Enviado a Nínive, la poderosa capital asiria; partió angustiado por el desierto hasta el puerto de Jaffa, fue tragado por el gran pez en el mar y volvió a un pueblo salvado." },
     coords: [
       [36.3587, 43.1528], // Nineveh
       [34.8021, 38.9968], // Syrian Desert Route
@@ -844,42 +839,42 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Nineveh (Mosul)', fr: 'Ninive (Mossoul)', ar: 'نينوى (الموصل)', es: 'Nínive (Mosul)' },
         lat: 36.3587,
         lng: 43.1528,
-        desc: { en: 'Calling 100,000+ souls to monotheism before leaving in grievance.', fr: 'Prédication auprès de plus de 100 000 habitants.', ar: 'دعوة قومه البالغين مائة ألف أو يزيدون ثم خروجه مغاضبًا.' },
+        desc: { en: 'Calling 100,000+ souls to monotheism before leaving in grievance.', fr: 'Prédication auprès de plus de 100 000 habitants.', ar: 'دعوة قومه البالغين مائة ألف أو يزيدون ثم خروجه مغاضبًا.', es: "Llamó a más de cien mil almas al monoteísmo antes de marcharse enojado." },
         quranRef: 'Al-Anbiya 21:87, Yunus 10:98',
       },
       {
         name: { en: 'Syrian Desert Trail (Tadmur)', fr: 'Piste du Désert de Syrie', ar: 'بادية الشام (طريق تدمر)', es: 'Ruta del desierto sirio (Tadmur)' },
         lat: 34.8021,
         lng: 38.9968,
-        desc: { en: 'Journeying westward towards Mediterranean maritime ports.', fr: 'Traversée vers les ports marchands de la Méditerranée.', ar: 'المسير غربًا نحو الموانئ البحرية على الساحل الشامي.' },
+        desc: { en: 'Journeying westward towards Mediterranean maritime ports.', fr: 'Traversée vers les ports marchands de la Méditerranée.', ar: 'المسير غربًا نحو الموانئ البحرية على الساحل الشامي.', es: "Viaje hacia el oeste, a los puertos del Mediterráneo." },
         quranRef: 'As-Saffat 37:139-140',
       },
       {
         name: { en: 'Jaffa Port (Levant Coast)', fr: 'Port de Jaffa', ar: 'ميناء يافا القديم', es: 'Puerto de Jaffa (costa del Levante)' },
         lat: 32.0536,
         lng: 34.7567,
-        desc: { en: 'Boarding the fully-laden vessel into open tempestuous waters.', fr: 'Embarquement à bord du navire surchargé.', ar: 'ركوب السفينة المشحونة في البحر الهائج ﴿إِذْ أَبَقَ إِلَى الْفُلْكِ الْمَشْحُونِ﴾.' },
+        desc: { en: 'Boarding the fully-laden vessel into open tempestuous waters.', fr: 'Embarquement à bord du navire surchargé.', ar: 'ركوب السفينة المشحونة في البحر الهائج ﴿إِذْ أَبَقَ إِلَى الْفُلْكِ الْمَشْحُونِ﴾.', es: "Embarcó en la nave cargada hacia aguas abiertas y tempestuosas." },
         quranRef: 'As-Saffat 37:140',
       },
       {
         name: { en: 'Deep Mediterranean Waters', fr: 'Abysses de la Méditerranée', ar: 'لجج البحر الأبيض المتوسط', es: 'Aguas profundas del Mediterráneo' },
         lat: 32.5000,
         lng: 33.5000,
-        desc: { en: 'Drawing lots and swallowed by the whale in the three depths of darkness: "La ilaha illa Anta subhanaka".', fr: 'Tirage au sort et engloutissement dans les trois ténèbres.', ar: 'المساهمة والتقام الحوت له وهو مليم ونداؤه في الظلمات: ﴿لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ﴾.' },
+        desc: { en: 'Drawing lots and swallowed by the whale in the three depths of darkness: "La ilaha illa Anta subhanaka".', fr: 'Tirage au sort et engloutissement dans les trois ténèbres.', ar: 'المساهمة والتقام الحوت له وهو مليم ونداؤه في الظلمات: ﴿لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ﴾.', es: "Echaron suertes y lo tragó el pez en tres tinieblas: «La ilaha illa Anta subhanaka»." },
         quranRef: 'Al-Anbiya 21:87, As-Saffat 37:141-144',
       },
       {
         name: { en: 'Shore of Deliverance', fr: 'Rivage de la Délivrance', ar: 'ساحل النجاة واليقطين', es: 'La orilla de la salvación' },
         lat: 32.1000,
         lng: 34.8000,
-        desc: { en: 'Cast onto the open strand; sheltered by the miraculously growing gourd tree.', fr: 'Rejeté sur la rive et protégé par le plant de courge.', ar: 'طرحه بالعراء وهو سقيم وإنبات شجرة اليقطين ظلالًا وغذاءً له.' },
+        desc: { en: 'Cast onto the open strand; sheltered by the miraculously growing gourd tree.', fr: 'Rejeté sur la rive et protégé par le plant de courge.', ar: 'طرحه بالعراء وهو سقيم وإنبات شجرة اليقطين ظلالًا وغذاءً له.', es: "Arrojado a la orilla desnuda; le dio sombra una calabacera que creció milagrosamente." },
         quranRef: 'As-Saffat 37:145-146',
       },
       {
         name: { en: 'Return to Nineveh', fr: 'Retour à Ninive', ar: 'الرجوع إلى نينوى', es: 'Regreso a Nínive' },
         lat: 36.3587,
         lng: 43.1528,
-        desc: { en: 'Returning to find all one hundred thousand had repented and were granted mercy.', fr: 'Retour triomphal auprès de son peuple entièrement croyant.', ar: 'العودة لقومه فوجدهم قد أنابوا وآمنوا فمتعهم الله إلى حين.' },
+        desc: { en: 'Returning to find all one hundred thousand had repented and were granted mercy.', fr: 'Retour triomphal auprès de son peuple entièrement croyant.', ar: 'العودة لقومه فوجدهم قد أنابوا وآمنوا فمتعهم الله إلى حين.', es: "Volvió y encontró que los cien mil se habían arrepentido y habían recibido misericordia." },
         quranRef: 'Yunus 10:98, As-Saffat 37:147-148',
       },
     ],
@@ -889,12 +884,11 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: { en: 'The Great Deluge & Ark of Nuh عليه السلام', fr: 'Le Déluge et l’Arche de Nuh عليه السلام', ar: 'طوفان نوح ومسار الفلك إلى الجودي', es: 'El gran diluvio y el arca de Nuh عليه السلام' },
     color: '#818cf8',
     prophetId: 'nuh',
-    period: { en: 'Primordial Era', fr: 'Ère primordiale', ar: 'العصر الأول' },
+    period: { en: 'Primordial Era', fr: 'Ère primordiale', ar: 'العصر الأول', es: "Era primordial" },
     desc: {
       en: 'Building the Ark upon the Mesopotamian plain, the gushing of subterranean springs and heavens bursting with rain, sailing over mountainous waves to rest on Mount Judy.',
       fr: 'Construction de l’Arche en Mésopotamie, déluge universel et amarrage sur le mont Djoudi.',
-      ar: 'صنع الفلك في أرض الرافدين، وفوران التنور وسير السفينة في موج كالجبال حتى استوت بسلام على جبل الجودي.'
-    },
+      ar: 'صنع الفلك في أرض الرافدين، وفوران التنور وسير السفينة في موج كالجبال حتى استوت بسلام على جبل الجودي.', es: "La construcción del Arca en la llanura mesopotámica, el brotar de las fuentes de la tierra y la lluvia del cielo, la navegación sobre olas como montañas y la llegada al monte Yudi." },
     coords: [
       [32.0300, 44.4000], // Plains of Kufa / Mesopotamia
       [31.0000, 47.4000], // Alluvial Flood Confluence
@@ -907,35 +901,35 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Plains of Mesopotamia (Kufa)', fr: 'Plaines de Mésopotamie (Koufa)', ar: 'أرض الكوفة وسهل السواد', es: 'Llanuras de Mesopotamia (Kufa)' },
         lat: 32.0300,
         lng: 44.4000,
-        desc: { en: 'Centuries of preaching and construction of the immense timber Ark by divine guidance.', fr: 'Siècles de prédication et construction de l’Arche colossale.', ar: 'صناعة الفلك بأعين الله ووحيه وتحمل سخرية الملأ من قومه.' },
+        desc: { en: 'Centuries of preaching and construction of the immense timber Ark by divine guidance.', fr: 'Siècles de prédication et construction de l’Arche colossale.', ar: 'صناعة الفلك بأعين الله ووحيه وتحمل سخرية الملأ من قومه.', es: "Siglos de predicación y la construcción de la inmensa Arca de madera bajo la guía divina." },
         quranRef: 'Hud 11:37-38',
       },
       {
         name: { en: 'Eruption of the Oven (Tannur)', fr: 'Fureur du Tannour', ar: 'فوران التنور وتفجر الأرض', es: 'El horno que brotó (at-Tannur)' },
         lat: 31.0000,
         lng: 47.4000,
-        desc: { en: 'The opening of heaven’s gates with pouring rain and bursting of earth’s springs.', fr: 'Ouverture des vannes célestes et jaillissement des sources terrestres.', ar: '﴿حَتَّىٰ إِذَا جَاءَ أَمْرُنَا وَفَارَ التَّنُّورُ قُلْنَا احْمِلْ فِيهَا مِن كُلٍّ زَوْجَيْنِ اثْنَيْنِ﴾.' },
+        desc: { en: 'The opening of heaven’s gates with pouring rain and bursting of earth’s springs.', fr: 'Ouverture des vannes célestes et jaillissement des sources terrestres.', ar: '﴿حَتَّىٰ إِذَا جَاءَ أَمْرُنَا وَفَارَ التَّنُّورُ قُلْنَا احْمِلْ فِيهَا مِن كُلٍّ زَوْجَيْنِ اثْنَيْنِ﴾.', es: "Las puertas del cielo se abrieron con lluvia torrencial y brotaron las fuentes de la tierra." },
         quranRef: 'Hud 11:40, Al-Qamar 54:11-12',
       },
       {
         name: { en: 'Waves Like Mountains', fr: 'Flots comme des montagnes', ar: 'موج كالجبال ومصير الكافرين', es: 'Olas como montañas' },
         lat: 34.5000,
         lng: 44.0000,
-        desc: { en: 'The vessel sailing on boundless waters; plea of Nuh to his drowning son Yam.', fr: 'L’Arche fendant les vagues géantes et noyade du fils rebelle.', ar: 'جريان السفينة في موج كالجبال ونداء نوح لابنه: ﴿يَا بُنَيَّ ارْكَب مَّعَنَا وَلَا تَكُن مَّعَ الْكَافِرِينَ﴾.' },
+        desc: { en: 'The vessel sailing on boundless waters; plea of Nuh to his drowning son Yam.', fr: 'L’Arche fendant les vagues géantes et noyade du fils rebelle.', ar: 'جريان السفينة في موج كالجبال ونداء نوح لابنه: ﴿يَا بُنَيَّ ارْكَب مَّعَنَا وَلَا تَكُن مَّعَ الْكَافِرِينَ﴾.', es: "La nave sobre aguas sin fin; la súplica de Nuh a su hijo Yam que se ahogaba." },
         quranRef: 'Hud 11:42-43',
       },
       {
         name: { en: 'Upper Tigris Mountain Gorges', fr: 'Gorges du Haut-Tigre', ar: 'مضائق جبال أعالي دجلة', es: 'Gargantas del alto Tigris' },
         lat: 36.5000,
         lng: 42.8000,
-        desc: { en: 'Waters commanded to recede: "O Earth swallow your water, and O Sky withhold!".', fr: 'Ordre divin intimé aux cieux et à la terre d’apaiser les flots.', ar: 'الأمر الإلهي: ﴿وَقِيلَ يَا أَرْضُ ابْلَعِي مَاءَكِ وَيَا سَمَاءُ أَقْلِعِي وَغِيضَ الْمَاءُ﴾.' },
+        desc: { en: 'Waters commanded to recede: "O Earth swallow your water, and O Sky withhold!".', fr: 'Ordre divin intimé aux cieux et à la terre d’apaiser les flots.', ar: 'الأمر الإلهي: ﴿وَقِيلَ يَا أَرْضُ ابْلَعِي مَاءَكِ وَيَا سَمَاءُ أَقْلِعِي وَغِيضَ الْمَاءُ﴾.', es: "Se ordenó a las aguas retirarse: «¡Oh tierra, traga tu agua! ¡Oh cielo, detente!»." },
         quranRef: 'Hud 11:44',
       },
       {
         name: { en: 'Mount Judy (Cizre / Şırnak)', fr: 'Mont Djoudi', ar: 'جبل الجودي', es: 'El monte Yudi (Cizre / Şırnak)' },
         lat: 37.3800,
         lng: 42.4500,
-        desc: { en: 'Resting in peace upon Mount Judy; descent with blessings upon the believing survivors.', fr: 'L’Arche s’arrête en paix au sommet du mont Djoudi.', ar: '﴿وَاسْتَوَتْ عَلَى الْجُودِيِّ وَقِيلَ بُعْدًا لِّلْقَوْمِ الظَّالِمِينَ﴾ ونزول نوح والمؤمنين بسلام وبركات.' },
+        desc: { en: 'Resting in peace upon Mount Judy; descent with blessings upon the believing survivors.', fr: 'L’Arche s’arrête en paix au sommet du mont Djoudi.', ar: '﴿وَاسْتَوَتْ عَلَى الْجُودِيِّ وَقِيلَ بُعْدًا لِّلْقَوْمِ الظَّالِمِينَ﴾ ونزول نوح والمؤمنين بسلام وبركات.', es: "Reposo en paz sobre el monte Yudi; descenso con bendiciones para los creyentes supervivientes." },
         quranRef: 'Hud 11:44, 11:48',
       },
     ],
@@ -945,16 +939,14 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: {
       en: 'The Prophetic Dawn & Unification of Arabia',
       fr: 'L’Aube Prophétique et l’Unification de l’Arabie',
-      ar: 'فجر النبوة وتوحيد شبه الجزيرة العربية',
-    },
+      ar: 'فجر النبوة وتوحيد شبه الجزيرة العربية', es: "El amanecer profético y la unificación de Arabia" },
     color: '#10b981',
     prophetId: 'muhammad',
-    period: { en: '1–11 AH (622–632 CE)', fr: '1–11 H (622–632)', ar: '1–11 هـ (622–632 م)' },
+    period: { en: '1–11 AH (622–632 CE)', fr: '1–11 H (622–632)', ar: '1–11 هـ (622–632 م)', es: "1–11 H (622–632)" },
     desc: {
       en: 'The radiant dawn of Islam originating from Makkah and Madinah, establishing peace, justice, and pure monotheism across the entire Arabian Peninsula from the Red Sea to Oman and Yemen.',
       fr: 'Le rayonnement initial de l’Islam depuis Médine et La Mecque, unifiant la péninsule arabique par la justice et le monothéisme pur.',
-      ar: 'انبثاق نور الإسلام المبين من مكة والمدينة المنورة وتوحيد جزيرة العرب بالعدل والتوحيد من جبال اليمن إلى أطراف الشام وعمان.',
-    },
+      ar: 'انبثاق نور الإسلام المبين من مكة والمدينة المنورة وتوحيد جزيرة العرب بالعدل والتوحيد من جبال اليمن إلى أطراف الشام وعمان.', es: "El radiante amanecer del islam desde La Meca y Medina, que estableció paz, justicia y monoteísmo puro en toda la península arábiga, del mar Rojo a Omán y Yemen." },
     coords: [
       [21.4225, 39.8262], // Makkah
       [24.4686, 39.6108], // Madinah
@@ -971,35 +963,35 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Madinah al-Munawwarah', fr: 'Médine l’Illuminée', ar: 'المدينة المنورة (دار الهجرة)', es: 'Medina al-Munawwara' },
         lat: 24.4686,
         lng: 39.6108,
-        desc: { en: 'The beacon of light where the Constitution of Madinah was enacted, bonding the Muhajirun and Ansar in fraternal unity.', fr: 'Sanctuaire d’accueil où fut rédigée la Constitution de Médine unissant émigrés et partisans.', ar: 'مهاجر النبي ومقر إقامة دولته النبوية المباركة وصياغة وثيقة المدينة الخالدة.' },
+        desc: { en: 'The beacon of light where the Constitution of Madinah was enacted, bonding the Muhajirun and Ansar in fraternal unity.', fr: 'Sanctuaire d’accueil où fut rédigée la Constitution de Médine unissant émigrés et partisans.', ar: 'مهاجر النبي ومقر إقامة دولته النبوية المباركة وصياغة وثيقة المدينة الخالدة.', es: "El faro donde se promulgó la Constitución de Medina, uniendo en hermandad a Muhayirun y Ansar." },
         quranRef: 'At-Tawbah 9:100',
       },
       {
         name: { en: 'Badr al-Kubra (Day of Criterion)', fr: 'Badr (Jour du Discernement)', ar: 'بدر الكبرى (يوم الفرقان)', es: 'Badr al-Kubra (el Día del Criterio)' },
         lat: 23.7833,
         lng: 38.7833,
-        desc: { en: 'The momentous turning point in 2 AH where truth prevailed over idolatry with divine assistance.', fr: 'Le tournant décisif de l’an 2 de l’Hégire où la vérité triompha avec le secours divin.', ar: 'المعركة الفاصلة في 17 رمضان 2 هـ: ﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾.' },
+        desc: { en: 'The momentous turning point in 2 AH where truth prevailed over idolatry with divine assistance.', fr: 'Le tournant décisif de l’an 2 de l’Hégire où la vérité triompha avec le secours divin.', ar: 'المعركة الفاصلة في 17 رمضان 2 هـ: ﴿وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ﴾.', es: "El gran punto de inflexión del año 2 H, cuando la verdad venció a la idolatría con ayuda divina." },
         quranRef: 'Ali Imran 3:123',
       },
       {
         name: { en: 'Conquest of Makkah (Fath Makkah)', fr: 'Ouverture de La Mecque', ar: 'فتح مكة الأعظم (إنا فتحنا لك فتحا مبينا)', es: 'La conquista de La Meca (Fath Makka)' },
         lat: 21.4225,
         lng: 39.8262,
-        desc: { en: 'Peaceful return in 8 AH: cleansing the Ka‘bah of 360 idols and announcing universal pardon: "Go, for you are free".', fr: 'Entrée triomphale et pacifique en l’an 8 H, purification de la Ka‘bah et amnistie générale.', ar: 'دخول مكة في 8 هـ دون إراقة دماء، وتطهير البيت الحرام وإعلان العفو العام: اذهبوا فأنتم الطلقاء.' },
+        desc: { en: 'Peaceful return in 8 AH: cleansing the Ka‘bah of 360 idols and announcing universal pardon: "Go, for you are free".', fr: 'Entrée triomphale et pacifique en l’an 8 H, purification de la Ka‘bah et amnistie générale.', ar: 'دخول مكة في 8 هـ دون إراقة دماء، وتطهير البيت الحرام وإعلان العفو العام: اذهبوا فأنتم الطلقاء.', es: "Regreso pacífico en 8 H: purificación de la Kaaba de 360 ídolos y anuncio del perdón general: «Id, sois libres»." },
         quranRef: 'Al-Fath 48:1',
       },
       {
         name: { en: 'Expedition of Tabuk', fr: 'Expédition de Tabouk', ar: 'غزوة تبوك (جيش العسرة)', es: 'La expedición de Tabuk' },
         lat: 28.3835,
         lng: 36.5662,
-        desc: { en: 'The grand march to the northern Byzantine frontier in 9 AH, cementing the sovereignty of the Islamic state.', fr: 'La grande marche vers la frontière byzantine au nord en 9 H, consolidant la souveraineté islamique.', ar: 'غزوة العسرة الكبرى سنة 9 هـ لردع الروم وحماية الثغور الشمالية لجزيرة العرب.' },
+        desc: { en: 'The grand march to the northern Byzantine frontier in 9 AH, cementing the sovereignty of the Islamic state.', fr: 'La grande marche vers la frontière byzantine au nord en 9 H, consolidant la souveraineté islamique.', ar: 'غزوة العسرة الكبرى سنة 9 هـ لردع الروم وحماية الثغور الشمالية لجزيرة العرب.', es: "La gran marcha hacia la frontera bizantina del norte en 9 H, que afianzó la soberanía del Estado islámico." },
         quranRef: 'At-Tawbah 9:117',
       },
       {
         name: { en: 'Sana‘a & Peaceful Entry of Yemen', fr: 'Sanaa et adhésion du Yémen', ar: 'صنعاء ودخول أهل اليمن أفواجا', es: 'Saná y la entrada pacífica del Yemen' },
         lat: 15.3694,
         lng: 44.1910,
-        desc: { en: 'The Yemenite tribes accepted Islam peacefully under the envoys Ali ibn Abi Talib and Mu‘adh ibn Jabal.', fr: 'Les tribus yéménites embrassent l’Islam pacifiquement sous la guidance de Mu‘adh et Ali.', ar: 'إسلام قبائل اليمن طواعية في يوم واحد على يد علي بن أبي طالب ومعاذ بن جبل: ﴿وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا﴾.' },
+        desc: { en: 'The Yemenite tribes accepted Islam peacefully under the envoys Ali ibn Abi Talib and Mu‘adh ibn Jabal.', fr: 'Les tribus yéménites embrassent l’Islam pacifiquement sous la guidance de Mu‘adh et Ali.', ar: 'إسلام قبائل اليمن طواعية في يوم واحد على يد علي بن أبي طالب ومعاذ بن جبل: ﴿وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا﴾.', es: "Las tribus yemeníes abrazaron el islam pacíficamente con los enviados ‘Ali ibn Abi Talib y Mu‘adh ibn Yabal." },
         quranRef: 'An-Nasr 110:2',
       },
     ],
@@ -1009,16 +1001,14 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: {
       en: 'The Rashidun Caliphate: Levant, Mesopotamia, Persia & Egypt',
       fr: 'Les Califes Bien Guidés : Cham, Perse et Égypte',
-      ar: 'الفتوحات الراشدية: الشام والعراق وفارس ومصر',
-    },
+      ar: 'الفتوحات الراشدية: الشام والعراق وفارس ومصر', es: "El califato de los Bien Guiados: Levante, Mesopotamia, Persia y Egipto" },
     color: '#38bdf8',
     prophetId: 'muhammad',
-    period: { en: '11–41 AH (632–661 CE)', fr: '11–41 H (632–661)', ar: '11–41 هـ (632–661 م)' },
+    period: { en: '11–41 AH (632–661 CE)', fr: '11–41 H (632–661)', ar: '11–41 هـ (632–661 م)', es: "11–41 H (632–661)" },
     desc: {
       en: 'Under Abu Bakr, Umar, Uthman, and Ali (may Allah be pleased with them), the companions dismantled tyrannical imperial rule, toppled the Sasanian Persian empire, and liberated Jerusalem and Egypt with unprecedented justice.',
       fr: 'Sous les quatre premiers califes, les compagnons libèrent le Levant, la Mésopotamie, la Perse et l’Égypte, instaurant la justice et garantissant la liberté religieuse.',
-      ar: 'في خلافة أبي بكر وعمر وعثمان وعلي رضي الله عنهم، دحر الجبروت الساساني وتحرير الشام ومصر وفتح بيت المقدس بالعدل والتسامح الفريد.'
-    },
+      ar: 'في خلافة أبي بكر وعمر وعثمان وعلي رضي الله عنهم، دحر الجبروت الساساني وتحرير الشام ومصر وفتح بيت المقدس بالعدل والتسامح الفريد.', es: "Con Abu Bakr, ‘Umar, ‘Uzman y ‘Ali (Allah esté complacido con ellos), los Compañeros derribaron el dominio imperial tiránico, derrocaron el imperio persa sasánida y liberaron Jerusalén y Egipto con una justicia sin precedentes." },
     coords: [
       [24.4686, 39.6108], // Madinah
       [32.7483, 35.8690], // Yarmouk
@@ -1036,35 +1026,35 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Battle of the Yarmouk Valley (15 AH)', fr: 'Bataille du Yarmouk (15 H)', ar: 'معركة اليرموك الخالدة (15 هـ)', es: 'Batalla del valle del Yarmuk (15 H)' },
         lat: 32.7483,
         lng: 35.8690,
-        desc: { en: 'Khalid ibn al-Walid and Abu Ubaydah vanquished the massive imperial Byzantine army, liberating Syria.', fr: 'Khalid ibn al-Walid triomphe de la grande armée byzantine, scellant le destin de la Syrie.', ar: 'ملحمة سيف الله خالد بن الوليد وأبي عبيدة التي حطمت أركان الهيمنة البيزنطية بالشام.' },
+        desc: { en: 'Khalid ibn al-Walid and Abu Ubaydah vanquished the massive imperial Byzantine army, liberating Syria.', fr: 'Khalid ibn al-Walid triomphe de la grande armée byzantine, scellant le destin de la Syrie.', ar: 'ملحمة سيف الله خالد بن الوليد وأبي عبيدة التي حطمت أركان الهيمنة البيزنطية بالشام.', es: "Jalid ibn al-Walid y Abu ‘Ubayda vencieron al enorme ejército imperial bizantino y liberaron Siria." },
         quranRef: 'Tarikh at-Tabari',
       },
       {
         name: { en: 'Opening of Jerusalem & The Umariyya Covenant (16 AH)', fr: 'Ouverture de Jérusalem et Pacte d’Umar', ar: 'فتح بيت المقدس والعهدة العمرية (16 هـ)', es: 'Apertura de Jerusalén y el Pacto de ‘Umar (16 H)' },
         lat: 31.7767,
         lng: 35.2345,
-        desc: { en: 'Caliph Umar personally entered Jerusalem and granted Patriarch Sophronius total protection for Christian shrines, lives, and freedom of worship.', fr: 'Le calife Omar garantit la protection sacrée des églises, des personnes et de la foi des chrétiens.', ar: 'دخول أمير المؤمنين عمر بن الخطاب متواضعا لكنيسة القيامة وكتابة العهدة العمرية التي حمت كنائس النصارى وأموالهم.' },
+        desc: { en: 'Caliph Umar personally entered Jerusalem and granted Patriarch Sophronius total protection for Christian shrines, lives, and freedom of worship.', fr: 'Le calife Omar garantit la protection sacrée des églises, des personnes et de la foi des chrétiens.', ar: 'دخول أمير المؤمنين عمر بن الخطاب متواضعا لكنيسة القيامة وكتابة العهدة العمرية التي حمت كنائس النصارى وأموالهم.', es: "El califa ‘Umar entró en persona en Jerusalén y concedió al patriarca Sofronio plena protección de los santuarios cristianos, las vidas y la libertad de culto." },
         quranRef: 'Al-Bidayah wan-Nihayah',
       },
       {
         name: { en: 'Battle of al-Qadisiyyah & Al-Mada’in (15–16 AH)', fr: 'Bataille d’al-Qadisiyyah et Ctésiphon', ar: 'القادسية وفتح المدائن عاصمة الأكاسرة', es: 'Batalla de al-Qadisiyya y al-Mada’in (15–16 H)' },
         lat: 31.9833,
         lng: 44.5333,
-        desc: { en: 'Sa‘d ibn Abi Waqqas broke the core Persian military, liberating Iraq and entering the White Palace of Ctesiphon.', fr: 'Sa‘d ibn Abi Waqqas défait l’armée sassanide et libère l’Irak.', ar: 'قيادة سعد بن أبي وقاص لدحر جيش رستم وتحرير العراق ودخول إيوان كسرى مصداقا لبشارة النبي ﷺ.' },
+        desc: { en: 'Sa‘d ibn Abi Waqqas broke the core Persian military, liberating Iraq and entering the White Palace of Ctesiphon.', fr: 'Sa‘d ibn Abi Waqqas défait l’armée sassanide et libère l’Irak.', ar: 'قيادة سعد بن أبي وقاص لدحر جيش رستم وتحرير العراق ودخول إيوان كسرى مصداقا لبشارة النبي ﷺ.', es: "Sa‘d ibn Abi Waqqas quebró el núcleo del ejército persa, liberó Irak y entró en el Palacio Blanco de Ctesifonte." },
         quranRef: 'Sahih Muslim 2918',
       },
       {
         name: { en: 'Nahavand: The Victory of Victories (21 AH)', fr: 'Nahavand : Victoire des Victoires', ar: 'معركة نهاوند (فتح الفتوح 21 هـ)', es: 'Nahavand: la victoria de las victorias (21 H)' },
         lat: 34.1886,
         lng: 48.3769,
-        desc: { en: 'The decisive victory in the Zagros mountains ending Sasanian imperial cohesion and opening Persia to Islam.', fr: 'Victoire décisive mettant fin à l’empire perse et ouvrant la Perse à l’Islam.', ar: 'فتح الفتوح في جبال زاغروس التي سقطت بها دولة الأكاسرة ومهدت لدخول بلاد فارس في دين الله.' },
+        desc: { en: 'The decisive victory in the Zagros mountains ending Sasanian imperial cohesion and opening Persia to Islam.', fr: 'Victoire décisive mettant fin à l’empire perse et ouvrant la Perse à l’Islam.', ar: 'فتح الفتوح في جبال زاغروس التي سقطت بها دولة الأكاسرة ومهدت لدخول بلاد فارس في دين الله.', es: "La victoria decisiva en los montes Zagros, que puso fin a la cohesión del imperio sasánida y abrió Persia al islam." },
         quranRef: 'Siyar A‘lam an-Nubala',
       },
       {
         name: { en: 'Liberation of Egypt & Foundation of Fustat (20–21 AH)', fr: 'Libération de l’Égypte et Fustat', ar: 'فتح مصر وبناء الفسطاط (20–21 هـ)', es: 'Apertura de Egipto y fundación de Fustat (20–21 H)' },
         lat: 30.0101,
         lng: 31.2331,
-        desc: { en: '‘Amr ibn al-‘Aas liberated the native Coptic Christians from Byzantine religious tyranny, building the first mosque in Africa.', fr: '‘Amr ibn al-‘Aas libère les coptes d’Égypte de l’oppression byzantine et fonde la première mosquée d’Afrique.', ar: 'تحرير عمرو بن العاص لأهل مصر وقباطها من ظلم الرومان وتأسيس الفسطاط وأول مسجد بقارة إفريقيا.' },
+        desc: { en: '‘Amr ibn al-‘Aas freed the Coptic Christians from Byzantine religious persecution and built the first great mosque of Egypt.', fr: '‘Amr ibn al-‘Aas libère les coptes d’Égypte de l’oppression byzantine et fonde la première grande mosquée d’Égypte.', ar: 'تحرير عمرو بن العاص لأهل مصر وقباطها من ظلم الرومان وتأسيس الفسطاط وأول جامع كبير بمصر.', es: "‘Amr ibn al-‘As liberó a los cristianos coptos de la persecución religiosa bizantina y construyó la primera gran mezquita de Egipto." },
         quranRef: 'Husn al-Muhadarah',
       },
     ],
@@ -1074,16 +1064,14 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: {
       en: 'Umayyad & Andalusian Horizon: Atlantic to China',
       fr: 'L’Empire Omeyyade et Al-Andalus : de l’Atlantique à la Chine',
-      ar: 'الفتوحات الأموية والأندلسية: من الأطلسي إلى تخوم الصين',
-    },
+      ar: 'الفتوحات الأموية والأندلسية: من الأطلسي إلى تخوم الصين', es: "Horizonte omeya y andalusí: del Atlántico a China" },
     color: '#e9c67b',
     prophetId: 'muhammad',
-    period: { en: '41–132 AH (661–750 CE)', fr: '41–132 H (661–750)', ar: '41–132 هـ (661–750 م)' },
+    period: { en: '41–132 AH (661–750 CE)', fr: '41–132 H (661–750)', ar: '41–132 هـ (661–750 م)', es: "41–132 H (661–750)" },
     desc: {
       en: 'The largest contiguous empire of antiquity: advancing from Damascus across North Africa to Spain and southern France (Al-Andalus), while simultaneously reaching Bukhara, Samarkand, and the Indus River in Pakistan.',
       fr: 'Le plus grand empire d’un seul tenant de son époque : de Damas à Cordoue et de Boukhara aux rives de l’Indus.',
-      ar: 'أوسع رقعة حضارية في تاريخ القرون الوسطى: من دمشق والقيروان وجبل طارق إلى قرطبة، ومن بخارى وسمرقند إلى بلاد السند ونهر الهند.'
-    },
+      ar: 'أوسع رقعة حضارية في تاريخ القرون الوسطى: من دمشق والقيروان وجبل طارق إلى قرطبة، ومن بخارى وسمرقند إلى بلاد السند ونهر الهند.', es: "El mayor imperio continuo de su tiempo: de Damasco por el norte de África hasta España y el sur de Francia (al-Ándalus), y a la vez hasta Bujará, Samarcanda y el río Indo en Pakistán." },
     coords: [
       [33.5138, 36.2765], // Damascus
       [35.6781, 10.0963], // Qayrawan
@@ -1103,42 +1091,42 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Damascus (Imperial Umayyad Capital)', fr: 'Damas (Capitale Omeyyade)', ar: 'دمشق (حاضرة الخلافة الأموية)', es: 'Damasco (capital omeya)' },
         lat: 33.5138,
         lng: 36.2765,
-        desc: { en: 'Political and cultural epicenter of the world, adorned with the legendary Great Umayyad Mosque.', fr: 'Capitale politique et culturelle d’un empire mondial, parée de la Grande Mosquée des Omeyyades.', ar: 'عاصمة الخلافة التي أدارت أكبر إمبراطورية في العالم الوسيط وشيدت تحفة الجامع الأموي.' },
+        desc: { en: 'Political and cultural epicenter of the world, adorned with the legendary Great Umayyad Mosque.', fr: 'Capitale politique et culturelle d’un empire mondial, parée de la Grande Mosquée des Omeyyades.', ar: 'عاصمة الخلافة التي أدارت أكبر إمبراطورية في العالم الوسيط وشيدت تحفة الجامع الأموي.', es: "Epicentro político y cultural del mundo, adornado con la legendaria Gran Mezquita omeya." },
         quranRef: 'Tarikh Dimashq',
       },
       {
         name: { en: 'Qayrawan (Spiritual Vanguard of the Maghreb, 50 AH)', fr: 'Kairouan (Phare du Maghreb)', ar: 'القيروان (معسكر عقبة بن نافع 50 هـ)', es: 'Cairuán (vanguardia espiritual del Magreb, 50 H)' },
         lat: 35.6781,
         lng: 10.0963,
-        desc: { en: 'Founded by Uqba ibn Nafi as the radiant fortress of Islamic faith, learning, and governance in North Africa.', fr: 'Fondée par Oqba ibn Nafi comme forteresse de la foi et du savoir en Afrique du Nord.', ar: 'أسسها الفاتح عقبة بن نافع لتكون منارة التوحيد والجهاد ومركز انطلاق الإسلام لربوع إفريقيا.' },
+        desc: { en: 'Founded by Uqba ibn Nafi as the radiant fortress of Islamic faith, learning, and governance in North Africa.', fr: 'Fondée par Oqba ibn Nafi comme forteresse de la foi et du savoir en Afrique du Nord.', ar: 'أسسها الفاتح عقبة بن نافع لتكون منارة التوحيد والجهاد ومركز انطلاق الإسلام لربوع إفريقيا.', es: "Fundada por ‘Uqba ibn Nafi‘ como radiante fortaleza de la fe, el saber y el gobierno islámicos en el norte de África." },
         quranRef: 'Riyad an-Nufus',
       },
       {
         name: { en: 'Jabal Tariq (Gibraltar) & Opening of Al-Andalus (92 AH)', fr: 'Gibraltar et Ouverture d’Al-Andalus', ar: 'جبل طارق وفتح الأندلس (92 هـ)', es: 'Yabal Tariq (Gibraltar) y la apertura de al-Ándalus (92 H)' },
         lat: 36.1408,
         lng: -5.3536,
-        desc: { en: 'Tariq ibn Ziyad crossed the strait, defeating King Roderick and initiating eight centuries of brilliant civilization in Spain.', fr: 'Tariq ibn Ziyad traverse le détroit, fondant huit siècles de brillante civilisation andalouse.', ar: 'عبور طارق بن زياد وموسى بن نصير لفتح شبه الجزيرة الإيبيرية وبدء عصر الحضارة الأندلسية البهيج.' },
+        desc: { en: 'Tariq ibn Ziyad crossed the strait, defeating King Roderick and initiating eight centuries of brilliant civilization in Spain.', fr: 'Tariq ibn Ziyad traverse le détroit, fondant huit siècles de brillante civilisation andalouse.', ar: 'عبور طارق بن زياد وموسى بن نصير لفتح شبه الجزيرة الإيبيرية وبدء عصر الحضارة الأندلسية البهيج.', es: "Tariq ibn Ziyad cruzó el estrecho, venció al rey Rodrigo e inició ocho siglos de brillante civilización en España." },
         quranRef: 'Nafh at-Tib',
       },
       {
         name: { en: 'Cordoba (The Jewel of the World)', fr: 'Cordoue (Parure du Monde)', ar: 'قرطبة (عروس الأندلس وقبلة العلماء)', es: 'Córdoba (la joya del mundo)' },
         lat: 37.8790,
         lng: -4.7794,
-        desc: { en: 'The most cultivated city in medieval Europe with 70 libraries, paved streets, and harmonious scientific scholarship.', fr: 'La cité la plus lettrée de l’Europe médiévale avec ses bibliothèques et ses universités.', ar: 'قاعدة الأندلس الفكرية والعلمية التي أضاءت ظلام أوروبا بمكتباتها السبعين وجامعها المعظم.' },
+        desc: { en: 'The most cultivated city in medieval Europe with 70 libraries, paved streets, and harmonious scientific scholarship.', fr: 'La cité la plus lettrée de l’Europe médiévale avec ses bibliothèques et ses universités.', ar: 'قاعدة الأندلس الفكرية والعلمية التي أضاءت ظلام أوروبا بمكتباتها السبعين وجامعها المعظم.', es: "La ciudad más culta de la Europa medieval, con 70 bibliotecas, calles pavimentadas y una armoniosa vida científica." },
         quranRef: 'Al-Hulal al-Mawshiyyah',
       },
       {
         name: { en: 'Bukhara & Samarkand (Transoxiana, 86–94 AH)', fr: 'Boukhara et Samarcande', ar: 'بخارى وسمرقند (ما وراء النهر)', es: 'Bujará y Samarcanda (Transoxiana, 86–94 H)' },
         lat: 39.6542,
         lng: 66.9597,
-        desc: { en: 'Qutayba ibn Muslim carried Islam across the Oxus, establishing the twin fountains of future Islamic science and Hadith.', fr: 'Qoutayba ibn Mouslim ouvre la Transoxiane, futur berceau des plus grands savants du Hadith.', ar: 'فتح قتيبة بن مسلم الباهلي لبلاد ما وراء النهر مهبط كبار علماء الإسلام كالبخاري والترمذي والبيروني.' },
+        desc: { en: 'Qutayba ibn Muslim carried Islam across the Oxus, establishing the twin fountains of future Islamic science and Hadith.', fr: 'Qoutayba ibn Mouslim ouvre la Transoxiane, futur berceau des plus grands savants du Hadith.', ar: 'فتح قتيبة بن مسلم الباهلي لبلاد ما وراء النهر مهبط كبار علماء الإسلام كالبخاري والترمذي والبيروني.', es: "Qutayba ibn Muslim llevó el islam más allá del Oxus y estableció las dos fuentes de la futura ciencia islámica y del hadiz." },
         quranRef: 'Tarikh at-Tabari',
       },
       {
         name: { en: 'Debal & Multan (Indus River Valley, 93 AH)', fr: 'Debal et Multan (Vallée de l’Indus)', ar: 'الديبل وملتان (بلاد السند وحوض الهند)', es: 'Debal y Multán (valle del Indo, 93 H)' },
         lat: 24.7500,
         lng: 67.5500,
-        desc: { en: 'Muhammad ibn al-Qasim introduced Islam to the Indian subcontinent, instituting full protection for temples and local religions.', fr: 'Muhammad ibn al-Qasim introduit l’Islam dans le sous-continent indien dans la tolérance des cultes.', ar: 'فتح محمد بن القاسم الثقفي للسند وحوض نهر السند وإرساء مبادئ التسامح وحماية المعابد.' },
+        desc: { en: 'Muhammad ibn al-Qasim introduced Islam to the Indian subcontinent, instituting full protection for temples and local religions.', fr: 'Muhammad ibn al-Qasim introduit l’Islam dans le sous-continent indien dans la tolérance des cultes.', ar: 'فتح محمد بن القاسم الثقفي للسند وحوض نهر السند وإرساء مبادئ التسامح وحماية المعابد.', es: "Muhammad ibn al-Qasim llevó el islam al subcontinente indio y estableció la plena protección de los templos y las religiones locales." },
         quranRef: 'Chach Nama',
       },
     ],
@@ -1148,16 +1136,14 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: {
       en: 'Abbasid Golden Age: Maritime Spice Route & Silk Road',
       fr: 'L’Âge d’Or Abbasside : Voies Maritimes et Route de la Soie',
-      ar: 'العصر العباسي وطرق التجارة البحرية والحرير العالمية',
-    },
+      ar: 'العصر العباسي وطرق التجارة البحرية والحرير العالمية', es: "Edad de Oro abasí: la ruta marítima de las especias y la Ruta de la Seda" },
     color: '#a855f7',
     prophetId: 'muhammad',
-    period: { en: '132–656 AH (750–1258 CE)', fr: '132–656 H (750–1258)', ar: '132–656 هـ (750–1258 م)' },
+    period: { en: '132–656 AH (750–1258 CE)', fr: '132–656 H (750–1258)', ar: '132–656 هـ (750–1258 م)', es: "132–656 H (750–1258)" },
     desc: {
       en: 'The peaceful diffusion of Islam through upright merchant ethics, mathematics, medicine, and seafaring across the Indian Ocean: reaching East Africa (Zanzibar), India (Kerala), and Southeast Asia (Sumatra, Malacca, Canton).',
       fr: 'Diffusion pacifique par le commerce éthique et la science le long de l’océan Indien : vers l’Afrique de l’Est, l’Inde et l’Asie du Sud-Est.',
-      ar: 'انتشار الإسلام السلمي بالأخلاق الرفيعة والتجارة البحرية والعلوم: من موانئ البصرة وعمان إلى زنجبار وكيرلا وسومطرة وملاكا وموانئ كانتون.'
-    },
+      ar: 'انتشار الإسلام السلمي بالأخلاق الرفيعة والتجارة البحرية والعلوم: من موانئ البصرة وعمان إلى زنجبار وكيرلا وسومطرة وملاكا وموانئ كانتون.', es: "La difusión pacífica del islam mediante la ética comercial, las matemáticas, la medicina y la navegación por el océano Índico: hasta África oriental (Zanzíbar), la India (Kerala) y el Sudeste Asiático (Sumatra, Malaca, Cantón)." },
     coords: [
       [33.3406, 44.4010], // Baghdad
       [30.5081, 47.7835], // Basra
@@ -1174,35 +1160,35 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Baghdad (Dar al-Salam & House of Wisdom)', fr: 'Bagdad (Cité de la Paix)', ar: 'بغداد (دار السلام وبيت الحكمة)', es: 'Bagdad (Dar as-Salam y la Casa de la Sabiduría)' },
         lat: 33.3406,
         lng: 44.4010,
-        desc: { en: 'Cosmopolitan world capital of astronomy, medicine, philosophy, and mathematics under Harun al-Rashid and al-Ma’mun.', fr: 'Capitale mondiale des sciences, de la médecine et de l’astronomie sous Haroun al-Rachid.', ar: 'عاصمة الدنيا ومستقر بيت الحكمة حيث التقى علماء الأمم لترجمة العلوم وتطوير الطب والفلك والجبر.' },
+        desc: { en: 'Cosmopolitan world capital of astronomy, medicine, philosophy, and mathematics under Harun al-Rashid and al-Ma’mun.', fr: 'Capitale mondiale des sciences, de la médecine et de l’astronomie sous Haroun al-Rachid.', ar: 'عاصمة الدنيا ومستقر بيت الحكمة حيث التقى علماء الأمم لترجمة العلوم وتطوير الطب والفلك والجبر.', es: "Capital cosmopolita mundial de la astronomía, la medicina, la filosofía y las matemáticas con Harun ar-Rashid y al-Ma’mun." },
         quranRef: 'Tarikh Baghdad',
       },
       {
         name: { en: 'Swahili Coast: Mogadishu & Zanzibar', fr: 'Côte Swahilie : Mogadiscio et Zanzibar', ar: 'سواحل الزنج: مقديشو وزنجبار', es: 'Costa suajili: Mogadiscio y Zanzíbar' },
         lat: -6.1659,
         lng: 39.2026,
-        desc: { en: 'Thriving Indian Ocean sultanates founded on trade, giving birth to the Swahili language (fusing Arabic and Bantu).', fr: 'Sultanats prospères de l’océan Indien donnant naissance à la culture et la langue swahilies.', ar: 'مراكز التجارة البحرية والتعايش السلمي التي ولدت منها الحضارة السواحيلية الخالدة.' },
+        desc: { en: 'Thriving Indian Ocean sultanates founded on trade, giving birth to the Swahili language (fusing Arabic and Bantu).', fr: 'Sultanats prospères de l’océan Indien donnant naissance à la culture et la langue swahilies.', ar: 'مراكز التجارة البحرية والتعايش السلمي التي ولدت منها الحضارة السواحيلية الخالدة.', es: "Prósperos sultanatos del océano Índico fundados en el comercio, donde nació la lengua suajili (fusión del árabe y el bantú)." },
         quranRef: 'Rihlat Ibn Battuta',
       },
       {
         name: { en: 'Malabar Coast: Cheraman Juma Mosque (Kerala, India)', fr: 'Côte de Malabar : Kerala', ar: 'ساحل المليبار وكيرلا (مسجد شيرامان)', es: 'Costa de Malabar: mezquita Cheraman Juma (Kerala, India)' },
         lat: 11.2588,
         lng: 75.7804,
-        desc: { en: 'Legendary arrival of Muslim merchants during the Prophet’s era; King Cheraman Perumal embraced Islam and built India’s oldest mosque.', fr: 'Les marchands musulmans introduisent l’Islam pacifiquement en Inde dès le VIIe siècle.', ar: 'دخول الإسلام سلميا بالهند عبر تجار البهار، وإسلام الملك الهندي شيرامان وبناء أقدم مساجد الهند.' },
+        desc: { en: 'Muslim merchants reached the Malabar coast early; by tradition King Cheraman Perumal embraced Islam in the Prophet’s era, and the Cheraman mosque is held to be India’s oldest.', fr: 'Des marchands musulmans atteignirent tôt la côte de Malabar ; selon la tradition, le roi Cheraman Perumal embrassa l’islam du vivant du Prophète, et la mosquée Cheraman passe pour la plus ancienne de l’Inde.', ar: 'وصل التجار المسلمون إلى ساحل مليبار مبكرًا، وتذكر الرواية المحلية إسلام الملك شيرامان في عهد النبي ﷺ، ويُعدّ مسجد شيرامان أقدم مساجد الهند.', es: "Los comerciantes musulmanes llegaron pronto a la costa de Malabar; según la tradición, el rey Cheraman Perumal abrazó el islam en tiempos del Profeta, y la mezquita Cheraman se tiene por la más antigua de la India." },
         quranRef: 'Tuhfat al-Mujahidin',
       },
       {
         name: { en: 'Samudera Pasai & Malacca (Malay Archipelago)', fr: 'Samudera Pasai et Malacca (Insulinde)', ar: 'سلطنة باساي ومضيق ملاكا (إندونيسيا وماليزيا)', es: 'Samudera Pasai y Malaca (archipiélago malayo)' },
         lat: 2.1896,
         lng: 102.2501,
-        desc: { en: 'Trade guilds and Sufi teachers introduced Islam to Indonesia and Malaysia with no military force, creating the world’s largest Muslim population.', fr: 'L’Islam se répand en Indonésie et en Malaisie uniquement par l’exemplarité des marchands et des maîtres soufis.', ar: 'انتشار الإسلام السلمي بالقدوة الحسنة في إندونيسيا وماليزيا، لتشكل اليوم أكبر كتلة سكانية للمسلمين.' },
+        desc: { en: 'Trade guilds and Sufi teachers introduced Islam to Indonesia and Malaysia with no military force, creating the world’s largest Muslim population.', fr: 'L’Islam se répand en Indonésie et en Malaisie uniquement par l’exemplarité des marchands et des maîtres soufis.', ar: 'انتشار الإسلام السلمي بالقدوة الحسنة في إندونيسيا وماليزيا، لتشكل اليوم أكبر كتلة سكانية للمسلمين.', es: "Gremios de comerciantes y maestros sufíes llevaron el islam a Indonesia y Malasia sin fuerza militar, formando la mayor población musulmana del mundo." },
         quranRef: 'Hikayat Raja-raja Pasai',
       },
       {
         name: { en: 'Huaisheng Mosque (Canton / Guangzhou, China)', fr: 'Mosquée Huaisheng (Canton, Chine)', ar: 'جامع怀圣 (مسجد الذكرى بكانتون - الصين)', es: 'Mezquita Huaisheng (Cantón, China)' },
         lat: 23.1291,
         lng: 113.2644,
-        desc: { en: 'One of the oldest mosques in the world, founded by early Sahaba along the maritime Silk Road during the Tang Dynasty (627 CE).', fr: 'L’une des plus anciennes mosquées au monde, fondée par les premiers compagnons sous la dynastie Tang.', ar: 'من أقدم مساجد العالم، أسسه صحابة رسول الله الذين ركبوا بحار طريق الحرير في عهد أسرة تانغ.' },
+        desc: { en: 'One of the oldest mosques in China, on the maritime Silk Road; tradition attributes it to Sa‘d ibn Abi Waqqas in the Tang era, a dating historians debate.', fr: 'L’une des plus anciennes mosquées de Chine, sur la route maritime de la soie ; la tradition l’attribue à Sa‘d ibn Abi Waqqas sous les Tang, une date que les historiens discutent.', ar: 'من أقدم مساجد الصين على طريق الحرير البحري، وتنسبه الرواية إلى سعد بن أبي وقاص في عهد أسرة تانغ، وفي هذا التأريخ خلاف بين المؤرخين.', es: "Una de las mezquitas más antiguas de China, en la Ruta de la Seda marítima; la tradición la atribuye a Sa‘d ibn Abi Waqqas en la época Tang, una fecha que los historiadores discuten." },
         quranRef: 'Old Tang History',
       },
     ],
@@ -1212,16 +1198,14 @@ const BASE_ROUTES: PropheticRoute[] = [
     name: {
       en: 'The Ottoman Horizon: Three Continents & the Balkans',
       fr: 'L’Empire Ottoman : Trois Continents et les Balkans',
-      ar: 'الامتداد العثماني: قارات العالم القديم الثلاث وحوض البلقان',
-    },
+      ar: 'الامتداد العثماني: قارات العالم القديم الثلاث وحوض البلقان', es: "Horizonte otomano: tres continentes y los Balcanes" },
     color: '#ef4444',
     prophetId: 'muhammad',
-    period: { en: '699–1342 AH (1299–1924 CE)', fr: '699–1342 H (1299–1924)', ar: '699–1342 هـ (1299–1924 م)' },
+    period: { en: '699–1342 AH (1299–1924 CE)', fr: '699–1342 H (1299–1924)', ar: '699–1342 هـ (1299–1924 م)', es: "699–1342 H (1299–1924)" },
     desc: {
       en: 'The Ottoman Caliphate unified the lands of Islam across Anatolia, the Levant, Egypt, the Holy Sanctuaries of Hijaz, and expanded deeply into Southeastern Europe and the Balkans up to the gates of Vienna.',
       fr: 'Le califat ottoman unifie l’Anatolie, le Levant, le Maghreb, le Hedjaz et s’étend profondément dans les Balkans jusqu’aux portes de Vienne.',
-      ar: 'الخلافة العثمانية توحد الأناضول والشام ومصر والحرمين الشريفين وتمتد عميقا في جنوب شرق أوروبا وبلاد البلقان حتى أسوار فيينا.'
-    },
+      ar: 'الخلافة العثمانية توحد الأناضول والشام ومصر والحرمين الشريفين وتمتد عميقا في جنوب شرق أوروبا وبلاد البلقان حتى أسوار فيينا.', es: "El califato otomano unió las tierras del islam en Anatolia, el Levante, Egipto y los Santos Lugares del Hiyaz, y se extendió por el sureste de Europa y los Balcanes hasta las puertas de Viena." },
     coords: [
       [40.1885, 29.0610], // Bursa
       [41.6772, 26.5557], // Edirne
@@ -1238,35 +1222,35 @@ const BASE_ROUTES: PropheticRoute[] = [
         name: { en: 'Bursa & Edirne (Imperial Roots)', fr: 'Bourse et Andrinople', ar: 'بورصة وأدرنة (عواصم التأسيس الأولى)', es: 'Bursa y Edirne (las raíces del imperio)' },
         lat: 41.6772,
         lng: 26.5557,
-        desc: { en: 'The initial capitals where early Ottoman statehood, guild solidarity (Ahi), and imperial architecture were forged.', fr: 'Les premières capitales où se forgèrent les institutions et l’architecture monumentale ottomane.', ar: 'عواصم الدولة الأولى التي انطلقت منها الفتوحات ورُسخت فيها أخلاق الفتوة ونظام الأخيّة.' },
+        desc: { en: 'The initial capitals where early Ottoman statehood, guild solidarity (Ahi), and imperial architecture were forged.', fr: 'Les premières capitales où se forgèrent les institutions et l’architecture monumentale ottomane.', ar: 'عواصم الدولة الأولى التي انطلقت منها الفتوحات ورُسخت فيها أخلاق الفتوة ونظام الأخيّة.', es: "Las primeras capitales donde se forjaron el Estado otomano, la solidaridad gremial (Ahi) y la arquitectura imperial." },
         quranRef: 'Devlet-i Aliyye',
       },
       {
         name: { en: 'Opening of Istanbul / Constantinople (857 AH / 1453 CE)', fr: 'Ouverture d’Istanbul (857 H / 1453)', ar: 'فتح القسطنطينية (857 هـ / 1453 م)', es: 'Apertura de Estambul / Constantinopla (857 H / 1453)' },
         lat: 41.0082,
         lng: 28.9784,
-        desc: { en: 'Sultan Mehmed the Conqueror fulfilled the prophetic glad tidings, transforming the city into the glorious capital of Islam.', fr: 'Le sultan Mehmed le Conquérant accomplit la prophétie, faisant d’Istanbul la capitale du califat.', ar: 'تحقق البشارة النبوية على يد السلطان محمد الفاتح: "لتفتحن القسطنطينية، فلنعم الأمير أميرها ولنعم الجيش ذلك الجيش".' },
+        desc: { en: 'Sultan Mehmed the Conqueror fulfilled the prophetic glad tidings, transforming the city into the glorious capital of Islam.', fr: 'Le sultan Mehmed le Conquérant accomplit la prophétie, faisant d’Istanbul la capitale du califat.', ar: 'تحقق البشارة النبوية على يد السلطان محمد الفاتح: "لتفتحن القسطنطينية، فلنعم الأمير أميرها ولنعم الجيش ذلك الجيش".', es: "El sultán Mehmed el Conquistador cumplió la buena nueva profética y convirtió la ciudad en la gloriosa capital del islam." },
         quranRef: 'Musnad Ahmad 18977',
       },
       {
         name: { en: 'Sarajevo & Mostar (Heart of the Balkans)', fr: 'Sarajevo et Mostar (Cœur des Balkans)', ar: 'سراييفو وموستار (جوهرة البلقان الإسلامي)', es: 'Sarajevo y Mostar (corazón de los Balcanes)' },
         lat: 43.8563,
         lng: 18.4131,
-        desc: { en: 'The jewel of the Western Balkans where mosques, stone bridges, and multi-faith coexistence flourished.', fr: 'Le joyau des Balkans où fleurirent les ponts de pierre, les madrasas et le vivre-ensemble.', ar: 'مدينة المساجد والجسور المعلقة والتعايش السلمي الخلاق في قلب جبال البوسنة والهرسك.' },
+        desc: { en: 'The jewel of the Western Balkans where mosques, stone bridges, and multi-faith coexistence flourished.', fr: 'Le joyau des Balkans où fleurirent les ponts de pierre, les madrasas et le vivre-ensemble.', ar: 'مدينة المساجد والجسور المعلقة والتعايش السلمي الخلاق في قلب جبال البوسنة والهرسك.', es: "La joya de los Balcanes occidentales, donde florecieron mezquitas, puentes de piedra y la convivencia entre religiones." },
         quranRef: 'Seyahatname',
       },
       {
         name: { en: 'Belgrade Fortress on the Danube (927 AH / 1521 CE)', fr: 'Forteresse de Belgrade sur le Danube', ar: 'قلعة بلغراد على نهر الدانوب (927 هـ)', es: 'Fortaleza de Belgrado sobre el Danubio (927 H / 1521)' },
         lat: 44.7866,
         lng: 20.4489,
-        desc: { en: 'Sultan Suleiman the Magnificent secured the strategic Danubian corridor uniting Central Europe with the Mediterranean.', fr: 'Soliman le Magnifique ouvre la voie stratégique du Danube vers l’Europe centrale.', ar: 'فتح السلطان سليمان القانوني للقلعة الإستراتيجية وربط تجارة أوروبا الوسطى بحوض المتوسط.' },
+        desc: { en: 'Sultan Suleiman the Magnificent secured the strategic Danubian corridor uniting Central Europe with the Mediterranean.', fr: 'Soliman le Magnifique ouvre la voie stratégique du Danube vers l’Europe centrale.', ar: 'فتح السلطان سليمان القانوني للقلعة الإستراتيجية وربط تجارة أوروبا الوسطى بحوض المتوسط.', es: "El sultán Solimán el Magnífico aseguró el corredor del Danubio que unía Europa central con el Mediterráneo." },
         quranRef: 'Zubdetu’l-Tevarih',
       },
       {
         name: { en: 'Gates of Vienna (935 AH / 1529 CE)', fr: 'Aux Portes de Vienne (935 H / 1529)', ar: 'أسوار فيينا (أقصى امتداد في أوروبا الوسطى)', es: 'Las puertas de Viena (935 H / 1529)' },
         lat: 48.2082,
         lng: 16.3738,
-        desc: { en: 'The northern frontier where Ottoman diplomacy, trade, and culture met Central Europe at the zenith of the empire.', fr: 'La frontière septentrionale où la diplomatie et la culture ottomanes côtoyèrent l’Europe centrale.', ar: 'الحد الشمالي الذي بلغه المسلمون في قلب القارة الأوروبية في عهد القانوني.' },
+        desc: { en: 'The northern frontier where Ottoman diplomacy, trade, and culture met Central Europe at the zenith of the empire.', fr: 'La frontière septentrionale où la diplomatie et la culture ottomanes côtoyèrent l’Europe centrale.', ar: 'الحد الشمالي الذي بلغه المسلمون في قلب القارة الأوروبية في عهد القانوني.', es: "La frontera norte donde la diplomacia, el comercio y la cultura otomanas se encontraron con Europa central en el apogeo del imperio." },
         quranRef: 'Soliman le Magnifique',
       },
     ],
@@ -1291,8 +1275,28 @@ const ERAS = [
   { id: 'islamic_spread', label: { en: 'Spread of Islam', fr: 'Expansion de l’Islam', ar: 'انتشار الإسلام في العالم', es: 'La expansión del islam' }, ids: ['muhammad'] },
 ]
 
+/**
+ * Prophet name labels sit under their pins; where pins are close, labels would pile on top of each other.
+ * Keep the most important label of each crowded spot (selected, then Ulul al-'Azm, then the rest) and hide
+ * the ones that would cover it. The pins stay visible and clickable.
+ */
+function declutterLabels(root: HTMLElement | null) {
+  if (!root) return
+  const labels = [...root.querySelectorAll<HTMLElement>('.map-pin-label')]
+  labels.sort((a, b) => Number(b.dataset.priority ?? 0) - Number(a.dataset.priority ?? 0))
+  const kept: DOMRect[] = []
+  for (const el of labels) {
+    el.style.visibility = 'visible'
+    const r = el.getBoundingClientRect()
+    const hit = kept.some((k) => r.left < k.right + 2 && r.right > k.left - 2 && r.top < k.bottom + 2 && r.bottom > k.top - 2)
+    if (hit) el.style.visibility = 'hidden'
+    else kept.push(r)
+  }
+}
+
 export function TopographyMap({ focus }: { focus?: string }) {
   const { t, pick, lang } = useI18n()
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const mapContainer = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<L.Map | null>(null)
   const layersRef = useRef<{ [key: string]: L.Layer }>({})
@@ -1334,6 +1338,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
     ? (selectedDetail?.id === selectedId ? selectedDetail : byId.get(selectedId))
     : undefined
   const selectedRoute = useMemo(() => ROUTES.find((r) => r.id === selectedRouteId), [selectedRouteId])
+  const drawerOpen = Boolean(selectedPerson || selectedSite || selectedRoute)
 
   // Filtered sacred sites according to category
   const filteredSites = useMemo(() => {
@@ -1420,9 +1425,16 @@ export function TopographyMap({ focus }: { focus?: string }) {
       })
 
       // Custom zoom control in bottom-end
-      Leaflet.control.zoom({ position: 'bottomright' }).addTo(map)
+      Leaflet.control
+        .zoom({
+          position: 'bottomright',
+          zoomInTitle: tx(lang, 'Zoom in', 'Zoom avant', 'تكبير', 'Acercar'),
+          zoomOutTitle: tx(lang, 'Zoom out', 'Zoom arrière', 'تصغير', 'Alejar'),
+        })
+        .addTo(map)
 
       mapInstance.current = map
+      map.on('zoomend moveend', () => declutterLabels(mapContainer.current))
       setMapReady(true)
 
       // Invalidate size once DOM layout is settled to ensure all tiles render
@@ -1692,7 +1704,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
               transition: all 0.3s ease;
               ${pulseAnim}
             "></div>
-            <div style="
+            <div class="map-pin-label" data-priority="${isSelected ? 2 : isUlul ? 1 : 0}" style="
               margin-top: 4px;
               background: rgba(8, 11, 28, 0.88);
               border: 1px solid rgba(233, 198, 123, 0.35);
@@ -1700,13 +1712,13 @@ export function TopographyMap({ focus }: { focus?: string }) {
               padding: 2px 8px;
               border-radius: 12px;
               color: #fbe6b0;
-              font-family: 'Reem Kufi Variable', serif;
-              font-size: 13px;
+              font-family: ${lang === 'ar' ? "'Reem Kufi Variable', serif" : 'inherit'};
+              font-size: ${lang === 'ar' ? '13px' : '12px'};
               font-weight: 600;
               white-space: nowrap;
               box-shadow: 0 4px 12px rgba(0,0,0,0.7);
             ">
-              ${p.name.ar}
+              ${pick(p.name)}
             </div>
           </div>
         `
@@ -1731,6 +1743,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
       markersGroup.addTo(map)
       sitesGroup.addTo(map)
       routesGroup.addTo(map)
+      requestAnimationFrame(() => declutterLabels(mapContainer.current))
 
       layersRef.current.markersGroup = markersGroup
       layersRef.current.sitesGroup = sitesGroup
@@ -1812,10 +1825,11 @@ export function TopographyMap({ focus }: { focus?: string }) {
   return (
     <div className="relative h-full w-full overflow-hidden bg-night">
       {/* Map Target Container */}
-      <div ref={mapContainer} className="relative z-0 h-full w-full outline-none" tabIndex={0} />
+      <div ref={mapContainer} className={`relative z-0 h-full w-full outline-none ${drawerOpen ? 'map-drawer-open' : ''}`} tabIndex={0} />
 
       {/* Floating Header Controls */}
-      <div className="pointer-events-none absolute inset-x-3 top-3 z-[1050] flex flex-wrap items-center justify-between gap-2.5 sm:inset-x-6 sm:top-4">
+      <div className={`pointer-events-none absolute inset-x-3 top-3 z-[1050] max-h-[calc(100%-1.5rem)] flex-col gap-2 sm:inset-x-6 sm:top-4 sm:flex ${drawerOpen ? 'hidden' : 'flex'}`}>
+        <div className="flex flex-wrap items-center justify-between gap-2.5">
         {/* Style & Layer Toggles */}
         <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex items-center gap-1 rounded-full p-1.5 shadow-2xl">
           <button
@@ -1857,7 +1871,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
         </div>
 
         {/* Feature Toggles (Sites, Routes, Route Picker) */}
-        <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex items-center gap-1.5 rounded-full p-1.5 text-xs shadow-2xl">
+        <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex max-w-full items-center gap-1.5 overflow-x-auto rounded-full p-1.5 text-xs shadow-2xl [scrollbar-width:none] [&>button]:shrink-0 [&>button]:whitespace-nowrap">
           <button
             type="button"
             onClick={() => setShowSites((v) => !v)}
@@ -1937,147 +1951,21 @@ export function TopographyMap({ focus }: { focus?: string }) {
         </div>
       </div>
 
-      {/* Floating Filter Bars: Eras & Sacred Site Categories */}
-      <div className="pointer-events-none absolute inset-x-3 top-14 z-[1050] flex flex-col items-center gap-2 sm:inset-x-6 sm:top-16">
-        {/* Era Filter Bar */}
-        <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-2xl max-w-2xl">
-          {ERAS.map((era) => (
-            <button
-              key={era.id}
-              type="button"
-              onClick={() => setActiveEra(era.id)}
-              className={`rounded-xl px-2.5 py-0.5 text-xs transition-colors ${
-                activeEra === era.id
-                  ? 'border border-gold/40 bg-gold/25 text-gold-2 font-bold shadow-sm'
-                  : 'text-ink-2 hover:text-ink hover:bg-white/10'
-              }`}
-            >
-              {(era.label[lang] ?? era.label.en)}
-            </button>
-          ))}
-        </div>
-
-        {/* Sacred Site Category Bar (When Sites Enabled) */}
-        {showSites && (
-          <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex flex-wrap items-center justify-center gap-1 rounded-2xl p-1 shadow-2xl text-[0.7rem] max-w-xl">
-            <button
-              type="button"
-              onClick={() => setSiteCategory('all')}
-              className={`rounded-lg px-2.5 py-0.5 transition-colors ${
-                siteCategory === 'all'
-                  ? 'bg-white/20 text-ink font-semibold'
-                  : 'text-ink-2 hover:text-ink'
-              }`}
-            >
-              {t('siteCategoryAll')} ({siteCounts.all})
-            </button>
-            <button
-              type="button"
-              onClick={() => setSiteCategory('sanctuary')}
-              className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
-                siteCategory === 'sanctuary'
-                  ? 'bg-amber-400/25 text-amber-200 font-semibold'
-                  : 'text-ink-2 hover:text-ink'
-              }`}
-            >
-              <Landmark className="size-3 text-amber-300" />
-              <span>{t('siteCategorySanctuary')}</span> ({siteCounts.sanctuary})
-            </button>
-            <button
-              type="button"
-              onClick={() => setSiteCategory('mountain')}
-              className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
-                siteCategory === 'mountain'
-                  ? 'bg-sky-400/25 text-sky-200 font-semibold'
-                  : 'text-ink-2 hover:text-ink'
-              }`}
-            >
-              <Mountain className="size-3 text-sky-300" />
-              <span>{t('siteCategoryMountain')}</span> ({siteCounts.mountain})
-            </button>
-            <button
-              type="button"
-              onClick={() => setSiteCategory('well')}
-              className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
-                siteCategory === 'well'
-                  ? 'bg-emerald-400/25 text-emerald-200 font-semibold'
-                  : 'text-ink-2 hover:text-ink'
-              }`}
-            >
-              <Droplets className="size-3 text-emerald-300" />
-              <span>{t('siteCategoryWell')}</span> ({siteCounts.well})
-            </button>
-            <button
-              type="button"
-              onClick={() => setSiteCategory('city')}
-              className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
-                siteCategory === 'city'
-                  ? 'bg-pink-400/25 text-pink-200 font-semibold'
-                  : 'text-ink-2 hover:text-ink'
-              }`}
-            >
-              <Castle className="size-3 text-pink-300" />
-              <span>{t('siteCategoryCity')}</span> ({siteCounts.city})
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Prophetic Journeys Modal / Dropdown Picker */}
-      {showRouteList && (
-        <div className="glass-strong absolute inset-x-4 top-28 z-[1100] mx-auto max-w-xl rounded-3xl border border-gold/40 p-4 shadow-2xl backdrop-blur-xl sm:top-32">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <div className="flex items-center gap-2">
-              <Waypoints className="size-4 text-gold" />
-              <h3 className="text-sm font-bold text-ink">{t('routesTitle')}</h3>
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowRouteList(false)}
-              className="rounded-full p-1 text-ink-3 hover:text-ink"
-            >
-              <X className="size-4" />
-            </button>
-          </div>
-          <div className="mt-3 max-h-[60vh] space-y-2 overflow-y-auto pe-1">
-            {ROUTES.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                onClick={() => handleSelectRoute(r)}
-                className={`flex w-full flex-col items-start rounded-2xl border p-3 text-start transition-all ${
-                  selectedRouteId === r.id
-                    ? 'border-gold bg-gold/15 shadow-md'
-                    : 'border-white/5 bg-white/[0.02] hover:border-gold/40 hover:bg-white/[0.05]'
-                }`}
-              >
-                <div className="flex w-full items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="size-3 shrink-0 rounded-full"
-                      style={{ backgroundColor: r.color, boxShadow: `0 0 8px ${r.color}` }}
-                    />
-                    <span className="text-xs font-bold text-ink">{(r.name[lang] ?? r.name.en)}</span>
-                  </div>
-                  <span className="ar-name text-sm text-gold">{r.name.ar}</span>
-                </div>
-                <p className="mt-1.5 text-[0.7rem] leading-relaxed text-ink-3 line-clamp-2">
-                  {r.desc[legacy(lang)]}
-                </p>
-                <div className="mt-2 flex items-center justify-between w-full text-[0.65rem] text-ink-3">
-                  <span className="rounded-full bg-white/5 px-2 py-0.5 text-gold-2">
-                    {r.period[legacy(lang)]}
-                  </span>
-                  <span>{r.stops.length} waypoints</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
+      {/* Phones: the filters fold away so the map stays visible */}
+      <div className="flex w-full items-start gap-2">
+        <button
+          type="button"
+          onClick={() => setFiltersOpen((v) => !v)}
+          aria-expanded={filtersOpen}
+          className={`pointer-events-auto flex h-10 shrink-0 items-center gap-1.5 rounded-2xl border px-3 text-xs font-semibold shadow-2xl backdrop-blur-xl transition-colors sm:hidden ${
+            filtersOpen ? 'border-gold/50 bg-gold/20 text-gold-2' : 'border-white/15 bg-night-surface/90 text-ink'
+          }`}
+        >
+          <SlidersHorizontal className="size-4 text-gold" aria-hidden="true" />
+          {tx(lang, 'Filters', 'Filtres', 'التصفية', 'Filtros')}
+        </button>
       {/* Floating Universal Search Widget */}
-      <div className="pointer-events-none absolute start-3 top-36 z-[1050] w-72 sm:start-6 sm:top-40">
+      <div className="pointer-events-none min-w-0 flex-1 sm:w-72 sm:flex-none">
         <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto relative rounded-2xl p-1.5 shadow-2xl">
           <div className="relative flex items-center">
             <Search className="size-4 absolute start-3 text-ink-3" />
@@ -2165,6 +2053,148 @@ export function TopographyMap({ focus }: { focus?: string }) {
           )}
         </div>
       </div>
+      </div>
+
+      {/* Floating Filter Bars: Eras & Sacred Site Categories */}
+      <div className={`${filtersOpen ? 'flex' : 'hidden'} min-w-0 flex-col items-center gap-2 sm:flex`}>
+        {/* Era Filter Bar */}
+        <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex max-w-full flex-nowrap items-center justify-start gap-1 overflow-x-auto rounded-2xl p-1 shadow-2xl [scrollbar-width:none] sm:max-w-2xl sm:flex-wrap sm:justify-center [&>button]:shrink-0 [&>button]:whitespace-nowrap">
+          {ERAS.map((era) => (
+            <button
+              key={era.id}
+              type="button"
+              onClick={() => setActiveEra(era.id)}
+              className={`rounded-xl px-2.5 py-0.5 text-xs transition-colors ${
+                activeEra === era.id
+                  ? 'border border-gold/40 bg-gold/25 text-gold-2 font-bold shadow-sm'
+                  : 'text-ink-2 hover:text-ink hover:bg-white/10'
+              }`}
+            >
+              {(era.label[lang] ?? era.label.en)}
+            </button>
+          ))}
+        </div>
+
+        {/* Sacred Site Category Bar (When Sites Enabled) */}
+        {showSites && (
+          <div className="bg-night-surface/90 backdrop-blur-xl border border-white/15 pointer-events-auto flex max-w-full flex-nowrap items-center justify-start gap-1 overflow-x-auto rounded-2xl p-1 shadow-2xl text-[0.7rem] [scrollbar-width:none] sm:max-w-xl sm:flex-wrap sm:justify-center [&>button]:shrink-0 [&>button]:whitespace-nowrap">
+            <button
+              type="button"
+              onClick={() => setSiteCategory('all')}
+              className={`rounded-lg px-2.5 py-0.5 transition-colors ${
+                siteCategory === 'all'
+                  ? 'bg-white/20 text-ink font-semibold'
+                  : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              {t('siteCategoryAll')} ({siteCounts.all})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSiteCategory('sanctuary')}
+              className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
+                siteCategory === 'sanctuary'
+                  ? 'bg-amber-400/25 text-amber-200 font-semibold'
+                  : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              <Landmark className="size-3 text-amber-300" />
+              <span>{t('siteCategorySanctuary')}</span> ({siteCounts.sanctuary})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSiteCategory('mountain')}
+              className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
+                siteCategory === 'mountain'
+                  ? 'bg-sky-400/25 text-sky-200 font-semibold'
+                  : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              <Mountain className="size-3 text-sky-300" />
+              <span>{t('siteCategoryMountain')}</span> ({siteCounts.mountain})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSiteCategory('well')}
+              className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
+                siteCategory === 'well'
+                  ? 'bg-emerald-400/25 text-emerald-200 font-semibold'
+                  : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              <Droplets className="size-3 text-emerald-300" />
+              <span>{t('siteCategoryWell')}</span> ({siteCounts.well})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSiteCategory('city')}
+              className={`flex items-center gap-1 rounded-lg px-2.5 py-0.5 transition-colors ${
+                siteCategory === 'city'
+                  ? 'bg-pink-400/25 text-pink-200 font-semibold'
+                  : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              <Castle className="size-3 text-pink-300" />
+              <span>{t('siteCategoryCity')}</span> ({siteCounts.city})
+            </button>
+          </div>
+        )}
+      </div>
+      </div>
+
+      {/* Prophetic Journeys Modal / Dropdown Picker */}
+      {showRouteList && (
+        <div className="glass-strong absolute inset-x-4 top-28 z-[1100] mx-auto max-w-xl rounded-3xl border border-gold/40 p-4 shadow-2xl backdrop-blur-xl sm:top-32">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="flex items-center gap-2">
+              <Waypoints className="size-4 text-gold" />
+              <h3 className="text-sm font-bold text-ink">{t('routesTitle')}</h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowRouteList(false)}
+              className="rounded-full p-1 text-ink-3 hover:text-ink"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+          <div className="mt-3 max-h-[60vh] space-y-2 overflow-y-auto pe-1">
+            {ROUTES.map((r) => (
+              <button
+                key={r.id}
+                type="button"
+                onClick={() => handleSelectRoute(r)}
+                className={`flex w-full flex-col items-start rounded-2xl border p-3 text-start transition-all ${
+                  selectedRouteId === r.id
+                    ? 'border-gold bg-gold/15 shadow-md'
+                    : 'border-white/5 bg-white/[0.02] hover:border-gold/40 hover:bg-white/[0.05]'
+                }`}
+              >
+                <div className="flex w-full items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="size-3 shrink-0 rounded-full"
+                      style={{ backgroundColor: r.color, boxShadow: `0 0 8px ${r.color}` }}
+                    />
+                    <span className="text-xs font-bold text-ink">{(r.name[lang] ?? r.name.en)}</span>
+                  </div>
+                  <span className="ar-name text-sm text-gold">{r.name.ar}</span>
+                </div>
+                <p className="mt-1.5 text-[0.7rem] leading-relaxed text-ink-3 line-clamp-2">
+                  {r.desc[lang] ?? r.desc.en}
+                </p>
+                <div className="mt-2 flex items-center justify-between w-full text-[0.65rem] text-ink-3">
+                  <span className="rounded-full bg-white/5 px-2 py-0.5 text-gold-2">
+                    {r.period[lang] ?? r.period.en}
+                  </span>
+                  <span>{r.stops.length} waypoints</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
 
       {/* Selected Route Drawer */}
       {selectedRoute && !selectedPerson && (
@@ -2177,7 +2207,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   style={{ backgroundColor: selectedRoute.color, boxShadow: `0 0 8px ${selectedRoute.color}` }}
                 />
                 <span className="text-[0.65rem] font-bold uppercase tracking-wider text-emerald-300">
-                  {selectedRoute.period[legacy(lang)]}
+                  {selectedRoute.period[lang] ?? selectedRoute.period.en}
                 </span>
               </div>
               <h3 className="mt-1 text-base font-bold text-ink sm:text-lg">{(selectedRoute.name[lang] ?? selectedRoute.name.en)}</h3>
@@ -2193,7 +2223,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
           </div>
 
           <p className="mt-3 text-xs leading-relaxed text-ink-2">
-            {selectedRoute.desc[legacy(lang)]}
+            {selectedRoute.desc[lang] ?? selectedRoute.desc.en}
           </p>
 
           {/* Associated Prophet Jump Button */}
@@ -2248,7 +2278,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
                   </div>
 
                   <p className="mt-1.5 ps-7 text-[0.7rem] leading-relaxed text-ink-3">
-                    {stop.desc[legacy(lang)]}
+                    {stop.desc[lang] ?? stop.desc.en}
                   </p>
 
                   <div className="mt-2 ps-7 space-y-1.5">
@@ -2322,7 +2352,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             </button>
           </div>
 
-          <p className="mt-4 text-xs leading-relaxed text-ink-2">{selectedSite.desc[legacy(lang)]}</p>
+          <p className="mt-4 text-xs leading-relaxed text-ink-2">{selectedSite.desc[lang] ?? selectedSite.desc.en}</p>
 
           {(() => {
             const meta = resolveWaypointSource(selectedSite)
