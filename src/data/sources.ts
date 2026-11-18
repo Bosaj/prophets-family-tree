@@ -1,6 +1,72 @@
 import type { L3, Level, Ref } from './types'
 
 export const BOOKS: Record<string, L3> = {
+  muslimintro: {
+    en: "Sahih Muslim, Introduction (al-Muqaddimah)",
+    fr: "Sahih Muslim, Introduction (al-Muqaddima)",
+    ar: "صحيح مسلم، المقدمة",
+    es: "Sahih Muslim, Introducción (al-Muqaddima)",
+  },
+  bukhariilm: {
+    en: "Sahih al-Bukhari, Book of Knowledge (chapter headings)",
+    fr: "Sahih al-Bukhari, Livre de la science (titres de chapitres)",
+    ar: "صحيح البخاري، كتاب العلم (تراجم الأبواب)",
+    es: "Sahih al-Bujari, Libro del conocimiento (títulos de capítulos)",
+  },
+  hammam: {
+    en: "Sahifat Hammam ibn Munabbih, ed. Muhammad Hamidullah (1953)",
+    fr: "Sahifat Hammam ibn Munabbih, éd. Muhammad Hamidullah (1953)",
+    ar: "صحيفة همام بن منبه، تحقيق محمد حميد الله (1953)",
+    es: "Sahifat Hammam ibn Munabbih, ed. Muhammad Hamidullah (1953)",
+  },
+  azami: {
+    en: "M. M. al-A‘zami, Studies in Early Hadith Literature (1968)",
+    fr: "M. M. al-A‘zami, Studies in Early Hadith Literature (1968)",
+    ar: "محمد مصطفى الأعظمي، دراسات في الحديث النبوي وتاريخ تدوينه",
+    es: "M. M. al-A‘zami, Studies in Early Hadith Literature (1968)",
+  },
+  hadysari: {
+    en: "Ibn Hajar, Hady al-Sari (introduction to Fath al-Bari)",
+    fr: "Ibn Hajar, Hady as-Sari (introduction de Fath al-Bari)",
+    ar: "ابن حجر، هدي الساري مقدمة فتح الباري",
+    es: "Ibn Hayar, Hady as-Sari (introducción de Fath al-Bari)",
+  },
+  rijal: {
+    en: "The books of narrators: Ibn Sa‘d, al-Bukhari’s al-Tarikh al-Kabir, Ibn Abi Hatim, al-Mizzi, al-Dhahabi, Ibn Hajar",
+    fr: "Les livres des transmetteurs : Ibn Sa‘d, al-Tarikh al-Kabir d’al-Bukhari, Ibn Abi Hatim, al-Mizzi, adh-Dhahabi, Ibn Hajar",
+    ar: "كتب الرجال: طبقات ابن سعد، التاريخ الكبير للبخاري، الجرح والتعديل، تهذيب الكمال، ميزان الاعتدال، تهذيب التهذيب",
+    es: "Los libros de transmisores: Ibn Sa‘d, al-Tarij al-Kabir de al-Bujari, Ibn Abi Hatim, al-Mizzi, adh-Dhahabi, Ibn Hayar",
+  },
+  mawduat: {
+    en: "Ibn al-Jawzi, al-Mawdu‘at; al-Suyuti, al-La’ali’ al-Masnu‘a; al-Shawkani, al-Fawa’id al-Majmu‘a",
+    fr: "Ibn al-Jawzi, al-Mawdu‘at ; as-Suyuti, al-La’ali’ al-Masnu‘a ; ash-Shawkani, al-Fawa’id al-Majmu‘a",
+    ar: "ابن الجوزي، الموضوعات؛ السيوطي، اللآلئ المصنوعة؛ الشوكاني، الفوائد المجموعة",
+    es: "Ibn al-Yawzi, al-Mawdu‘at; as-Suyuti, al-La’ali’ al-Masnu‘a; ash-Shawkani, al-Fawa’id al-Maymu‘a",
+  },
+  ibnsalah: {
+    en: "Ibn al-Salah, Muqaddimah (‘Ulum al-Hadith)",
+    fr: "Ibn as-Salah, Muqaddima (‘Ulum al-Hadith)",
+    ar: "ابن الصلاح، معرفة أنواع علوم الحديث (المقدمة)",
+    es: "Ibn as-Salah, Muqaddima (‘Ulum al-Hadiz)",
+  },
+  khatib: {
+    en: "Al-Khatib al-Baghdadi, al-Kifayah fi ‘Ilm al-Riwayah and Tarikh Baghdad",
+    fr: "Al-Khatib al-Baghdadi, al-Kifaya fi ‘Ilm ar-Riwaya et Tarikh Baghdad",
+    ar: "الخطيب البغدادي، الكفاية في علم الرواية وتاريخ بغداد",
+    es: "Al-Jatib al-Bagdadi, al-Kifaya fi ‘Ilm ar-Riwaya y Tarij Bagdad",
+  },
+  motzki: {
+    en: "Harald Motzki, The Origins of Islamic Jurisprudence (Brill, 2002)",
+    fr: "Harald Motzki, The Origins of Islamic Jurisprudence (Brill, 2002)",
+    ar: "هارالد موتسكي، بدايات الفقه الإسلامي (بريل، 2002)",
+    es: "Harald Motzki, The Origins of Islamic Jurisprudence (Brill, 2002)",
+  },
+  mukhtalif: {
+    en: "Al-Shafi‘i, Ikhtilaf al-Hadith; Ibn Qutaybah, Ta’wil Mukhtalif al-Hadith",
+    fr: "Ash-Shafi‘i, Ikhtilaf al-Hadith ; Ibn Qutayba, Ta’wil Mukhtalif al-Hadith",
+    ar: "الشافعي، اختلاف الحديث؛ ابن قتيبة، تأويل مختلف الحديث",
+    es: "Ash-Shafi‘i, Ijtilaf al-Hadiz; Ibn Qutayba, Ta’wil Mujtalif al-Hadiz",
+  },
   qisas: {
     en: 'Ibn Kathir, Qisas al-Anbiya (Stories of the Prophets), and the classical commentaries',
     fr: 'Ibn Kathir, Qisas al-Anbiya (Histoires des prophètes), et les commentaires classiques',

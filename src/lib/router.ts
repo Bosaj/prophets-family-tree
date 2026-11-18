@@ -12,6 +12,7 @@ export type Route =
   | { name: 'times' }
   | { name: 'islam' }
   | { name: 'hour' }
+  | { name: 'hadith' }
   | { name: 'hijri' }
   | { name: 'salat' }
   | { name: 'sahaba'; focus?: string }
@@ -57,6 +58,7 @@ export function parsePath(path: string, search = ''): Route {
   if (p === '/times') return { name: 'times' }
   if (p === '/islam') return { name: 'islam' }
   if (p === '/hour') return { name: 'hour' }
+  if (p === '/hadith') return { name: 'hadith' }
   if (p === '/hijri') return { name: 'hijri' }
   if (p === '/salat') return { name: 'salat' }
   if (p === '/sahaba') {
@@ -112,6 +114,9 @@ export const hrefOf = (r: Route): string => {
       break
     case 'hour':
       sub = '/hour'
+      break
+    case 'hadith':
+      sub = '/hadith'
       break
     case 'hijri':
       sub = '/hijri'

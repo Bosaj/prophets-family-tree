@@ -14,6 +14,7 @@ import { SALAT_QUOTES, SALAT_REFS } from '../src/data/salat.ts'
 import { FAST_QUOTES, FAST_REFS } from '../src/data/fasting.ts'
 import { SALAT_MORE_QUOTES, SALAT_MORE_REFS } from '../src/data/salatMore.ts'
 import { HISN_QUOTES } from '../src/data/hisn.ts'
+import { HADITH_SCIENCE_QUOTES, HADITH_SCIENCE_REFS } from '../src/data/hadithScience.ts'
 
 const BASES = ['https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1', 'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1']
 
@@ -96,6 +97,8 @@ const items = [
   ...SALAT_MORE_QUOTES,
   // 2.11.0: supplications for every day, by occasion
   ...HISN_QUOTES,
+  // 2.13.0: how the hadith were preserved
+  ...HADITH_SCIENCE_QUOTES,
 ]
 const refsOnly = [
   ...DAY_PARTS.flatMap((p) => p.guide.map((g, i) => ({ where: `day/${p.id}/${i}`, r: g.r }))),
@@ -119,6 +122,7 @@ refsOnly.push(
   ...SALAT_REFS,
   ...FAST_REFS,
   ...SALAT_MORE_REFS,
+  ...HADITH_SCIENCE_REFS,
 )
 
 // Ayah counts per surah, to check that every Qur'an reference points at verses that exist.

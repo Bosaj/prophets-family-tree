@@ -95,6 +95,14 @@ describe('App', () => {
     expect(screen.getAllByText(/some graded its chain weak/).length).toBeGreaterThan(0)
   })
 
+  it('explains how the hadith were preserved, with the chain of the first hadith of al-Bukhari', async () => {
+    await renderAt('/hadith')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('How the hadith were preserved')
+    expect(screen.getByText('Yahya ibn Sa‘id al-Ansari')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /Why forging a hadith was hard/ })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 3, name: /the sheet of Hammam/ })).toBeInTheDocument()
+  })
+
   it('shows the Prophet’s supplications through his life on the page about Islam', async () => {
     await renderAt('/islam')
     expect(screen.getByText('اللَّهُمَّ الرَّفِيقَ الأَعْلَى')).toBeInTheDocument()

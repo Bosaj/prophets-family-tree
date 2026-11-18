@@ -25,6 +25,7 @@ const DuasView = lazy(() => import('./components/DuasView').then((m) => ({ defau
 const AwqatView = lazy(() => import('./components/AwqatView').then((m) => ({ default: m.AwqatView })))
 const IslamView = lazy(() => import('./components/IslamView').then((m) => ({ default: m.IslamView })))
 const HourView = lazy(() => import('./components/HourView').then((m) => ({ default: m.HourView })))
+const HadithView = lazy(() => import('./components/HadithView').then((m) => ({ default: m.HadithView })))
 const HijriView = lazy(() => import('./components/HijriView').then((m) => ({ default: m.HijriView })))
 const SalatView = lazy(() => import('./components/SalatView').then((m) => ({ default: m.SalatView })))
 const NatureView = lazy(() => import('./components/NatureView').then((m) => ({ default: m.NatureView })))
@@ -113,6 +114,8 @@ export default function App() {
         return <IslamView />
       case 'hour':
         return <HourView />
+      case 'hadith':
+        return <HadithView />
       case 'hijri':
         return <HijriView />
       case 'salat':

@@ -43,6 +43,7 @@ const UI = {
   moreDuas: t('The Prophet’s supplications', 'Les invocations du Prophète', 'أدعية النبي ﷺ', 'Las súplicas del Profeta'),
   moreTimes: t('A Muslim’s day', 'La journée d’un musulman', 'يوم المسلم', 'El día de un musulmán'),
   moreSalat: t('How to pray, step by step', 'Comment prier, pas à pas', 'صفة الصلاة خطوة خطوة', 'Cómo rezar, paso a paso'),
+  moreHadith: t('How the hadith were preserved', 'Comment les hadiths ont été préservés', 'كيف حُفظ الحديث النبوي', 'Cómo se preservaron los hadices'),
   moreHour: t('The beginning of creation and the signs of the Hour', 'Le commencement de la création et les signes de l’Heure', 'بدء الخلق وأشراط الساعة', 'El comienzo de la creación y los signos de la Hora'),
   note: t(
     'This page is an introduction, not a fatwa. To learn more, read a translation of the Qur’an or visit a local mosque: visitors are welcome.',
@@ -171,6 +172,7 @@ export function IslamView() {
           <li><A href="/duas" className="ref">{q(pick(UI.moreDuas))}</A></li>
           <li><A href="/times" className="ref">{q(pick(UI.moreTimes))}</A></li>
           <li><A href="/hour" className="ref">{q(pick(UI.moreHour))}</A></li>
+          <li><A href="/hadith" className="ref">{q(pick(UI.moreHadith))}</A></li>
         </ul>
         <p className="mt-5 text-sm text-ink-3">{q(pick(UI.note))}</p>
       </section>
