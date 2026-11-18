@@ -9,6 +9,7 @@ Pages that help a reader pray, fast and follow the calendar. Every Arabic hadith
 | `/duas` Supplications | What to say at each moment of the day, by occasion (morning and evening, sleep, home, mosque, food and fasting, travel, sickness, worry, weather, people), in full with grades | `src/data/hisn.ts` (new texts; morning, sleep and prayer remembrances come from `awqat.ts`, hardship from `duas.ts`) |
 | `/hijri` The Hijri calendar | Today's date by country, how the calendar works, the twelve months, the Eids, al-Kahf 300/309, fasting reminders | `src/data/hijri.ts`, `src/lib/hijri.ts`, `src/data/fasting.ts`, `src/lib/fastDays.ts` |
 | `/islam` What is Islam? | The pillars, the articles of faith, common questions, more about Islam and Muslims, and the Prophet's supplications through his life (`#life`) | `src/data/islam.ts`, `src/data/duas.ts` |
+| `/hadith` How the hadith were preserved | The chain and the text, the history of the collection, the five tests, why forgery was hard, the Qur’an and the hadith compared, common objections | `src/data/hadithScience.ts` |
 | `/hour` The beginning and the end | Creation, the signs of the Hour (with a checklist), the end | `src/data/hour.ts` |
 
 ## The prayer and the schools

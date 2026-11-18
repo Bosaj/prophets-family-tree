@@ -4,6 +4,17 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.13.0] — 2026-11-18
+### Added
+- **How the hadith were preserved** (`/hadith`), for readers who want to check the method, Muslim or not:
+  - **What a hadith is:** the chain and the text, shown with the first hadith of Sahih al-Bukhari, from the Prophet ﷺ to al-Bukhari, with each narrator’s city and date.
+  - **How they were collected:** writing in the Prophet’s lifetime (al-Bukhari 111–113) and his early instruction to write only the Qur’an (Muslim 3004); the Companions’ caution (al-Bukhari 107, 6245); “name your men” after the fitnah; the order of ‘Umar ibn ‘Abd al-‘Aziz; the first books, the six books, the books on narrators and the books of forgeries.
+  - **How a report is tested:** the five conditions of a sahih hadith and the grades from mutawatir to mawdu‘.
+  - **Why forgery was hard:** many chains in many cities, dates checked against claims, critics who judged their own fathers, narrators tested, the sheet of Hammam ibn Munabbih compared with the later collections, and what modern research (al-A‘zami, Motzki) found.
+  - **The Qur’an and the hadith:** what is the same and what is not; the Qur’an is certain word for word, each hadith is graded.
+  - **Common objections** answered: “written 200 years later”, forgeries, circularity, contradictions, “the Qur’an alone”.
+  - Seven hadith quoted and checked (202 texts in total); eleven classical and modern books added to the sources. Linked from the menu and from the Islam page.
+
 ## [2.12.0] — 2026-11-17
 ### Fixed
 - **Phones.** The place and time panel opened past the edge of the screen in Arabic; it now stays inside the screen on every phone. On the tree, the person panel now covers the legend and the era bar instead of sitting under them, and the zoom and download controls fit a 375-pixel screen. A grade with a note (such as “some graded its chain weak”) wraps instead of pushing the supplications page wider than the screen in French and Spanish.

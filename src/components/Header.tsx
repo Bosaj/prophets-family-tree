@@ -30,6 +30,7 @@ const NAV: readonly NavItem[] = [
   { key: 'mapView', href: '/map', route: 'map', main: true, short: { en: 'Map', fr: 'Carte', ar: 'الخريطة', es: 'Mapa' } },
   { key: 'navHijri', href: '/hijri', route: 'hijri', short: { en: 'Hijri', fr: 'Hégire', ar: 'الهجري', es: 'Hégira' } },
   { key: 'navHour', href: '/hour', route: 'hour', short: { en: 'The Hour', fr: 'L’Heure', ar: 'الساعة', es: 'La Hora' } },
+  { key: 'navHadith', href: '/hadith', route: 'hadith', short: { en: 'Hadith', fr: 'Hadith', ar: 'الحديث', es: 'Hadiz' } },
   { key: 'navTimeline', href: '/timeline', route: 'timeline', short: { en: 'Timeline', fr: 'Chronologie', ar: 'التسلسل', es: 'Cronología' } },
   { key: 'navScience', href: '/science', route: 'science', short: { en: 'Miracles', fr: 'Miracles', ar: 'الإعجاز', es: 'Milagros' } },
   { key: 'navStature', href: '/stature', route: 'stature', short: { en: 'Stature', fr: 'Stature', ar: 'القامة', es: 'Estatura' } },
