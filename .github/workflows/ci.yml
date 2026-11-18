@@ -39,3 +39,20 @@ jobs:
         run: node scripts/audit-content.mjs
       - name: Check every supplication against the hadith it cites
         run: node scripts/verify-duas.mjs
+
+  layout:
+    # Every page on a 375 px phone in English, French, Spanish and Arabic: no overlap, no text off screen,
+    # nothing left untranslated (scripts/layout-audit.mjs).
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Phone layout and translation audit
+        run: npm run audit:layout

@@ -45,7 +45,7 @@ export function FastingReminders() {
   const fmt = (day: string, withDay = true) =>
     new Intl.DateTimeFormat(LOCALE[lang], { weekday: withDay ? 'long' : undefined, day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(`${day}T12:00:00Z`))
   const range = (g: FastDay[]) => (g.length === 1 ? fmt(g[0]!.day) : `${fmt(g[0]!.day)} – ${fmt(g[g.length - 1]!.day)}`)
-  const hRange = (g: FastDay[]) => `${g.length === 1 ? g[0]!.h.d : `${g[0]!.h.d}–${g[g.length - 1]!.h.d}`} ${q(pick(MONTH_NAMES[g[0]!.h.m - 1]!))}`
+  const hRange = (g: FastDay[]) => `${g.length === 1 ? g[0]!.h.d : `${g[0]!.h.d}–${g[g.length - 1]!.h.d}`} ${pick(MONTH_NAMES[g[0]!.h.m - 1]!)}`
 
   return (
     <section id="reminders" aria-labelledby="reminders-h" className="mb-14 scroll-mt-24">

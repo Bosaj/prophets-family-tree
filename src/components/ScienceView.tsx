@@ -293,7 +293,7 @@ export function ScienceView() {
                     </span>
                   </div>
                   <span className="text-[0.68rem] font-mono text-ink-3">
-                    {fact.papers.length} {fact.papers.length === 1 ? 'Paper' : 'Papers'}
+                    {fact.papers.length} {fact.papers.length === 1 ? tx(lang, 'paper', 'article', 'بحث', 'artículo') : tx(lang, 'papers', 'articles', 'أبحاث', 'artículos')}
                   </span>
                 </div>
 

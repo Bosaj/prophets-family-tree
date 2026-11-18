@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Calendar, ChevronDown, ChevronUp, Clock, Sparkles, Flame, BookOpen, Info } from 'lucide-react'
-import { legacy, useI18n, tx } from '../i18n'
+import { useI18n, tx } from '../i18n'
 import '../data/es/preAdam.es'
 import { peopleCore } from '../data/peopleCore'
 import { loadAllPeople } from '../data/people/loader'
@@ -11,13 +11,13 @@ import { formatDate } from '../lib/dates'
 import { PRE_ADAM_ENTITIES, type PreAdamEntity } from '../data/preAdam'
 
 /** Statements in the Qur'an that fix the order between two prophets. */
-const ANCHORS: Record<number, { ref: string; en: string; fr: string; ar: string }> = {
-  4: { ref: '7:69', en: '‘Ad came after the people of Nuh.', fr: '‘Ad vint après le peuple de Nuh.', ar: 'جعل الله عادًا خلفاء من بعد قوم نوح.' },
-  5: { ref: '7:74', en: 'Thamud came after ‘Ad.', fr: 'Thamud vint après ‘Ad.', ar: 'جعل الله ثمود خلفاء من بعد عاد.' },
-  10: { ref: '40:34', en: 'Yusuf had come to Egypt before Musa.', fr: 'Yusuf était venu en Égypte avant Musa.', ar: 'جاء يوسف أهل مصر من قبل موسى.' },
-  12: { ref: '2:246', en: 'The kingship of Dawud came after Musa.', fr: 'La royauté de Dawud vint après Musa.', ar: 'كان ملك داود من بعد موسى.' },
-  18: { ref: '5:46', en: '‘Isa followed in the footsteps of the earlier prophets.', fr: '‘Isa suivit les traces des prophètes précédents.', ar: 'قفّى الله على آثارهم بعيسى ابن مريم.' },
-  19: { ref: '33:40', en: 'Muhammad ﷺ is the last of the prophets.', fr: 'Muhammad ﷺ est le dernier des prophètes.', ar: 'محمد ﷺ خاتم النبيين.' },
+const ANCHORS: Record<number, { ref: string; en: string; fr: string; ar: string; es: string }> = {
+  4: { ref: '7:69', en: '‘Ad came after the people of Nuh.', fr: '‘Ad vint après le peuple de Nuh.', ar: 'جعل الله عادًا خلفاء من بعد قوم نوح.', es: '‘Ad vino después del pueblo de Nuh.' },
+  5: { ref: '7:74', en: 'Thamud came after ‘Ad.', fr: 'Thamud vint après ‘Ad.', ar: 'جعل الله ثمود خلفاء من بعد عاد.', es: 'Zamud vino después de ‘Ad.' },
+  10: { ref: '40:34', en: 'Yusuf had come to Egypt before Musa.', fr: 'Yusuf était venu en Égypte avant Musa.', ar: 'جاء يوسف أهل مصر من قبل موسى.', es: 'Yusuf había llegado a Egipto antes que Musa.' },
+  12: { ref: '2:246', en: 'The kingship of Dawud came after Musa.', fr: 'La royauté de Dawud vint après Musa.', ar: 'كان ملك داود من بعد موسى.', es: 'El reinado de Dawud vino después de Musa.' },
+  18: { ref: '5:46', en: '‘Isa followed in the footsteps of the earlier prophets.', fr: '‘Isa suivit les traces des prophètes précédents.', ar: 'قفّى الله على آثارهم بعيسى ابن مريم.', es: '‘Isa siguió las huellas de los profetas anteriores.' },
+  19: { ref: '33:40', en: 'Muhammad ﷺ is the last of the prophets.', fr: 'Muhammad ﷺ est le dernier des prophètes.', ar: 'محمد ﷺ خاتم النبيين.', es: 'Muhammad ﷺ es el último de los profetas.' },
 }
 
 type TimelineMode = 'dual' | 'hijri' | 'gregorian'
@@ -156,7 +156,7 @@ export function Timeline() {
                 {anchor && (
                   <div className="mb-8 flex md:justify-center relative z-20">
                     <div className="glass inline-flex max-w-lg flex-wrap items-center justify-center gap-2 rounded-2xl border border-gold/30 bg-night-surface/90 px-4 py-2 text-xs text-ink-2 shadow-lg backdrop-blur-md text-center">
-                      <span className="font-semibold text-gold-2">{anchor[legacy(lang)]}</span>
+                      <span className="font-semibold text-gold-2">{anchor[lang]}</span>
                       <Refs refs={[anchor.ref]} />
                     </div>
                   </div>

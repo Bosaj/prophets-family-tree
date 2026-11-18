@@ -81,7 +81,7 @@ export function StatureView() {
             onClick={() => setUnit('imperial')}
             className={`rounded-full px-3 py-1 font-medium transition-colors ${unit === 'imperial' ? 'bg-gold text-night font-bold' : 'text-ink-2 hover:text-ink'}`}
           >
-            {tx(lang, 'Imperial (ft)', 'Impérial (ft)', 'إمبراطوري (قدم)', 'Imperial (ft)')}
+            {tx(lang, 'Imperial (ft)', 'Impérial (pieds)', 'إمبراطوري (قدم)', 'Imperial (pies)')}
           </button>
           <button
             type="button"

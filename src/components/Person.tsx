@@ -74,7 +74,7 @@ export function Person({ id }: { id: string }) {
   const scriptureBook = core ? SCRIPTURES_BY_PROPHET.get(core.id) : null
 
   useEffect(() => {
-    if (core) document.title = `${core.name.ar} · ${q(pick(core.name))} — ${t('brand')}`
+    if (core) document.title = `${core.name.ar} · ${pick(core.name)} — ${t('brand')}`
     return () => {
       document.title = 'شجرة الأنبياء · Shajara — The Tree of the Prophets'
     }
@@ -98,7 +98,7 @@ export function Person({ id }: { id: string }) {
   const share = async () => {
     const url = location.href
     try {
-      if (navigator.share) await navigator.share({ title: `${p.name.ar} · ${q(pick(p.name))}`, url })
+      if (navigator.share) await navigator.share({ title: `${p.name.ar} · ${pick(p.name)}`, url })
       else {
         await navigator.clipboard.writeText(url)
         setCopied(true)
@@ -233,9 +233,13 @@ export function Person({ id }: { id: string }) {
                     >
                       <BookOpen className="size-3.5 text-gold" />
                       <span>
-                        {lang === 'ar'
-                          ? `استكشف تاريخ المخطوطات والروايات (${scriptureBook.id === 'quran' ? 'نص موحد' : `${scriptureBook.versionsCount} روايات`})`
-                          : `Explore Textual History & Manuscripts (${scriptureBook.id === 'quran' ? '1 Preserved Text' : `${scriptureBook.versionsCount} Traditions`})`}
+                        {tx(
+                          lang,
+                          `Explore Textual History & Manuscripts (${scriptureBook.id === 'quran' ? '1 Preserved Text' : `${scriptureBook.versionsCount} Traditions`})`,
+                          `Explorer l’histoire du texte et ses manuscrits (${scriptureBook.id === 'quran' ? '1 texte préservé' : `${scriptureBook.versionsCount} traditions`})`,
+                          `استكشف تاريخ المخطوطات والروايات (${scriptureBook.id === 'quran' ? 'نص موحد' : `${scriptureBook.versionsCount} روايات`})`,
+                          `Explorar la historia del texto y sus manuscritos (${scriptureBook.id === 'quran' ? '1 texto preservado' : `${scriptureBook.versionsCount} tradiciones`})`,
+                        )}
                       </span>
                     </button>
                   </div>
