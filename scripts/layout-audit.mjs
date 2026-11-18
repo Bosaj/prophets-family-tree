@@ -12,9 +12,11 @@ import { spawn } from 'node:child_process'
 import { chromium } from 'playwright'
 
 const PORT = 4179
-const BASE = `http://127.0.0.1:${PORT}`
-const ROUTES = ['/', '/tree', '/tree?focus=ibrahim', '/map', '/map?focus=ibrahim', '/timeline', '/stature', '/stories', '/nature', '/duas', '/times', '/islam', '/hour', '/hijri', '/salat', '/sahaba', '/science', '/scriptures', '/sources', '/hadith', '/p/ibrahim', '/p/muhammad']
-const LANGS = ['en', 'fr', 'es', 'ar']
+/** AUDIT_URL checks a deployed site instead of the local build; AUDIT_LANGS and AUDIT_ROUTES narrow the run. */
+const REMOTE = process.env.AUDIT_URL
+const BASE = REMOTE ?? `http://127.0.0.1:${PORT}`
+const ALL_ROUTES = ['/', '/tree', '/tree?focus=ibrahim', '/map', '/map?focus=ibrahim', '/timeline', '/stature', '/stories', '/nature', '/duas', '/times', '/islam', '/hour', '/hijri', '/salat', '/sahaba', '/science', '/scriptures', '/sources', '/hadith', '/p/ibrahim', '/p/muhammad']
+const LANGS = process.env.AUDIT_LANGS?.split(',') ?? ['en', 'fr', 'es', 'ar']
 /** Pages whose Latin text is bibliography, credits or scientific names, kept in their original language. */
 const CITATION_PAGES = new Set(['/science', '/sources', '/nature'])
 /** Texts that are the same in every language: names, book titles, units, scientific names. */
@@ -139,10 +141,11 @@ async function popups(page) {
   return found
 }
 
-const server = startServer()
+const ROUTES = process.env.AUDIT_ROUTES?.split(',') ?? ALL_ROUTES
+const server = REMOTE ? null : startServer()
 const problems = []
 try {
-  await waitForServer()
+  if (!REMOTE) await waitForServer()
   const browser = await chromium.launch()
   const english = {}
   for (const lang of LANGS) {
@@ -171,7 +174,7 @@ try {
   }
   await browser.close()
 } finally {
-  server.kill()
+  server?.kill()
 }
 
 const unique = [...new Set(problems)]
