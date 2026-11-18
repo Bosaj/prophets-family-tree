@@ -119,10 +119,12 @@ async function inspect(scroll) {
   }
 
   const screen = (tag) => {
+    const modal = document.querySelector('dialog[open], [aria-modal=true]')
+    const inScope = (el) => !modal || modal.contains(el)
     // text: off screen, cut by its box
     const texts = []
     for (const el of document.querySelectorAll('body *')) {
-      if (!ownText(el) || skip(el)) continue
+      if (!ownText(el) || skip(el) || !inScope(el)) continue
       const r = el.getBoundingClientRect()
       if (r.width < 2 || r.height < 2 || r.bottom <= 0 || r.top >= vh) continue
       if (!visible(el)) continue
@@ -162,7 +164,7 @@ async function inspect(scroll) {
     // floating surfaces on top of each other
     const surfaces = []
     for (const el of document.querySelectorAll('body *')) {
-      if (el.closest('header, .leaflet-pane, svg, [aria-hidden=true]')) continue
+      if (el.closest('header, .leaflet-pane, svg, [aria-hidden=true]') || !inScope(el)) continue
       const cs = getComputedStyle(el)
       if (cs.visibility === 'hidden' || cs.display === 'none' || +cs.opacity < 0.1) continue
       if (!(alpha(cs.backgroundColor) > 0.25 || (cs.backdropFilter && cs.backdropFilter !== 'none'))) continue

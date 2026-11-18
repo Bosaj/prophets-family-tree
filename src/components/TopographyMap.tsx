@@ -2153,6 +2153,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             <button
               type="button"
               onClick={() => setShowRouteList(false)}
+              aria-label={tx(lang, 'Close', 'Fermer', 'إغلاق', 'Cerrar')}
               className="rounded-full p-1 text-ink-3 hover:text-ink"
             >
               <X className="size-4" />
@@ -2425,6 +2426,7 @@ export function TopographyMap({ focus }: { focus?: string }) {
             <button
               type="button"
               onClick={() => setSelectedId(null)}
+              aria-label={tx(lang, 'Close', 'Fermer', 'إغلاق', 'Cerrar')}
               className="absolute end-3 top-3 flex size-8 items-center justify-center rounded-full bg-black/60 text-ink-2 backdrop-blur hover:text-ink"
             >
               <X className="size-4" />
