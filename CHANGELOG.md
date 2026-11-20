@@ -4,6 +4,18 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.13.2] — 2026-11-20
+### Fixed
+- **Every page checked on a phone.** The phone check now covers all 87 pages in each language: the main pages, all 59 person pages and the 7 Holy Books. On the main pages it also opens what a reader can open (tabs, cards, panels, dialogs) and checks each state. What it found is fixed:
+  - **Home:** the seven heavens circle had boxes overlapping on a phone; phones now get a grid of seven cards.
+  - **Qur’an verse window:** on a phone its text could run under the footer; the text area now ends where the footer begins.
+  - **Arabic person pages** showed an English name or title under the Arabic name (“Joseph”, “Mother of the Believers…”); they now show only Arabic.
+  - **Spanish:** dates (AH, CE, BH, c.) were written the English way; “Not stated in the sources.” was in English.
+  - **Map:** two close buttons had no name for screen readers; they now have one in four languages.
+
+### Changed
+- **Phone check** (`npm run audit:layout`): also fails on text cut by its box, text drawn on top of other text (line by line, ignoring text hidden under a dialog or scrolled out of view), and buttons with no name.
+
 ## [2.13.1] — 2026-11-18
 ### Fixed
 - **Map on phones.** The bars at the top of the map were placed at fixed heights and covered each other as soon as they wrapped onto two lines (the owner’s screenshot of `/map` in Arabic). They now stack in one column; the era and site filters fold behind a **Filters** button on phones and scroll sideways instead of wrapping; the bars and the zoom buttons step aside while a detail panel is open. Prophet labels no longer pile on top of each other: where pins are close, the most important label stays and the others hide until you zoom in.

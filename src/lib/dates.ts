@@ -32,6 +32,16 @@ export function formatDate(raw: string | undefined | null, lang: Lang): string {
       .replace(/\bCE\b/gi, 'ap. J.-C.')
       .replace(/\bBC\b/gi, 'av. J.-C.')
       .replace(/\bAD\b/gi, 'ap. J.-C.')
+  } else if (lang === 'es') {
+    res = res
+      .replace(/\bc\.\s*/gi, 'h. ')
+      .replace(/\bcirca\s*/gi, 'h. ')
+      .replace(/\bBH\b/gi, 'a. H.')
+      .replace(/\bAH\b/gi, 'H')
+      .replace(/\bBCE\b/gi, 'a. C.')
+      .replace(/\bCE\b/gi, 'd. C.')
+      .replace(/\bBC\b/gi, 'a. C.')
+      .replace(/\bAD\b/gi, 'd. C.')
   } else {
     // English defaults
     res = res

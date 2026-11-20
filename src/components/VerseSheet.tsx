@@ -85,7 +85,7 @@ export function VerseSheet({ refId, onClose }: { refId: string | null; onClose: 
           </button>
         </header>
 
-        <div className="overflow-y-auto px-5 py-5">
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
           {!state?.data && !state?.error && <p className="py-10 text-center text-ink-3">{t('loading')}</p>}
           {state?.error && <p className="py-10 text-center text-lvl-disputed">{t('verseError')}</p>}
           {state?.data && (
@@ -117,7 +117,7 @@ export function VerseSheet({ refId, onClose }: { refId: string | null; onClose: 
           )}
         </div>
 
-        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 px-5 py-3 text-xs text-ink-3">
+        <footer className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-white/10 px-5 py-3 text-xs text-ink-3">
           <span>
             {t('translation')} · {t('recitation')}
           </span>
