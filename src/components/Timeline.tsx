@@ -462,9 +462,9 @@ function Card({ p, estimates, mode }: { p: PersonSummary; estimates: boolean; mo
               {p.events.map((ev) => (
                 <li key={ev.id} className="relative">
                   <span className="absolute -start-[17px] top-1 size-2 rounded-full bg-gold" />
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="font-semibold text-ink text-xs">{q(pick(ev.title))}</p>
-                    <div className="flex items-center gap-1.5 shrink-0 font-mono text-[0.68rem]">
+                  <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1">
+                    <p className="min-w-0 font-semibold text-ink text-xs">{q(pick(ev.title))}</p>
+                    <div className="flex flex-wrap items-center gap-1.5 font-mono text-[0.68rem] [&>span]:whitespace-nowrap">
                       {ev.yearHijri && (
                         <span className="rounded bg-gold/10 px-1.5 py-0.5 text-gold-2">
                           {formatDate(ev.yearHijri, lang)}

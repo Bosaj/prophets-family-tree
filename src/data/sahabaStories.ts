@@ -525,6 +525,74 @@ export const SAHABA_STORIES: Record<string, SahabiStory> = {
       },
     ],
   },
+  kab_ibn_malik: {
+    story: t("When the army left for Tabuk in the summer heat, Ka‘b kept putting off his preparations until it had gone. When the Prophet ﷺ returned, he told the truth instead of making an excuse. For fifty nights no one spoke to him, until the verse of his forgiveness came down.", "Quand l’armée partit pour Tabuk dans la chaleur de l’été, Ka‘b remit ses préparatifs jusqu’à ce qu’elle soit partie. Au retour du Prophète ﷺ, il dit la vérité au lieu de s’excuser. Cinquante nuits durant, personne ne lui parla, jusqu’à ce que descende le verset de son pardon.", "لما خرج الجيش إلى تبوك في شدة الحر ظل كعب يؤخر جهازه حتى فاته، فلما رجع النبي ﷺ صدقه ولم يعتذر بباطل، فهُجر خمسين ليلة حتى نزلت توبته.", "Cuando el ejército partió hacia Tabuk con el calor del verano, Ka‘b fue aplazando sus preparativos hasta que se fue. Al volver el Profeta ﷺ, dijo la verdad en lugar de excusarse. Durante cincuenta noches nadie le habló, hasta que descendió el versículo de su perdón."),
+    challenges: [
+      {
+        text: t("For fifty nights the Muslims did not speak to him. A king of Ghassan wrote inviting him to come over; he put the letter in the oven.", "Cinquante nuits durant, les musulmans ne lui parlèrent pas. Un roi de Ghassan lui écrivit pour l’inviter ; il jeta la lettre au four.", "هجره المسلمون خمسين ليلة، وكتب إليه ملك غسان يدعوه إليه فأحرق الكتاب في التنور.", "Durante cincuenta noches los musulmanes no le hablaron. Un rey de Gasán le escribió invitándolo; él echó la carta al horno."),
+        l: "hadith",
+        r: ["bukhari:4418"],
+      },
+    ],
+    sacrifices: [
+      {
+        text: t("He chose the truth over an easy excuse, and said that after Islam Allah never blessed him with anything greater than his truthfulness to the Prophet ﷺ.", "Il choisit la vérité plutôt qu’une excuse facile, et dit qu’après l’islam Allah ne l’avait comblé de rien de plus grand que sa sincérité envers le Prophète ﷺ.", "آثر الصدق على العذر، وقال: ما أنعم الله عليّ من نعمة قط بعد أن هداني للإسلام أعظم في نفسي من صدقي رسول الله ﷺ.", "Eligió la verdad antes que una excusa fácil, y dijo que tras el islam Allah nunca lo bendijo con nada mayor que su sinceridad con el Profeta ﷺ."),
+        l: "hadith",
+        r: ["bukhari:4418", "9:118"],
+      },
+    ],
+  },
+  abdullah_ibn_rawaha: {
+    story: t("The Prophet ﷺ sent an army north to Mu’tah under Zayd ibn Harithah, saying that if Zayd fell, Ja‘far would lead, and if Ja‘far fell, ‘Abdullah ibn Rawaha. All three fell, one after the other.", "Le Prophète ﷺ envoya une armée au nord, vers Mu’ta, sous le commandement de Zayd ibn Haritha, en disant que si Zayd tombait, Ja‘far commanderait, et si Ja‘far tombait, ‘Abdullah ibn Rawaha. Tous trois tombèrent, l’un après l’autre.", "بعث النبي ﷺ جيشًا إلى مؤتة وأمّر زيد بن حارثة وقال: إن قُتل زيد فجعفر، وإن قُتل جعفر فعبد الله بن رواحة، فاستُشهدوا واحدًا بعد واحد.", "El Profeta ﷺ envió un ejército al norte, a Mu’ta, al mando de Zayd ibn Hariza, diciendo que si caía Zayd mandaría Ya‘far, y si caía Ya‘far, ‘Abdullah ibn Rawaha. Los tres cayeron, uno tras otro."),
+    challenges: [
+      {
+        text: t("At Mu’tah the Muslims met a far larger army. In Madinah, before any news arrived, the Prophet ﷺ announced the deaths of the three commanders with tears in his eyes.", "À Mu’ta, les musulmans affrontèrent une armée bien plus nombreuse. À Médine, avant toute nouvelle, le Prophète ﷺ annonça la mort des trois commandants, les yeux en larmes.", "لقي المسلمون في مؤتة جيشًا أكبر منهم بكثير، ونعى النبي ﷺ الأمراء الثلاثة بالمدينة قبل أن يأتي خبرهم وعيناه تذرفان.", "En Mu’ta los musulmanes se enfrentaron a un ejército mucho mayor. En Medina, antes de que llegara noticia alguna, el Profeta ﷺ anunció la muerte de los tres comandantes con lágrimas en los ojos."),
+        l: "hadith",
+        r: ["bukhari:4262"],
+      },
+    ],
+    sacrifices: [
+      {
+        text: t("He gave his life at Mu’tah as the third commander named by the Prophet ﷺ.", "Il donna sa vie à Mu’ta comme troisième commandant nommé par le Prophète ﷺ.", "استُشهد يوم مؤتة ثالثَ الأمراء الذين سمّاهم النبي ﷺ.", "Dio su vida en Mu’ta como tercer comandante nombrado por el Profeta ﷺ."),
+        l: "hadith",
+        r: ["bukhari:4261"],
+      },
+    ],
+  },
+  anas_ibn_nadr: {
+    story: t("He had missed Badr and promised that Allah would see what he did in the next battle. At Uhud he kept that promise with his life.", "Il avait manqué Badr et promis qu’Allah verrait ce qu’il ferait à la bataille suivante. À Uhud, il tint parole au prix de sa vie.", "فاتته بدر فعاهد الله أن يريه ما يصنع، فوفّى بعهده يوم أحد بنفسه.", "Había faltado a Badr y prometió que Allah vería lo que haría en la siguiente batalla. En Uhud cumplió su palabra con su vida."),
+    challenges: [
+      {
+        text: t("He was absent from Badr and said: if Allah lets me witness a battle against the idolaters, Allah will see what I do.", "Absent à Badr, il dit : si Allah me fait voir une bataille contre les idolâtres, Allah verra ce que je ferai.", "غاب عن بدر فقال: لئن الله أشهدني قتال المشركين ليرينّ الله ما أصنع.", "Faltó a Badr y dijo: si Allah me deja ver una batalla contra los idólatras, Allah verá lo que hago."),
+        l: "hadith",
+        r: ["bukhari:2805"],
+      },
+    ],
+    sacrifices: [
+      {
+        text: t("At Uhud he was struck more than eighty times by sword, spear and arrow, and his sister knew him only by his fingertips. The companions held that verse 33:23 came down about him and men like him.", "À Uhud il reçut plus de quatre-vingts coups d’épée, de lance et de flèche, et sa sœur ne le reconnut qu’à ses doigts. Les compagnons pensaient que le verset 33:23 était descendu à son sujet et au sujet de ses semblables.", "وُجد به يوم أحد بضع وثمانون ضربة بالسيف أو طعنة برمح أو رمية بسهم، فما عرفته إلا أخته ببنانه، وكانوا يرون أن الآية نزلت فيه وفي أشباهه.", "En Uhud recibió más de ochenta golpes de espada, lanza y flecha, y su hermana solo lo reconoció por los dedos. Los compañeros sostenían que el versículo 33:23 descendió sobre él y sus semejantes."),
+        l: "hadith",
+        r: ["bukhari:2805", "33:23"],
+      },
+    ],
+  },
+  haram_ibn_milhan: {
+    story: t("Sent to teach the Qur’an, he went ahead alone to deliver the Prophet’s ﷺ message and was struck from behind. His last words turned death into victory.", "Envoyé enseigner le Coran, il partit seul porter le message du Prophète ﷺ et fut frappé dans le dos. Ses derniers mots firent de la mort une victoire.", "بُعث يعلّم القرآن، فتقدّم وحده يبلّغ رسالة النبي ﷺ فطُعن من خلفه، فجعل آخر كلماته الموت فوزًا.", "Enviado a enseñar el Corán, se adelantó solo a llevar el mensaje del Profeta ﷺ y fue herido por la espalda. Sus últimas palabras convirtieron la muerte en victoria."),
+    challenges: [
+      {
+        text: t("While he was delivering the message, a man stabbed him from behind.", "Pendant qu’il transmettait le message, un homme le frappa dans le dos.", "طُعن من خلفه وهو يبلّغ الرسالة.", "Mientras transmitía el mensaje, un hombre lo apuñaló por la espalda."),
+        l: "hadith",
+        r: ["bukhari:4092"],
+      },
+    ],
+    sacrifices: [
+      {
+        text: t("Seeing his blood, he sprinkled it on his face and head and said: I have won, by the Lord of the Ka‘bah.", "Voyant son sang, il en aspergea son visage et sa tête et dit : j’ai triomphé, par le Seigneur de la Ka‘ba.", "نضح الدم على وجهه ورأسه وقال: فزت ورب الكعبة.", "Al ver su sangre, se la echó en la cara y la cabeza y dijo: he triunfado, por el Señor de la Kaaba."),
+        l: "hadith",
+        r: ["bukhari:4092"],
+      },
+    ],
+  },
   khalid_ibn_walid: {
     story: t(
       'A great commander of Quraysh who fought the Muslims before becoming Muslim himself. At Mu’tah, after three commanders fell, he took the banner and the Prophet ﷺ called him “a sword of the swords of Allah”.',

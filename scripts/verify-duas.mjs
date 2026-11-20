@@ -13,7 +13,8 @@ import { HIJRI_QUOTES, HIJRI_REFS } from '../src/data/hijri.ts'
 import { SALAT_QUOTES, SALAT_REFS } from '../src/data/salat.ts'
 import { FAST_QUOTES, FAST_REFS } from '../src/data/fasting.ts'
 import { SALAT_MORE_QUOTES, SALAT_MORE_REFS } from '../src/data/salatMore.ts'
-import { HISN_QUOTES } from '../src/data/hisn.ts'
+import { HISN_QUOTES, HISN_QURAN_REFS } from '../src/data/hisn.ts'
+import { DUA_ADAB_QUOTES } from '../src/data/duaAdab.ts'
 import { HADITH_SCIENCE_QUOTES, HADITH_SCIENCE_REFS } from '../src/data/hadithScience.ts'
 
 const BASES = ['https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1', 'https://raw.githubusercontent.com/fawazahmed0/hadith-api/1']
@@ -97,6 +98,8 @@ const items = [
   ...SALAT_MORE_QUOTES,
   // 2.11.0: supplications for every day, by occasion
   ...HISN_QUOTES,
+  // 2.14.0: how to make du‘a and when it is answered
+  ...DUA_ADAB_QUOTES,
   // 2.13.0: how the hadith were preserved
   ...HADITH_SCIENCE_QUOTES,
 ]
@@ -123,6 +126,7 @@ refsOnly.push(
   ...FAST_REFS,
   ...SALAT_MORE_REFS,
   ...HADITH_SCIENCE_REFS,
+  ...HISN_QURAN_REFS,
 )
 
 // Ayah counts per surah, to check that every Qur'an reference points at verses that exist.

@@ -78,6 +78,10 @@ const SAHABA_NODE_COORDS: Record<string, { x: number; y: number }> = {
   fatimah_az_zahra: { x: 920, y: 280 },
   abu_bakr: { x: 1280, y: 280 },
   abu_hurairah: { x: 2150, y: 280 },
+  kab_ibn_malik: { x: 1520, y: 280 },
+  abdullah_ibn_rawaha: { x: 1750, y: 280 },
+  anas_ibn_nadr: { x: 1520, y: 460 },
+  haram_ibn_milhan: { x: 1750, y: 460 },
 
   // Tier 2: Grandsons, Ali, Umar, Mubasharun, Imam al-Bukhari (Y: 460-500)
   salman_al_farsi: { x: 150, y: 460 },
@@ -318,6 +322,10 @@ const TREE_LINKS: TreeLink[] = [
     from: 'prophet_muhammad', to: 'khalid_ibn_walid', type: 'mentorship', label: r('Sword of Allah', 'Épée d’Allah', 'سيف الله', 'Espada de Allah'),
     note: r('Companion · “a sword of Allah”', 'Compagnon · « une épée d’Allah »', 'صحابي · سيف من سيوف الله', 'Compañero · «una espada de Allah»'),
   },
+  { from: 'prophet_muhammad', to: "kab_ibn_malik", type: 'mentorship', label: r("Companion", "Compagnon", "صحابيه", "Compañero"), note: r('Companion', 'Compagnon', 'صحابي', 'Compañero') },
+  { from: 'prophet_muhammad', to: "abdullah_ibn_rawaha", type: 'mentorship', label: r("Companion", "Compagnon", "صحابيه", "Compañero"), note: r('Companion', 'Compagnon', 'صحابي', 'Compañero') },
+  { from: 'prophet_muhammad', to: "anas_ibn_nadr", type: 'mentorship', label: r("Companion", "Compagnon", "صحابيه", "Compañero"), note: r('Companion', 'Compagnon', 'صحابي', 'Compañero') },
+  { from: 'prophet_muhammad', to: "haram_ibn_milhan", type: 'mentorship', label: r("Companion", "Compagnon", "صحابيه", "Compañero"), note: r('Companion', 'Compagnon', 'صحابي', 'Compañero') },
   {
     from: 'prophet_muhammad', to: 'bilal_ibn_rabah', type: 'mentorship', label: r('His muezzin', 'Son muezzin', 'مؤذنه', 'Su almuédano'),
     note: r('Companion · his muezzin', 'Compagnon · son muezzin', 'صحابي · مؤذنه', 'Compañero · su almuédano'),
