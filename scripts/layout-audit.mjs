@@ -119,7 +119,8 @@ async function inspect(scroll) {
   }
 
   const screen = (tag) => {
-    const modal = document.querySelector('dialog[open], [aria-modal=true]')
+    // the open modal on top: the last visible one in the document
+    const modal = [...document.querySelectorAll('dialog[open], [aria-modal=true]')].filter((m) => m.getBoundingClientRect().width > 0 && visible(m)).pop()
     const inScope = (el) => !modal || modal.contains(el)
     // text: off screen, cut by its box
     const texts = []
@@ -128,7 +129,18 @@ async function inspect(scroll) {
       const r = el.getBoundingClientRect()
       if (r.width < 2 || r.height < 2 || r.bottom <= 0 || r.top >= vh) continue
       if (!visible(el)) continue
-      texts.push([el, r])
+      // text scrolled out of view inside a scroll box (or clipped by any box) is not on screen
+      let vis = { left: r.left, right: r.right, top: r.top, bottom: r.bottom }
+      for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+        const acs = getComputedStyle(a)
+        if (acs.overflowX === 'visible' && acs.overflowY === 'visible') continue
+        const ar = a.getBoundingClientRect()
+        vis = { left: Math.max(vis.left, ar.left), right: Math.min(vis.right, ar.right), top: Math.max(vis.top, ar.top), bottom: Math.min(vis.bottom, ar.bottom) }
+      }
+      if (vis.right - vis.left < 2 || vis.bottom - vis.top < 0.5 * r.height) continue
+      const clip = (b) => ({ left: Math.max(b.left, vis.left), right: Math.min(b.right, vis.right), top: Math.max(b.top, vis.top), bottom: Math.min(b.bottom, vis.bottom), get width() { return this.right - this.left }, get height() { return this.bottom - this.top } })
+      const boxes = (getComputedStyle(el).display === 'inline' ? [...el.getClientRects()] : [r]).map(clip).filter((b) => b.width > 1 && b.height > 1)
+      texts.push([el, boxes])
       if ((r.right > vw + 2 || r.left < -2) && !scroller(el)) add(`text off screen ${tag}: "${short(el)}" spans ${Math.round(r.left)}..${Math.round(r.right)}`)
       const cs = getComputedStyle(el)
       if (cs.textOverflow !== 'ellipsis' && !cs.webkitLineClamp?.match(/\d/)) {
@@ -150,15 +162,19 @@ async function inspect(scroll) {
     // text drawn on top of text
     for (let i = 0; i < texts.length; i++)
       for (let j = i + 1; j < texts.length; j++) {
-        const [a, ra] = texts[i]
-        const [b, rb] = texts[j]
+        const [a, boxesA] = texts[i]
+        const [b, boxesB] = texts[j]
         if (a.contains(b) || b.contains(a)) continue
-        const w = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left)
-        const h = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top)
-        if (w < 3 || h < 3 || w * h < 0.3 * Math.min(ra.width * ra.height, rb.width * rb.height)) continue
-        const cx = Math.max(ra.left, rb.left) + w / 2
-        const cy = Math.max(ra.top, rb.top) + h / 2
-        if (hidden(a, b, cx, cy, true)) continue
+        let clash = null
+        for (const ra of boxesA)
+          for (const rb of boxesB) {
+            const w = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left)
+            const h = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top)
+            // a line box overlapping another by most of its height means the glyphs collide
+            if (w < 3 || h < 0.5 * Math.min(ra.height, rb.height) || w * h < 0.3 * Math.min(ra.width * ra.height, rb.width * rb.height)) continue
+            clash = [Math.max(ra.left, rb.left) + w / 2, Math.max(ra.top, rb.top) + h / 2]
+          }
+        if (!clash || hidden(a, b, clash[0], clash[1], true)) continue
         add(`text on text ${tag}: "${short(a)}" and "${short(b)}"`)
       }
     // floating surfaces on top of each other

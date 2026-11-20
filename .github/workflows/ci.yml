@@ -44,7 +44,7 @@ jobs:
     # Every page on a 375 px phone in English, French, Spanish and Arabic: no overlap, no text off screen,
     # nothing left untranslated (scripts/layout-audit.mjs).
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

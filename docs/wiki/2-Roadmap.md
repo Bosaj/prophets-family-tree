@@ -26,6 +26,7 @@ Shajara follows [Semantic Versioning](https://semver.org/): content corrections 
 | [v2.12.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.12.0) | 2026-11-17 | Phone layout fixed and checked in four languages; Qur’an and hadith quotes in their own font; 19 more miracles; 7 more Qur’an stories |
 | [v2.13.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.13.0) | 2026-11-18 | How the hadith were preserved (`/hadith`) |
 | [v2.13.1](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.13.1) | 2026-11-18 | Map and tree overlays fixed on phones; missing translations; phone audit in CI |
+| [v2.13.2](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.13.2) | 2026-11-20 | Every page and opened state checked on a phone in four languages; fixes it found |
 
 There is no v2.1.0: work planned under that number shipped in v2.2.0.
 
