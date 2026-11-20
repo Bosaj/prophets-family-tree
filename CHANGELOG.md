@@ -4,6 +4,19 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.14.0] — 2026-11-20
+### Added
+- **How to make du‘a** (`/duas#adab`): begin with praise and blessings on the Prophet ﷺ (al-Tirmidhi 3477), raise the hands (Abu Dawud 1488), be certain with a present heart (al-Tirmidhi 3479), ask firmly (al-Bukhari 6339), do not give up (al-Bukhari 6340), pray for others in their absence (Abu Dawud 1534).
+- **When du‘a is answered:** the last third of the night (al-Bukhari 1145), between the adhan and the iqamah (Abu Dawud 521), in prostration (Muslim 482), the hour on Friday (al-Bukhari 935, with the scholars’ difference on when it is), and the prayer of a parent, a traveller and the wronged (Abu Dawud 1536).
+- **Du‘as from the Qur’an:** 24 du‘as (“Rabbana…”), loaded from the Mushaf with a translation in the reader’s language, never typed.
+- **Five new themes, 22 du‘as of the Prophet ﷺ:** forgiveness and repentance, comprehensive du‘as (including the du‘a by Allah’s greatest name, Abu Dawud 1493), seeking refuge, steadfastness, well-being and provision. Each is copied from its hadith and checked (233 texts in total); three that some scholars graded weak say so.
+- **The Prophet’s ﷺ life, event by event** (`/p/muhammad`): 23 dated events from his birth to his death (the first revelation, Ta’if, the Hijra, Badr, Uhud, the Trench, al-Hudaybiyah, the conquest of Makkah, Tabuk, the Farewell Pilgrimage…), each with its Qur’an or hadith source.
+- **Four companions** on the Sahaba page: Ka‘b ibn Malik (al-Bukhari 4418), ‘Abdullah ibn Rawaha (al-Bukhari 4261, 4262), Anas ibn al-Nadr (al-Bukhari 2805) and Haram ibn Milhan (al-Bukhari 4092), with their stories.
+- The owner’s three PDFs (a du‘a sheet, a du‘a booklet, a sira book) were used only as checklists: every text comes from the hadith collections and the Qur’an, and the du‘as the booklets composed themselves, the khatm du‘a and one line about fighting the People of the Book were left out.
+
+### Changed
+- On phones the du‘a themes scroll sideways in one row.
+
 ## [2.13.2] — 2026-11-20
 ### Fixed
 - **Every page checked on a phone.** The phone check now covers all 87 pages in each language: the main pages, all 59 person pages and the 7 Holy Books. On the main pages it also opens what a reader can open (tabs, cards, panels, dialogs) and checks each state. What it found is fixed:

@@ -2,12 +2,13 @@
 // Generated from the hadith texts; every Arabic text is copied from the hadith it cites and checked by `npm run verify:duas`.
 // Morning, evening, sleep and prayer remembrances already in awqat.ts and the hardship supplications in duas.ts are listed by id
 // and resolved by the page, so this file has no value imports (the checker imports it directly).
-import type { L4 } from './types'
+import type { L4, Ref } from './types'
 import type { Supplication } from './duas'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
 const SAHIH_ALBANI = t('Sahih (al-Albani)', 'Sahih (al-Albani)', 'صحيح (الألباني)', 'Sahih (al-Albani)')
 const HASAN_ALBANI = t('Hasan (al-Albani)', 'Hasan (al-Albani)', 'حسن (الألباني)', 'Hasan (al-Albani)')
+const HASAN_SPLIT = t('Hasan chain (al-Albani); some graded it weak', 'Chaîne hasan (al-Albani) ; certains l’ont jugée faible', 'حسّن الألباني إسناده، وضعّفه بعضهم', 'Cadena hasan (al-Albani); algunos la juzgaron débil')
 const SAHIH_SPLIT = t(
   'Sahih (al-Albani, Ahmad Shakir); some graded its chain weak',
   'Sahih (al-Albani, Ahmad Shakir) ; certains ont jugé sa chaîne faible',
@@ -16,7 +17,7 @@ const SAHIH_SPLIT = t(
 )
 
 export type HisnDua = Supplication & { when: L4 }
-export type HisnItem = HisnDua | { from: 'adhkar' | 'hardship'; id: string }
+export type HisnItem = HisnDua | { from: 'adhkar' | 'hardship'; id: string } | { from: 'quran'; ref: Ref; when: L4 }
 export interface HisnCategory {
   id: string
   title: L4
@@ -320,6 +321,234 @@ export const HISN: HisnCategory[] = [
       },
     ],
   },
+  {
+    id: 'quran',
+    title: t('Du‘as from the Qur’an', 'Invocations du Coran', 'أدعية من القرآن', 'Súplicas del Corán'),
+    items: [
+      { from: 'quran', ref: "2:201", when: t("For good in this world and the next", "Pour le bien ici-bas et dans l’au-delà", "لخير الدنيا والآخرة", "Por el bien en este mundo y en el otro") },
+      { from: 'quran', ref: "2:250", when: t("For patience and firm feet", "Pour la patience et des pas affermis", "للصبر وتثبيت الأقدام", "Por la paciencia y pasos firmes") },
+      { from: 'quran', ref: "2:286", when: t("Not to be blamed for forgetting", "Ne pas être tenu pour l’oubli", "ألا نؤاخذ بالنسيان والخطأ", "No ser culpados por olvidar") },
+      { from: 'quran', ref: "3:8", when: t("That the heart not swerve", "Que le cœur ne dévie pas", "ألا تزيغ القلوب بعد الهداية", "Que el corazón no se desvíe") },
+      { from: 'quran', ref: "3:53", when: t("To be counted among the witnesses", "Être compté parmi les témoins", "أن نُكتب مع الشاهدين", "Ser contados entre los testigos") },
+      { from: 'quran', ref: "3:147", when: t("For forgiveness of excesses", "Pour le pardon des excès", "لمغفرة الذنوب والإسراف", "Por el perdón de los excesos") },
+      { from: 'quran', ref: "3:38", when: t("For righteous children", "Pour une descendance pieuse", "لذرية طيبة", "Por una descendencia piadosa") },
+      { from: 'quran', ref: "14:40-41", when: t("To keep the prayer, for oneself and one’s parents", "Pour accomplir la prière, pour soi et ses parents", "لإقامة الصلاة وللوالدين", "Para mantener la oración, por uno mismo y los padres") },
+      { from: 'quran', ref: "17:24", when: t("For one’s parents", "Pour ses parents", "للوالدين", "Por los padres") },
+      { from: 'quran', ref: "25:74", when: t("For one’s spouse and children", "Pour son conjoint et ses enfants", "للأزواج والذرية", "Por el cónyuge y los hijos") },
+      { from: 'quran', ref: "10:85-86", when: t("Not to be a trial for the wrongdoers", "Ne pas être une épreuve pour les injustes", "ألا نكون فتنة للظالمين", "No ser una prueba para los injustos") },
+      { from: 'quran', ref: "11:47", when: t("Against asking without knowledge", "Contre une demande sans savoir", "من سؤال ما ليس لنا به علم", "Contra pedir sin conocimiento") },
+      { from: 'quran', ref: "23:97-98", when: t("Against the whispers of the devils", "Contre les incitations des démons", "من همزات الشياطين", "Contra los susurros de los demonios") },
+      { from: 'quran', ref: "17:80", when: t("For a sound entry and exit", "Pour une entrée et une sortie de vérité", "لمدخل صدق ومخرج صدق", "Por una entrada y una salida verdaderas") },
+      { from: 'quran', ref: "20:25-28", when: t("For an open heart and clear speech", "Pour un cœur ouvert et une parole claire", "لشرح الصدر وتيسير الأمر", "Por un pecho abierto y un habla clara") },
+      { from: 'quran', ref: "18:10", when: t("For mercy and right guidance", "Pour la miséricorde et la droiture", "للرحمة والرشد", "Por misericordia y buena guía") },
+      { from: 'quran', ref: "21:87", when: t("In distress (the prayer of Yunus)", "Dans la détresse (l’invocation de Yunus)", "في الكرب (دعوة ذي النون)", "En la angustia (la súplica de Yunus)") },
+      { from: 'quran', ref: "9:129", when: t("Relying on Allah", "S’en remettre à Allah", "للتوكل على الله", "Confiar en Allah") },
+      { from: 'quran', ref: "7:23", when: t("After a wrong (the prayer of Adam and Hawwa)", "Après une faute (l’invocation d’Adam et Hawwa)", "بعد الذنب (دعاء آدم وحواء)", "Tras una falta (la súplica de Adán y Hawwa)") },
+      { from: 'quran', ref: "7:47", when: t("Not to be with the wrongdoers", "Ne pas être avec les injustes", "ألا نكون مع القوم الظالمين", "No estar con los injustos") },
+      { from: 'quran', ref: "21:89", when: t("For a child (the prayer of Zakariya)", "Pour un enfant (l’invocation de Zakariya)", "لطلب الولد (دعاء زكريا)", "Por un hijo (la súplica de Zakariya)") },
+      { from: 'quran', ref: "23:109", when: t("For forgiveness and mercy", "Pour le pardon et la miséricorde", "للمغفرة والرحمة", "Por el perdón y la misericordia") },
+      { from: 'quran', ref: "7:126", when: t("For patience and dying as Muslims", "Pour la patience et mourir musulmans", "للصبر والوفاة على الإسلام", "Por la paciencia y morir musulmanes") },
+      { from: 'quran', ref: "20:114", when: t("For more knowledge", "Pour plus de savoir", "للزيادة في العلم", "Por más conocimiento") },
+    ],
+  },
+  {
+    id: 'forgive',
+    title: t('Forgiveness and repentance', 'Pardon et repentir', 'المغفرة والتوبة', 'Perdón y arrepentimiento'),
+    items: [
+      { from: 'adhkar', id: 'sayyid-istighfar' },
+      {
+        id: "abu-bakr",
+        when: t("Taught to Abu Bakr for his prayer", "Enseignée à Abu Bakr pour sa prière", "علّمه أبا بكر يدعو به في صلاته", "Enseñada a Abu Bakr para su oración"),
+        ar: "اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا ��َلاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ، فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ، وَارْحَمْنِي إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ",
+        meaning: t("O Allah, I have wronged myself greatly, and none forgives sins but You; so forgive me with forgiveness from You and have mercy on me. You are the Forgiving, the Merciful.", "Ô Allah, je me suis fait beaucoup de tort, et nul ne pardonne les péchés sauf Toi ; pardonne-moi par un pardon venant de Toi et fais-moi miséricorde. Tu es le Pardonneur, le Miséricordieux.", "سأله أبو بكر دعاءً يدعو به في صلاته فعلّمه هذا.", "Oh Allah, me he hecho mucho daño a mí mismo, y nadie perdona los pecados sino Tú; perdóname con un perdón Tuyo y ten misericordia de mí. Tú eres el Perdonador, el Misericordioso."),
+        r: ["bukhari:834"],
+        l: 'hadith',
+      },
+      {
+        id: "khatiati",
+        when: t("For every kind of fault", "Pour toute sorte de faute", "لكل أنواع الخطأ", "Por toda clase de falta"),
+        ar: "رَبِّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي وَإِسْرَافِي فِي أَمْرِي كُلِّهِ، وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي، اللَّهُمَّ اغْفِرْ لِي خَطَايَاىَ وَعَمْدِي وَجَهْلِي وَهَزْلِي، وَكُلُّ ذَلِكَ عِنْدِي، اللَّهُمَّ اغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ، أَنْتَ الْمُقَدِّمُ، وَأَنْتَ الْمُؤَخِّرُ، وَأَنْتَ عَلَى كُلِّ شَىْءٍ قَدِيرٌ",
+        meaning: t("My Lord, forgive my faults, my ignorance and my excess in all my affairs, and what You know better than I. O Allah, forgive my mistakes, what I did deliberately, my ignorance and my jest, all of which is in me. O Allah, forgive what I did before and after, in secret and in the open. You are the One who brings forward and holds back, and You have power over all things.", "Mon Seigneur, pardonne mes fautes, mon ignorance et mes excès en toute chose, et ce que Tu connais mieux que moi. Ô Allah, pardonne mes erreurs, ce que j’ai fait exprès, mon ignorance et mes plaisanteries, tout cela est en moi. Ô Allah, pardonne ce que j’ai fait avant et après, en secret et en public. Tu es Celui qui avance et retarde, et Tu es capable de toute chose.", "دعاء جامع لطلب مغفرة الخطأ والعمد والجهل والهزل، ما تقدّم منها وما تأخر.", "Señor mío, perdona mis faltas, mi ignorancia y mis excesos en todos mis asuntos, y lo que Tú conoces mejor que yo. Oh Allah, perdona mis errores, lo que hice a propósito, mi ignorancia y mis bromas, todo lo cual hay en mí. Oh Allah, perdona lo que hice antes y después, en secreto y en público. Tú eres Quien adelanta y retrasa, y tienes poder sobre todas las cosas."),
+        r: ["bukhari:6398"],
+        l: 'hadith',
+      },
+      {
+        id: "dhanbi-kullah",
+        when: t("In prostration", "En prosternation", "في السجود", "En la postración"),
+        ar: "اللَّهُمَّ اغْفِرْ لِي ذَنْبِي كُلَّهُ دِقَّهُ وَجِلَّهُ وَأَوَّلَهُ وَآخِرَهُ وَعَلاَنِيَتَهُ وَسِرَّهُ",
+        meaning: t("O Allah, forgive me all my sins, the small and the great, the first and the last, the open and the secret.", "Ô Allah, pardonne-moi tous mes péchés, les petits et les grands, les premiers et les derniers, les apparents et les cachés.", "كان يقوله في سجوده.", "Oh Allah, perdóname todos mis pecados, pequeños y grandes, los primeros y los últimos, los visibles y los ocultos."),
+        r: ["muslim:483"],
+        l: 'hadith',
+      },
+    ],
+  },
+  {
+    id: 'jawami',
+    title: t('Comprehensive du‘as', 'Invocations qui rassemblent tout', 'جوامع الدعاء', 'Súplicas que lo abarcan todo'),
+    items: [
+      {
+        id: "aslih",
+        when: t("For religion, this world and the next", "Pour la religion, ce monde et l’autre", "لصلاح الدين والدنيا والآخرة", "Por la religión, este mundo y el otro"),
+        ar: "اللَّهُمَّ أَصْلِحْ لِي دِينِيَ الَّذِي هُوَ عِصْمَةُ أَمْرِي وَأَصْلِحْ لِي دُنْيَاىَ الَّتِي فِيهَا مَعَاشِي وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي وَاجْعَلِ الْحَيَاةَ زِيَادَةً لِي فِي كُلِّ خَيْرٍ وَاجْعَلِ الْمَوْتَ رَاحَةً لِي مِنْ كُلِّ شَرٍّ",
+        meaning: t("O Allah, set right my religion, which is the safeguard of my affairs; set right my worldly life, in which is my living; set right my hereafter, to which is my return. Make life an increase for me in every good, and make death a rest for me from every evil.", "Ô Allah, améliore ma religion, qui est la sauvegarde de mes affaires ; améliore ma vie d’ici-bas, où est ma subsistance ; améliore mon au-delà, où est mon retour. Fais de la vie un surcroît de tout bien pour moi, et de la mort un repos de tout mal.", "دعاء يجمع صلاح الدين والدنيا والآخرة.", "Oh Allah, mejora mi religión, que es la salvaguarda de mis asuntos; mejora mi vida en este mundo, donde está mi sustento; mejora mi otra vida, a la que he de volver. Haz de la vida un aumento de todo bien para mí, y de la muerte un descanso de todo mal."),
+        r: ["muslim:2720"],
+        l: 'hadith',
+      },
+      {
+        id: "huda",
+        when: t("Four things in one", "Quatre choses en une", "أربع خصال جامعة", "Cuatro cosas en una"),
+        ar: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+        meaning: t("O Allah, I ask You for guidance, piety, chastity and self-sufficiency.", "Ô Allah, je Te demande la guidée, la piété, la chasteté et la suffisance.", "الهدى والتقى والعفاف والغنى.", "Oh Allah, Te pido guía, piedad, castidad y suficiencia."),
+        r: ["muslim:2721"],
+        l: 'hadith',
+      },
+      {
+        id: "khayr-kullih",
+        when: t("All good, now and later", "Tout le bien, maintenant et plus tard", "الخير كله عاجله وآجله", "Todo el bien, ahora y después"),
+        ar: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ وَأَعُوذُ بِكَ مِنَ الشَّرِّ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ عَبْدُكَ وَنَبِيُّكَ وَأَعُوذُ بِكَ مِنْ شَرِّ مَا عَاذَ بِهِ عَبْدُكَ وَنَبِيُّكَ اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ وَأَعُوذُ بِكَ مِنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ وَأَسْأَلُكَ أَنْ تَجْعَلَ كُلَّ قَضَاءٍ قَضَيْتَهُ لِي خَيْرًا",
+        meaning: t("O Allah, I ask You for all good, sooner and later, what I know of it and what I do not; and I seek refuge in You from all evil, sooner and later, what I know of it and what I do not. He taught it to ‘A’ishah, with the rest of the du‘a.", "Ô Allah, je Te demande tout le bien, proche et lointain, ce que j’en sais et ce que je n’en sais pas ; et je cherche refuge auprès de Toi contre tout le mal, proche et lointain, ce que j’en sais et ce que je n’en sais pas. Il l’enseigna à ‘A’icha, avec la suite de l’invocation.", "علّمه عائشة رضي الله عنها.", "Oh Allah, Te pido todo el bien, cercano y lejano, lo que conozco y lo que no; y me refugio en Ti de todo el mal, cercano y lejano, lo que conozco y lo que no. Se lo enseñó a ‘A’isha, con el resto de la súplica."),
+        r: ["ibnmajah:3846"],
+        l: 'hadith',
+        grade: SAHIH_ALBANI,
+      },
+      {
+        id: "nur",
+        when: t("Light (in the night prayer)", "La lumière (dans la prière de nuit)", "دعاء النور في صلاة الليل", "La luz (en la oración de la noche)"),
+        ar: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا، وَفِي بَصَرِي نُورًا، وَفِي سَمْعِي نُورًا، وَعَنْ يَمِينِي نُورًا، وَعَنْ يَسَارِي نُورًا، وَفَوْقِي نُورًا، وَتَحْتِي نُورًا، وَأَمَامِي نُورًا، وَخَلْفِي نُورًا، وَاجْعَلْ لِي نُورًا",
+        meaning: t("O Allah, place light in my heart, light in my sight, light in my hearing, light on my right and on my left, light above me and below me, in front of me and behind me, and give me light. Ibn ‘Abbas heard him say it in his night prayer.", "Ô Allah, mets de la lumière dans mon cœur, dans ma vue, dans mon ouïe, à ma droite et à ma gauche, au-dessus et au-dessous de moi, devant et derrière moi, et donne-moi de la lumière. Ibn ‘Abbas l’entendit le dire dans sa prière de nuit.", "سمعه ابن عباس يقوله في صلاة الليل.", "Oh Allah, pon luz en mi corazón, en mi vista, en mi oído, a mi derecha y a mi izquierda, encima y debajo de mí, delante y detrás de mí, y dame luz. Ibn ‘Abbas se lo oyó decir en su oración de la noche."),
+        r: ["bukhari:6316"],
+        l: 'hadith',
+      },
+      {
+        id: "ism-azam",
+        when: t("By Allah’s greatest name", "Par le plus grand nom d’Allah", "بالاسم الأعظم", "Por el nombre más grande de Allah"),
+        ar: "اللَّهُمَّ إِنِّي أَسْأَلُكَ أَنِّي أَشْهَدُ أَنَّكَ أَنْتَ اللَّهُ لاَ إِلَهَ إِلاَّ أَنْتَ الأَحَدُ الصَّمَدُ الَّذِي لَمْ يَلِدْ وَلَمْ يُولَدْ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ",
+        meaning: t("O Allah, I ask You, bearing witness that You are Allah, there is no god but You, the One, the Self-Sufficient, who did not beget and was not begotten, and to whom no one is equal. He said that whoever asks by it is given, and whoever calls by it is answered.", "Ô Allah, je Te demande, en attestant que Tu es Allah, nul dieu sauf Toi, l’Unique, le Seul à être imploré, qui n’a pas engendré et n’a pas été engendré, et nul ne Lui est égal. Il dit que celui qui demande par lui reçoit, et que celui qui invoque par lui est exaucé.", "قال: لقد سأل الله باسمه الأعظم الذي إذا سئل به أعطى وإذا دعي به أجاب.", "Oh Allah, Te pido, atestiguando que Tú eres Allah, no hay dios sino Tú, el Único, el Eterno, que no engendró ni fue engendrado, y nadie es igual a Él. Dijo que quien pide por él recibe, y quien suplica por él es respondido."),
+        r: ["abudawud:1493"],
+        l: 'hadith',
+        grade: SAHIH_ALBANI,
+      },
+    ],
+  },
+  {
+    id: 'refuge',
+    title: t('Seeking refuge', 'Demander refuge', 'الاستعاذة', 'Buscar refugio'),
+    items: [
+      {
+        id: "zawal",
+        when: t("From losing a blessing", "Contre la perte d’un bienfait", "من زوال النعمة", "De perder una bendición"),
+        ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ وَتَحَوُّلِ عَافِيَتِكَ وَفُجَاءَةِ نِقْمَتِكَ وَجَمِيعِ سَخَطِكَ",
+        meaning: t("O Allah, I seek refuge in You from the passing of Your blessing, the change of the well-being You gave, the suddenness of Your punishment and all that displeases You.", "Ô Allah, je cherche refuge auprès de Toi contre la disparition de Ton bienfait, le changement de la santé que Tu as donnée, la soudaineté de Ton châtiment et tout ce qui Te courrouce.", "استعاذة من زوال النعمة وتحول العافية.", "Oh Allah, me refugio en Ti de que desaparezca Tu bendición, cambie el bienestar que diste, llegue de pronto Tu castigo y de todo lo que Te disgusta."),
+        r: ["muslim:2739"],
+        l: 'hadith',
+      },
+      {
+        id: "jahd",
+        when: t("Four things he sought refuge from", "Quatre choses dont il cherchait refuge", "أربع كان يتعوذ منها", "Cuatro cosas de las que se refugiaba"),
+        ar: "جَهْدِ الْبَلاَءِ، وَدَرَكِ الشَّقَاءِ، وَسُوءِ الْقَضَاءِ، وَشَمَاتَةِ الأَعْدَاءِ",
+        meaning: t("He sought refuge from the hardship of trial, being overtaken by misery, an evil decree and the gloating of enemies. The narrator Sufyan said the hadith had three of these and he added one, not knowing which.", "Il cherchait refuge contre la dureté de l’épreuve, le malheur qui rattrape, le mauvais décret et la joie maligne des ennemis. Le transmetteur Sufyan dit que le hadith en comptait trois et qu’il en ajouta une, sans savoir laquelle.", "كان يتعوذ منها، وقال سفيان: الحديث ثلاث زدتُ أنا واحدة لا أدري أيتهن هي.", "Se refugiaba de la dureza de la prueba, de ser alcanzado por la desdicha, del mal decreto y de la alegría de los enemigos. El transmisor Sufyan dijo que el hadiz tenía tres y que él añadió una, sin saber cuál."),
+        r: ["bukhari:6347"],
+        l: 'hadith',
+      },
+      {
+        id: "ilm",
+        when: t("From useless knowledge", "Contre le savoir inutile", "من علم لا ينفع", "Del conocimiento inútil"),
+        ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ وَالْجُبْنِ وَالْبُخْلِ وَالْهَرَمِ وَعَذَابِ الْقَبْرِ اللَّهُمَّ آتِ نَفْسِي تَقْوَاهَا وَزَكِّهَا أَنْتَ خَيْرُ مَنْ زَكَّاهَا أَنْتَ وَلِيُّهَا وَمَوْلاَهَا اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لاَ يَنْفَعُ وَمِنْ قَلْبٍ لاَ يَخْشَعُ وَمِنْ نَفْسٍ لاَ تَشْبَعُ وَمِنْ دَعْوَةٍ لاَ يُسْتَجَابُ لَهَا",
+        meaning: t("O Allah, I seek refuge in You from weakness and laziness, cowardice, miserliness, old age and the punishment of the grave. O Allah, give my soul its piety and purify it; You are the best to purify it, its Guardian and Master. O Allah, I seek refuge in You from knowledge that does not benefit, a heart that is not humble, a soul that is never satisfied, and a prayer that is not answered.", "Ô Allah, je cherche refuge auprès de Toi contre l’incapacité et la paresse, la lâcheté, l’avarice, la décrépitude et le châtiment de la tombe. Ô Allah, donne à mon âme sa piété et purifie-la ; Tu es le meilleur à la purifier, son Protecteur et son Maître. Ô Allah, je cherche refuge auprès de Toi contre un savoir qui ne profite pas, un cœur qui ne s’humilie pas, une âme jamais rassasiée et une invocation non exaucée.", "استعاذة جامعة، فيها: من علم لا ينفع ومن قلب لا يخشع.", "Oh Allah, me refugio en Ti de la incapacidad y la pereza, la cobardía, la avaricia, la vejez y el castigo de la tumba. Oh Allah, da a mi alma su piedad y purifícala; Tú eres el mejor en purificarla, su Protector y Señor. Oh Allah, me refugio en Ti del conocimiento que no beneficia, del corazón que no se humilla, del alma nunca saciada y de la súplica no respondida."),
+        r: ["muslim:2722"],
+        l: 'hadith',
+      },
+      {
+        id: "sharr-ma-amilt",
+        when: t("From the harm of one’s deeds", "Contre le mal de ses actes", "من شر ما عمل", "Del mal de los propios actos"),
+        ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ",
+        meaning: t("O Allah, I seek refuge in You from the evil of what I have done and the evil of what I have not done.", "Ô Allah, je cherche refuge auprès de Toi contre le mal de ce que j’ai fait et le mal de ce que je n’ai pas fait.", "استعاذة من شر ما عمل ومن شر ما لم يعمل.", "Oh Allah, me refugio en Ti del mal de lo que he hecho y del mal de lo que no he hecho."),
+        r: ["muslim:2716"],
+        l: 'hadith',
+      },
+      {
+        id: "rida",
+        when: t("In prostration at night", "En prosternation la nuit", "في سجوده بالليل", "En la postración de noche"),
+        ar: "اللَّهُمَّ أَعُوذُ بِرِضَاكَ مِنْ سَخَطِكَ وَبِمُعَافَاتِكَ مِنْ عُقُوبَتِكَ وَأَعُوذُ بِكَ مِنْكَ لاَ أُحْصِي ثَنَاءً عَلَيْكَ أَنْتَ كَمَا أَثْنَيْتَ عَلَى نَفْسِكَ",
+        meaning: t("O Allah, I seek refuge in Your pleasure from Your anger, in Your pardon from Your punishment, and in You from You. I cannot count Your praise; You are as You have praised Yourself. ‘A’ishah found him saying it in prostration at night.", "Ô Allah, je cherche refuge en Ton agrément contre Ta colère, en Ton pardon contre Ton châtiment, et en Toi contre Toi. Je ne peux dénombrer Tes louanges ; Tu es tel que Tu T’es loué Toi-même. ‘A’icha le trouva le disant en prosternation la nuit.", "وجدته عائشة يقوله وهو ساجد في الليل.", "Oh Allah, me refugio en Tu complacencia de Tu ira, en Tu perdón de Tu castigo, y en Ti de Ti. No puedo contar Tus alabanzas; Tú eres como Te has alabado a Ti mismo. ‘A’isha lo encontró diciéndolo en postración de noche."),
+        r: ["muslim:486"],
+        l: 'hadith',
+      },
+      {
+        id: "aslamt",
+        when: t("By the might of the Ever-Living", "Par la puissance du Vivant", "بعزة الحي الذي لا يموت", "Por el poder del Viviente"),
+        ar: "أَعُوذُ بِعِزَّتِكَ الَّذِي لاَ إِلَهَ إِلاَّ أَنْتَ، الَّذِي لاَ يَمُوتُ وَالْجِنُّ وَالإِنْسُ يَمُوتُونَ",
+        meaning: t("I seek refuge in Your might; there is no god but You, the One who does not die, while jinn and humans die.", "Je cherche refuge en Ta puissance ; nul dieu sauf Toi, Celui qui ne meurt pas, alors que les djinns et les humains meurent.", "استعاذة بعزة الله الحي الذي لا يموت.", "Me refugio en Tu poder; no hay dios sino Tú, Quien no muere, mientras los genios y los humanos mueren."),
+        r: ["bukhari:7383"],
+        l: 'hadith',
+      },
+    ],
+  },
+  {
+    id: 'steadfast',
+    title: t('Steadfastness', 'La constance', 'الثبات', 'La firmeza'),
+    items: [
+      {
+        id: "muqallib",
+        when: t("That the heart stay firm", "Que le cœur reste ferme", "ثبات القلب على الدين", "Que el corazón se mantenga firme"),
+        ar: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
+        meaning: t("O Turner of hearts, keep my heart firm on Your religion. Anas said he said it often.", "Ô Toi qui retournes les cœurs, affermis mon cœur dans Ta religion. Anas dit qu’il le disait souvent.", "قال أنس: كان يكثر أن يقوله.", "Oh Quien hace girar los corazones, afirma mi corazón en Tu religión. Anas dijo que lo decía a menudo."),
+        r: ["tirmidhi:2140"],
+        l: 'hadith',
+        grade: SAHIH_SPLIT,
+      },
+      {
+        id: "ainni",
+        when: t("For help, victory and a pure heart", "Pour l’aide, la victoire et un cœur pur", "للعون والنصر وسلامة الصدر", "Por ayuda, victoria y un corazón limpio"),
+        ar: "رَبِّ أَعِنِّي وَلاَ تُعِنْ عَلَىَّ وَانْصُرْنِي وَلاَ تَنْصُرْ عَلَىَّ وَامْكُرْ لِي وَلاَ تَمْكُرْ عَلَىَّ وَاهْدِنِي وَيَسِّرِ الْهُدَى لِي وَانْصُرْنِي عَلَى مَنْ بَغَى عَلَىَّ رَبِّ اجْعَلْنِي لَكَ شَكَّارًا لَكَ ذَكَّارًا لَكَ رَهَّابًا لَكَ مِطْوَاعًا لَكَ مُخْبِتًا إِلَيْكَ أَوَّاهًا مُنِيبًا رَبِّ تَقَبَّلْ تَوْبَتِي وَاغْسِلْ حَوْبَتِي وَأَجِبْ دَعْوَتِي وَثَبِّتْ حُجَّتِي وَسَدِّدْ لِسَانِي وَاهْدِ قَلْبِي وَاسْلُلْ سَخِيمَةَ صَدْرِي",
+        meaning: t("My Lord, help me and do not help against me; give me victory and not victory over me; plan for me and not against me; guide me and make guidance easy for me; give me victory over whoever wrongs me. My Lord, make me grateful to You, remembering You, fearing You, obedient to You, humble before You, turning to You in repentance. My Lord, accept my repentance, wash away my sin, answer my prayer, establish my proof, guide my heart, make my tongue truthful and remove the rancour from my chest.", "Mon Seigneur, aide-moi et n’aide pas contre moi ; donne-moi la victoire et non la victoire sur moi ; ruse pour moi et non contre moi ; guide-moi et facilite-moi la guidée ; donne-moi la victoire sur qui m’opprime. Mon Seigneur, fais de moi quelqu’un de reconnaissant envers Toi, qui se souvient de Toi, Te craint, T’obéit, s’humilie devant Toi et revient à Toi. Mon Seigneur, accepte mon repentir, lave mon péché, exauce mon invocation, affermis mon argument, guide mon cœur, rends ma langue véridique et ôte la rancune de ma poitrine.", "دعاء جامع كان يدعو به.", "Señor mío, ayúdame y no ayudes contra mí; dame la victoria y no la victoria sobre mí; planea a mi favor y no en mi contra; guíame y facilítame la guía; dame la victoria sobre quien me oprime. Señor mío, hazme agradecido contigo, recordándote, temiéndote, obediente, humilde ante Ti y volviéndome a Ti. Señor mío, acepta mi arrepentimiento, lava mi pecado, responde mi súplica, afirma mi argumento, guía mi corazón, haz veraz mi lengua y quita el rencor de mi pecho."),
+        r: ["tirmidhi:3551"],
+        l: 'hadith',
+        grade: SAHIH_ALBANI,
+      },
+      {
+        id: "jibril",
+        when: t("Opening the night prayer", "En ouvrant la prière de nuit", "في استفتاح صلاة الليل", "Al abrir la oración de la noche"),
+        ar: "اللَّهُمَّ رَبَّ جِبْرَائِيلَ وَمِيكَائِيلَ وَإِسْرَافِيلَ فَاطِرَ السَّمَوَاتِ وَالأَرْضِ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ أَنْتَ تَحْكُمُ بَيْنَ عِبَادِكَ فِيمَا كَانُوا فِيهِ يَخْتَلِفُونَ اهْدِنِي لِمَا اخْتُلِفَ فِيهِ مِنَ الْحَقِّ بِإِذْنِكَ إِنَّكَ تَهْدِي مَنْ تَشَاءُ إِلَى صِرَاطٍ مُسْتَقِيمٍ",
+        meaning: t("O Allah, Lord of Jibril, Mika’il and Israfil, Creator of the heavens and the earth, Knower of the unseen and the seen, You judge between Your servants in what they differed about. Guide me, by Your permission, to the truth in what was differed about; You guide whom You will to a straight path.", "Ô Allah, Seigneur de Jibril, Mika’il et Israfil, Créateur des cieux et de la terre, Connaisseur de l’invisible et du visible, Tu juges entre Tes serviteurs en ce sur quoi ils divergeaient. Guide-moi, par Ta permission, vers la vérité en ce sur quoi on a divergé ; Tu guides qui Tu veux vers un droit chemin.", "كان يفتتح به صلاته إذا قام من الليل.", "Oh Allah, Señor de Yibril, Mika’il e Israfil, Creador de los cielos y la tierra, Conocedor de lo oculto y lo visible, Tú juzgas entre Tus siervos en aquello en que discrepaban. Guíame, con Tu permiso, a la verdad en aquello en que se discrepó; Tú guías a quien quieres a un camino recto."),
+        r: ["muslim:770"],
+        l: 'hadith',
+      },
+    ],
+  },
+  {
+    id: 'wellbeing',
+    title: t('Well-being and provision', 'Santé et subsistance', 'العافية والرزق', 'Bienestar y sustento'),
+    items: [
+      {
+        id: "afw",
+        when: t("Morning and evening, for safety on every side", "Matin et soir, pour être protégé de tous côtés", "صباحًا ومساءً للعافية والحفظ", "Mañana y tarde, por protección por todos lados"),
+        ar: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَاىَ وَأَهْلِي وَمَالِي اللَّهُمَّ اسْتُرْ عَوْرَتِي ‏\"‏ ‏.‏ وَقَالَ عُثْمَانُ ‏\"‏ عَوْرَاتِي وَآمِنْ رَوْعَاتِي اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَىَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي",
+        meaning: t("O Allah, I ask You for well-being in this world and the next. O Allah, I ask You for pardon and well-being in my religion, my worldly life, my family and my wealth. O Allah, cover my faults and calm my fears. O Allah, guard me from in front and behind, from my right and my left, and from above; and I seek refuge in Your greatness from being taken from below. He never left it morning and evening.", "Ô Allah, je Te demande la santé ici-bas et dans l’au-delà. Ô Allah, je Te demande le pardon et la santé dans ma religion, ma vie, ma famille et mes biens. Ô Allah, couvre mes défauts et apaise mes craintes. Ô Allah, protège-moi devant et derrière, à droite et à gauche, et d’en haut ; et je cherche refuge en Ta grandeur contre une attaque d’en bas. Il ne le délaissait ni matin ni soir.", "لم يكن يدعهن حين يمسي وحين يصبح.", "Oh Allah, Te pido bienestar en este mundo y en el otro. Oh Allah, Te pido perdón y bienestar en mi religión, mi vida, mi familia y mis bienes. Oh Allah, cubre mis faltas y calma mis temores. Oh Allah, protégeme por delante y por detrás, a derecha e izquierda y por arriba; y me refugio en Tu grandeza de ser atacado por abajo. No lo dejaba ni por la mañana ni por la tarde."),
+        r: ["abudawud:5074"],
+        l: 'hadith',
+        grade: SAHIH_ALBANI,
+      },
+      {
+        id: "afini",
+        when: t("For the body, hearing and sight", "Pour le corps, l’ouïe et la vue", "لعافية البدن والسمع والبصر", "Por el cuerpo, el oído y la vista"),
+        ar: "اللَّهُمَّ عَافِنِي فِي بَدَنِي اللَّهُمَّ عَافِنِي فِي سَمْعِي اللَّهُمَّ عَافِنِي فِي بَصَرِي لاَ إِلَهَ إِلاَّ أَنْتَ",
+        meaning: t("O Allah, give me well-being in my body, in my hearing and in my sight; there is no god but You. O Allah, I seek refuge in You from disbelief and poverty, and from the punishment of the grave; there is no god but You.", "Ô Allah, donne-moi la santé dans mon corps, mon ouïe et ma vue ; nul dieu sauf Toi. Ô Allah, je cherche refuge auprès de Toi contre la mécréance et la pauvreté, et contre le châtiment de la tombe ; nul dieu sauf Toi.", "كان يقوله ثلاثًا حين يصبح وثلاثًا حين يمسي.", "Oh Allah, dame bienestar en mi cuerpo, mi oído y mi vista; no hay dios sino Tú. Oh Allah, me refugio en Ti de la incredulidad y la pobreza, y del castigo de la tumba; no hay dios sino Tú."),
+        r: ["abudawud:5090"],
+        l: 'hadith',
+        grade: HASAN_SPLIT,
+      },
+      {
+        id: "ikfini",
+        when: t("For lawful provision and freedom from debt", "Pour une subsistance licite et contre les dettes", "للرزق الحلال وقضاء الدين", "Por el sustento lícito y contra las deudas"),
+        ar: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+        meaning: t("O Allah, suffice me with what You made lawful against what You made unlawful, and enrich me by Your favour so that I need none but You. ‘Ali taught it to a man burdened with debt, from the Prophet ﷺ.", "Ô Allah, suffis-moi par ce que Tu as rendu licite au lieu de ce que Tu as interdit, et enrichis-moi par Ta grâce pour que je n’aie besoin de nul autre que Toi. ‘Ali l’enseigna, du Prophète ﷺ, à un homme accablé de dettes.", "علّمه عليٌّ رجلًا عليه دَين، عن النبي ﷺ.", "Oh Allah, bástame con lo que hiciste lícito frente a lo que prohibiste, y enriquéceme con Tu favor para no necesitar a nadie más que a Ti. ‘Ali se lo enseñó, del Profeta ﷺ, a un hombre agobiado por deudas."),
+        r: ["tirmidhi:3563"],
+        l: 'hadith',
+        grade: HASAN_ALBANI,
+      },
+    ],
+  },
 ]
 
 /** The new supplications of this page, for the checker. */
@@ -327,4 +556,7 @@ export const HISN_QUOTES: (Supplication & { where: string })[] = HISN.flatMap((c
   c.items.filter((d): d is HisnDua => 'ar' in d).map((d) => ({ where: `hisn/${c.id}/${d.id}`, ...d })),
 )
 
-
+/** The Qur’an du‘as, by reference, for the checker. */
+export const HISN_QURAN_REFS: { where: string; r: Ref[] }[] = HISN.flatMap((c) =>
+  c.items.flatMap((d) => ('from' in d && d.from === 'quran' ? [{ where: `hisn/${c.id}/${d.ref}`, r: [d.ref] }] : [])),
+)

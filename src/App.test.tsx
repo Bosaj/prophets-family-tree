@@ -93,6 +93,12 @@ describe('App', () => {
     expect(screen.getByText('If you forgot to say it')).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2, name: 'Travel' })).toBeInTheDocument()
     expect(screen.getAllByText(/some graded its chain weak/).length).toBeGreaterThan(0)
+    // 2.14.0: how to ask, when du‘a is answered, du‘as from the Qur’an and new themes
+    expect(screen.getByRole('heading', { level: 2, name: /How to make du‘a/ })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /When du‘a is answered/ })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: 'Du‘as from the Qur’an' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: 'Comprehensive du‘as' })).toBeInTheDocument()
+    expect(screen.getByText('Four things in one')).toBeInTheDocument()
   })
 
   it('explains how the hadith were preserved, with the chain of the first hadith of al-Bukhari', async () => {

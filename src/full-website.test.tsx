@@ -25,15 +25,15 @@ describe('Full Website Automated Test Suite', () => {
   })
 
   describe('1. Sahaba, Caliphs & Hadith Masters (/sahaba)', () => {
-    it('renders all 41 figures with accurate era filter chip counts', async () => {
+    it('renders all 45 figures with accurate era filter chip counts', async () => {
       await renderAt('/sahaba')
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Tree of Sahaba, Caliphs/i)
 
-      // Total count across entire dataset must equal 41
-      expect(SAHABA_FIGURES.length).toBe(41)
+      // Total count across entire dataset must equal 45
+      expect(SAHABA_FIGURES.length).toBe(45)
 
-      // "All Figures" filter chip must show 41 (and never 0)
-      const allChip = screen.getByRole('button', { name: /All Figures & Dynasties\s*\(41\)/i })
+      // "All Figures" filter chip must show 45 (and never 0)
+      const allChip = screen.getByRole('button', { name: /All Figures & Dynasties\s*\(45\)/i })
       expect(allChip).toBeInTheDocument()
 
       // Verify specific era chip counts

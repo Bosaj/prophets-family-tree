@@ -27,6 +27,7 @@ Shajara follows [Semantic Versioning](https://semver.org/): content corrections 
 | [v2.13.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.13.0) | 2026-11-18 | How the hadith were preserved (`/hadith`) |
 | [v2.13.1](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.13.1) | 2026-11-18 | Map and tree overlays fixed on phones; missing translations; phone audit in CI |
 | [v2.13.2](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.13.2) | 2026-11-20 | Every page and opened state checked on a phone in four languages; fixes it found |
+| [v2.14.0](https://github.com/Bosaj/prophets-family-tree/releases/tag/v2.14.0) | 2026-11-20 | How to make du‘a and when it is answered; du‘as from the Qur’an; 22 new du‘as; the Prophet’s ﷺ life event by event; four companions |
 
 There is no v2.1.0: work planned under that number shipped in v2.2.0.
 

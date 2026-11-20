@@ -1,10 +1,12 @@
-import { useState } from 'react'
-import { BookOpen, Check, Copy, HandHeart, History, Sunrise } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { BookOpen, Check, Clock, Copy, HandHeart, History, ListChecks, Sunrise } from 'lucide-react'
 import { useI18n } from '../i18n'
 import type { L4 } from '../data/types'
 import { HARDSHIP_DUAS, LIFE_ERAS, LIFE_MOMENTS, type LifeEra, type Supplication } from '../data/duas'
 import { ADHKAR } from '../data/awqat'
 import { HISN, type HisnItem } from '../data/hisn'
+import { DUA_ADAB, DUA_TIMES, type AdabPoint } from '../data/duaAdab'
+import { arabicDigits, loadPassage, type Passage } from '../lib/quran'
 import { A, LevelChip, q, RefChip, useOpenVerse } from './ui'
 
 const t = (en: string, fr: string, ar: string, es: string): L4 => ({ en, fr, ar, es })
@@ -26,6 +28,22 @@ const UI = {
     'Lo que dijo a Allah en Ta’if, en la cueva, en Badr y en su último día está ahora en la página del islam, con la historia de cada momento.',
   ),
   lifeCta: t('Read them', 'Les lire', 'اقرأها', 'Leerlas'),
+  adab: t('How to make du‘a', 'Comment invoquer', 'آداب الدعاء', 'Cómo suplicar'),
+  adabLead: t(
+    'What the Prophet ﷺ taught about asking: how to begin, how to ask, and what not to do.',
+    'Ce que le Prophète ﷺ a enseigné sur la demande : comment commencer, comment demander, et ce qu’il faut éviter.',
+    'ما علّمه النبي ﷺ في الدعاء: كيف تبدأ، وكيف تسأل، وما تتجنبه.',
+    'Lo que el Profeta ﷺ enseñó sobre pedir: cómo empezar, cómo pedir y qué evitar.',
+  ),
+  answerTimes: t('When du‘a is answered', 'Quand l’invocation est exaucée', 'أوقات الإجابة', 'Cuándo se responde la súplica'),
+  answerTimesLead: t(
+    'Times and states in which the hadith say a du‘a is more likely to be answered. The day of ‘Arafah is on the Hijri calendar page.',
+    'Moments et états où, selon les hadiths, l’invocation a plus de chances d’être exaucée. Le jour de ‘Arafa est sur la page du calendrier hégirien.',
+    'أوقات وأحوال جاء في الأحاديث أن الدعاء فيها أرجى للإجابة، ويوم عرفة في صفحة التقويم الهجري.',
+    'Momentos y estados en los que, según los hadices, la súplica tiene más probabilidad de ser respondida. El día de ‘Arafa está en la página del calendario hiyrí.',
+  ),
+  verseLoading: t('Loading the verses…', 'Chargement des versets…', 'جارٍ تحميل الآيات…', 'Cargando los versículos…'),
+  verseOffline: t('The verses load from the Mushaf when you are online.', 'Les versets se chargent depuis le Mushaf quand vous êtes en ligne.', 'تُحمَّل الآيات من المصحف عند الاتصال بالإنترنت.', 'Los versículos se cargan del Mushaf cuando estás en línea.'),
   kicker: t('Supplications of the Prophet ﷺ', 'Invocations du Prophète ﷺ', 'أدعية النبي ﷺ', 'Súplicas del Profeta ﷺ'),
   title: t('What he said at each moment of his life', 'Ce qu’il disait à chaque moment de sa vie', 'ما قاله في كل محطة من حياته', 'Lo que dijo en cada momento de su vida'),
   lead: t(
@@ -97,8 +115,77 @@ export function DuaCard({ d, compact = false }: { d: Supplication; compact?: boo
 
 function resolve(it: HisnItem): (Supplication & { when?: L4; title?: L4 }) | undefined {
   if ('ar' in it) return it
+  if (it.from === 'quran') return undefined
   if (it.from === 'adhkar') return ADHKAR[it.id]
   return HARDSHIP_DUAS.find((d) => d.id === it.id)
+}
+
+/** A du‘a from the Qur’an: the verses are loaded from the Mushaf (never typed), with a translation in the reader's language. */
+function QuranDua({ r }: { r: string }) {
+  const { pick, lang } = useI18n()
+  const openVerse = useOpenVerse()
+  const [passage, setPassage] = useState<Passage | null>(null)
+  const [failed, setFailed] = useState(false)
+  useEffect(() => {
+    let live = true
+    loadPassage(r, lang).then(
+      (p) => live && setPassage(p),
+      () => live && setFailed(true),
+    )
+    return () => {
+      live = false
+    }
+  }, [r, lang])
+  return (
+    <div className="min-w-0 break-words rounded-2xl border border-gold/20 bg-gold/[0.04] p-4">
+      {passage ? (
+        <>
+          <p lang="ar" dir="rtl" className="quran-text text-gold-2">
+            {passage.ayahs.map((a) => (
+              <span key={a.number}>
+                {a.arabic} <span className="text-gold-3">﴿{arabicDigits(a.ayah)}﴾</span>{' '}
+              </span>
+            ))}
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-ink-2 sm:text-base" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+            {passage.ayahs.map((a) => a.translation).join(' ')}
+          </p>
+        </>
+      ) : (
+        <p className="text-sm text-ink-3">{pick(failed ? UI.verseOffline : UI.verseLoading)}</p>
+      )}
+      <div className="mt-3 flex flex-wrap items-center gap-1.5">
+        <LevelChip level="quran" />
+        <RefChip r={r} />
+        <button type="button" className="ref" onClick={() => openVerse(r)}>
+          <BookOpen aria-hidden="true" className="size-3" /> {pick(UI.readVerse)}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+/** How to make du‘a, or when it is answered: each point with the hadith it rests on. */
+function AdabList({ points }: { points: AdabPoint[] }) {
+  const { pick } = useI18n()
+  return (
+    <ol className="mt-6 grid gap-4">
+      {points.map((p, i) => (
+        <li key={p.id} className="glass min-w-0 rounded-3xl p-5 sm:p-6">
+          <h3 className="flex items-start gap-3 text-lg font-semibold text-ink text-balance">
+            <span className="grid size-7 shrink-0 place-items-center rounded-full bg-gold/15 text-sm text-gold tabular-nums">{i + 1}</span>
+            <span>{q(pick(p.title))}</span>
+          </h3>
+          <p className="mt-2 leading-relaxed text-pretty text-ink-2">{q(pick(p.text))}</p>
+          <div className="mt-4 space-y-3">
+            {p.quotes.map((d) => (
+              <DuaCard key={d.id} d={d} compact />
+            ))}
+          </div>
+        </li>
+      ))}
+    </ol>
+  )
 }
 
 /** The Prophet's supplications at the moments of his life, by era. Shown on the page about Islam. */
@@ -161,7 +248,7 @@ export function DuasView() {
         <p className="mt-5 text-base leading-relaxed text-pretty text-ink-2">{q(pick(UI.hisnLead))}</p>
       </header>
 
-      <nav aria-label={pick(UI.hisnKicker)} className="mb-10 flex flex-wrap justify-center gap-2">
+      <nav aria-label={pick(UI.hisnKicker)} className="-mx-4 mb-10 flex flex-nowrap gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 [&>button]:shrink-0 [&>button]:whitespace-nowrap">
         {[{ id: 'all', title: UI.all }, ...HISN].map((c) => (
           <button
             key={c.id}
@@ -177,12 +264,32 @@ export function DuasView() {
         ))}
       </nav>
 
+      <section id="adab" aria-labelledby="h-adab" className="mb-14 scroll-mt-24">
+        <h2 id="h-adab" className="flex items-center gap-2 text-2xl font-semibold text-ink">
+          <ListChecks aria-hidden="true" className="size-6 text-gold" /> {q(pick(UI.adab))}
+        </h2>
+        <p className="mt-2 max-w-2xl text-pretty text-ink-2">{q(pick(UI.adabLead))}</p>
+        <AdabList points={DUA_ADAB} />
+        <h2 id="h-times" className="mt-12 flex items-center gap-2 text-2xl font-semibold text-ink">
+          <Clock aria-hidden="true" className="size-6 text-gold" /> {q(pick(UI.answerTimes))}
+        </h2>
+        <p className="mt-2 max-w-2xl text-pretty text-ink-2">{q(pick(UI.answerTimesLead))}</p>
+        <AdabList points={DUA_TIMES} />
+      </section>
+
       <div className="space-y-14">
         {cats.map((c) => (
           <section key={c.id} id={c.id} aria-labelledby={`h-${c.id}`} className="scroll-mt-24">
             <h2 id={`h-${c.id}`} className="text-2xl font-semibold text-ink">{q(pick(c.title))}</h2>
             <div className="mt-5 grid gap-4">
               {c.items.map((it) => {
+                if ('from' in it && it.from === 'quran')
+                  return (
+                    <div key={it.ref}>
+                      <p className="mb-2 text-sm font-medium text-gold">{q(pick(it.when))}</p>
+                      <QuranDua r={it.ref} />
+                    </div>
+                  )
                 const d = resolve(it)
                 if (!d) return null
                 const label = d.when ?? d.title
