@@ -605,8 +605,8 @@ export function Person({ id }: { id: string }) {
             <h2 id="family" className="text-2xl font-semibold">{t('family')}</h2>
             <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {relatives.map((r) => (
-                <li key={`${r.rel}-${r.person.id}`}>
-                  <A href={hrefOf({ name: 'person', id: r.person.id })} className="glass group block h-full rounded-3xl p-5 transition-colors hover:border-gold/40">
+                <li key={`${r.rel}-${r.person.id}`} className="flex flex-col">
+                  <A href={hrefOf({ name: 'person', id: r.person.id })} className="glass group block flex-1 rounded-3xl p-5 transition-colors hover:border-gold/40">
                     <p className="text-xs text-ink-3">{t(r.rel)}</p>
                     <p className="ar-name gold-text mt-1 text-3xl font-bold">{r.person.name.ar}</p>
                     <p className="text-sm text-ink">{q(pick(r.person.name))}</p>

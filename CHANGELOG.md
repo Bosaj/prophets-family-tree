@@ -4,6 +4,15 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 
 ## [Unreleased]
 
+## [2.14.1] — 2026-11-21
+### Fixed
+- **Person pages, family cards:** on a phone the source chips under a family card (for example Maryam on ‘Imran’s page) spilled out of the card and sat on the next one. Each card now grows to hold its chips.
+- **GitHub Pages deploy** of v2.14.0 had failed on a temporary GitHub error; it was run again and the Pages copy now serves v2.14.0.
+
+### Changed
+- **Phone check** now runs in the full Chromium engine, which lays pages out like a phone browser (the lighter headless engine had missed the card bug), and also fails when a card’s content spills out of it.
+- **Wiki** brought up to date with v2.14.0.
+
 ## [2.14.0] — 2026-11-20
 ### Added
 - **How to make du‘a** (`/duas#adab`): begin with praise and blessings on the Prophet ﷺ (al-Tirmidhi 3477), raise the hands (Abu Dawud 1488), be certain with a present heart (al-Tirmidhi 3479), ask firmly (al-Bukhari 6339), do not give up (al-Bukhari 6340), pray for others in their absence (Abu Dawud 1534).

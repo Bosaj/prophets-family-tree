@@ -8,7 +8,7 @@
 //   3. two pieces of text are drawn on top of each other;
 //   4. two floating surfaces (panels, pills, labels with a background) overlap;
 //   5. a popup or dialog opens outside the screen;
-//   6. a button or link has no name (icon only, no aria-label);
+//   6. a card's content spills out of it, or a button or link has no name (icon only, no aria-label);
 //   7. a French or Spanish page shows a text identical to the English page, or an Arabic page shows Latin text,
 //      except names, scientific names and bibliographic citations listed in ALLOWED.
 //
@@ -199,6 +199,15 @@ async function inspect(scroll) {
         if (hidden(a, b, Math.max(ra.left, rb.left) + w / 2, Math.max(ra.top, rb.top) + h / 2, false)) continue
         add(`overlap ${tag}: "${short(a)}" covers "${short(b)}" (${Math.round(w)}×${Math.round(h)})`)
       }
+    // a grid item's content spilling out of the item (it would sit on the next card)
+    for (const item of document.querySelectorAll('ul.grid > li, ol.grid > li')) {
+      const ir = item.getBoundingClientRect()
+      if (!ir.height || ir.bottom <= 0 || ir.top >= vh || getComputedStyle(item).overflowY !== 'visible') continue
+      for (const c of item.children) {
+        const cr = c.getBoundingClientRect()
+        if (cr.height && cr.bottom > ir.bottom + 2) add(`content spills out of its card ${tag}: "${short(c)}" by ${Math.round(cr.bottom - ir.bottom)}px`)
+      }
+    }
     // buttons and links with no name (icon only, no aria-label): nothing to read aloud or translate
     for (const el of document.querySelectorAll('button, a[href], [role=button]')) {
       if (el.closest('.leaflet-pane, .leaflet-control-container')) continue
@@ -323,7 +332,8 @@ const server = REMOTE ? null : startServer()
 let problems = []
 try {
   if (!REMOTE) await waitForServer()
-  const browser = await chromium.launch()
+  // The full Chromium (new headless) lays out pages like a real phone browser; the headless shell can differ.
+  const browser = await chromium.launch({ channel: 'chromium' })
   const english = {}
   // English first: the other languages compare their texts with it. Then the others side by side.
   if (LANGS.includes('en')) problems.push(...(await auditLang(browser, 'en', english)))
