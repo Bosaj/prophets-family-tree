@@ -19,6 +19,7 @@ npm run build            # type-check and production build into dist/
 npm run verify:sources   # people and links against the Qur'an and Hadith sources
 npm run audit:content    # every dataset: Qur'an refs, typed verses, hadith numbers, DOIs
 npm run verify:duas      # every Arabic supplication and quote against its hadith (network)
+npm run audit:layout     # every page on a phone in four languages (after npm run build; npx playwright install chromium once)
 ```
 See [[Accuracy & sources|5-Accuracy-and-Sources]] for what the audits check.
 

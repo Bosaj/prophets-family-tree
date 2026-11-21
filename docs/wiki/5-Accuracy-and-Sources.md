@@ -23,12 +23,15 @@ Accuracy is the product. Every fact, relationship and quotation carries a **sour
 10. Health claims say what the hadith says and what studies show, never “proven” or “cures”; scientific links are “a reading of modern authors” and may be disputed.
 11. Where the four schools differ on how to pray or fast, the page gives the Maliki practice followed in Morocco and says the others are valid.
 
+**Outside books and PDFs** (sira books, du‘a booklets) are used as checklists only: every text shown comes from the Qur’an or the hadith collection it cites, author-composed du‘as are not shown as the Prophet’s, and a book’s own prose is not copied.
+
 ## Automated checks
 | Command | What it checks |
 |---|---|
 | `npm run verify:sources` | The people and links datasets against Qur'an and Hadith sources |
 | `npm run audit:content` | Every dataset (nature, science, angels, stature, sahaba, scriptures): 544 Qur'an references, 43 typed verses and 161 ﴿ ﴾ quotations against the Mushaf (`quran-simple-clean`), 213 hadith numbers in their collections (fawazahmed0/hadith-api; Sahih Muslim by Abd al-Baqi numbering), 23 DOIs via `doi.org` |
-| `npm run verify:duas` | Every Arabic supplication and quote (duas, the day guide, the Hour, the Hijri calendar, the prayer, fasting): 150 texts found word for word in the hadith they cite; every reference exists; Abu Dawud, al-Tirmidhi, al-Nasa’i and Ibn Majah entries carry a grade |
+| `npm run verify:duas` | Every Arabic supplication and quote (duas and their etiquette, the day guide, the Hour, the Hijri calendar, the prayer and the other prayers, fasting, the hadith page): 233 texts found word for word in the hadith they cite; every reference exists; Abu Dawud, al-Tirmidhi, al-Nasa’i and Ibn Majah entries carry a grade |
+| `npm run audit:layout` | Every page (87 per language, with the opened tabs, cards and dialogs) on a 375-pixel phone in the four languages: no overlap, no text off screen or cut, no unnamed button, nothing left in English. Runs as the `layout` job (about 14 minutes) |
 | `npm run credits:photos` | Traces each nature photo to its Commons file, author and licence by matching the image bytes |
 
 `audit:content` fails the build on a missing reference, a mistyped verse, a ﴿ ﴾ quotation that is not in the Mushaf, or a DOI that does not resolve. Paraphrased hadith wording only produces "review" lines. Requests are retried, and a server that stays unreachable is a warning, not a failure. About 33 references (Musnad Ahmad, al-Tabarani, tafsir works, biographical dictionaries) cannot be checked automatically and are reviewed by hand. The “review” lines (28 on 2026-11-15) were read one by one: most are summaries that join several hadith or paraphrase them; the ones that were wrong were corrected in v2.10.2.

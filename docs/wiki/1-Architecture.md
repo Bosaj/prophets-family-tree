@@ -85,11 +85,12 @@ flowchart TD
 | `src/data/people.ts`, `links.ts` | Prophets, family and relationship edges, every fact with a source level |
 | `src/data/preAdam.ts`, `nature.ts`, `stature.ts`, `sahaba.ts`, `salihin.ts`, `scriptures.ts`, `science.ts` | Topic datasets, each fact with a source level |
 | `src/data/photoCredits.json` | Commons author and licence for every nature photo |
-| `scripts/verify-sources.mjs`, `scripts/audit-content.mjs` | Source checks that run in CI (see [[Accuracy & sources|5-Accuracy-and-Sources]]) |
+| `scripts/verify-sources.mjs`, `scripts/audit-content.mjs`, `scripts/verify-duas.mjs` | Source checks that run in CI (see [[Accuracy & sources|5-Accuracy-and-Sources]]) |
+| `scripts/layout-audit.mjs` | Phone layout and translation check of every page in the four languages (Playwright), CI job `layout` |
 | `scripts/trace-photo-credits.mjs` | Matches each photo to its Commons file and writes the credits |
 
 | `src/data/people/*.ts`, `people/loader.ts`, `peopleCore.ts` | People split by era: a light core for the tree and lists, full records loaded per page |
-| `src/data/salat.ts`, `fasting.ts`, `hijri.ts`, `awqat.ts`, `duas.ts`, `hour.ts`, `islam.ts` | Worship and calendar pages; their Arabic quotes are checked by `verify:duas` |
+| `src/data/salat.ts`, `salatMore.ts`, `fasting.ts`, `hijri.ts`, `awqat.ts`, `duas.ts`, `hisn.ts`, `duaAdab.ts`, `hour.ts`, `islam.ts`, `hadithScience.ts` | Worship and calendar pages; their Arabic quotes are checked by `verify:duas` |
 | `src/lib/hijri.ts`, `fastDays.ts`, `place.tsx`, `prayerTimes.ts` | Hijri engine (Umm al-Qura, Morocco from `MOROCCO_STARTS`, Diyanet), fasting days and `.ics`, the reader’s place and time, prayer times (adhan) |
 | `src/data/es/*.es.ts`, `src/data/es/long/*.json` | Spanish names per page, and the long Spanish texts keyed by `textKey(english)`, loaded only for Spanish readers |
 | `src/components/UpdatePrompt.tsx` | Registers the service worker, checks for new versions, reloads into them, offline notice |
