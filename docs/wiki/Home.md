@@ -4,7 +4,7 @@ Welcome to the official documentation for **Shajara** (`@Bosaj/prophets-family-t
 
 **Live Deployment (GitHub Pages):** [https://bosaj.github.io/prophets-family-tree/](https://bosaj.github.io/prophets-family-tree/)  
 **Mirror (Vercel):** [https://shajara-prophets.vercel.app](https://shajara-prophets.vercel.app)  
-**Current version:** v2.14.0 · [Releases](https://github.com/Bosaj/prophets-family-tree/releases) · [Changelog](https://github.com/Bosaj/prophets-family-tree/blob/main/CHANGELOG.md)
+**Current version:** v2.14.1 · [Releases](https://github.com/Bosaj/prophets-family-tree/releases) · [Changelog](https://github.com/Bosaj/prophets-family-tree/blob/main/CHANGELOG.md)
 
 ---
 
